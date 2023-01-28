@@ -704,3 +704,35 @@ code {
     font-size: 20px!important;
     font-weight: bold;
 }
+
+.interesseleccionado{
+  background: #ef6340!important;
+}
+
+
+.detallesucursal .head-details {
+  padding: 20px 0 0;
+  margin-bottom: 35px; }
+  .detallesucursal .head-details .title {
+    margin: 20px 0 0;
+    color: #fff;
+    font-weight: 500; }
+  .detallesucursal .head-details:after {
+    height: calc(100% - 30px); }
+  .detallesucursal .head-details .block-btn {
+    padding: 24px 30px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 30px; }
+    .detallesucursal .head-details .block-btn .title {
+      margin: 0;
+      color: #000; }
+    .detallesucursal .head-details .block-btn i {
+      font-size: 20px; }
+  .detallesucursal .head-details .location {
+    color: #fff;
+    margin: 10px 0; }

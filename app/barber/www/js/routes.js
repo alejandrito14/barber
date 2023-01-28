@@ -65,6 +65,18 @@ var routes = [
     `,
   },
 
+   {
+    path: '/detallesucursal/',
+    url: './pages/detallesucursal.html',
+
+  },
+ {
+    path: '/detalleproductoservicios/',
+    url: './pages/detalleproductoservicios.html',
+
+  },
+
+
   // Account
   {
     path: '/signin/',
@@ -110,6 +122,7 @@ var routes = [
     path: '/apply-form/',
     url: './pages/apply-form.html',
   },
+
   {
     path: '/company-detail/',
     url: './pages/company-detail.html',

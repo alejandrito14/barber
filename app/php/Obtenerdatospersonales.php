@@ -29,12 +29,10 @@ try
 	$iduser=$_POST['id_user'];
 	$lo->idusuarios=$iduser;
 	$obtener=$lo->ObtenerUsuario();
-	$obtenerdeportes=$lo->ObtenerDeportesNivel();
 	$confi=$pagconfig->ObtenerInformacionConfiguracion();
 
 
 	$respuesta['respuesta']=$obtener[0];
-	$respuesta['deportes']=$obtenerdeportes;
 	$respuesta['confi']=$confi;
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);

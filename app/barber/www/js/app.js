@@ -79,7 +79,7 @@ $(document).ready(function() {
       
     } else {
 
-      alert('a');
+      
         Cargar();
     }
   
@@ -124,7 +124,7 @@ function Cargar() {
 
 
     if (produccion == 0) {
-      codigoservicio='106';
+      codigoservicio='125';
 
     }else{
       codigoservicio='109';
@@ -163,7 +163,7 @@ var carpetaapp="";
 
 
   if (produccion == 0) {
-    codigoserv="106/";
+    codigoserv="125/";
     urlphp = rutaserver+"/is-barber/app/php/"; 
     urlimagenes = rutaserver+"/is-barber/www/catalogos/"; 
     urlimagendefault=rutaserver+"/is-barber/www/images/sinfoto.png";
@@ -174,14 +174,14 @@ var carpetaapp="";
 
 }else{
     codigoserv=codigoservicio+"/";
-    urlphp = rutaserver+"/IS-ACADEMIA/app/"+carpetaapp+"/php/";
-    urlimagenes = rutaserver+"/IS-ACADEMIA/catalogos/"; 
+    urlphp = rutaserver+"/IS-BARBER/app/"+carpetaapp+"/php/";
+    urlimagenes = rutaserver+"/IS-BARBER/catalogos/"; 
   
-    urlimagendefault=rutaserver+"/IS-ACADEMIA/images/sinfoto.png"
-    urlimagenlogo=rutaserver+"/IS-ACADEMIA/images/sinimagenlogo.png";
-    urlimagendefaultservicio=rutaserver+"/IS-ACADEMIA/images/sin-servicio.jpg"
+    urlimagendefault=rutaserver+"/IS-BARBER/images/sinfoto.png"
+    urlimagenlogo=rutaserver+"/IS-BARBER/images/sinimagenlogo.png";
+    urlimagendefaultservicio=rutaserver+"/IS-BARBER/images/sin-servicio.jpg"
 
-    imagenesbancos=rutaserver+"/IS-ACADEMIA/assets/images/";
+    imagenesbancos=rutaserver+"/IS-BARBER/assets/images/";
     globalsockect=rutaserver+":"+puertosockect+"/";
    // var urlimagenvacia="https://issoftware1.com.mx/IS-ACADEMIA/images/sinimagenlogo.png";
 
@@ -279,6 +279,8 @@ localStorage.setItem('avatar','');
     
     }
 
+    MostrarAnuncios();
+
 
       
 
@@ -303,11 +305,136 @@ localStorage.setItem('avatar','');
 $$(document).on('page:init', function (e) {
   app.panel.close();
   Cargar();
+  alert('a'+1);
+   
+
+   
+ 
 }); 
 $$(document).on('page:init', '.page[data-name="home"]', function (e) {
       
-      ObtenerTableroAnuncios(1);
-      ObtenerTableroCategorias(1);
-      ObtenerTableroSucursal(1);
-      ObtenerTableroCitas(1);
+     
+     getValidacionUsuario().then(r => {
+
+        var existe=r.existe;
+      
+
+  if (existe==0) {
+
+      //Cargarperfilfoto();
+      
+      CargarDatos();
+  
+    
+  var pregunta=localStorage.getItem('pregunta');
+
+
+ 
+    if (pregunta==0) {
+
+     app.dialog.confirm('','¿Desea mantener la sesión activa?', function () {
+
+        localStorage.setItem('session',1);
+
+        localStorage.setItem('pregunta',1);
+
+         // app.dialog.alert('','Se guardó la sesión'); 
+
+        },
+
+         function () {
+                 
+                        localStorage.setItem('pregunta',1);
+
+                  }
+            );
+
+
+      
+
+           }
+
+      var $ptrContent = $$('.ptr-content');
+        // Add 'refresh' listener on it
+          $ptrContent.on('ptr:refresh', function (e) {
+          // Emulate 2s loading
+          setTimeout(function () {
+             CargarDatos();
+            // When loading done, we need to reset it
+            app.ptr.done(); // or e.detail();
+          }, 2000);
+        });
+
+
+
+         }else{
+
+          GoToPage('signin');
+
+         }
+
+
+       });
+    
+
 });
+
+$$(document).on('page:init', '.page[data-name="welcome"]', function (e) {
+   
+      ObtenerCategorias(1);
+    
+});
+
+$$(document).on('page:init', '.page[data-name="celular"]', function (e) {
+      
+   phoneFormatter('telefono');
+  $$('#btnvalidarcelular').attr('onclick','ValidarCelular()')
+
+    
+});
+
+$$(document).on('page:init', '.page[data-name="colocartoken"]', function (e) {
+      
+ $$("#t1").focus();
+ $$('#t1').attr('onkeyup',"Siguiente('t1','t2')");
+ $$('#t2').attr('onkeyup',"Siguiente('t2','t3')");
+ $$('#t3').attr('onkeyup',"Siguiente('t3','t4')");
+ $$('#t4').attr('onkeyup',"Validarcaja('t4');ValidarToken();");
+ $$("#reenviotoken").attr('onclick',"ReenvioTokenCel()");
+ $("#btncancelar1").attr("onclick","EliminarVariables()");
+
+
+    
+});
+
+
+$$(document).on('page:init', '.page[data-name="registro"]', function (e) {
+  $$('#btncontinuar').attr('onclick','Registrar()')
+
+    
+});
+
+$$(document).on('page:init', '.page[data-name="intereses"]', function (e) {
+  ObtenerIntereses();
+
+  $("#btnguardarinteres").attr('onclick','GuardarIntereses()');
+    
+});
+
+$$(document).on('page:init', '.page[data-name="login"]', function (e) {
+ 
+
+  $$('#btnlogin').attr('onclick','validar_login()');
+
+    
+});
+
+$$(document).on('page:init', '.page[data-name="detallesucursal"]', function (e) {
+ 
+
+ObtenerDatosSucursal();
+    
+});
+
+
+

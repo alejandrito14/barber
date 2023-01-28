@@ -33,18 +33,18 @@ try
 	$lo->usuario = utf8_decode($usuario);
 	$lo->password = utf8_decode($password);
 
-	if ($login=='btnusuario') {
+	/*if ($login=='btnusuario') {
 		$resultado = $lo->validar_credenciales_cliente();
 	}
 
-	if ($login=='btnemail') {
+	if ($login=='btnemail') {*/
 		$resultado = $lo->validar_credenciales_email();
-	}
+	/*}
 
 	if ($login=='btncelular') {
 		$resultado = $lo->validar_celular();
 	}
-
+*/
 	//Realizamos validacion del usuario en la DB
 	
 	$resultado_row = $db->fetch_assoc($resultado);

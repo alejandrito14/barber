@@ -194,7 +194,7 @@ class Sucursal
 	///funcion para objeter datos de un usuario
 	public function buscar_sucursal()
 	{
-		$query="SELECT * FROM sucursales WHERE idsucursales=".$this->idsucursales;
+		$query="SELECT * FROM sucursal WHERE idsucursal=".$this->idsucursales;
 		$resp=$this->db->consulta($query);
 		
 		//echo $total;
@@ -233,8 +233,7 @@ class Sucursal
 
 	public function ObtenerImagenesSucursal()
 	{
-		$sql="SELECT *FROM sucursalesimagenes WHERE idsucursales=".$this->idsucursales."";
-
+		$sql="SELECT *FROM sucursalesimagenes WHERE idsucursal=".$this->idsucursales."";
 
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);

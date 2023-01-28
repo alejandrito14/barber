@@ -36,9 +36,12 @@ try
     $materno  = $_POST['v_materno'];
     $sexo     = $f->guardar_cadena_utf8($_POST['v_sexo']);
     $fecha    = $f->guardar_cadena_utf8($_POST['v_fecha']);
+
+     $email    = $f->guardar_cadena_utf8($_POST['v_correo']);
+     $contra   = $f->guardar_cadena_utf8($_POST['v_contra1']);
    /* $telefono = $f->guardar_cadena_utf8($_POST['v_telefono']);
-    $email    = $f->guardar_cadena_utf8($_POST['v_email']);
-    $contra   = $f->guardar_cadena_utf8($_POST['v_contra1']);
+   
+    
     $nivel    = $_POST['v_nivel'];
     $posicion = $_POST['v_posicion'];
     $curp     = $f->guardar_cadena_utf8($_POST['v_curp']);*/
@@ -67,12 +70,15 @@ try
     $lo->nombre   = $nombre;
     $lo->paterno  = $paterno;
     $lo->materno  = $materno;
+    $lo->email    = $email;
+    $lo->clave    = $contra;
+    $lo->tipousuario=3;
    /* $lo->telefono = $telefono;
-    $lo->email    = $email;*/
+   
     $lo->sexo     = $sexo;
     $lo->fecha    = $fecha;
     /*$lo->usuario  = $email;
-    $lo->clave    = $contra;
+  
     $lo->nivel    = $nivel;
     $lo->posicion = $posicion;*/
     $lo->curp     = "";

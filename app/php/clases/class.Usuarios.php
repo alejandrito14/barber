@@ -104,9 +104,12 @@ class Usuarios
        	 paterno='$this->paterno',
        	 materno='$this->materno',
          telefono='$this->telefono',
+         email='$this->email',
+         clave='$this->clave',
          sexo='$this->sexo',
          estatus='$this->estatus',
-         fechanacimiento='$this->fecha'
+         fechanacimiento='$this->fecha',
+         tipo='$this->tipousuario'
         WHERE idusuarios = '$this->idusuarios' ";
      
 

@@ -1,5 +1,5 @@
 <template>
-	<div class="page registro">
+	<div class="page registro" data-name="registro">
 		<div class="page-content bottom-sp40">
 			<div class="container">
 				<div class="title-head">
@@ -79,7 +79,7 @@
                   <div class="item-inner">
                   <div class="item-title item-floating-label">Email</div>
                   <div class="item-input-wrap">
-                  <input type="text" name="v_correo" id="v_correo" class="input-with-value" />
+                  <input type="text" name="v_email" id="v_email" class="input-with-value" />
                   <span class="input-clear-button datosregistro"></span>
                 </div>
               </div>
@@ -137,8 +137,11 @@
             </div>
 						  <p class="form-text" style="text-align: center;">Al registrarse acepta nuestras condiciones de servicio <a href=""></a></p>
 
+
+              
+
 						<div class="clearfix">
-							<a href="/intereses/" class="button-large button button-fill">Aceptar</a>
+							<a id="btncontinuar" class="button-large button button-fill">Aceptar</a>
 						</div>
 
 						<div class="text-align-center account-footer">

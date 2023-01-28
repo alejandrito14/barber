@@ -1,5 +1,5 @@
 <template>
-	<div class="page colocartoken">
+	<div class="page colocartoken" data-name="colocartoken">
 		<div class="page-content bottom-sp40">
 			<div class="container">
 				<div class="title-head">
@@ -25,11 +25,12 @@
 
 			          
 						<div class="clearfix">
-							<a href="/registro/" class="button-large button button-fill">Continuar</a>
+							<a id="botoncontinuartoken" class="button-large button button-fill" style="display: none;">Continuar</a>
 						</div>
 
-						  <p class="form-text" style="text-align: center;">Reenviar token <a href=""></a></p>
+						  <p class="form-text" style="text-align: center;"> <a id="reenviotoken">Reenviar token</a></p>
 			            
+
 
 						<div class="text-align-center account-footer">
 							<!-- <p class="mt-0 form-text">By tapping "Sign Up" you accept our <a href="#">terms</a> and <a href="#">condition</a></p>

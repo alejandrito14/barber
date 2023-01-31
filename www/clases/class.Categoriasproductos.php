@@ -22,7 +22,7 @@ class Categoriasproductos
 		
 		
 		
-		$sql = "SELECT C.* FROM categoriaproducto C";
+		$sql = "SELECT C.* FROM categorias C";
 
 	
 		$resp = $this->db->consulta($sql);
@@ -52,9 +52,8 @@ class Categoriasproductos
 		
 		
 		$sql = "SELECT C.* FROM categorias C ";
-		
 		/*$sql .= ($this->nombre != '')? " AND C.categoria LIKE '%$this->nombre%'":"";
-		$sql .= ($this->idcategoria != '')? " AND C.idcategoriaproducto = '$this->idcategoria'":"";*/
+		$sql .= ($this->idcategoria != '')? " AND C.idcategorias = '$this->idcategoria'":"";*/
 
 
 		$resp = $this->db->consulta($sql);
@@ -63,7 +62,14 @@ class Categoriasproductos
 	public function obtenerCategorias()
 	{
 		
-		$sql = "SELECT C.* FROM categoriaproducto C ";
+		/* if($this->tipo_usuario != 0)
+		{
+		   $SQLidempresas = "and E.idempresas IN ($this->lista_empresas)";
+		}else
+		{
+		   $SQLidempresas = "";
+		}	*/
+		$sql = "SELECT C.* FROM categorias C ";
 		
 		
 		$resp = $this->db->consulta($sql);
@@ -76,7 +82,7 @@ class Categoriasproductos
 			$nombre= "No Asignado";
 		}
 		else {
-			$sql ="select * from categoriaproducto where idcategoriaproducto='$id'";
+			$sql ="select * from categorias where idcategorias='$id'";
 			
 			$result=$this->db->consulta($sql);
 			$result_row=$this->db->fetch_assoc($result);
@@ -91,7 +97,7 @@ class Categoriasproductos
 	//Funcion que sirve para obtener un registro especifico de la tabla empresas
 	public function buscarCategoria()
 	{
-		$sql = "SELECT * FROM categoriaproducto WHERE idcategoriaproducto = '$this->idcategoria'";
+		$sql = "SELECT * FROM categorias WHERE idcategorias = '$this->idcategoria'";
 		$resp = $this->db->consulta($sql);
 		return $resp;
 	}
@@ -99,7 +105,7 @@ class Categoriasproductos
 	//Funcion que sirve para obtener un registro especifico de la tabla empresas
 	public function buscarCategoriaporempresa()
 	{
-		$sql = "SELECT * FROM categoriaproducto";
+		$sql = "SELECT * FROM categorias";
 		$resp = $this->db->consulta($sql);
 		return $resp;
 	}
@@ -107,7 +113,7 @@ class Categoriasproductos
 	//Funcion que guarda un registro en la tabla empresas
 	public function guardarCategoria()
 	{
-		$sql = "INSERT INTO categoriaproducto (categoria,depende,orden,estatus) VALUES ('$this->nombre','$this->depende','$this->orden','$this->estatus');";
+		$sql = "INSERT INTO categorias (categoria,depende,orden,estatus) VALUES ('$this->nombre','$this->depende','$this->orden','$this->estatus');";
 		
 		$resp = $this->db->consulta($sql);
 		$this->idcategoria = $this->db->id_ultimo();
@@ -115,18 +121,18 @@ class Categoriasproductos
 	
 	//Funcion que sirve para modificar un registro en la tabla empresas
 	public function modificarCategoria(){
-		$sql = "UPDATE categoriaproducto SET 
+		$sql = "UPDATE categorias SET 
 		categoria = '$this->nombre', 
 		depende = '$this->depende',
 		orden='$this->orden',
 		estatus='$this->estatus'
-		 WHERE idcategoriaproducto = '$this->idcategoria'";
+		 WHERE idcategorias = '$this->idcategoria'";
 		$this->db->consulta($sql);
 	}
 
 	public function VerificarRelacionCategoria()
 	{
-		$sql="SELECT *FROM productos WHERE idcategoriaproducto='$this->idcategoria'";
+		$sql="SELECT *FROM productos WHERE idcategorias='$this->idcategoria'";
 
 
 		$resp = $this->db->consulta($sql);
@@ -134,9 +140,9 @@ class Categoriasproductos
 	}
 
 
-	public function ObtenerImagenescategoriaproducto()
+	public function ObtenerImagenesCategorias()
 	{
-		$sql="SELECT *FROM categoriaproductoimagenes WHERE idcategoriaproducto=".$this->idcategoria."";
+		$sql="SELECT *FROM categoriasimagenes WHERE idcategorias=".$this->idcategoria."";
 
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
@@ -158,7 +164,7 @@ class Categoriasproductos
 
 	public function ObtenerUltimoOrdencategoria()
 	{
-		$query="SELECT MAX(orden) as ordenar FROM categoriaproducto";		
+		$query="SELECT MAX(orden) as ordenar FROM categorias";		
 		$resp=$this->db->consulta($query);
 		
 		//echo $total;
@@ -168,10 +174,37 @@ class Categoriasproductos
 	public function BorrarCategoria()
 	{
 		
-		$query="DELETE FROM categoriaproducto WHERE idcategoriaproducto=".$this->idcategoria."";	
+		$query="DELETE FROM categorias WHERE idcategorias=".$this->idcategoria."";	
 		$resp=$this->db->consulta($query);
 		return $resp;
 	}
+
+	public function ObtenerPaquetesCategorias($value='')
+	{
+		
+		$sql="SELECT *FROM paquetes WHERE idcategorias=".$this->idcategoria." AND estatus=1 AND promocion=0";
+
+	
+
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+
+	
 
 }
 ?>

@@ -436,5 +436,11 @@ ObtenerDatosSucursal();
     
 });
 
+$$(document).on('page:init', '.page[data-name="detalleproductoservicios"]', function (e) {
+ 
+
+ObtenerProductos();
+    
+});
 
 

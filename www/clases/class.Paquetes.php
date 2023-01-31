@@ -50,7 +50,7 @@ class Paquetes
 			paquetes.foto,
 			paquetes.estatus,
 			categorias.idcategorias,
-			categorias.categoria,
+			categorias.titulo,
 			paquetes.promocion,
 			preciopaquete.precio AS precioventa,
 			precio.principal,

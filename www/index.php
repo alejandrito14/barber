@@ -121,7 +121,7 @@ $navegador = $f->navegador();
                         <b class="logo-icon p-l-10">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="images/WOOLIS.png" alt="homepage" class="light-logo" />
+                          <!--   <img src="" alt="homepage" class="light-logo" /> -->
 
                         </b>
                         <!--End Logo icon -->
@@ -1260,7 +1260,7 @@ $navegador = $f->navegador();
 <script src="js/fn_llaves.js"></script>
 
 <script src="js/fn_nivel.js?<?php echo time(); ?>"></script>
-<script src="js/fn_deportes.js?<?php echo time(); ?>"></script>
+<script src="js/fn_paquetes.js?<?php echo time(); ?>"></script>
 <script src="js/fn_descuento.js?<?php echo time(); ?>"></script>
 <script src="js/fn_usuarioservicio.js?<?php echo time(); ?>"></script>
 <script src="js/fn_asignardescuentos.js?<?php echo time(); ?>"></script>

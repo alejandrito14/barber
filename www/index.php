@@ -1258,7 +1258,7 @@ $navegador = $f->navegador();
 <script src="js/fn_tutor.js"></script>
 <script src="js/fn_clasificacion.js"></script>
 <script src="js/fn_llaves.js"></script>
-
+<script src="js/fn_sucursales.js?<?php echo time(); ?>"></script>
 <script src="js/fn_nivel.js?<?php echo time(); ?>"></script>
 <script src="js/fn_paquetes.js?<?php echo time(); ?>"></script>
 <script src="js/fn_descuento.js?<?php echo time(); ?>"></script>
@@ -1268,6 +1268,7 @@ $navegador = $f->navegador();
 <script src="js/fn_encuesta.js?<?php echo time(); ?>"></script>
 <script src="js/fn_tipousuario.js?<?php echo time(); ?>"></script>
 <script src="js/fn_pagos.js?<?php echo time(); ?>"></script>
+<script src="js/fn_estadomuni.js?<?php echo time(); ?>"></script>
 <script src="js/fn_pagotarjeta.js?<?php echo time(); ?>"></script>
 <script src="js/fn_tipopartido.js?<?php echo time(); ?>"></script>
 <script src="js/fn_partidos.js?<?php echo time(); ?>"></script>

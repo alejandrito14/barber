@@ -48,7 +48,7 @@ class Sucursal
 
 	public function ObtenerTodos()
 	{
-		$query="SELECT * FROM sucursales ";
+		$query="SELECT * FROM sucursal ";
 		
 		$resp=$this->db->consulta($query);
 		
@@ -59,7 +59,7 @@ class Sucursal
 	
 	public function ObtenerSucursals()
 	{
-		$query="SELECT * FROM sucursales WHERE estatus=1";
+		$query="SELECT * FROM sucursal WHERE estatus=1";
 		
 		$resp=$this->db->consulta($query);
 		
@@ -72,7 +72,7 @@ class Sucursal
 	//funcion que sirve para guardar una sucursal 
 	public function guardar_sucursal()
 	{
-		$query = "INSERT INTO sucursales (sucursal,direccion,telefono,email,estatus,iva,pais,estado,municipio,horaentrada,horasalida,minutosconsiderados,solicitarfactura,orden,iddatofiscal,colonia,encabezadoticket,leyendaticket,telefono2,telefono3,telefono4,tventa,tproduccion,codigopostal,trecordatorio,minutosrecordatorio,mensajesucursal,mensajecliente,campomontofactura,habilitarnotaventa,mensajesecciontipopago) VALUES ('$this->sucursal','$this->direccion','$this->telefono','$this->email','$this->estatus','$this->iva','$this->v_pais','$this->v_estado','$this->v_municipio','$this->horainicio','$this->horafin','$this->minutosconsiderados','$this->solicitarfactura','$this->orden','$this->iddatofiscal','$this->colonia','$this->encabezado','$this->leyendafinal','$this->telefono2','$this->telefono3','$this->telefono4','$this->ticketventa','$this->ticketproduccion','$this->codigopostal','$this->trecordatorio','$this->minutosrecordatorio','$this->mensajesucursal','$this->mensajecliente','$this->habilitarcampomontofactura','$this->habilitarnotaventa','$this->mensajesecciontipopago');";
+		$query = "INSERT INTO sucursal (sucursal,direccion,telefono,email,estatus,iva,pais,estado,municipio,horaentrada,horasalida,minutosconsiderados,solicitarfactura,orden,iddatofiscal,colonia,encabezadoticket,leyendaticket,telefono2,telefono3,telefono4,tventa,tproduccion,codigopostal,trecordatorio,minutosrecordatorio,mensajesucursal,mensajecliente,campomontofactura,habilitarnotaventa,mensajesecciontipopago) VALUES ('$this->sucursal','$this->direccion','$this->telefono','$this->email','$this->estatus','$this->iva','$this->v_pais','$this->v_estado','$this->v_municipio','$this->horainicio','$this->horafin','$this->minutosconsiderados','$this->solicitarfactura','$this->orden','$this->iddatofiscal','$this->colonia','$this->encabezado','$this->leyendafinal','$this->telefono2','$this->telefono3','$this->telefono4','$this->ticketventa','$this->ticketproduccion','$this->codigopostal','$this->trecordatorio','$this->minutosrecordatorio','$this->mensajesucursal','$this->mensajecliente','$this->habilitarcampomontofactura','$this->habilitarnotaventa','$this->mensajesecciontipopago');";
 
 		
 	
@@ -82,7 +82,7 @@ class Sucursal
 //funcion que sirve para modificar una sucursal
 	public function modificar_sucursal()
 	{
-		$query = "UPDATE sucursales SET sucursal = '$this->sucursal', direccion = '$this->direccion', telefono = '$this->telefono', email = '$this->email', estatus = '$this->estatus',iva='$this->iva',
+		$query = "UPDATE sucursal SET sucursal = '$this->sucursal', direccion = '$this->direccion', telefono = '$this->telefono', email = '$this->email', estatus = '$this->estatus',iva='$this->iva',
 			pais='$this->v_pais',estado='$this->v_estado',
 			municipio='$this->v_municipio',
 			minutosconsiderados='$this->minutosconsiderados',
@@ -115,9 +115,8 @@ class Sucursal
 	///funcion para objeter datos de un usuario
 	public function buscar_sucursal()
 	{
-		$query="SELECT * FROM sucursales WHERE idsucursales=".$this->idsucursales;		
+		$query="SELECT * FROM sucursal WHERE idsucursal=".$this->idsucursales;		
 		$resp=$this->db->consulta($query);
-		
 		//echo $total;
 		return $resp;
 	}
@@ -175,7 +174,7 @@ class Sucursal
 
 	public function ObtenerUltimoOrdensucursal()
 	{
-		$query="SELECT MAX(orden) as ordenar FROM sucursales";		
+		$query="SELECT MAX(orden) as ordenar FROM sucursal";		
 		$resp=$this->db->consulta($query);
 		
 		//echo $total;

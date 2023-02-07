@@ -70,6 +70,31 @@ var routes = [
     url: './pages/detallesucursal.html',
 
   },
+
+   {
+    path: '/detallepaquete/',
+    url: './pages/detallepaquete.html',
+
+  },
+
+
+   {
+    path: '/disponibilidadfecha/',
+    url: './pages/disponibilidadfecha.html',
+
+  },
+
+   {
+    path: '/disponibilidadespecialista/',
+    url: './pages/disponibilidadespecialista.html',
+
+  },
+
+    {
+    path: '/detalleservicio/',
+    url: './pages/detalleservicio.html',
+
+  },
  {
     path: '/detalleproductoservicios/',
     url: './pages/detalleproductoservicios.html',

@@ -21,7 +21,7 @@ Table of Sass Contents
 
 */
 :root {
-  --f7-theme-color: #4a3749;
+  --f7-theme-color: black;
   --f7-theme-color-rgb: 74,55,73;
   --f7-theme-color-shade: #0936C3;
   --f7-theme-color-tint: #a44ef1;
@@ -2646,7 +2646,7 @@ h6,
 /* Theme Color */
 :root,
 .md:not([class*='color-theme']) {
-  --f7-theme-color: #122261;
+  --f7-theme-color: black;
   --f7-theme-color-rgb: 18,34,97;
   --f7-theme-color-shade: #0d1b52;
   --f7-theme-color-tint: #D5DAEF;

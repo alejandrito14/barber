@@ -25,10 +25,22 @@ try
 
 	//$idcategoria=$_POST['idcategoria'];
 	$idsucursal=$_POST['idsucursal'];
+	$iduser=$_POST['iduser'];
 	$lo->idsucursal=$idsucursal;
+	$lo->idusuario=$iduser;
 
 	$obtenerpaquetes=$lo->PaquetesCategoria();
 
+	for ($i=0; $i <count($obtenerpaquetes) ; $i++) { 
+		$lo->idpaquete=$obtenerpaquetes[$i]->idpaquete;
+		$obtenerfavorita=$lo->ObtenerPaqueteFavorito();
+		$favorita=0;
+		if (count($obtenerfavorita)>0) {
+			$favorita=1;
+		}
+
+		$obtenerpaquetes[$i]->favorita=$favorita;
+	}
 
 	$respuesta['respuesta']=$obtenerpaquetes;
 	

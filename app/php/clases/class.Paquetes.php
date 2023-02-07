@@ -28,6 +28,8 @@ class Paquetes {
     public $cantidadaconsiderar;
     public $horainicio;
     public $horafin;
+    public $valor;
+    public $idusuario;
 
     public function obtenerFiltro() {
         $query  = "SELECT *from paquetes ";
@@ -175,7 +177,9 @@ class Paquetes {
 			paquetes.promocion,
 			preciopaquete.precio as precioventa,
 			precio.principal,
-			paquetes.orden
+			paquetes.orden,
+			paquetes.servicio
+
 			FROM
 			paquetes
 			JOIN paquetesucursal
@@ -189,6 +193,7 @@ class Paquetes {
 				ORDER BY orden ASC
 
 		";
+
 
         $resp = $this->db->consulta($sql);
         $cont = $this->db->num_rows($resp);
@@ -1002,11 +1007,46 @@ class Paquetes {
 			JOIN precio
 			ON precio.idprecio = preciopaquete.idprecio
 			WHERE
-			categorias.idcategorias=" . $this->idcategoria . " AND paquetesucursal.idsucursal=" . $this->idsucursal . " and paquetes.promocion=0 and precio.principal=1 and 	paquetes.estatus=1 AND paquetes.visualizarcarrusel=1
+			  AND paquetesucursal.idsucursal=" . $this->idsucursal . " and paquetes.promocion=0 and precio.principal=1 and 	paquetes.estatus=1 AND paquetes.visualizarcarrusel=1
 				ORDER BY orden ASC
 
 		";
 
+        $resp = $this->db->consulta($sql);
+        $cont = $this->db->num_rows($resp);
+
+        $array    = array();
+        $contador = 0;
+        if ($cont > 0) {
+
+            while ($objeto = $this->db->fetch_object($resp)) {
+
+                $array[$contador] = $objeto;
+                $contador++;
+            }
+        }
+        return $array;
+    }
+
+    public function GuardarFavorito()
+     {
+     	$sql="INSERT INTO paquetefavorito( idpaquete, idusuarios) VALUES ('$this->idpaquete', '$this->idusuario')";
+
+     	$resp = $this->db->consulta($sql);
+
+
+     }
+      public function EliminarFavorito()
+     {
+     	 $sql = "DELETE FROM paquetefavorito WHERE idpaquete = " . $this->idpaquete . " AND idusuarios='$this->idusuario'";
+        $resp = $this->db->consulta($sql);
+     }  
+
+    public function ObtenerPaqueteFavorito()
+    {
+    	
+    	$sql="SELECT *FROM paquetefavorito WHERE idpaquete='$this->idpaquete' AND idusuarios='$this->idusuario'";
+    	
         $resp = $this->db->consulta($sql);
         $cont = $this->db->num_rows($resp);
 

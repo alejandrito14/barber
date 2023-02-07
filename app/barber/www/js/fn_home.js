@@ -478,11 +478,11 @@ function PintarCategorias(respuesta) {
 		html+=`<div class="swiper-wrapper">`;
 		for (var i = 0; i < respuesta.length; i++) {
 			
-						   		imagen=urlimagenes+`categorias/imagenes/`+codigoserv+respuesta[i].foto;
+			imagen=urlimagenes+`categorias/imagenes/`+codigoserv+respuesta[i].foto;
 
 			html+=`
 				<div class="swiper-slide">
-						<div class="card card-bx card-featured">
+						<div class="card card-bx card-featured" style="width: 50%;height:100px;">
 							<div class="icon-bx">
 								<img src="`+imagen+`" alt="" style="width:100%;">
 							</div>
@@ -504,7 +504,7 @@ function PintarCategorias(respuesta) {
 
 	var swiper3 = new Swiper(".welcome-swiper", {
 		    slidesPerView: "auto",
-		    spaceBetween: 10,
+		    spaceBetween: 0,
 		    pagination: false,
 		    
 		  });

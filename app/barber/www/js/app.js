@@ -305,7 +305,6 @@ localStorage.setItem('avatar','');
 $$(document).on('page:init', function (e) {
   app.panel.close();
   Cargar();
-  alert('a'+1);
    
 
    
@@ -382,6 +381,8 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
 $$(document).on('page:init', '.page[data-name="welcome"]', function (e) {
    
       ObtenerCategorias(1);
+      ObtenerDetalleEmpresa();
+      $("#btnvermas").attr('onclick',"AbrirModalDescripcion()");
     
 });
 
@@ -443,4 +444,39 @@ ObtenerProductos();
     
 });
 
+$$(document).on('page:init','.page[data-name="detallepaquete"]',function(e)
+{
+
+   var sistema=localStorage.getItem('SO');
+
+  
+        var paqueteid=localStorage.getItem('idpaquete');
+        detallepaquete(paqueteid);
+
+     
+    $(".ptr-content").css('overflow','scroll');
+
+});
+
+$$(document).on('page:init','.page[data-name="detalleservicio"]',function(e)
+{
+
+        var paqueteid=localStorage.getItem('idpaquete');
+        detalleservicio(paqueteid);
+        $(".ptr-content").css('overflow','scroll');
+
+        $(".disponibilidadfecha").attr('onclick','Disponilidadfecha()');
+        $(".disponibilidadespecialista").attr('onclick','GoToPage("disponilidadespecialista")');
+
+
+});
+
+$$(document).on('page:init','.page[data-name="disponibilidadfecha"]',function(e)
+{
+        var paqueteid=localStorage.getItem('idpaquete');
+
+    detalleservicio(paqueteid);
+     CargarCalendario();
+
+});
 

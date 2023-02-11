@@ -65,6 +65,43 @@ var routes = [
     `,
   },
 
+   {
+    path: '/detallesucursal/',
+    url: './pages/detallesucursal.html',
+
+  },
+
+   {
+    path: '/detallepaquete/',
+    url: './pages/detallepaquete.html',
+
+  },
+
+
+   {
+    path: '/disponibilidadfecha/',
+    url: './pages/disponibilidadfecha.html',
+
+  },
+
+   {
+    path: '/disponibilidadespecialista/',
+    url: './pages/disponibilidadespecialista.html',
+
+  },
+
+    {
+    path: '/detalleservicio/',
+    url: './pages/detalleservicio.html',
+
+  },
+ {
+    path: '/detalleproductoservicios/',
+    url: './pages/detalleproductoservicios.html',
+
+  },
+
+
   // Account
   {
     path: '/signin/',
@@ -110,6 +147,7 @@ var routes = [
     path: '/apply-form/',
     url: './pages/apply-form.html',
   },
+
   {
     path: '/company-detail/',
     url: './pages/company-detail.html',

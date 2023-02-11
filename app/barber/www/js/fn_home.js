@@ -133,14 +133,19 @@ function PintarTableroCategorias(respuesta) {
 		html+=`<div class="swiper-wrapper">`;
 		for (var i = 0; i < respuesta.length; i++) {
 			
+			imagen=urlimagenes+`categorias/imagenes/`+codigoserv+respuesta[i].foto;
 
 			html+=`
 				<div class="swiper-slide" style="width: 50%!important;">
 						<a  class="categories-bx">
 							<div class="icon-bx">
-								
+								<img src="`+imagen+`" alt="" style="width:80%;">
 							</div>
-							<h6 class="title">`+respuesta[i].titulo+`</h6>
+
+
+							<h6 class="title">
+							
+							<span>`+respuesta[i].titulo+`</span></h6>
 						</a>
 					</div>
 

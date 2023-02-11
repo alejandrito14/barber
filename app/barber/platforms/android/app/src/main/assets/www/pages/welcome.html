@@ -1,14 +1,29 @@
-<div class="page welcome-screen">
+<div class="page welcome-screen" data-name="welcome">
 	<div class="page-content pt-60 bottom-sp100">
-		<div class="container">
-			
-			<!-- Main Logo -->
-			<div class="main-logo" style="margin-bottom: 20px!important">
-				<div class="logo-icon" style="height: 40px!important;">
-					
+		<div class="row">
+				<div class="col-100" style="    margin: 2em;">
+				<img class="imagenempresa" style="height: 200px;width: 100%;" src="" alt=""/>	
+				</div>
+				<div class="col-100">
+					<p style="
+				        text-align: center;
+    margin: 0;
+    display: flex;
+    justify-content: center;">
+						<a id="btnvermas" style="    background: black;
+    color: white;
+    border-radius: 10px;
+    height: 30px;
+    width: 100px;
+    line-height: 2;">Ver más</a>
+					</p>
 				</div>
 				
 			</div>
+			
+		<div class="container" style="    margin-top: 2em;">
+			
+			
 			
 			<!-- Featured Swiper -->
 			<div class="title-head mb-10" style="text-align: center;">
@@ -24,7 +39,7 @@
 
 			<div class="list">
 				
-					<ul class="row">
+					<!-- <ul class="row">
 						<li class="item-content item-input col-100 item-input-with-value">
 
 							<div class="item-inner">
@@ -33,7 +48,7 @@
 							<input type="text" placeholder="Buscador" class="form-control input-with-value">
 						</div></div>
 					</li>
-						</ul>
+						</ul> -->
 				
 			</div>
 			<div data-space-between="20" data-slides-per-view="auto" data-speed="900" data-centered-slides="false" class="swiper-container swiper-init mb-30 main-swiper welcome-swiper">
@@ -85,5 +100,17 @@
 	<div class="toolbar toolbar-bottom container footer-button">
 		<a href="/signin/" class="button-large button button-fill">Continuar</a>
 	</div>
+
+	<style>
+	.main-swiper .swiper-slide:first-child {
+    margin-left: 20px!important;
+}
+
+.welcome-swiper .swiper-slide {
+    max-width: 195px!important;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+</style>
 	
 </div>

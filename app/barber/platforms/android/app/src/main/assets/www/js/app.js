@@ -52,10 +52,10 @@ var codigoservicio="0";
 $(document).ready(function() {
 
     if (produccion == 0) {
-      codigoservicio='106';
+      codigoservicio='125';
 
     }else{
-      codigoservicio='109';
+      codigoservicio='127';
     }
 
 
@@ -79,7 +79,7 @@ $(document).ready(function() {
       
     } else {
 
-      alert('a');
+      
         Cargar();
     }
   
@@ -91,7 +91,7 @@ $(document).ready(function() {
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.14';
+var version='1.0.1';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;
@@ -124,10 +124,10 @@ function Cargar() {
 
 
     if (produccion == 0) {
-      codigoservicio='106';
+      codigoservicio='125';
 
     }else{
-      codigoservicio='109';
+      codigoservicio='127';
     }
  
     var datos="clave=issoftware"+"&codservicio="+codigoservicio;
@@ -163,25 +163,24 @@ var carpetaapp="";
 
 
   if (produccion == 0) {
-    codigoserv="106/";
-    urlphp = rutaserver+"/is-academia/app/php/"; 
-    urlimagenes = rutaserver+"/is-academia/www/catalogos/"; 
-    urlimagendefault=rutaserver+"/is-academia/www/images/sinfoto.png";
-    urlimagenlogo=rutaserver+"/is-academia/www/images/sinimagenlogo.png";
+    codigoserv="125/";
+    urlphp = rutaserver+"/is-barber/app/php/"; 
+    urlimagenes = rutaserver+"/is-barber/www/catalogos/"; 
+    urlimagendefault=rutaserver+"/is-barber/www/images/sinfoto.png";
+    urlimagenlogo=rutaserver+"/is-barer/www/images/sinimagenlogo.png";
     globalsockect=rutaserver+":"+puertosockect+"/";
-    imagenesbancos=rutaserver+"/is-academia/www/assets/images/";
-    urlimagendefaultservicio=rutaserver+"/is-academia/images/sin-servicio.jpg"
+    imagenesbancos=rutaserver+"/is-barber/www/assets/images/";
+    urlimagendefaultservicio=rutaserver+"/is-barber/images/sin-servicio.jpg"
 
 }else{
     codigoserv=codigoservicio+"/";
-    urlphp = rutaserver+"/IS-ACADEMIA/app/"+carpetaapp+"/php/";
-    urlimagenes = rutaserver+"/IS-ACADEMIA/catalogos/"; 
-  
-    urlimagendefault=rutaserver+"/IS-ACADEMIA/images/sinfoto.png"
-    urlimagenlogo=rutaserver+"/IS-ACADEMIA/images/sinimagenlogo.png";
-    urlimagendefaultservicio=rutaserver+"/IS-ACADEMIA/images/sin-servicio.jpg"
+    urlphp = rutaserver+"/IS-BARBER/app/"+carpetaapp+"/php/";
+    urlimagenes = rutaserver+"/IS-BARBER/catalogos/"; 
+    urlimagendefault=rutaserver+"/IS-BARBER/images/sinfoto.png"
+    urlimagenlogo=rutaserver+"/IS-BARBER/images/sinimagenlogo.png";
+    urlimagendefaultservicio=rutaserver+"/IS-BARBER/images/sin-servicio.jpg"
 
-    imagenesbancos=rutaserver+"/IS-ACADEMIA/assets/images/";
+    imagenesbancos=rutaserver+"/IS-BARBER/assets/images/";
     globalsockect=rutaserver+":"+puertosockect+"/";
    // var urlimagenvacia="https://issoftware1.com.mx/IS-ACADEMIA/images/sinimagenlogo.png";
 
@@ -259,7 +258,7 @@ localStorage.setItem('avatar','');
    
 
 
-     
+      if( window.isphone ) {
  
 
     var p1 = new Promise(function(resolve, reject) {
@@ -277,6 +276,9 @@ localStorage.setItem('avatar','');
      console.log(reason); // Error!
   });
     
+    }
+
+    MostrarAnuncios();
 
 
       
@@ -302,9 +304,189 @@ localStorage.setItem('avatar','');
 $$(document).on('page:init', function (e) {
   app.panel.close();
   Cargar();
+   
+
+   
+ 
 }); 
 $$(document).on('page:init', '.page[data-name="home"]', function (e) {
       
-      ObtenerTableroAnuncios(1);
+     
+     getValidacionUsuario().then(r => {
+
+        var existe=r.existe;
+      
+
+  if (existe==0) {
+
+      //Cargarperfilfoto();
+      
+      CargarDatos();
+  
+    
+  var pregunta=localStorage.getItem('pregunta');
+
+
+ 
+    if (pregunta==0) {
+
+     app.dialog.confirm('','¿Desea mantener la sesión activa?', function () {
+
+        localStorage.setItem('session',1);
+
+        localStorage.setItem('pregunta',1);
+
+         // app.dialog.alert('','Se guardó la sesión'); 
+
+        },
+
+         function () {
+                 
+                        localStorage.setItem('pregunta',1);
+
+                  }
+            );
+
+
+      
+
+           }
+
+      var $ptrContent = $$('.ptr-content');
+        // Add 'refresh' listener on it
+          $ptrContent.on('ptr:refresh', function (e) {
+          // Emulate 2s loading
+          setTimeout(function () {
+             CargarDatos();
+            // When loading done, we need to reset it
+            app.ptr.done(); // or e.detail();
+          }, 2000);
+        });
+
+
+
+         }else{
+
+          GoToPage('signin');
+
+         }
+
+
+       });
+    
 
 });
+
+$$(document).on('page:init', '.page[data-name="welcome"]', function (e) {
+   
+      ObtenerCategorias(1);
+      ObtenerDetalleEmpresa();
+      $("#btnvermas").attr('onclick',"AbrirModalDescripcion()");
+    
+});
+
+$$(document).on('page:init', '.page[data-name="celular"]', function (e) {
+      
+   phoneFormatter('telefono');
+  $$('#btnvalidarcelular').attr('onclick','ValidarCelular()')
+
+    
+});
+
+$$(document).on('page:init', '.page[data-name="colocartoken"]', function (e) {
+      
+ $$("#t1").focus();
+ $$('#t1').attr('onkeyup',"Siguiente('t1','t2')");
+ $$('#t2').attr('onkeyup',"Siguiente('t2','t3')");
+ $$('#t3').attr('onkeyup',"Siguiente('t3','t4')");
+ $$('#t4').attr('onkeyup',"Validarcaja('t4');ValidarToken();");
+ $$("#reenviotoken").attr('onclick',"ReenvioTokenCel()");
+ $("#btncancelar1").attr("onclick","EliminarVariables()");
+
+
+    
+});
+
+
+$$(document).on('page:init', '.page[data-name="registro"]', function (e) {
+  $$('#btncontinuar').attr('onclick','Registrar()')
+
+    
+});
+
+$$(document).on('page:init', '.page[data-name="intereses"]', function (e) {
+  ObtenerIntereses();
+
+  $("#btnguardarinteres").attr('onclick','GuardarIntereses()');
+    
+});
+
+$$(document).on('page:init', '.page[data-name="login"]', function (e) {
+ 
+
+  $$('#btnlogin').attr('onclick','validar_login()');
+
+    
+});
+
+$$(document).on('page:init', '.page[data-name="detallesucursal"]', function (e) {
+ 
+
+ObtenerDatosSucursal();
+    
+});
+
+$$(document).on('page:init', '.page[data-name="detalleproductoservicios"]', function (e) {
+ 
+
+ObtenerProductos();
+    
+});
+
+$$(document).on('page:init','.page[data-name="detallepaquete"]',function(e)
+{
+
+   var sistema=localStorage.getItem('SO');
+
+  
+        var paqueteid=localStorage.getItem('idpaquete');
+        detallepaquete(paqueteid);
+
+     
+    $(".ptr-content").css('overflow','scroll');
+
+});
+
+$$(document).on('page:init','.page[data-name="detalleservicio"]',function(e)
+{
+
+        var paqueteid=localStorage.getItem('idpaquete');
+        detalleservicio(paqueteid);
+        $(".ptr-content").css('overflow','scroll');
+
+        $(".disponibilidadfecha").attr('onclick','Disponilidadfecha()');
+        $(".disponibilidadespecialista").attr('onclick','Disponibilidadespecialista()');
+
+
+});
+
+$$(document).on('page:init','.page[data-name="disponibilidadfecha"]',function(e)
+{
+        var paqueteid=localStorage.getItem('idpaquete');
+
+    detalleservicio(paqueteid);
+     CargarCalendario();
+
+});
+
+$$(document).on('page:init','.page[data-name="disponibilidadespecialista"]',function(e)
+{
+        var paqueteid=localStorage.getItem('idpaquete');
+
+    detalleservicio(paqueteid);
+     CargarCalendario();
+
+});
+
+
+

@@ -55,7 +55,7 @@ $(document).ready(function() {
       codigoservicio='125';
 
     }else{
-      codigoservicio='109';
+      codigoservicio='127';
     }
 
 
@@ -91,7 +91,7 @@ $(document).ready(function() {
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.14';
+var version='1.0.1';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;
@@ -108,14 +108,14 @@ var rutaserver=localStorage.getItem('servidor');
 var puertosockect=localStorage.getItem('puertosocket');
 
 
-    var codigoserv="";
-    var urlphp = ""; 
-    var urlimagenes = ""; 
-    var urlimagendefault="";
-    var urlimagenlogo="";
-    var globalsockect="";
-    var imagenesbancos="";
-    var urlimagendefaultservicio=""
+var codigoserv="";
+var urlphp = ""; 
+var urlimagenes = ""; 
+var urlimagendefault="";
+var urlimagenlogo="";
+var globalsockect="";
+var imagenesbancos="";
+var urlimagendefaultservicio=""
 
 
 function Cargar() {
@@ -127,7 +127,7 @@ function Cargar() {
       codigoservicio='125';
 
     }else{
-      codigoservicio='109';
+      codigoservicio='127';
     }
  
     var datos="clave=issoftware"+"&codservicio="+codigoservicio;
@@ -176,7 +176,6 @@ var carpetaapp="";
     codigoserv=codigoservicio+"/";
     urlphp = rutaserver+"/IS-BARBER/app/"+carpetaapp+"/php/";
     urlimagenes = rutaserver+"/IS-BARBER/catalogos/"; 
-  
     urlimagendefault=rutaserver+"/IS-BARBER/images/sinfoto.png"
     urlimagenlogo=rutaserver+"/IS-BARBER/images/sinimagenlogo.png";
     urlimagendefaultservicio=rutaserver+"/IS-BARBER/images/sin-servicio.jpg"
@@ -304,7 +303,7 @@ localStorage.setItem('avatar','');
 // Option 1. Using one 'page:init' handler for all pages
 $$(document).on('page:init', function (e) {
   app.panel.close();
-  Cargar();
+
    
 
    
@@ -466,7 +465,7 @@ $$(document).on('page:init','.page[data-name="detalleservicio"]',function(e)
         $(".ptr-content").css('overflow','scroll');
 
         $(".disponibilidadfecha").attr('onclick','Disponilidadfecha()');
-        $(".disponibilidadespecialista").attr('onclick','GoToPage("disponilidadespecialista")');
+        $(".disponibilidadespecialista").attr('onclick','Disponibilidadespecialista()');
 
 
 });
@@ -480,3 +479,69 @@ $$(document).on('page:init','.page[data-name="disponibilidadfecha"]',function(e)
 
 });
 
+$$(document).on('page:init','.page[data-name="disponibilidadespecialista"]',function(e)
+{
+        var paqueteid=localStorage.getItem('idpaquete');
+
+    detalleservicio(paqueteid);
+     CargarCalendario();
+
+});
+
+
+$$(document).on('page:init','.page[data-name="homeindex"]',function(e)
+{
+  setTimeout(function () {
+
+      var id_user=localStorage.getItem('id_user');
+      var session=localStorage.getItem('session');
+      var idtipousuario=localStorage.getItem('idtipousuario');
+     
+if (session==1) {
+     
+  
+
+        getVistoAnuncio().then(r => {
+       
+          
+         if(r.visto == 0 && r.configuracion.mostraranuncios==1)
+          {  
+            app.views.main.router.navigate('/homeindex/');
+
+            }else{
+           Cargarperfilfoto();
+             //resolve({ url: './pages/inicio2.html', })
+                if (id_user>0 && session==1) {
+
+                      var idcliente=localStorage.getItem('id_user');
+                       GuardarTokenBase(idcliente);
+
+                    if (idtipousuario==0) {
+                        app.views.main.router.navigate('/homeadmin/');
+
+                    }
+                    if (idtipousuario==3) {
+                        app.views.main.router.navigate('/home/');
+
+                    }
+                    if (idtipousuario==5) {
+                        app.views.main.router.navigate('/homecoach/');
+
+                    }
+                  }
+
+             
+            }
+        });
+
+    
+
+  }else{
+   
+      app.views.main.router.navigate('/homeindex/');
+
+  }
+
+  }, 1000);
+
+});

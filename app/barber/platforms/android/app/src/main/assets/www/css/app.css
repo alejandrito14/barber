@@ -68,7 +68,8 @@
   text-align: center;
 }
 .md:not([class*='color-theme']) {
-  --f7-theme-color: #6200ee;
+ /* --f7-theme-color: #6200ee;*/
+  --f7-theme-color: black;
   --f7-theme-color-rgb: 98, 0, 238;
   --f7-theme-color-shade: #5100c5;
   --f7-theme-color-tint: #7718ff;
@@ -703,4 +704,120 @@ code {
     text-align: center;
     font-size: 20px!important;
     font-weight: bold;
+}
+
+.interesseleccionado{
+  background: #ef6340!important;
+}
+
+
+.detallesucursal .head-details {
+  padding: 20px 0 0;
+  margin-bottom: 35px; }
+  .detallesucursal .head-details .title {
+    margin: 20px 0 0;
+    color: #fff;
+    font-weight: 500; }
+  .detallesucursal .head-details:after {
+    height: calc(100% - 30px); }
+  .detallesucursal .head-details .block-btn {
+    padding: 24px 30px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 30px; }
+    .detallesucursal .head-details .block-btn .title {
+      margin: 0;
+      color: #000; }
+    .detallesucursal .head-details .block-btn i {
+      font-size: 20px; }
+  .detallesucursal .head-details .location {
+    color: #fff;
+    margin: 10px 0; }
+
+    
+.divpaquetedetalle{
+
+       background: #C7AA6A;
+    color: #fff;
+    height: 40px;
+    line-height: 40px;
+    width: 50%;
+    margin: .5em;
+    border-radius: 10px;
+    /* padding: .1em; */
+    text-align: center;
+    float: left;
+
+}
+
+.divpaquetedetalle2{
+
+    color: black;
+    height: 40px;
+    line-height: 40px;
+    width: 35%;
+    border-radius: 10px;
+    /* padding-left: 2em; */
+    text-align: center;
+    float: right;
+    border: 1px solid white;
+    margin-right: 1em;
+    margin-top: .4em;
+}
+
+.divpaquetemenos{
+
+    height: 40px;
+    width: 20%;
+    border-radius: 10px;
+    margin: .5em;
+    color: black;
+    float: left;
+
+}
+
+.cantidadpaquete{
+    height: 40px;
+    width: 18%;
+    border-radius: 10px;
+    margin: 9%;
+    color: black;
+    font-weight: bold;
+    float: left;
+    line-height: 1.4em;
+    font-size: 16px;
+}
+.divpaquetemas{
+
+    height: 40px;
+    width: 20%;
+    border-radius: 10px;
+    margin: 5%;
+    color: black;
+    float: right;
+}
+
+.textocupon::-webkit-scrollbar {
+  display: none;
+}
+.divdescuentoaplicado{
+    background: #FFC830;
+    font-size: 10px;
+    border-radius: 10px;
+    
+    text-align: center;
+   
+    margin-top: 1em;
+    width: 80%;
+}
+.iconocerrar{
+   position: absolute;
+    left: 10px;
+    top: 10px;
+    padding-bottom: 1em;
+    font-size: 28px;
 }

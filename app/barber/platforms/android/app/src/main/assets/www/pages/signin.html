@@ -1,5 +1,5 @@
 <template>
-	<div class="page account-area">
+	<div class="page account-area" data-name="login">
 		<div class="page-content bottom-sp40">
 			<div class="container">
 				<div class="title-head">
@@ -8,7 +8,7 @@
 				</div>
 				<div class="row" style="margin-bottom: 2em;">
 					<div class="col-50">
-						<a href="/inicio/" class="button button-raised button-fill ">Invitado</a></div>
+						<a href="/home/" class="button button-raised button-fill ">Invitado</a></div>
 						<div class="col-50">
 						<a href="/signup/" class="tab-link button button-raised  ">Registrarme</a>
 					</div>
@@ -21,14 +21,14 @@
 									<li class="item-content item-input col-100">
 										<div class="item-inner">
 											<div class="item-input-wrap">
-												<input type="email" placeholder="email" value="" class="form-control"/>
+												<input type="email" placeholder="email" value="" id="v_usuario" class="form-control"/>
 											</div>
 										</div>
 									</li>
 									<li class="item-content col-100 item-input">
 										<div class="item-inner">
 											<div class="item-input-wrap">
-												<input type="password" placeholder="Contraseña" class="form-control"/>
+												<input type="password" placeholder="Contraseña" id="v_clave" class="form-control"/>
 												<div class="show-pass">
 													<span class="show">Mostrar</span>
 													<span class="hide">Ocultar</span>
@@ -39,7 +39,7 @@
 								</ul>
 							</div>
 							<div class="clearfix">
-								<a href="/home/" class="button-large button button-fill">Ingresar</a>
+								<a id="btnlogin" class="button-large button button-fill">Ingresar</a>
 								<p class="form-text" style="text-align: center;">Recuperar tu contraseña <a href="#tabA2" data-route-tab-id="tabA2" class="tab-link"></a></p>
 							</div>
 							<div class="text-align-center account-footer">

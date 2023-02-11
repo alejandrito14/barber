@@ -60,12 +60,7 @@
 					</a>
 					<div class="nav-bar list menu-list dz-list">
 						<ul>
-							<li>
-								<a onclick="AbrirModalDescripcion()" class="item-link ">
-									
-									<span class="nombreempresa"></span>
-								</a>
-							</li>
+							
 							<li>
 								<a href="/home/" class="item-link item-selected">
 									
@@ -73,9 +68,15 @@
 								</a>
 							</li>
 							<li>
+								<a onclick="AbrirModalDescripcion()" class="item-link ">
+									
+									<span class="nombreempresa"></span>
+								</a>
+							</li>
+							<li>
 								<a href="/home/" class="item-link ">
 									<span class="material-icons-outlined">grade</span>
-									<span>Favoritos</span>
+									<span> Favoritos</span>
 								</a>
 							</li>
 							<li>
@@ -94,7 +95,7 @@
 										<span class="material-icons-outlined">
 											payments
 											</span>
-									<span>Pagos</span>
+									<span> Pagos</span>
 								</a>
 							</li>
 							<li>
@@ -102,7 +103,7 @@
 										<span class="material-icons-outlined">
 											textsms
 											</span>
-									<span>Mensajes</span>
+									<span> Mensajes</span>
 								</a>
 							</li>
 							<!-- <li>
@@ -124,7 +125,7 @@
 							</li> -->
 							<li><a href="/" class="item-link">
 									<img src="img/svg/logout.svg" alt=""/>
-									<span>Salir</span>
+									<span> Salir</span>
 								</a>
 							</li>
 						</ul>
@@ -150,9 +151,9 @@
 <!-- 				</div>
  -->			</div>
 		</div>
-		<div class="page page-onboading" data-name="home">
+		<div class="page page-onboading" data-name="homeindex">
 			<div class="page-content" style="padding: 0!important;">
-				<div class="row">
+				<div class="row" style="    margin-bottom: 1em;">
 					<div class="col-100">
 						<h3 style="    z-index: 60;position: absolute;width: 100%;color: black;">¡Bienvenido!</h3>
 					</div>
@@ -163,7 +164,7 @@
         </div>
 
    
-          <div class="swiper-wrapper" id="swiper-wrapper-anuncios"  aria-live="off" style="transform: translate3d(-750px, 0px, 0px); transition-duration: 0ms;">
+          <div class="swiper-wrapper" id="swiper-wrapper-anuncios"  aria-live="off" style="height: 38em;transform: translate3d(-750px, 0px, 0px); transition-duration: 0ms;">
 
          
          </div>
@@ -173,7 +174,8 @@
 				</div>
 			</div>
 			<div class="toolbar toolbar-bottom container footer-button">
-				<a href="/welcome/" class="button-large button button-fill">Empecemos</a>
+				<a href="/welcome/" class="button-large button button-fill" style="text-transform: capitalize;
+">Empecemos</a>
 			</div>
 		</div>
 	</div>

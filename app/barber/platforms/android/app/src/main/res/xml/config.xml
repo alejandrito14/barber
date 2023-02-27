@@ -41,7 +41,7 @@
     <feature name="SocialSharing">
         <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
     </feature>
-    <name>GRUPO INVERSA</name>
+    <name>Grupo Inversa</name>
     <description>
         Aplicacion de negocios
     </description>

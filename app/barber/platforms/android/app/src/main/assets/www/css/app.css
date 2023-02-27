@@ -708,12 +708,14 @@ code {
 
 .interesseleccionado{
   background: #ef6340!important;
+  color: black!important;
 }
 
 
 .detallesucursal .head-details {
   padding: 20px 0 0;
-  margin-bottom: 35px; }
+  margin-bottom: 30px; 
+}
   .detallesucursal .head-details .title {
     margin: 20px 0 0;
     color: #fff;
@@ -728,7 +730,7 @@ code {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 30px; }
+   margin-top: 20px; }
     .detallesucursal .head-details .block-btn .title {
       margin: 0;
       color: #000; }
@@ -820,4 +822,27 @@ code {
     top: 10px;
     padding-bottom: 1em;
     font-size: 28px;
+}
+.button{
+  text-transform: inherit!important;
+}
+
+.dialog-button{
+    text-transform: inherit!important;
+
+}
+.dialog-title{
+  text-align: center!important;
+}
+
+.categories-bx {
+   
+    width: 90%!important;
+    height: 50px!important;
+}
+.colorred{
+  color: red;
+}
+.bordecategoria{
+  border: 4px solid #C7AA6A;
 }

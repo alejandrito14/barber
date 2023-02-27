@@ -69,8 +69,8 @@
 							</li>
 							<li>
 								<a onclick="AbrirModalDescripcion()" class="item-link ">
-									
-									<span class="nombreempresa"></span>
+						
+									<span class="nombreempresa" style="height: 20px;"></span>
 								</a>
 							</li>
 							<li>
@@ -95,7 +95,7 @@
 										<span class="material-icons-outlined">
 											payments
 											</span>
-									<span> Pagos</span>
+									<span> Mis compras</span>
 								</a>
 							</li>
 							<li>
@@ -123,7 +123,7 @@
 									<span>Setting</span>
 								</a>
 							</li> -->
-							<li><a href="/" class="item-link">
+							<li><a  class="item-link btnsalir">
 									<img src="img/svg/logout.svg" alt=""/>
 									<span> Salir</span>
 								</a>
@@ -153,18 +153,14 @@
 		</div>
 		<div class="page page-onboading" data-name="homeindex">
 			<div class="page-content" style="padding: 0!important;">
-				<div class="row" style="    margin-bottom: 1em;">
-					<div class="col-100">
-						<h3 style="    z-index: 60;position: absolute;width: 100%;color: black;">¡Bienvenido!</h3>
-					</div>
-				</div>
-				<div class="started-swiper-box" style="    margin-top: 3em;">
-				 <div  class="swiper-container introswiper swiper-container-initialized swiper-container-horizontal swiper-container-pointer-events swiper-anuncios" id="swiper-anuncios1">
+				
+				<div class="started-swiper-box" style="">
+				 <div  class="swiper-container introswiper swiper-container-initialized swiper-container-horizontal swiper-container-pointer-events swiper-anuncios" id="swiper-anuncios1" style="height: 100%;">
        <div class="swiper-pagination ">
         </div>
 
    
-          <div class="swiper-wrapper" id="swiper-wrapper-anuncios"  aria-live="off" style="height: 38em;transform: translate3d(-750px, 0px, 0px); transition-duration: 0ms;">
+          <div class="swiper-wrapper" id="swiper-wrapper-anuncios"  aria-live="off" style="height: 100%;transform: translate3d(-750px, 0px, 0px); transition-duration: 0ms;">
 
          
          </div>
@@ -173,13 +169,21 @@
         </div>
 				</div>
 			</div>
-			<div class="toolbar toolbar-bottom container footer-button">
+			<div class="toolbar toolbar-bottom container footer-button" style="z-index: 1000;">
 				<a href="/welcome/" class="button-large button button-fill" style="text-transform: capitalize;
 ">Empecemos</a>
 			</div>
 		</div>
 	</div>
 </div>
+<style>
+	
+	.swiper-pagination-fraction, .swiper-pagination-custom, .swiper-container-horizontal > .swiper-pagination-bullets
+	{
+
+		bottom: 100px!important;
+	}
+</style>
 <!-- script -->
 
 <script src="cordova.js"></script>
@@ -215,13 +219,17 @@
 <script src="js/fn_home.js"></script>
 <script src="js/fn_productos.js"></script>
 <script src="js/fn_empresa.js"></script>
+<script src="js/fn_pagos.js"></script>
+<script src="js/fn_pagotarjeta.js"></script>
+<script src="js/fn_carrito.js"></script>
 
 <script src="js/framework7-bundle.min.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="js/recuperar.js"></script>
 
 <script src="js/routes.js"></script>
 <script src="js/store.js"></script>
 <script src="js/app.js"></script>
-
 
 </body>
 </html>

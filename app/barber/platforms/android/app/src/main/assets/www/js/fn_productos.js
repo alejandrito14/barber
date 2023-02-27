@@ -30,25 +30,28 @@ function PintarProductos(respuesta) {
 		for (var i = 0; i < respuesta.length; i++) {
 		
 		imagen=urlimagenes+`paquetes/imagenespaquete/`+codigoserv+respuesta[i].foto;
+		var funcion="";
+		if (respuesta[i].servicio==1) {
+  					
+  					funcion="DetalleServicio("+respuesta[i].idpaquete+")";
+						
+			      
+			      	}else{
+			      		 funcion="DetalleProducto("+respuesta[i].idpaquete+")";
+			      	}
+			     
 
 			html+=`
 
-				 <div class="col-50">
-		          <div class="card demo-card-header-pic">
-		          <div style="background-image:url(`+imagen+`)"
-		          class="card-header align-items-flex-end" style="height: 20vw!important;">`+respuesta[i].nombrepaquete+`</div>
-		          <div class="card-content card-content-padding">
-		          <p class="date"></p>
-		         
-		        </div>
-		        <div class="card-footer">
-			        <a onclick="PaqueteFavorito(`+respuesta[i].idpaquete+`,`+respuesta[i].favorita+`)" class="link">`;
+				 <div class="tarjeta" style="width:50%;" id="tarjeta_`+respuesta[i].idpaquete+`">
+		          <div class="card demo-card-header-pic">`;
+		           html+=` <a onclick="PaqueteFavorito(`+respuesta[i].idpaquete+`,`+respuesta[i].favorita+`)" class="link" style="z-index: 1000;position: absolute;right: 0;margin: 1em;">`;
 			        	
 			        
 						 favorito=`<span class="material-icons-outlined ">favorite_border</span>`;
                         if (respuesta[i].favorita==1) {
 
-                        favorito=`<span class="material-icons-outlined">favorite</span>`;
+                        favorito=`<span class="material-icons-outlined colorred">favorite</span>`;
 
 
                         }
@@ -56,19 +59,16 @@ function PintarProductos(respuesta) {
 
 			      html+=favorito+`  </a>`;
 
-			      	if (respuesta[i].servicio==1) {
-  					
-  					html+=` <a onclick="DetalleServicio(`+respuesta[i].idpaquete+`)"  class="link"><span class="material-icons-outlined">
-						add_circle</span>`;
-			      
-			      	}else{
-			      		  html+=` <a onclick="DetalleProducto(`+respuesta[i].idpaquete+`)"  class="link"><span class="material-icons-outlined">
-						add_circle</span>`;
-			      	}
+			      	
+
+		        html+=`  <div style="background-image:url(`+imagen+`)" onclick="`+funcion+`"
+		          class="card-header align-items-flex-end" style="height: 20vw!important;"></div>
+
+		        <div class="card-footer" style="justify-content: center;
+    display: flex;"><p style="margin:0px;text-align:center;">`+respuesta[i].nombrepaquete;
 			     
 
-
-			       html+=` </a>
+			       html+=` </p>
 		        </div>
 		      </div>
 		      </div>

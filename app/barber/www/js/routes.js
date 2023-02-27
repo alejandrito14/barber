@@ -3,7 +3,7 @@ var routes = [
   {
     path: '/',
     url: './index.html',
-    name: 'home',
+    name: 'homeindex',
   },
   
   // About page
@@ -119,6 +119,37 @@ var routes = [
     {
     path: '/registro/',
     componentUrl: './pages/registro.html',
+  },
+   // verificacion 
+  {
+    path: '/verificacion/',
+    componentUrl: './pages/verificacion.html',
+
+  },
+   //cambiocontra
+   {
+    path:'/cambiocontra/',
+    componentUrl: './pages/cambiocontra.html',
+  },
+
+   // forgot password
+  {
+    path: '/forgotpassword/',
+    componentUrl: './pages/forgotpassword.html',
+  },
+
+  {
+    path: '/carrito/',
+    componentUrl: './pages/carrito.html',
+  },
+  {
+    path: '/listadocompras/',
+    componentUrl: './pages/listadocompras.html',
+  },
+
+  {
+    path: '/resumenpago/',
+    componentUrl: './pages/resumenpago.html',
   },
 
    {

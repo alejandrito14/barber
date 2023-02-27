@@ -104,18 +104,18 @@ var intervalo4=0;
 var intervalo5=0;
 var intervalo6=0;
 var identificadorDeTemporizador=0;
-var rutaserver=localStorage.getItem('servidor');
-var puertosockect=localStorage.getItem('puertosocket');
+var rutaserver="";
+var puertosockect="";
 
 
-    var codigoserv="";
-    var urlphp = ""; 
-    var urlimagenes = ""; 
-    var urlimagendefault="";
-    var urlimagenlogo="";
-    var globalsockect="";
-    var imagenesbancos="";
-    var urlimagendefaultservicio=""
+var codigoserv="";
+var urlphp = ""; 
+var urlimagenes = ""; 
+var urlimagendefault="";
+var urlimagenlogo="";
+var globalsockect="";
+var imagenesbancos="";
+var urlimagendefaultservicio=""
 
 
 function Cargar() {
@@ -140,7 +140,6 @@ function Cargar() {
     data:datos,
     async:false,
     success: function(resp){
-var rutaserver="";
 var puertosockect="";
 var carpetaapp="";
       if (resp.vigente==1) {
@@ -160,7 +159,6 @@ var carpetaapp="";
         puertosockect="3000";
 
       }
-
 
   if (produccion == 0) {
     codigoserv="125/";
@@ -303,15 +301,15 @@ localStorage.setItem('avatar','');
 // Option 1. Using one 'page:init' handler for all pages
 $$(document).on('page:init', function (e) {
   app.panel.close();
-  Cargar();
-   
 
+   
+Cargar();
    
  
 }); 
 $$(document).on('page:init', '.page[data-name="home"]', function (e) {
-      
-     
+     $(".btnsalir").attr('onclick','salir_app()');
+     $(".btniracarrito").attr('onclick','IraCarrito()');
      getValidacionUsuario().then(r => {
 
         var existe=r.existe;
@@ -323,7 +321,7 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
       
       CargarDatos();
   
-    
+   
   var pregunta=localStorage.getItem('pregunta');
 
 
@@ -476,7 +474,9 @@ $$(document).on('page:init','.page[data-name="disponibilidadfecha"]',function(e)
 
     detalleservicio(paqueteid);
      CargarCalendario();
-
+     $("#v_especialista").attr('onchange','ObtenerEspecialistaCosto()');
+     $("#v_horarios").attr('onchange','ObtenerEspecialistaHora()');
+     $(".btnagendarcita").attr('onclick','AgendarCita()');
 });
 
 $$(document).on('page:init','.page[data-name="disponibilidadespecialista"]',function(e)
@@ -488,5 +488,179 @@ $$(document).on('page:init','.page[data-name="disponibilidadespecialista"]',func
 
 });
 
+$$(document).on('page:init', '.page[data-name="resumenpago"]', function (e) {
+  
+ //$$(".regreso").attr('onclick','GoToPage("listadopagos")');
+ CalcularTotales(); 
+
+ localStorage.setItem('comisionmonto',0);
+ localStorage.setItem('comisionporcentaje',0);
+ localStorage.setItem('comision',0);
+ localStorage.setItem('impuestotal',0);
+ localStorage.setItem('subtotalsincomision',0);
+ localStorage.setItem('comisionnota',0);
+ localStorage.setItem('comisionpornota',0);
+ localStorage.setItem('tipocomisionpornota',0);
+ localStorage.setItem('campomonto',0);
+ localStorage.setItem('constripe',0);
+ localStorage.setItem('comisiontotal',0);
+  $("#btnpagarresumen").attr('disabled',true);
+  $$("#btnatras").attr('onclick','Atras()');
+  $$("#btnatras").css('display','none');
+
+ Cargartipopago(0) 
+ 
+ $$(".btnmonedero").attr('onclick','AbrirModalmonedero()');
+ $$(".btncupon").attr('onclick','AbrirModalcupon()');
+ 
+
+ $$("#requierefactura").attr('onchange','RequiereFactura()');
+  
+
+  //ObtenerDescuentosRelacionados();//manda a llamar calcular totales al finalizar los descuentos
+  
+//PintarlistaImagen();
+  $$("#tipopago").attr('onchange','CargarOpcionesTipopago()');
+  $(".divtransferencia").css('display','none');
+  $("#divagregartarjeta").css('display','none');
+  $("#divlistadotarjetas").css('display','none');
+
+  $$("#btnpagarresumen").attr('onclick','RealizarCargo()')
+});
+
+$$(document).on('page:init','.page[data-name="homeindex"]',function(e)
+{
+
+  MostrarAnuncios();
+ 
+  /*setTimeout(function () {
+
+      var id_user=localStorage.getItem('id_user');
+      var session=localStorage.getItem('session');
+      var idtipousuario=localStorage.getItem('idtipousuario');
+   
+if (session==1) {
+     
+  
+
+        getVistoAnuncio().then(r => {
+       
+          
+         if(r.visto == 0 && r.configuracion.mostraranuncios==1)
+          {  
+            app.views.main.router.navigate('/home/');
+
+            }else{
+           Cargarperfilfoto();
+             //resolve({ url: './pages/inicio2.html', })
+                if (id_user>0 && session==1) {
+
+                      var idcliente=localStorage.getItem('id_user');
+                       GuardarTokenBase(idcliente);
+
+                    if (idtipousuario==0) {
+                        app.views.main.router.navigate('/homeadmin/');
+
+                    }
+                    if (idtipousuario==3) {
+                        app.views.main.router.navigate('/home/');
+
+                    }
+                    if (idtipousuario==5) {
+                        app.views.main.router.navigate('/homecoach/');
+
+                    }
+                  }
+
+             
+            }
+        });
+
+    
+
+  }else{
+   
+      app.views.main.router.navigate('/');
+
+  }
+
+  }, 1000);*/
+
+});
 
 
+$$(document).on('page:init','.page[data-name="carrito"]',function(e)
+{
+
+  CargarCarrito();
+
+  $(".btnpagar").attr('onclick','IrAPago()');
+});
+
+$$(document).on('page:init','.page[data-name="listadocompras"]',function(e)
+{
+
+  ObtenerPagosPagados();
+ 
+
+  
+});
+
+
+
+$$(document).on('page:init','.page[data-name="forgotpassword"]',function(e)
+{
+  $$('#recuperarcontrase').attr('onclick','recuperar()');
+
+    phoneFormatter('v_email');
+ $("#v_email").attr('onblur','Cambiar2(this);');
+ $$('#v_email').attr('onfocus',"Cambiar(this)");
+ 
+});
+
+$$(document).on('page:init', '.page[data-name="verificacion"]', function (e) {
+
+ $$("#t1").focus();
+ $$('#t1').attr('onkeyup',"Siguiente('t1','t2')");
+ $$('#t2').attr('onkeyup',"Siguiente('t2','t3')");
+ $$('#t3').attr('onkeyup',"Siguiente('t3','t4')");
+ $$('#t4').attr('onkeyup',"Validarcaja('t4');VerificarToken1();CargarBoton();");
+ $$("#reenviotoken").attr('onclick',"ReenvioToken()");
+ $("#btncancelar1").attr("onclick","EliminarVariables()");
+
+});
+
+
+$$(document).on('page:init', '.page[data-name="cambiocontra"]', function (e) {
+
+ $$('#v_contra1').attr('onkeyup',"CoincidirContra('v_contra1','v_contra2');Aparecercruz('v_contra1','spanvisible','ojitoicono');AparecerBoton();");
+ $$('#span1').attr('onclick',"CambiarAtributoinputpass('v_contra1')"); 
+ $$('#v_contra2').attr('onkeyup',"CoincidirContra('v_contra1','v_contra2');Aparecercruz('v_contra2','spanvisible2','ojitoicono2');AparecerBoton();");
+ $$('#span2').attr('onclick',"CambiarAtributoinputpass2('v_contra2')");
+ $$('#btncambiocontrase').attr('onclick','Reestablecercontra()');
+ $(".spanvisible").attr('onclick',"LimpiarElemento('v_contra1')");
+ $(".spanvisible2").attr('onclick',"LimpiarElemento4('v_contra2')");
+ $("#btncancelar").attr("onclick","EliminarVariables()");
+ $$("#btncambiocontrase").css('display','none');
+
+ $("#v_contra1").attr('onblur','Cambiar2(this);QuitarEspacios(this);');
+ $$('#v_contra1').attr('onfocus',"Cambiar(this);");
+
+ $("#v_contra2").attr('onblur','Cambiar2(this);QuitarEspacios(this);');
+ $$('#v_contra2').attr('onfocus',"Cambiar(this)");
+
+ AbrirInfo();
+
+    $('.show-pass').on('click',function(){
+      $(this).toggleClass('active');
+      var passInput = $(this).parent().find('input');
+      var inputType = passInput.attr('type');
+      if( inputType == 'password'){
+        passInput.attr('type','text');
+      }else if(inputType == 'text'){
+        passInput.attr('type','password');
+      }
+    });
+
+
+});

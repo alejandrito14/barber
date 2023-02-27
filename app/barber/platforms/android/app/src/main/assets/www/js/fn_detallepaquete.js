@@ -127,7 +127,7 @@ function PintarDescripcion(paquete,grupos,opciones,imagenesdelpaquete,idpaquete)
 	$("#precio").text(paquete.precioventa);
 	$("#precioventa").text(paquete.precioventa);
 	$("#preciouni").text(paquete.precioventa);
-
+	localStorage.setItem('precio',paquete.precioventa);
 	if (paquete.precioventa==0) {
 		$(".precioriginal").css('display','none');
 	
@@ -1132,26 +1132,27 @@ function AgregarPaquete(idpaquete,promocion,opciones,texto,foto,nombre,cantidadp
 	  	var encontrado=0;
 	 if (productosLS==null || productosLS.length==0) {
 
-	  		guardarProductoLocalStorage(prod);
+	  		//guardarProductoLocalStorage(prod);
 
 	  		//alerta('','Producto agregado al carrito exitosamente');
 
 	//productos = obtenerProductosLocalStorage();
-
+		guardarProductoCarrito(prod);
 	}else{
 
 
 
-		localStorage.setItem('carrito', JSON.stringify(productosLS));
-   	    localStorage.setItem('carritocopia2',JSON.stringify(productosLS));
+		//localStorage.setItem('carrito', JSON.stringify(productosLS));
+   	    //localStorage.setItem('carritocopia2',JSON.stringify(productosLS));
 
+   	    guardarProductoCarrito(prod);
 
-		guardarProductoLocalStorage(prod);
+		//guardarProductoLocalStorage(prod);
 	  	//	alerta('','Producto agregado al carrito exitosamente');
 
 	}
 
-	if (promocion==1) {
+	/*if (promocion==1) {
 
 
 		GoToPage("promociones");
@@ -1159,9 +1160,9 @@ function AgregarPaquete(idpaquete,promocion,opciones,texto,foto,nombre,cantidadp
 
 	}else{
 
-	 GoToPage("detallecategoria");
+	 GoToPage("detalleproductoservicios");
 	}
-
+*/
 
 }
 
@@ -1200,6 +1201,38 @@ function guardarProductoLocalStorage(producto){
 
    // console.log(JSON.parse(localStorage.getItem('carrito')));
 
+
+
+}
+
+function guardarProductoCarrito(producto) {
+
+	var iduser=localStorage.getItem('id_user');
+	var idsucursal=localStorage.getItem('idsucursal');
+	var datos="iduser="+iduser+"&producto="+JSON.stringify(producto)+"&idsucursal="+idsucursal;
+	var pagina = "GuardarProductoCarrito.php";
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		async:false,
+		success: function(datos){
+
+			var respuesta=datos.respuesta;
+
+	 		GoToPage("carrito");
+
+			
+			//resolve(respuesta);
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
 
 
 }
@@ -2016,7 +2049,7 @@ function Contarcarrito() {
 	iduser=localStorage.getItem('id_user');
 
 /*	if (iduser!=0 && iduser!=null) {
-*/		ContarPedidospendientes(paddin,estatus);
+*/		//ContarPedidospendientes(paddin,estatus);
 	//}
 	
 }

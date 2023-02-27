@@ -15,8 +15,8 @@
     </div>
     <div class="page-content">
      <div class="block">
-       <div class="row">
-           <div class="nombrepaquete" style="margin: auto;color: black;font-weight: bold;font-size: 18px;"></div>
+       <div class="">
+           <div class="nombrepaquete" style="margin: auto;color: black;font-weight: bold;font-size: 18px;text-align: center;    margin-bottom: 1em;"></div>
        </div>
 
        <div id="demo-calendar" style="margin-left: 1em;margin-right: 1em;"></div>
@@ -25,21 +25,21 @@
 
        <div class="" style="margin: auto;">
          
-         <p style="color: black;font-weight: bold;font-size: 16px;text-align: center;">Opciones disponibles</p>
+         <p style="color: black;font-weight: bold;font-size: 16px;text-align: center;margin:1em;">Opciones disponibles</p>
        </div>
 
 
        <div class="row">
          <div class="col-100">
            
-            <div class="list inline-labels no-hairlines-md">
+            <div class="list inline-labels no-hairlines-md" style="margin-top: 1em;    margin-bottom: 0.5em;">
       <ul>
         <li class="item-content item-input">
          
           <div class="item-inner">
             <div class="item-title item-label">Horarios</div>
             <div class="item-input-wrap">
-              <input type="text" placeholder="Seleccionar horario">
+              <select name="" id="v_horarios"></select>
               <span class="input-clear-button"></span>
             </div>
           </div>
@@ -51,14 +51,14 @@
           <div class="item-inner">
             <div class="item-title item-label">Especialista</div>
             <div class="item-input-wrap">
-              <input type="text" placeholder="Seleccionar especialista">
+             <select name="" id="v_especialista"></select>
               <span class="input-clear-button"></span>
             </div>
           </div>
         </li>
 
 
-        <li class="item-content item-input">
+        <li class="item-content item-input liprecio">
           
           <div class="" style="margin: auto;">
             <p style="font-size: 18px;color:black;font-weight: bold;">Precio por servicio:</p>
@@ -71,7 +71,7 @@
        </div>
 
 
-        <button class="col button button-fill color-black">Agendar cita</button>
+        <button class=" button-large button button-fill color-black btnagendarcita" style="display: none;">Agendar cita</button>
     
      </div>
 

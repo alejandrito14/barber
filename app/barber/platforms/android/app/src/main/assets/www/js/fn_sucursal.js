@@ -47,10 +47,10 @@ function PintarDatosSucursal(respuesta,imagenes) {
 		html+=`<div class="swiper-wrapper">`;
 		for (var i = 0; i < imagenes.length; i++) {
 
-				imagen=urlimagenes+`sucursal/imagenes/`+codigoserv+respuesta.imagen;
+				imagen=urlimagenes+`sucursal/imagenes/`+codigoserv+imagenes[i].imagen;
 
 			html+=`
-					<div class="swiper-slide">
+					<div class="swiper-slide"  style="margin-right:0px!important;">
 						<div class="dz-media">
 							<img src="`+imagen+`" alt="">
 						</div>

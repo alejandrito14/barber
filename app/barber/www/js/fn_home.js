@@ -15,7 +15,7 @@ function ObtenerTableroAnuncios(estatus) {
 			$$(".cardswiper").html('');
 
 			var respuesta=datos.respuesta;
-			PintarTableroAnuncios(respuesta);
+			PintarTableroAnuncios2(respuesta);
 			//resolve(respuesta);
 			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;
@@ -95,6 +95,83 @@ function PintarTableroAnuncios(respuesta) {
 	}
 }
 
+function PintarTableroAnuncios2(respuesta) {
+	
+	if (respuesta.length>0) {
+		var html="";
+		html+=`<div class="swiper-wrapper">`;
+		for (var i = 0; i <respuesta.length; i++) {
+		imagen=urlimagenes+`tableroanuncios/imagenes/`+codigoserv+respuesta[i].imagen;
+
+			   var checked="";
+			if (respuesta[i].estatus==1) {
+
+				checked="checked";
+			}
+			html+=`
+				<div class="swiper-slide coverimg" >
+				<div class="seleccionador" style="position: absolute;right: 0;z-index:3;display:none;" > <label><input type="checkbox" class="" style="    margin-right: 1.4em;
+				    transform: scale(1.5);    height: 15px;width: 20px;" id="cambiopubli_`+respuesta[i].idtableroanuncios+`" onchange="CambioEstatusPublicidad(`+respuesta[i].idtableroanuncios+`)" `+checked+`>
+				     </label>
+				    </div>
+                 <a  class="card margin-bottom coverimg" style="display: contents;">
+                 <div class="card-content card-content-padding " style="padding-top:0;padding-bottom:0;    padding-right: 1.5em;">
+                 <div class="row">
+
+                	<div class="" style="padding: 0;margin: 0px auto;" >
+                        <img src="`+imagen+`" alt="" onclick="" style="width: 100%;border-radius: 10px;margin: 0;padding: 0px;"">
+                      </div>
+                      <div class="card-info">
+							<h5 class="title" style="margin:0;">
+								<a >`+respuesta[i].titulo+`
+								</a>
+							</h5>
+							
+						</div>
+
+               
+                   </div>
+                 </div>
+                </a>
+              </div>
+
+			`;
+		}
+
+		html+=`</div>`;
+
+		$$(".cardswiper").html(html);
+
+
+	if(localStorage.getItem('idtipousuario')==0){
+
+		var swiper3 = new Swiper(".cardswiper", {
+		    slidesPerView: "auto",
+		    spaceBetween: 0,
+		    pagination: false,
+		    
+		  });
+	}else{
+
+		var swiper3 = new Swiper(".cardswiper", {
+		    slidesPerView: "auto",
+		    spaceBetween: 0,
+		    pagination: false,
+		     autoplay: {
+		        delay: 2500,
+		        disableOnInteraction: false,
+		        },
+		  });
+	}
+
+			$(".divpublicidad").css('display','block');
+	
+	}else{
+
+		$(".divpublicidad").css('display','none');
+	}
+	
+}
 
 
 function ObtenerTableroCategorias(estatus) {
@@ -138,7 +215,7 @@ function PintarTableroCategorias(respuesta) {
 			html+=`
 				<div class="swiper-slide" style="width: 50%!important;">
 						<a  class="categories-bx">
-							<div class="icon-bx">
+							<div class="">
 								<img src="`+imagen+`" alt="" style="width:80%;">
 							</div>
 
@@ -214,18 +291,20 @@ function PintarTableroSucursal(respuesta) {
     position: absolute;
     right: 0;margin-right: 0.5em;margin-top: 0.3em;">favorite_border</span>
 							<span  class="">
-							<img src="`+imagen+`" alt="" style="height: 100px;width: 100%;">
+							<img src="`+imagen+`" alt="" style="height: 100px;width: 100%;border-radius: 10px;">
 							</span>
 						</div>
 						<div class="card-info">
 							<div class="row" style="    margin-top: 2em;">
 								<div class="col-70">
-									<span class="title" style="font-weight:bold;color:black;">
+								<p>
+									<p class="title" style="font-weight:bold;color:black;margin:0;">
 										<a >`+respuesta[i].titulo+`
 										</a>
-									</span>
-									<p class="location">
-									`+respuesta[i].descripcion+`</p>
+									</p>
+									<span class="location">
+									`+respuesta[i].descripcion+`</span>
+									</p>
 									<h6 class="text-primary vacancy">
 									</h6>
 								</div>
@@ -235,7 +314,7 @@ function PintarTableroSucursal(respuesta) {
 							    position: absolute;
 							    right: 0;
 							    margin-right: 0.5em;
-							    margin-top: 0.3em;">
+							    margin-top: 1em;">
 									<span class="material-icons-outlined" style="font-size:28px;line-height: 1;">
 									location_on
 									</span>
@@ -270,7 +349,7 @@ function PintarTableroSucursal(respuesta) {
 function ObtenerTableroCitas(estatus) {
 
 	//return new Promise((resolve, reject) => {
- 	var idusuarios=1;
+ 	var idusuarios=localStorage.getItem('id_user');
 	var datos="estatus="+estatus+"&idusuarios="+idusuarios;
 	var pagina = "ObtenerTableroCitas.php";
 	$.ajax({
@@ -318,14 +397,14 @@ function PintarTableroCitas(respuesta) {
 						<a >
 						`+respuesta[i].titulo+`-`+respuesta[i].descripcion+`</a>
 						</h6>
-					  <div class="list-info">
-						<p>`+respuesta[i].fechacita+` `+respuesta[i].horacita+`hrs.</p>
+					  <div class="">
+						<p style="margin:0;">`+respuesta[i].fechacita+` `+respuesta[i].horacita+`hrs.</p>
+				
+						<p style="margin:0;">`+respuesta[i].nombreespecialista+`</p>
+
 						</div>
 						<div class="item-footer">
-							<a  class="item-tag">
-							</a>
-							<h5 class="item-price text-primary">
-							</h5>
+
 						</div>
 					</div>
 					<a  class="bookmark-btn active">
@@ -487,7 +566,7 @@ function PintarCategorias(respuesta) {
 
 			html+=`
 				<div class="swiper-slide">
-						<div class="card card-bx card-featured" style="width: 50%;height:100px;">
+						<div class="card card-bx card-featured listacategorias" style="width: 50%;height:100px;" id="cat_`+respuesta[i].idcategorias+`" onclick="ElegirCategoria(`+respuesta[i].idcategorias+`)">
 							<div class="icon-bx">
 								<img src="`+imagen+`" alt="" style="width:100%;">
 							</div>
@@ -515,6 +594,12 @@ function PintarCategorias(respuesta) {
 		  });
 }
 
+function ElegirCategoria(idcategoria) {
+
+	$(".listacategorias").removeClass('bordecategoria');
+	$("#cat_"+idcategoria).addClass('bordecategoria');
+	localStorage.setItem('idcategoriaelegida',idcategoria);
+}
 
 function DetallePromocion(idpublicidad) {
 	var datos="idpublicidad="+idpublicidad;
@@ -688,8 +773,8 @@ function PintarIntereses(respuesta) {
 	if (respuesta.length>0) {
 		for (var i = 0; i < respuesta.length; i++) {
 			html+=`
-				<div class="col-30" style="
-   						 margin-top: 1em;border-radius: 10px;color:white;
+				<div class="col-100" style="
+   						 margin-top: .5em;margin-bottom:.5em; border-radius: 10px;color:white;
     background: #59c158;" onclick="GuardarInteres(`+respuesta[i].idintereses+`)" id="interes_`+respuesta[i].idintereses+`">
 					<p style="    text-align: center;
     margin: 3px;word-break: break-all;line-height:2;">
@@ -760,6 +845,7 @@ function CargarDatos() {
       ObtenerTableroSucursal(1);
       ObtenerTableroCitas(1);
       Obtenerpublicidad(1);
+      ObtenerDetalleEmpresa();
 
 
      var nombre= localStorage.getItem("nombre");
@@ -818,4 +904,8 @@ function Cargarperfilfoto() {
 function DetalleSucursal(idsucursal) {
 	localStorage.setItem('idsucursal',idsucursal);
 	GoToPage('detallesucursal');
+}
+
+function IraCarrito() {
+	GoToPage('carrito');
 }

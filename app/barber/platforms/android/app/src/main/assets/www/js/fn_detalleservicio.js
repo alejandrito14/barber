@@ -74,18 +74,18 @@ function PintarDescripcionServicio(paquete,grupos,opciones,imagenesdelpaquete,id
 		paquete.precioventa=paquete.preciofijo;
 
 	}
-	$("#precio").text(paquete.precioventa);
+	/*$("#precio").text(paquete.precioventa);
 	$("#precioventa").text(paquete.precioventa);
 	$("#preciouni").text(paquete.precioventa);
-
+*/
 	if (paquete.precioventa==0) {
 		$(".precioriginal").css('display','none');
 	
 	}
-	$(".precioriginal").text('$'+formato_numero(paquete.precioventa,2,'.',','));
+	/*$(".precioriginal").text('$'+formato_numero(paquete.precioventa,2,'.',','));
 
 	$(".preciopaquete").text('$'+paquete.precioventa);
-
+*/
 
 	$("#agregaracesta").text('AGREGAR $'+paquete.precioventa);
 

@@ -77,17 +77,18 @@ html+=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;ba
                                                  <div class="col-100 fotoimagen">
                                                     <div class="  margin-bottom" style="margin-right: 1em;
                                               margin-left: 1em;">
-                                                        <div class="card-content ">
+                                                        <div class="card card-bx card-featured ">
                                                          <img src="" alt="" style="    width: 100%;height: 70%;border-radius: 10px;" class="imagenempresa" />
+                                                     <div class="descripcionempresa" style="text-align: center;font-size: 30px;">
+
+                                               </div>
                                                         </div>
                                                     </div>
                                                 </div> 
                                            
                                             </div>
                                             <div class="row">
-                                               <div class="descripcionempresa">
-
-                                               </div>
+         
                                                  
 
                                             </div>

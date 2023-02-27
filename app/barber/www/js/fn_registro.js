@@ -823,7 +823,7 @@ function phoneFormatter(element) {
 
 
 
-	$('#'+element).attr({ placeholder : '(___) ___-____' }); 
+	//$('#'+element).attr({ placeholder : '(___) ___-____' }); 
 
 	$('#'+element).on('input', function() { 
 

@@ -552,8 +552,8 @@ function CalcularTotales() {
   var comisionpornota=0;
   var tipocomisionpornota=localStorage.getItem('tipocomisionpornota');
    $(".divtipopago").css('display','block');
-
-
+   var descuentocupon=0;
+   var totaldescuentos=0;
 	var sumatotal=0;
 	//for (var i = 0; i <obtenerpagos.length; i++) {
 		promesa=ObtenerTotalCarrito();
@@ -562,6 +562,8 @@ function CalcularTotales() {
   promesa.then(r => {
 
     sumatotal=r;
+
+ 
 	var monedero=localStorage.getItem('monedero');
 	var descuentocupon=localStorage.getItem('descuentocupon');
 	
@@ -583,7 +585,7 @@ function CalcularTotales() {
   if (localStorage.getItem('comisionmonto')!=0 ){
         comisionmonto=localStorage.getItem('comisionmonto');
 
-
+       
       }
 
       if (localStorage.getItem('comisionporcentaje')!=0 ){
@@ -645,11 +647,14 @@ function CalcularTotales() {
         $(".divcomision").css('display','block');
         $(".lblcomision").text(formato_numero(comision,2,'.',','));
         localStorage.setItem('comisiontotal',comision);
+
         sumaconcomision=parseFloat(sumaconcomision)+parseFloat(comision);
       }
 
     localStorage.setItem('subtotalsincomision',resta.toFixed(2));
 	  localStorage.setItem('sumatotalapagar',sumaconcomision.toFixed(2));
+   
+
 	  $(".lblresumen").text(formato_numero(resta,2,'.',','));
     $(".lbltotal").text(formato_numero(sumaconcomision,2,'.',','));
     var suma=localStorage.getItem('sumatotalapagar');

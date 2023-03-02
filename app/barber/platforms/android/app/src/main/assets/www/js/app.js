@@ -303,25 +303,25 @@ $$(document).on('page:init', function (e) {
   app.panel.close();
 
    
-Cargar();
+//Cargar();
    
  
 }); 
 $$(document).on('page:init', '.page[data-name="home"]', function (e) {
      $(".btnsalir").attr('onclick','salir_app()');
      $(".btniracarrito").attr('onclick','IraCarrito()');
-     getValidacionUsuario().then(r => {
+     /*getValidacionUsuario().then(r => {
 
         var existe=r.existe;
       
 
-  if (existe==0) {
+  if (existe==0) {*/
 
       //Cargarperfilfoto();
       
       CargarDatos();
   
-   
+ /*  
   var pregunta=localStorage.getItem('pregunta');
 
 
@@ -370,7 +370,7 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
          }
 
 
-       });
+       });*/
     
 
 });
@@ -484,15 +484,18 @@ $$(document).on('page:init','.page[data-name="disponibilidadespecialista"]',func
         var paqueteid=localStorage.getItem('idpaquete');
 
     detalleservicio(paqueteid);
-     CargarCalendario();
+    CargarCalendario();
+    CargarEspecialista();
+
+    $("#v_especialista").attr('onchange','ObtenerEspecialistaCosto();ObtenerFechasDisponibles();');
 
 });
 
 $$(document).on('page:init', '.page[data-name="resumenpago"]', function (e) {
   
  //$$(".regreso").attr('onclick','GoToPage("listadopagos")');
- CalcularTotales(); 
-
+ 
+  localStorage.setItem('descuentocupon',0);
  localStorage.setItem('comisionmonto',0);
  localStorage.setItem('comisionporcentaje',0);
  localStorage.setItem('comision',0);
@@ -504,11 +507,12 @@ $$(document).on('page:init', '.page[data-name="resumenpago"]', function (e) {
  localStorage.setItem('campomonto',0);
  localStorage.setItem('constripe',0);
  localStorage.setItem('comisiontotal',0);
+ localStorage.setItem('monedero',0);
   $("#btnpagarresumen").attr('disabled',true);
   $$("#btnatras").attr('onclick','Atras()');
   $$("#btnatras").css('display','none');
-
- Cargartipopago(0) 
+  CalcularTotales(); 
+  Cargartipopago(0); 
  
  $$(".btnmonedero").attr('onclick','AbrirModalmonedero()');
  $$(".btncupon").attr('onclick','AbrirModalcupon()');
@@ -595,6 +599,9 @@ $$(document).on('page:init','.page[data-name="carrito"]',function(e)
   CargarCarrito();
 
   $(".btnpagar").attr('onclick','IrAPago()');
+  $(".btnagregarmas").attr('onclick','Agregarmasproducto()');
+
+  
 });
 
 $$(document).on('page:init','.page[data-name="listadocompras"]',function(e)

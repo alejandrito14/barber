@@ -394,14 +394,15 @@ function PintarTableroCitas(respuesta) {
 					</div>
 					<div class="card-info">
 						<h6 class="item-title">
-						<a >
-						`+respuesta[i].titulo+`-`+respuesta[i].descripcion+`</a>
+						<a style="color:#1870bc;">
+							<p style="margin:0;">`+respuesta[i].fechacita+` `+respuesta[i].horacita+`hrs.</p>
+						</a>
+
 						</h6>
 					  <div class="">
-						<p style="margin:0;">`+respuesta[i].fechacita+` `+respuesta[i].horacita+`hrs.</p>
 				
 						<p style="margin:0;">`+respuesta[i].nombreespecialista+`</p>
-
+						<p style="margin:0;">`+respuesta[i].titulo+`-`+respuesta[i].descripcion+`</a></p>
 						</div>
 						<div class="item-footer">
 
@@ -846,6 +847,7 @@ function CargarDatos() {
       ObtenerTableroCitas(1);
       Obtenerpublicidad(1);
       ObtenerDetalleEmpresa();
+    PintarCantidadcarrito();
 
 
      var nombre= localStorage.getItem("nombre");

@@ -395,7 +395,7 @@ function PintarImagenesPaquete2(paquete,imagenesdelpaquete) {
                      			var html3="";
 
                      			obtener1= $("#contenidopaquete2_"+imagenesdelpaquete[i].idpaquete).html();
-                     				console.log(obtener1);
+                     				
                      				urlimg=urlimagenes+`paquetes/imagenespaquete/`+codigoserv+imagenesdelpaquete[i].imagen;
 
                      				html3+=`<div class="swiper-slide">`;

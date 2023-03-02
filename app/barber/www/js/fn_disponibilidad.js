@@ -139,7 +139,7 @@ function PintarIntervalos(respuesta) {
 
  $("#v_horarios").html(html);
 
- ObtenerEspecialistaHora();
+ //ObtenerEspecialistaHora();
 }
 
 function ObtenerEspecialistaHora() {
@@ -179,6 +179,10 @@ function PintarEspecialista(respuesta) {
       respuesta[i]
       html+=`<option value="`+respuesta[i].idespecialista+`">`+respuesta[i].nombre+` `+respuesta[i].paterno+`</option>`;
     }
+  }else{
+    html+=`<option value="0">No se encontraron especialistas</option>`;
+
+
   }
 
   $("#v_especialista").html(html);
@@ -326,6 +330,92 @@ function ObtenerEspecialistaCosto() {
     $(".btnagendarcita").css('display','block');
 
       
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+    });
+}
+
+function CargarEspecialista() {
+  var paqueteid=localStorage.getItem('idpaquete');
+  var sucursal=localStorage.getItem('idsucursal');
+  var datos="idpaquete="+paqueteid+"&idsucursal="+sucursal;
+
+    var pagina = "ObtenerEspecialistaPaqueteSucursal.php";
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+      
+      var respuesta=resp.especialista;
+      PintarEspecialista(respuesta);
+      //resolve(respuesta);
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+    });
+}
+var arraymes=['01','02','03','04','05','06','07','08','09','10','11','12'];
+function AbrirCalendario() {
+     let calendarDefault;
+   
+  calendarDefault = app.calendar.create({
+        inputEl: '#demo-calendar-default',
+         weekHeader: true,
+        firstDay:0,
+
+         on: {
+            opened: function (e) {
+              console.log(e);
+              
+              var mes=arraymes[e.currentMonth];
+              var anio=e.currentYear;
+              ObtenerFechasCalendario(mes,anio);
+            },
+
+             close: function (e) {
+            calendarDefault.destroy();
+              
+            }
+          }
+      });
+}
+
+function ObtenerFechasDisponibles() {
+
+      $("#demo-calendar-default").attr('onfocus','AbrirCalendario()');
+
+
+}
+
+function ObtenerFechasCalendario(mes,anio) {
+  var paqueteid=localStorage.getItem('idpaquete');
+  var sucursal=localStorage.getItem('idsucursal');
+  var idespecialista=$("#v_especialista").val();
+  var datos="idpaquete="+paqueteid+"&idsucursal="+sucursal+"&idespecialista="+idespecialista+"&mes="+mes+"&anio="+anio;
+
+  var pagina = "ObtenerFechasCalendario.php";
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+      
+      
+      //resolve(respuesta);
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;
             if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 

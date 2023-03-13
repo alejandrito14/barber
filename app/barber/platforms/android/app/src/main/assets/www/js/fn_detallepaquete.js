@@ -3240,7 +3240,7 @@ function PintarImagenesPaquete(paquete,imagenesdelpaquete) {
                           <div class="demo-facebook-avatar">
                         </div>
                         </div>
-                        <div class="card-content"> `;
+                        <div class="card-content" style="margin-right: 1em;margin-left: 1em;"> `;
 
                         if (paquete.foto!='' && paquete.foto!=null) {
                         	imagen=urlimagenes+`paquetes/imagenespaquete/`+codigoserv+paquete.foto;

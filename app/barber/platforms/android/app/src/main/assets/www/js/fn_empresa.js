@@ -42,12 +42,22 @@ function AbrirModalDescripcion() {
 	
 
       var html="";  
-html+=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;background: none;">
-            
+html+=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;background: white;">
+            <div class="toolbar" style="background: white;">
+              <div class="toolbar-inner">
+                <div class="left"></div>
+                <div class="right">
+                  <a class="link sheet-close"></a>
+                </div>
+              </div>
+            </div>
             <div class="sheet-modal-inner" style="background: white;border-top-left-radius: 20px;border-top-right-radius:20px; ">
-              <div class="iconocerrar link sheet-close" style="z-index:100;">
-                                        <span class="material-icons-outlined" style="    font-size: 30px;">cancel</span>
-                                     </div>
+               <div class="iconocerrar link sheet-close" style="z-index:10;">
+                          <span style="font-size: 30px;" class="material-icons-outlined">
+                                    cancel
+                          </span>
+                       </div>
+              <div class="page-content" style="height: 100%;">
 
               <div class="" style="height: 100%;">
                    <div class="row">
@@ -67,19 +77,19 @@ html+=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;ba
                              <div class="" style="position: absolute;top:2em;width: 100%;">
                                 
                                   <div class="">
-                                      <div class="block" style="margin-right:1em;margin-left:1em;">
+                                      <div class="" style="margin-right:1em;margin-left:1em;">
 
                                        `;
                 
                                     html+=`
                                            
-                                           <div class="row" style="margin-bottom:1em;margin-top:3em;">
+                                           <div class="row" style="margin-bottom:1em;margin-top:0em;">
                                                  <div class="col-100 fotoimagen">
                                                     <div class="  margin-bottom" style="margin-right: 1em;
                                               margin-left: 1em;">
-                                                        <div class="card card-bx card-featured ">
+                                                        <div class="">
                                                          <img src="" alt="" style="    width: 100%;height: 70%;border-radius: 10px;" class="imagenempresa" />
-                                                     <div class="descripcionempresa" style="text-align: center;font-size: 30px;">
+                                                     <div class="descripcionempresa" style="font-size: 14px;text-align: justify;">
 
                                                </div>
                                                         </div>

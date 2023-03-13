@@ -9,7 +9,10 @@ class Interes
 
 		public function ObtenerInteres()
 		{
-			$sql = "SELECT *FROM interesespersonales WHERE estatus=1";
+			$sql = "SELECT *FROM interesespersonales WHERE estatus=1
+			ORDER BY interes asc
+			
+			";
 
 
 			$resp = $this->db->consulta($sql);
@@ -33,6 +36,7 @@ class Interes
 		public function GuardarInteresUsuario()
 		{
 			$sql="INSERT INTO usuarios_interesespersonales( idusuarios, idintereses ) VALUES ('$this->idusuarios','$this->idinteres')";
+			
 			$resp = $this->db->consulta($sql);
 
 		}

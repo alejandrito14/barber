@@ -656,24 +656,7 @@ public function obtenerServiciosAsignadosPendientes()
 	}
 
 
-	public function ActualizarConsecutivo()
-	{
-
-		 $sql="SELECT *FROM pagina_configuracion";
-		 $resp = $this->db->consulta($sql);
-		 $datos=$this->db->fetch_assoc($resp);
-
-
-		 $val=$datos['contadorfolio'];
-		 $valor=$val+1;
-
-		$sql="UPDATE pagina_configuracion SET contadorfolio='$valor'";
-
-
-		 $resp = $this->db->consulta($sql);
-		return $val;
-		
-	}
+	
 
 	
 

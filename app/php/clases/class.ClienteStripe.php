@@ -102,7 +102,7 @@ class ClienteStripe
 	{
 		$query = "SELECT *FROM intentospagosfallidos WHERE DATE(fecha)=DATE('$this->fechaactual') AND 
 			digitostarjeta='$this->lastcard' ";
-
+		
 		
 		$resp = $this->db->consulta($query);
 		$cont = $this->db->num_rows($resp);

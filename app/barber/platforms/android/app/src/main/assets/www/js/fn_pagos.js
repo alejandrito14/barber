@@ -1040,7 +1040,7 @@ function CargarOpcionesTipopago() {
 
             html+=`
             	<div id="habilitarfoto" style="display: block;">
-      <div class="subdivisiones" style="margin-top: 1.5em" ><span style="margin-top: .5em;margin-left: .5em;">Comprobante</span></div>
+      <div class="subdivisiones" style="margin-top: 1.5em" ><span style="margin-top: .5em;margin-left: 1em;">Comprobante</span></div>
 
            <div class="" style="    margin-right: 1em;
     margin-left: 1em;">

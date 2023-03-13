@@ -44,11 +44,11 @@ function PintarProductos(respuesta) {
 			html+=`
 
 				 <div class="tarjeta" style="width:50%;" id="tarjeta_`+respuesta[i].idpaquete+`">
-		          <div class="card demo-card-header-pic">`;
+		          <div class="card demo-card-header-pic" style="border-radius: 10px;">`;
 		           html+=` <a onclick="PaqueteFavorito(`+respuesta[i].idpaquete+`,`+respuesta[i].favorita+`)" class="link" style="z-index: 1000;position: absolute;right: 0;margin: 1em;">`;
 			        	
 			        
-						 favorito=`<span class="material-icons-outlined ">favorite_border</span>`;
+						 favorito=`<span class="material-icons-outlined " style="color:gray;">favorite_border</span>`;
                         if (respuesta[i].favorita==1) {
 
                         favorito=`<span class="material-icons-outlined colorred">favorite</span>`;
@@ -61,8 +61,8 @@ function PintarProductos(respuesta) {
 
 			      	
 
-		        html+=`  <div style="background-image:url(`+imagen+`)" onclick="`+funcion+`"
-		          class="card-header align-items-flex-end" style="height: 20vw!important;"></div>
+		        html+=`  <div style="background-image:url(`+imagen+`);border-radius: 10px 10px 0px 0px;" onclick="`+funcion+`"
+		          class="card-header align-items-flex-end"></div>
 
 		        <div class="card-footer" style="justify-content: center;
     display: flex;"><p style="margin:0px;text-align:center;">`+respuesta[i].nombrepaquete;

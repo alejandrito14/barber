@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "524919899227",
-    "project_id": "barber-129e5",
-    "storage_bucket": "barber-129e5.appspot.com"
+    "project_number": "637238338697",
+    "project_id": "inversa-1945c",
+    "storage_bucket": "inversa-1945c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:524919899227:android:104fd92289fd1a479d2b7e",
+        "mobilesdk_app_id": "1:637238338697:android:a8457519b1bc52924e5258",
         "android_client_info": {
-          "package_name": "com.barber.app"
+          "package_name": "com.inversa.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "524919899227-kp1anfc9veqs7dtjjvoladupe5dg343i.apps.googleusercontent.com",
+          "client_id": "637238338697-ot0bcompkkefd8e1o2dmm7pdo8iecio7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDnoy4uIOefETukCwJivmBEYQXbmgWx55k"
+          "current_key": "AIzaSyBRnjrktlvufZTq8pZ4qgk2hRuij1pwgTo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "524919899227-kp1anfc9veqs7dtjjvoladupe5dg343i.apps.googleusercontent.com",
+              "client_id": "637238338697-ot0bcompkkefd8e1o2dmm7pdo8iecio7.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

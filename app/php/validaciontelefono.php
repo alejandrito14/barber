@@ -73,7 +73,7 @@ try
         $sms->setLogin('jozama@hotmail.com');
         $sms->setPassword('jozama78');
         $sDestination = '52' . $lo->celular;
-       // $response     = $sms->sendSMS($sDestination, $sMessage);
+        $response     = $sms->sendSMS($sDestination, $sMessage);
 
     }
 

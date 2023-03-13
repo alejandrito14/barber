@@ -46,9 +46,9 @@ try
     $descuentosmembresia=array();
     if ($resultado[0]->idpagostripe!=0) {
 
-    	$idpagostripe=$resultado[0]->idpagostripe;
-    	$lo->idpagostripe=$idpagostripe;
- 	    $obtenerpagosstripe=$lo->ObtenerPagosStripe();
+    	/*$idpagostripe=$resultado[0]->idpagostripe;
+    	$lo->idpagostripe=$idpagostripe;*/
+ 	     $obtenerpagosstripe=$lo->ObtenerdescripcionNota();
 
 
  	  
@@ -73,17 +73,17 @@ try
     
       for ($i=0; $i < count($obtenerpagosstripe); $i++) { 
             $pagos->idpago=$obtenerpagosstripe[$i]->idpago;
-            $pagosdescuentos=$pagos->ObtenerdescuentosPagos();
+            /*$pagosdescuentos=$pagos->ObtenerdescuentosPagos();
 
-        $pagos->descuentos=array();
-            if (count($pagosdescuentos)>0) {
+        $pagos->descuentos=array();*/
+         /*   if (count($pagosdescuentos)>0) {
                 $pagos->descuentos=$pagosdescuentos;
                         array_push($descuentos,$pagosdescuentos);
 
-            }
+            }*/
 
 
-            $pagosdescuentomembresia=$pagos->Obtenerdescuentosmembresia();
+          /*  $pagosdescuentomembresia=$pagos->Obtenerdescuentosmembresia();
 
 
             $pagos->descuentosmembresia=array();
@@ -92,7 +92,7 @@ try
                 $pagos->descuentosmembresia=$pagosdescuentomembresia;
             array_push($descuentosmembresia, $pagosdescuentomembresia);
 
-            }
+            }*/
 
         }
     }

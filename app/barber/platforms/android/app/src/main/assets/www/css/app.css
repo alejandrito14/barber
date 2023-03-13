@@ -743,7 +743,7 @@ code {
     
 .divpaquetedetalle{
 
-       background: #C7AA6A;
+    background: #C7AA6A;
     color: #fff;
     height: 40px;
     line-height: 40px;
@@ -753,6 +753,8 @@ code {
     /* padding: .1em; */
     text-align: center;
     float: left;
+
+    margin-left: 2em;
 
 }
 
@@ -817,10 +819,11 @@ code {
     width: 80%;
 }
 .iconocerrar{
-   position: absolute;
+  position: absolute;
     left: 10px;
-    top: 10px;
+    top: 0;
     padding-bottom: 1em;
+    
     font-size: 28px;
 }
 .button{
@@ -845,4 +848,10 @@ code {
 }
 .bordecategoria{
   border: 4px solid #C7AA6A;
+}
+.titulomodal{
+      font-size: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
 }

@@ -20,7 +20,7 @@ var app = new Framework7({
   theme,
   view : {
 	//pushState: true,
-	browserHistory: true,
+	//browserHistory: true,
   },
   // store.js,
   store: store,
@@ -409,7 +409,22 @@ $$(document).on('page:init', '.page[data-name="colocartoken"]', function (e) {
 $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
   $$('#btncontinuar').attr('onclick','Registrar()')
 
-    
+$$('#v_nombre').attr('onfocus',"Cambiar(this)");
+$$('#v_nombre').attr('onblur',"Cambiar2(this);QuitarEspacios(this);");
+
+$$('#v_paterno').attr('onfocus',"Cambiar(this)");
+$$('#v_paterno').attr('onblur',"Cambiar2(this);QuitarEspacios(this);");
+
+$$('#v_materno').attr('onfocus',"Cambiar(this)");
+$$('#v_materno').attr('onblur',"Cambiar2(this);QuitarEspacios(this);");
+
+$$('#v_fecha').attr('onfocus',"Cambiar(this)");
+$$('#v_fecha').attr('onblur',"Cambiar2(this);QuitarEspacios(this);");
+
+$$('#v_email').attr('onfocus',"Cambiar(this)");
+$$('#v_email').attr('onblur',"Cambiar2(this);QuitarEspacios(this);");
+
+
 });
 
 $$(document).on('page:init', '.page[data-name="intereses"]', function (e) {
@@ -424,7 +439,7 @@ $$(document).on('page:init', '.page[data-name="login"]', function (e) {
 
   $$('#btnlogin').attr('onclick','validar_login()');
 
-    
+  $$('#btnregresar').attr('onclick','RegresarLanding()'); 
 });
 
 $$(document).on('page:init', '.page[data-name="detallesucursal"]', function (e) {
@@ -608,6 +623,15 @@ $$(document).on('page:init','.page[data-name="listadocompras"]',function(e)
 {
 
   ObtenerPagosPagados();
+ 
+
+  
+});
+
+$$(document).on('page:init','.page[data-name="detallepago"]',function(e)
+{
+
+  Pintardetallepago();
  
 
   

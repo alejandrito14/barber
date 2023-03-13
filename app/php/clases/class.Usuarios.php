@@ -214,7 +214,7 @@ class Usuarios
     {
         $r ;
         $sql_cliente = "SELECT * FROM usuarios WHERE celular = '$this->celular' AND email is not null and usuario is not null and email!='' and usuario!='' and clave!='' ";
-
+       
         $result_cliente = $this->db->consulta($sql_cliente);
         $result_cliente_row = $this->db->fetch_assoc($result_cliente);
         $result_cliente_row_num = $this->db->num_rows($result_cliente);

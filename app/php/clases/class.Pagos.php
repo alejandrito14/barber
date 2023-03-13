@@ -299,29 +299,6 @@ class Pagos
 		}
 
 
-	public function ListadoNotaspagospagados()
-		{
-			$sql = "SELECT *FROM
-					notapago		
-			    	WHERE notapago.idusuario  
-			    	IN($this->idusuarios) AND estatus IN(0,1) ORDER BY idnotapago DESC";
-			$resp = $this->db->consulta($sql);
-			$cont = $this->db->num_rows($resp);
-
-
-			$array=array();
-			$contador=0;
-			if ($cont>0) {
-
-				while ($objeto=$this->db->fetch_object($resp)) {
-
-					$array[$contador]=$objeto;
-					$contador++;
-				} 
-			}
-			return $array;
-		}
-
 
 		public function ObtenerPagosServicio()
 		{

@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>452739120046-19bi02bbe23qblus7p89fsdot3ocogh0.apps.googleusercontent.com</string>
+	<string>637238338697-qoc8hggk42ojtded6toegrjrbtpvtoas.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.452739120046-19bi02bbe23qblus7p89fsdot3ocogh0</string>
+	<string>com.googleusercontent.apps.637238338697-qoc8hggk42ojtded6toegrjrbtpvtoas</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCTYD9lluW4C05m7p1OiWAloDUV34VLTYc</string>
+	<string>AIzaSyC77BAw_kHgjaWuB7FrZIcKvsTbnWwQJ4U</string>
 	<key>GCM_SENDER_ID</key>
-	<string>452739120046</string>
+	<string>637238338697</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.woolis.app</string>
+	<string>com.inversa.app</string>
 	<key>PROJECT_ID</key>
-	<string>woolis-6c0ed</string>
+	<string>inversa-1945c</string>
 	<key>STORAGE_BUCKET</key>
-	<string>woolis-6c0ed.appspot.com</string>
+	<string>inversa-1945c.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:452739120046:ios:473256060c5db0242ba63f</string>
+	<string>1:637238338697:ios:2ed43423404f00134e5258</string>
 </dict>
 </plist>

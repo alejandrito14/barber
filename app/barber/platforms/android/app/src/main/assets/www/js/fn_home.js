@@ -1,4 +1,4 @@
-
+var dynamicSheet1="";
 function ObtenerTableroAnuncios(estatus) {
 
 	//return new Promise((resolve, reject) => {
@@ -386,7 +386,7 @@ function PintarTableroCitas(respuesta) {
 
 			html+=`
 			<li class="col-100 medium-50">
-				<div class="card-bx job-card">
+				<div class="card-bx job-card" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">
 					<div class="card-media">
 						<a >
 						<img src="`+imagen+`" alt="">
@@ -394,9 +394,12 @@ function PintarTableroCitas(respuesta) {
 					</div>
 					<div class="card-info">
 						<h6 class="item-title">
+						<p style="margin:0;color:#d2cfc7;" >`+respuesta[i].anio+` </p>
 						<a style="color:#1870bc;">
-							<p style="margin:0;">`+respuesta[i].fechacita+` `+respuesta[i].horacita+`hrs.</p>
+							<p style="margin:0;">`+respuesta[i].fechaformato+` </p>
 						</a>
+
+						<p style="color: #2b952a;font-size: 18px;margin:0;">`+respuesta[i].horacita+`hrs.</p>
 
 						</h6>
 					  <div class="">
@@ -437,7 +440,7 @@ function Obtenerpublicidad(estatus){
 		success: function(datos){
 
 			var respuesta=datos.respuesta;
-			Pintarpublicidad(respuesta);
+			Pintarpublicidad2(respuesta);
 
 			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;
@@ -525,6 +528,79 @@ function Pintarpublicidad(respuesta) {
 
 }
 
+function Pintarpublicidad2(respuesta) {
+	if (respuesta.length>0) {
+		var html="";
+		html+=`<div class="swiper-wrapper">`;
+		for (var i = 0; i <respuesta.length; i++) {
+		imagen=urlimagenes+`publicidad/imagenes/`+codigoserv+respuesta[i].imagen;
+
+			   var checked="";
+			if (respuesta[i].estatus==1) {
+
+				checked="checked";
+			}
+			html+=`
+				<div class="swiper-slide coverimg" >
+				<div class="seleccionador" style="position: absolute;right: 0;z-index:3;display:none;" > <label><input type="checkbox" class="" style="    margin-right: 1.4em;
+				    transform: scale(1.5);    height: 15px;width: 20px;" id="cambiopubli_`+respuesta[i].idpublicidad+`" onchange="CambioEstatusPublicidad(`+respuesta[i].idpublicidad+`)" `+checked+`>
+				     </label>
+				    </div>
+                 <a  class="card margin-bottom coverimg" style="display: contents;">
+                 <div class="card-content  " style="padding-top:0;padding-bottom:0; ">
+                 <div class="row">
+
+                	<div class="" style="padding: 0;margin: 0px auto;" >
+                        <img src="`+imagen+`" alt="" onclick="" style="width: 100%;border-radius: 10px;margin: 0;padding: 0px;"">
+                      </div>
+                      <div class="card-info">
+							
+							
+						</div>
+
+               
+                   </div>
+                 </div>
+                </a>
+              </div>
+
+			`;
+		}
+
+		html+=`</div>`;
+
+		$$(".cardpublicidad").html(html);
+
+
+	if(localStorage.getItem('idtipousuario')==0){
+
+		var swiper4 = new Swiper(".cardpublicidad", {
+		    slidesPerView: "auto",
+		    spaceBetween: 0,
+		    pagination: false,
+		    
+		  });
+	}else{
+
+		var swiper4 = new Swiper(".cardpublicidad", {
+		    slidesPerView: "auto",
+		    spaceBetween: 0,
+		    pagination: false,
+		     autoplay: {
+		        delay: 2500,
+		        disableOnInteraction: false,
+		        },
+		  });
+	}
+
+			$(".divpublicidad").css('display','block');
+	
+	}else{
+
+		$(".divpublicidad").css('display','none');
+	}
+
+}
 
 
 function ObtenerCategorias(estatus) {
@@ -641,7 +717,9 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
             </div>
             <div class="sheet-modal-inner" style="background: white;border-top-left-radius: 20px;border-top-right-radius:20px; ">
             	 <div class="iconocerrar link sheet-close" style="z-index:10;">
-	 									<span class="bi bi-x-circle-fill"></span>
+	 														<span class="material-icons-outlined">
+																		cancel
+																		</span>
 	   						    	 </div>
               <div class="page-content" style="height: 100%;">
                 <div style="background: white; height: 100%;width: 100%;border-radius: 20px;">
@@ -911,3 +989,205 @@ function DetalleSucursal(idsucursal) {
 function IraCarrito() {
 	GoToPage('carrito');
 }
+
+function AbrirModalCita(idcita) {
+var iduser=localStorage.getItem('id_user');
+	var datos="idcita="+idcita+"&iduser="+iduser;
+	var pagina = "ObtenerDetalleCita.php";
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		success: function(datos){
+
+			var respuesta=datos.respuesta;
+				ObtenerDetalleCita(respuesta);	
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+	
+
+}
+
+function ObtenerDetalleCita(respuesta) {
+		var imagen=urlimagenes+`sucursal/imagenes/`+codigoserv+respuesta.imagen;
+
+	var html2="";
+
+	
+
+var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;background: white;">
+            <div class="toolbar" style="background: white;">
+              <div class="toolbar-inner">
+                <div class="left"></div>
+                <div class="right">
+                  <a class="link sheet-close"></a>
+                </div>
+              </div>
+            </div>
+            <div class="sheet-modal-inner" style="background: white;border-top-left-radius: 20px;border-top-right-radius:20px; ">
+            	 <div class="iconocerrar link sheet-close" style="z-index:10;">
+	 								<span style="font-size: 30px;" class="material-icons-outlined">
+																		cancel
+																		</span>
+	   						    	 </div>
+              <div class="page-content" style="height: 100%;">
+                <div style="background: white; height: 100%;width: 100%;border-radius: 20px;">
+   						     <div class="row">
+	   						     <div class="col-20">
+	   						      	
+	   						    </div>
+
+   						    	 <div class="col-60">
+   						    	 <span class="titulomodal" style="">Tu cita</span>
+   						    	 </div>
+   						    	 <div class="col-20">
+   						    	 <span class="limpiarfiltros"></span>
+   						    	 </div>
+   							 </div>
+   							 <div class="" style="position: absolute;top:1em;width: 100%;">
+   							 	
+	   														  <div class="">
+		   															  <div class="" style="">
+		   							 	 													<div class="" style="">
+		   							 	 
+							   							  	<div class="row">
+							   							  						<div class="col-100" style="margin-left: 1em;
+    margin-right: 1em;">
+                <div class="card margin-bottom">
+                    <div class="card-header">
+                        <div class="row">
+                            
+                            <div class="col-50">
+                                <h3 class="no-margin-bottom text-color-theme">`+respuesta.titulo+`</h3>
+                            	<p class="no-margin-bottom text-color-theme">`+respuesta.descripcion+`</p>
+
+                            	<p class="no-margin-bottom text-color-theme">`+respuesta.fechaformato+`</p>
+                            	<p class="no-margin-bottom text-color-theme">`+respuesta.horainicial+` Hrs.</p>
+
+                            	<p class="no-margin-bottom text-color-theme">Especialista: `+respuesta.nombre+` `+respuesta.paterno+`</p>
+
+                            </div>
+
+                            <div class="col-50">
+                                <div class="avatar">
+                                    <img src="`+imagen+`" alt="" style="
+margin-top: 1.4em;    width: 100%;
+    border-radius: 10px;
+">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content card-content-padding">
+                        <p class="text-muted margin-bottom">
+                           
+                        </p>
+                        <div class="row">
+                          
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+							   							  	</div>
+		   							 	 
+		   							 			</div>
+
+
+		   							 			<div class="row" style="    margin-right: 2em;
+    margin-left: 2em;">
+				<div class="col">
+					<span style="justify-content: center;
+    display: flex;" class="material-icons-outlined">call</span>
+					<h5 class="mt-5 mb-0 telefono" style="font-size: 12px;text-align: center;">¿Necesitas un cambio?</h5>
+				</div>
+				<div class="col">
+					<span style="justify-content: center;
+    display: flex;" class="material-icons-outlined">location_on</span>
+					<h5 class="mt-5 mb-0" style="font-size: 12px;text-align: center;">Encuentra la sucursal</h5>
+				</div>
+
+				<div class="col">
+					<span style="justify-content: center;
+    display: flex;" class="material-icons-outlined">grade</span>
+
+					<h5 class="mt-5 mb-0" style="font-size: 12px;text-align: center;">Califica</h5>
+				</div>
+
+
+				<div class="col">
+					<span style="justify-content: center;
+    display: flex;" class="material-icons-outlined">qr_code</span>
+
+					<h5 class="mt-5 mb-0" style="font-size: 12px;text-align: center;">Mostrar Qr</h5>
+				</div>
+
+			</div>
+							   							  	
+           												 </div>
+							   							  	</div>
+		   							 	 
+		   							 			`;
+
+		   							
+		   							 	html+=`</div>
+
+		   							 		<div class="row">`;
+
+		   							 	
+
+
+		   							  		html+=`</div>
+
+		   							  		<div class="row margin-bottom " style="padding-top: 1em;">
+		   							  		<div class="col-100">`;
+		   							  		
+
+
+		   							  		html+=`</div>
+		   							  		</div>
+
+	   							 	</div>
+
+   							 </div>
+
+   				</div>
+                
+              </div>
+            </div>
+          </div>`;
+          
+	  dynamicSheet1 = app.sheet.create({
+        content: html,
+
+    	swipeToClose: true,
+        backdrop: true,
+        // Events
+        on: {
+          open: function (sheet) {
+           
+			
+
+          },
+          opened: function (sheet) {
+            console.log('Sheet opened');
+          },
+        }
+      });
+
+       dynamicSheet1.open();
+}
+
+function RegresarLanding() {
+	GoToPage('welcome');
+}
+

@@ -167,7 +167,7 @@ class Paquetes {
 
     public function PaquetesCategoria() {
         $sql = "
-			SELECT
+			SELECT *FROM (SELECT
 			paquetes.idpaquete,
 			paquetes.nombrepaquete,
 			paquetes.descripcion,
@@ -178,7 +178,8 @@ class Paquetes {
 			preciopaquete.precio as precioventa,
 			precio.principal,
 			paquetes.orden,
-			paquetes.servicio
+			paquetes.servicio,
+			(SELECT COUNT(*)  FROM paquetefavorito WHERE idpaquete=paquetes.idpaquete AND idusuarios='$this->idusuario')as favorito
 
 			FROM
 			paquetes
@@ -190,10 +191,9 @@ class Paquetes {
 			ON precio.idprecio = preciopaquete.idprecio
 			WHERE
 			paquetesucursal.idsucursal=" . $this->idsucursal . " and paquetes.promocion=0 and precio.principal=1 and 	paquetes.estatus=1
-				ORDER BY orden ASC
+				) AS TABLA ORDER BY TABLA.favorito DESC
 
 		";
-
 
         $resp = $this->db->consulta($sql);
         $cont = $this->db->num_rows($resp);
@@ -565,7 +565,8 @@ class Paquetes {
 			paquetes.considerar,
 			preciopaquete.precio as precioventa,
 			paquetes.horainicialpromo,
-			paquetes.horafinalpromo
+			paquetes.horafinalpromo,
+			paquetes.intervaloservicio
 
 			FROM
 			paquetes
@@ -1062,6 +1063,8 @@ class Paquetes {
         }
         return $array;
     }
+
+    
 
 }
 ?>

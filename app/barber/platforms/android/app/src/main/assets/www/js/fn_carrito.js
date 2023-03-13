@@ -57,6 +57,8 @@ function PintarCarrito(respuesta) {
 
 	var html="";
 	if (respuesta.length>0) {
+
+    $("#cantidadagregados").text(respuesta.length);
 		for (var i = 0; i < respuesta.length; i++) {
 
 		imagen=urlimagenes+'paquetes/imagenespaquete/'+codigoserv+respuesta[i].foto;
@@ -76,11 +78,11 @@ function PintarCarrito(respuesta) {
                    html+=` <p>
                        
                         <div class="stepper stepper-small stepper-init cantidads_`+respuesta[i].idcarrito+`" id="c_`+respuesta[i].idcarrito+`">
-                          <div class="stepper-button-minus" ></div>
-                          <div class="stepper-input-wrap">
+                          <div class="stepper-button-minus" style="border:0;" ></div>
+                          <div class="stepper-input-wrap" style="border:0;">
                             <input type="text" id="cantidad_`+respuesta[i].idcarrito+`" value="`+respuesta[i].cantidad+`"  min="1" max="100" step="1" readonly />
                           </div>
-                          <div class="stepper-button-plus" ></div>
+                          <div class="stepper-button-plus" style="border:0;" ></div>
                         </div>
                      
 
@@ -91,7 +93,7 @@ function PintarCarrito(respuesta) {
 
                   <div class="col-40">
                      <p>$`+respuesta[i].costototal+`</p>
-                     <p><button class="button color-red" onclick="EliminarProductoCarrito(`+respuesta[i].idcarrito+`)">
+                     <p><button class="button color-red" onclick="EliminarProductoCarrito(`+respuesta[i].idcarrito+`,'`+respuesta[i].nombrepaquete+`')">
                         <span class="material-icons-outlined" style="font-size: 30px;">
                         delete
                         </span>
@@ -215,9 +217,9 @@ function SumarCarrito(idcarrito,valor) {
 
 }*/
 
-function EliminarProductoCarrito(idcarrito) {
+function EliminarProductoCarrito(idcarrito,nombre) {
  
-  app.dialog.confirm('','¿Seguro que desea eliminar el producto del carrito?' , function () {
+  app.dialog.confirm('','¿Seguro que desea eliminar '+nombre+' del carrito?' , function () {
     var id_user=localStorage.getItem('id_user');
   var pagina = "EliminarProductoCarrito.php";
   var datos="id_user="+id_user+"&idcarrito="+idcarrito;

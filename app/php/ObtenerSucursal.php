@@ -21,6 +21,7 @@ try
 	$fechas=new Fechas();
 
 	$sucursalesfolios=new Sucursal();
+
 	//Enviamos la conexion a la clase
 	$lo->db = $db;
 	$sucursalesfolios->db=$db;
@@ -35,6 +36,7 @@ try
 	$validadosucursal=0;
 
 	$obtenerimagenes=$sucursalesfolios->ObtenerImagenesSucursal();
+
 
 		
 	$respuesta['respuesta']=1;

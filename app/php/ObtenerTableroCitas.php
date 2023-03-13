@@ -7,6 +7,8 @@ header('Access-Control-Allow-Origin: *');
 require_once("clases/conexcion.php");
 require_once("clases/class.Cita.php");
 require_once("clases/class.Funciones.php");
+require_once("clases/class.Fechas.php");
+
 //require_once("clases/class.MovimientoBitacora.php");
 /*require_once("clases/class.Sms.php");
 require_once("clases/class.phpmailer.php");
@@ -19,6 +21,7 @@ try
 	$db = new MySQL();
 	$lo = new Cita();
 	$f=new Funciones();
+	$fechas = new Fechas();
 
 	//Enviamos la conexion a la clase
 	$lo->db = $db;
@@ -29,10 +32,12 @@ try
 
 	if (count($obtenertablero)>0) {
 		for ($i=0; $i < count($obtenertablero); $i++) { 
+			
+			$obtenertablero[$i]->fechaformato=$fechas->fecha_texto5($obtenertablero[$i]->fechacita);
 			$fecha=date('d/m/Y',strtotime($obtenertablero[$i]->fechacita));
 
+			$obtenertablero[$i]->anio=date('Y',strtotime($obtenertablero[$i]->fechacita));
 			$obtenertablero[$i]->fechacita=$fecha;
-
 		}
 	}
 

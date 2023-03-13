@@ -147,6 +147,11 @@ var routes = [
     componentUrl: './pages/listadocompras.html',
   },
 
+    {
+    path: '/detallepago/',
+    componentUrl: './pages/detallepago.html',
+  },
+
   {
     path: '/resumenpago/',
     componentUrl: './pages/resumenpago.html',

@@ -405,7 +405,7 @@ function PintarImagenesPaquete2(paquete,imagenesdelpaquete) {
 				                        </div>
 				                        </div>
 
-				                        <div class="card-content"> 
+				                        <div class="card-content" style="margin-right: 1em;margin-left: 1em;"> 
 				                        <div style="" >
 				   				
 				                        <img class="bordesredondeados " onclick="VisualizarImagen(\'`+urlimg+`\')" src="`+urlimg+`"

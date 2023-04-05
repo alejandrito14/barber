@@ -1,4 +1,6 @@
 var dynamicSheet1="";
+var intervalove=0;
+var dynamicSheet4="";
 function ObtenerTableroAnuncios(estatus) {
 
 	//return new Promise((resolve, reject) => {
@@ -1003,7 +1005,7 @@ var iduser=localStorage.getItem('id_user');
 
 			var respuesta=datos.respuesta;
 				ObtenerDetalleCita(respuesta);	
-
+				localStorage.setItem('idcita',idcita);
 			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;
 				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
@@ -1063,7 +1065,8 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
     margin-right: 1em;">
                 <div class="card margin-bottom">
                     <div class="card-header">
-                        <div class="row">
+                    <div class="datoscita">
+                        <div class="row " >
                             
                             <div class="col-50">
                                 <h3 class="no-margin-bottom text-color-theme">`+respuesta.titulo+`</h3>
@@ -1084,6 +1087,11 @@ margin-top: 1.4em;    width: 100%;
 ">
                                 </div>
                             </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                        	<div class="imagenqr" style="    justify-content: center;display: flex;"></div>
                         </div>
                     </div>
                     <div class="card-content card-content-padding">
@@ -1103,8 +1111,7 @@ margin-top: 1.4em;    width: 100%;
 		   							 			</div>
 
 
-		   							 			<div class="row" style="    margin-right: 2em;
-    margin-left: 2em;">
+		   							 			<div class="row" style="margin-right: 2em; margin-left: 2em;    margin-top: 1em;">
 				<div class="col">
 					<span style="justify-content: center;
     display: flex;" class="material-icons-outlined">call</span>
@@ -1116,7 +1123,7 @@ margin-top: 1.4em;    width: 100%;
 					<h5 class="mt-5 mb-0" style="font-size: 12px;text-align: center;">Encuentra la sucursal</h5>
 				</div>
 
-				<div class="col">
+				<div class="col" onclick="CalificarCita(`+respuesta.idcita+`)">
 					<span style="justify-content: center;
     display: flex;" class="material-icons-outlined">grade</span>
 
@@ -1124,7 +1131,7 @@ margin-top: 1.4em;    width: 100%;
 				</div>
 
 
-				<div class="col">
+				<div class="col" onclick="GenerarQrCita(`+respuesta.idcita+`)">
 					<span style="justify-content: center;
     display: flex;" class="material-icons-outlined">qr_code</span>
 
@@ -1181,6 +1188,13 @@ margin-top: 1.4em;    width: 100%;
           opened: function (sheet) {
             console.log('Sheet opened');
           },
+          close:function (sheet) {
+          	// BorrarIntervalo();
+          	 clearInterval(intervalove);
+
+									localStorage.setItem('idqrgenerado','');
+
+          },
         }
       });
 
@@ -1191,3 +1205,210 @@ function RegresarLanding() {
 	GoToPage('welcome');
 }
 
+function GenerarQrCita(idcita) {
+	var id_user=localStorage.getItem('id_user');
+	var datos="id_user="+id_user+"&idcita="+idcita;
+	var pagina = "generarqr.php";
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		success: function(datos){	
+			var respuesta=datos;
+			var ruta=urlphp+'/upload/qrgenerado/'+datos.imgqr;
+			localStorage.setItem('idqrgenerado',datos.idqrgenerado);
+		
+
+			$(".datoscita").css('display','none');
+			$(".imagenqr").html('<img src="" id="colocarqr" alt="" style="width:80%"/>');
+
+			$("#colocarqr").attr('src',ruta.trim());
+
+				//countdown(agregaMinutos(new Date(), .50).toString(), 'clock', '');
+		 intervalove=setInterval('VerificarSihasidoleido()',1000);
+
+			
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+}
+
+function VerificarSihasidoleido() {
+		var id_user=localStorage.getItem('id_user');
+		var idcita=localStorage.getItem('idcita');
+		var idqrgenerado=localStorage.getItem('idqrgenerado');
+		var datos="id_user="+id_user+"&idcita="+idcita+"&idqrgenerado="+idqrgenerado;
+		var pagina = "VerificarSihasidoleido.php";
+		$.ajax({ 
+			type: 'POST',
+			dataType: 'json',
+			url: urlphp+pagina,
+			data:datos,
+			success: function(resultado){	
+				var respuesta=resultado.respuesta;
+
+				if (respuesta==1) {
+					alert('a');
+					 clearInterval(intervalove);
+					 dynamicSheet1.close();
+					 var datosqr=resultado.datosqr[0];
+					AbrirValidacionQr(datosqr);
+					
+				}
+				
+				
+				},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+					var error;
+					  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+					  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+									//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+						console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+				}
+			});
+}
+
+
+function AbrirValidacionQr(datos) {
+			
+var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;">
+            <!--<div class="toolbar">
+              <div class="toolbar-inner">
+                <div class="left"></div>
+                <div class="right">
+                  <a class="link sheet-close"></a>
+                </div>
+              </div>
+            </div>--!>
+            <div class="sheet-modal-inner" style="background: white;border-top-left-radius: 20px;border-top-right-radius:20px; ">
+            	 
+              <div class="page-content" style="height: 100%;">
+                <div style="background: white; height: 100%;width: 100%;border-radius: 20px;">
+   						     <div class="row">
+	   						     <div class="col-20">
+	   						      	
+	   						    </div>
+
+   						    	 <div class="col-60">
+   						    	 <span class="titulomodal"></span>
+   						    	 </div>
+   						    	 <div class="col-20">
+   						    	 <span class="limpiarfiltros"></span>
+   						    	 </div>
+   							 </div>
+   							 <div class="" style="position: absolute;top:2em;width: 100%;">
+   							 	
+	   							  <div class="">
+		   							  <div class="block" style="margin-right:1em;margin-left:1em;">
+		   									
+
+		   							  		<div class="card-content" style="margin-top:6em;">
+		   										<div class="row">
+			   										<div class="col-100">
+			   											<h3 style="margin-left: 1em;
+    margin-right: 1em;
+    text-align: center;">Tu código qr se ha leído exitosamente</h3>
+			   										</div>
+		   										</div>
+		   									</div>
+		   				
+		   							 		<div class="card-content ">
+		   							 		<div class="row">
+		   							 		<div class="col-100">
+			   							 		<div class="" style="margin-top:1em;">
+			   							 		
+
+																<span class="material-icons-outlined" style=" width: 30px;
+																    justify-content: center;
+																    font-size: 100px;
+																    display: flex;
+																    margin: auto;color:#5ac35b;">
+																			check_circle_outline
+																			</span>
+			   							 		</div>
+		   							 		</div><div class="col-100">
+		   		
+		   							 		
+			   							 		
+			   							 	
+																		<a onclick="CerrarModal()" class="button-large button button-fill color-theme button-raised">
+													                  Cerrar
+													    </a>		   		
+											
+		   						
+
+			   							 		</div>
+			   							 		<div class="col-100">
+			   							 		</div>
+		   							 		</div>
+		   							 		<div class="row">
+		   							 			<div class="col">
+		   							 					</div>
+		   							 				</div>
+		   							 			</div>
+		   							 		</div>
+
+		   							 		</div>
+		   							 		<div class="row">
+		   							 			<div class="col">
+		   							 			<h4 style="
+												    text-align: center;
+												    font-size: 28px;
+												    color: red;
+												    padding-top: 1em;
+												"></h4>
+		   							 			</div>
+		   							 		</div>
+		   							 		<div class="row" style="margin-top:6em;">
+		   									
+											 
+											</div>
+										</div>
+		   				
+
+										</div>
+
+	   							 	</div>
+
+   							 </div>
+
+   				</div>
+                
+              </div>
+            </div>
+          </div>`;
+          
+	  dynamicSheet4 = app.sheet.create({
+
+        content: html,
+
+    	swipeToClose: true,
+        backdrop: true,
+        // Events
+        on: {
+          open: function (sheet) {
+		
+					
+          },
+          opened: function (sheet) {
+          
+          },
+
+          close:function () {
+          	 AbrirModalCita(datos.idcita);
+          }
+        }
+      });
+
+       dynamicSheet4.open();
+	}
+
+	function CerrarModal() {
+
+		dynamicSheet4.close();
+	}

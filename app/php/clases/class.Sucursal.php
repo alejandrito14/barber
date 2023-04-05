@@ -16,6 +16,7 @@ class Sucursal
 	
     public $tipo_usuario;
     public $lista_empresas;
+    public $idusuario;
 	
 
 	public function ObtenerTodos()
@@ -116,21 +117,16 @@ class Sucursal
 	}
 	//funcion  sucursales por usuario
 
-	public function ObtenerSucursalsporUsuario($idusuario)
+	public function AccesoSucursal()
 	{
 		$sql="SELECT
-			sucursales.idsucursales,
-			sucursales.sucursal,
-			sucursales.estatus,
-			acceso_sucursal_empleado.idusuarios,
-			sucursales.foto,
-			sucursales.horaentrada,
-			sucursales.horasalida,
-			sucursales.orden
+			IFNULL(GROUP_CONCAT(sucursal.idsucursal),0) as idsucursales
 			FROM
 			acceso_sucursal_empleado
-			JOIN sucursales
-			ON acceso_sucursal_empleado.idsucursales = sucursales.idsucursales WHERE acceso_sucursal_empleado.idusuarios=".$idusuario." AND sucursales.estatus=1  ORDER BY orden asc";
+			JOIN sucursal
+			ON acceso_sucursal_empleado.idsucursales = sucursal.idsucursal WHERE acceso_sucursal_empleado.idusuarios='$this->idusuario' AND sucursal.estatus=1  ORDER BY orden asc";
+
+	
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 
@@ -141,27 +137,7 @@ class Sucursal
 
 			while ($objeto=$this->db->fetch_object($resp)) {
 
-				$horaentrada='';
-				$horasalida='';
-				$horaactual=date('H:i:s');
-				$objeto->abierto=1;
-
-
-				if ($objeto->horaentrada!='') {
-					$horaentrada=date('H:i:s',strtotime($objeto->horaentrada));
-					$horasalida=date('H:i:s',strtotime($objeto->horasalida));
-
-
-					if ($horaactual>=$horaentrada && $horaactual<=$horasalida) {
-						
-						$objeto->abierto=1;
-					}else{
-
-						$objeto->abierto=0;
-
-					}
-					
-				}
+				
 
 				$array[$contador]=$objeto;
 				$contador++;
@@ -255,9 +231,9 @@ class Sucursal
 
 	public function ObtenerHorariosSucursal()
 	{
-		$sql="SELECT *FROM horariosucursal WHERE idsucursal=".$this->idsucursales."";
+		$sql="SELECT *FROM horariossucursal WHERE idsucursal=".$this->idsucursales."";
 
-
+		
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 
@@ -384,5 +360,24 @@ class Sucursal
 		//echo $total;
 		return $resp;
 	}
+
+	public function Buscardia($arrayintervalo,$dia)
+	{
+		if (count($arrayintervalo)>0) {
+			for ($i=0; $i <count($arrayintervalo) ; $i++) { 
+				
+				if ($arrayintervalo[$i]['dia']==$dia) {
+					return $arrayintervalo[$i];
+				}
+
+			}
+		}
+
+		
+	}
+
+
+
+	
 }
 ?>

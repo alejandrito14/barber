@@ -273,10 +273,25 @@ localStorage.setItem('avatar','');
     },function(reason) {
      console.log(reason); // Error!
   });
+
+
     
     }
 
-    MostrarAnuncios();
+      var sesion=localStorage.getItem('session');
+          
+         if(sesion==1)
+          {
+            ValidarUsuarioSession();
+
+          }else{
+
+            MostrarAnuncios();        
+          }
+    
+    
+
+   
 
 
       
@@ -302,7 +317,6 @@ localStorage.setItem('avatar','');
 $$(document).on('page:init', function (e) {
   app.panel.close();
 
-   
 //Cargar();
    
  
@@ -310,68 +324,43 @@ $$(document).on('page:init', function (e) {
 $$(document).on('page:init', '.page[data-name="home"]', function (e) {
      $(".btnsalir").attr('onclick','salir_app()');
      $(".btniracarrito").attr('onclick','IraCarrito()');
-     /*getValidacionUsuario().then(r => {
 
-        var existe=r.existe;
-      
-
-  if (existe==0) {*/
-
-      //Cargarperfilfoto();
-      
-      CargarDatos();
-  
- /*  
+  CargarDatos();
   var pregunta=localStorage.getItem('pregunta');
-
-
- 
     if (pregunta==0) {
-
      app.dialog.confirm('','¿Desea mantener la sesión activa?', function () {
-
         localStorage.setItem('session',1);
 
         localStorage.setItem('pregunta',1);
+        },
+         function () {
+            
+                        localStorage.setItem('pregunta',1);
+                  }
+            );
+           }
 
+});
+
+
+$$(document).on('page:init', '.page[data-name="homeespecialista"]', function (e) {
+        $(".btnsalir").attr('onclick','salir_app()');
+
+      
+      CargarDatosEspecialista();
+  var pregunta=localStorage.getItem('pregunta');
+    if (pregunta==0) {
+     app.dialog.confirm('','¿Desea mantener la sesión activa?', function () {
+        localStorage.setItem('session',1);
+        localStorage.setItem('pregunta',1);
          // app.dialog.alert('','Se guardó la sesión'); 
-
         },
 
          function () {
-                 
-                        localStorage.setItem('pregunta',1);
-
+             localStorage.setItem('pregunta',1);
                   }
             );
-
-
-      
-
            }
-
-      var $ptrContent = $$('.ptr-content');
-        // Add 'refresh' listener on it
-          $ptrContent.on('ptr:refresh', function (e) {
-          // Emulate 2s loading
-          setTimeout(function () {
-             CargarDatos();
-            // When loading done, we need to reset it
-            app.ptr.done(); // or e.detail();
-          }, 2000);
-        });
-
-
-
-         }else{
-
-          GoToPage('signin');
-
-         }
-
-
-       });*/
-    
 
 });
 
@@ -486,12 +475,13 @@ $$(document).on('page:init','.page[data-name="detalleservicio"]',function(e)
 $$(document).on('page:init','.page[data-name="disponibilidadfecha"]',function(e)
 {
         var paqueteid=localStorage.getItem('idpaquete');
-
     detalleservicio(paqueteid);
-     CargarCalendario();
-     $("#v_especialista").attr('onchange','ObtenerEspecialistaCosto()');
+   
+     $("#v_especialista2").attr('onchange','ObtenerEspecialistaCosto2()');
+
      $("#v_horarios").attr('onchange','ObtenerEspecialistaHora()');
      $(".btnagendarcita").attr('onclick','AgendarCita()');
+  CargarCalendario();
 });
 
 $$(document).on('page:init','.page[data-name="disponibilidadespecialista"]',function(e)
@@ -499,10 +489,15 @@ $$(document).on('page:init','.page[data-name="disponibilidadespecialista"]',func
         var paqueteid=localStorage.getItem('idpaquete');
 
     detalleservicio(paqueteid);
-    CargarCalendario();
+   // CargarCalendario(); 
     CargarEspecialista();
 
-    $("#v_especialista").attr('onchange','ObtenerEspecialistaCosto();ObtenerFechasDisponibles();');
+    $("#v_especialista").attr('onchange','ObtenerEspecialistaCosto();');
+    $("#demo-calendar-default").attr('onclick','AbrirCalendario()');
+
+    $("#v_horarios2").attr('onchange','HabilitarBotonAgendar()');
+    $(".btnagendarcita").attr('onclick','AgendarCita2()');
+
 
 });
 
@@ -549,7 +544,6 @@ $$(document).on('page:init', '.page[data-name="resumenpago"]', function (e) {
 
 $$(document).on('page:init','.page[data-name="homeindex"]',function(e)
 {
-
   MostrarAnuncios();
  
   /*setTimeout(function () {
@@ -695,3 +689,70 @@ $$(document).on('page:init', '.page[data-name="cambiocontra"]', function (e) {
 
 
 });
+
+$$(document).on('page:init', '.page[data-name="homeadmin"]', function (e) {
+        $(".btnsalir").attr('onclick','salir_app()');
+
+      
+      CargarDatosAdmin();
+  var pregunta=localStorage.getItem('pregunta');
+    if (pregunta==0) {
+     app.dialog.confirm('','¿Desea mantener la sesión activa?', function () {
+        localStorage.setItem('session',1);
+        localStorage.setItem('pregunta',1);
+         // app.dialog.alert('','Se guardó la sesión'); 
+        },
+
+         function () {
+             localStorage.setItem('pregunta',1);
+                  }
+            );
+           }
+
+});
+
+
+$$(document).on('page:init', '.page[data-name="servicios"]', function (e) {
+
+ CargarCalendario2();
+
+});
+
+$$(document).on('page:init', '.page[data-name="productos"]', function (e) {
+
+ CargarCalendario3();
+
+});
+
+$$(document).on('page:init', '.page[data-name="bloqueos"]', function (e) {
+
+$('input[name="demo-radio-start"]').prop('checked', false);
+$('input[name="demo-radio-start"]').change(function () {
+    if ($(this).is(':checked')) {
+
+       var valor=$(this).val();
+
+      PintarOpcionBloqueo(valor);
+    }
+    //Here do the stuff you want to do when 'unchecked'
+});
+
+});
+/*$$(document).on('page:init', '.page[data-name="disponibilidadfechaadmin"]', function (e) {
+  $("#txtfechaadmin").attr('onclick','AbrirModalServicios()');
+ CargarCalendario2();
+ CargarPaquetes();
+ $("#v_paqueteservicio").attr('onchange','SeleccionarServicio()');
+ localStorage.setItem('idpaquete',0);
+});
+
+ $$(document).on('page:init', '.page[data-name="disponibilidadespecialistaadmin"]', function (e) {
+
+    CargarEspecialistaAdmin();
+    $("#v_especialista").attr('onchange','ObtenerEspecialistaCosto();');
+
+    $("#demo-calendar-default").attr('onclick','AbrirCalendario()');
+
+});
+ */
+

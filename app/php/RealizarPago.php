@@ -373,12 +373,12 @@ try {
             }
                 
 
-              $notapago->descripcion=$obtenercarrito[0]->nombrepaquete;
-              $notapago->cantidad=$obtenercarrito[0]->cantidad;
-              $notapago->monto=$obtenercarrito[0]->costototal;
-              $notapago->idpaquete=$obtenercarrito[0]->idpaquete;
+              $notapago->descripcion=$obtenercarrito[$i]->nombrepaquete;
+              $notapago->cantidad=$obtenercarrito[$i]->cantidad;
+              $notapago->monto=$obtenercarrito[$i]->costototal;
+              $notapago->idpaquete=$obtenercarrito[$i]->idpaquete;
               $notapago->idcita=$cita->idcita;
-              $notapago->costounitario=$obtenercarrito[0]->costounitario;
+              $notapago->costounitario=$obtenercarrito[$i]->costounitario;
                $notapago->tipo=$tipo;
                $notapago->idnotapago=$idnotapago;
               $notapago->Creardescripcionpago();

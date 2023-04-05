@@ -1,0 +1,22 @@
+
+// Realizar la consulta SELECT
+$result = pg_query($conn, "SELECT * FROM nombre_de_la_tabla");
+
+// Verificar si hay algún registro
+if (pg_num_rows($result) > 0) {
+    // Recorrer todos los registros utilizando un bucle while
+    while ($row = pg_fetch_assoc($result)) {
+        // Acceder a los valores de cada campo de la fila
+        $id = $row['id'];
+        $nombre = $row['nombre'];
+        $apellido = $row['apellido'];
+        
+        // Hacer lo que necesites con los valores de cada campo
+        echo "ID: " . $id . ", Nombre: " . $nombre . ", Apellido: " . $apellido . "<br>";
+    }
+} else {
+    echo "No se encontraron registros.";
+}
+
+// Cerrar la conexión con la base de datos
+pg_close($conn);

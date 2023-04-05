@@ -67,7 +67,7 @@ function Pintardetallepago() {
 
 			}
 			var pagos=resp.pagos;
-			Pintarpagosdetalle(pagos);
+			Pintarpagosdetalle2(pagos);
 			 $("#visualizardescuentos").css('display','none');
 
 			var descuentos=resp.descuentos;
@@ -146,6 +146,55 @@ for (var i = 0; i <listado.length; i++) {
 
 		$(".listadopagoselegidos").html(html);
 
+	}
+
+	function Pintarpagosdetalle2(listado) {
+		// body...
+
+		for (var i = 0; i <listado.length; i++) {
+
+			var color='';
+		      if (listado[i].monto<0) {
+		        color='red';
+		      }
+		imagen=urlimagenes+'paquetes/imagenespaquete/'+codigoserv+listado[i].foto;
+
+			html+=`
+				
+			<li class="item-content">
+              <div class="item-media">
+              <img src="`+imagen+`" alt="" style="    width: 100px;border-radius: 10px;"></div>
+              <div class="item-inner">
+                <div class="row">
+                  <div class="col-60">
+                    <p> `+listado[i].concepto+` </p>
+               	    <p></p>
+                     <p style="margin:0;">Cantidad: `+listado[i].cantidad+`
+
+                        </div>
+                     
+
+                    <p></p></div>	
+
+                  <div class="col-40">
+                	<p class="text-muted " style="font-size:30px;text-align:right;">$`+formato_numero(listado[i].monto,2,'.',',')+`</p>
+
+                     <p>
+                     </p>
+                  </div>
+                 </div> </div>
+
+              
+            </li>
+
+			`;
+		}
+
+
+		$(".listadopagoselegidos").html(html);
+
+
+		
 	}
 
 

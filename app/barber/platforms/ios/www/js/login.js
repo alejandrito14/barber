@@ -245,9 +245,9 @@ function validar_login()
 											GoToPageHistory("homeadmin");
 										}
 
-										/*if (datos['tipo']==5) {
-											GoToPageHistory("homecoach");
-										}*/
+										if (datos['tipo']==5) {
+											GoToPageHistory("homeespecialista");
+										}
 
 									}else{
 

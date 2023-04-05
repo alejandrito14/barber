@@ -855,3 +855,16 @@ code {
     display: flex;
     justify-content: center;
 }
+
+.calendarevento{
+       background: #5791d5!important;
+      color: white!important;
+    
+  }
+  .nodisponible{
+     background: #ebebeb!important;
+      color: white!important;
+
+  }
+
+  

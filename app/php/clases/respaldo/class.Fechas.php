@@ -358,6 +358,52 @@
 
 		return $f;
 	}
+
+public function fecha_texto4($fecha)
+	{
+				
+
+		$a = $this->elano($fecha);
+		//$m = $this->mesdelano();
+		$d = $this->diadelmes($fecha);
+		
+		
+	
+		$m = $this->mesesAnho[date("n",strtotime($fecha))];
+
+
+		$diatexto=$this->diasSemana[date('N', strtotime($fecha))];
+
+
+		
+		$f = $diatexto." ".$d." de ".$m.", ".$a.' '.date('H:i:s',strtotime($fecha));
+
+		return $f;
+	}
+
+	public function fecha_texto5($fecha)
+	{
+				
+
+		$a = $this->elano($fecha);
+		//$m = $this->mesdelano();
+		$d = $this->diadelmes($fecha);
+		
+		
+	
+		$m = $this->mesesAnho[date("n",strtotime($fecha))];
+
+
+		$diatexto=$this->diasSemana[date('N', strtotime($fecha))];
+
+
+		
+		$f = $diatexto." ".$d." de ".$m;
+
+		return $f;
+	}
+
+
 	
 	public function fecha_textoguion($fecha)
 	{
@@ -585,6 +631,14 @@ function semanadelano($fecha){
  
       return date('Y-m-d', mktime(0,0,0, $month, $day, $year));
   }
+
+  function Ultimodia_mes_fecha($fecha) { 
+      $month = date('m',strtotime($fecha));
+      $year = date('Y',strtotime($fecha));
+      $day = date("d", mktime(0,0,0, $month+1, 0, $year));
+ 
+      return date('Y-m-d', mktime(0,0,0, $month, $day, $year));
+  }
  
   /** Obtener el primerdia del mes actual **/
   function Primerdia_mes_actual() {
@@ -593,6 +647,12 @@ function semanadelano($fecha){
       return date('Y-m-d', mktime(0,0,0, $month, 1, $year));
   }  
 
+
+function Primerdia_mes_fecha($fecha) {
+      $month = date('m',strtotime($fecha));
+      $year = date('Y',strtotime($fecha));
+      return date('Y-m-d', mktime(0,0,0, $month, 1, $year));
+  } 
 
 	 function minutosTranscurridos($fecha_i,$fecha_f)
 		{
@@ -694,6 +754,13 @@ function semanadelano($fecha){
        return $arreglo;
 
     }
+
+
+		public function saber_dia($fecha) {
+		
+			$fecha = $diasSemanaCorto[date('N', strtotime($fecha))];
+			echo $fecha;
+		}
 
    
 

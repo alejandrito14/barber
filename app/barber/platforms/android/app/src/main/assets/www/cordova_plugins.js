@@ -320,6 +320,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "window.plugins.socialsharing"
       ]
+    },
+    {
+      "id": "cordova-plugin-qr-barcode-scanner.BarcodeScanner",
+      "file": "plugins/cordova-plugin-qr-barcode-scanner/www/barcodescanner.js",
+      "pluginId": "cordova-plugin-qr-barcode-scanner",
+      "clobbers": [
+        "cordova.plugins.barcodeScanner"
+      ]
     }
   ];
   module.exports.metadata = {
@@ -338,6 +346,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-wkwebview-file-xhr": "3.0.0",
     "es6-promise-plugin": "4.2.2",
     "cordova-plugin-x-socialsharing": "6.0.4",
-    "cordova-support-android-plugin": "2.0.4"
+    "cordova-support-android-plugin": "2.0.4",
+    "cordova-plugin-qr-barcode-scanner": "8.0.3"
   };
 });

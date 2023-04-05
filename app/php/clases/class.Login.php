@@ -55,7 +55,7 @@ class Login
 	public function validar_credenciales_email()
 	   {
 	   	$sql = "SELECT * FROM usuarios us WHERE us.email = BINARY '$this->usuario' AND us.clave = '$this->password'  AND estatus=1 "; 
-	
+		
 		$result = $this->db->consulta($sql);
 		return $result;
 	   }

@@ -30,6 +30,7 @@ class Paquetes {
     public $horafin;
     public $valor;
     public $idusuario;
+    public $servicio;
 
     public function obtenerFiltro() {
         $query  = "SELECT *from paquetes ";
@@ -982,25 +983,24 @@ class Paquetes {
     }
 
 
-     public function PaquetesCategoria3() {
-        $sql = "
-			SELECT
+     public function ObtenerPaquetes() {
+       $sql = "
+			SELECT *FROM (SELECT
 			paquetes.idpaquete,
 			paquetes.nombrepaquete,
 			paquetes.descripcion,
 			paquetes.foto,
 			paquetes.estatus,
-			categorias.idcategorias,
 			paquetesucursal.idsucursal,
 			paquetes.promocion,
 			preciopaquete.precio as precioventa,
 			precio.principal,
 			paquetes.orden,
-			paquetes.visualizarcarrusel
+			paquetes.servicio,
+			(SELECT COUNT(*)  FROM paquetefavorito WHERE idpaquete=paquetes.idpaquete AND idusuarios='$this->idusuario')as favorito
+
 			FROM
 			paquetes
-			JOIN categorias
-			ON paquetes.idcategorias = categorias.idcategorias
 			JOIN paquetesucursal
 			ON paquetes.idpaquete = paquetesucursal.idpaquete
 			JOIN preciopaquete
@@ -1008,11 +1008,12 @@ class Paquetes {
 			JOIN precio
 			ON precio.idprecio = preciopaquete.idprecio
 			WHERE
-			  AND paquetesucursal.idsucursal=" . $this->idsucursal . " and paquetes.promocion=0 and precio.principal=1 and 	paquetes.estatus=1 AND paquetes.visualizarcarrusel=1
-				ORDER BY orden ASC
+			paquetesucursal.idsucursal IN($this->idsucursal) and paquetes.promocion=0 and precio.principal=1 and 	paquetes.estatus=1 AND paquetes.servicio=1
+				) AS TABLA ORDER BY TABLA.favorito DESC
 
 		";
 
+		
         $resp = $this->db->consulta($sql);
         $cont = $this->db->num_rows($resp);
 
@@ -1063,6 +1064,40 @@ class Paquetes {
         }
         return $array;
     }
+
+    public function ObtenerPaquetesServicio()
+    {
+    	$sql="SELECT *FROM paquetes
+    	left JOIN paquetesucursal ON paquetes.idpaquete=paquetesucursal.idpaquete
+    	 WHERE paquetes.servicio='$this->servicio' AND paquetes.estatus=1 AND paquetesucursal.idsucursal IN($this->idsucursal) GROUP BY paquetes.idpaquete";
+    	
+        $resp = $this->db->consulta($sql);
+        $cont = $this->db->num_rows($resp);
+
+        $array    = array();
+        $contador = 0;
+        if ($cont > 0) {
+
+            while ($objeto = $this->db->fetch_object($resp)) {
+
+                $array[$contador] = $objeto;
+                $contador++;
+            }
+        }
+        return $array;
+    }
+
+
+    public function ActualizarPaqueteEstatus()
+    {
+    	$query="UPDATE paquetes SET 
+		estatus='$this->estatus'
+		 WHERE idpaquete='$this->idpaquete' ";
+		
+		$result = $this->db->consulta($query);
+    }
+
+
 
     
 

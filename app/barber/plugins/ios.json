@@ -17,6 +17,9 @@
     },
     "cordova-support-android-plugin": {
       "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-qr-barcode-scanner": {
+      "PACKAGE_NAME": "com.inversa.app"
     }
   },
   "dependent_plugins": {

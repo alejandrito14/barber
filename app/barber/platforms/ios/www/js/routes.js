@@ -90,6 +90,23 @@ var routes = [
 
   },
 
+   {
+    path: '/disponibilidadfechaadmin/',
+    url: './pages/disponibilidadfechaadmin.html',
+
+  },
+ {
+    path: '/disponibilidadespecialistaadmin/',
+    url: './pages/disponibilidadespecialistaadmin.html',
+
+  },
+{
+    path: '/disponibilidaproductoadmin/',
+    url: './pages/disponibilidaproductoadmin.html',
+
+  },
+
+
     {
     path: '/detalleservicio/',
     url: './pages/detalleservicio.html',
@@ -171,6 +188,30 @@ var routes = [
     path: '/home/',
     componentUrl: './pages/home.html',
   },
+
+  {
+    path: '/homeespecialista/',
+    componentUrl: './pages/homeespecialista.html',
+  },
+  {
+    path: '/homeadmin/',
+    componentUrl: './pages/homeadmin.html',
+  },
+
+   {
+    path: '/servicios/',
+    componentUrl: './pages/servicios.html',
+  },
+   {
+    path: '/productos/',
+    componentUrl: './pages/productos.html',
+  }, 
+  {
+    path: '/bloqueos/',
+    componentUrl: './pages/bloqueos.html',
+  },
+
+  
   {
     path: '/search/',
     componentUrl: './pages/search.html',

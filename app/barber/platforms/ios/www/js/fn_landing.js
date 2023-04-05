@@ -14,6 +14,7 @@ function MostrarAnuncios() {
 
       }
 
+
         ObtenerAnuncios(omitiralfinal);
     });
 }
@@ -316,4 +317,21 @@ function getValidacionTelefono() {
 
 			});
 		});
+}
+
+function ValidarUsuarioSession() {
+
+	var idtipousuario=localStorage.getItem('idtipousuario');
+	if (idtipousuario==3) {
+		GoToPage('home');	
+	}
+
+	if (idtipousuario==5) {
+		GoToPage('homeespecialista');
+	}
+
+	if (idtipousuario==0) {
+		GoToPage('homeadmin');
+	}
+	
 }

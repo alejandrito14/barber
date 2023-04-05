@@ -37,6 +37,8 @@ try
 	$hora=explode('_', $_POST['horario']);
 	$horainicial=$hora[0];
 	$horafinal=$hora[1];
+	$dia=$fechas->dia_semana($fecha);
+	$numdia=$dia['numdia'];
 
 	$especialista->idpaquete=$idpaquete;
 	$especialista->idsucursal=$idsucursal;
@@ -45,16 +47,39 @@ try
 	$arrayespecialista=array();
 	for ($i=0; $i < count($obtenerespecialistas); $i++) { 
 
+		$especialista->idespecialista=$obtenerespecialistas[$i]->idespecialista;
+		$horainicial=substr($horainicial,0,5);
+
+		$horafinal=substr($horafinal,0,5);
+		$especialista->horainicial=$horainicial;
+		$especialista->horafinal=$horafinal;
+
+		$horarioatencion=$especialista->HorarioAtencion($numdia);
 		$citas->idespecialista=$obtenerespecialistas[$i]->idespecialista;
 		$citas->horainicial=$horainicial;
 		$citas->horafinal=$horafinal;
 		$citas->fecha=$fecha;
-		$verificar=$citas->ChecarHorarioEspecialista();
-		$disponible=1;
-		if (count($verificar)>0) {
-			$disponible=0;
-		}
 
+
+		if (count($horarioatencion)>0) {
+			# code...
+		
+
+					
+					
+
+		 			$buscarhoraausente=$especialista->BuscarHoraAusente();
+
+		 			if (count($buscarhoraausente)==0) {
+
+					$verificar=$citas->ChecarHorarioEspecialista();
+					$disponible=1;
+						if (count($verificar)>0) {
+							$disponible=0;
+						}
+
+
+					}
 
 
 		if ($disponible==1) {
@@ -63,6 +88,7 @@ try
 			
 		}
 
+	}
 
 	}
 

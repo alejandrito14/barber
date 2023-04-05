@@ -67,6 +67,9 @@
         <param name="ios-package" value="SocialSharing" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="BarcodeScanner">
+        <param name="ios-package" value="CDVBarcodeScanner" />
+    </feature>
     <name>Grupo Inversa</name>
     <description>
         Aplicacion de negocios

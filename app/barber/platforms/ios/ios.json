@@ -10,7 +10,7 @@
           "NSCameraUsageDescription": [
             {
               "xml": "<string>negocios needs access to camera files to add a pictures and photo user profile </string>",
-              "count": 6
+              "count": 18
             },
             {
               "xml": "<string>This app needs camera access</string>",
@@ -20,7 +20,7 @@
           "NSPhotoLibraryUsageDescription": [
             {
               "xml": "<string>negocios needs access to the phone's files to add a pictures and photo user profile\n          </string>",
-              "count": 6
+              "count": 18
             },
             {
               "xml": "<string>This app needs read/write-access photo library access</string>",
@@ -34,19 +34,19 @@
           "NSLocationWhenInUseUsageDescription": [
             {
               "xml": "<string>\n          The application needs access to your approximate location, to choose the zip code\n        </string>",
-              "count": 6
+              "count": 18
             }
           ],
           "NSLocationAlwaysUsageDescription": [
             {
               "xml": "<string> The application needs access to your approximate location, to choose the zip code</string>",
-              "count": 6
+              "count": 18
             }
           ],
           "CFBundleAllowMixedLocalizations": [
             {
               "xml": "<true />",
-              "count": 6
+              "count": 18
             }
           ],
           "UIBackgroundModes": [
@@ -130,6 +130,10 @@
             },
             {
               "xml": "<feature name=\"SocialSharing\"><param name=\"ios-package\" value=\"SocialSharing\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"BarcodeScanner\"><param name=\"ios-package\" value=\"CDVBarcodeScanner\" /></feature>",
               "count": 1
             }
           ]
@@ -217,6 +221,9 @@
       "PACKAGE_NAME": "com.inversa.app"
     },
     "cordova-support-android-plugin": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-qr-barcode-scanner": {
       "PACKAGE_NAME": "com.inversa.app"
     }
   },
@@ -576,6 +583,14 @@
       "clobbers": [
         "window.plugins.socialsharing"
       ]
+    },
+    {
+      "id": "cordova-plugin-qr-barcode-scanner.BarcodeScanner",
+      "file": "plugins/cordova-plugin-qr-barcode-scanner/www/barcodescanner.js",
+      "pluginId": "cordova-plugin-qr-barcode-scanner",
+      "clobbers": [
+        "cordova.plugins.barcodeScanner"
+      ]
     }
   ],
   "plugin_metadata": {
@@ -594,6 +609,7 @@
     "cordova-plugin-wkwebview-file-xhr": "3.0.0",
     "es6-promise-plugin": "4.2.2",
     "cordova-plugin-x-socialsharing": "6.0.4",
-    "cordova-support-android-plugin": "2.0.4"
+    "cordova-support-android-plugin": "2.0.4",
+    "cordova-plugin-qr-barcode-scanner": "8.0.3"
   }
 }

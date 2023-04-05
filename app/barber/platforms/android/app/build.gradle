@@ -110,6 +110,7 @@ ext {
 
 // PLUGIN GRADLE EXTENSIONS START
 apply from: "../cordova-plugin-firebasex/app-build.gradle"
+apply from: "../cordova-plugin-qr-barcode-scanner/app-barcodescanner.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras1 = file('build-extras.gradle').exists()
@@ -314,6 +315,7 @@ dependencies {
     implementation "com.google.code.gson:gson:2.9.0"
     implementation "io.grpc:grpc-okhttp:1.46.0"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    implementation "com.android.support:support-v4:27.+"
     // SUB-PROJECT DEPENDENCIES END
 }
 

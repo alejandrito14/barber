@@ -67,6 +67,7 @@ function Pintardetallepago() {
 
 			}
 			var pagos=resp.pagos;
+
 			Pintarpagosdetalle2(pagos);
 			 $("#visualizardescuentos").css('display','none');
 
@@ -150,7 +151,7 @@ for (var i = 0; i <listado.length; i++) {
 
 	function Pintarpagosdetalle2(listado) {
 		// body...
-
+		var html="";
 		for (var i = 0; i <listado.length; i++) {
 
 			var color='';
@@ -163,25 +164,36 @@ for (var i = 0; i <listado.length; i++) {
 				
 			<li class="item-content">
               <div class="item-media">
-              <img src="`+imagen+`" alt="" style="    width: 100px;border-radius: 10px;"></div>
+              <img src="`+imagen+`" alt="" style="width: 80px;border-radius: 10px;"></div>
               <div class="item-inner">
-                <div class="row">
-                  <div class="col-60">
-                    <p> `+listado[i].concepto+` </p>
-               	    <p></p>
-                     <p style="margin:0;">Cantidad: `+listado[i].cantidad+`
+                <div class="row" style="margin-left: 1em;">
+                  <div class="col-100">
+                    <p style="margin:0;"> `+listado[i].concepto+` </p>
+               	
+                     <p style="margin:0;">Cantidad: `+listado[i].cantidad+`</p>`;
 
-                        </div>
+                     if (listado[i].usuarioespecialista!='' && listado[i].usuarioespecialista!=null) {
+
+                     	html+=`<p style="margin:0;">Especialista: `+listado[i].usuarioespecialista+`</p>`;
+
+                     	html+=`<p style="margin:0;">Fecha: `+listado[i].fecha+`</p>`;
+                 
+
+                     }
+               html+= `</div>
                      
 
-                    <p></p></div>	
 
-                  <div class="col-40">
-                	<p class="text-muted " style="font-size:30px;text-align:right;">$`+formato_numero(listado[i].monto,2,'.',',')+`</p>
+                            <div class="col-40">
+                	<p class="text-muted " style="font-size:20px;text-align:right;margin:0px;">$`+formato_numero(listado[i].monto,2,'.',',')+`</p>
 
                      <p>
                      </p>
                   </div>
+
+                    </div>	
+
+          
                  </div> </div>
 
               

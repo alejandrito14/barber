@@ -322,7 +322,7 @@ function getValidacionTelefono() {
 function ValidarUsuarioSession() {
 
 	var idtipousuario=localStorage.getItem('idtipousuario');
-	if (idtipousuario==3) {
+	if (idtipousuario==3 || idtipousuario==6) {
 		GoToPage('home');	
 	}
 

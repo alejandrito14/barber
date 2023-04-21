@@ -9,8 +9,8 @@
         "parents": {
           "NSCameraUsageDescription": [
             {
-              "xml": "<string>negocios needs access to camera files to add a pictures and photo user profile </string>",
-              "count": 18
+              "xml": "<string>Grupo Inversa needs access to camera files to add a pictures and photo user profile </string>",
+              "count": 47
             },
             {
               "xml": "<string>This app needs camera access</string>",
@@ -19,8 +19,8 @@
           ],
           "NSPhotoLibraryUsageDescription": [
             {
-              "xml": "<string>negocios needs access to the phone's files to add a pictures and photo user profile\n          </string>",
-              "count": 18
+              "xml": "<string>Grupo Inversa needs access to the phone's files to add a pictures and photo user profile\n          </string>",
+              "count": 47
             },
             {
               "xml": "<string>This app needs read/write-access photo library access</string>",
@@ -33,20 +33,20 @@
           ],
           "NSLocationWhenInUseUsageDescription": [
             {
-              "xml": "<string>\n          The application needs access to your approximate location, to choose the zip code\n        </string>",
-              "count": 18
+              "xml": "<string>\n          Grupo Inversa needs access to your approximate location, to choose the zip code\n        </string>",
+              "count": 47
             }
           ],
           "NSLocationAlwaysUsageDescription": [
             {
-              "xml": "<string> The application needs access to your approximate location, to choose the zip code</string>",
-              "count": 18
+              "xml": "<string> Grupo Inversa access to your approximate location, to choose the zip code</string>",
+              "count": 47
             }
           ],
           "CFBundleAllowMixedLocalizations": [
             {
               "xml": "<true />",
-              "count": 18
+              "count": 47
             }
           ],
           "UIBackgroundModes": [
@@ -76,6 +76,10 @@
       "config.xml": {
         "parents": {
           "/*": [
+            {
+              "xml": "<feature name=\"CallNumber\"><param name=\"ios-package\" value=\"CFCallNumber\" /></feature>",
+              "count": 1
+            },
             {
               "xml": "<feature name=\"Camera\"><param name=\"ios-package\" value=\"CDVCamera\" /></feature>",
               "count": 1
@@ -125,15 +129,15 @@
               "count": 1
             },
             {
+              "xml": "<feature name=\"BarcodeScanner\"><param name=\"ios-package\" value=\"CDVBarcodeScanner\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"CDVWKWebViewFileXhr\"><param name=\"ios-package\" value=\"CDVWKWebViewFileXhr\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
             {
               "xml": "<feature name=\"SocialSharing\"><param name=\"ios-package\" value=\"SocialSharing\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"BarcodeScanner\"><param name=\"ios-package\" value=\"CDVBarcodeScanner\" /></feature>",
               "count": 1
             }
           ]
@@ -162,6 +166,9 @@
     }
   },
   "installed_plugins": {
+    "cordova-plugin-call-number": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
     "cordova-plugin-camera": {
       "PACKAGE_NAME": "com.inversa.app"
     },
@@ -206,6 +213,9 @@
     "cordova-plugin-network-information": {
       "PACKAGE_NAME": "com.inversa.app"
     },
+    "cordova-plugin-qr-barcode-scanner": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
     "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "com.inversa.app"
     },
@@ -222,13 +232,18 @@
     },
     "cordova-support-android-plugin": {
       "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-qr-barcode-scanner": {
-      "PACKAGE_NAME": "com.inversa.app"
     }
   },
   "dependent_plugins": {},
   "modules": [
+    {
+      "id": "cordova-plugin-call-number.CallNumber",
+      "file": "plugins/cordova-plugin-call-number/www/CallNumber.js",
+      "pluginId": "cordova-plugin-call-number",
+      "clobbers": [
+        "call"
+      ]
+    },
     {
       "id": "cordova-plugin-camera.Camera",
       "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
@@ -547,6 +562,14 @@
       ]
     },
     {
+      "id": "cordova-plugin-qr-barcode-scanner.BarcodeScanner",
+      "file": "plugins/cordova-plugin-qr-barcode-scanner/www/barcodescanner.js",
+      "pluginId": "cordova-plugin-qr-barcode-scanner",
+      "clobbers": [
+        "cordova.plugins.barcodeScanner"
+      ]
+    },
+    {
       "id": "cordova-plugin-wkwebview-file-xhr.formdata-polyfill",
       "file": "plugins/cordova-plugin-wkwebview-file-xhr/src/www/ios/formdata-polyfill.js",
       "pluginId": "cordova-plugin-wkwebview-file-xhr",
@@ -583,17 +606,10 @@
       "clobbers": [
         "window.plugins.socialsharing"
       ]
-    },
-    {
-      "id": "cordova-plugin-qr-barcode-scanner.BarcodeScanner",
-      "file": "plugins/cordova-plugin-qr-barcode-scanner/www/barcodescanner.js",
-      "pluginId": "cordova-plugin-qr-barcode-scanner",
-      "clobbers": [
-        "cordova.plugins.barcodeScanner"
-      ]
     }
   ],
   "plugin_metadata": {
+    "cordova-plugin-call-number": "1.0.1",
     "cordova-plugin-camera": "6.0.0",
     "cordova-plugin-customfcmreceiver": "1.0.0",
     "cordova-plugin-device": "2.1.0",
@@ -605,11 +621,11 @@
     "cordova-plugin-ios-camera-permissions": "1.2.0",
     "cordova-plugin-media": "5.0.3",
     "cordova-plugin-network-information": "3.0.0",
+    "cordova-plugin-qr-barcode-scanner": "8.0.3",
     "cordova-plugin-splashscreen": "6.0.0",
     "cordova-plugin-wkwebview-file-xhr": "3.0.0",
     "es6-promise-plugin": "4.2.2",
     "cordova-plugin-x-socialsharing": "6.0.4",
-    "cordova-support-android-plugin": "2.0.4",
-    "cordova-plugin-qr-barcode-scanner": "8.0.3"
+    "cordova-support-android-plugin": "2.0.4"
   }
 }

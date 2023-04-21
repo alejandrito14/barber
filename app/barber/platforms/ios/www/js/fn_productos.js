@@ -45,7 +45,15 @@ function PintarProductos(respuesta) {
 
 				 <div class="tarjeta" style="width:50%;" id="tarjeta_`+respuesta[i].idpaquete+`">
 		          <div class="card demo-card-header-pic" style="border-radius: 10px;">`;
-		           html+=` <a onclick="PaqueteFavorito(`+respuesta[i].idpaquete+`,`+respuesta[i].favorita+`)" class="link" style="z-index: 1000;position: absolute;right: 0;margin: 1em;">`;
+		         
+		         var classe="";
+
+		           if (respuesta[i].favorita==1) {
+		           	classe="favorito";
+		           }
+
+
+		           html+=` <a onclick="PaqueteFavorito(`+respuesta[i].idpaquete+`,`+respuesta[i].favorita+`)" class="link `+classe+`" style="z-index: 1000;position: absolute;right: 0;margin: 1em;" id="paquete_`+respuesta[i].idpaquete+`">`;
 			        	
 			        
 						 favorito=`<span class="material-icons-outlined " style="color:gray;">favorite_border</span>`;
@@ -64,12 +72,21 @@ function PintarProductos(respuesta) {
 		        html+=`  <div style="background-image:url(`+imagen+`);border-radius: 10px 10px 0px 0px;" onclick="`+funcion+`"
 		          class="card-header align-items-flex-end"></div>
 
-		        <div class="card-footer" style="justify-content: center;
-    display: flex;"><p style="margin:0px;text-align:center;">`+respuesta[i].nombrepaquete;
-			     
+		        <div class="" style="display: block;text-align: center;height: 50px;">
+   				 <p style="margin:0px;text-align:center;">`+respuesta[i].nombrepaquete;
+			    
+			       html+=` </p>`;
 
-			       html+=` </p>
-		        </div>
+			       if (respuesta[i].servicio==0) {
+			      html+=` <p style="margin:0;text-align:center;color:white;    font-size: 14px;
+    font-weight: bold;    margin: auto;
+    width: 80px;background:black;margin:auto;width:100px;border-radius: 10px;">$`+respuesta[i].precioventa+`</p>`;
+    				}else{
+
+    					html+=`<p></p>`;
+    				}
+
+		html+=`	</div>
 		      </div>
 		      </div>
 			`;
@@ -81,13 +98,28 @@ function PintarProductos(respuesta) {
 
 function PaqueteFavorito(idpaquete,valor) {
 
-	if (valor==1) {
 
-			valor=0;
-		}else{
+			$("#paquete_"+idpaquete).html('');
 
-			valor=1;
-		}
+			var favorito="";
+			if ($("#paquete_"+idpaquete).hasClass('favorito')) {
+			
+			$("#paquete_"+idpaquete).removeClass('favorito');
+				favorito=`<span class="material-icons-outlined " style="color:gray;">favorite_border</span>`;
+
+				valor=0;
+
+			}else{
+
+				
+			 favorito=`<span class="material-icons-outlined colorred">favorite</span>`;
+
+				$("#paquete_"+idpaquete).addClass('favorito');
+			
+				valor=1;
+			}
+			$("#paquete_"+idpaquete).html(favorito);
+			
 
 	var pagina = "ColocarFavorito.php";
 	var id_user=localStorage.getItem('id_user');
@@ -99,8 +131,9 @@ function PaqueteFavorito(idpaquete,valor) {
 		data:datos,
 		async:false,
 		success: function(datos){
-			
-			ObtenerProductos();
+
+
+			//ObtenerProductos();
 			//resolve(respuesta);
 			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;

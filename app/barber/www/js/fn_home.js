@@ -54,7 +54,7 @@ function PintarTableroAnuncios(respuesta) {
 							</a>
 						</div>
 						<div class="card-info">
-							<h5 class="title">
+							<h5 class="title" >
 								<a >`+respuesta[i].titulo+`
 								</a>
 							</h5>
@@ -117,16 +117,16 @@ function PintarTableroAnuncios2(respuesta) {
 				     </label>
 				    </div>
                  <a  class="card margin-bottom coverimg" style="display: contents;">
-                 <div class="card-content card-content-padding " style="padding-top:0;padding-bottom:0;    padding-right: 1.5em;">
+                 <div class="card-content " style="padding-top:0;padding-bottom:0;">
                  <div class="row">
 
                 	<div class="" style="padding: 0;margin: 0px auto;" >
-                        <img src="`+imagen+`" alt="" onclick="" style="width: 100%;border-radius: 10px;margin: 0;padding: 0px;"">
+                        <img src="`+imagen+`" alt="" onclick="" style="width: 100%;border-radius: 10px;margin: 0;padding: 0px;">
                       </div>
-                      <div class="card-info">
-							<h5 class="title" style="margin:0;">
-								<a >`+respuesta[i].titulo+`
-								</a>
+                      <div class="" style="width:100%;">
+							<h5 class="" style="margin:0;text-align:center;">
+								<span style="color:#bdbdbc;">`+respuesta[i].titulo+`
+								</span>
 							</h5>
 							
 						</div>
@@ -138,6 +138,9 @@ function PintarTableroAnuncios2(respuesta) {
               </div>
 
 			`;
+
+
+			
 		}
 
 		html+=`</div>`;
@@ -285,6 +288,22 @@ function PintarTableroSucursal(respuesta) {
 			
 		imagen=urlimagenes+`sucursal/imagenes/`+codigoserv+respuesta[i].imagen;
 
+		var coordenadas=respuesta[i].ubicacion;
+	var lat="";
+	var long="";
+	var onclick="";
+	if (coordenadas!='') {
+	 coordenadas=respuesta[i].ubicacion.split(',');
+
+		lat=coordenadas[0];
+		long=coordenadas[1];
+
+		onclick="abrirGoogleMaps('"+lat+"','"+long+"')";
+	}
+
+
+
+
 			html+=`
 				<div class="swiper-slide swiper-slide-active" role="group"  style="margin-right: 20px;width:200px;" onclick="DetalleSucursal(`+respuesta[i].idsucursal+`)">
 				<div class="">
@@ -317,7 +336,7 @@ function PintarTableroSucursal(respuesta) {
 							    right: 0;
 							    margin-right: 0.5em;
 							    margin-top: 1em;">
-									<span class="material-icons-outlined" style="font-size:28px;line-height: 1;">
+									<span class="material-icons-outlined" style="font-size:28px;line-height: 1;"  onclick="`+onclick+`">
 									location_on
 									</span>
 
@@ -380,6 +399,8 @@ function ObtenerTableroCitas(estatus) {
 
 function PintarTableroCitas(respuesta) {
 	var html="";
+	$(".titulocitas").css('display','none');
+
 	if (respuesta.length>0) {
 		$(".titulocitas").css('display','block');
 		for (var i = 0; i < respuesta.length; i++) {
@@ -388,36 +409,53 @@ function PintarTableroCitas(respuesta) {
 
 			html+=`
 			<li class="col-100 medium-50">
-				<div class="card-bx job-card" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">
+				<div class="card-bx job-card" >
 					<div class="card-media">
 						<a >
-						<img src="`+imagen+`" alt="">
+						<img src="`+imagen+`" alt="" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">
 						</a>
 					</div>
 					<div class="card-info">
 						<h6 class="item-title">
-						<p style="margin:0;color:#d2cfc7;" >`+respuesta[i].anio+` </p>
-						<a style="color:#1870bc;">
+						<p style="margin:0;color:#d2cfc7;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)" >`+respuesta[i].anio+` </p>
+						<a style="color:#1870bc;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">
 							<p style="margin:0;">`+respuesta[i].fechaformato+` </p>
 						</a>
 
-						<p style="color: #2b952a;font-size: 18px;margin:0;">`+respuesta[i].horacita+`hrs.</p>
+						<p style="color: #2b952a;font-size: 18px;margin:0;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">`+respuesta[i].horacita+`hrs.</p>
 
 						</h6>
 					  <div class="">
 				
-						<p style="margin:0;">`+respuesta[i].nombreespecialista+`</p>
-						<p style="margin:0;">`+respuesta[i].titulo+`-`+respuesta[i].descripcion+`</a></p>
+						<p style="margin:0;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">`+respuesta[i].nombreespecialista+`</p>
+						<p style="margin:0;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">`+respuesta[i].titulo+`-`+respuesta[i].descripcion+`</a></p>
 						</div>
 						<div class="item-footer">
 
 						</div>
-					</div>
-					<a  class="bookmark-btn active">
-					<i class="fas fa-bookmark"></i>
-						<i class="far fa-bookmark">
-						</i>
-					</a>
+					</div>`;
+					var onclick="";
+					var color="color:black;";
+					if (respuesta[i].checkin==0) {
+
+						onclick="GenerarQrCita2("+respuesta[i].idcita+")";
+	
+					}else{
+
+						color="color:#5ac35b;";
+					}
+
+
+
+					html+=`<a  class="bookmark-btn active" onclick="`+onclick+`" >
+						<span class="material-icons-outlined" style="font-size: 28px;`+color+`">
+							qr_code
+						</span>
+					</a>`;
+
+
+				html+=`
+
 				</div>
 			</li>
 			`;
@@ -426,6 +464,31 @@ function PintarTableroCitas(respuesta) {
 	$(".tablerocitas").html(html);
 }
 
+
+function GenerarQrCita2(idcita) {
+	var iduser=localStorage.getItem('id_user');
+	var datos="idcita="+idcita+"&iduser="+iduser;
+	var pagina = "ObtenerDetalleCita.php";
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		success: function(datos){
+
+				var respuesta=datos.respuesta;
+				ObtenerDetalleCita(respuesta);	
+				localStorage.setItem('idcita',idcita);
+				GenerarQrCita(idcita);
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+}
 
 function Obtenerpublicidad(estatus){
 
@@ -933,6 +996,13 @@ function CargarDatos() {
      var nombre= localStorage.getItem("nombre");
      $(".nombreusuario").text(nombre);
 
+
+     var os=  localStorage.getItem("SO");
+       $(".bcantidadcarrito").css('right','3em');
+
+     if (os=='ios') {
+     	$(".bcantidadcarrito").css('right','3em');
+     }
 }
 
 
@@ -970,6 +1040,18 @@ function Cargarperfilfoto() {
 				localStorage.setItem('foto','');
 
 			}
+
+			if (respuesta.nombre==null) {
+				respuesta.nombre='';
+			}
+			if (respuesta.paterno==null) {
+				respuesta.paterno='';
+			}
+			if (respuesta.materno==null) {
+				respuesta.materno='';
+			}
+			var nombre=respuesta.nombre+' '+respuesta.paterno+' '+respuesta.materno;
+			$("#txtnombre").text(nombre);
 
 			CargarFoto();
 
@@ -1023,7 +1105,19 @@ function ObtenerDetalleCita(respuesta) {
 
 	var html2="";
 
-	
+	var coordenadas=respuesta.ubicacion;
+	var lat="";
+	var long="";
+	if (coordenadas!='') {
+	 coordenadas=respuesta.ubicacion.split(',');
+
+		lat=coordenadas[0];
+		long=coordenadas[1];
+	}
+		var llamada="";
+	if (respuesta.celular!='') {
+		llamada="hacerLlamada('"+respuesta.celular+"')";
+	}
 
 var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;background: white;">
             <div class="toolbar" style="background: white;">
@@ -1036,9 +1130,9 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
             </div>
             <div class="sheet-modal-inner" style="background: white;border-top-left-radius: 20px;border-top-right-radius:20px; ">
             	 <div class="iconocerrar link sheet-close" style="z-index:10;">
-	 								<span style="font-size: 30px;" class="material-icons-outlined">
-																		cancel
-																		</span>
+	 		<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M25.5188 4.48126C23.4385 2.4011 20.788 0.984547 17.9026 0.410715C15.0171 -0.163118 12.0264 0.131546 9.30839 1.25744C6.59043 2.38334 4.26736 4.28991 2.63294 6.73606C0.998525 9.18221 0.12616 12.0581 0.12616 15C0.12616 17.9419 0.998525 20.8178 2.63294 23.264C4.26736 25.7101 6.59043 27.6167 9.30839 28.7426C12.0264 29.8685 15.0171 30.1631 17.9026 29.5893C20.788 29.0155 23.4385 27.5989 25.5188 25.5188C26.9003 24.1375 27.9961 22.4976 28.7437 20.6928C29.4914 18.888 29.8762 16.9535 29.8762 15C29.8762 13.0465 29.4914 11.1121 28.7437 9.30724C27.9961 7.50242 26.9003 5.86255 25.5188 4.48126ZM20.3126 18.7613C20.4187 18.8606 20.5034 18.9808 20.5612 19.1142C20.6191 19.2476 20.6489 19.3915 20.6489 19.5369C20.6489 19.6823 20.6191 19.8262 20.5612 19.9596C20.5034 20.093 20.4187 20.2131 20.3126 20.3125C20.2133 20.411 20.0956 20.4889 19.9661 20.5418C19.8367 20.5946 19.698 20.6214 19.5582 20.6206C19.2795 20.6195 19.0124 20.5088 18.8145 20.3125L15.0001 16.4981L11.2388 20.3125C11.0409 20.5088 10.7738 20.6195 10.4951 20.6206C10.3553 20.6214 10.2166 20.5946 10.0872 20.5418C9.95773 20.4889 9.83999 20.411 9.74071 20.3125C9.54282 20.1134 9.43174 19.8441 9.43174 19.5634C9.43174 19.2827 9.54282 19.0135 9.74071 18.8144L13.502 15L9.74071 11.2388C9.56665 11.0355 9.47569 10.774 9.48602 10.5066C9.49635 10.2392 9.6072 9.98557 9.79642 9.79635C9.98565 9.60712 10.2393 9.49627 10.5067 9.48594C10.7741 9.47561 11.0356 9.56657 11.2388 9.74063L15.0001 13.5019L18.7613 9.74063C18.8597 9.63878 18.9772 9.55729 19.107 9.50083C19.2369 9.44437 19.3766 9.41404 19.5182 9.41158C19.6598 9.40911 19.8004 9.43456 19.9322 9.48646C20.0639 9.53836 20.1842 9.6157 20.286 9.71407C20.3879 9.81244 20.4694 9.9299 20.5258 10.0598C20.5823 10.1896 20.6126 10.3293 20.6151 10.4709C20.6175 10.6125 20.5921 10.7532 20.5402 10.8849C20.4883 11.0167 20.411 11.1369 20.3126 11.2388L16.4982 15L20.3126 18.7613Z" fill="#AAAAAA"></path>
+            </svg>
 	   						    	 </div>
               <div class="page-content" style="height: 100%;">
                 <div style="background: white; height: 100%;width: 100%;border-radius: 20px;">
@@ -1075,7 +1169,19 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
                             	<p class="no-margin-bottom text-color-theme">`+respuesta.fechaformato+`</p>
                             	<p class="no-margin-bottom text-color-theme">`+respuesta.horainicial+` Hrs.</p>
 
-                            	<p class="no-margin-bottom text-color-theme">Especialista: `+respuesta.nombre+` `+respuesta.paterno+`</p>
+                            	<p class="no-margin-bottom text-color-theme">Barbero: `+respuesta.nombre+` `+respuesta.paterno+`</p>`;
+
+                            if(respuesta.checkin==1) {
+                            
+                            	html+=` <p class="" style="display: flex;"><span>check-in:</span> <span class="material-icons-outlined" 
+                            	style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;">
+										check_circle_outline
+										</span>
+									</p>`;	
+                            
+                            }
+                            html+=`
+                        	<p class="no-margin-bottom text-color-theme">`+respuesta.concepto+`</p>
 
                             </div>
 
@@ -1088,21 +1194,27 @@ margin-top: 1.4em;    width: 100%;
                                 </div>
                             </div>
                             </div>
-                        </div>
 
-                        <div class="row">
+                            <div class="row">
                         	<div class="imagenqr" style="    justify-content: center;display: flex;"></div>
                         </div>
+                        </div>
+
+                        
+
+                        
+                        	<div class="" style="">
+                        		<div class="row ">
+                        			<div class="calificacion"></div>
+                        		 </div>
+                        	</div>
+                       
                     </div>
                     <div class="card-content card-content-padding">
                         <p class="text-muted margin-bottom">
                            
                         </p>
-                        <div class="row">
-                          
-                            
-                            
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -1110,14 +1222,14 @@ margin-top: 1.4em;    width: 100%;
 		   							 	 
 		   							 			</div>
 
-
-		   							 			<div class="row" style="margin-right: 2em; margin-left: 2em;    margin-top: 1em;">
-				<div class="col">
+		   	<div class="opcionescita">						 			
+		   	<div class="row" style="margin-right: 2em; margin-left: 2em;    margin-top: 1em;">
+				<div class="col" onclick="`+llamada+`">
 					<span style="justify-content: center;
     display: flex;" class="material-icons-outlined">call</span>
 					<h5 class="mt-5 mb-0 telefono" style="font-size: 12px;text-align: center;">¿Necesitas un cambio?</h5>
 				</div>
-				<div class="col">
+				<div class="col" onclick="abrirGoogleMaps('`+lat+`','`+long+`')">
 					<span style="justify-content: center;
     display: flex;" class="material-icons-outlined">location_on</span>
 					<h5 class="mt-5 mb-0" style="font-size: 12px;text-align: center;">Encuentra la sucursal</h5>
@@ -1128,18 +1240,27 @@ margin-top: 1.4em;    width: 100%;
     display: flex;" class="material-icons-outlined">grade</span>
 
 					<h5 class="mt-5 mb-0" style="font-size: 12px;text-align: center;">Califica</h5>
-				</div>
+				</div>`;
 
-
-				<div class="col" onclick="GenerarQrCita(`+respuesta.idcita+`)">
+				if (respuesta.checkin==0) {
+			/*	html+=`<div class="col" onclick="GenerarQrCita(`+respuesta.idcita+`)">
 					<span style="justify-content: center;
     display: flex;" class="material-icons-outlined">qr_code</span>
 
 					<h5 class="mt-5 mb-0" style="font-size: 12px;text-align: center;">Mostrar Qr</h5>
-				</div>
+				</div>`;*/
 
+			}
+
+			html+=`
 			</div>
-							   							  	
+				<div class="row" style="height:200px;">
+                          
+                            
+                            
+                        </div>
+					
+		</div>		   							  	
            												 </div>
 							   							  	</div>
 		   							 	 
@@ -1147,7 +1268,7 @@ margin-top: 1.4em;    width: 100%;
 
 		   							
 		   							 	html+=`</div>
-
+	  	
 		   							 		<div class="row">`;
 
 		   							 	
@@ -1162,6 +1283,8 @@ margin-top: 1.4em;    width: 100%;
 
 		   							  		html+=`</div>
 		   							  		</div>
+
+
 
 	   							 	</div>
 
@@ -1181,6 +1304,10 @@ margin-top: 1.4em;    width: 100%;
         // Events
         on: {
           open: function (sheet) {
+
+          	if (respuesta.checkin==0) {
+          		GenerarQrCita(respuesta.idcita);
+          	}
            
 			
 
@@ -1220,7 +1347,7 @@ function GenerarQrCita(idcita) {
 			localStorage.setItem('idqrgenerado',datos.idqrgenerado);
 		
 
-			$(".datoscita").css('display','none');
+			//$(".datoscita").css('display','none');
 			$(".imagenqr").html('<img src="" id="colocarqr" alt="" style="width:80%"/>');
 
 			$("#colocarqr").attr('src',ruta.trim());
@@ -1254,7 +1381,7 @@ function VerificarSihasidoleido() {
 				var respuesta=resultado.respuesta;
 
 				if (respuesta==1) {
-					alert('a');
+					
 					 clearInterval(intervalove);
 					 dynamicSheet1.close();
 					 var datosqr=resultado.datosqr[0];
@@ -1331,7 +1458,8 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
 																			check_circle_outline
 																			</span>
 			   							 		</div>
-		   							 		</div><div class="col-100">
+		   							 		</div>
+		   							 		<div class="col-100" style="margin-top:1em;">
 		   		
 		   							 		
 			   							 		
@@ -1412,3 +1540,428 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
 
 		dynamicSheet4.close();
 	}
+
+	
+function ObtenerPolitica() {
+	var pagina = "ObtenerConfiguracion.php";
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		async:false,
+		success: function(datos){
+
+			
+			var cadena =datos.respuesta.politicaprivacidad;
+
+			$(".textopoliticas").html('<p style="text-align:justify;">'+cadena+'</p>');
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+}
+
+
+function entrarinvitado() {
+
+	
+	CrearUsuarioInvitado();
+	
+
+}
+
+function CrearUsuarioInvitado() {
+
+	var pagina = "CrearUsuarioInvitado.php";
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		async:false,
+		success: function(resp){
+				var idusuario=resp.id_user;
+				localStorage.setItem("id_user",idusuario);
+				localStorage.setItem('pregunta',1);
+    			localStorage.setItem('session',1);
+				localStorage.setItem("nombre","Invitado");
+				localStorage.removeItem('carrito');
+				localStorage.setItem('invitado',1);
+				localStorage.setItem('idtipousuario',6);
+				GoToPage("home");
+			
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+}
+
+function CerrarCalificacion() {
+			$(".opcionescita").css('display','block');
+			$(".datoscita").css('display','block');
+			$(".calificacion").css('display','none');
+}
+function CalificarCita(idcita){
+
+       var html=`
+         
+              <div class="block">
+               <div class="row">
+                  
+                <div class="col" >
+                	<div>
+                	 <i class=" iconosestrella estrellaseleccionada" id="estre_1"  onclick="Cambio(1)">
+                	 	<span class="material-icons-outlined">
+						star
+						</span>
+                	   </i>
+	                	 <div class="oculto">
+	                	 <input type="checkbox"  id="che_1" >
+	                	</div>
+                	</div>
+               
+               </div>
+                 <div class="col"  >
+                 	<div >
+	                  <i class="bi bi-star iconosestrella estrellaseleccionada" id="estre_2" onclick="Cambio(2)">
+	                  <span class="material-icons-outlined">
+						star
+						</span>
+	                  </i>
+	               		<input type="checkbox" class="oculto" id="che_2"  >
+               		</div>
+                </div>
+                <div class="col" >
+	                  <div  >
+		                   <i class="bi bi-star iconosestrella estrellaseleccionada" id="estre_3" onclick="Cambio(3)" >
+		                   <span class="material-icons-outlined">
+						star
+						</span>
+		                   </i>
+		                	<input type="checkbox" class="oculto" id="che_3"  >
+	                  </div>
+                 </div>
+                   <div class="col" >
+                   <div  >
+                   	    <i class="bi bi-star iconosestrella estrellaseleccionada" id="estre_4" onclick="Cambio(4)">
+                   	    <span class="material-icons-outlined">
+						star
+						</span>
+                   	    </i>
+                 		<input type="checkbox" class="oculto" id="che_4" >
+                 	</div>
+                  </div>
+                    <div class="col" >   
+	                    <div  >              
+	                     	 <i class="bi bi-star iconosestrella estrellaseleccionada" id="estre_5" onclick="Cambio(5)" >
+	                     	 <span class="material-icons-outlined">
+						star
+						</span>
+	                     	 </i>
+	                 		 <input type="checkbox" class="oculto" id="che_5"  >
+	                   	</div>
+                    </div>
+               
+
+                </div>
+
+                <div class="row" style="padding-top:1em;">
+                	<label style="font-size:16px;padding:1px;">Comentarios:</label>
+                	<textarea name="" id="txtcomentario" cols="30" rows="3"></textarea>
+                </div>
+              </div>
+           
+         
+        `;
+       app.dialog.create({
+          title: 'Califica cita',
+          //text: 'Dialog with vertical buttons',
+          content:html,
+          buttons: [
+            {
+              text: 'Cancelar',
+            },
+            {
+              text: 'Calificar',
+            },
+            
+          ],
+           onClick: function (dialog, index) {
+                    if(index === 0){
+               
+          }
+          else if(index === 1){
+             	GuardarCalificacion(idcita);
+
+            }
+           
+        },
+          verticalButtons: false,
+        }).open();
+	/*var calificacion=respuesta.calificacion;
+	if (calificacion.length>0) {
+		var cantidad=calificacion[0].calificacion;
+		Cambio(cantidad);
+		disableClicks();
+		$("#txtcomentario").val(calificacion[0].comentario);
+		$("#txtcomentario").attr('disabled',true);
+
+	}*/
+}
+function CalificarCita2(idcita) {
+		$(".datoscita").css('display','none');
+		$(".opcionescita").css('display','none');
+
+	var html="";
+		html+=`
+			<div class="row" style="margin-top: 2em;">
+                  
+                <div class="col-20" >
+                	<div>
+                	 <span  id="estre_1"  onclick="Cambio(1)" style="font-size:20px;"><span class="material-icons-outlined">
+						star
+						</span>
+						</span>
+	                	 <div class="oculto">
+	  
+	                	 <input type="checkbox"  id="che_1" >
+	                	</div>
+                	</div>
+               
+               </div>
+                 <div class="col-20"  >
+                 	<div >
+                	 <span  id="estre_2"  onclick="Cambio(2)" style="font-size:20px;">
+<span class="material-icons-outlined">
+star
+</span>
+                	 </span>
+	               		<input type="checkbox" class="oculto" id="che_2"  >
+               		</div>
+                </div>
+                <div class="col-20" >
+	                  <div  >
+                	 <span  id="estre_3"  onclick="Cambio(3)" style="font-size:20px;">
+						<span class="material-icons-outlined">
+						star
+						</span>
+                	 </span>
+		                	<input type="checkbox" class="oculto" id="che_3"  >
+	                  </div>
+                 </div>
+                   <div class="col-20" >
+                   <div  >
+                	 <span  id="estre_4"  onclick="Cambio(4)" style="font-size:20px;">
+                	 <span class="material-icons-outlined">
+					star
+					</span>
+                	 </span>
+                 		<input type="checkbox" class="oculto" id="che_4" >
+                 	</div>
+                  </div>
+                    <div class="col-20" >   
+	                    <div  >              
+                	 <span  id="estre_5"  onclick="Cambio(5)" style="font-size:20px;">
+<span class="material-icons-outlined">
+star
+</span>
+                	 </span>
+	                 		 <input type="checkbox" class="oculto" id="che_5"  >
+	                   	</div>
+                    </div>
+
+                    </div>
+                    <div class="row" style="padding-top:1em;">
+                    <div class="col-20" >   
+	                    <div  >              
+                	 <span  id="estre_6"  onclick="Cambio(6)" style="font-size:20px;">
+<span class="material-icons-outlined">
+star
+</span>
+                	 </span>
+	                 		 <input type="checkbox" class="oculto" id="che_6"  >
+	                   	</div>
+                    </div>
+
+                    <div class="col-20" >   
+	                    <div  >              
+                	 <span  id="estre_7"  onclick="Cambio(7)" style="font-size:20px;">
+<span class="material-icons-outlined">
+star
+</span>
+                	 </span>
+	                 		 <input type="checkbox" class="oculto" id="che_7"  >
+	                   	</div>
+                    </div>
+               	
+
+               		<div class="col-20" >   
+	                    <div  >              
+                	 <span  id="estre_8"  onclick="Cambio(8)" style="font-size:20px;">
+<span class="material-icons-outlined">
+star
+</span>
+                	 </span>
+	                 		 <input type="checkbox" class="oculto" id="che_8"  >
+	                   	</div>
+                    </div>
+
+                    <div class="col-20" >   
+	                    <div  >              
+                	 <span  id="estre_9"  onclick="Cambio(9)" style="font-size:20px;">
+<span class="material-icons-outlined">
+star
+</span>
+                	 </span>
+	                 		 <input type="checkbox" class="oculto" id="che_9"  >
+	                   	</div>
+                    </div>
+
+                    <div class="col-20" >   
+	                    <div  >              
+                	 <span  id="estre_10"  onclick="Cambio(10)" style="font-size:20px;">
+					<span class="material-icons-outlined">
+					star
+					</span>
+                	 </span>
+	                 		 <input type="checkbox" class="oculto" id="che_10"  >
+	                   	</div>
+                    </div>
+
+                </div>
+
+
+                <div class="row" style="padding-top:1em;">
+                	<label style="font-size:16px;padding:1px;">Comentarios:</label>
+                	<textarea name="" id="txtcomentario" cols="30" rows="3" style="color:black;"></textarea>
+                </div>
+              </div>
+
+              <div class="row">
+   <div class="col">
+    
+     <a id="btneliminarcuenta" class="button button-fill button-large button-raised margin-bottom color-theme" style="margin: 1em;" onclick="GuardarCalificacion(`+idcita+`)">
+               Guardar calificacion
+         </a>
+
+
+          <a id="btneliminar" class="button button-fill button-large button-raised margin-bottom " style="margin: 1em;" onclick="CerrarCalificacion()">
+              Cerrar
+         </a>
+   </div>
+  </div>
+
+		`;
+		$(".calificacion").html(html);
+	$(".calificacion").css('display','block');
+
+}
+
+
+function Cambio(valor) {
+
+	  select = $('#che_'+valor);
+	  select.on('change', SeleccionarEstrella(valor));
+	  select.trigger('change');
+}
+
+
+function SeleccionarEstrella(cantidad) {
+	var colocar=0;
+	if ($("#che_"+cantidad).is(':checked')) {
+
+		
+		colocar=0;
+
+	}else{
+		
+		colocar=1;
+
+	}
+
+	if (colocar==1) {
+		/*$("#estre_"+cantidad).removeClass('bi-star');
+		$("#estre_"+cantidad).addClass('bi-star-fill');*/
+		if (cantidad>=1) {
+			for (var i = 1; i <=cantidad; i++) {
+				/*$("#estre_"+i).removeClass('bi-star');
+				$("#estre_"+i).addClass('bi-star-fill');*/
+				$("#estre_"+i).addClass('colorestrella');
+
+				$("#che_"+i).attr('checked',true);
+			}
+		}
+		
+	}else{
+			
+			for (var i = 1; i <= 10; i++) {
+				/*$("#estre_"+i).removeClass('bi-star-fill');
+				$("#estre_"+i).addClass('bi-star');*/
+				$("#estre_"+i).removeClass('colorestrella');
+
+				$("#che_"+i).attr('checked',false);
+			}
+
+			if (cantidad>=1) {
+			for (var i = 1; i <=cantidad; i++) {
+				/*$("#estre_"+i).removeClass('bi-star');
+				$("#estre_"+i).addClass('bi-star-fill');*/
+				$("#estre_"+i).addClass('colorestrella');
+
+
+				$("#che_"+i).attr('checked',true);
+
+			}
+		}
+	
+	}
+	
+
+}
+
+function GuardarCalificacion(idcita) {
+	var idusuario=localStorage.getItem('id_user');
+	var cantidad=$(".colorestrella").length;
+	var comentario=$("#txtcomentario").val();
+	 app.dialog.confirm('','¿Seguro de guardar la calificación?', function () {
+
+	var datos="idcita="+idcita+"&idusuario="+idusuario+"&cantidad="+cantidad+"&comentario="+comentario;
+	var pagina = "GuardarCalificacionCita.php";
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		async:false,
+		success: function(resp){
+
+			
+				$("#txtcomentario").val('');
+				$(".opcionescita").css('display','block');
+				$(".datoscita").css('display','block');
+				//$(".calificacion").css('display','none');
+				CerrarModal2();
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+
+	});
+}
+
+function CerrarModal2() {
+	app.dialog.close();
+}
+

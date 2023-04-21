@@ -300,6 +300,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
+      "id": "cordova-plugin-qr-barcode-scanner.BarcodeScanner",
+      "file": "plugins/cordova-plugin-qr-barcode-scanner/www/barcodescanner.js",
+      "pluginId": "cordova-plugin-qr-barcode-scanner",
+      "clobbers": [
+        "cordova.plugins.barcodeScanner"
+      ]
+    },
+    {
       "id": "cordova-plugin-splashscreen.SplashScreen",
       "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
       "pluginId": "cordova-plugin-splashscreen",
@@ -322,11 +330,11 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "cordova-plugin-qr-barcode-scanner.BarcodeScanner",
-      "file": "plugins/cordova-plugin-qr-barcode-scanner/www/barcodescanner.js",
-      "pluginId": "cordova-plugin-qr-barcode-scanner",
+      "id": "cordova-plugin-call-number.CallNumber",
+      "file": "plugins/cordova-plugin-call-number/www/CallNumber.js",
+      "pluginId": "cordova-plugin-call-number",
       "clobbers": [
-        "cordova.plugins.barcodeScanner"
+        "call"
       ]
     }
   ];
@@ -342,11 +350,12 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-ios-camera-permissions": "1.2.0",
     "cordova-plugin-media": "5.0.3",
     "cordova-plugin-network-information": "3.0.0",
+    "cordova-plugin-qr-barcode-scanner": "8.0.3",
     "cordova-plugin-splashscreen": "6.0.0",
     "cordova-plugin-wkwebview-file-xhr": "3.0.0",
     "es6-promise-plugin": "4.2.2",
     "cordova-plugin-x-socialsharing": "6.0.4",
     "cordova-support-android-plugin": "2.0.4",
-    "cordova-plugin-qr-barcode-scanner": "8.0.3"
+    "cordova-plugin-call-number": "1.0.1"
   };
 });

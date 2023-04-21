@@ -33,11 +33,14 @@
       "ANDROID_GRPC_OKHTTP": "1.46.0",
       "PACKAGE_NAME": "com.inversa.app"
     },
+    "cordova-plugin-qr-barcode-scanner": {
+      "ANDROID_SUPPORT_V4_VERSION": "27.+",
+      "PACKAGE_NAME": "com.inversa.app"
+    },
     "cordova-support-android-plugin": {
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova-plugin-qr-barcode-scanner": {
-      "ANDROID_SUPPORT_V4_VERSION": "27.+",
+    "cordova-plugin-call-number": {
       "PACKAGE_NAME": "com.inversa.app"
     }
   },

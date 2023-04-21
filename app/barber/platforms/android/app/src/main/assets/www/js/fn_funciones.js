@@ -307,4 +307,6 @@ function CoincidirContra2(contra1,contra2) {
     span.hide();
    }
   }
-
+function myStopFunction(variable) {
+  clearInterval(variable);
+}

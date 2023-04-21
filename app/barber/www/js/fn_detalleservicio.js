@@ -38,16 +38,16 @@ function detalleservicio(idpaquete) {
 function PintarDescripcionServicio(paquete,grupos,opciones,imagenesdelpaquete,idpaquete) {
    
     localStorage.setItem('comentariopaquete','');
-		var idca=paquete.idcategorias;
+		/*var idca=paquete.idcategorias;
 
     localStorage.setItem('idcategoria',idca);
-
+*/
   $("#instruc").attr("onclick","AbrirlModal()");
 
 	var idsucursal=localStorage.getItem('idsucursales');
 	//ObtenerPaquetesVinculado(idpaquete,idsucursal,paquete);
 	var imagenvacio=[];
-	PintarImagenesPaquete(paquete,imagenvacio);
+	//PintarImagenesPaquete(paquete,imagenvacio);
 	PintarImagenesPaquete2(paquete,imagenesdelpaquete);
 	
 	var nombre=`<span id="paquete"  class="bordesredondeados paquetetitulo">`+paquete.nombrepaquete+`</span>`;
@@ -356,7 +356,7 @@ function PintarDescripcionServicio(paquete,grupos,opciones,imagenesdelpaquete,id
 
 function PintarImagenesPaquete2(paquete,imagenesdelpaquete) {
 	
-		/*if (paquete.foto!='' && paquete.foto!=null) {
+	if (paquete.foto!='' && paquete.foto!=null) {
 		imagen=urlimagenes+'paquetes/imagenespaquete/'+codigoserv+paquete.foto;
 	}else{
 
@@ -365,28 +365,67 @@ function PintarImagenesPaquete2(paquete,imagenesdelpaquete) {
 	$("#imagenpaquete").attr('src',imagen);
 	
 	$(".imagenpaquetediv").attr('onclick','VisualizarImagen(\''+imagen+'\')');
-*/
- 
+
+
 		html=`  <div   
                       data-speed="900"
                       data-pagination='{"el": ".swiper-pagination"}'
                       data-space-between="50"
-                      class="swiper-container  clases2`+paquete.idpaquete+`" id="sliderpaquete2_`+paquete.idpaquete+`"  >
-                      <div class="swiper-wrapper" id="contenidopaquete2_`+paquete.idpaquete+`" >
+                      class="swiper-container   sliderpaquete paqueteli clases`+paquete.idpaquete+`" id="sliderpaquete_`+paquete.idpaquete+`"  >
+                      <div class="swiper-wrapper" id="contenidopaquete_`+paquete.idpaquete+`" >
 
                       </div>
                        <div class="swiper-pagination"></div>
 
+
                     </div>
 
+                    <div class="paquetesli clases`+paquete.idpaquete+`" id="titulo_`+paquete.idpaquete+`" style="margin-top: -1em;"></div>
 
 
                     `;
 
-                   $("#imagenespaquete2").append(html);
+                   $("#imagenespaquete").append(html);
 
 
-                    // $("#contenidopaquete2_"+paquete.idpaquete).html(html2);
+                	html2=`<div class="swiper-slide">`;
+        		html2+=`<div class="contorno demo-facebook-card bordesredondeados " style="" >
+                        <div class="">
+                          <div class="demo-facebook-avatar">
+                        </div>
+                        </div>
+                        <div class="card-content" style="margin-right: 1em;margin-left: 1em;"> `;
+
+                        if (paquete.foto!='' && paquete.foto!=null) {
+                        	imagen=urlimagenes+`paquetes/imagenespaquete/`+codigoserv+paquete.foto;
+
+                        }else{
+
+                        	imagen=urlimagendefault;
+                        }
+
+
+                       html2+=`<div style="" class="">
+  
+                        <img class="bordesredondeados " onclick="VisualizarImagen(\'`+imagen+`\')" src="`+imagen+`"
+                          style="width:100%;border-radius:10px;margin-bottom:1em;" />
+                           <div class="textoababoderecha precioriginal" id="precioriginal"></div>
+
+                          </div>`;
+                       /* <div class="card-footer" style="">
+
+                          <div style="font-weight: bold;
+   										 border-radius: 10%;
+   							 padding: .2em;margin-top: .6em;font-size:16px;" class="fuente">`+datos[i].sucursal+`</div>
+                        </div>*/
+                      html2+=`</div>
+                      </div>`;
+
+                    html2+=` 
+
+                     </div>`;
+
+                     $("#contenidopaquete_"+paquete.idpaquete).html(html2);
 
 
                      if (imagenesdelpaquete.length>0) {
@@ -394,12 +433,12 @@ function PintarImagenesPaquete2(paquete,imagenesdelpaquete) {
                      	for (var i = 0; i < imagenesdelpaquete.length; i++) {
                      			var html3="";
 
-                     			obtener1= $("#contenidopaquete2_"+imagenesdelpaquete[i].idpaquete).html();
+                     			obtener= $("#contenidopaquete_"+imagenesdelpaquete[i].idpaquete).html();
                      				
                      				urlimg=urlimagenes+`paquetes/imagenespaquete/`+codigoserv+imagenesdelpaquete[i].imagen;
 
                      				html3+=`<div class="swiper-slide">`;
-				        		    html3+=`<div class="contorno demo-facebook-card bordesredondeados" >
+				        		html3+=`<div class="contorno demo-facebook-card bordesredondeados" >
 				                        <div class="">
 				                          <div class="demo-facebook-avatar">
 				                        </div>
@@ -407,9 +446,10 @@ function PintarImagenesPaquete2(paquete,imagenesdelpaquete) {
 
 				                        <div class="card-content" style="margin-right: 1em;margin-left: 1em;"> 
 				                        <div style="" >
-				   				
-				                        <img class="bordesredondeados " onclick="VisualizarImagen(\'`+urlimg+`\')" src="`+urlimg+`"
-				                          style="width:100%;border-radius:10px;margin-bottom:1em;" />
+				   						
+				                                                   <img class="bordesredondeados " onclick="VisualizarImagen(\'`+urlimg+`\')" src="`+urlimg+`" style="width:100%;border-radius:10px;margin-bottom:1em;"/>
+
+				                           <div class="textoababoderecha precioriginal" id="precioriginal"></div>
 
 				                          </div>`;
 				        
@@ -420,10 +460,9 @@ function PintarImagenesPaquete2(paquete,imagenesdelpaquete) {
 
 				                     </div>`;
 
-				                    htmlslider1= obtener1+html3;
+				                    htmlslider= obtener+html3;
 
-
-                    			    $("#contenidopaquete2_"+imagenesdelpaquete[i].idpaquete).html(htmlslider1);
+                    			 $("#contenidopaquete_"+imagenesdelpaquete[i].idpaquete).html(htmlslider);
 
 
 
@@ -431,7 +470,7 @@ function PintarImagenesPaquete2(paquete,imagenesdelpaquete) {
                      }
 
 
-                      var swiper = new Swiper('#sliderpaquete2_'+paquete.idpaquete, {
+                      var swiper = new Swiper('#sliderpaquete_'+paquete.idpaquete, {
 
 				      centeredSlides: true,
 				      spaceBetween: 30,
@@ -443,4 +482,7 @@ function PintarImagenesPaquete2(paquete,imagenesdelpaquete) {
 							    delay:2500,
 							  },
 				    });
+
+                      $(".swiper-pagination").css('bottom','10px!important');
+                      
 }

@@ -13,8 +13,12 @@ var pagina="ObtenerCarrito.php";
     success: function(resp){
 
       var res=resp.respuesta;
- 
-      $(".bcantidadcarrito").text(res.length);      
+  $(".bcantidadcarrito").css('display','none');
+    if (res.length>0) {
+        $(".bcantidadcarrito").css('display','block');
+        $(".bcantidadcarrito").text(res.length);      
+    }
+    
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;
             if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
@@ -56,9 +60,10 @@ var pagina="ObtenerCarrito.php";
 function PintarCarrito(respuesta) {
 
 	var html="";
+      $("#cantidadagregados").text(respuesta.length);
+
 	if (respuesta.length>0) {
 
-    $("#cantidadagregados").text(respuesta.length);
 		for (var i = 0; i < respuesta.length; i++) {
 
 		imagen=urlimagenes+'paquetes/imagenespaquete/'+codigoserv+respuesta[i].foto;
@@ -234,7 +239,6 @@ function EliminarProductoCarrito(idcarrito,nombre) {
 
       
         CargarCarrito();
-
       
     
     },error: function(XMLHttpRequest, textStatus, errorThrown){ 
@@ -251,7 +255,24 @@ function EliminarProductoCarrito(idcarrito,nombre) {
 }
 
 function IrAPago() {
-  GoToPage('resumenpago');
+
+  var idusuario=localStorage.getItem('id_user');
+
+  var invitado=localStorage.getItem('invitado');
+
+  if (invitado==1) {
+
+
+    GoToPage('signup2');
+
+
+    }else{
+
+      GoToPage('resumenpago');
+    }
+
+       
+   
 }
 
 function Agregarmasproducto() {

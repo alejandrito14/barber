@@ -321,8 +321,7 @@ function HabilitarBotonPago() {
 		 }
 	
 	});
-  console.log(contar+''+contarseleccionadoscero);
-  console.log('pago cero'+pagocero);
+ 
    if (contar!=contarseleccionadoscero) {
     if (pagocero==1) {
       
@@ -527,8 +526,8 @@ var pagina="ObtenerCarrito.php";
     async:false,
     success: function(resp){
       var res=resp.respuesta;
-     // PintarCarrito(res);
-      var total=formato_numero(resp.totalcarrito,2,'.',',');
+      PintarCarrito2(res);
+      var total=resp.totalcarrito;
       resolve(total);
       localStorage.setItem('sumatotalapagar',total);
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
@@ -541,6 +540,71 @@ var pagina="ObtenerCarrito.php";
     });
 
 });
+}
+
+
+function PintarCarrito2(respuesta) {
+
+  var html="";
+  if (respuesta.length>0) {
+
+    $("#cantidadagregados").text(respuesta.length);
+    for (var i = 0; i < respuesta.length; i++) {
+
+    imagen=urlimagenes+'paquetes/imagenespaquete/'+codigoserv+respuesta[i].foto;
+
+      html+=`
+      <li class="item-content">
+              <div class="item-media">
+              <img src="`+imagen+`" alt="" style="    width: 100px;
+    border-radius: 10px;"></div>
+              <div class="item-inner">
+                <div class="row">
+                  <div class="col-60">
+                    <p style="margin:0;">`+respuesta[i].cantidad+` `+respuesta[i].nombrepaquete+`</p>
+                    <p style="margin:0;">`+respuesta[i].titulo+`</p>
+                    `;
+                   /* if (respuesta[i].servicio==0) {
+                   html+=` <p style="margin:0;">Cantidad: `+respuesta[i].cantidad+`
+                       
+                      
+                    </p>`; 
+                  }*/
+
+          if (respuesta[i].usuarioespecialista!=null && respuesta[i].usuarioespecialista!='') {
+                   html+=` <p style="margin:0;">`+respuesta[i].usuarioespecialista+`
+                    </p>`; 
+                   html+=` <p style="margin:0;">`+respuesta[i].fechaformato+`
+                    </p>`; 
+
+                  }
+
+                  html+=`</div> 
+
+                  <div class="col-40">
+                     <p>$`+respuesta[i].costototal+`</p>
+                     <p>
+                     </p>
+                  </div>
+                 </div>`;
+
+               
+
+                html+=` </div>
+
+              </div>
+            </li>
+
+      `;
+
+    
+    }
+  }
+
+
+  $(".listadocarrito2").html(html);
+ // Destruir();
+ 
 }
 
 function CalcularTotales() {
@@ -1966,8 +2030,8 @@ function PintarpagosPagados(pagos) {
       }
 
       html+=`
-        <li class="col-100 medium-50" id="pago_`+pagos[i].idnotapago+`" style="margin-right: 1em;
-    margin-left: 1em;">
+        <li class="col-100 medium-50" id="pago_`+pagos[i].idnotapago+`" style="margin-right: 2em;
+    margin-left: 2em;">
                     <div class="row">
                         <div class="col-70">
                             <p class="text-muted "  id="concepto_`+pagos[i].idnotapago+`">

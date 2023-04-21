@@ -88,10 +88,10 @@ function AbrirlModal() {
 function PintarDescripcion(paquete,grupos,opciones,imagenesdelpaquete,idpaquete) {
    
     localStorage.setItem('comentariopaquete','');
-		var idca=paquete.idcategorias;
+		/*var idca=paquete.idcategorias;
 
     localStorage.setItem('idcategoria',idca);
-
+*/
   $("#instruc").attr("onclick","AbrirlModal()");
 
 	var idsucursal=localStorage.getItem('idsucursales');
@@ -944,7 +944,7 @@ function AgregarAcesta(idpaquete,promocion,cantidad,considerar,nombreproducto,po
 
 
 			if (cantidadpro>=cantidad) {
-					AgregarPaquete(idpaquete,promocion,opciones,texto,foto,nombrepaquete,cantidad,considerar,porfechas,directo,repetitivo,lunes,martes,miercoles,jueves,viernes,sabado,domingo,titulosgrupos,aplicariva,ivaaumentar);
+					AgregarPaquete(idpaquete,promocion,opciones,texto,foto,nombrepaquete,cantidadpro,considerar,porfechas,directo,repetitivo,lunes,martes,miercoles,jueves,viernes,sabado,domingo,titulosgrupos,aplicariva,ivaaumentar);
 					Contarcarrito();
 
 			}else{
@@ -1026,6 +1026,7 @@ function AgregarPaquete(idpaquete,promocion,opciones,texto,foto,nombre,cantidadp
 	
 		var precioriginal=$("#precioriginal").text();
 		var cantidad=$("#cantidad").val();
+		//alert(cantidad);
 		var precio=$("#precio").text();
 		var preuni=$("#preciouni").text();
 		var descripcion=$("#descripcion").text();
@@ -1096,7 +1097,7 @@ function AgregarPaquete(idpaquete,promocion,opciones,texto,foto,nombre,cantidadp
 
 	  	const prod = {
 	  		idpaquete : idpaquete,
-	  		cant : cantidad,
+	  		cant :cantidad,
 	  		opciones : opciones,
 	  		texto : texto,
 	  		img : foto,
@@ -3235,7 +3236,7 @@ function PintarImagenesPaquete(paquete,imagenesdelpaquete) {
 
 
                 	html2=`<div class="swiper-slide">`;
-        		html2+=`<div class="contorno demo-facebook-card bordesredondeados " >
+        		html2+=`<div class="contorno demo-facebook-card bordesredondeados " style="margin-left: 1em; margin-right: 1em;" >
                         <div class="">
                           <div class="demo-facebook-avatar">
                         </div>

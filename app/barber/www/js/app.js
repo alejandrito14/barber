@@ -44,7 +44,7 @@ var app = new Framework7({
     placementId: 'pltd4o7ibb9rc653x14',
   },
 });
-
+var intervalo=0;
 var pictureSource;   // picture source
  var destinationType; 
 var produccion = 1;
@@ -91,7 +91,7 @@ $(document).ready(function() {
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.1';
+var version='1.0.3';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;
@@ -213,15 +213,15 @@ var carpetaapp="";
     localStorage.setItem('costoenvio',0);
     localStorage.setItem('idclientes_envios','');
     localStorage.setItem('observacionpedido','');
-         localStorage.setItem('idusuarios_envios','');
+    localStorage.setItem('idusuarios_envios','');
 
     localStorage.setItem('montodescontado','');
-  localStorage.setItem('datostarjeta','');
-  localStorage.setItem('adelante',1);
-  localStorage.setItem('idtutorado','');
-  localStorage.setItem('cont',-1);
-localStorage.setItem('valor','');
-localStorage.setItem('avatar','');
+    localStorage.setItem('datostarjeta','');
+    localStorage.setItem('adelante',1);
+    localStorage.setItem('idtutorado','');
+    localStorage.setItem('cont',-1);
+    localStorage.setItem('valor','');
+    localStorage.setItem('avatar','');
         if(localStorage.getItem('iduserrespaldo')!=undefined && localStorage.getItem('iduserrespaldo')!=null)
           {
             var iduserrespaldo=localStorage.getItem('iduserrespaldo');
@@ -279,13 +279,23 @@ localStorage.setItem('avatar','');
     }
 
       var sesion=localStorage.getItem('session');
-          
+      var iduser=localStorage.getItem('id_user'); 
          if(sesion==1)
           {
-            ValidarUsuarioSession();
+            if (iduser>0) {
+               ValidarUsuarioSession();
+             
+             }else{
+               myStopFunction(intervalo);
+
+               MostrarAnuncios();    
+
+             }
+
+           
 
           }else{
-
+            myStopFunction(intervalo);
             MostrarAnuncios();        
           }
     
@@ -325,6 +335,15 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
      $(".btnsalir").attr('onclick','salir_app()');
      $(".btniracarrito").attr('onclick','IraCarrito()');
 
+    var invitado=  localStorage.getItem('invitado');
+
+    if (invitado==1) {
+
+      $(".menuoculto").css('display','none');
+      $(".menuusuario").css('visibility','hidden');
+      $(".btnsalir").css('display','');
+    }
+
   CargarDatos();
   var pregunta=localStorage.getItem('pregunta');
     if (pregunta==0) {
@@ -345,7 +364,7 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
 
 $$(document).on('page:init', '.page[data-name="homeespecialista"]', function (e) {
         $(".btnsalir").attr('onclick','salir_app()');
-
+        $(".btnscan2").attr('onclick','scanqr2()');
       
       CargarDatosEspecialista();
   var pregunta=localStorage.getItem('pregunta');
@@ -380,13 +399,21 @@ $$(document).on('page:init', '.page[data-name="celular"]', function (e) {
     
 });
 
+$$(document).on('page:init', '.page[data-name="celular2"]', function (e) {
+      
+   phoneFormatter('telefono');
+  $$('#btnvalidarcelular').attr('onclick','ValidarCelular()')
+
+    
+});
+
 $$(document).on('page:init', '.page[data-name="colocartoken"]', function (e) {
       
- $$("#t1").focus();
- $$('#t1').attr('onkeyup',"Siguiente('t1','t2')");
+ $$("#t5").focus();
+/* $$('#t1').attr('onkeyup',"Siguiente('t1','t2')");
  $$('#t2').attr('onkeyup',"Siguiente('t2','t3')");
- $$('#t3').attr('onkeyup',"Siguiente('t3','t4')");
- $$('#t4').attr('onkeyup',"Validarcaja('t4');ValidarToken();");
+ $$('#t3').attr('onkeyup',"Siguiente('t3','t4')");*/
+ $$('#t5').attr('onkeyup',"ValidarToken();");
  $$("#reenviotoken").attr('onclick',"ReenvioTokenCel()");
  $("#btncancelar1").attr("onclick","EliminarVariables()");
 
@@ -414,6 +441,17 @@ $$('#v_email').attr('onfocus',"Cambiar(this)");
 $$('#v_email').attr('onblur',"Cambiar2(this);QuitarEspacios(this);");
 
 
+$('.show-pass').on('click',function(){
+      $(this).toggleClass('active');
+      var passInput = $(this).parent().find('input');
+      var inputType = passInput.attr('type');
+      if( inputType == 'password'){
+        passInput.attr('type','text');
+      }else if(inputType == 'text'){
+        passInput.attr('type','password');
+      }
+    });
+
 });
 
 $$(document).on('page:init', '.page[data-name="intereses"]', function (e) {
@@ -425,10 +463,12 @@ $$(document).on('page:init', '.page[data-name="intereses"]', function (e) {
 
 $$(document).on('page:init', '.page[data-name="login"]', function (e) {
  
-
+  localStorage.setItem('id_user',0);
   $$('#btnlogin').attr('onclick','validar_login()');
-
   $$('#btnregresar').attr('onclick','RegresarLanding()'); 
+
+  $$(".btninvitado").attr('onclick','entrarinvitado()');
+
 });
 
 $$(document).on('page:init', '.page[data-name="detallesucursal"]', function (e) {
@@ -440,8 +480,20 @@ ObtenerDatosSucursal();
 
 $$(document).on('page:init', '.page[data-name="detalleproductoservicios"]', function (e) {
  
+ObtenerCategoriasProducto();
+//ObtenerProductos();
+    
+});
 
-ObtenerProductos();
+$$(document).on('page:init', '.page[data-name="subcategorias"]', function (e) {
+ 
+ObtenerSubCategorias();
+    
+});
+
+$$(document).on('page:init', '.page[data-name="productoscategoria"]', function (e) {
+ var div="divproductosservicios2";
+ObtenerProductosCategorias(div);
     
 });
 
@@ -474,14 +526,14 @@ $$(document).on('page:init','.page[data-name="detalleservicio"]',function(e)
 
 $$(document).on('page:init','.page[data-name="disponibilidadfecha"]',function(e)
 {
-        var paqueteid=localStorage.getItem('idpaquete');
+    var paqueteid=localStorage.getItem('idpaquete');
     detalleservicio(paqueteid);
    
      $("#v_especialista2").attr('onchange','ObtenerEspecialistaCosto2()');
 
      $("#v_horarios").attr('onchange','ObtenerEspecialistaHora()');
      $(".btnagendarcita").attr('onclick','AgendarCita()');
-  CargarCalendario();
+     CargarCalendario();
 });
 
 $$(document).on('page:init','.page[data-name="disponibilidadespecialista"]',function(e)
@@ -738,6 +790,88 @@ $('input[name="demo-radio-start"]').change(function () {
 });
 
 });
+
+$$(document).on('page:init', '.page[data-name="datospersonales"]', function (e) {
+
+Cargardatospersonales();
+
+});
+$$(document).on('page:init', '.page[data-name="profile"]', function (e) {
+
+
+  Cargarperfilfoto();
+   CargarFoto();
+  $$('#btncerrarsesion').attr('onclick','salir_app()')
+
+  $$("#datosacceso").attr('onclick','Datosacceso()');
+  $$(".badgefoto").attr('onclick','AbrirModalFoto()');
+
+  $$(".badgefoto").attr('onclick','AbrirModalFoto()');
+
+  $$("#btneliminarcuenta").attr('onclick','EliminarCuenta()');
+ $(".versionapp").text(version);
+
+ 
+
+});
+
+$$(document).on('page:init', '.page[data-name="politicas"]', function (e) {
+  
+ ObtenerPolitica();
+
+  
+
+});
+
+$$(document).on('page:init', '.page[data-name="datosacceso"]', function (e) {
+
+  ObtenerTiposUsuarios();
+  CargardatosIngresados();
+  TipoUsuario();
+  ObtenerdatosAcceso2();
+ $$('#v_contra1').attr('onkeyup',"Contarletrasinput('v_contra1','ojitoicono')");
+ $$('#span1').attr('onclick',"CambiarAtributoinput('v_contra1')"); 
+ $$('#v_contra2').attr('onkeyup',"CoincidirContra('v_contra1','v_contra2');Contarletrasinput('v_contra2','ojitoicono2');");
+ 
+ $$('#span2').attr('onclick',"CambiarAtributoinput2('v_contra2')");
+ $$("#btnguardar").attr('onclick','GuardarDatosacceso()');
+
+ $('.show-pass').on('click',function(){
+      $(this).toggleClass('active');
+      var passInput = $(this).parent().find('input');
+      var inputType = passInput.attr('type');
+      if( inputType == 'password'){
+        passInput.attr('type','text');
+      }else if(inputType == 'text'){
+        passInput.attr('type','password');
+      }
+    });
+
+});
+
+$$(document).on('page:init', '.page[data-name="detalleespecialista"]', function (e) {
+
+  ObtenerdetalleEspecialista();
+});
+
+
+$$(document).on('page:init', '.page[data-name="disponibilidadespecialistaelegido"]', function (e) {
+  ObtenerdetalleEspecialista();
+  CargarCalendario4();
+  $(".divhorarios").css('display','none');
+  $(".divservicios").css('display','none');
+  $(".btnagendarcita").attr('onclick','AgendarCita3()');
+
+
+});
+
+$$(document).on('page:init', '.page[data-name="disponibilidadfechasucursal"]', function (e) {
+    CargarCalendario5();
+  $(".btnagendarcita").attr('onclick','AgendarCita4()');
+
+});
+
+
 /*$$(document).on('page:init', '.page[data-name="disponibilidadfechaadmin"]', function (e) {
   $("#txtfechaadmin").attr('onclick','AbrirModalServicios()');
  CargarCalendario2();

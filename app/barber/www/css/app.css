@@ -213,7 +213,7 @@ div.demo-lazy {
 }
 /* Cards Demo */
 .demo-card-header-pic .card-header {
-  height: 40vw;
+  height: 30vw;
   background-size: cover;
   background-position: center;
   color: #fff;
@@ -820,7 +820,7 @@ code {
 }
 .iconocerrar{
   position: absolute;
-    left: 10px;
+    right: 10px;
     top: 0;
     padding-bottom: 1em;
     
@@ -857,14 +857,167 @@ code {
 }
 
 .calendarevento{
-       background: #5791d5!important;
+      background: black!important;
       color: white!important;
     
   }
   .nodisponible{
-     background: #ebebeb!important;
-      color: white!important;
+    /* background: #ebebeb!important;*/
+      color: #d4d4d4!important;
 
   }
+    .navbar .left{
+      margin-top: 3em!important;
+    }
 
+   .page-content{
+    margin-top: 4em!important;
+    }
+
+.oculto{
+  display: none;
+}
+.colorestrella{
+  color: orange;
+}
+
+.link .popup-close:after,.link .popup-close:before {
+    content: none;
+ }
+ .precioriginal{
+  font-weight: bold;
+  color: #5ac35b;
+  font-size: 16px;
+
+ }
+ #preciox{
+   font-weight: bold;
+  color: #5ac35b;
+  font-size: 16px;
+ }
+ /*.servicioscalendario{
+    padding-top: 40px;
+    word-wrap: break-word;
+    white-space: break-spaces;
+    height: 120px;
+    text-align: center;
+
+    width: 30%;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+ }*/
+ .especialistassu{
+    word-wrap: break-word;
+    /* white-space: break-spaces; */
+    height: 100px;
+    text-align: center;
+    width: 25%;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 30px;
+
+        display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+ .servicioscalendario{
+  padding-top: 20px;
+    word-wrap: break-word;
+    /* white-space: break-spaces; */
+    height: 120px;
+    text-align: center;
+    width: 30%;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 30px;
+ }
+ .sinseleccionar{
+  border: 1px solid black;
+    background: white;
+    color: black;
+ }
+
+ .seleccionado{
+  border: 1px solid white;
+  background: black;
+  color: white;
+ }
+  .sinseleccionarhora{
+  border: 1px solid black;
+    background: white;
+    color: black;
+ }
+
+ .seleccionadohora{
+  border: 1px solid white;
+  background: black;
+  color: white;
+ }
+ .calendar-day-selected .calendar-day-number{
+
+  background: gray!important;
+
+ }
+
+ .horariossele{
+  margin-top: 10px;
+    width: 25%;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+ }
+ .nombrepaquetes{
+
+     margin: 0px;
+    text-align: center;
+    font-size: 9px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    line-height: normal;
+ }
+ .preciopaqueteestilo{
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    /* margin: auto; */
+    /* width: 80px; */
+    background: black;
+    /* margin: auto; */
+    /* width: 100px; */
+    /* margin-bottom: 10px; */
+    /* margin-bottom: 10em; */
+    border-radius: 10px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    position: absolute;
+    /* left: 10px; */
+    bottom: -29px;
+    justify-content: center;
+    display: flex;
+ }
+
+ .precioanterior{
+  z-index: 1000;
+    position: absolute;
+    left: 0;
+    margin: 1em;
+    border-radius: 10px;
+    background: gray;
+    padding: 2px;
+    color: white;
+    text-decoration: line-through;
+    font-size: 12px;
+ }
+ /* .md .bcantidadcarrito{
+    right: 3em;
+  }
+  .ios .bcantidadcarrito{
+    right: 4em;
+  }*/
   

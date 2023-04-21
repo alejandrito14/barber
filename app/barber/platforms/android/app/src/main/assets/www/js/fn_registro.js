@@ -205,6 +205,11 @@ function Registrar() {
 
 	if (bandera==1) {
 
+		var promesa=ValidarCorreoSiExiste();
+
+		 promesa.then(r => {
+
+		if (r==0) {
 		$.ajax({
 			type: 'POST',
 			dataType: 'json',
@@ -230,7 +235,8 @@ function Registrar() {
     		localStorage.setItem("id_user", respuesta.idusuario);
     		localStorage.setItem("nombre", respuesta.nombre);
     	    localStorage.setItem("alias", respuesta.alias);
-
+    	    
+    	    localStorage.setItem('invitado',0);
     		localStorage.setItem("paterno",respuesta.paterno);
     		localStorage.setItem("materno", respuesta.materno);
     		localStorage.setItem("foto", respuesta.foto);
@@ -261,6 +267,11 @@ function Registrar() {
 								console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
 							}
 						});
+		}else{
+
+			alerta('','El correo ya se encuentra registrado');
+	}
+	});
 
 	}else{
 
@@ -408,6 +419,45 @@ function Registrar() {
 }
 
 
+function ValidarCorreoSiExiste() {
+	 return new Promise(function(resolve, reject) {
+	var v_email=$("#v_email").val();
+	var datos="correo="+v_email;
+
+
+	var pagina="VerificarexisteCorreo.php";
+	$.ajax({
+			type: 'POST',
+			dataType: 'json',
+			url: urlphp+pagina,
+			data: datos,
+			async:false,
+			beforeSend: function() {
+		        
+
+		    },
+		    success: function(datos){
+		    	respuestafuncion=datos.existe;
+    			resolve(respuestafuncion);
+					
+				},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+					app.preloader.hide();
+
+					alert('Error de conexión');
+					var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+				}
+			});
+		
+	});
+
+
+}
+
+
 //acceso 
 
 function RegistrarAcceso() {
@@ -504,7 +554,8 @@ function RegistrarAcceso() {
 
 				    		localStorage.setItem("correo", respuesta.email);
 				    		localStorage.setItem("usuario", respuesta.usuario[0].usuario);
-
+				    		localStorage.setItem("invitado",0);
+				    		alert('a');
 				    	    localStorage.setItem("session", 0);
 				    		localStorage.setItem("passacademia", v_contra1);
 				    		localStorage.setItem('tipoUsuario',respuesta.tipousuario);
@@ -2124,6 +2175,7 @@ function ValidarCelular() {
 
 	var telefono=$("#telefono").val();
 	var inputleido=$("#inputleido").is(':checked')?1:0;
+	var id_user=localStorage.getItem('id_user');
 	//GoToPage('colocartoken');
 	if (telefono!='') {
 	if (inputleido==1) {
@@ -2134,7 +2186,7 @@ function ValidarCelular() {
 
 		var sistema=localStorage.getItem('SO');
 		var uuid=localStorage.getItem('UUID');
-		var datos="telefono="+telefono+"&sistema="+sistema+"&uuid="+uuid+"&inputleido="+inputleido;
+		var datos="telefono="+telefono+"&sistema="+sistema+"&uuid="+uuid+"&inputleido="+inputleido+"&iduser="+id_user;
 
 		var pagina = "validaciontelefono.php";
 
@@ -2189,19 +2241,19 @@ function ValidarCelular() {
 
 function ValidarToken(){
 
-		var token1=$("#t1").val();
+		/*var token1=$("#t1").val();
 		var token2=$("#t2").val();
-		var token3=$("#t3").val();
-		var token4=$("#t4").val();
-		var token=token1+token2+token3+token4;
+		var token3=$("#t3").val();*/
+		var token4=$("#t5").val();
+		var token=token4;
 		var idcliente=localStorage.getItem('id_user');
 		var datos="token="+token+"&idcliente="+idcliente;
 		var pagina = "validaciontoken.php";
-		var enviar=1;
+		var enviar=0;
 
 			//	GoToPage('elegirciudad');
 
-		if (token1=='') {
+		/*if (token1=='') {
 			enviar=0;
 			}
 		if (token2=='') {
@@ -2209,10 +2261,16 @@ function ValidarToken(){
 			}
 		if (token3=='') {
 			enviar=0;
-			}
-		if (token4=='') {
+			}*/
+
+		if (token4==0) {
 			enviar=0;
 			}
+	if (token4!='') {
+		if (token4.length>=4) {
+			enviar=1;
+			}
+		}
 
 		if (enviar==1) {
 		$.ajax({

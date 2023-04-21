@@ -2,9 +2,9 @@ function CargarDatosAdmin() {
 	  var nombre= localStorage.getItem("nombre");
      $(".nombreusuario").text(nombre);
       ObtenerTableroAnuncios();
-           Obtenerpublicidad(1);
+      Obtenerpublicidad(1);
 
-           var swiper1 = new Swiper(".cardbx", {
+      var swiper1 = new Swiper(".cardbx", {
 		     slidesPerView: "auto",
 		    spaceBetween: 30,
 		    pagination: false,
@@ -23,6 +23,8 @@ function CargarDatosAdmin() {
      $("#btnservicios").attr('onclick','GoToPage("servicios")');
 
      ObtenerTotales();
+
+     intervalo=setInterval("ObtenerTotales()",1000);
 
 
 }
@@ -223,9 +225,22 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
                             	<p class="no-margin-bottom text-color-theme">`+respuesta.fechaformato+`</p>
                             	<p class="no-margin-bottom text-color-theme">`+respuesta.horainicial+`-`+respuesta.horafinal+`Hrs.</p>
 
-                            	<p class="no-margin-bottom text-color-theme">Cliente: `+respuesta.nombre+` `+respuesta.paterno+`</p>
+                            	<p class="no-margin-bottom text-color-theme">Cliente: `+respuesta.nombre+` `+respuesta.paterno+`</p>`;
 
-                            </div>
+                            if(respuesta.checkin==1) {
+                            
+                              html+=` <p class="" style="display: flex;"><span>check-in:</span> <span class="material-icons-outlined" 
+                                      style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;">
+                            check_circle_outline
+                            </span>
+                          </p>`;  
+                                    
+                            }
+                               html+=`
+                          <p class="no-margin-bottom text-color-theme">`+respuesta.concepto+`</p>
+
+
+                           </div>
 
                             <div class="col-50">
                                 <div class="avatar">
@@ -556,7 +571,7 @@ function PintarCitas(respuesta) {
 
       html+=`
       <li class="col-100 medium-50">
-        <div class="card-bx job-card" onclick="AbrirModalCitaEspecialista(`+respuesta[i].idcita+`)">
+        <div class="card-bx job-card" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">
           <div class="card-media">
             <a >
             <img src="`+imagen+`" alt="">
@@ -891,8 +906,8 @@ function ObtenerTotales() {
     success: function(resp){
         var totalproductosdia=resp.totalproductosdia;
         var totalcitasdia=resp.totalcitasdia;
-        $("#totalservicios").text(totalproductosdia);
-        $("#totalproductos").text(totalcitasdia);
+        $("#totalservicios").text(totalcitasdia);
+        $("#totalproductos").text(totalproductosdia);
 
          },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;
@@ -1127,7 +1142,7 @@ function BloquearEspecialista() {
     async:false,
     success: function(resp){
           
-          alerta('','Especialista bloqueado');
+          alerta('','Barbero bloqueado');
          },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;
             if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 

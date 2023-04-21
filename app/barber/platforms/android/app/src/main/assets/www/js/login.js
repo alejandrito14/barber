@@ -226,6 +226,7 @@ function validar_login()
 									localStorage.setItem("idopcionespedido",0);
 									localStorage.setItem("iddireccion",0);
 									localStorage.setItem("anunciovisto",0);
+									localStorage.setItem('invitado',0);
 
 									console.log("El ID del usuario es:" + localStorage.getItem("id_user"));
 									

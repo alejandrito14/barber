@@ -65,12 +65,23 @@ var routes = [
     `,
   },
 
+{
+    path: '/politicas/',
+    url: './pages/politicas.html',
+
+  },
+
    {
     path: '/detallesucursal/',
     url: './pages/detallesucursal.html',
 
   },
 
+   {
+    path: '/detalleespecialista/',
+    url: './pages/detalleespecialista.html',
+
+  },
    {
     path: '/detallepaquete/',
     url: './pages/detallepaquete.html',
@@ -83,10 +94,21 @@ var routes = [
     url: './pages/disponibilidadfecha.html',
 
   },
+  {
+    path: '/disponibilidadfechasucursal/',
+    url: './pages/disponibilidadfechasucursal.html',
+
+  },
 
    {
     path: '/disponibilidadespecialista/',
     url: './pages/disponibilidadespecialista.html',
+
+  },
+
+   {
+    path: '/disponibilidadespecialistaelegido/',
+    url: './pages/disponibilidadespecialistaelegido.html',
 
   },
 
@@ -117,16 +139,36 @@ var routes = [
     url: './pages/detalleproductoservicios.html',
 
   },
+  {
+    path: '/subcategorias/',
+    url: './pages/subcategorias.html',
+
+  },
+
+   {
+    path: '/productoscategoria/',
+    url: './pages/productoscategoria.html',
+
+  },
+  
+  
 
 
-  // Account
+  // Account 
   {
     path: '/signin/',
     componentUrl: './pages/signin.html',
   },
   {
+    //accoun-area pide celular
     path: '/signup/',
     componentUrl: './pages/signup.html',
+  },
+
+   {
+    //accoun-area pide celular
+    path: '/signup2/',
+    componentUrl: './pages/signup2.html',
   },
 
   {
@@ -211,6 +253,19 @@ var routes = [
     componentUrl: './pages/bloqueos.html',
   },
 
+ {
+    path: '/datospersonales/',
+    componentUrl: './pages/datospersonales.html',
+  },
+
+   {
+    path: '/datosacceso/',
+    componentUrl: './pages/datosacceso.html',
+  },
+   {
+    path: '/categoriaspaquetes/',
+    componentUrl: './pages/categoriaspaquetes.html',
+  },
   
   {
     path: '/search/',

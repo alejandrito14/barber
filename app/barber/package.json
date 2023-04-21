@@ -3,6 +3,7 @@
   "devDependencies": {
     "cordova-android": "^10.1.2",
     "cordova-ios": "^6.2.0",
+    "cordova-plugin-call-number": "^1.0.1",
     "cordova-plugin-firebasex": "git+https://github.com/dpa99c/cordova-plugin-firebase.git",
     "cordova-plugin-qr-barcode-scanner": "^8.0.3",
     "cordova-plugin-x-socialsharing": "^6.0.4",
@@ -42,7 +43,8 @@
       "cordova-support-android-plugin": {},
       "cordova-plugin-qr-barcode-scanner": {
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
-      }
+      },
+      "cordova-plugin-call-number": {}
     },
     "platforms": [
       "android",

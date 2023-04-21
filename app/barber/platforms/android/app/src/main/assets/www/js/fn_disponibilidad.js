@@ -61,6 +61,8 @@ function CargarCalendario() {
           fecha1=convertirfecha.getFullYear()+'-'+ mes+'-'+dia;
             ConsultarFecha(fecha1);
             $("#v_especialista").html('');
+            ObtenerEspecialistaHora();
+           
             //var fechadata=convertirfecha.getFullYear()+'-'+mesdata+'-'+diadata;
 
              /* $(".calendar-day").each(function( index ) {
@@ -175,13 +177,13 @@ function ObtenerEspecialistaHora() {
 function PintarEspecialista(respuesta) {
   var html="";
   if (respuesta.length>0) {
-    html+=`<option value="0">Seleccionar especialista</option>`;
+    html+=`<option value="0">Seleccionar barbero</option>`;
     for (var i =0;i<  respuesta.length; i++) {
       respuesta[i]
       html+=`<option value="`+respuesta[i].idespecialista+`">`+respuesta[i].nombre+` `+respuesta[i].paterno+`</option>`;
     }
   }else{
-    html+=`<option value="0">No se encontraron especialistas</option>`;
+    html+=`<option value="0">No se encontraron barbero</option>`;
 
 
   }
@@ -192,13 +194,13 @@ function PintarEspecialista(respuesta) {
 function PintarEspecialista2(respuesta) {
   var html="";
   if (respuesta.length>0) {
-    html+=`<option value="0">Seleccionar especialista</option>`;
+    html+=`<option value="0">Seleccionar barbero</option>`;
     for (var i =0;i<  respuesta.length; i++) {
       respuesta[i]
       html+=`<option value="`+respuesta[i].idespecialista+`">`+respuesta[i].nombre+` `+respuesta[i].paterno+`</option>`;
     }
   }else{
-    html+=`<option value="0">No se encontraron especialistas</option>`;
+    html+=`<option value="0">No se encontraron barberos</option>`;
 
 
   }
@@ -729,3 +731,5 @@ function AgendarCita2() {
     });
 });
 }
+
+

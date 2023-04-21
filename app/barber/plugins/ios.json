@@ -7,6 +7,9 @@
     "files": {}
   },
   "installed_plugins": {
+    "cordova-plugin-call-number": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
     "cordova-plugin-firebasex": {
       "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "false",
       "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "false",
@@ -15,10 +18,10 @@
       "IOS_USE_PRECOMPILED_FIRESTORE_POD": "false",
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova-support-android-plugin": {
+    "cordova-plugin-qr-barcode-scanner": {
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova-plugin-qr-barcode-scanner": {
+    "cordova-support-android-plugin": {
       "PACKAGE_NAME": "com.inversa.app"
     }
   },

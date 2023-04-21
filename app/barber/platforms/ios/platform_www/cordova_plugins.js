@@ -1,6 +1,14 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports = [
     {
+      "id": "cordova-plugin-call-number.CallNumber",
+      "file": "plugins/cordova-plugin-call-number/www/CallNumber.js",
+      "pluginId": "cordova-plugin-call-number",
+      "clobbers": [
+        "call"
+      ]
+    },
+    {
       "id": "cordova-plugin-camera.Camera",
       "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
       "pluginId": "cordova-plugin-camera",
@@ -318,6 +326,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
+      "id": "cordova-plugin-qr-barcode-scanner.BarcodeScanner",
+      "file": "plugins/cordova-plugin-qr-barcode-scanner/www/barcodescanner.js",
+      "pluginId": "cordova-plugin-qr-barcode-scanner",
+      "clobbers": [
+        "cordova.plugins.barcodeScanner"
+      ]
+    },
+    {
       "id": "cordova-plugin-wkwebview-file-xhr.formdata-polyfill",
       "file": "plugins/cordova-plugin-wkwebview-file-xhr/src/www/ios/formdata-polyfill.js",
       "pluginId": "cordova-plugin-wkwebview-file-xhr",
@@ -354,17 +370,10 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "window.plugins.socialsharing"
       ]
-    },
-    {
-      "id": "cordova-plugin-qr-barcode-scanner.BarcodeScanner",
-      "file": "plugins/cordova-plugin-qr-barcode-scanner/www/barcodescanner.js",
-      "pluginId": "cordova-plugin-qr-barcode-scanner",
-      "clobbers": [
-        "cordova.plugins.barcodeScanner"
-      ]
     }
   ];
   module.exports.metadata = {
+    "cordova-plugin-call-number": "1.0.1",
     "cordova-plugin-camera": "6.0.0",
     "cordova-plugin-customfcmreceiver": "1.0.0",
     "cordova-plugin-device": "2.1.0",
@@ -376,11 +385,11 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-ios-camera-permissions": "1.2.0",
     "cordova-plugin-media": "5.0.3",
     "cordova-plugin-network-information": "3.0.0",
+    "cordova-plugin-qr-barcode-scanner": "8.0.3",
     "cordova-plugin-splashscreen": "6.0.0",
     "cordova-plugin-wkwebview-file-xhr": "3.0.0",
     "es6-promise-plugin": "4.2.2",
     "cordova-plugin-x-socialsharing": "6.0.4",
-    "cordova-support-android-plugin": "2.0.4",
-    "cordova-plugin-qr-barcode-scanner": "8.0.3"
+    "cordova-support-android-plugin": "2.0.4"
   };
 });

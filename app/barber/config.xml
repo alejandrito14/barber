@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.inversa.app" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.inversa.app" version="1.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Grupo Inversa</name>
     <description>
         Aplicacion de negocios
@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
      <!-- <plugin name="cordova-plugin-firebasex" spec="https://github.com/dpa99c/cordova-plugin-firebase" >
      <variable name="ANDROID_FIREBASE_ANALYTICS_VERSION" value="17.0.0" />
@@ -82,19 +83,19 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <config-file parent="NSCameraUsageDescription" platform="ios" target="*-Info.plist">
-            <string>negocios needs access to camera files to add a pictures and photo user profile </string>
+            <string>Grupo Inversa needs access to camera files to add a pictures and photo user profile </string>
         </config-file>
         <config-file parent="NSPhotoLibraryUsageDescription" platform="ios" target="*-Info.plist">
-            <string>negocios needs access to the phone's files to add a pictures and photo user profile
+            <string>Grupo Inversa needs access to the phone's files to add a pictures and photo user profile
           </string>
         </config-file>
         <config-file parent="NSLocationWhenInUseUsageDescription" platform="ios" target="*-Info.plist">
             <string>
-          The application needs access to your approximate location, to choose the zip code
+          Grupo Inversa needs access to your approximate location, to choose the zip code
         </string>
         </config-file>
         <config-file parent="NSLocationAlwaysUsageDescription" platform="ios" target="*-Info.plist">
-            <string> The application needs access to your approximate location, to choose the zip code</string>
+            <string> Grupo Inversa access to your approximate location, to choose the zip code</string>
         </config-file>
         <config-file parent="CFBundleAllowMixedLocalizations" platform="ios" target="*-Info.plist">
             <true />

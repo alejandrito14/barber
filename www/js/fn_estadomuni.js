@@ -5,7 +5,7 @@ function ObtenerPais(idpais) {
 
 	$.ajax({
 		type: 'GET',
-		url:'catalogos/sucursales/obtenerpais.php', //Url a donde la enviaremos
+		url:'catalogos/sucursal/obtenerpais.php', //Url a donde la enviaremos
 		async:false,
 		success: function(datos){
 
@@ -55,7 +55,7 @@ function ObtenerEstado(idestado,idpais) {
 	var datos="idpais="+idpais;
 	$.ajax({
 		type: 'POST',
-		url:'catalogos/sucursales/obtenerestados.php', //Url a donde la enviaremos
+		url:'catalogos/sucursal/obtenerestados.php', //Url a donde la enviaremos
 		data:datos,
 		dataType:'json',
 		success: function(datos){
@@ -106,7 +106,7 @@ function ObtenerMunicipios(idmunicipio,idestado) {
 	var datos="idestado="+idestado;
 	$.ajax({
 		type: 'POST',
-		url:'catalogos/sucursales/obtenermunicipios.php', //Url a donde la enviaremos
+		url:'catalogos/sucursal/obtenermunicipios.php', //Url a donde la enviaremos
 		data:datos,
 		dataType:'json',
 		success: function(datos){
@@ -155,7 +155,7 @@ function ObtenerPaisIdelemento(idpais,idelemento) {
 
 	$.ajax({
 		type: 'GET',
-		url:'catalogos/sucursales/obtenerpais.php', //Url a donde la enviaremos
+		url:'catalogos/sucursal/obtenerpais.php', //Url a donde la enviaremos
 		async:false,
 		success: function(datos){
 
@@ -203,7 +203,7 @@ function ObtenerEstadoIdElemento(idestado,idpais,elemento) {
 	var datos="idpais="+idpais;
 	$.ajax({
 		type: 'POST',
-		url:'catalogos/sucursales/obtenerestados.php', //Url a donde la enviaremos
+		url:'catalogos/sucursal/obtenerestados.php', //Url a donde la enviaremos
 		data:datos,
 		dataType:'json',
 		async:false,
@@ -256,7 +256,7 @@ function ObtenerMunicipiosIdElemento(idmunicipio,idestado,elemento) {
 	var datos="idestado="+idestado;
 	$.ajax({
 		type: 'POST',
-		url:'catalogos/sucursales/obtenermunicipios.php', //Url a donde la enviaremos
+		url:'catalogos/sucursal/obtenermunicipios.php', //Url a donde la enviaremos
 		data:datos,
 		dataType:'json',
 		async:false,
@@ -311,7 +311,7 @@ function ObtenerCodigospostalesmunicipios(idpais,idestado,idmunicipio,elemento,c
 	var datos="pais="+pais+"&estado="+estado+"&municipio="+municipio;
 	$.ajax({
 		type: 'POST',
-		url:'catalogos/sucursales/'+pagina, //Url a donde la enviaremos
+		url:'catalogos/sucursal/'+pagina, //Url a donde la enviaremos
 		data:datos,
 		dataType:'json',
 		async:false,

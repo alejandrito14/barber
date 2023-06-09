@@ -2118,18 +2118,19 @@ function validarEmail(valor) {
 function ValidarCelular() {
 
 	var telefono=$("#telefono").val();
+	var iduser=localStorage.getItem('id_user');
 	var inputleido=$("#inputleido").is(':checked')?1:0;
 	//GoToPage('colocartoken');
 	if (telefono!='') {
 	if (inputleido==1) {
 	
-
+		
 		app.dialog.confirm('','¿Es correcto tu número celular '+telefono+'?' , function () {
 
-
+			
 		var sistema=localStorage.getItem('SO');
 		var uuid=localStorage.getItem('UUID');
-		var datos="telefono="+telefono+"&sistema="+sistema+"&uuid="+uuid+"&inputleido="+inputleido;
+		var datos="telefono="+telefono+"&sistema="+sistema+"&uuid="+uuid+"&inputleido="+inputleido+"&iduser="+iduser;
 
 		var pagina = "validaciontelefono.php";
 

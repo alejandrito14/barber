@@ -44,12 +44,14 @@ try
 	$su->idempresas = trim($_POST['idempresas']);
 	$su->sucursal = trim($f->guardar_cadena_utf8($_POST['v_sucursal']));
 	$su->direccion = trim($f->guardar_cadena_utf8($_POST['v_direccion_sucursal']));
-	$su->telefono = trim($f->guardar_cadena_utf8($_POST['v_telefono']));
+	$su->celular = trim($f->guardar_cadena_utf8($_POST['v_celular']));
 	$su->email = trim($f->guardar_cadena_utf8($_POST['v_email']));
 	$su->estatus = trim($f->guardar_cadena_utf8($_POST['v_estatus']));
 	$su->iva=trim($_POST['v_iva']);
 	$su->solicitarfactura=$_POST['solicitarfactura'];
-
+	$su->categoriasucursal=$_POST['v_categoriasucursal'];
+	$su->descripcion=$_POST['v_descripcion'];
+	$su->ubicacion=$_POST['v_ubicacion'];
 	$su->v_pais=$_POST['v_pais'];
 	$su->v_estado=$_POST['v_estado'];
 	$su->v_municipio=$_POST['v_municipio'];
@@ -75,6 +77,8 @@ try
 	$su->habilitarcampomontofactura=$_POST['habilitarcampomontofactura'];
 	$su->habilitarnotaventa=$_POST['notaventa'];
 	$su->mensajesecciontipopago=$_POST['mensajesecciontipopago'];
+	$su->porfecha=$_POST['porfecha'];
+	$su->porespecialista=$_POST['porespecialista'];
 
 	if ($su->orden=='') {
 		$su->orden=0;
@@ -153,7 +157,7 @@ try
 			}
 		}
 
-	$su->EliminarOpcionespedido();
+	//$su->EliminarOpcionespedido();
 
 
 	if (count($opcionespedido) && $opcionespedido[0]!='') {
@@ -190,10 +194,10 @@ if($_FILES['archivo']){//V
 
 			//obtenemos el nombre del archivo anterior para ser eliminado si existe
 
-			$sql = "SELECT foto FROM sucursales WHERE idsucursales='".$su->idsucursales."'";
+			$sql = "SELECT imagen FROM sucursal WHERE idsucursal='".$su->idsucursales."'";
 			$result_borrar = $db->consulta($sql);
 			$result_borrar_row = $db->fetch_assoc($result_borrar);
-			$nombreborrar = $result_borrar_row['foto'];		  
+			$nombreborrar = $result_borrar_row['imagen'];		  
 
 			if($nombreborrar != "")
 			{
@@ -202,7 +206,85 @@ if($_FILES['archivo']){//V
 
 			move_uploaded_file($temporal, $ruta.$nombre); //Movemos el archivo temporal a la ruta especificada
 
-			$sql = "UPDATE sucursales SET foto = '$nombre' WHERE idsucursales ='".$su->idsucursales."'";   
+			$sql = "UPDATE sucursal SET imagen = '$nombre' WHERE idsucursal ='".$su->idsucursales."'";   
+			$db->consulta($sql);	 
+		}
+	}
+
+
+	if($_FILES['archivo2']){//V
+		if($_FILES['archivo2']['error'] == UPLOAD_ERR_OK ){//Verificamos si se subio correctamente
+			$nombre = str_replace(' ','_',date('Y-m-d H:i:s').'-'.$su->idsucursales.".jpg");//Obtenemos el nombre del archivo
+			$temporal = $_FILES['archivo2']['tmp_name']; //Obtenemos el nombre del archivo temporal
+			$tamano= ($_FILES['archivo2']['size'] / 1000)."Kb"; //Obtenemos el tamaño en KB
+
+			//obtenemos el nombre del archivo anterior para ser eliminado si existe
+
+			$sql = "SELECT imagensecundaria FROM sucursal WHERE idsucursal='".$su->idsucursales."'";
+			$result_borrar = $db->consulta($sql);
+			$result_borrar_row = $db->fetch_assoc($result_borrar);
+			$nombreborrar = $result_borrar_row['imagensecundaria'];		  
+
+			if($nombreborrar != "")
+			{
+				unlink($ruta.$nombreborrar); 
+			}
+
+			move_uploaded_file($temporal, $ruta.$nombre); //Movemos el archivo temporal a la ruta especificada
+
+			$sql = "UPDATE sucursal SET imagensecundaria = '$nombre' WHERE idsucursal ='".$su->idsucursales."'";   
+			$db->consulta($sql);	 
+		}
+	}
+	
+
+	if($_FILES['archivo3']){//V
+		if($_FILES['archivo3']['error'] == UPLOAD_ERR_OK ){//Verificamos si se subio correctamente
+			$nombre = str_replace(' ','_',date('Y-m-d H:i:s').'-'.$su->idsucursales."A.jpg");//Obtenemos el nombre del archivo
+			$temporal = $_FILES['archivo3']['tmp_name']; //Obtenemos el nombre del archivo temporal
+			$tamano= ($_FILES['archivo3']['size'] / 1000)."Kb"; //Obtenemos el tamaño en KB
+
+			//obtenemos el nombre del archivo anterior para ser eliminado si existe
+
+			$sql = "SELECT imagenporfecha FROM sucursal WHERE idsucursal='".$su->idsucursales."'";
+			$result_borrar = $db->consulta($sql);
+			$result_borrar_row = $db->fetch_assoc($result_borrar);
+			$nombreborrar = $result_borrar_row['imagenporfecha'];		  
+
+			if($nombreborrar != "")
+			{
+				unlink($ruta.$nombreborrar); 
+			}
+
+			move_uploaded_file($temporal, $ruta.$nombre); //Movemos el archivo temporal a la ruta especificada
+
+			$sql = "UPDATE sucursal SET imagenporfecha = '$nombre' WHERE idsucursal ='".$su->idsucursales."'";   
+			$db->consulta($sql);	 
+		}
+	}
+
+
+	if($_FILES['archivo4']){//V
+		if($_FILES['archivo4']['error'] == UPLOAD_ERR_OK ){//Verificamos si se subio correctamente
+			$nombre = str_replace(' ','_',date('Y-m-d H:i:s').'-'.$su->idsucursales."B.jpg");//Obtenemos el nombre del archivo
+			$temporal = $_FILES['archivo4']['tmp_name']; //Obtenemos el nombre del archivo temporal
+			$tamano= ($_FILES['archivo4']['size'] / 1000)."Kb"; //Obtenemos el tamaño en KB
+
+			//obtenemos el nombre del archivo anterior para ser eliminado si existe
+
+			$sql = "SELECT imagenporbarbero FROM sucursal WHERE idsucursal='".$su->idsucursales."'";
+			$result_borrar = $db->consulta($sql);
+			$result_borrar_row = $db->fetch_assoc($result_borrar);
+			$nombreborrar = $result_borrar_row['imagenporbarbero'];		  
+
+			if($nombreborrar != "")
+			{
+				unlink($ruta.$nombreborrar); 
+			}
+
+			move_uploaded_file($temporal, $ruta.$nombre); //Movemos el archivo temporal a la ruta especificada
+
+			$sql = "UPDATE sucursal SET imagenporbarbero = '$nombre' WHERE idsucursal ='".$su->idsucursales."'";   
 			$db->consulta($sql);	 
 		}
 	}

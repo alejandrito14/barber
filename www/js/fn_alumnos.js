@@ -4,7 +4,7 @@ function ObtenerTipos(seleccionado) {
 	var datos="tipos=3,4,5,6";
 
 	 $.ajax({
-					url:'catalogos/alumnos/tiposusuarios.php', //Url a donde la enviaremos
+					url:'catalogos/especialistas/tiposusuarios.php', //Url a donde la enviaremos
 					type:'POST', //Metodo que usaremos
 					data: datos, //Le pasamos el objeto que creamos con los archivos
 					dataType:'json',

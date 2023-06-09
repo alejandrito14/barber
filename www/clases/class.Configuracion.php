@@ -109,8 +109,8 @@ class Configuracion
 	public function ObtenerInformacionConfiguracion()
 	{
 		
-				$query="SELECT  *, count(idconfiguracion) as cuantos FROM configuracion";
-				
+				$query="SELECT  *, count(idpagina_configuracion) as cuantos FROM pagina_configuracion";
+			
 				$resp=$this->db->consulta($query);
 				$rows=$this->db->fetch_assoc($resp);
 				$total = $this->db->num_rows($resp);				

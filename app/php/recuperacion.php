@@ -82,10 +82,10 @@ try
 		$response = $sms->sendSMS($sDestination, $sMessage);
 
 							 							
-		  $sql="SELECT *FROM pagina_configuracion";
+		/*  $sql="SELECT *FROM pagina_configuracion";
                $pagina=$db->consulta($sql);
 
-               $pagina_row=$db->fetch_assoc($pagina);
+               $pagina_row=$db->fetch_assoc($pagina);*/
 
                $enviar_mail->Host = $pagina_row['host'];                                 //HOST
                $enviar_mail->Port =$pagina_row['puertoenvio'];                                             //PUERTO

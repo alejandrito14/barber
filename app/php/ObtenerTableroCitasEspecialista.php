@@ -27,13 +27,26 @@ try
 	$especialista->db=$db;
 	//Enviamos la conexion a la clase
 	$lo->db = $db;
+	$fechafiltro="";
+
+	if (isset($_POST['hoy'])) {
+
+		if ($_POST['hoy']==1) {
+			$fechafiltro=date('Y-m-d');
+		}
+		
+	}
+
+	if (isset($_POST['fechafiltro'])) {
+		$fechafiltro=$_POST['fechafiltro'];
+	}
 
 	$lo->estatus=$_POST['estatus'];
 	$lo->idusuarios=$_POST['idusuarios'];
 	$especialista->idusuarios=$_POST['idusuarios'];
 	$datosespecialista=$especialista->ObtenerIdEspecialista();
 	$lo->idespecialista=$datosespecialista[0]->idespecialista;
-	$obtenertablero=$lo->ObtenerCitasEspecialista();
+	$obtenertablero=$lo->ObtenerCitasEspecialista($fechafiltro);
 
 	if (count($obtenertablero)>0) {
 		for ($i=0; $i < count($obtenertablero); $i++) { 
@@ -47,9 +60,13 @@ try
 	}
 
 
+	$diatexto=$fechas->diasSemana[date('N', strtotime($fechafiltro))];
+
+	$fechaformato=$diatexto.' '.date('d/m/Y',strtotime($fechafiltro));
+
 
 	$respuesta['respuesta']=$obtenertablero;
-	
+	$respuesta['fechafiltro']=$fechaformato;
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);
 	echo $myJSON;

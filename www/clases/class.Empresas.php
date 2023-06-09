@@ -22,6 +22,7 @@ class Empresas
 	public $estatus;
 	public $f_pais;
 	public $f_municipio;
+	public $descripcion;
 	
 	//validacione de tipo de usuario
 	
@@ -53,8 +54,8 @@ class Empresas
 		
 		
 		
-		 $sql = "SELECT * FROM empresas WHERE 1=1 $SQLidempresas";
-
+		 $sql = "SELECT * FROM empresa WHERE 1=1 $SQLidempresas";
+		
 		//echo $sql;
 		$resp = $this->db->consulta($sql);
 		return $resp;
@@ -65,7 +66,7 @@ class Empresas
 	public function obtenerFiltro()
 	{
 		
-		
+		/*
 		if($this->tipo_usuario != 0)
 		{
 		  
@@ -81,10 +82,12 @@ class Empresas
 		}else
 		{
 			$SQLidempresas = "";
-		}
+		}*/
 		
 		
-		 $sql = "SELECT * FROM empresas WHERE estatus = '$this->estatus'  $SQLidempresas ";
+		 $sql = "SELECT * FROM empresa  ";
+		
+		
 		$resp = $this->db->consulta($sql);
 		return $resp;
 	}
@@ -102,11 +105,14 @@ class Empresas
 	//Funcion que sirve para obtener un registro especifico de la tabla empresas
 	public function buscarEmpresa()
 	{
-		$sql = "SELECT * FROM empresas
-		LEFT JOIN municipios ON municipios.id=empresas.f_municipio
-		LEFT JOIN estados ON estados.id =empresas.f_estado
-		LEFT JOIN pais ON pais.idpais=empresas.f_pais
-		 WHERE idempresas = '$this->idempresas'";
+		$sql = "SELECT empresa.idempresa,empresa.nombre,empresa.descripcion,empresa.telefono,empresa.email,empresa.imagen, municipios.nombre as nombremunicipio,estados.nombre as nombreestado,pais.pais FROM empresa
+
+		LEFT JOIN municipios ON municipios.id=empresa.f_municipio
+		LEFT JOIN estados ON estados.id =empresa.f_estado
+		LEFT JOIN pais ON pais.idpais=empresa.f_pais
+		 WHERE idempresa = '$this->idempresas'";
+
+		
 		$resp = $this->db->consulta($sql);
 		return $resp;
 	}
@@ -114,14 +120,21 @@ class Empresas
 	//Funcion que guarda un registro en la tabla empresas
 	public function guardarEmpresa()
 	{
-		$sql = "INSERT INTO empresas (empresas,direccion,telefono,email,contactos,f_rfc,f_razonsocial,f_calle,f_no_ext,f_no_int,f_colonia,f_ciudad,f_estado,f_cp,estatus,f_pais,f_municipio) VALUES ('$this->empresas','$this->direccion','$this->telefono','$this->email','$this->contactos','$this->f_rfc','$this->f_razonsocial','$this->f_calle','$this->f_no_ext','$this->f_no_int','$this->f_colonia','$this->f_ciudad','$this->f_estado','$this->f_cp','$this->estatus','$this->f_pais','$this->f_municipio');";
+	
+		$sql="INSERT INTO empresa(nombre, descripcion, f_municipio, f_estado, f_pais,telefono,email) VALUES ( '$this->empresas', '$this->descripcion','','', '','$this->telefono','$this->email')";
+
 		$resp = $this->db->consulta($sql);
 		$this->idempresas = $this->db->id_ultimo();
 	}
 	
 	//Funcion que sirve para modificar un registro en la tabla empresas
 	public function modificarEmpresa(){
-		$sql = "UPDATE empresas SET empresas = '$this->empresas', direccion = '$this->direccion', telefono = '$this->telefono', email = '$this->email', contactos = '$this->contactos', f_rfc = '$this->f_rfc', f_razonsocial = '$this->f_razonsocial', f_calle = '$this->f_calle', f_no_ext = '$this->f_no_ext', f_no_int = '$this->f_no_int', f_colonia = '$this->f_colonia', f_ciudad = '$this->f_ciudad', f_estado = '$this->f_estado', f_cp = '$this->f_cp', estatus = '$this->estatus',f_pais='$this->f_pais',f_municipio='$this->f_municipio' WHERE idempresas = '$this->idempresas'";
+		
+		$sql="UPDATE empresa SET nombre = '$this->empresas', descripcion = '$this->descripcion',
+			telefono='$this->telefono',
+			email='$this->email'
+		 WHERE idempresa='$this->idempresas'";
+		
 		$this->db->consulta($sql);
 	}
 

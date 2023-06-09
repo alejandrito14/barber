@@ -23,7 +23,7 @@ class Carrito
 	public function AgregarCarrito()
 	{
 		$sql="INSERT INTO carrito(idusuarios, idpaquete, cantidad, costounitario, costototal, idsucursal, idespecialista, idcitaapartada, nombrepaquete, estatus,titulosgrupos) VALUES ('$this->idusuarios', '$this->idpaquete',$this->cantidad,'$this->costounitario','$this->costototal','$this->idsucursal','$this->idespecialista','$this->idcitaapartada', '$this->nombrepaquete', 1,'$this->titulosgrupos')";
-
+		
 		$resp=$this->db->consulta($sql);
 
 	}
@@ -46,13 +46,11 @@ class Carrito
 			carrito.idcitaapartada,
 			carrito.idespecialista,
 			carrito.titulosgrupos,
-			carrito.idpaquete
-			/*usuarios.nombre,
-			usuarios.paterno,
-			carrito.idcitaapartada,
-			carrito.estatus,
 			carrito.idpaquete,
-			carrito.idcarrito*/
+			(SELECT  CONCAT(usuarios.nombre,' ',usuarios.paterno) FROM especialista INNER JOIN usuarios on usuarios.idusuarios=especialista.idusuarios where especialista.idespecialista=citaapartado.idespecialista ) as usuarioespecialista,
+			DATE_FORMAT(citaapartado.fecha,'%d-%m-%Y')as fecha,
+			citaapartado.horainicial
+			
 			FROM
 			carrito
 			JOIN paquetes
@@ -139,6 +137,36 @@ class Carrito
 		
 		$resp=$this->db->consulta($sql);
 	}
+
+	public function ActualizarCarritoCosto()
+	{
+		$sql="UPDATE carrito 
+		SET costototal='$this->costototal',
+		costounitario='$this->costounitario',
+		cantidad='$this->cantidad'
+		WHERE idcarrito='$this->idcarrito'";
+		
+		$resp=$this->db->consulta($sql);
+	}
+
+	public function ActualizarIdUsuarioCarrito(){
+			$sql="UPDATE carrito 
+		SET idusuarios='$this->idusuarios'
+		WHERE idcarrito='$this->idcarrito'";
+		
+		$resp=$this->db->consulta($sql);
+
+
+	}
+	 public function ActualizarIdusuarioCita(){
+
+	 	$sql="UPDATE citaapartado 
+		SET idusuario='$this->idusuarios'
+		WHERE idcitaapartado='$this->idcitaapartada'";
+		
+		$resp=$this->db->consulta($sql);
+
+	 }
 
 }
  ?>

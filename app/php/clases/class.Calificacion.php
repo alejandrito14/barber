@@ -7,12 +7,13 @@ class Calificacion
 	public $fechacreacion;
 	public $estatus;
 	public $idusuario;
-	public $idservicio;
+	public $idcita;
 	public $comentario;
+	public $idpaquete;
 
 	public function GuardarCalificacion()
 	{
-		$sql="INSERT INTO calificacion(calificacion, estatus, comentario, idusuarios, idservicio) VALUES ('$this->calificacion',1, '$this->comentario','$this->idusuario', '$this->idservicio')";
+		$sql="INSERT INTO calificacion(calificacion, estatus, comentario, idusuarios, idcita,idsucursal) VALUES ('$this->calificacion',1, '$this->comentario','$this->idusuario', '$this->idcita','$this->idsucursal')";
 		
 		$resp=$this->db->consulta($sql);
 		$this->idcalificacion=$this->db->id_ultimo();
@@ -41,7 +42,7 @@ class Calificacion
 			return $array;
 	}
 
-	public function ObtenerCalificacionesServicio()
+	public function ObtenerCalificacionesSucursal()
 	{
 		$sql = "SELECT 
 			calificacion.calificacion,
@@ -49,7 +50,7 @@ class Calificacion
 			calificacion.estatus,
 			calificacion.comentario,
 			calificacion.idusuarios,
-			calificacion.idservicio,
+			calificacion.idsucursal,
 			usuarios.nombre,
 			usuarios.paterno,
 			usuarios.usuario,
@@ -59,7 +60,7 @@ class Calificacion
 			usuarios.sexo
 		FROM calificacion
 			INNER JOIN usuarios ON calificacion.idusuarios = usuarios.idusuarios
-		 WHERE  calificacion.idservicio='$this->idservicio' ";
+		 WHERE  calificacion.idsucursal='$this->idsucursal' ";
 
 
 			$resp = $this->db->consulta($sql);

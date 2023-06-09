@@ -8,9 +8,9 @@ $se = new Sesion();
 
 if(!isset($_SESSION['se_SAS']))
 {
-	/*header("Location: ../../login.php"); */ echo "login";
+  /*header("Location: ../../login.php"); */ echo "login";
 
-	exit;
+  exit;
 }
 
 $idmenumodulo = $_GET['idmenumodulo'];
@@ -54,16 +54,16 @@ $l_empresas_num = $db->num_rows($l_empresas);
 
 if(isset($_GET['ac']))
 {
-	if($_GET['ac']==1)
-	{
-		echo '<script type="text/javascript">AbrirNotificacion("'.$_GET['msj'].'","mdi-checkbox-marked-circle");</script>'; 
-	}
-	else
-	{
-		echo '<script type="text/javascript">AbrirNotificacion("'.$_GET['msj'].'","mdi-close-circle");</script>';
-	}
-	
-	echo '<script type="text/javascript">OcultarNotificacion()</script>';
+  if($_GET['ac']==1)
+  {
+    echo '<script type="text/javascript">AbrirNotificacion("'.$_GET['msj'].'","mdi-checkbox-marked-circle");</script>'; 
+  }
+  else
+  {
+    echo '<script type="text/javascript">AbrirNotificacion("'.$_GET['msj'].'","mdi-close-circle");</script>';
+  }
+  
+  echo '<script type="text/javascript">OcultarNotificacion()</script>';
 }
 
 /*======================= TERMINA VALIDACIÓN DE RESPUESTA (alertas) =========================*/
@@ -71,10 +71,10 @@ if(isset($_GET['ac']))
 //*================== INICIA RECIBIMOS PARAMETRO DE PERMISOS =======================*/
 
 if(isset($_SESSION['permisos_acciones_erp'])){
-						//Nombre de sesion | pag-idmodulos_menu
-	$permisos = $_SESSION['permisos_acciones_erp']['pag-'.$idmenumodulo];	
+            //Nombre de sesion | pag-idmodulos_menu
+  $permisos = $_SESSION['permisos_acciones_erp']['pag-'.$idmenumodulo]; 
 }else{
-	$permisos = '';
+  $permisos = '';
 }
 //*================== TERMINA RECIBIMOS PARAMETRO DE PERMISOS =======================*/
 
@@ -85,56 +85,56 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 ?>
 
 <div class="card">
-	<div class="card-body">
-		<h5 class="card-title" style="float: left;">FORMATO DE SERVICIOS</h5>
-		
-		<div style="float:right;">
-		
-			
-			<?php
-			
-				//SCRIPT PARA CONSTRUIR UN BOTON
-				$bt->titulo = "NUEVO";
-				$bt->icon = "mdi-plus-circle";
-				$bt->funcion = "aparecermodulos('catalogos/categorias/fa_categorias.php?idmenumodulo=$idmenumodulo','main');";
-				$bt->estilos = "float: right; margin-right:10px;";
-				$bt->permiso = $permisos;
-				$bt->tipo = 5;
-				$bt->title="NUEVO";
+  <div class="card-body">
+    <h5 class="card-title" style="float: left;">LISTADO DE CATEGORÍAS</h5>
+    
+    <div style="float:right;">
+      <button type="button" onClick="abrir_filtro('modal-filtros');" class="btn btn-primary" style="float: right;display: none;"><i class="mdi mdi-account-search"></i>  BUSCAR</button>      
+      
+      <?php
+      
+        //SCRIPT PARA CONSTRUIR UN BOTON
+        $bt->titulo = "NUEVA CATEGORIA";
+        $bt->icon = "mdi-plus-circle";
+        $bt->funcion = "aparecermodulos('catalogos/categorias/fa_categorias.php?idmenumodulo=$idmenumodulo','main');";
+        $bt->estilos = "float: right; margin-right:10px;";
+        $bt->permiso = $permisos;
+        $bt->tipo = 5;
+        $bt->title="NUEVA FAMILIA DE PRODUCTOS";
 
-				$bt->armar_boton();
-			
-			?>
-			
-			<div style="clear: both;"></div>
-		</div>
-		
-		<div style="clear: both;"></div>
-	</div>
+        $bt->armar_boton();
+      
+      ?>
+      
+      <div style="clear: both;"></div>
+    </div>
+    
+    <div style="clear: both;"></div>
+  </div>
 </div>
-	
+  
 <div class="card">
-	<div class="card-body">
-		<div class="table-responsive" id="contenedor_empresas">
-			<table id="zero_config" cellpadding="0" cellspacing="0" class="table table-striped table-bordered">
-				<thead>
-					<tr>
-						<th>ID</th> 
-						<th>NOMBRE</th> 
-						
-						<th>ACCI&Oacute;N</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr> 
-						<td colspan="7" style="text-align: center">
-	  						<h4 class="alert_warning">NO EXISTEN CATEGORIAS EN LA BASE DE DATOS.</h4>
-		  				</td>
-	  				</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
+  <div class="card-body">
+    <div class="table-responsive" id="contenedor_empresas">
+      <table id="zero_config" cellpadding="0" cellspacing="0" class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>ID</th> 
+            <th>NOMBRE</th> 
+            
+            <th>ACCI&Oacute;N</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr> 
+            <td colspan="7" style="text-align: center">
+                <h4 class="alert_warning">NO EXISTEN CATEGORIAS EN LA BASE DE DATOS.</h4>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 
@@ -146,7 +146,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 
 
 <script type="text/javascript">
-	Buscar_categorias(<?php echo $idmenumodulo; ?>);
+  Buscar_categorias(<?php echo $idmenumodulo; ?>);
 </script>
 
 
@@ -175,14 +175,14 @@ if(isset($_SESSION['permisos_acciones_erp'])){
                             <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
                             <span class="iborrainputfile">Seleccionar archivos</span>
                             </label> 
-						<p style="text-align: center;">Dimensiones de la imagen Ancho:640px Alto:426px</p>
+            <p style="text-align: center;">Dimensiones de la imagen Ancho:640px Alto:426px</p>
                     <div id="vfileNames" class="row"></div>
 
                     <p></p>
 
          
                    
-		                	<div id="contador"></div>
+                      <div id="contador"></div>
                     <div id="cargado"></div>
                       <div id='salidaImagen'></div>
 
@@ -233,7 +233,7 @@ GUARDAR           </button>
   </div>
 </div>
 
-<script>	
+<script>  
        $(function(){
 
     //file input field trigger when the drop box is clicked
@@ -253,7 +253,7 @@ GUARDAR           </button>
 
 
 <style>
-	 .input_container input {
+   .input_container input {
  
   padding: 3px;
   border: 1px solid #cccccc;

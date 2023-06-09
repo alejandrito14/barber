@@ -207,7 +207,8 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 								    </div>
 								</form>
 
-									<p style="text-align: center;">Dimensiones de la imagen Ancho:640px Alto:640px</p>
+									<p style="text-align: center;">Dimensiones de la imagen Ancho:1329px Alto:400px</p>
+									
 								</div>
 
 

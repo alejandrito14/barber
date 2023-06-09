@@ -33,26 +33,13 @@ try
 	$md->db = $db;	
 	
 	$db->begin();
-		
+	$ruta="imagenempresa/".$_SESSION['codservicio'].'/';
 	//Recbimos parametros
 	$emp->idempresas = trim($_POST['id']);
-	$emp->empresas = trim($f->guardar_cadena_utf8($_POST['v_empresa']));
-	$emp->direccion = trim($f->guardar_cadena_utf8($_POST['v_direccion']));
+	$emp->empresas = trim($f->guardar_cadena_utf8($_POST['v_nombre']));
+	$emp->descripcion = trim($f->guardar_cadena_utf8($_POST['v_descripcion']));
 	$emp->telefono = trim($f->guardar_cadena_utf8($_POST['v_telefono']));
 	$emp->email = trim($f->guardar_cadena_utf8($_POST['v_email']));
-	$emp->contactos = trim($f->guardar_cadena_utf8($_POST['v_contactos']));
-	$emp->estatus = trim($f->guardar_cadena_utf8($_POST['v_estatus']));
-	$emp->f_rfc = trim($f->guardar_cadena_utf8($_POST['v_f_rfc']));
-	$emp->f_razonsocial = trim($f->guardar_cadena_utf8($_POST['v_f_razonsocial']));
-	$emp->f_calle = trim($f->guardar_cadena_utf8($_POST['v_f_calle']));
-	$emp->f_no_ext = trim($f->guardar_cadena_utf8($_POST['v_f_no_ext']));
-	$emp->f_no_int = trim($f->guardar_cadena_utf8($_POST['v_f_no_int']));
-	$emp->f_colonia = trim($f->guardar_cadena_utf8($_POST['v_f_colonia']));
-	$emp->f_ciudad = trim($f->guardar_cadena_utf8($_POST['v_f_ciudad']));
-	$emp->f_estado = trim($f->guardar_cadena_utf8($_POST['v_f_estado']));
-	$emp->f_cp = trim($f->guardar_cadena_utf8($_POST['v_f_cp']));
-	$emp->f_pais=trim($f->guardar_cadena_utf8($_POST['v_pais']));
-	$emp->f_municipio=trim($f->guardar_cadena_utf8($_POST['v_municipio']));
 
 
 	
@@ -62,11 +49,43 @@ try
 		//guardando
 		$emp->guardarEmpresa();
 		$md->guardarMovimiento($f->guardar_cadena_utf8('Empresas'),'empresas',$f->guardar_cadena_utf8('Nuevo empresas creado con el ID-'.$emp->idempresas));
-		$emp->guardarEnFoliosEmpresas();
+		//$emp->guardarEnFoliosEmpresas();
 	}else{
 		$emp->modificarEmpresa();	
 		$md->guardarMovimiento($f->guardar_cadena_utf8('Empresas'),'empresas',$f->guardar_cadena_utf8('Modificación de la empresa -'.$emp->idempresas));
 	}
+
+
+
+		foreach ($_FILES as $key) 
+		{
+		if($key['error'] == UPLOAD_ERR_OK ){//Verificamos si se subio correctamente
+
+			$nombre = str_replace(' ','_',date('Y-m-d H:i:s').'-'.$emp->idempresas.".jpg");//Obtenemos el nombre del archivo
+			$temporal = $key['tmp_name']; //Obtenemos el nombre del archivo temporal
+			$tamano= ($key['size'] / 1000)."Kb"; //Obtenemos el tamaño en KB
+
+			//obtenemos el nombre del archivo anterior para ser eliminado si existe
+
+			$sql = "SELECT imagen FROM empresa WHERE idempresa='".$emp->idempresas."'";
+			$result_borrar = $db->consulta($sql);
+			$result_borrar_row = $db->fetch_assoc($result_borrar);
+			$nombreborrar = $result_borrar_row['imagen'];	
+			  
+
+			if($nombreborrar != "")
+			{
+				unlink($ruta.$nombreborrar); 
+			}
+
+
+			move_uploaded_file($temporal,$ruta.$nombre); //Movemos el archivo temporal a la ruta especificada
+
+			$sql = "UPDATE empresa SET imagen = '$nombre' WHERE idempresa ='".$emp->idempresas."'";   
+			$db->consulta($sql);	 
+		}
+	}
+	
 				
 	$db->commit();
 	echo "1|".$emp->idempresas;

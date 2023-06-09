@@ -98,7 +98,7 @@ $navegador = $f->navegador();
             		<div class="card login-card" style="border-radius: 30px;">
             			<div class="row no-gutters">
             				<div class="col-md-5">
-            					<img  src="" alt="login" class="login-card-img">
+            					<img  src="./images/home-office-gfe6fae277_1280.jpg" alt="login" class="login-card-img">
 
             				</div>
 

@@ -6,6 +6,7 @@ header('Access-Control-Allow-Origin: *');
 require_once "clases/conexcion.php";
 require_once "clases/class.Carrito.php";
 require_once "clases/class.Funciones.php";
+require_once "clases/class.Cita.php";
 
 
 try
@@ -15,17 +16,32 @@ try
     $db = new MySQL();
     $lo = new Carrito();
     $f  = new Funciones();
+    $cita = new Cita();
     //$db->begin();
     //Enviamos la conexion a la clase
     $lo->db    = $db;
-   
-    $idcarrito=$_POST['idcarrito'];
+    $cita->db=  $db;
+        $db->begin();
 
+    $idcarrito=$_POST['idcarrito'];
+    //$db->begin();
     //Recibimos parametros
     $lo->idcarrito=$idcarrito;
+   $obtenerdecarrito= $lo->ObtenerDelCarrito();
+
+   if($obtenerdecarrito[0]->idcitaapartada>0) {
+       
+       $cita->idcitaapartado=$obtenerdecarrito[0]->idcitaapartada;
+       
+       $cita->EliminarCitaApartada();
+   }
+
     $lo->BorrardelCarrito();
+   $db->commit();
+
+
    
-   // $db->commit();
+    //$db->commit();
 
  
     

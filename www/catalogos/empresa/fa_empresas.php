@@ -81,8 +81,8 @@ if(!isset($_GET['idempresas'])){
 	//Cargamos en las variables los datos de las empresas
 
 	//DATOS GENERALES
-	$empresa = $f->imprimir_cadena_utf8($result_empresas_row['empresas']);
-	$direccion = $f->imprimir_cadena_utf8($result_empresas_row['direccion']);
+	$empresanombre = $result_empresas_row['nombre'];
+	$descripcion = $f->imprimir_cadena_utf8($result_empresas_row['descripcion']);
 	$telefono = $result_empresas_row['telefono'];
 	$email = $f->imprimir_cadena_utf8($result_empresas_row['email']);
 	$contactos = $f->imprimir_cadena_utf8($result_empresas_row['contactos']);
@@ -100,6 +100,18 @@ if(!isset($_GET['idempresas'])){
 	$f_pais=$f->imprimir_cadena_utf8($result_empresas_row['f_pais']);
 	$f_municipio=$f->imprimir_cadena_utf8($result_empresas_row['f_municipio']);
 	$f_estado = $f->imprimir_cadena_utf8($result_empresas_row['f_estado']);
+	$telefono=$result_empresas_row['telefono'];
+	$email=$result_empresas_row['email'];
+
+	$foto=$result_empresas_row['imagen'];
+
+		if($foto==""){
+		$ruta="images/sinfoto.png";
+	}
+	else{
+		$ruta="catalogos/empresa/imagenempresa/".$_SESSION['codservicio']."/$foto";
+	}
+
 
 	$col = "col-md-12";
 	$ver = "";
@@ -153,7 +165,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 					//SCRIPT PARA CONSTRUIR UN BOTON
 				$bt->titulo = "GUARDAR";
 				$bt->icon = "mdi mdi-content-save";
-				$bt->funcion = "var resp=MM_validateForm('v_empresa','','R','v_direccion','','R','v_tel','','R','v_email','',' isEmail R'); if(resp==1){ GuardarEmpresa('f_empresa','catalogos/empresas/fa_empresas.php','main','$idmenumodulo');}";
+				$bt->funcion = "var resp=MM_validateForm('v_empresa','','R','v_tel','','R','v_email','',' isEmail R'); if(resp==1){ GuardarEmpresa('f_empresa','catalogos/empresa/vi_empresas.php','main','$idmenumodulo');}";
 				$bt->estilos = "float: right;";
 				$bt->permiso = $permisos;
 				$bt->class='btn btn-success';
@@ -170,7 +182,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 				
 				?>
 				
-				<button type="button" onClick="aparecermodulos('catalogos/empresas/vi_empresas.php?idmenumodulo=<?php echo $idmenumodulo;?>','main');" class="btn btn-primary" style="float: right; margin-right: 10px;"><i class="mdi mdi-arrow-left-box"></i> LISTADO DE EMPRESAS</button>
+				<button type="button" onClick="aparecermodulos('catalogos/empresa/vi_empresas.php?idmenumodulo=<?php echo $idmenumodulo;?>','main');" class="btn btn-primary" style="float: right; margin-right: 10px;"><i class="mdi mdi-arrow-left-box"></i> LISTADO DE EMPRESAS</button>
 				<div style="clear: both;"></div>
 				
 				<input type="hidden" id="id" name="id" value="<?php echo $idempresas; ?>" />
@@ -181,40 +193,74 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 	
 	
 	<div class="row">
-		<div class="<?php echo $col; ?>">
+		<div class="col-md-6">
 			<div class="card">
 				<div class="card-header" style="padding-bottom: 0; padding-right: 0; padding-left: 0; padding-top: 0;">
 					<!--<h5>DATOS</h5>-->
 
-					<ul class="nav nav-tabs" id="empresas_tabs" role="tablist">
+					<!-- <ul class="nav nav-tabs" id="empresas_tabs" role="tablist">
 						<li class="nav-item"> 
 							<a class="nav-link active show" data-toggle="tab" href="#generales" role="tab" aria-selected="true">
 								<span class="hidden-sm-up"></span> 
 								<span class="hidden-xs-down" style="font-weight: bold; font-size: 12px;">GENERALES</span>
 							</a>
 						</li>
-						<li class="nav-item"> 
+						<li class="nav-item" style="display: none;"> 
 							<a class="nav-link" data-toggle="tab" href="#fiscales" role="tab" aria-selected="false">
 								<span class="hidden-sm-up"></span> 
 								<span class="hidden-xs-down" style="font-weight: bold; font-size: 12px;">FISCALES</span>
 							</a> 
 						</li>
-					</ul>
+					</ul> -->
 				</div>
 
 				<div class="card-body">
+
+					<div class="" >
+
+									<form method="post" action="#" enctype="multipart/form-data">
+								    <div class="card" style="width: 18rem;margin: auto;margin-top: 3em;">
+								        <img class="card-img-top" src="">
+								        <div id="d_foto" style="text-align:center; ">
+														<img src="<?php echo $ruta; ?>" class="card-img-top" alt="" style="border: 1px #777 solid"/> 
+										</div>
+								        <div class="card-body">
+								            <h5 class="card-title"></h5>
+								           
+								            <div class="form-group">
+
+								            	
+								               
+								                <input type="file" class="form-control-file" name="image" id="image" onchange="SubirImagenEmpresa()">
+								            </div>
+								          <!--   <input type="button" class="btn btn-primary upload" value="Subir"> -->
+								        </div>
+								    </div>
+								</form>
+								<p style="text-align: center;">Dimensiones de la imagen Ancho:512px Alto:512px</p>
+									<!-- <div class="" style="text-align: center;">
+										<div id="d_foto" style="text-align:center; margin-top: 10px; margin-bottom: 20px;">
+											<img src="<?php echo $ruta; ?>" width="150" height="150" alt="" style="border: 1px #777 solid"/> 
+										</div>
+										<p style="text-align:center;">&nbsp;&nbsp;Dimensiones de la imagen Ancho: 200 px Alto: 200px</p>
+										<div class="spacer"></div>
+										<input type="file" id="v_imagen" name="v_imagen" accept="image/*">
+									</div>	
+ -->
+
+								</div>
 					
 					
 					<div class="tab-content tabcontent-border">
 						<div class="tab-pane active show" id="generales" role="tabpanel">
 							<div class="form-group m-t-20">
 								<label>*EMPRESA:</label>
-								<input type="text" class="form-control" id="v_empresa" name="v_empresa" value="<?php echo $empresa; ?>" placeholder='EMPRESA' title="EMPRESA" tabindex="109" autofocus>
+								<input type="text" class="form-control" id="v_empresa" name="v_empresa" value="<?php echo $empresanombre; ?>" placeholder='EMPRESA' title="EMPRESA" tabindex="109" autofocus>
 							</div>
 
 							<div class="form-group m-t-20">
-								<label>*DIRECCI&Oacute;N:</label>
-								<textarea id="v_direccion" class="form-control" name="v_direccion" title="DIRECCION" style="height: 85px;" tabindex="110"><?php echo $direccion; ?></textarea>
+								<label>*DESCRIPCIÓN:</label>
+								<textarea id="v_descripcion" class="form-control" name="v_descripcion" title="DESCRIPCIÓN" style="height: 85px;" tabindex="110"><?php echo $descripcion; ?></textarea>
 							</div>
 
 							<div class="form-group m-t-20">
@@ -227,12 +273,12 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 								<input type="email" class="form-control" id="v_email" name="v_email" value="<?php echo $email; ?>" title="Email" placeholder='EMAIL' tabindex="112">
 							</div>
 
-							<div class="form-group m-t-20">
+							<div class="form-group m-t-20" style="display: none;">
 								<label>CONTACTOS:</label>
 								<textarea id="v_contactos" name="v_contactos" class="form-control" style="height: 85px;" tabindex="113"><?php echo $contactos; ?></textarea>
 							</div>
 
-							<div class="form-group m-t-20">
+							<div class="form-group m-t-20" style="display: none;">
 								<label>ESTATUS:</label>
 								<select id="v_estatus" name="v_estatus" class="form-control" tabindex="114">
 									<option value="0" <?php if(0 == $estatus){ echo "selected"; }?>>DESACTIVADO</option>
@@ -242,7 +288,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 						</div>
 						
 						
-						<div class="tab-pane" id="fiscales" role="tabpanel">
+						<div class="tab-pane" id="fiscales" role="tabpanel" style="display: none;">
 
 								<div class="row">
 								<div class="col-md-4">
@@ -370,7 +416,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 			</div>
 		</div>
 
-		<div class="<?php echo $col; ?>" style="<?php echo $ver; ?>">
+		<div class="<?php echo $col; ?>" style="display: none;">
 			<div class="card">
 				<div class="card-header">
 					<h5 class="card-title" style="float: left;">SUCURSALES</h5>
@@ -400,6 +446,37 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 		</div>
 	</div>
 </form>
+<script>
+	
+	 function SubirImagenEmpresa() {
+	 	// body...
+	 
+        var formData = new FormData();
+        var files = $('#image')[0].files[0];
+        formData.append('file',files);
+        $.ajax({
+            url: 'catalogos/empresa/upload.php',
+            type: 'post',
+            data: formData,
+            contentType: false,
+            processData: false,
+             beforeSend: function() {
+							      $("#d_foto").css('display','block');
+							      $("#d_foto").html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Cargando...</div>');	
+
+									    },
+            success: function(response) {
+                if (response != 0) {
+                    $(".card-img-top").attr("src", response);
+                    $("#d_foto").css('display','none');
+                } else {
+                    alert('Formato de imagen incorrecto.');
+                }
+            }
+        });
+        return false;
+    }
+</script>
 
 <script  type="text/javascript" src="./js/mayusculas.js"></script>
 <script>
@@ -414,10 +491,10 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 <?php if (isset($_GET['idempresas'])){ ?>
 	
 		<script>
-			ObtenerEstadosCatalogo(<?php echo $f_estado;?>,<?php echo $f_pais;?>,'v_f_estado')
+		//	ObtenerEstadosCatalogo(<?php echo $f_estado;?>,<?php echo $f_pais;?>,'v_f_estado')
 
 
-			ObtenerMunicipiosCatalogo(<?php echo $f_municipio; ?>,<?php echo $f_estado; ?>,'v_municipio');
+			//ObtenerMunicipiosCatalogo(<?php echo $f_municipio; ?>,<?php echo $f_estado; ?>,'v_municipio');
 
 
 		</script>

@@ -85,7 +85,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 
 <div class="card">
 	<div class="card-body">
-		<h5 class="card-title" style="float: left;">LISTADO DE EMPRESAS</h5>
+		<h5 class="card-title" style="float: left;">CONFIGURACIÓN DE EMPRESA</h5>
 		
 		<div style="float:right;">
 			<button type="button" onClick="abrir_filtro('modal-filtros');" class="btn btn-primary" style="float: right;display: none;"><i class="mdi mdi-account-search"></i>  BUSCAR</button>			
@@ -103,7 +103,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 				$bt->title="NUEVA EMPRESA";
 				
 
-				$bt->armar_boton();
+				//$bt->armar_boton();
 			}
 			?>
 			

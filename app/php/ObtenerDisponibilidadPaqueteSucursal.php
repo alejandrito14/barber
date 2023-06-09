@@ -1,78 +1,148 @@
-<?php
+<?php 
 header("Content-Type: application/json; charset=UTF-8");
 header('Access-Control-Allow-Origin: *');
 
-//Importamos las clases que vamos a utilizar
+
+//Inlcuimos las clases a utilizar
 require_once("clases/conexcion.php");
-require_once("clases/class.HorariosSucursal.php");
-//require_once("clases/class.Categorias.php");
-require_once("clases/class.Fechas.php");
-require_once("clases/class.Funciones.php");
 require_once("clases/class.Paquetes.php");
+require_once("clases/class.Funciones.php");
+require_once("clases/class.Fechas.php");
+require_once("clases/class.Sucursal.php");
+require_once("clases/class.HorariosSucursal.php");
 require_once("clases/class.Especialista.php");
+/*require_once("clases/class.Sms.php");
+require_once("clases/class.phpmailer.php");
+require_once("clases/emails/class.Emails.php");*/
 
 try
 {
-	//declaramos los objetos de clase
+	
+	//Declaramos objetos de clases
 	$db = new MySQL();
+	$lo = new Paquetes();
+	$f=new Funciones();
+	$fechas=new Fechas();
+	$sucursal = new Sucursal();
+
 	$horariossucursal = new HorariosSucursal();
 	$horariossucursal->db=$db;
-	$f = new Funciones();
-	$paquetes=new Paquetes();
-	$paquetes->db=$db;
-	$especialista=new Especialista();
+	$especialista = new Especialista();
 	$especialista->db=$db;
-	//$categorias = new Categorias();
-	$fechas = new Fechas();
-	//$categorias->db=$db;
+	//Enviamos la conexion a la clase
+	$lo->db = $db;
+	$sucursal->db=$db;
+
+
 	$idsucursal=$_POST['idsucursal'];
-	
+	$idespecialista=$_POST['idespecialista'];
 	$idpaquete=$_POST['idpaquete'];
-	$paquetes->idpaquete=$idpaquete;
-	$obtenerpaquete=$paquetes->ObtenerPaquete2();
+	$mes=$_POST['mes'];
+	$anio=$_POST['anio'];
 
-	$intervalo=$obtenerpaquete[0]->intervaloservicio;
+	$lo->idespecialista=$idespecialista;
+	$lo->idsucursal=$idsucursal;
+	$especialista->idusuarios=$_POST['idusuarios'];
+	$especialista->idespecialista=$idespecialista;
+	$especialista->idsucursal=$idsucursal;
 
-	$fecha=$_POST['fecha'];
-	$horariossucursal->fecha=$fecha;
 	$horariossucursal->idsucursal=$idsucursal;
-	$dia=$fechas->dia_semana($fecha);
-	$numdia=$dia['numdia'];
-	$horas=$horariossucursal->ObtenerHorariosSucursal($numdia);
-	//var_dump($horas);die();
-	$arrayintervalos=array();
-	for ($i=0; $i < count($horas); $i++) { 
+	$obtenerzonaho=$horariossucursal->ObtenerTodosHorariosSucursal();
+	
+	$lo->idpaquete=$idpaquete;
+	$obtener=$lo->ObtenerPaquete2();
 
-		$horainicial=$horas[$i]->horainicial;
-		$horafinal=$horas[$i]->horafinal;
-		//print_r($horafinal);
-		 $intervalos=$fechas->intervaloHora($horainicial,$horafinal,$intervalo);
 
-		 array_push($arrayintervalos, $intervalos);
+
+	
+	//for($j=0; $j <count($obtener); $j++) { 
+		# code...
+	
+	
+	$intervalo=$obtener[0]->intervaloservicio;
+
+
+	 $primerdiames= date('Y-m-d', mktime(0,0,0, $mes, 1, $anio));
+
+
+
+    $primerdia= date('Y-m-d');
+     $day = date("d", mktime(0,0,0, $mes+1, 0, $anio));
+
+     $nodisponible=[];
+
+     $primerdiaresta=date("d-m-Y",strtotime($fecha_actual."- 1 days")); 
+
+      for($i=strtotime($primerdiames); $i<=strtotime($primerdiaresta); $i+=86400){
+      	  $fechaconsulta=date("Y-m-d", $i);
+
+      array_push($nodisponible,$fechaconsulta);
+      }
+
+
+ 
+    $ultimodia=date('Y-m-d', mktime(0,0,0, $mes, $day, $anio));
+
+  
+    $fechainicio=strtotime($primerdia);
+    $fechafin=strtotime($ultimodia);
+
+    $arraydisponible=array();
+
+    
+	$intervaloshorarios=array();
+	for ($i=0; $i < count($obtenerzonaho); $i++) { 
+		$dia=$obtenerzonaho[$i]->dia;
+		$horainicial=new DateTime($obtenerzonaho[$i]->horainicial);
+		$horafinal=new Datetime($obtenerzonaho[$i]->horafinal);
+
+		
+		 $array=array();
+		 $intervaloshorarios[$i]=array('dia'=>$dia,'horas'=>$array);
+		 
+		 $intervalos=$fechas->intervaloHora($obtenerzonaho[$i]->horainicial,$obtenerzonaho[$i]->horafinal,$intervalo);
+		 $conta=0;
+		 for ($k=0; $k <count($intervalos) ; $k++) { 
+		 	$horainicio=$intervalos[$k];
+
+		 	$canti=count($intervalos)-1;
+
+		 	$horafin="";
+		 	if ($conta<$canti) {
+		 		$horafin=$intervalos[$k+1];
+		 	
+		 		$objetoh=array('horainicial'=>$horainicio,'horafinal'=>$horafin,'disponible'=>0);
+		 		array_push( $intervaloshorarios[$i]['horas'], $objetoh);
+
+		 	}
+
+		 	$conta++;
+		 }
+	
+		
 	}
-	//var_dump($arrayintervalos);die();
-	$horariossucursal->fecha=$fecha;
+//}
+
 
 	$integrandointervalos=[];
 	$especialista->idsucursal=$idsucursal;
 	$especialista->idpaquete=$idpaquete;
 	
-		$horaactual=date('H:i:s');
-
-	for ($k=0; $k < count($arrayintervalos[0]); $k++) { 
+	//var_dump($intervaloshorarios);die();
+	/*for ($k=0; $k < count($arrayintervalos[0]); $k++) { 
 			
-			$value=$k+1;
+				$value=$k+1;
 				if ($value<count($arrayintervalos[0])) {
 					
 					$horainicial=substr($arrayintervalos[0][$k],0,5);
-
+					var_dump($horainicial);die();
 					$horafinal=substr($arrayintervalos[0][$k+1],0,5);
 
 					$horariossucursal->horainicial=$horainicial;
 					$horariossucursal->horafinal=$horafinal;
 					$verificar=$horariossucursal->VerificarHorario();
 					$disponible=1;
-						if (count($verificar)>0)  {
+						if (count($verificar)>0) {
 							$disponible=0;
 						}
 
@@ -80,95 +150,88 @@ try
 					$objeto=array('horainicial'=>$horainicial,'horafinal'=>$horafinal,'disponible'=>$disponible);
 
 
-					if (date('Y-m-d',strtotime($horariossucursal->fecha))==date('Y-m-d')) {
-
-
-
-					if(date('H:i:s',strtotime($horainicial)) >= $horaactual)
-						{
-
-						array_push($integrandointervalos, $objeto);
-
-						}
-
-					}else{
-
-						array_push($integrandointervalos, $objeto);
-
-					}
-
-					
+					array_push($integrandointervalos, $objeto);
 
 
 				}
 
 		}
-
-
-
-	/*var_dump($integrandointervalos);die();*/
-	//enviamos la conexión a las clases que lo requieren
-	/*$horariossucursal->db=$db;
-	$fecha=$_POST['fecha'];
-	$idpaquete=$_POST['idpaquete'];
-	$idsucursal=$_POST['idsucursal'];
-
-	$dia=$fechas->dia_semana($fecha);
-
-	var_dump($dia);die();*/
-
-	/*$horariossucursal->idsucursal=$idsucursal;
-	$obtenerhorariossucursal=$horariossucursal->ObtenerHorariosSucursal();*/
-
-
-
-	/*$lunes=$_POST['lunes'];
-	$martes=$_POST['martes'];
-	$miercoles=$_POST['miercoles'];
-	$jueves=$_POST['jueves'];
-	$viernes=$_POST['viernes'];
-	$sabado=$_POST['sabado'];
-	$domingo=$_POST['domingo'];
-	$v_fechainicial=$_POST['v_fechainicial'];
-	$v_fechafinal=$_POST['v_fechafinal'];
-	$dias="";
-
-	if ($lunes==1) {
-		$dias.='1,';
-	}
-	if ($martes==1) {
-		$dias.='2,';
-	}
-	if ($miercoles==1) {
-		$dias.='3,';
-	}
-	if ($jueves==1) {
-		$dias.='4,';
-	}
-	if ($viernes==1) {
-		$dias.='5,';
-	}
-	if ($sabado==1) {
-		$dias.='6,';
-	}
-	if ($domingo==1) {
-		$dias.='0';
-	}*/
-
-
-
-	$respuesta['respuesta']=1;
-	$respuesta['intervalos']=$integrandointervalos;
-	/*$respuesta['fechadia']=$fechadia;
-	$respuesta['arrayfechasdias']=$arrayfechasdias;
 */
-	echo json_encode($respuesta);
+		//var_dump($integrandointervalos);die();
+	$arrayfechasdisponibles=[];
+    for($i=$fechainicio; $i<=$fechafin; $i+=86400){
 
+    	$fechaconsulta=date("Y-m-d", $i);
+    	//$verificardisponibilidad=
+		 $dia_semana = date("w", strtotime($fechaconsulta)); 
+
+		 	$intervalodia=$sucursal->Buscardia($intervaloshorarios,$dia_semana);
+		
+		 	if (count($intervalodia)>0) {
+
+		 		$buscarintervalodia=$intervalodia['horas'];
+
+		 		for ($j=0; $j < count($buscarintervalodia); $j++) { 
+
+
+		 			$especialista->fecha=$fechaconsulta;
+		 			$especialista->horainicial=substr($buscarintervalodia[$j]['horainicial'],0,5);
+		 			$especialista->horafinal=substr($buscarintervalodia[$j]['horafinal'],0,5);
+
+		 			$minutoAnadir=1;
+				$segundos_horaInicial=strtotime($horafinal);
+				$segundos_minutoAnadir=$minutoAnadir*60;
+				$nuevaHora=date("H:i",$segundos_horaInicial-$segundos_minutoAnadir);
+
+
+
+		 			//$buscarhoraausente=$especialista->BuscarHoraAusente();
+
+		 			/*if (count($buscarhoraausente)==0) {
+		 				*/
+
+		 				$buscarsiestadisponible=$especialista->EvaluarHorarioDisponible();
+
+		 				$buscarsiestaapartada=$especialista->EvaluarHorarioApartado();
+
+
+		 				if (count($buscarsiestadisponible)==0  && count($buscarsiestaapartada)==0) {
+		 				
+		 					$objetodisponible=array('fecha'=>$fechaconsulta,'horainicial'=>$especialista->horainicial,'horafinal'=>$especialista->horafinal);
+
+		 					array_push($arrayfechasdisponibles, $objetodisponible);
+		 				}
+		 			//}
+
+		 		}
+		 	}
 
 	
-}catch(Exception $e)
-{
-	$db->rollback();
-	echo "Error. ".$e;
+		}
+
+		$fechas_unicas =  array_values(array_unique(array_map(function($item) {
+			  return $item['fecha'];
+			}, $arrayfechasdisponibles)));
+
+
+	//echo $mes;
+	
+	$respuesta['respuesta']=1;
+	$respuesta['disponible']=$fechas_unicas;
+	$respuesta['nodisponible']=$nodisponible;
+	//Retornamos en formato JSON 
+	$myJSON = json_encode($respuesta);
+	echo $myJSON;
+
+}catch(Exception $e){
+	//$db->rollback();
+	//echo "Error. ".$e;
+	
+	$array->resultado = "Error: ".$e;
+	$array->msg = "Error al ejecutar el php";
+	$array->id = '0';
+		//Retornamos en formato JSON 
+	$myJSON = json_encode($array);
+	echo $myJSON;
 }
 ?>

@@ -73,6 +73,17 @@ class Usuarios
         $this->idusuarios = $this->db->id_ultimo();
 	}
 
+    public function ActualizarUsuarioCel()
+    {
+       $query = "UPDATE usuarios SET 
+           celular ='$this->celular',
+           sistema='$this->sistema' 
+           WHERE idusuarios='$this->idusuarios'";
+        $result= $this->db->consulta($query);
+
+
+    }
+
 	public function ValidarClienteTelefono()
 	{
 		 $Query = "SELECT * FROM usuarios WHERE celular='$this->celular'";
@@ -104,9 +115,12 @@ class Usuarios
        	 paterno='$this->paterno',
        	 materno='$this->materno',
          telefono='$this->telefono',
+         email='$this->email',
+         clave='$this->clave',
          sexo='$this->sexo',
          estatus='$this->estatus',
-         fechanacimiento='$this->fecha'
+         fechanacimiento='$this->fecha',
+         tipo='$this->tipousuario'
         WHERE idusuarios = '$this->idusuarios' ";
      
 
@@ -211,7 +225,7 @@ class Usuarios
     {
         $r ;
         $sql_cliente = "SELECT * FROM usuarios WHERE celular = '$this->celular' AND email is not null and usuario is not null and email!='' and usuario!='' and clave!='' ";
-
+       
         $result_cliente = $this->db->consulta($sql_cliente);
         $result_cliente_row = $this->db->fetch_assoc($result_cliente);
         $result_cliente_row_num = $this->db->num_rows($result_cliente);
@@ -758,6 +772,8 @@ public function validarUsuarioClienteTokenCel()
         if ($idusuariosservicio!='') {
              $sql.="AND idusuarios NOT IN($idusuariosservicio)";
            }
+           $sql.=" ORDER BY CONCAT(usuarios.nombre,'',usuarios.paterno,' ',usuarios.materno)";
+           
         $resp = $this->db->consulta($sql);
         $cont = $this->db->num_rows($resp);
 
@@ -860,7 +876,8 @@ public function validarUsuarioClienteTokenCel()
         usuarios.nombre,
         usuarios.paterno,
         usuarios.materno,
-        usuarios.idusuarios
+        usuarios.idusuarios,
+        usuarios.sexo
         FROM
         usuarios
         JOIN usuariossecundarios
@@ -1150,6 +1167,16 @@ public function validarUsuarioClienteTokenCel()
         }
         
         return $array;
+    }
+
+
+    public function CrearUsuarioInvitado()
+    {
+        $sql = "INSERT INTO usuarios (tipo)
+        VALUES (6)";
+
+        $result  = $this->db->consulta($sql);
+        $this->idusuarios = $this->db->id_ultimo();
     }
 
   

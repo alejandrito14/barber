@@ -58,7 +58,7 @@ $emp->estatus = $estatus;
 $emp->tipo_usuario = $tipousaurio;
 $emp->lista_empresas = $lista_empresas;
 
-//Realizamos consulta
+//Realizamos consultadie	
 $resultado_empresas = $emp->obtenerFiltro();
 $resultado_empresas_num = $db->num_rows($resultado_empresas);
 $resultado_empresas_row = $db->fetch_assoc($resultado_empresas);
@@ -83,10 +83,8 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 		<tr style="text-align: center">
 			<th>ID EMPRESA</th> 
 			<th>EMPRESA</th> 
-			<th>DIRECCI&Oacute;N</th> 
-			<th>TEL&Eacute;FONO</th> 
-			<th>EMAIL</th>
-			<th>ESTATUS</th>
+			<th>DESCRIPCIÓN</th> 
+
 			<th>ACCI&Oacute;N</th>
 		</tr>
 	</thead>
@@ -106,12 +104,11 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 				{
 			?>
 			<tr>
-			    <td style="text-align: center;"><?php echo $f->imprimir_cadena_utf8($resultado_empresas_row['idempresas']); ?></td>
-				<td style="text-align: center;"><?php echo $f->imprimir_cadena_utf8($resultado_empresas_row['empresas']); ?></td>
-				<td style="text-align: center;"><?php echo $f->imprimir_cadena_utf8($resultado_empresas_row['direccion']);?></td>
-				<td style="text-align: center;"><?php echo $resultado_empresas_row['telefono'];?></td>
-				<td style="text-align: center;"><?php echo $resultado_empresas_row['email'];?></td>
-				<td style="text-align: center;"><?php echo $t_estatus[$resultado_empresas_row['estatus']];?></td>
+			    <td style="text-align: center;"><?php echo $f->imprimir_cadena_utf8($resultado_empresas_row['idempresa']); ?></td>
+				<td style="text-align: center;"><?php echo $f->imprimir_cadena_utf8($resultado_empresas_row['nombre']); ?></td>
+				<td style="text-align: center;"><?php echo $f->imprimir_cadena_utf8($resultado_empresas_row['descripcion']);?></td>
+				
+				
 				<td style="text-align: center; font-size: 15px;">
 				   <!--<i class="mdi mdi-table-edit" onclick="aparecermodulos('catalogos/empresas/fa_empresas.php?idempresas=<?php echo $resultado_empresas_row['idempresas'];?>','main')" style="cursor: pointer" title="Modificar Empresas"></i>-->
 					
@@ -120,7 +117,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 						//SCRIPT PARA CONSTRUIR UN BOTON
 						$bt->titulo = "";
 						$bt->icon = "mdi-table-edit";
-						$bt->funcion = "aparecermodulos('catalogos/empresas/fa_empresas.php?idempresas=".$resultado_empresas_row['idempresas']."&idmenumodulo=$idmenumodulo','main')";
+						$bt->funcion = "aparecermodulos('catalogos/empresa/fa_empresas.php?idempresas=".$resultado_empresas_row['idempresa']."&idmenumodulo=$idmenumodulo','main')";
 						$bt->estilos = "";
 						$bt->permiso = $permisos;
 						$bt->title="EDITAR";
@@ -136,7 +133,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 						//SCRIPT PARA CONSTRUIR UN BOTON
 						$bt->titulo = "";
 						$bt->icon = "mdi-delete-empty";
-						$bt->funcion = "BorrarDatos('".$resultado_empresas_row['idempresas']."','idempresas','empresas','n','catalogos/empresas/vi_empresas.php','main','$idmenumodulo')";
+						$bt->funcion = "BorrarDatos('".$resultado_empresas_row['idempresa']."','idempresas','empresas','n','catalogos/empresas/vi_empresas.php','main','$idmenumodulo')";
 						$bt->estilos = "";
 						$bt->permiso = $permisos;
 						$bt->title="BORRAR";

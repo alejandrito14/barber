@@ -26,13 +26,13 @@ try
 	$fechas = new Fechas();
 	//$categorias->db=$db;
 	$idsucursal=$_POST['idsucursal'];
-	
+	$idusuarios=$_POST['id_user'];
 	$idpaquete=$_POST['idpaquete'];
 	$paquetes->idpaquete=$idpaquete;
 	$obtenerpaquete=$paquetes->ObtenerPaquete2();
 
 	$intervalo=$obtenerpaquete[0]->intervaloservicio;
-
+	$especialista->idusuarios=$idusuarios;
 	$fecha=$_POST['fecha'];
 	$especialista->fecha=$fecha;
 	$especialista->idsucursal=$idsucursal;
@@ -40,9 +40,11 @@ try
 	$idespecialista=$_POST['idespecialista'];
 	$especialista->idespecialista=$idespecialista;
 	$numdia=$dia['numdia'];
+
+
 	$horas=$especialista->ObtenerHorariosEspecialistadia($numdia);
 
-	//var_dump($horas);die();
+	
 	$arrayintervalos=array();
 	for ($i=0; $i < count($horas); $i++) { 
 
@@ -53,7 +55,7 @@ try
 
 		 array_push($arrayintervalos, $intervalos);
 	}
-	//var_dump($arrayintervalos);die();
+	
 	$especialista->fecha=$fecha;
 
 	$integrandointervalos=[];
@@ -77,12 +79,21 @@ try
 		 			$buscarhoraausente=$especialista->BuscarHoraAusente();
 
 		 			if (count($buscarhoraausente)==0) {
-
+ 
 					$verificar=$especialista->EvaluarHorarioDisponible();
+
+					$buscarsiestaapartada=$especialista->EvaluarHorarioApartado();
+
 					$disponible=1;
-						if (count($verificar)>0)  {
+				if (count($verificar)>0 || count($buscarsiestaapartada)>0)  {
 							$disponible=0;
-						}
+						
+					}
+					//echo $especialista->fecha.'  '.$especialista->horainicial.''.$especialista->horafinal.'-'.$disponible.'<br>';
+
+					if ($disponible==1) {
+							# code...
+						
 
 
 					$objeto=array('horainicial'=>$horainicial,'horafinal'=>$horafinal,'disponible'=>$disponible);
@@ -104,6 +115,8 @@ try
 						array_push($integrandointervalos, $objeto);
 
 					}
+
+				}
 
 				}
 

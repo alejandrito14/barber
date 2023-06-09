@@ -138,7 +138,7 @@ class Tipousuario
 	
 	 public function ObtTipousuarioCliente()
 	{
-		$sql = "SELECT * FROM tipousuario WHERE estatus = 1 AND cliente=1";
+		$sql = "SELECT * FROM tipousuario WHERE estatus = 1 ";
 
 	
 		$resp = $this->db->consulta($sql);

@@ -94,6 +94,7 @@ if(!isset($_GET['idanuncio'])){
 		$ruta="catalogos/anuncios/imagenes/".$_SESSION['codservicio']."/$foto";
 	}
 
+	
 	$col = "col-md-12";
 	$ver = "";
 		$titulo='EDITAR ANUNCIO';
@@ -207,7 +208,10 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 								    </div>
 								</form>
 
-									<p style="text-align: center;">Dimensiones de la imagen Ancho:640px Alto:640px</p>
+									<p style="text-align: center;">Dimensiones de la imagen Ancho:976px Alto:1916px
+
+							
+	</p>
 								</div>
 
 

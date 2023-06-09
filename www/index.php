@@ -1198,6 +1198,8 @@ $navegador = $f->navegador();
  -->
  <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js' type='text/javascript'></script>
  <script src="js/fn_categorias.js"></script>
+ <script src="js/fn_categoriapaquete.js"></script>
+
 <script src="js/fn_notificacion.js"></script>
 <script src="js/fn_politicasaceptacion.js"></script>
 
@@ -1254,6 +1256,7 @@ $navegador = $f->navegador();
 <script src="js/fn_tableroanuncios.js"></script>
 <script src="js/fn_membresia.js"></script>
 <script src="js/fn_categoriasservicios.js"></script>
+<script src="js/fn_especialista.js"></script>
 <script src="js/fn_asignarusuarioservicio.js"></script>
 <script src="js/fn_tutor.js"></script>
 <script src="js/fn_clasificacion.js"></script>
@@ -1276,11 +1279,14 @@ $navegador = $f->navegador();
 <script src="js/fn_notaspago.js?<?php echo time(); ?>"></script>
 <script src="js/fn_tipojuego.js?<?php echo time(); ?>"></script>
   <script src="https://js.stripe.com/v3/"></script>
-
+<script src="js/fn_empresas.js?<?php echo time(); ?>"></script>
  <!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     -->
     <script type="text/javascript" src="js/mark-your-calendar.js"></script>
 <script src="js/fn_dashboard.js?<?php echo time(); ?>"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzK22hMENl-zhFKyDd5TW7aO5cWHJGQ1Q"></script>
+
+
 
 <!-- <script src="js/fn_espacios.js?<?php echo time(); ?>"></script>
 <script src="js/fn_cupones.js?<?php echo time(); ?>"></script>

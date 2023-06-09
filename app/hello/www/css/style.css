@@ -2112,7 +2112,7 @@ h6,
       border-radius: 18px 0 18px 18px; }
 
 .inner-details .navbar {
-  height: 80px; }
+  height: 100px; }
 .inner-details .head-details {
   text-align: center;
   position: relative;
@@ -3097,5 +3097,5 @@ h6,
     left: auto; }
     .page-content .searchbar.search-box .searchbar-input-wrap .searchbar-icon:after {
       content: none; }
-
+ 
 /*# sourceMappingURL=style.css.map */

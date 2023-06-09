@@ -10,7 +10,7 @@ if (($_FILES["file"]["type"] == "image/jpg")
     || ($_FILES["file"]["type"] == "image/gif")) {
     if (move_uploaded_file($_FILES["file"]["tmp_name"], $ruta.$_FILES['file']['name'])) {
         //more code here...
-        echo "catalogos/sucursales/imagenes/".$_SESSION['codservicio'].'/'.$_FILES['file']['name'];
+        echo "catalogos/sucursal/imagenes/".$_SESSION['codservicio'].'/'.$_FILES['file']['name'];
     } else {
         echo 0;
     }

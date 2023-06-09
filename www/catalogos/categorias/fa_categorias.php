@@ -53,7 +53,7 @@ if(!isset($_GET['idcategoria'])){
 
 	$col = "col-md-12";
 	$ver = "display:none;";
-	$titulo='NUEVO TIPO DE SERVICIO';
+	$titulo='NUEVA CATEGORIA DE SUCURSAL';
 	$obtenerorden=$emp->ObtenerUltimoOrdencategoria();
 	$roworden=$db->fetch_assoc($obtenerorden);
 	$num=$db->num_rows($obtenerorden);
@@ -87,26 +87,6 @@ if(!isset($_GET['idcategoria'])){
 	$estatus = $f->imprimir_cadena_utf8($result_presentacion_row['estatus']);
 
 
-	$horarios=$result_presentacion_row['horarios'];
-	$zonas=$result_presentacion_row['zonas'];
-	$participantes=$result_presentacion_row['participantes'];
-	$cantidad=$result_presentacion_row['cantidad'];
-	$coachs=$result_presentacion_row['coachs'];
-
-	$numerodias=$result_presentacion_row['numerodiassemana'];
-	$habilitarcostos=$result_presentacion_row['configurarcostos'];
-	$habilitarmodalidad=$result_presentacion_row['habilitarmodalidad'];
-	$habilitarcampototalclases=$result_presentacion_row['campototalclases'];
-	$habilitarcampopreciounitario=$result_presentacion_row['campopreciounitario'];
-	$habilitarcampomontoparticipante=$result_presentacion_row['campomontoporparticipante'];
-	$habilitarcampomontogrupo=$result_presentacion_row['campomontoporgrupo'];
-	$habilitarmodalidadpago=$result_presentacion_row['habilitarmodalidadpago'];
-
-	$avanzado=$result_presentacion_row['avanzado'];
-
-		$asignarcategoria=$result_presentacion_row['asignarcategoria'];
-		$asignardias=$result_presentacion_row['asignardias'];
-
 	$ruta='';
 	if($foto==""){
 		$ruta="images/sinfoto.png";
@@ -117,7 +97,7 @@ if(!isset($_GET['idcategoria'])){
 
 	$col = "col-md-12";
 	$ver = "";
-		$titulo='EDITAR TIPO DE SERVICIO';
+		$titulo='EDITAR CATEGORIA DE SUCURSAL';
 
 }
 
@@ -228,7 +208,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 								    </div>
 								</form>
 
-<p style="text-align: center;">Dimensiones de la imagen Ancho:640px Alto:426px</p>
+<p style="text-align: center;">Dimensiones de la imagen Ancho:100px Alto:100px</p>
 								</div>
 
 
@@ -252,198 +232,11 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 								</div> -->
 																
 
-								 	<div class="form-check">
-					               
-					                  <input type="checkbox" class="form-check-input " name="v_activaravanzado" onchange="ActivarAvanzado()"  value="0" id="v_activaravanzado" style="top: -0.3em;">
-					                   <label class="form-check-label">
-										 AVANZADO
-					                </label>
-				                </div>
+								 
 				              </div>
 
-				               <div  class="divavanzado" style="display: none;">
-			<div class="card" style="" id="divhorarios">
-				<div class="" style="">
-					<label>ASIGNAR DISPONIBILIDAD DE HORARIO </label>
-					<button class="btn btn-primary" type="button" style="  margin-top: -1em;" onclick="AgregarHorario()"><span class="mdi mdi-plus-box"></span></button>
-
-				</div>
-				<div class="">
-						<div style="margin-top: 1em">
-
-							<div class="row">
-								<div class="col-md-12">
-								
-									
-								</div>
-								<div class="col-md-3">
-										
-									</div>
-							</div>
-
-								
-								<div id="horarios"></div>
-
-
-
-
-					</div>
-				</div>
-			</div>
-			</div>
-				     <div  class="divavanzado" style="display: none;">
-
-				     	<div class="form-group" style="display: none;">
-				              	<div class="form-check">
-					               
-					                  <input type="checkbox" class="form-check-input " name="v_activardias"  value="0" id="v_activardias" style="top: -0.3em;">
-					                   <label class="form-check-label">
-										 ASIGNAR DÍAS
-					                </label>
-				                </div>
-				            </div>
-
-							<div class="form-group" style="display: none;">
-				              	<div class="form-check">
-					               
-					                  <input type="checkbox" class="form-check-input " name="v_activarcategoria"  value="0" id="v_activarcategoria" style="top: -0.3em;">
-					                   <label class="form-check-label">
-										 ASIGNAR CATEGORÍA
-					                </label>
-				                </div>
-				            </div>
-
-							 <div class="form-group" style="display: none;">
-								 	<div class="form-check">
-					               
-					                  <input type="checkbox" class="form-check-input " name="v_activarhorarios"  value="0" id="v_activarhorarios" style="">
-					                   <label class="form-check-label">
-										ASIGNAR HORARIOS
-					                </label>
-				                </div>
-				              </div>
-
-				               <div class="form-group" style="display: none;">
-								 	<div class="form-check">
-					               
-					                  <input type="checkbox" class="form-check-input " name="v_zonas" value="0" id="v_zonas" style="">
-					                   <label class="form-check-label">
-										ASIGNAR ESPACIO
-					                </label>
-				                </div>
-				              </div>
-
-				               <div class="form-group" style="display: none;">
-								 	<div class="form-check">
-					               
-					                  <input type="checkbox" class="form-check-input " name="v_coachs"  value="0" id="v_coachs" style="">
-					                   <label class="form-check-label">
-										ASIGNAR COACHS
-					                </label>
-				                </div>
-				              </div>
-
-				               <div class="form-group" style="display: none;">
-								 	<div class="form-check">
-					               
-					                  <input type="checkbox" class="form-check-input " name="v_participantes"  value="0" id="v_participantes" style="">
-					                   <label class="form-check-label">
-										ASIGNAR PARTICIPANTES
-					                </label>
-				                </div>
-				              </div>
-
-				              <div class="form-group" style="display: none;">
-				              		<label>CANTIDAD DE PARTICIPANTES:</label>
-							<input type="number" class="form-control" id="v_cantidadparticipantes" name="v_cantidadparticipantes" value="<?php echo $cantidad; ?>" title="CANTIDAD DE PARTICIPANTES" placeholder='CANTIDAD DE PARTICIPANTES'>
-
-				              </div>
-
-
-				             <div class="form-group" style="display: none;">
-				              		<label>NÚMERO DE DÍAS:</label>
-							<input type="number" class="form-control" id="v_numerodias" name="v_numerodias" value="<?php echo $numerodias; ?>" title="NÚMERO DE DÍAS" placeholder='NÚMERO DE DÍAS'>
-
-				            </div>
-
-
-				            <div class="form-group" style="display: none;">
-								 	<div class="form-check">
-					               
-					                  <input type="checkbox" class="form-check-input " name="v_habilitarcostos" onchange="HabilitarCostos()" value="0" id="v_habilitarcostos" style="">
-					                   <label class="form-check-label">
-										ASIGNAR COSTOS
-					                </label>
-				                </div>
-				              </div>
-
-				             <div id="divcostos" style="margin-left: 1em;display: none;">
-				              <div class="form-group" style="display: none;">
-								 	<div class="form-check">
-					               
-					                  <input type="checkbox" class="form-check-input " name="v_habilitarmodalidad"  value="0" id="v_habilitarmodalidad" style="">
-					                   <label class="form-check-label">
-										HABILITAR MODALIDAD
-					                </label>
-				                </div>
-				              </div>
-
-				               <div class="form-group" style="display: none;">
-								 	<div class="form-check">
-					               
-					                  <input type="checkbox" class="form-check-input " name="v_habilitarcampototalclases"  id="v_habilitarcampototalclases" style="">
-					                   <label class="form-check-label">
-										HABILITAR CAMPO TOTAL DE CLASES
-					                </label>
-				                </div>
-				              </div>
-
-				              <div class="form-group" style="display: none;">
-								 	<div class="form-check">
-					               
-					                  <input type="checkbox" class="form-check-input " name="v_habilitarcampopreciounitario"  id="v_habilitarcampopreciounitario" style="">
-					                   <label class="form-check-label">
-										HABILITAR CAMPO PRECIO UNITARIO
-					                </label>
-				                </div>
-				              </div>
-
-
-				              <div class="form-group" style="display: none;">
-								 	<div class="form-check">
-					               
-					                  <input type="checkbox" class="form-check-input " name="v_habilitarcampomontoparticipante"  id="v_habilitarcampomontoparticipante" style="">
-					                   <label class="form-check-label">
-										HABILITAR CAMPO MONTO A PAGAR POR PARTICIPANTE
-					                </label>
-				                </div>
-				              </div>
-
-				               <div class="form-group" style="display: none;">
-								 	<div class="form-check">
-					               
-					                  <input type="checkbox" class="form-check-input " name="v_habilitarcampomontoparticipante"  id="v_habilitarcampomontogrupo" style="">
-					                   <label class="form-check-label">
-										HABILITAR CAMPO MONTO A PAGAR POR GRUPO
-					                </label>
-				                </div>
-				              </div>
-
-
-				          </div>
-
-				          <div class="form-group" style="display: none;">
-								 	<div class="form-check">
-					               
-					                  <input type="checkbox" class="form-check-input " name="v_habilitarmodalidadpago"  value="0" id="v_habilitarmodalidadpago" style="">
-					                   <label class="form-check-label">
-										HABILITAR MODALIDAD DE PAGO
-					                </label>
-				                </div>
-				              </div>
-
-
-				              </div>
+				        
+				     
 
 
 							<div class="form-group m-t-20">
@@ -456,7 +249,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 						<div class="form-group m-t-20">
 							<label>ESTATUS:</label>
 							<select name="v_estatus" id="v_estatus" title="Estatus" class="form-control"  >
-								<option value="0" <?php if($estatus == 0) { echo "selected"; } ?> >DESACTIVO</option>
+								<option value="0" <?php if($estatus == 0) { echo "selected"; } ?> >DESACTIVADO</option>
 								<option value="1" <?php if($estatus == 1) { echo "selected"; } ?> >ACTIVADO</option>
 							</select>
 						</div>
@@ -487,90 +280,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 	var idcategoria='<?php echo $idcategoria; ?>';
 
 	if (idcategoria>0) {
-		var horarios='<?php echo $horarios;?>';
-		var zonas='<?php echo $zonas;?>';
-		var participantes='<?php echo $participantes;?>';
-		var coachs='<?php echo $coachs; ?>';
-
-		if (horarios==1) {
-
-			$("#v_activarhorarios").attr('checked',true);
-		}
-		if (zonas==1) {
-			$("#v_zonas").attr('checked',true);
 	
-		}
-		if (participantes==1) {
-
-			$("#v_participantes").attr('checked',true);
-		
-		}
-
-		if (coachs==1) {
-
-			$("#v_coachs").attr('checked',true);
-		}
-
-		var numerodias='<?php echo $numerodias; ?>';
-		var habilitarcostos='<?php echo $habilitarcostos; ?>';
-		var habilitarmodalidad='<?php echo $habilitarmodalidad; ?>';
-		var habilitarcampototalclases='<?php echo $habilitarcampototalclases; ?>';
-		var habilitarcampopreciounitario='<?php echo $habilitarcampopreciounitario; ?>';
-		var habilitarcampomontoparticipante='<?php echo $habilitarcampomontoparticipante; ?>';
-		var habilitarcampomontogrupo='<?php echo $habilitarcampomontogrupo; ?>';
-		var habilitarmodalidadpago='<?php echo $habilitarmodalidadpago; ?>';
-		var avanzado='<?php echo $avanzado; ?>';
-		var asignarcategoria='<?php echo $asignarcategoria; ?>';
-		var asignardias='<?php echo $asignardias; ?>';
-
-		$("#v_numerodias").val(numerodias);
-		if (habilitarcostos==1) {
-			$("#v_habilitarcostos").attr('checked',true);		
-		}
-
-		if (habilitarmodalidad==1) {
-			$("#v_habilitarmodalidad").attr('checked',true);
-		}
-		if (habilitarcampototalclases==1) {
-			$("#v_habilitarcampototalclases").attr('checked',true);
-		}
-		
-		if(habilitarcampopreciounitario==1){
-			$("#v_habilitarcampopreciounitario").attr('checked',true);
-		}
-		if(habilitarcampomontoparticipante==1){
-			$("#v_habilitarcampomontoparticipante").attr('checked',true);
-		}
-		if(habilitarcampomontogrupo==1){
-			$("#v_habilitarcampomontogrupo").attr('checked',true);
-		}
-		if(habilitarmodalidadpago==1){
-
-			$("#v_habilitarmodalidadpago").attr('checked',true);
-		}
-
-		
-
-		if (avanzado==1) {
-
-		$("#v_activaravanzado").attr('checked',true);
-	
-		}
-
-		if (asignarcategoria==1) {
-
-		$("#v_activarcategoria").attr('checked',true);
-		
-		}
-
-		if (asignardias==1) {
-
-			$("#v_activardias").attr('checked',true);
-		}
-		HabilitarCostos();
-		ActivarAvanzado();
-		ObtenerHorariosSemanaCategorias(idcategoria);
-
 	}
 
 	

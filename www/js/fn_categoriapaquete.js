@@ -1,6 +1,6 @@
 // JavaScript Document
 
-function Buscar_categoriasproducto(idmenumodulo)
+function Buscar_categoriaspaquete(idmenumodulo)
 {
 	var id = $('#b_id').val();
 	var nombre = $('#b_nombre').val();
@@ -18,7 +18,7 @@ function Buscar_categoriasproducto(idmenumodulo)
 	
 		
 				  $.ajax({
-					  url:'catalogos/categoriasproducto/li_categoriasproductos.php', //Url a donde la enviaremos
+					  url:'catalogos/categoriapaquete/li_categoriaspaquete.php', //Url a donde la enviaremos
 					type:'GET', //Metodo que usaremos
 					data: datos, //Le pasamos el objeto que creamos con los archivos
 					error:function(XMLHttpRequest, textStatus, errorThrown){
@@ -36,7 +36,7 @@ function Buscar_categoriasproducto(idmenumodulo)
 }
 
 
-function GuardarCategoriasa(form,regresar,donde,idmenumodulo)
+function GuardarCategoriaspaquete(form,regresar,donde,idmenumodulo)
 {
 	if(confirm("\u00BFDesea realizar esta operaci\u00f3n?"))
 	{			
@@ -70,7 +70,7 @@ function GuardarCategoriasa(form,regresar,donde,idmenumodulo)
 				
 		setTimeout(function(){
 				  $.ajax({
-					  url:'catalogos/categoriasproducto/ga_categoriasproductos.php', //Url a donde la enviaremos
+					  url:'catalogos/categoriapaquete/ga_categoriapaquete.php', //Url a donde la enviaremos
 					type:'POST', //Metodo que usaremos
 					contentType: false, //Debe estar en false para que pase el objeto sin procesar
 					data: data, //Le pasamos el objeto que creamos con los archivos
@@ -103,7 +103,7 @@ function BorrarCategoria(idcategoria,campo,tabla,valor,regresar,donde,idmenumodu
 	
 var datos='idcategoria='+idcategoria;
 	$.ajax({
-		url:'catalogos/categoriasproducto/borrarCategoria.php', //Url a donde la enviaremos
+		url:'catalogos/categoriaspaquete/borrarCategoria.php', //Url a donde la enviaremos
 	  type:'POST', //Metodo que usaremos
 	  data: datos, //Le pasamos el objeto que creamos con los archivos
 	  error:function(XMLHttpRequest, textStatus, errorThrown){
@@ -121,7 +121,7 @@ var datos='idcategoria='+idcategoria;
 			   if( resp == 0 ){
 				  aparecermodulos(regresar+"?ac=1&idmenumodulo="+idmenumodulo+"&msj=Operacion realizada con exito",donde);
 				}else{
-				  aparecermodulos(regresar+"?ac=0&idmenumodulo="+idmenumodulo+"&msj=La categoría se encuentra relacionada con un producto. "+msj,donde);
+				  aparecermodulos(regresar+"?ac=0&idmenumodulo="+idmenumodulo+"&msj=La categoría se encuentra relacionada con un paquete. "+msj,donde);
 				}			
 			}
 	});
@@ -130,7 +130,7 @@ var datos='idcategoria='+idcategoria;
 
 function Subirimagencategoria(idcategoria) {
 	
-	$("#idcategoriasproducto").val(idcategoria);
+	$("#idcategoriaspaquete").val(idcategoria);
 	showAttachedFiles1(idcategoria);
 	$("#modalimagencategoria").modal();
 }

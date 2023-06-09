@@ -85,7 +85,6 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 <!-- 			<th>ID</th> 
  -->			<th>NOMBRE</th> 
  			    <th>IMÁGEN</th> 
- 			     <th>AVANZADO</th> 
 
 				<th>ORDEN</th> 
 				<th>ESTATUS</th> 
@@ -118,14 +117,10 @@ if(isset($_SESSION['permisos_acciones_erp'])){
                      $img='./catalogos/categorias/imagenes/'.$_SESSION['codservicio'].'/'.$f->imprimir_cadena_utf8($resultado_empresas_row['foto']);
 
                      ?>
-                     <img src="<?php echo $img; ?>" alt=""style="width: 400px;">
+                     <img src="<?php echo $img; ?>" alt=""style="width: 100px;">
                    </td>
 
-                   <td style="text-align: center;"><?php 
-
-                   	$ressul=$resultado_empresas_row['avanzado']=='1'?'SI':'NO';
-
-                   echo $f->imprimir_cadena_utf8(	$ressul); ?></td>
+                  
 
 				<td style="text-align: center;"><?php echo $f->imprimir_cadena_utf8($resultado_empresas_row['orden']); ?></td>
 				
@@ -156,7 +151,6 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 						$bt->titulo = "";
 						$bt->icon = "mdi-delete-empty";
 						$bt->funcion = "BorrarCategoria('".$resultado_empresas_row['idcategorias']."','idcategorias','categorias','n','catalogos/categorias/vi_categorias.php','main','$idmenumodulo')";
-
 						$bt->estilos = "";
 						$bt->permiso = $permisos;
 						$bt->tipo = 3;

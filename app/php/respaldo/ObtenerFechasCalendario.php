@@ -33,23 +33,58 @@ try
 	$lo->db = $db;
 	$sucursal->db=$db;
 
-	$idpaquete=$_POST['idpaquete'];
 
 	$idsucursal=$_POST['idsucursal'];
 	$idespecialista=$_POST['idespecialista'];
-	$especialista->idespecialista=$idespecialista;
+	$idpaquete=$_POST['idpaquete'];
 	$mes=$_POST['mes'];
 	$anio=$_POST['anio'];
 
+	$lo->idespecialista=$idespecialista;
+	$lo->idsucursal=$idsucursal;
+
+	$especialista->idespecialista=$idespecialista;
+	$especialista->idsucursal=$idsucursal;
+
+	$sucursal->idsucursales=$idsucursal;
+	$obtenerzonaho=$especialista->ObtenerHorariosEspecialista();
+	
+
+	$obtener=$especialista->ObtenerPaquetesEspecialista();
+
+	 $primerdiames= date('Y-m-d', mktime(0,0,0, $mes, 1, $anio));
+
+
+
+    $primerdia= date('Y-m-d');
+     $day = date("d", mktime(0,0,0, $mes+1, 0, $anio));
+
+     $nodisponible=[];
+	$fecha_actual=date('d-m-Y');
+
+     $primerdiaresta=date("d-m-Y",strtotime($fecha_actual."- 1 days")); 
+
+      for($i=strtotime($primerdiames); $i<=strtotime($primerdiaresta); $i+=86400){
+      	  $fechaconsulta=date("Y-m-d", $i);
+
+      array_push($nodisponible,$fechaconsulta);
+      }
+
+
+ 
+    $ultimodia=date('Y-m-d', mktime(0,0,0, $mes, $day, $anio));
+
+	
+	//for($j=0; $j <count($obtener); $j++) { 
+		# code...
+	
 	$lo->idpaquete=$idpaquete;
 	$obtenerpaquete=$lo->ObtenerPaquete2();
 
 	$intervalo=$obtenerpaquete[0]->intervaloservicio;
 
-    $primerdia= date('Y-m-d', mktime(0,0,0, $mes, 1, $anio));
-     $day = date("d", mktime(0,0,0, $mes+1, 0, $anio));
- 
-    $ultimodia=date('Y-m-d', mktime(0,0,0, $mes, $day, $anio));
+
+	
 
   
     $fechainicio=strtotime($primerdia);
@@ -57,9 +92,7 @@ try
 
     $arraydisponible=array();
 
-    $sucursal->idsucursales=$idsucursal;
-	$obtenerzonaho=$especialista->ObtenerHorariosEspecialista();
-	
+    
 	$intervaloshorarios=array();
 	for ($i=0; $i < count($obtenerzonaho); $i++) { 
 		$dia=$obtenerzonaho[$i]->dia;
@@ -91,6 +124,7 @@ try
 	
 		
 	}
+//}
 
 
 	$integrandointervalos=[];
@@ -161,8 +195,9 @@ try
 
 		 				$buscarsiestadisponible=$especialista->EvaluarHorarioDisponible();
 
+		 				$buscarsiestaapartada=$especialista->EvaluarHorarioApartado();
 
-		 				if (count($buscarsiestadisponible)==0) {
+		 				if (count($buscarsiestadisponible)==0 && count($buscarsiestaapartada)==0) {
 		 				
 		 					$objetodisponible=array('fecha'=>$fechaconsulta,'horainicial'=>$especialista->horainicial,'horafinal'=>$especialista->horafinal);
 
@@ -185,7 +220,7 @@ try
 	
 	$respuesta['respuesta']=1;
 	$respuesta['disponible']=$fechas_unicas;
-	
+	$respuesta['nodisponible']=$nodisponible;
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);
 	echo $myJSON;

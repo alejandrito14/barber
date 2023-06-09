@@ -73,10 +73,11 @@ try
     $lo->email    = $email;
     $lo->clave    = $contra;
     $lo->tipousuario=3;
+    $lo->fecha    = $fecha;
    /* $lo->telefono = $telefono;
    
     $lo->sexo     = $sexo;
-    $lo->fecha    = $fecha;
+    
     /*$lo->usuario  = $email;
   
     $lo->nivel    = $nivel;

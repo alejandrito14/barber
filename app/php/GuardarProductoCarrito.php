@@ -32,15 +32,16 @@ try
 	$costo=$producto->{'price'};
 	$cantidad=$producto->{'cant'};
 	$titulosgrupos=$producto->{'titulosgrupos'};
+	$preuni=$producto->{'preuni'};
 	
 	$paquetes->idpaquete=$idpaquete;
 	$obtenerpaquete=$paquetes->ObtenerPaquete2();
-	$costototal=$cantidad*$costo;
+	//$costototal=$cantidad*$costo;
 	$carrito->idusuarios=$idusuario;
 	$carrito->idpaquete=$idpaquete;
-	$carrito->cantidad=1;
-	$carrito->costounitario=$costo;
-	$carrito->costototal=$costototal;
+	$carrito->cantidad=$cantidad;
+	$carrito->costounitario=$preuni;
+	$carrito->costototal=$costo;
 	$carrito->idsucursal=$idsucursal;
 	$carrito->idespecialista=0;
 	$carrito->idcitaapartada=0;

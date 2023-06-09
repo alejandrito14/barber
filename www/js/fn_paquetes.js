@@ -48,7 +48,7 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 		var complementos=[];
 
 		var topessecundarios=[];
-
+	if ($("#servicio").is(':checked')==false) {
 		$(".idinsummook").each(function(index) {
 			console.log($(this).text());
 			idproductos.push($(this).text());
@@ -70,6 +70,7 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 			insumosubtotalmedida.push($(this).text());
 		});
 
+	}
 
 		$(".complemento").each(function(index) {
 
@@ -80,6 +81,25 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
  
 
 		});
+
+		var especialistaspaquete=[];
+			$(".especialistapaquete").each(function(index) {
+			
+					console.log($(this).attr('id'));
+					var id=$(this).attr('id').split('_')[1];
+					var idespecialista=$(this).val();
+					var cantidad=$("#inputcantidad2_"+id).val();
+					
+ 					var obj={
+ 						idespecialista:idespecialista,
+ 						costo:cantidad
+ 					};
+ 					especialistaspaquete.push(obj);
+		});
+
+
+		console.log(especialistaspaquete);
+
 
 		$(".topes").each(function(){
 
@@ -144,13 +164,13 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 
 
 
-		if (v_insumostabla>0 && valido==1) {
+		if (valido==1) {
 
 			if (confirm("\u00BFDesea realizar esta operaci\u00f3n?")) {
 
 
 
-
+				var v_sucursal=$("#v_sucursal").val();
 				var v_nombre = $('#v_nombre').val();
 				var v_descripcion = $('#v_descripcion').val();
 				var precionormal = $("#preciouno").val();
@@ -191,7 +211,7 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 				var siniva=$("#checkediva").val();
 				var iva=$("#iva").val();
 				var mensajev=$("#mensajev").val();
-
+				var tiempoestimado=$("#tiempoestimado").val();
 				var id = $('#id').val();
 				console.log(id);
 
@@ -226,7 +246,7 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 		data.append('subtotalinsumos',subtotalinsumo);
 		data.append('categoria_producto',categoria_producto);
 		data.append('idcategoria',idcategoria);
-
+		data.append('idcategoriapaquete',selectedCategory);
 		data.append('complementos',complementos);
 
 		data.append('conpromo',conpromo);
@@ -257,9 +277,9 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 		data.append('iva',iva);
 		data.append('paquetesvinculados',paquetesvinculados);
 		data.append('mensajev',mensajev);
-		
-		
-
+		data.append('especialistaspaquete',JSON.stringify(especialistaspaquete));
+		data.append('v_sucursal',v_sucursal);
+		data.append('v_tiempoestimado',tiempoestimado);
 
 		$('#main').html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Subiendo Archivos...</div>')
 
@@ -282,6 +302,7 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 						//aparecermodulos("catalogos/vi_ligas.php?ac=0&msj=Error. "+error,'main');
 					},
 					success: function (msj) {
+						selectedCategory=null;
 						console.log("El resultado de msj es: " + msj);
 						if (msj == 1) {
 
@@ -935,15 +956,15 @@ function Habilitarpromo() {
 	if($("#conpromo").is(':checked')){
 
 		$("#conpromo").val(1);
-		$("#promociondiv").css('display','block');
+		//$("#promociondiv").css('display','block');
 		$("#opcionesdepromocion").css('display','block');
-		$("#vincularpaquete").css('display','block');
+		//$("#vincularpaquete").css('display','block');
 	}else{
 
-		$("#promociondiv").css('display','none');
+		//$("#promociondiv").css('display','none');
 		$("#opcionesdepromocion").css('display','none');
 		$("#conpromo").val(0);
-		$("#vincularpaquete").css('display','none');
+		//$("#vincularpaquete").css('display','none');
 
 	}
 }
@@ -988,12 +1009,21 @@ function Habilitarservicio() {
 	
 	if ($("#servicio").is(':checked')) {
 
+
 		$("#servicio").val(1);
+		$("#divespecialistas").css('display','block');
+		$("#divpromociones").css('display','none');
+		$("#divproducto").css('display','none');
+		$("#divtiempoestimado").css('display','block');
 
 	}else{
 
 		$("#servicio").val(0);
-	
+		$("#divespecialistas").css('display','none');
+		$("#divpromociones").css('display','block');
+		$("#divproducto").css('display','block');
+		$("#divtiempoestimado").css('display','none');
+
 	}
 }
 
@@ -1542,4 +1572,307 @@ function ActualizarOrdenPa(idpaquete) {
 					  	}
 				  });				  		
 	}
+}
+
+
+function NuevoEspecialista() {
+		var html="";
+	var htmls="";
+
+	CargarEspecialistasSucursal().then(r => {
+							 	
+          		if (r.length>0) {
+													
+					htmls+=`<option value="0">SELECCIONAR ESPECIALISTA</option>`;
+					for (var j = 0; j <r.length; j++) {		
+					var ma=r[j].materno!=null?r[j].materno:'';						
+						htmls+=`<option value="`+r[j].idespecialista+`">`+r[j].nombre+` `+r[j].paterno+` `+ma+`</option>`;
+					}
+
+				}
+			}).then(()=>{
+
+
+		obtenerdiv=$(".listadoespecialistas").html();
+
+		var contadortipo=parseFloat($(".especilialistaincluye").length)+1;
+
+		tabindex=parseFloat(6)+parseFloat(contadortipo);
+	
+			html=`
+					<div class="row especilialistaincluye" id="contadort`+contadortipo+`">
+										<div class="col-md-3">
+									<label>ESPECIALISTA:</label>	
+
+									<select class="form-control especialistapaquete" id="selecttiposervicio_`+contadortipo+`" tabindex="`+tabindex+`">`;
+										html+=htmls;
+
+									html+=`</select>
+									</div>
+									
+								
+									<div class="col-md-4">
+
+										<label>COSTO:</label>
+										<div class="form-group mb-2" style="">
+											<input type="number"  class="form-control cantidadpaquete" id="inputcantidad2_`+contadortipo+`" tabindex="`+(tabindex+1)+`" >
+										</div>
+									</div>
+									<div class="col-md-1">
+										<button type="button"  style="margin-top: 2em;" onclick="EliminarOpciontipo(`+contadortipo+`)" class="btn btn_rojo"><i class="mdi mdi-delete-empty"></i></button>
+									</div>
+								</div>`;
+
+
+	
+
+						//colocarhtml=obtenerdiv+html;
+						
+						$(".listadoespecialistas").append(html);
+	
+			
+	
+
+			
+
+	});
+}
+
+function CargarEspecialistasSucursal() {
+	var idsucursal=$("#v_sucursal").val();
+	var datos='idsucursal='+idsucursal;
+	if (idsucursal>0) {
+	return new Promise(function(resolve, reject) {
+
+	$.ajax({
+			url: 'catalogos/paquetes/ObtenerEspecialistasSucursal.php', //Url a donde la enviaremos
+			type: 'POST', //Metodo que usaremos
+			dataType:'json',
+			data:datos,
+			async:false,
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#divcomplementos").html(error);
+					},	
+					success: function (msj) {
+
+						resolve(msj.especialistas);
+					
+					}
+				});
+	});
+	}else{
+		alert('Selecciona una sucursal');
+	}
+}
+
+function ObtenerEspecialistaPaquete() {
+	var datos='idpaquete='+idpaquete;
+	
+	$.ajax({
+			url: 'catalogos/paquetes/ObtenerEspecialistaPaquete.php', //Url a donde la enviaremos
+			type: 'POST', //Metodo que usaremos
+			dataType:'json',
+			data:datos,
+			async:false,
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#divcomplementos").html(error);
+					},	
+					success: function (msj) {
+						var respuesta=msj.especialistas;
+						PintarEspecialistasPaquete(respuesta);
+
+					}
+				});
+}
+
+function PintarEspecialistasPaquete(respuesta) {
+		
+	var html="";
+	var htmls="";
+
+	CargarEspecialistasSucursal().then(r => {
+							 	
+          		if (r.length>0) {
+													
+					htmls+=`<option value="0">SELECCIONAR ESPECIALISTA</option>`;
+					for (var j = 0; j <r.length; j++) {		
+					var ma=r[j].materno!=null?r[j].materno:'';						
+						htmls+=`<option value="`+r[j].idespecialista+`">`+r[j].nombre+` `+r[j].paterno+` `+ma+`</option>`;
+					}
+
+				}
+			}).then(()=>{
+
+	for (var i =0; i <respuesta.length; i++) {
+
+		obtenerdiv=$(".listadoespecialistas").html();
+
+		var contadortipo=parseFloat($(".especilialistaincluye").length)+1;
+
+		tabindex=parseFloat(6)+parseFloat(contadortipo);
+	
+			html=`
+					<div class="row especilialistaincluye" id="contadort`+contadortipo+`">
+										<div class="col-md-3">
+									<label>ESPECIALISTA:</label>	
+
+									<select class="form-control especialistapaquete" id="selecttiposervicio_`+contadortipo+`" tabindex="`+tabindex+`">`;
+										html+=htmls;
+
+									html+=`</select>
+									</div>
+									
+								
+									<div class="col-md-4">
+
+										<label>COSTO:</label>
+										<div class="form-group mb-2" style="">
+											<input type="number"  class="form-control cantidadpaquete" id="inputcantidad2_`+contadortipo+`" tabindex="`+(tabindex+1)+`" >
+										</div>
+									</div>
+									<div class="col-md-1">
+										<button type="button"  style="margin-top: 2em;" onclick="EliminarOpciontipo(`+contadortipo+`)" class="btn btn_rojo"><i class="mdi mdi-delete-empty"></i></button>
+									</div>
+								</div>`;
+
+
+						$(".listadoespecialistas").append(html);
+			
+						$("#selecttiposervicio_"+contadortipo).val(respuesta[i].idespecialista);
+						$("#inputcantidad2_"+contadortipo).val(respuesta[i].costo);
+					
+					}
+
+
+	});
+	
+}
+
+var selectedCategory = null; // Almacenará la categoría o subcategoría seleccionada
+
+function AlmacenarCategoria(idcategoriapaquete) {
+
+		if (idcategoriapaquete!='' && idcategoriapaquete!=null) {
+				selectedCategory=idcategoriapaquete;
+
+		}else{
+			selectedCategory=0;
+		}
+}
+function ObtenerSelectorCategorias(idca) {
+
+
+    function buildCategorySelector(data, parentId) {
+      var $ul = $('<ul>');
+
+      // Filtrar las categorías y subcategorías que tienen parentId igual al id actual
+      var categories = data.filter(function(category) {
+        return category.iddepende == parentId;
+      });
+
+
+      console.log(categories);
+      // Recorrer las categorías y subcategorías
+      $.each(categories, function(index, category) {
+        var $li = $('<li>');
+        var $checkbox = $('<input>').attr({
+          type: 'checkbox',
+          value: category.idcategoriapaquete,
+          id:'opcion_'+category.idcategoriapaquete
+        });
+
+        // Agregar el checkbox al elemento de lista
+        $li.append($checkbox);
+
+        // Agregar el nombre de la categoría al elemento de lista
+        $li.append(category.nombre);
+
+
+         // Verificar si la categoría o subcategoría está seleccionada
+        if (selectedCategory === category.idcategoriapaquete) {
+          $checkbox.prop('checked', true);
+        }
+
+        // Agregar evento de clic para seleccionar la categoría o subcategoría
+        $li.click(function(e) {
+          e.stopPropagation(); // Evitar que el evento se propague a elementos superiores
+
+          // Deseleccionar la categoría o subcategoría previamente seleccionada
+          if (selectedCategory !== null) {
+            $('input[value="' + selectedCategory + '"]').prop('checked', false);
+          }
+
+          // Seleccionar la categoría o subcategoría actual
+          $checkbox.prop('checked', true);
+          selectedCategory = category.idcategoriapaquete;
+        });
+
+        // Buscar subcategorías recursivamente
+        var subcategories = buildCategorySelector(data, category.idcategoriapaquete);
+
+        	 if (subcategories.length > 0) {
+          // Agregar las subcategorías al elemento de lista
+          var $subCategoryList = $('<ul>').addClass('sub-category-list').append(subcategories);
+          $li.append($subCategoryList);
+
+          // Ocultar las subcategorías al cargar la página
+          $subCategoryList.hide();
+
+          // Agregar evento de clic para mostrar/ocultar las subcategorías
+          $li.click(function(e) {
+            e.stopPropagation(); // Evitar que el evento se propague a elementos superiores
+
+            $subCategoryList.toggle();
+          });
+
+          // Verificar si una subcategoría está seleccionada y mostrar su categoría padre
+          if (selectedCategory === category.idcategoriapaquete) {
+            $subCategoryList.show();
+          } else {
+            // Deseleccionar las subcategorías si su categoría padre no está seleccionada
+            $subCategoryList.find('input[type="checkbox"]').prop('checked', false);
+          }
+        }
+
+
+
+
+
+
+
+        // Agregar el elemento de lista al contenedor ul
+        $ul.append($li);
+      });
+
+      return $ul;
+    }
+
+    // Obtener los datos de las categorías y subcategorías desde la base de datos
+    $.ajax({
+    				url: 'catalogos/paquetes/obtener_categorias.php', //Url a donde la enviaremos
+
+      method: 'POST',
+      dataType: 'json',
+      success: function(response) {
+
+        var categoryList = buildCategorySelector(response.categories, 0);
+        $('#category-list').append(categoryList);
+     		if (idca>0) {
+     	     	$("#opcion_"+idca).prop('checked',true);
+		
+     		}
+
+      },
+      error: function() {
+        console.log('Error al obtener las categorías');
+      }
+    });
 }

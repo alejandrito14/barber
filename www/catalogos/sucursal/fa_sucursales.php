@@ -54,6 +54,7 @@ require_once("../../clases/conexcion.php");
 require_once("../../clases/class.Sucursal.php");
 require_once("../../clases/class.Funciones.php");
 require_once("../../clases/class.Botones.php");
+require_once("../../clases/class.Categorias.php");
 
 //Se crean los objetos de clase
 $db = new MySQL();
@@ -61,6 +62,8 @@ $su = new Sucursal();
 $f = new Funciones();
 $bt = new Botones_permisos();
 $su->db = $db;
+$categoriassucursal=new Categorias();
+$categoriassucursal->db=$db;
 
 $idempresas = $_GET['idempresas'];
 
@@ -80,10 +83,13 @@ if(!isset($_GET['idsucursales'])){
 	$estatus = 1;
 	$iva="";
 	$ruta="images/sinfoto.png";
+	$ruta2="images/sinfoto.png";
+
 		$rutaticket="images/sinfoto.png";
 
 	$titulo="AGREGAR SUCURSAL";
 	$solicitarfactura=1;
+	$ubicacion="";
 
 	$obtenerorden=$su->ObtenerUltimoOrdensucursal();
 	$roworden=$db->fetch_assoc($obtenerorden);
@@ -109,6 +115,9 @@ if(!isset($_GET['idsucursales'])){
 	$notaventa=0;
 	$campomontofactura=0;
 	$mensajesecciontipopago="";
+	$celular="";
+	$ubicacion="";
+	$idcategoriasucursal=="";
 }else{
 	//El formulario funcionara para modificacion de un registro
 
@@ -124,28 +133,31 @@ if(!isset($_GET['idsucursales'])){
 
 	//DATOS GENERALES
 	$sucursal = $f->imprimir_cadena_utf8($result_sucursal_row['titulo']);
+	$descripcion=$result_sucursal_row['descripcion'];
 	$direccion = $f->imprimir_cadena_utf8($result_sucursal_row['direccion']);
 	$telefono = $f->imprimir_cadena_utf8($result_sucursal_row['telefono']);
 	$email = $f->imprimir_cadena_utf8($result_sucursal_row['email']);
 	$estatus = $result_sucursal_row['estatus'];
-	$foto = $f->imprimir_cadena_utf8($result_sucursal_row['foto']);
+	$foto = $f->imprimir_cadena_utf8($result_sucursal_row['imagen']);
+	$foto2=$result_sucursal_row['imagensecundaria'];
 	$imagenticket=$result_sucursal_row['imagenticket'];
 	$orden = $f->imprimir_cadena_utf8($result_sucursal_row['orden']);
-
+$ubicacion=$result_sucursal_row['ubicacion'];
 	$pais=$result_sucursal_row['pais'];
 	$estado=$result_sucursal_row['estado'];
 	$municipio=$result_sucursal_row['municipio'];
 
 	$iddatofiscal=$result_sucursal_row['iddatofiscal'];
 	$colonia=$result_sucursal_row['colonia'];
-
+$idcategoriasucursal=$result_sucursal_row['idcategorias'];
 	if ($iddatofiscal=='') {
 		$iddatofiscal=0;
 	}
 	$telefono2 = $f->imprimir_cadena_utf8($result_sucursal_row['telefono2']);
 	$telefono3 = $f->imprimir_cadena_utf8($result_sucursal_row['telefono3']);
 	$telefono4 = $f->imprimir_cadena_utf8($result_sucursal_row['telefono4']);
-
+$celular=$result_sucursal_row['celular'];
+$ubicacion=$result_sucursal_row['ubicacion'];
 		/*$horainicio=$result_sucursal_row['horaentrada'];
 	$horafin=$result_sucursal_row['horasalida'];*/
 	$minutosconsiderados=$result_sucursal_row['minutosconsiderados'];
@@ -162,6 +174,19 @@ if(!isset($_GET['idsucursales'])){
 
 	$notaventa=$result_sucursal_row['habilitarnotaventa'];
 	$mensajesecciontipopago=$result_sucursal_row['mensajesecciontipopago'];
+
+
+$campoporfecha=$result_sucursal_row['porfecha'];
+$campoporespecialista=$result_sucursal_row['porbarbero'];
+$checkporfecha="";
+if ($campoporfecha==1) {
+	$checkporfecha="checked";
+}
+$checkporespecialista="";
+if ($campoporespecialista==1) {
+	$checkporespecialista="checked";
+
+}
 
 	$check='';
 
@@ -186,15 +211,39 @@ if(!isset($_GET['idsucursales'])){
 		$ruta="images/sinfoto.png";
 	}
 	else{
-		$ruta="catalogos/sucursales/imagenes/".$_SESSION['codservicio']."/$foto";
+		$ruta="catalogos/sucursal/imagenes/".$_SESSION['codservicio']."/$foto";
 	}
 
+	if($foto2=="" || $foto2==null){
+		$ruta2="images/sinfoto.png";
+	}
+	else{
+		$ruta2="catalogos/sucursal/imagenes/".$_SESSION['codservicio']."/$foto2";
+	}
+
+	$foto3=$result_sucursal_row['imagenporfecha'];
+
+	if($foto3=="" || $foto3==null){
+		$ruta3="images/sinfoto.png";
+	}
+	else{
+		$ruta3="catalogos/sucursal/imagenes/".$_SESSION['codservicio']."/$foto3";
+	}
+
+		$foto4=$result_sucursal_row['imagenporbarbero'];
+
+	if($foto4=="" || $foto4==null){
+		$ruta4="images/sinfoto.png";
+	}
+	else{
+		$ruta4="catalogos/sucursal/imagenes/".$_SESSION['codservicio']."/$foto4";
+	}
 
 	if($imagenticket==""){
 		$rutaticket="images/sinfoto.png";
 	}
 	else{
-		$rutaticket="catalogos/sucursales/imagenesticket/".$_SESSION['codservicio']."/$imagenticket";
+		$rutaticket="catalogos/sucursal/imagenesticket/".$_SESSION['codservicio']."/$imagenticket";
 	}
 
 	$tproduccion = $f->imprimir_cadena_utf8($result_sucursal_row['tproduccion']);
@@ -234,7 +283,7 @@ if(!isset($_GET['idsucursales'])){
 					//SCRIPT PARA CONSTRUIR UN BOTON
 					$bt->titulo = "GUARDAR";
 					$bt->icon = "mdi mdi-content-save";
-					$bt->funcion = "var resp=MM_validateForm('v_sucursal','','R'); if(resp==1){ Guardar_sucursal('f_sucursales','catalogos/sucursales/vi_sucursal.php','main','$idmenumodulo');}";
+					$bt->funcion = "var resp=MM_validateForm('v_sucursal','','R'); if(resp==1){ Guardar_sucursal('f_sucursales','catalogos/sucursal/vi_sucursal.php','main','$idmenumodulo');}";
 					$bt->estilos = "float: right;";
 					$bt->permiso = $permisos;
 					$bt->class='btn btn-success';
@@ -252,7 +301,7 @@ if(!isset($_GET['idsucursales'])){
 				
 				<!--<button type="button" onClick="var resp=MM_validateForm('v_empresa','','R','v_direccion','','R','v_tel','','R','v_email','',' isEmail R'); if(resp==1){ GuardarEmpresa('f_empresa','catalogos/empresas/fa_empresas.php','main');}" class="btn btn-success" style="float: right;"><i class="mdi mdi-content-save"></i>  GUARDAR</button>-->
 				
-				<button type="button" onClick="aparecermodulos('catalogos/sucursales/vi_sucursal.php?idmenumodulo=<?php echo $idmenumodulo;?>','main');" class="btn btn-primary" style="float: right; margin-right: 10px;"><i class="mdi mdi-arrow-left-box"></i>LISTADO DE SUCURSALES</button>
+				<button type="button" onClick="aparecermodulos('catalogos/sucursal/vi_sucursal.php?idmenumodulo=<?php echo $idmenumodulo;?>','main');" class="btn btn-primary" style="float: right; margin-right: 10px;"><i class="mdi mdi-arrow-left-box"></i>LISTADO DE SUCURSALES</button>
 				<div style="clear: both;"></div>
 				
 				<input type="hidden" id="id" name="id" value="<?php echo $idsucursales; ?>" />
@@ -267,6 +316,7 @@ if(!isset($_GET['idsucursales'])){
 				<div class="card-body">	
 
 					<div class="col-md-6" >
+									<label>IMAGEN PRINCIPAL:</label>
 
 									<form method="post" action="#" enctype="multipart/form-data">
 								    <div class="card" style="width: 18rem;margin: auto;margin-top: 3em;">
@@ -287,8 +337,35 @@ if(!isset($_GET['idsucursales'])){
 								        </div>
 								    </div>
 								</form>
-								<p style="text-align: center;">Dimensiones de la imagen Ancho:640px Alto:420px</p>
+								<p style="text-align: center;">Dimensiones de la imagen Ancho:1280px Alto:852px</p>
 
+								</div>
+
+
+
+								<div class="col-md-6" >
+									<label>IMAGEN SECUNDARIA:</label>
+
+									<form method="post" action="#" enctype="multipart/form-data">
+								    <div class="card" style="width: 18rem;margin: auto;margin-top: 3em;">
+								        <img class="card-img-top imagensucursal2" src="">
+								        <div id="d_foto2" style="text-align:center; ">
+											<img src="<?php echo $ruta2; ?>" class="card-img-top" alt="" style="border: 1px #777 solid"/> 
+										</div>
+								        <div class="card-body">
+								            <h5 class="card-title"></h5>
+								           
+								            <div class="form-group">
+
+								            	
+								               
+								                <input type="file" class="form-control-file" name="image2" id="image2"  onchange="SubirImagenSucursal2()">
+								            </div>
+								          <!--   <input type="button" class="btn btn-primary upload" value="Subir"> -->
+								        </div>
+								    </div>
+								</form>
+								<p style="text-align: center;">Dimensiones de la imagen Ancho:1280px Alto:852px</p>
 
 								</div>
 
@@ -299,6 +376,11 @@ if(!isset($_GET['idsucursales'])){
 					</div>
 
 					<div class="form-group m-t-20">
+						<label for="">*DESCRIPCIÓN</label>
+						<textarea name="v_descripcion" id="v_descripcion" cols="20" rows="3" class="form-control"><?php echo $descripcion; ?></textarea>
+					</div>
+
+					<div class="form-group m-t-20" style="display: none;">
 						<label>MINUTOS A CONSIDERAR AL REALIZAR EL PEDIDO:</label>
 						<input type="number"  class="form-control" id="minutosconsiderados" name="minutosconsiderados" value="<?php echo $minutosconsiderados; ?>" tabindex="110">
 					</div>
@@ -310,19 +392,41 @@ if(!isset($_GET['idsucursales'])){
 
 
 					<div class="form-group m-t-20">
-						<label>TEL&Eacute;FONO 1:</label>
-						<input type="text" class="form-control" id="v_telefono" name="v_telefono" value="<?php echo $telefono; ?>" tabindex="111" maxlength="10" placeholder='(___) ___ -____'>
+						<label>CELULAR:</label>
+						<input type="text" class="form-control" id="v_celular" name="v_celular" value="<?php echo $celular; ?>" tabindex="111" maxlength="10" placeholder='(___) ___ -____'>
 					</div>
 
-					<div class="form-group m-t-20">
+										<div class="form-group m-t-20">
+											<label for="">CATEGORÍA DE SUCURSAL</label>
+								<?php 
+									$categorias= $categoriassucursal->obtenerTodas();
+									
+									$categorias_num=$db->num_rows($categorias);
+									$categorias_row=$db->fetch_assoc($categorias);
+								
+								?>
+								<select  class="form-control" id="v_categoriasucursal" name="v_categoriasucursal" >
+									<option value="0">SELECCIONAR CATEGORÍA</option>
+									<?php
+									do{
+									?>
+									<option value="<?php echo ($categorias_row['idcategorias']);?>" <?php if($categorias_row['idcategorias']==$idcategoriasucursal){ echo ("selected");}?>><?php echo ($categorias_row['titulo']);?></option>
+									
+									<?php 
+										} while($categorias_row=$db->fetch_assoc($categorias));
+									?>
+											</select>
+									</div>
+
+					<div class="form-group m-t-20" style="display:none;">
 						<label>TEL&Eacute;FONO 2:</label>
 						<input type="text" class="form-control" id="v_telefono2" name="v_telefono2" value="<?php echo $telefono2; ?>" tabindex="111" maxlength="10" placeholder='(___) ___ -____'>
 					</div>
-					<div class="form-group m-t-20">
+					<div class="form-group m-t-20" style="display:none;">
 						<label>TEL&Eacute;FONO 3:</label>
 						<input type="text" class="form-control" id="v_telefono3" name="v_telefono3" value="<?php echo $telefono3; ?>" tabindex="111" maxlength="10" placeholder='(___) ___ -____'>
 					</div>
-					<div class="form-group m-t-20">
+					<div class="form-group m-t-20" style="display:none;">
 						<label>TEL&Eacute;FONO 4:</label>
 						<input type="text" class="form-control" id="v_telefono4" name="v_telefono4" value="<?php echo $telefono4; ?>" tabindex="111" maxlength="10" placeholder='(___) ___ -____'>
 					</div>
@@ -401,25 +505,109 @@ if(!isset($_GET['idsucursales'])){
 
 					
 
-					<div class="form-group m-t-20">
+					<div class="form-group m-t-20" style="display: none;">
 							HABILITAR LA RECEPCION DE DATOS PARA LA FACTURACIÓN EN LA APLICACIÓN
 								<input type="checkbox" name="solicitarfactura" id="solicitarfactura" onchange="Habilitarfacturacion()" value="<?php echo $solicitarfactura?>" <?php echo $check;?>>
 						
 						
 					</div>
-					<div class="form-group m-t-20">
+					<div class="form-group m-t-20" style="display: none;">
 						HABILITAR CAMPO DE MONTO FACTURA
 						<input type="checkbox" name="habilitarcampomontofactura" id="habilitarcampomontofactura" onchange="habilitarcampomontofactura1()" value="<?php echo $campomontofactura?>" <?php echo $check3; ?>>
 					</div>
+
+					<label for="">OPCIONES DE AGENDA</label>
+
+						<div class="form-group m-t-20" style="">
+						POR FECHA
+						<input type="checkbox" name="habilitarcampoporfecha" id="habilitarcampoporfecha" 
+						onchange="habilitarcampoporfecha1()" value="<?php echo $campoporfecha?>" <?php echo $checkporfecha; ?>>
+					</div>
+
+
+					<div class="col-md-6" >
+									<label>IMAGEN POR FECHA:</label>
+
+									<form method="post" action="#" enctype="multipart/form-data">
+								    <div class="card" style="width: 18rem;margin: auto;margin-top: 3em;">
+								        <img class="card-img-top imagensucursal3" src="">
+								        <div id="d_foto3" style="text-align:center; ">
+											<img src="<?php echo $ruta3; ?>" class="card-img-top" alt="" style="border: 1px #777 solid"/> 
+										</div>
+								        <div class="card-body">
+								            <h5 class="card-title"></h5>
+								           
+								            <div class="form-group">
+
+								            	
+								               
+								                <input type="file" class="form-control-file" name="image3" id="image3"  onchange="SubirImagenSucursal3()">
+								            </div>
+								          <!--   <input type="button" class="btn btn-primary upload" value="Subir"> -->
+								        </div>
+								    </div>
+								</form>
+								<p style="text-align: center;">Dimensiones de la imagen Ancho:1280px Alto:852px</p>
+
+								</div>
+
+
+
+
+					<div class="form-group m-t-20" style="">
+						POR ESPECIALISTA
+						<input type="checkbox" name="habilitarcampoporespecialista" id="habilitarcampoporespecialista" 
+						onchange="habilitarcampoporespecialista1()" value="<?php echo $campoporespecialista?>" <?php echo $checkporespecialista; ?>>
+					</div>
+
+
+					<div class="col-md-6" >
+									<label>IMAGEN POR ESPECIALISTA:</label>
+
+									<form method="post" action="#" enctype="multipart/form-data">
+								    <div class="card" style="width: 18rem;margin: auto;margin-top: 3em;">
+								        <img class="card-img-top imagensucursal4" src="">
+								        <div id="d_foto4" style="text-align:center; ">
+											<img src="<?php echo $ruta4; ?>" class="card-img-top" alt="" style="border: 1px #777 solid"/> 
+										</div>
+								        <div class="card-body">
+								            <h5 class="card-title"></h5>
+								           
+								            <div class="form-group">
+
+								            	
+								               
+								                <input type="file" class="form-control-file" name="image4" id="image4"  onchange="SubirImagenSucursal4()">
+								            </div>
+								         
+								        </div>
+								    </div>
+								</form>
+								<p style="text-align: center;">Dimensiones de la imagen Ancho:1280px Alto:852px</p>
+
+								</div>
+
 
 					<div class="form-group m-t-20">
 						<label>ORDEN:</label>
 						<input type="number" name="v_orden" id="v_orden" class="form-control" value="<?php echo $orden ?>"tabindex="120">
 					</div>
 
-
-
 					<div class="form-group m-t-20">
+						<label>ESTATUS:</label>
+						<select id="v_estatus" name="v_estatus" tabindex="121" class="form-control">
+							<option value="0" <?php if(0 == $estatus){ echo "selected"; }?>>DESACTIVADO</option>
+							<option value="1" <?php if(1 == $estatus){ echo "selected"; }?>>ACTIVADO</option>
+						</select>
+					</div>
+
+				
+							<div id="map-container">
+						  <div id="map"></div>
+						</div>
+						<input type="hidden" id="v_ubicacion" value="<?php echo $ubicacion; ?>">
+
+					<div class="form-group m-t-20" style="display: none;">
 						<label>OPCIONES DE PEDIDO:</label>
 						<div class="card-body">
 
@@ -458,13 +646,7 @@ if(!isset($_GET['idsucursales'])){
 									
 					
 					
-					<div class="form-group m-t-20">
-						<label>ESTATUS:</label>
-						<select id="v_estatus" name="v_estatus" tabindex="121" class="form-control">
-							<option value="0" <?php if(0 == $estatus){ echo "selected"; }?>>DESACTIVADO</option>
-							<option value="1" <?php if(1 == $estatus){ echo "selected"; }?>>ACTIVADO</option>
-						</select>
-					</div>
+					
 
 				</div>
 				</div>
@@ -484,7 +666,7 @@ if(!isset($_GET['idsucursales'])){
 			</div>
 
 
-			<div class="card">
+			<div class="card" style="display: none;">
 				<div class="card-body">	
 
 					<div class="col-md-6" >
@@ -564,7 +746,7 @@ if(!isset($_GET['idsucursales'])){
 			</div>
 
 
-			<div class="card">
+			<div class="card" style="display: none;">
 				<div class="card-body">	
 
 					<div class="col-md-6" >
@@ -605,6 +787,22 @@ if(!isset($_GET['idsucursales'])){
 		</div>
 	</div>
 </form>
+
+<style>
+	#map-container {
+  position: relative;
+  width: 100%;
+  height: 400px; /* Ajusta la altura según tus necesidades */
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>
 <!-- <script  type="text/javascript" src="./js/mayusculas.js"></script>
  --><script type="text/javascript">
  	var idsucursales='<?php echo $idsucursales; ?>'
@@ -627,7 +825,7 @@ if(!isset($_GET['idsucursales'])){
  	 	ObtenerPais(0);
 
  	}
-phoneFormatter('v_telefono');
+phoneFormatter('v_celular');
 phoneFormatter('v_telefono2');
 phoneFormatter('v_telefono3');
 phoneFormatter('v_telefono4');
@@ -641,7 +839,7 @@ $("#v_sucursal").focus();
         var files = $('#image')[0].files[0];
         formData.append('file',files);
         $.ajax({
-            url: 'catalogos/sucursales/upload.php',
+            url: 'catalogos/sucursal/upload.php',
             type: 'post',
             data: formData,
             contentType: false,
@@ -660,6 +858,106 @@ $("#v_sucursal").focus();
                 } else {
 
                 	 $("#d_foto").html('<img src="'+ruta+'" class="card-img-top" alt="" style="border: 1px #777 solid"/> ');
+                    alert('Formato de imagen incorrecto.');
+                }
+            }
+        });
+        return false;
+    }
+
+    function SubirImagenSucursal2() {
+	 	// body...
+	 
+        var formData = new FormData();
+        var files = $('#image2')[0].files[0];
+        formData.append('file',files);
+        $.ajax({
+            url: 'catalogos/sucursal/upload.php',
+            type: 'post',
+            data: formData,
+            contentType: false,
+            processData: false,
+              beforeSend: function() {
+	      $("#d_foto2").css('display','block');
+	      $("#d_foto2").html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Cargando...</div>');	
+
+		    },
+        	success: function(response) {
+               	var ruta='<?php echo $ruta2; ?>';
+	
+                if (response != 0) {
+                    $(".imagensucursal2").attr("src", response);
+                    $("#d_foto2").css('display','none');
+                } else {
+
+                	 $("#d_foto2").html('<img src="'+ruta+'" class="card-img-top" alt="" style="border: 1px #777 solid"/> ');
+                    alert('Formato de imagen incorrecto.');
+                }
+            }
+        });
+        return false;
+    }
+
+
+ function SubirImagenSucursal3() {
+	 	// body...
+	 
+        var formData = new FormData();
+        var files = $('#image3')[0].files[0];
+        formData.append('file',files);
+        $.ajax({
+            url: 'catalogos/sucursal/upload.php',
+            type: 'post',
+            data: formData,
+            contentType: false,
+            processData: false,
+              beforeSend: function() {
+	      $("#d_foto3").css('display','block');
+	      $("#d_foto3").html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Cargando...</div>');	
+
+		    },
+        	success: function(response) {
+               	var ruta='<?php echo $ruta3; ?>';
+	
+                if (response != 0) {
+                    $(".imagensucursal3").attr("src", response);
+                    $("#d_foto3").css('display','none');
+                } else {
+
+                	 $("#d_foto3").html('<img src="'+ruta+'" class="card-img-top" alt="" style="border: 1px #777 solid"/> ');
+                    alert('Formato de imagen incorrecto.');
+                }
+            }
+        });
+        return false;
+    }
+
+ function SubirImagenSucursal4() {
+	 	// body...
+	 
+        var formData = new FormData();
+        var files = $('#image4')[0].files[0];
+        formData.append('file',files);
+        $.ajax({
+            url: 'catalogos/sucursal/upload.php',
+            type: 'post',
+            data: formData,
+            contentType: false,
+            processData: false,
+              beforeSend: function() {
+	      $("#d_foto4").css('display','block');
+	      $("#d_foto4").html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Cargando...</div>');	
+
+		    },
+        	success: function(response) {
+               	var ruta='<?php echo $ruta4; ?>';
+	
+                if (response != 0) {
+                    $(".imagensucursal4").attr("src", response);
+                    $("#d_foto4").css('display','none');
+                } else {
+
+                	 $("#d_foto4").html('<img src="'+ruta+'" class="card-img-top" alt="" style="border: 1px #777 solid"/> ');
                     alert('Formato de imagen incorrecto.');
                 }
             }
@@ -720,4 +1018,67 @@ $("#v_sucursal").focus();
 	Habilitarrecordatorio();
 
 </script>
+
+<script>
+  $(document).ready(function() {
+
+  	var ubicacion='<?php echo $ubicacion; ?>';
+  		var lat1="";
+					var lng1="";
+  	if (ubicacion!='') {
+  	
+  	
+						var cadena = ubicacion.split(',');
+						 lat1=parseFloat(cadena[0]);
+						 lng1=parseFloat(cadena[1]);
+
+			
+  	}else{
+
+  				lat1=19.4326;
+						lng1=-99.1332;
+  	}
+  
+ 
+    // Carga el mapa
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 10, // Nivel de zoom inicial
+      center: {lat:lat1, lng: lng1} // Ubicación inicial
+    });
+
+
+    var marker = new google.maps.Marker({
+			  position: {lat: lat1, lng: lng1},
+			  map: map,
+			  title: 'Ubicación'
+			});
+
+    // Agrega un evento de clic al mapa
+    google.maps.event.addListener(map, 'click', function(event) {
+      // Obtiene las coordenadas al hacer clic en el mapa
+      var latLng = event.latLng;
+      var latitude = latLng.lat();
+      var longitude = latLng.lng();
+
+      // Muestra las coordenadas en la consola del navegador
+      
+      var latlng=latitude+','+longitude;
+      $("#v_ubicacion").val(latlng);
+
+
+       marker.setPosition(event.latLng);
+    });
+
+
+ 
+
+
+  });
+</script>
+
+
+
+
+
+
 

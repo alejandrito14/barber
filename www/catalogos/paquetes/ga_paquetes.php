@@ -22,6 +22,7 @@ require_once('../../clases/class.Opcion.php');
 
 require_once("../../clases/class.Funciones.php");
 require_once('../../clases/class.MovimientoBitacora.php');
+require_once('../../clases/class.Especialista.php');
 
 try
 {
@@ -30,7 +31,8 @@ try
 	$emp = new Paquetes();
 	$f = new Funciones();
 	$md = new MovimientoBitacora();
-
+	$especialista=new Especialista();
+	$especialista->db=$db;
 	$emp->db=$db;
 	$md->db = $db;	
 	$ruta="imagenespaquete/".$_SESSION['codservicio'].'/';
@@ -47,7 +49,7 @@ try
 	$emp->estatus = trim($f->guardar_cadena_utf8($_POST['v_estatus']));
 	$emp->precioventa=trim($_POST['precioventa']);
 	$emp->idcategoria=$_POST['idcategoria'];
-
+	$emp->tiempoestimado=$_POST['v_tiempoestimado'];
 
 	$emp->conpromo=$_POST['conpromo'];
 	$emp->confecha=$_POST['confecha'];
@@ -59,13 +61,13 @@ try
 	$emp->servicio=$_POST['servicio'];
 
 	$emp->repetitivo=$_POST['repetitivo'];
-	$emp->lunes=$_POST['lunes'];
-	$emp->martes=$_POST['martes'];
-	$emp->miercoles=$_POST['miercoles'];
-	$emp->jueves=$_POST['jueves'];
-	$emp->viernes=$_POST['viernes'];
-	$emp->sabado=$_POST['sabado'];
-	$emp->domingo=$_POST['domingo'];
+	$emp->lunes=$_POST['lunes']!=''?$_POST['lunes']:0;
+	$emp->martes=$_POST['martes']!=''?$_POST['martes']:0;
+	$emp->miercoles=$_POST['miercoles']!=''?$_POST['miercoles']:0;
+	$emp->jueves=$_POST['jueves']!=''?$_POST['jueves']:0;
+	$emp->viernes=$_POST['viernes']!=''?$_POST['viernes']:0;
+	$emp->sabado=$_POST['sabado']!=''?$_POST['sabado']:0;
+	$emp->domingo=$_POST['domingo']!=''?$_POST['domingo']:0;
 	$emp->preciofijo=$_POST['preciofijo'];
 
 	$emp->horainicio=$_POST['horainicio'];
@@ -76,7 +78,14 @@ try
 	$emp->siniva=$_POST['siniva'];
 	$emp->iva=$_POST['iva'];
 	$emp->mensajev=$_POST['mensajev'];
+	$emp->idcategoriapaquete=$_POST['idcategoriapaquete'];
+	$v_sucursal=$_POST['v_sucursal'];
 
+	$especialistaspaquete='';
+
+	if (isset($_POST['especialistaspaquete'])) {
+		$especialistaspaquete=json_decode($_POST['especialistaspaquete']);
+	}
 
 	/*if ($emp->iva=='') {
 		$emp->iva
@@ -129,8 +138,9 @@ try
 
 		//guardando
 		$emp->GuardarPaquete();
-		
-
+		$emp->EliminarDeSucursal();
+		$emp->idsucursal=$v_sucursal;
+		$emp->GuardarPaqueteSucursal();
 
 
 
@@ -228,6 +238,10 @@ try
 		$emp->EliminarPaquetesProductos();
 		$emp->EliminarComplementos();
 
+		$emp->EliminarDeSucursal();
+		$emp->idsucursal=$v_sucursal;
+		$emp->GuardarPaqueteSucursal();
+
 
 		foreach($_SESSION['CarritoProducto'] as $k => $v)
 		{  
@@ -288,7 +302,7 @@ if ($complementos[0]!='') {
 
 			}
 			
-			$emp->Eliminarpaquetevinculado();
+			//$emp->Eliminarpaquetevinculado();
 
 			if ($emp->conpromo==1) {
 	
@@ -311,6 +325,22 @@ if ($complementos[0]!='') {
 		}
 
 				$md->guardarMovimiento($f->guardar_cadena_utf8('Paquetes'),'Paquetes',$f->guardar_cadena_utf8('Modificacion de paquete con el ID-'.$emp->idpaquete));
+		}
+
+		if ($emp->servicio==1) {
+			
+
+			$especialista->idpaquete=$emp->idpaquete;
+
+			$especialista->EliminarEspecialistaPaquete();
+			//var_dump($especialistaspaquete);die();
+			if (count($especialistaspaquete)>0) {
+				for ($i=0; $i < count($especialistaspaquete); $i++) { 
+					$especialista->idespecialista=$especialistaspaquete[$i]->idespecialista;
+					$especialista->costo=$especialistaspaquete[$i]->costo;
+					$especialista->GuardarEspecialistaPaquete();
+				}
+			}
 		}
 
 	//$emp->ActualizarPrecioProducto();

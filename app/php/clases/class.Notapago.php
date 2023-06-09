@@ -135,7 +135,7 @@ class Notapago
 	{
 		$sql="
 			SELECT *FROM notapago
-			 WHERE idnotapago='$this->idnotapago' AND idusuario='$this->idusuario'";
+			 WHERE idnotapago='$this->idnotapago' ";
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 
@@ -212,7 +212,15 @@ class Notapago
 
 	public function ObtenerdescripcionNota()
 	{
-		$sql="SELECT idnotapago,descripcion as concepto,monto,fecha,cantidad FROM notapago_descripcion WHERE idnotapago='$this->idnotapago'";
+		$sql="
+			SELECT idnotapago,notapago_descripcion.descripcion as concepto,monto,DATE_FORMAT(fechacita,'%d-%m-%Y')as fecha,notapago_descripcion.cantidad,paquetes.foto,
+				citas.idespecialista,
+				(SELECT  CONCAT(usuarios.nombre,' ',usuarios.paterno) FROM especialista INNER JOIN usuarios on usuarios.idusuarios=especialista.idusuarios where especialista.idespecialista=citas.idespecialista ) as usuarioespecialista
+			FROM notapago_descripcion
+			left join paquetes on paquetes.idpaquete=notapago_descripcion.idpaquete
+			LEFT JOIN citas on citas.idcita=notapago_descripcion.idcita
+			
+		 WHERE idnotapago='$this->idnotapago'";
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 

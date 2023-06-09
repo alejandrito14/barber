@@ -73,6 +73,17 @@ class Usuarios
         $this->idusuarios = $this->db->id_ultimo();
 	}
 
+    public function ActualizarUsuarioCel()
+    {
+       $query = "UPDATE usuarios SET 
+           celular ='$this->celular',
+           sistema='$this->sistema' 
+           WHERE idusuarios='$this->idusuarios'";
+        $result= $this->db->consulta($query);
+
+
+    }
+
 	public function ValidarClienteTelefono()
 	{
 		 $Query = "SELECT * FROM usuarios WHERE celular='$this->celular'";
@@ -188,7 +199,7 @@ class Usuarios
 	function validarUsuarioCliente ()
 	{
 		$r ;
-		$sql_cliente = "SELECT * FROM usuarios WHERE usuario = '$this->usuario'";
+		$sql_cliente = "SELECT * FROM usuarios WHERE email = '$this->usuario'";
 
 		$result_cliente = $this->db->consulta($sql_cliente);
 		$result_cliente_row = $this->db->fetch_assoc($result_cliente);
@@ -1158,7 +1169,17 @@ public function validarUsuarioClienteTokenCel()
         return $array;
     }
 
-  
+
+    public function CrearUsuarioInvitado()
+    {
+        $sql = "INSERT INTO usuarios (tipo)
+        VALUES (6)";
+
+        $result  = $this->db->consulta($sql);
+        $this->idusuarios = $this->db->id_ultimo();
+    }
+
+
 
 
 }

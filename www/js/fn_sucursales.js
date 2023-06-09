@@ -24,6 +24,41 @@ function Guardar_sucursal(form,donde,regresar,idmenumodulo)
 		}
 
 
+
+		var archivos2 = document.getElementById("image2"); //Damos el valor del input tipo file
+		var archivo2 = archivos2.files; //Obtenemos el valor del input (los arcchivos) en modo de arreglo
+		console.log(archivo2);
+
+		//Como no sabemos cuantos archivos subira el usuario, iteramos la variable y al
+		//objeto de FormData con el metodo "append" le pasamos calve/valor, usamos el indice "i" para
+		//que no se repita, si no lo usamos solo tendra el valor de la ultima iteracion
+		for (i = 0; i < archivo2.length; i++) {
+			data.append('archivo2', archivo2[0]);
+		}
+
+
+		var archivos3 = document.getElementById("image3"); //Damos el valor del input tipo file
+		var archivo3 = archivos3.files; //Obtenemos el valor del input (los arcchivos) en modo de arreglo
+		console.log(archivo3);
+
+		//Como no sabemos cuantos archivos subira el usuario, iteramos la variable y al
+		//objeto de FormData con el metodo "append" le pasamos calve/valor, usamos el indice "i" para
+		//que no se repita, si no lo usamos solo tendra el valor de la ultima iteracion
+		for (i = 0; i < archivo3.length; i++) {
+			data.append('archivo3', archivo3[0]);
+		}
+
+		var archivos4 = document.getElementById("image4"); //Damos el valor del input tipo file
+		var archivo4 = archivos4.files; //Obtenemos el valor del input (los arcchivos) en modo de arreglo
+		console.log(archivo4);
+
+		//Como no sabemos cuantos archivos subira el usuario, iteramos la variable y al
+		//objeto de FormData con el metodo "append" le pasamos calve/valor, usamos el indice "i" para
+		//que no se repita, si no lo usamos solo tendra el valor de la ultima iteracion
+		for (i = 0; i < archivo4.length; i++) {
+			data.append('archivo4', archivo4[0]);
+		}
+
 		var archivosticke = document.getElementById("imagelogo"); //Damos el valor del input tipo file
 		var archivot = archivosticke.files; //Obtenemos el valor del input (los arcchivos) en modo de arreglo
 
@@ -37,11 +72,14 @@ function Guardar_sucursal(form,donde,regresar,idmenumodulo)
 		var mensajecliente=$("#mensajecliente").val();
 		var idsucursales=$("#id").val();
 		var v_sucursal=$("#v_sucursal").val();
+		var v_descripcion=$("#v_descripcion").val();
 		var v_direccion_sucursal=$("#v_direccion_sucursal").val();
-		var v_telefono=$("#v_telefono").val();
+		var v_celular=$("#v_celular").val();
 		var v_telefono2=$("#v_telefono2").val();
 		var v_telefono3=$("#v_telefono3").val();
 		var v_telefono4=$("#v_telefono4").val();
+		var v_ubicacion=$("#v_ubicacion").val();
+		var v_categoriasucursal=$("#v_categoriasucursal").val();
 		var v_email=$("#v_email").val();
 		var v_iva=$("#v_iva").val();
 		var v_estatus=$("#v_estatus").val();
@@ -49,6 +87,8 @@ function Guardar_sucursal(form,donde,regresar,idmenumodulo)
 		var leyendaticket=$("#leyendaticket").val();
 		var tventa=$("#tventa").val();
 		var tproduccion=$("#tproduccion").val();
+		var porfecha=$("#habilitarcampoporfecha").val();
+		var porespecialista=$("#habilitarcampoporespecialista").val();
 		var datofiscal=0;
 		var diasemana=[];
 		var horainicio=[];
@@ -136,13 +176,14 @@ function Guardar_sucursal(form,donde,regresar,idmenumodulo)
 		data.append('idsucursales', idsucursales);
 		data.append('v_sucursal', v_sucursal);
 		data.append('v_direccion_sucursal', v_direccion_sucursal);
-		data.append('v_telefono', v_telefono);
+		data.append('v_celular', v_celular);
 		data.append('v_email', v_email);
 		data.append('v_iva', v_iva);
 		data.append('v_estatus', v_estatus);
 		data.append('v_pais',v_pais);
 		data.append('v_estado',v_estado);
 		data.append('v_municipio',v_municipio);
+		data.append('v_categoriasucursal',v_categoriasucursal);
 	/*	data.append('horainicio',horainicio);
 		data.append('horafin',horafin);*/
 		data.append('minutosconsiderados',minutosconsiderados);
@@ -170,13 +211,16 @@ function Guardar_sucursal(form,donde,regresar,idmenumodulo)
 		data.append('habilitarcampomontofactura',habilitarcampomontofactura);
 		data.append('notaventa',notaventa);
 		data.append('mensajesecciontipopago',mensajesecciontipopago);
-
+		data.append('v_descripcion',v_descripcion);
+		data.append('v_ubicacion',v_ubicacion);
+		data.append('porfecha',porfecha);
+		data.append('porespecialista',porespecialista);
 
 		$('#main').html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Procesando...</div>')
 				
 
 				$.ajax({
-				url:'catalogos/sucursales/ga_sucursales.php', //Url a donde la enviaremos
+				url:'catalogos/sucursal/ga_sucursales.php', //Url a donde la enviaremos
 				type: 'POST', //Metodo que usaremos
 				contentType: false, //Debe estar en false para que pase el objeto sin procesar
 				data: data, //Le pasamos el objeto que creamos con los archivos
@@ -204,6 +248,33 @@ function Guardar_sucursal(form,donde,regresar,idmenumodulo)
 	 }
 }
 
+   function habilitarcampoporfecha1(){
+
+
+	if ($("#habilitarcampoporfecha").is(':checked')) {
+
+		$("#habilitarcampoporfecha").val(1);
+
+			}else{
+
+			$("#habilitarcampoporfecha").val(0);
+				
+		}
+	}
+
+
+	function habilitarcampoporespecialista1(){
+
+	if ($("#habilitarcampoporespecialista").is(':checked')) {
+		$("#habilitarcampoporespecialista").val(1);
+
+			}else{
+
+			$("#habilitarcampoporespecialista").val(0);	
+		}
+	}
+
+
 function BorrarSucursal(idsucursal,idmenumodulo) {
 
 
@@ -220,7 +291,7 @@ function BorrarSucursal(idsucursal,idmenumodulo) {
 				
 		setTimeout(function(){
 				  $.ajax({
-					url:'catalogos/sucursales/ga_borrar.php', //Url a donde la enviaremos
+					url:'catalogos/sucursal/ga_borrar.php', //Url a donde la enviaremos
 					type:'POST', //Metodo que usaremos
 					data: datos, //Le pasamos el objeto que creamos con los archivos
 					error:function(XMLHttpRequest, textStatus, errorThrown){
@@ -236,10 +307,10 @@ function BorrarSucursal(idsucursal,idmenumodulo) {
 							
 						
 						 	if(msj ==1){
-								aparecermodulos("catalogos/sucursales/vi_sucursal.php?ac=1&msj=Operacion realizada con exito&idmenumodulo="+idmenumodulo,"main");
+								aparecermodulos("catalogos/sucursal/vi_sucursal.php?ac=1&msj=Operacion realizada con exito&idmenumodulo="+idmenumodulo,"main");
 						 	 }else{
 						 	 	AbrirNotificacion('NO SE PUDO REALIZAR LA ELIMINACION','');
-								aparecermodulos("catalogos/sucursales/vi_sucursal.php?ac=0&msj=Error."+msj,"main");
+								aparecermodulos("catalogos/sucursal/vi_sucursal.php?ac=0&msj=Error."+msj,"main");
 						  	}			
 					  	}
 				  });				  					  
@@ -333,7 +404,7 @@ function ObtenerHorariosSemana(idsucursal) {
 
 
 		$.ajax({
-					url: 'catalogos/sucursales/ObtenerHorariosSemana.php', //Url a donde la enviaremos
+					url: 'catalogos/sucursal/ObtenerHorariosSemana.php', //Url a donde la enviaremos
 					type: 'POST', //Metodo que usaremos
 					data:datos,
 					dataType:'json',
@@ -433,7 +504,7 @@ function PintarHorariosSemana(horarios) {
 function ObtenerOpcionespedido() {
 
 		$.ajax({
-					url: 'catalogos/sucursales/ObtenerOpcionespedido.php', //Url a donde la enviaremos
+					url: 'catalogos/sucursal/ObtenerOpcionespedido.php', //Url a donde la enviaremos
 					type: 'POST', //Metodo que usaremos
 					dataType:'json',
 					async:false,
@@ -488,7 +559,7 @@ function ObtenerOpcionespedido() {
 	function ObtenerOpcionespedido2(opcion) {
 
 		$.ajax({
-					url: 'catalogos/sucursales/ObtenerOpcionespedido.php', //Url a donde la enviaremos
+					url: 'catalogos/sucursal/ObtenerOpcionespedido.php', //Url a donde la enviaremos
 					type: 'POST', //Metodo que usaremos
 					dataType:'json',
 					async:false,
@@ -550,7 +621,7 @@ function ObtenerOpcionespedido() {
 		var datos="idsucursal="+idsucursal;
 
 		$.ajax({
-					url: 'catalogos/sucursales/ObtenerOpcionespedidoSucursal.php', //Url a donde la enviaremos
+					url: 'catalogos/sucursal/ObtenerOpcionespedidoSucursal.php', //Url a donde la enviaremos
 					type: 'POST', //Metodo que usaremos
 					data:datos,
 					dataType:'json',
@@ -588,7 +659,7 @@ function ObtenerOpcionespedido() {
 
 	function ObtenerDatosfiscales() {
 		$.ajax({
-					url: 'catalogos/sucursales/ObtenerDatosfiscales.php', //Url a donde la enviaremos
+					url: 'catalogos/sucursal/ObtenerDatosfiscales.php', //Url a donde la enviaremos
 					type: 'POST', //Metodo que usaremos
 					dataType:'json',
 					async:false,
@@ -691,7 +762,7 @@ function Habilitarrecordatorio(argument) {
 function ObtenerTipospago() {
 
 		$.ajax({
-					url: 'catalogos/sucursales/ObtenerTipagos.php', //Url a donde la enviaremos
+					url: 'catalogos/sucursal/ObtenerTipagos.php', //Url a donde la enviaremos
 					type: 'POST', //Metodo que usaremos
 					dataType:'json',
 					async:false,
@@ -748,7 +819,7 @@ function ObtenerTipospago() {
 			var datos="idsucursal="+idsucursal;
 
 		$.ajax({
-					url: 'catalogos/sucursales/ObtenerTipospagoSucursal.php', //Url a donde la enviaremos
+					url: 'catalogos/sucursal/ObtenerTipospagoSucursal.php', //Url a donde la enviaremos
 					type: 'POST', //Metodo que usaremos
 					data:datos,
 					dataType:'json',
@@ -795,6 +866,8 @@ function ObtenerTipospago() {
 				
 		}
 	}
+
+	
 
 	function CambioNotaventa(argument) {
 

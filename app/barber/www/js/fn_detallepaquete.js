@@ -118,7 +118,6 @@ function PintarDescripcion(paquete,grupos,opciones,imagenesdelpaquete,idpaquete)
 	var aplicariva=paquete.siniva;
 	var ivaaumentar=paquete.iva;
 
-
 	if (paquete.promocion==1 && paquete.preciofijo!='' && paquete.preciofijo>0) {
 
 		paquete.precioventa=paquete.preciofijo;
@@ -3202,13 +3201,15 @@ function CerrarModal() {
 }
 
 function PintarImagenesPaquete(paquete,imagenesdelpaquete) {
-
+	var estilo="";
 		if (paquete.foto!='' && paquete.foto!=null) {
 		imagen=urlimagenes+'paquetes/imagenespaquete/'+codigoserv+paquete.foto;
 	}else{
+				estilo="opacity:0.2";
 
-		imagen=urlimagendefault;
+		imagen=localStorage.getItem('logo');
 	}
+
 	$("#imagenpaquete").attr('src',imagen);
 	
 	$(".imagenpaquetediv").attr('onclick','VisualizarImagen(\''+imagen+'\')');
@@ -3222,7 +3223,7 @@ function PintarImagenesPaquete(paquete,imagenesdelpaquete) {
                       <div class="swiper-wrapper" id="contenidopaquete_`+paquete.idpaquete+`" >
 
                       </div>
-                       <div class="swiper-pagination"></div>
+                       <div class="swiper-pagination" style="bottom: 20px!important;"></div>
 
 
                     </div>
@@ -3248,14 +3249,14 @@ function PintarImagenesPaquete(paquete,imagenesdelpaquete) {
 
                         }else{
 
-                        	imagen=urlimagendefault;
+                        	imagen=localStorage.getItem('logo');
                         }
 
 
                        html2+=`<div style="" class="">
   
                         <img class="bordesredondeados " onclick="VisualizarImagen(\'`+imagen+`\')" src="`+imagen+`"
-                          style="width:100%;border-radius:10px;margin-bottom:1em;" />
+                          style="width:100%;border-radius:10px;margin-bottom:1em;`+estilo+`" />
                            <div class="textoababoderecha precioriginal" id="precioriginal"></div>
 
                           </div>`;

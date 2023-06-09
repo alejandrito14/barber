@@ -49,84 +49,76 @@ function PintarDatosEspecialista(respuesta,calificaciones) {
 							}
 
 					$(".imagenespecialista").attr('src',urlimagen);
+					if (calificaciones.length==0) {
 
+						$(".divtitulocalificaciones").css('display','none');
+	
+					}
 					PintarCalificaciones(calificaciones);
+
 }
 
 function PintarCalificaciones(respuesta) {
 	var html="";
 		if (respuesta.length>0) {
-												   			for (var i = 0; i <respuesta.length; i++) {
+						for (var i = 0; i <respuesta.length; i++) {
 												   					
-												   					var calificacion=respuesta[i].calificacion;
+								var calificacion=respuesta[i].calificacion;
 
-												   				html+=`
+												html+=`
 
-												   				<li style="margin-top: 1em;">
-																	<div class="item-content">
+												<li style="margin-top: 1em;">
+										    <div class="item-content">
 
-																	<div class="">
-																		<div class="">
-																			<div class="">
-																				<p style="margin:0;margin-left: 5px;font-weight: bold;">`+respuesta[i].nombre+` `+respuesta[i].paterno+`</p>
-																				<div class="row" style="">
+										    <div class="">
+												<div class="">
+													<div class="">
+														<p style="margin:0;margin-left: 5px;font-weight: bold;">`+respuesta[i].nombre+` `+respuesta[i].paterno+`</p>
+														<div class="row" style="">
 
-																				`;
+													`;
 
 
-																				for (var j = 0; j <5; j++) {
+													for (var j = 0; j <5; j++) {
 
-																						var color="";
+															var color="";
 
-																						if (j<calificacion) {
-																							color="colorestrella";
-																						}
+															if (j<calificacion) {
+																color="colorestrella";
+															}
 																				
-																					html+=`
-																						<div class="col" >
-									                	<div>
-									                	 <span  id="estre_1"  style="font-size:20px;" class="`+color+`">
-									                	 <span class="material-icons-outlined">
-																													star
-																													</span>
-																												</span>
-										                	 <div class="oculto">
-										                	
-										                	 <input type="checkbox"  id="che_1" >
+														html+=`
+															<div class="col" >
+									           	<div>
+									             <span  id="estre_1"  style="font-size:20px;" class="`+color+`">
+									             <span class="material-icons-outlined">
+																star
+																</span>
+																</span>
+										     			 <div class="oculto">
+										             <input type="checkbox"  id="che_1" >
 										                	</div>
 									                	</div>
-									               
 									               </div>
 
-																					`;
-																				}
+																`;
+														}
 
-																					html+=	`
-                  
-                
-
-                </div>
-
+											html+=	`
+              			  </div>
                 		<p style="margin:0;margin-left: 5px;">`+respuesta[i].comentario+`</p>
-
-
                 </div>
-
-																	
-												
-																		</div>
-																		<div class="item-subtitle"></div>
-																		<div class="item-text"></div>
-																	</div>
-																	</div>
+								</div>
+								<div class="item-subtitle"></div>
+								<div class="item-text"></div>
+							</div>
+							</div>
 																
-																</li>
-												   				`;
+						</li>
+						`;
 
-
-
-																			}
-																		}
+						}
+					}
 
 					$(".calificacionespecialistas").html(html);
 }
@@ -480,17 +472,28 @@ function AgendarCita3() {
 
       var cita=resp.cita[0];
 
-      var html="";
+      /*var html="";
         html+=`
         <p>Gracias</p>
         <p>Tu cita quedó agendada para el dia
        `+cita.fecha+` a las `+cita.horainicial+` con `+cita.nombre+` `+cita.paterno+`</p>
       `;
+*/
+      var html="";
+        html+=`
+        <p>Gracias</p>
+        <p>
+      Tu cita ha sido agregada para el dia `+cita.fecha+` a las `+cita.horainicial+` con `+cita.nombre+` `+cita.paterno+`
+      Para confirmar tu cita, realiza tu pago
+      </p>
+      `;
 
       var funcion="";
       funcion+=`
-        <span class="dialog-button" id="btniracarrito" onclick="VerCarrito()">Ir a carrito</span>
+        <span class="dialog-button" id="btniracarrito" onclick="CerrarModalD()">Cerrar</span>
       `;
+      GoToPage('carrito');
+
       CrearModalAviso(html,funcion);
       
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 

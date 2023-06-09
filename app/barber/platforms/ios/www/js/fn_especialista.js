@@ -49,84 +49,76 @@ function PintarDatosEspecialista(respuesta,calificaciones) {
 							}
 
 					$(".imagenespecialista").attr('src',urlimagen);
+					if (calificaciones.length==0) {
 
+						$(".divtitulocalificaciones").css('display','none');
+	
+					}
 					PintarCalificaciones(calificaciones);
+
 }
 
 function PintarCalificaciones(respuesta) {
 	var html="";
 		if (respuesta.length>0) {
-												   			for (var i = 0; i <respuesta.length; i++) {
+						for (var i = 0; i <respuesta.length; i++) {
 												   					
-												   					var calificacion=respuesta[i].calificacion;
+								var calificacion=respuesta[i].calificacion;
 
-												   				html+=`
+												html+=`
 
-												   				<li style="margin-top: 1em;">
-																	<div class="item-content">
+												<li style="margin-top: 1em;">
+										    <div class="item-content">
 
-																	<div class="">
-																		<div class="">
-																			<div class="">
-																				<p style="margin:0;margin-left: 5px;font-weight: bold;">`+respuesta[i].nombre+` `+respuesta[i].paterno+`</p>
-																				<div class="row" style="">
+										    <div class="">
+												<div class="">
+													<div class="">
+														<p style="margin:0;margin-left: 5px;font-weight: bold;">`+respuesta[i].nombre+` `+respuesta[i].paterno+`</p>
+														<div class="row" style="">
 
-																				`;
+													`;
 
 
-																				for (var j = 0; j <5; j++) {
+													for (var j = 0; j <5; j++) {
 
-																						var color="";
+															var color="";
 
-																						if (j<calificacion) {
-																							color="colorestrella";
-																						}
+															if (j<calificacion) {
+																color="colorestrella";
+															}
 																				
-																					html+=`
-																						<div class="col" >
-									                	<div>
-									                	 <span  id="estre_1"  style="font-size:20px;" class="`+color+`">
-									                	 <span class="material-icons-outlined">
-																													star
-																													</span>
-																												</span>
-										                	 <div class="oculto">
-										                	
-										                	 <input type="checkbox"  id="che_1" >
+														html+=`
+															<div class="col" >
+									           	<div>
+									             <span  id="estre_1"  style="font-size:20px;" class="`+color+`">
+									             <span class="material-icons-outlined">
+																star
+																</span>
+																</span>
+										     			 <div class="oculto">
+										             <input type="checkbox"  id="che_1" >
 										                	</div>
 									                	</div>
-									               
 									               </div>
 
-																					`;
-																				}
+																`;
+														}
 
-																					html+=	`
-                  
-                
-
-                </div>
-
+											html+=	`
+              			  </div>
                 		<p style="margin:0;margin-left: 5px;">`+respuesta[i].comentario+`</p>
-
-
                 </div>
-
-																	
-												
-																		</div>
-																		<div class="item-subtitle"></div>
-																		<div class="item-text"></div>
-																	</div>
-																	</div>
+								</div>
+								<div class="item-subtitle"></div>
+								<div class="item-text"></div>
+							</div>
+							</div>
 																
-																</li>
-												   				`;
+						</li>
+						`;
 
-
-
-																			}
-																		}
+						}
+					}
 
 					$(".calificacionespecialistas").html(html);
 }
@@ -258,9 +250,13 @@ function CargarCalendario4() {
             $('.calendar-custom-toolbar .center').text(monthNames[c.currentMonth] + ', ' + c.currentYear);
             $('.calendar-custom-toolbar .left .link').on('click', function () {
               calendarInline.prevMonth();
+            	RefrescarFechasEspecialista(c);
+
             });
             $('.calendar-custom-toolbar .right .link').on('click', function () {
               calendarInline.nextMonth();
+            	RefrescarFechasEspecialista(c);
+
             });
           },
 
@@ -288,6 +284,7 @@ function CargarCalendario4() {
       		HabilitarBoton();
 
           },
+
           monthYearChangeStart: function (c) {
             $('.calendar-custom-toolbar .center').text(monthNames[c.currentMonth] + ', ' + c.currentYear);
           }
@@ -475,17 +472,28 @@ function AgendarCita3() {
 
       var cita=resp.cita[0];
 
-      var html="";
+      /*var html="";
         html+=`
         <p>Gracias</p>
         <p>Tu cita quedó agendada para el dia
        `+cita.fecha+` a las `+cita.horainicial+` con `+cita.nombre+` `+cita.paterno+`</p>
       `;
+*/
+      var html="";
+        html+=`
+        <p>Gracias</p>
+        <p>
+      Tu cita ha sido agregada para el dia `+cita.fecha+` a las `+cita.horainicial+` con `+cita.nombre+` `+cita.paterno+`
+      Para confirmar tu cita, realiza tu pago
+      </p>
+      `;
 
       var funcion="";
       funcion+=`
-        <span class="dialog-button" id="btniracarrito" onclick="VerCarrito()">Ir a carrito</span>
+        <span class="dialog-button" id="btniracarrito" onclick="CerrarModalD()">Cerrar</span>
       `;
+      GoToPage('carrito');
+
       CrearModalAviso(html,funcion);
       
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
@@ -497,4 +505,89 @@ function AgendarCita3() {
       }
     });
 });
+}
+
+var arraymes=['01','02','03','04','05','06','07','08','09','10','11','12'];
+
+function RefrescarFechasEspecialista(valor) {
+  var mes = calendarInline.currentMonth;
+  var anio = calendarInline.currentYear;
+  var mes=(mes + 1)<10?'0'+(mes + 1):(mes + 1);
+  var paqueteid=0;
+  var sucursal=localStorage.getItem('idsucursal');
+  var idespecialista=localStorage.getItem('idespecialista');
+  var datos="idpaquete="+paqueteid+"&idsucursal="+sucursal+"&idespecialista="+idespecialista+"&mes="+mes+"&anio="+anio;
+
+  var pagina = "ObtenerFechasEspecialista.php";
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+       eventos=[];
+       nodisponiblejs=[];
+      if (resp.disponible.length>0) {
+        var disponible=resp.disponible;
+
+        for (var i =0; i < disponible.length; i++) {
+            var fecha=disponible[i];
+              var dividirfecha=fecha.split('-');
+              var nuevafecha=dividirfecha[0]+'-'+parseInt(dividirfecha[1])+'-'+parseInt(dividirfecha[2]);
+              
+             var anio=dividirfecha[0];
+            var mes=(dividirfecha[1].replace(/^(0+)/g, '')-1);
+            var dia=dividirfecha[2];
+          
+            var objeto={
+              date:new Date(anio,mes,dia),
+              color:'rgb(245,212,95)',
+            };
+              eventos.push(objeto);
+        }
+      }
+
+       if (resp.nodisponible.length>0) {
+
+       		 var nodisponible=resp.nodisponible;
+
+        for (var i =0; i <nodisponible.length;i++) {
+           
+            var fecha=nodisponible[i];
+            var dividirfecha=fecha.split('-');
+            var nuevafecha=dividirfecha[0]+'-'+parseInt(dividirfecha[1])+'-'+parseInt(dividirfecha[2]);
+              
+            var anio=dividirfecha[0];
+            var mes=(dividirfecha[1].replace(/^(0+)/g, '')-1);
+            var dia=dividirfecha[2];
+          
+            var objeto={
+              date:new Date(anio,mes,dia),
+              color:'rgb(245,212,95)',
+            };
+              nodisponiblejs.push(objeto);
+        }
+
+       }
+
+
+         calendarInline.params.events = eventos;
+         calendarInline.params.disabled = nodisponiblejs;
+
+		 calendarInline.update();
+		  		$(".calendar-day-has-events .calendar-day-number").addClass('calendarevento');
+                 $(".calendar-day-event").css('display','none');
+                 $(".calendar-day-weekend .calendar-day-number").addClass('nodisponible');
+
+
+       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+    });
+	//var nextMonthIndex = currentMonth.getMonth() + 1;
 }

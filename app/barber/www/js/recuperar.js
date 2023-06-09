@@ -52,12 +52,12 @@ function CargarBoton() {
   $$("#botoncontinuartoken").attr('onclick','VerificarToken()');
 }
 function VerificarToken1() {
-    var token1=$("#t1").val();
-    var token2=$("#t2").val();
+    var token1=$("#t5").val();
+    /*var token2=$("#t2").val();
     var token3=$("#t3").val();
     var token4=$("#t4").val();
-
-    var tokeningresado=token1+token2+token3+token4;
+*/
+    var tokeningresado=token1;
 
   var email=localStorage.getItem('celular');
   var pagina = "verificacion.php";
@@ -108,11 +108,9 @@ function VerificarToken1() {
 }
 
 function VerificarToken() {
-    var token1=$("#t1").val();
-    var token2=$("#t2").val();
-    var token3=$("#t3").val();
-    var token4=$("#t4").val();
-    var tokeningresado=token1+token2+token3+token4;
+  
+  var token1=$("#t5").val();
+  var tokeningresado=token1;
 	var email=localStorage.getItem('celular');
 	var pagina = "verificacion.php";
 

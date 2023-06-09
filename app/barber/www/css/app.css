@@ -743,7 +743,7 @@ code {
     
 .divpaquetedetalle{
 
-    background: #C7AA6A;
+    background: black;
     color: #fff;
     height: 40px;
     line-height: 40px;
@@ -826,6 +826,12 @@ code {
     
     font-size: 28px;
 }
+
+.iconocerrar2 {
+    position: absolute;
+    right: 10px;
+    font-size: 28px;
+}
 .button{
   text-transform: inherit!important;
 }
@@ -870,9 +876,9 @@ code {
       margin-top: 3em!important;
     }
 
-   .page-content{
+   /*.page-content{
     margin-top: 4em!important;
-    }
+    }*/
 
 .oculto{
   display: none;
@@ -908,9 +914,11 @@ code {
     margin-right: 10px;
  }*/
  .especialistassu{
-    word-wrap: break-word;
-    /* white-space: break-spaces; */
-    height: 100px;
+  height: 100px;
+ 
+/*    word-wrap: break-word;
+*/    /* white-space: break-spaces; */
+    /*height: 100px;
     text-align: center;
     width: 25%;
     float: left;
@@ -921,7 +929,17 @@ code {
         display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 10px;*/
  }
+
+ .item {
+  background-color: yellow;
+}
+
+.item.selected {
+  background-color: green;
+}
+
  .servicioscalendario{
   padding-top: 20px;
     word-wrap: break-word;
@@ -935,26 +953,41 @@ code {
     border-radius: 30px;
  }
  .sinseleccionar{
-  border: 1px solid black;
-    background: white;
-    color: black;
+    background: white!important;
+    color: black!important;
+ }
+
+ .sinseleccionar h5{
+    background: white!important;
+    color: black!important;
  }
 
  .seleccionado{
-  border: 1px solid white;
-  background: black;
-  color: white;
+  
+  background: black!important;
+  color: white!important;
+  border-radius: 8px!important;
+ }
+
+
+ .seleccionado h5{
+
+  background: black!important;
+  color: white!important;
  }
   .sinseleccionarhora{
-  border: 1px solid black;
+  /*border: 1px solid black;*/
     background: white;
     color: black;
  }
 
  .seleccionadohora{
-  border: 1px solid white;
+  /*border: 1px solid white;*/
   background: black;
   color: white;
+
+    border-radius: 8px!important;
+
  }
  .calendar-day-selected .calendar-day-number{
 
@@ -1013,7 +1046,192 @@ code {
     color: white;
     text-decoration: line-through;
     font-size: 12px;
+    padding-right: 4px;
+    padding-left: 4px;
  }
+ .estilobarbero{
+    margin-top: 1em;
+    border-radius: 10px;
+    background: #eaebf1;
+    margin-left: 1em;
+    margin-right: 1em;
+ }
+
+
+ .dark-bg{
+ background-color:black !important;
+  background-image: url("../img/inicio.png") !important;
+  background-repeat: repeat-x;
+  background-position: bottom center !important;
+  animation: zoombg infinite 10s;
+  -webkit-animation: zoombg infinite 10s;
+      z-index: 2000;
+}
+
+.quitarmp{
+  padding: 0!important;
+  margin:0!important;
+
+}
+.marginauto{
+  margin-top: 4em!important;
+}
+
+
+@keyframes zoombg{
+  0% {
+    background-size: 100%;
+  }
+  50% {
+    background-size: 110%;
+  }
+  100% {
+    background-size: 100%;
+  }
+}
+
+@-webkit-keyframes zoombg{
+  0% {
+    background-size: 100%;
+  }
+  50% {
+    background-size: 110%;
+  }
+  100% {
+    background-size: 100%;
+  }
+}
+
+.imagenprincipal{
+      box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: none;
+    background-color: var(--f7-page-bg-color);
+}
+
+.salida {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+.tab-link .material-icons-outlined{
+  color:#C7AA6A;
+}
+.material-icons-outlined{
+  color: #C7AA6A;
+}
+
+.tabbar-labels .tab-link, .tabbar-labels .link{
+
+  justify-content: center!important;
+ align-items:center;
+}
+
+
+.footer{
+  position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1001;
+    border-radius: var(--fimobile-rounded) var(--fimobile-rounded) 0 0;
+    background-color: white;
+    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.07);
+    -moz-box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.07);
+    -webkt-box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.07);
+}
+
+footer .nav {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    list-style: none;
+    align-items: center;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.footer .nav .nav-item {
+    flex-basis: 0;
+    flex-grow: 1;
+    text-align: center;
+    height: 64px;
+    line-height: 60px;
+}
+
+.footer .nav .nav-item .nav-link {
+    text-align: center;
+    background: transparent;
+    align-self: center;
+    -webkit-align-self: center;
+    -moz-align-self: center;
+    height: 100%;
+    line-height: 60px;
+    vertical-align: middle;
+    color: var(--fimobile-footer-text);
+    padding: calc(var(--fimobile-padding) - 5px) calc(var(--fimobile-padding) - 10px);
+  }
+
+footer .nav .nav-item .nav-link span .nav-icon {
+    font-size: 24px;
+    height: 20px;
+    line-height: 20px;
+    width: 22px;
+    display: inline-block;
+    margin: 0 auto;
+}
+
+.footer .nav .nav-item .nav-link span {
+    line-height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+footer .nav .nav-item .nav-link span .nav-text {
+    font-size: 10px;
+    line-height: 15px;
+    display: block;
+}
+
+#contenedor{
+  margin: 10px auto;
+  width: 100%;
+  height: 115px;
+  text-align: center;
+    display: flex;
+    justify-content: center;
+}
+.reloj{
+  float: left;
+  font-size: 40px;
+  font-family: Courier,sans-serif;
+  color: #363431;
+}
+.btnagendarcita{
+  background: #C7AA6A;
+}
+/*.boton{
+  outline: none;
+  border: 1px solid #363431;
+  color: white;
+  width: 128px;
+  height: 30px;
+  text-shadow: 0px -1px 1px black;
+  font-size: 20px;
+  border-radius: 5px;
+  font-family: Helvetica;
+  cursor: pointer;
+  background-image: linear-gradient(#3aad02,#2c6f05);
+}
+.boton:active{
+  background-image: linear-gradient(#2c6f05,#3aad02);
+}
+.boton:hover{
+  box-shadow: 0px 0px 14px #3aad02;
+}*/
  /* .md .bcantidadcarrito{
     right: 3em;
   }

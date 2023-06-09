@@ -21,9 +21,9 @@
             <div class="">
              <div class=" color-dark" style="text-align: center;
     font-weight: bold;
-    font-size: 18px;
-    margin-top: 1em;color: black;    margin-bottom: 1em;    margin-right: 2em;
-    margin-left: 2em;"><div id="nombrepaquete" class="fuente nombrepaquete"></div></div>
+    font-size: 18px;color: black;    margin-bottom: 1em;    margin-right: 2em;
+    margin-left: 2em;           margin-top: 4em;
+"><div id="nombrepaquete" class="fuente nombrepaquete"></div></div>
 
                 <ul class="no-bg" style="display: none;">
 
@@ -91,12 +91,14 @@
              
              <div class="card-bx job-card col-50" style="height: 163px;">
              <div class="card-info disponibilidadfecha" style="text-align: center;" >
+              <p style="text-align:center;">
               <span class="material-icons-outlined">
                 check_circle
                 </span>
+              </p>
 
-              <h6 class="item-title">
-                Consulta disponibilidad por fecha
+              <h6 class="" style="margin: 0px;">
+                 Por fecha
               </h6>
               <div class="list-info">
                 
@@ -105,15 +107,16 @@
             </div>
           </div>
          
-             <div class="card-bx job-card col-50">
+             <div class="card-bx job-card col-50" style="height: 163px;">
              <div class="card-info disponibilidadespecialista" style="text-align: center;">
+              <p style="text-align:center;">
               <span class="material-icons-outlined">
                 check_circle
                 </span>
-
-              <h6 class="item-title">
-                Consulta disponibilidad por barbero
-              </h6>
+              </p>
+                <h6 class="" style="margin: 0;">
+                Por barbero
+                </h6>
               <div class="list-info">
                 
               </div>
@@ -129,21 +132,12 @@
         <div class="block">
           <div id="imagenespaquete2"></div>
         </div>
+        <div class="row" style="height: 100px;"></div>
 
 
-       <!--  <div class="block" id="verinstrucciones" style="display: none;">
-      <div class="content-block-title " style="font-weight: bold;
-          color: black;"><div class="ribbon"></div>
-          <p>Instrucciones especiales </p>
-          <div class="list">
-          <ul>
-          <li>
-            <label class="item-content" style="margin-left: 1.5em;">
-                       Checked by default -->
-                        <div class="item-inner ">
-
-                          <div class="item-text" style="-webkit-line-clamp:20" id="instrucciones"> </div></div>
-                      </label>
+                <div class="item-inner ">
+                  <div class="item-text" style="-webkit-line-clamp:20" id="instrucciones"> </div></div>
+              </label>
           </li>
         </ul>
       </div>
@@ -256,17 +250,7 @@
   </div>
 
 
-    <!-- <div class="fab fab-right-bottom " style="    bottom: 15px;
-    border-radius: 50%!important;height: 48px;
-    width: 48px;
-   
-    color: #fff!important;">
-                <div class="stepper-button-plus botones" onclick="HacerSuma()" style="border-radius: 50%;
-    padding: 1.6em;
-    background:#ca0d0d!important;color: #fff!important;" ></div>
-
   
-  </div> -->
 
 
     <div class="fab fab-left-bottom " style="    padding-bottom: 5em;display: none;">
@@ -315,12 +299,18 @@ $(document).ready(function() {
   $("#instruc").attr('onclick','AbrirlModal()');
     $("#id").attr("onclick","new_function_name()");
 
+
+
 });
 
 
 
 
 </script>
+
+<style>
+
+</style>
  
 
 

@@ -4,14 +4,14 @@
 
 
 	<!-- Page Content -->
-	<div class="page-content content-area pt-40">
+	<div class="page-content content-area pt-40" style="margin-top: 4em;">
 		
 		<div class="searchbar-backdrop"></div>
 		
 		<div class="container">
 			<div class="row" style="margin-bottom: 1em;">
 				<div class="col-70">
-						<span style="font-weight: bold;color: black;font-size: 18px;" class="title"><span>Bienvenido </span><span class="nombreusuario">Invitado</span></span>
+						<span style="font-weight: bold;color: black;font-size: 18px;" class="title"><span>Bienvenido </span><span class="nombreusuario" style="color: #C7AA6A;">Invitado</span></span>
 				</div>
 				<div class="col-30">
 					
@@ -140,15 +140,35 @@
 						<h4 class="dz-title" style="text-align: center;">Agendas de citas del día</h4>
 
 				<div class="row">
-					<div class="col-80">
+					<div class="col-70">
 							<h3 class="fechaactual"></h3>
 					</div>
-					<div class="col-20">
 
-						<span class="material-icons-outlined" style="line-height: 2.5;">
+					<div class="col-10 divhoy" >
+						<span class="" style="line-height: 4.5;color: #C7AA6A">
+						Hoy
+						</span>
+					</div>
+
+					<div class="col-10 divcalendario" >
+
+						<span class="material-icons-outlined" style="line-height: 2.5;    display: flex;justify-content: end;font-size: 28px;">
 						calendar_month
 						</span>
 					</div>
+
+					 <ul style="display: none;">
+         		 <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-input-wrap">
+                  <input type="text" placeholder="Select date" readonly="readonly" id="demo-calendar-modal" />
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+     
 
 				</div>
 				
@@ -191,9 +211,61 @@
 
 			
 		</div>
+
+		<footer class="footer"><div class="container">
+			<ul class="nav nav-pills nav-justified">
+				<li class="nav-item">
+				<a class="nav-link active iniciotab ">
+
+					<span><i class="nav-icon material-icons-outlined">
+						home
+					</i>
+
+					<span class="nav-text">Inicio</span>
+
+					</span>
+			</a>
+
+
+			</li>
+
+			
+
+		
+
+			<li class="nav-item menuoculto">
+				<a class="nav-link    " href="">
+
+					<span><i class="nav-icon material-icons-outlined">
+						notifications
+					</i>
+					<span class="nav-text">Notificaciones</span>
+
+					</span>
+				</a>
+			</li>
+
+			<li class="nav-item menuoculto">
+				<a class="nav-link " href="/profile/">
+
+					<span><i class="nav-icon material-icons-outlined">
+						perm_identity
+					</i>
+					<span class="nav-text">Perfil</span>
+
+					</span>
+				</a>
+			</li>
+
+
+
+</ul>
+</div>
+
+</footer>
 	</div>
 
-	<div class="toolbar toolbar-bottom tabbar tabbar-labels" style="height: 60px;"><div class="toolbar-inner">
+	<!-- <div class="toolbar toolbar-bottom tabbar tabbar-labels" style="height: 60px;"><div class="toolbar-inner">
 		<a class="tab-link tab-link-active" style="font-size: 12px;">
 			
 			<span class="material-icons-outlined">
@@ -203,13 +275,13 @@
 		<span class="tabbar-label" style="font-size: 13px!important;">Inicio</span>
 
 		</a>
-		<!-- <a class="tab-link" href="/listadocompras/" style="font-size: 12px;">
+		<a class="tab-link" href="/listadocompras/" style="font-size: 12px;">
 			
 			<span class="material-icons-outlined">
 				payments
 				</span>
 				<span class="tabbar-label" style="font-size: 13px!important;"> Mis compras</span>
-		</a> -->
+		</a>
 			<a class="tab-link" style="font-size: 12px;"><span class="material-icons-outlined">
 notifications
 </span>
@@ -224,7 +296,7 @@ perm_identity
 <span class="tabbar-label" style="font-size: 13px!important;">Perfil</span>
 				</a>
 	</div>
-</div>
+</div> -->
 
 		
 </div>

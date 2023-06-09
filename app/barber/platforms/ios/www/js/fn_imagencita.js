@@ -207,8 +207,6 @@
     function CargarFotoimagencita() {
 
 
-
-
       var html="";  
 html+=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;background: none;">
             <div class="toolbar">
@@ -512,11 +510,10 @@ function Guardarimagencita() {
   var id=$("#v_idimagencita").val();
  
   var foto=localStorage.getItem('fotoimagencita');
-  var idservicio=localStorage.getItem('idservicio');
-  var iduser=localStorage.getItem('id_user');
-  var iduserseleccionado=localStorage.getItem('idusuarioseleccionado');
+  var idcita=localStorage.getItem('idcita');
+  var idusuario=localStorage.getItem('id_user');
 
-  var datos="v_idimagencita="+id+"&foto="+foto+"&iduser="+iduser+"&idservicio="+idservicio+"&iduserseleccionado="+iduserseleccionado;
+  var datos="idimagencita="+id+"&foto="+foto+"&iduser="+idusuario+"&idcita="+idcita;
   var bandera=1;
 
   if (localStorage.getItem('fotoimagencita')=='' || localStorage.getItem('fotoimagencita')==null) {
@@ -542,7 +539,7 @@ function Guardarimagencita() {
                 localStorage.setItem('fotoimagencita','');
 
                 alerta('','Registro guardado correctamente');
-                ObtenerImagenescitaes();
+                ObtenerImagenescita();
                 
                
                 },error: function(XMLHttpRequest, textStatus, errorThrown){ 
@@ -585,11 +582,10 @@ function AgregarPromociones(idsucursal) {
   GoToPage('promocionessucursal');
 }
 
-function ObtenerImagenescitaes() {
-    var idservicio=localStorage.getItem('idservicio');
-    var iduserseleccionado=localStorage.getItem('idusuarioseleccionado');
-    var datos="idservicio="+idservicio+"&iduserseleccionado="+iduserseleccionado;
-    var pagina = "ObtenerServicioImagenescitaes.php";
+function ObtenerImagenescitaCliente() {
+    var idcita=localStorage.getItem('idcita');
+    var datos="idcita="+idcita;
+    var pagina = "ObtenerImagenescita.php";
     $.ajax({
         type: 'POST',
         dataType: 'json',
@@ -600,7 +596,7 @@ function ObtenerImagenescitaes() {
             var respuesta=datos.respuesta;
 
            
-                 Pintarimagencitaes(respuesta);
+                 Pintarimagencita3(respuesta);
      
            
 
@@ -614,7 +610,164 @@ function ObtenerImagenescitaes() {
         });
 }
 
-function Pintarimagencitaes(resultado) {
+function Pintarimagencita3(resultado) {
+
+ var html="";
+ if (resultado.length>0) {
+  for (var i = 0; i < resultado.length; i++) {
+
+    if (resultado[i].foto!='' && resultado[i].foto!='null' && resultado[i].foto!=null) {
+
+        urlimagen=urlphp+`upload/imagencita/`+resultado[i].foto;
+        imagen='<img src="'+urlimagen+'" alt=""  style="width:100px;"/>';
+      
+      }else{
+
+        urlimagen=localStorage.getItem('logo');
+        imagen='<img src="'+urlimagen+'" alt=""  style="width:100px;"/>';
+      }
+
+
+   html+=`
+   <div class="tarjeta" style="" id="tarjeta">
+            <div class="card demo-card-header-pic" style="border-radius: 10px;"> 
+            <a  class="link " style="z-index: 1000;position: absolute;right: 0;margin: 1em;" id="paquete_4">
+            <span class="material-icons-outlined " style="color:gray;display: none;">
+            favorite_border</span>  
+            </a>  
+            <div style="background-image:url('`+urlimagen+`');border-radius: 10px 10px 0px 0px;background-size: cover;" onclick="VisualizarImagen2(\'`+urlimagen+`\')"
+            class="card-header align-items-flex-end">
+             </div>
+
+          <div class="" style="text-align: center;height: 45px;justify-content: right;display: flex;">
+       </div>
+        </div>
+        </div>
+
+   `;
+  }
+ }
+
+     $(".listadoimagenescita").html(html);
+
+
+ // body...
+}
+
+function ObtenerImagenescita() {
+    var idcita=localStorage.getItem('idcita');
+    var datos="idcita="+idcita;
+    var pagina = "ObtenerImagenescita.php";
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: urlphp+pagina,
+        data:datos,
+        success: function(datos){
+
+            var respuesta=datos.respuesta;
+
+           
+                 Pintarimagencita2(respuesta);
+     
+           
+
+            },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+                var error;
+                    if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+                    if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                    console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+            }
+        });
+}
+
+function Pintarimagencita2(resultado) {
+
+ var html="";
+ if (resultado.length>0) {
+  for (var i = 0; i < resultado.length; i++) {
+
+    if (resultado[i].foto!='' && resultado[i].foto!='null' && resultado[i].foto!=null) {
+
+        urlimagen=urlphp+`upload/imagencita/`+resultado[i].foto;
+        imagen='<img src="'+urlimagen+'" alt=""  style="width:100px;"/>';
+      
+      }else{
+
+        urlimagen=localStorage.getItem('logo');
+        imagen='<img src="'+urlimagen+'" alt=""  style="width:100px;"/>';
+      }
+
+
+   html+=`
+   <div class="tarjeta" style="" id="tarjeta">
+            <div class="card demo-card-header-pic" style="border-radius: 10px;"> 
+            <a  class="link " style="z-index: 1000;position: absolute;right: 0;margin: 1em;" id="paquete_4">
+            <span class="material-icons-outlined " style="color:gray;display: none;">
+            favorite_border</span>  
+            </a>  
+            <div style="background-image:url('`+urlimagen+`');border-radius: 10px 10px 0px 0px;background-size: cover;" onclick="VisualizarImagen2(\'`+urlimagen+`\')"
+            class="card-header align-items-flex-end">
+             </div>
+
+          <div class="" style="text-align: right;height: 45px;">
+    <span class="material-icons-outlined " style="margin-right: 10px;margin-top: 10px;font-size: 30px;">delete</span>
+       </div>
+        </div>
+        </div>
+
+   `;
+  }
+ }
+
+     $(".listadoimagenescita").html(html);
+
+
+ // body...
+}
+var myPhotoBrowserPopupDark="";
+function VisualizarImagen2(foto) {
+
+   myPhotoBrowserPopupDark = app.photoBrowser.create({
+    photos: [
+    foto,
+    ],
+    type: 'popup',
+    on:{
+     opened:function (argument) {
+      $(".popup-close").css('display','none');
+
+    $(".right").html('<div class="iconocerrar2"></div>');
+    $(".iconocerrar2").append(`<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M25.5188 4.48126C23.4385 2.4011 20.788 0.984547 17.9026 0.410715C15.0171 -0.163118 12.0264 0.131546 9.30839 1.25744C6.59043 2.38334 4.26736 4.28991 2.63294 6.73606C0.998525 9.18221 0.12616 12.0581 0.12616 15C0.12616 17.9419 0.998525 20.8178 2.63294 23.264C4.26736 25.7101 6.59043 27.6167 9.30839 28.7426C12.0264 29.8685 15.0171 30.1631 17.9026 29.5893C20.788 29.0155 23.4385 27.5989 25.5188 25.5188C26.9003 24.1375 27.9961 22.4976 28.7437 20.6928C29.4914 18.888 29.8762 16.9535 29.8762 15C29.8762 13.0465 29.4914 11.1121 28.7437 9.30724C27.9961 7.50242 26.9003 5.86255 25.5188 4.48126ZM20.3126 18.7613C20.4187 18.8606 20.5034 18.9808 20.5612 19.1142C20.6191 19.2476 20.6489 19.3915 20.6489 19.5369C20.6489 19.6823 20.6191 19.8262 20.5612 19.9596C20.5034 20.093 20.4187 20.2131 20.3126 20.3125C20.2133 20.411 20.0956 20.4889 19.9661 20.5418C19.8367 20.5946 19.698 20.6214 19.5582 20.6206C19.2795 20.6195 19.0124 20.5088 18.8145 20.3125L15.0001 16.4981L11.2388 20.3125C11.0409 20.5088 10.7738 20.6195 10.4951 20.6206C10.3553 20.6214 10.2166 20.5946 10.0872 20.5418C9.95773 20.4889 9.83999 20.411 9.74071 20.3125C9.54282 20.1134 9.43174 19.8441 9.43174 19.5634C9.43174 19.2827 9.54282 19.0135 9.74071 18.8144L13.502 15L9.74071 11.2388C9.56665 11.0355 9.47569 10.774 9.48602 10.5066C9.49635 10.2392 9.6072 9.98557 9.79642 9.79635C9.98565 9.60712 10.2393 9.49627 10.5067 9.48594C10.7741 9.47561 11.0356 9.56657 11.2388 9.74063L15.0001 13.5019L18.7613 9.74063C18.8597 9.63878 18.9772 9.55729 19.107 9.50083C19.2369 9.44437 19.3766 9.41404 19.5182 9.41158C19.6598 9.40911 19.8004 9.43456 19.9322 9.48646C20.0639 9.53836 20.1842 9.6157 20.286 9.71407C20.3879 9.81244 20.4694 9.9299 20.5258 10.0598C20.5823 10.1896 20.6126 10.3293 20.6151 10.4709C20.6175 10.6125 20.5921 10.7532 20.5402 10.8849C20.4883 11.0167 20.411 11.1369 20.3126 11.2388L16.4982 15L20.3126 18.7613Z" fill="#AAAAAA"></path>
+            </svg>`);
+
+       $(".photo-browser-popup").css('z-index',99999);
+      $(".iconocerrar2").attr('onclick','CerrarModalfoto()');
+
+     }
+     ,
+     close:function (argument) {
+      $(".iconocerrar2").remove();
+     }
+    }
+    //theme: 'dark',
+  });
+
+  $(".link .popup-close .icon-only > i").remove('icon icon-back ');
+
+  myPhotoBrowserPopupDark.open();
+  
+ 
+}
+
+function CerrarModalfoto() {
+
+ myPhotoBrowserPopupDark.close();
+}
+
+function Pintarimagencita(resultado) {
     var html="";
     if (resultado.length>0) {
         for (var i = 0; i <resultado.length; i++) {
@@ -664,11 +817,10 @@ function Pintarimagencitaes(resultado) {
                                 height: 30px;
                                 background: red;
                                 width: 20px;
-                                margin-right: 1em;"
-     onclick="EliminarImagencita(`+resultado[i].idimagenescita+`);">
-                                <i style="color: white;font-size:18px;margin-left: 0.2em;" class="bi bi-trash-fill"></i>
-                                 <span class="if-not-md">
-                                 </span>
+                                margin-right: 1em;" onclick="EliminarImagencita(`+resultado[i].idimagenescita+`);">
+                              <span class="material-icons-outlined" style="font-size: 30px;">
+                           delete
+                           </span>
                         </a>
                         </div>
                         </div>
@@ -693,7 +845,7 @@ function Pintarimagencitaes(resultado) {
         }
     }
 
-    $(".listadoimagenescitaes").html(html);
+    $(".listadoimagenescita").html(html);
 }
 
 
@@ -719,7 +871,7 @@ function EliminarImagencita(idimagenescita) {
 
                     success: function(data) {
                         app.preloader.hide();
-                        ObtenerImagenescitaes();
+                        ObtenerImagenescita();
 
 
                     }

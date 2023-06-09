@@ -292,7 +292,7 @@ function PintarTableroSucursal(respuesta) {
 	var lat="";
 	var long="";
 	var onclick="";
-	if (coordenadas!='') {
+	if (coordenadas!='' && coordenadas!=null) {
 	 coordenadas=respuesta[i].ubicacion.split(',');
 
 		lat=coordenadas[0];
@@ -305,9 +305,9 @@ function PintarTableroSucursal(respuesta) {
 
 
 			html+=`
-				<div class="swiper-slide swiper-slide-active" role="group"  style="margin-right: 20px;width:200px;" onclick="DetalleSucursal(`+respuesta[i].idsucursal+`)">
+				<div class="swiper-slide swiper-slide-active" role="group"  style="margin-right: 20px;width:200px;" >
 				<div class="">
-						<div class="card-media" style="width:100%;height:72px;">
+						<div class="card-media" style="width:100%;height:72px;" onclick="DetalleSucursal(`+respuesta[i].idsucursal+`)">
 						<span class="material-icons-outlined" style="    z-index: 9999;
     position: absolute;
     right: 0;margin-right: 0.5em;margin-top: 0.3em;">favorite_border</span>
@@ -329,8 +329,13 @@ function PintarTableroSucursal(respuesta) {
 									<h6 class="text-primary vacancy">
 									</h6>
 								</div>
+								<div class="col-10" style="text-align: right;position: absolute; right: 0;margin-right: 4em;margin-top: 1em;">
+									<span style="justify-content: center;display: flex;" class="material-icons-outlined" onclick="AgendarDesdeSucursal(`+respuesta[i].idsucursal+`)">
+									calendar_month
+									</span>
+								</div>
 
-								<div class="col-30" style=" 
+								<div class="col-20" style=" 
 							    text-align: right;
 							    position: absolute;
 							    right: 0;
@@ -365,7 +370,10 @@ function PintarTableroSucursal(respuesta) {
 	}
 }
 
-
+function AgendarDesdeSucursal(idsucursal) {
+	localStorage.setItem('idsucursal',idsucursal);
+	VistaCategoria(idsucursal);
+}
 
 function ObtenerTableroCitas(estatus) {
 
@@ -919,7 +927,7 @@ function PintarIntereses(respuesta) {
 			html+=`
 				<div class="col-100" style="
    						 margin-top: .5em;margin-bottom:.5em; border-radius: 10px;color:white;
-    background: #59c158;" onclick="GuardarInteres(`+respuesta[i].idintereses+`)" id="interes_`+respuesta[i].idintereses+`">
+    background: #C7AA6A;" onclick="GuardarInteres(`+respuesta[i].idintereses+`)" id="interes_`+respuesta[i].idintereses+`">
 					<p style="    text-align: center;
     margin: 3px;word-break: break-all;line-height:2;">
 					`+respuesta[i].interes+`</p>
@@ -968,7 +976,7 @@ function GuardarIntereses() {
 		success: function(datos){
 
 			var respuesta=datos.respuesta;
-
+			localStorage.removeItem('idusuarioinvitado');
 			   GoToPage("home");
 
 			
@@ -1175,9 +1183,9 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
                             
                             	html+=` <p class="" style="display: flex;"><span>check-in:</span> <span class="material-icons-outlined" 
                             	style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;">
-										check_circle_outline
-										</span>
-									</p>`;	
+																														check_circle_outline
+																														</span>
+																													</p>`;	
                             
                             }
                             html+=`
@@ -1188,9 +1196,9 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
                             <div class="col-50">
                                 <div class="avatar">
                                     <img src="`+imagen+`" alt="" style="
-margin-top: 1.4em;    width: 100%;
-    border-radius: 10px;
-">
+																																			margin-top: 1.4em;    width: 100%;
+																																			    border-radius: 10px;
+																																			">
                                 </div>
                             </div>
                             </div>
@@ -1254,6 +1262,28 @@ margin-top: 1.4em;    width: 100%;
 
 			html+=`
 			</div>
+			
+					<div class="row" style=" margin-right: 2em; margin-left: 2em;">
+						<div class="col-80">
+							<p style="font-size: 16px;font-weight: bold;margin-left: 1em;">Galeria de imágenes</p>
+						</div>
+						<div class="col-20" >
+							
+						</div>
+					</div>
+		
+
+			<div class="" style="
+    margin-right: 2em;
+    margin-left: 2em;
+    margin-bottom: 100px;
+">
+				<div class="">
+						<div class="listadoimagenescita" style="width:100%;">
+						</div>
+				</div>
+</div>
+		
 				<div class="row" style="height:200px;">
                           
                             
@@ -1308,7 +1338,8 @@ margin-top: 1.4em;    width: 100%;
           	if (respuesta.checkin==0) {
           		GenerarQrCita(respuesta.idcita);
           	}
-           
+           	ObtenerImagenescitaCliente();
+
 			
 
           },
@@ -1320,7 +1351,7 @@ margin-top: 1.4em;    width: 100%;
           	 clearInterval(intervalove);
 
 									localStorage.setItem('idqrgenerado','');
-
+             ObtenerTableroCitas(1);
           },
         }
       });
@@ -1384,6 +1415,7 @@ function VerificarSihasidoleido() {
 					
 					 clearInterval(intervalove);
 					 dynamicSheet1.close();
+					 dynamicSheet1.destroy();
 					 var datosqr=resultado.datosqr[0];
 					AbrirValidacionQr(datosqr);
 					
@@ -1577,8 +1609,21 @@ function entrarinvitado() {
 
 function CrearUsuarioInvitado() {
 
-	var pagina = "CrearUsuarioInvitado.php";
-	$.ajax({
+	if (localStorage.getItem("idusuarioinvitado")!=undefined && localStorage.getItem("idusuarioinvitado")!=null && localStorage.getItem("idusuarioinvitado")!=0) {
+				var idusuario=localStorage.getItem("idusuarioinvitado");
+				localStorage.setItem("id_user",idusuario);
+				localStorage.setItem("idusuarioinvitado",idusuario);
+				localStorage.setItem('pregunta',1);
+    			localStorage.setItem('session',1);
+				localStorage.setItem("nombre","Invitado");
+				localStorage.removeItem('carrito');
+				localStorage.setItem('invitado',1);
+				localStorage.setItem('idtipousuario',6);
+				GoToPage("home");
+	}else{
+
+		var pagina = "CrearUsuarioInvitado.php";
+		$.ajax({
 		type: 'POST',
 		dataType: 'json',
 		url: urlphp+pagina,
@@ -1586,6 +1631,7 @@ function CrearUsuarioInvitado() {
 		success: function(resp){
 				var idusuario=resp.id_user;
 				localStorage.setItem("id_user",idusuario);
+				localStorage.setItem("idusuarioinvitado",idusuario);
 				localStorage.setItem('pregunta',1);
     			localStorage.setItem('session',1);
 				localStorage.setItem("nombre","Invitado");
@@ -1602,6 +1648,10 @@ function CrearUsuarioInvitado() {
 					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
 			}
 		});
+
+	}
+
+	
 }
 
 function CerrarCalificacion() {

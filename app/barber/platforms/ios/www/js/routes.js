@@ -94,6 +94,11 @@ var routes = [
     url: './pages/disponibilidadfecha.html',
 
   },
+  {
+    path: '/disponibilidadfechasucursal/',
+    url: './pages/disponibilidadfechasucursal.html',
+
+  },
 
    {
     path: '/disponibilidadespecialista/',
@@ -146,8 +151,11 @@ var routes = [
 
   },
   
-  
+  {
+    path: '/validadoqrcita/',
+    componentUrl: './pages/validadoqrcita.html',
 
+  },
 
   // Account 
   {

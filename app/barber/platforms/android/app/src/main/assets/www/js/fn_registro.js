@@ -2204,14 +2204,15 @@ function ValidarCelular() {
 				localStorage.setItem('id_user',idusuario);
 			localStorage.setItem('completado',completado);
 			localStorage.setItem('celular',telefono);
-			
 
 			if (completado==1) {
 				alerta('','El número celular que ingresaste ya fue asignado a un usuario')
+			
 			}else{
 
 				GoToPageHistory('colocartoken');
-	
+				//localStorage.removeItem('idusuarioinvitado');
+
 			}
 			//
 

@@ -263,6 +263,9 @@ function ObtenerConfiVersion() {
 				imagen=urlimagenlogo;
 			}
 
+		localStorage.setItem('imagensplashprincipal',datos.respuesta.splasimgprincipal);
+
+
 		$("#imagenlogo").attr('src',imagen);
 		$("#nombrenegocio").text(datos.respuesta.nombrenegocio1);
 		//localStorage.setItem('costoenvio',datos.respuesta.costoenvio);
@@ -462,6 +465,7 @@ function getConfiguracion() {
 			if (datos.respuesta.logo!='') {
 
 				imagen=urlimagenes+'configuracion/imagenes/'+codigoserv+datos.respuesta.logo;
+			
 			}else{
 
 				imagen=urlimagenlogo;

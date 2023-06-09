@@ -4,7 +4,7 @@ function MostrarAnuncios() {
     promesa.then(r => {
       var omitiralfinal=r.respuesta.activaromitirfinal;
 
-      if (omitiralfinal==1) {
+     /* if (omitiralfinal==1) {
             $(".skipbtn").attr('onclick','Omitir()');
         //$(".skipbtn").css('display','none');
       }else{
@@ -12,7 +12,7 @@ function MostrarAnuncios() {
             $(".skipbtn").text('Omitir');
             $(".skipbtn").attr('onclick','Saltar()');
 
-      }
+      }*/
 
 
         ObtenerAnuncios(omitiralfinal);
@@ -55,11 +55,6 @@ function PintarAnuncios(anuncios,omitiralfinal) {
 			classe="swiper-slide-active";
 		}
 
-		/* if (anuncios[i].imagen!='') {
-
-              	html+=`<img src="`+imagen+`" alt="" class="max-width-100 margin-left-auto margin-right-auto margin-bottom" style="width:300px;">`;
-
-              }*/
 
 		html+=`
 		  <div class="swiper-slide `+classe+`" role="group"  style="    padding: 0;
@@ -129,7 +124,7 @@ function PintarAnuncios(anuncios,omitiralfinal) {
 		$(".skipbtn").text('Omitir');
 
 	  }
-	if (omitiralfinal==1) {
+	/*if (omitiralfinal==1) {
 		console.log(swiper);
 		swiper.on('slideChange', function (e) {
 		   console.log('*** mySwiper.activeIndex', swiper.activeIndex);
@@ -168,7 +163,7 @@ function PintarAnuncios(anuncios,omitiralfinal) {
 		$(".skipbtn").attr('onclick','Saltar()');
 		$(".skipbtn").text('Omitir');
 	}
-
+*/
 
 	
 }

@@ -1,8 +1,8 @@
 function CargarDatosEspecialista() {
 	$(".licompras").css('display','none');
 	$(".lifavoritos").css('display','none');
-
-	
+	$(".divcalendario").attr('onclick','AbrirCalendarioEspecialista()');
+	$(".divhoy").attr('onclick','ObtenerTableroCitasEspecialista(1);IntervaloCitas();');
 	 var nombre= localStorage.getItem("nombre");
      $(".nombreusuario").text(nombre);
      ObtenerTableroAnuncios();
@@ -10,7 +10,12 @@ function CargarDatosEspecialista() {
 		ObtenerTableroCitasEspecialista();
 		ObtenerFechaActual();
 		      ObtenerDetalleEmpresa();
-	intervalo=setInterval("ObtenerTableroCitasEspecialista()",1000);
+	intervalo=setInterval("ObtenerTableroCitasEspecialista(1)",1000);
+}
+
+function IntervaloCitas() {
+		intervalo=setInterval("ObtenerTableroCitasEspecialista(1)",1000);
+
 }
 
 
@@ -18,7 +23,7 @@ function ObtenerTableroCitasEspecialista(estatus) {
 
 	//return new Promise((resolve, reject) => {
  	var idusuarios=localStorage.getItem('id_user');
-	var datos="estatus="+estatus+"&idusuarios="+idusuarios;
+	var datos="estatus="+estatus+"&idusuarios="+idusuarios+"&hoy=1";
 	var pagina = "ObtenerTableroCitasEspecialista.php";
 	$.ajax({
 		type: 'POST',
@@ -31,6 +36,10 @@ function ObtenerTableroCitasEspecialista(estatus) {
 
 			var respuesta=datos.respuesta;
 			PintarTableroCitasEspecialista(respuesta);
+			var fecha=datos.fechafiltro;
+
+			$(".fechaactual").text(fecha);
+
 			//resolve(respuesta);
 			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;
@@ -77,11 +86,27 @@ function PintarTableroCitasEspecialista(respuesta) {
 
 						</div>
 					</div>
-					<a  class="bookmark-btn active">
-					<i class="fas fa-bookmark"></i>
-						<i class="far fa-bookmark">
-						</i>
-					</a>
+
+					`;
+
+					var onclick="";
+					var color="color:black;";
+					if (respuesta[i].checkin==1) {
+						color="color:#5ac35b;";
+
+	
+					}
+
+
+
+					html+=`<a  class="bookmark-btn active"  >
+						<span class="material-icons-outlined" style="font-size: 28px;`+color+`">
+							qr_code
+						</span>
+					</a>`;
+
+				
+				html+=`
 				</div>
 			</li>
 			`;
@@ -189,9 +214,9 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
                             <div class="col-50">
                                 <div class="avatar">
                                     <img src="`+imagen+`" alt="" style="
-margin-top: 1.4em;    width: 100%;
-    border-radius: 10px;
-">
+									margin-top: 1.4em;    width: 100%;
+									    border-radius: 10px;
+									">
                                 </div>
                             </div>
                         </div>
@@ -201,8 +226,16 @@ margin-top: 1.4em;    width: 100%;
                            
                         </p>
                         <div class="row">
+                        `;
+
+                        	if(respuesta.checkin==1 && (respuesta.finalizacita=='' || respuesta.finalizacita==null) ) {
+                   					
+                        		html+=`<div class="cronometro"></div>`;
+                   						 html+=`<button class="button button-large button-raised" onclick="VisualizarTiempo()">Tiempo transcurrido</button>`;
                           
-                            
+                          }
+                           
+                           html+=`
                             
                         </div>
                     </div>
@@ -215,23 +248,28 @@ margin-top: 1.4em;    width: 100%;
 
 <div class="row" style="    margin-right: 2em;
     margin-left: 2em;margin-top:1em;">
-					
-
 					<div class="row" style=" margin-right: 2em; margin-left: 2em;">
 						<div class="col-80">
 							<p style="font-size: 16px;font-weight: bold;">Galeria de imágenes</p>
 						</div>
 						<div class="col-20" onclick="AbrirModalFotoimagencita()">
-								<span class="material-icons-outlined" style="    font-size: 30px;line-height: 60px;">
+								<span class="material-icons-outlined" style="    font-size: 30px;line-height: 60px;margin-left: 1em;">
 								camera_alt
 								</span>
 						</div>
-
 					</div>
-			
-
-
 			</div>
+
+			<div class="" style="
+    margin-right: 2em;
+    margin-left: 2em;
+    margin-bottom: 100px;
+">
+				<div class="">
+						<div class="listadoimagenescita" style="width:100%;">
+						</div>
+				</div>
+</div>
 							   							  	
            												 </div>
 							   							  	</div>
@@ -241,7 +279,9 @@ margin-top: 1.4em;    width: 100%;
 		   							
 		   							 	html+=`</div>
 
-		   							 		<div class="row">`;
+		   							 		<div class="row">
+
+		   							 		`;
 
 		   							 	
 
@@ -275,7 +315,7 @@ margin-top: 1.4em;    width: 100%;
         on: {
           open: function (sheet) {
            
-			
+										ObtenerImagenescita();
 
           },
           opened: function (sheet) {
@@ -285,6 +325,12 @@ margin-top: 1.4em;    width: 100%;
       });
 
        dynamicSheet1.open();
+}
+
+function VisualizarTiempo() {
+
+	dynamicSheet1.close();
+	GoToPage('validadoqrcita');
 }
 
 function ObtenerFechaActual() {
@@ -307,4 +353,153 @@ function ObtenerFechaActual() {
 					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
 			}
 		});
+}
+
+function AbrirCalendarioEspecialista() {
+	localStorage.setItem('fechafiltro','');
+
+	  calendarModal = app.calendar.create({
+        inputEl: '#demo-calendar-modal',
+        openIn: 'customModal',
+        header: true,
+        footer: true,
+        toolbarCloseText:'Cerrar',
+        headerPlaceholder:'Seleccionar fecha',
+         dateFormat: 'dd/mm/yyyy',
+         closeOnSelect:true,
+         on:{
+         	 calendarChange:function (c) {
+          
+            var fecha=c.value;
+            var convertirfecha=new Date(fecha);
+            var mes=(convertirfecha.getMonth() + 1)<10?'0'+(convertirfecha.getMonth() + 1):(convertirfecha.getMonth() + 1);
+            var mesdata=convertirfecha.getMonth();
+            var dia=convertirfecha.getDate()<10?'0'+convertirfecha.getDate():convertirfecha.getDate();
+            var diadata=convertirfecha.getDate();
+            fecha1=convertirfecha.getFullYear()+'-'+ mes+'-'+dia;
+            localStorage.setItem('fechafiltro',fecha1);
+         
+
+          },
+         	 close: function (c) {
+
+         	 		if (localStorage.getItem('fechafiltro')!='') {
+         	 			myStopFunction(intervalo);
+         	 			FiltrarTableroCitas();
+         	 		}
+          }
+         }
+      });
+
+	calendarModal.open();
+
+/*$(".calendar-footer").html('');
+	var html=`
+		<a class="button calendar-close sheet-close popover-close">Filtrar</a>
+		<a class="button calendar-close sheet-close popover-close">Cerrar</a>
+	`;*/
+}
+
+function FiltrarTableroCitas() {
+	var iduser=localStorage.getItem('id_user');
+	var fecha=localStorage.getItem('fechafiltro');
+	var estatus=1;
+	var datos="idusuarios="+iduser+"&fechafiltro="+fecha+"&estatus="+estatus+"&hoy=0";
+	var pagina = "ObtenerTableroCitasEspecialista.php";
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		success: function(datos){
+			myStopFunction(intervalo);
+			var respuesta=datos.respuesta;
+			var fecha=datos.fechafiltro;
+			PintarTableroCitasEspecialista(respuesta);
+			$(".fechaactual").text(fecha);
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+}
+
+function ObtenerTiempoCita() {
+	var iduser=localStorage.getItem('id_user');
+	var idcita=localStorage.getItem('idcita');
+
+	var datos="idcita="+idcita+"&iduser="+iduser;
+	var pagina = "ObtenerTiempoCita.php";
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		success: function(datos){
+			localStorage.setItem('idcita',idcita);
+			var respuesta=datos.respuesta;
+			var hora=datos.horas;
+			var minuto=datos.minutos;
+			var segundo=datos.segundos;
+			var centes=datos.centesimas;
+
+			  colocarvalor(centes,segundo,minuto,hora);
+			  $("#txtbarberia").text(respuesta.titulo);
+						  $("#txthora").html(respuesta.horainicial+'-'+respuesta.horafinal+'Hrs.');
+
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+	
+}
+
+
+function RegresarHomeEspecialista() {
+		clearInterval(control);
+	GoToPage('homeespecialista');
+}
+
+function FinalizarCita() {
+
+	app.dialog.confirm('','¿Seguro que desea finalizar la cita?' , function () {
+
+	var iduser=localStorage.getItem('id_user');
+	var idcita=localStorage.getItem('idcita');
+
+	var datos="idcita="+idcita+"&iduser="+iduser;
+	var pagina = "FinalizarCita.php";
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		success: function(datos){
+		
+			var respuesta=datos.respuesta;
+			alerta('','Se finalizó la cita');
+			$("#txttitulocita").html('Cita finalizada');
+			$("#contenedor").html('');
+			$("#txttiempo").html('');
+			$(".btnfinalizar").css('display','none');
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+
+});
 }

@@ -99,9 +99,11 @@ function scanqr2() {
                 if (respuesta.validado==1) {
 
                   localStorage.setItem('idcita',respuesta.cita);
-                  alerta('','Se ha validado el qr');
-                }
+                 // alerta('','Se ha validado el qr');
 
+                  GoToPage('validadoqrcita')
+                }
+ 
                 else if (respuesta.validado==2) {
                   localStorage.setItem('cita',respuesta.cita);
 

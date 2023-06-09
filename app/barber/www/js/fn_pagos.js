@@ -493,7 +493,7 @@ function Pintartipodepagos(opciones,tipodepagoseleccionado) {
    var html='';
 
   if (opciones.length>0) {
-     html+=`  <option value="0">Seleccionar método de pago</option>`;
+     html+=`  <option value="0" >Seleccionar método de pago</option>`;
     for (var i = 0; i <opciones.length; i++) {
 
     html+=`  <option value="`+opciones[i].idtipodepago+`">`+
@@ -551,13 +551,21 @@ function PintarCarrito2(respuesta) {
     $("#cantidadagregados").text(respuesta.length);
     for (var i = 0; i < respuesta.length; i++) {
 
-    imagen=urlimagenes+'paquetes/imagenespaquete/'+codigoserv+respuesta[i].foto;
+       var estilo="";
+      if (respuesta[i].foto!='' && respuesta[i].foto!=null ) {
+          imagen=urlimagenes+'paquetes/imagenespaquete/'+codigoserv+respuesta[i].foto;
+  
+        }else{
+            estilo="opacity:0.2";
+          imagen=localStorage.getItem('logo');
+        }
+
 
       html+=`
       <li class="item-content">
               <div class="item-media">
               <img src="`+imagen+`" alt="" style="    width: 100px;
-    border-radius: 10px;"></div>
+    border-radius: 10px;`+estilo+`"></div>
               <div class="item-inner">
                 <div class="row">
                   <div class="col-60">
@@ -1090,12 +1098,13 @@ function CargarOpcionesTipopago() {
               <label class="">
                 <div class="row">
                  
-                  <div class="" style="text-align: justify;-webkit-line-clamp: 200;display: inline-block;" >
+                  <div class="" style="text-align: justify;-webkit-line-clamp: 200;" >
                     <div style="     margin-right: 1em;
     margin-left: 1em;   padding-left: 1em;padding-right: 1em;padding-top: .2em;padding-bottom: .2em;background: #dfdfdf;border-radius: 10px;font-size:16px;">
-                  `+
+                 <p style="text-align:center;">Deposita a la Cuenta</p> `+
                   html1
                   +`
+                  <p style="text-align:center;">y sube una captura de tu pago.</p>
                     </div>
                   </div>
                 </div>
@@ -1463,8 +1472,6 @@ function onPhotoDataSuccessComprobante(imageData) {
 
 function VisualizarImagen(foto) {
 
-
-  /*=== Popup Dark ===*/
   var myPhotoBrowserPopupDark = app.photoBrowser.create({
     photos: [
     foto,
@@ -1516,13 +1523,47 @@ function ValidacionCargosTutorados() {
 
 }
 
+function ValidacionCitas() {
+    var iduser=localStorage.getItem('id_user');
+    var pagina = "ValidacionCitas.php";
+    var datos= "id_user="+iduser;
+    pagina = urlphp+pagina;
+
+   return new Promise(function(resolve, reject) {
+
+     $.ajax({
+      url: pagina,
+      type: 'post',
+      dataType: 'json',
+      data:datos,
+      async:false,
+      success: function(resp) {
+        
+        resolve(resp);
+
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+                        var error;
+                        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+                        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                                                 //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                         app.dialog.alert('Error leyendo fichero jsonP '+error,'Error');
+                     $(".check-list").css('display','none');
+                     $("#aparecerimagen").css('display','none');
+                    }
+                                       
+
+          }); 
+
+   });
+}
+
 function RealizarCargo() {
  app.dialog.confirm('','¿Está seguro  de realizar el pago?' , function () {
 
-  //ValidacionCargosTutorados().then(r => {
-
+  ValidacionCitas().then(r => {
+//ValidacionCargosTutorados
  
-   // if (r.pagosadeudados==0) {
+    if (r.citasapartada==0) {
        var respuesta=0;
      var mensaje='';
      var pedido='';
@@ -1769,11 +1810,11 @@ function RealizarCargo() {
 
           }
         
-        /* }else{
+         }else{
 
-                alerta('','Para poder realizar el pago, el tutor debe pagar los pagos acumulados');
+                alerta('','La fecha y hora de la cita ya no se encuentra disponible en la sucursal');
 
-              }*/
+              }
         //})
 
   
@@ -1785,7 +1826,7 @@ function RealizarCargo() {
     });
         
   
-         //  });
+          });
 
         
 }

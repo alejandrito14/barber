@@ -27,7 +27,10 @@ var app = new Framework7({
   
   // routes.js,
   routes: routes,
-   
+   touch: {
+    // Enable fast clicks
+   // fastClicks: true,
+  },
   popup:{
     closeOnEscape: true,
   },
@@ -43,6 +46,51 @@ var app = new Framework7({
   vi: {
     placementId: 'pltd4o7ibb9rc653x14',
   },
+
+   statusbar: {
+    iosOverlaysWebView: true,
+    androidOverlaysWebView: false,
+  },
+
+  on: {
+    init: function () {
+
+
+      var f7 = this;
+      if (f7.device.cordova) {
+        // Init cordova APIs (see cordova-app.js)
+        cordovaApp.init(f7);
+      }
+
+    },
+  },
+
+
+
+    methods: {
+        onBackKeyDown: function() {
+
+            var leftp = app.panel.left && app.panel.left.opened;
+            var rightp = app.panel.right && app.panel.right.opened;
+
+            if ( leftp || rightp ) {
+
+                app.panel.close();
+                return false;
+            }else if ($$('.modal-in').length > 0) {
+              
+                app.dialog.close();
+                app.popup.close();
+                return false;
+            } else if (app.views.main.router.url == '/home/' || app.views.main.router.url == '/homeadmin/' || app.views.main.router.url == '/homecoach/') {
+
+                   navigator.app.exitApp();
+            } else {
+
+               mainView.router.back();
+           }
+         }
+       }
 });
 var intervalo=0;
 var pictureSource;   // picture source
@@ -91,7 +139,7 @@ $(document).ready(function() {
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.3';
+var version='1.0.10';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;
@@ -116,7 +164,6 @@ var urlimagenlogo="";
 var globalsockect="";
 var imagenesbancos="";
 var urlimagendefaultservicio=""
-
 
 function Cargar() {
 
@@ -280,23 +327,50 @@ var carpetaapp="";
 
       var sesion=localStorage.getItem('session');
       var iduser=localStorage.getItem('id_user'); 
+      $(".landing").css('display','none');
+
          if(sesion==1)
           {
             if (iduser>0) {
                ValidarUsuarioSession();
              
              }else{
-               myStopFunction(intervalo);
+               /*var imagen=urlimagenes+'empresa/imagenempresa/'+codigoserv+localStorage.getItem('imagensplashprincipal');
+               $(".imagenprincipal").html('<img src="'+imagen+'" alt="" style="width:100%;">');
+               $(".imagenprincipal").addClass('dark-bg');
+*/
 
-               MostrarAnuncios();    
+               setTimeout(function () {
+                    $$(".page-content").removeClass('marginauto');
+                    $$('.imagenprincipal').addClass('salida');
+                    $$(".imagenprincipal").css('display','none');  
+                    $$(".landing").css('display','block');
+                        MostrarAnuncios(); 
+                      myStopFunction(intervalo);
+
+
+                  }, 4000);
+               
 
              }
 
-           
 
           }else{
-            myStopFunction(intervalo);
-            MostrarAnuncios();        
+           
+            /* var imagen=urlimagenes+'empresa/imagenempresa/'+codigoserv+localStorage.getItem('imagensplashprincipal');
+               $(".imagenprincipal").html('<img src="'+imagen+'" alt="" style="width:100%;">');
+               $(".imagenprincipal").addClass('dark-bg');*/
+          // MostrarAnuncios();   
+
+            setTimeout(function () {
+                    $$(".page-content").removeClass('marginauto');
+                    $$('.imagenprincipal').addClass('salida');
+                    $$(".imagenprincipal").css('display','none');  
+                    $$(".landing").css('display','block');
+                    MostrarAnuncios(); 
+                    myStopFunction(intervalo);
+                    
+                  }, 4000);     
           }
     
     
@@ -328,13 +402,13 @@ $$(document).on('page:init', function (e) {
   app.panel.close();
 
 //Cargar();
-   
+  
  
 }); 
 $$(document).on('page:init', '.page[data-name="home"]', function (e) {
      $(".btnsalir").attr('onclick','salir_app()');
      $(".btniracarrito").attr('onclick','IraCarrito()');
-
+    $$(".page-content").addClass('marginauto');
     var invitado=  localStorage.getItem('invitado');
 
     if (invitado==1) {
@@ -365,10 +439,11 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
 $$(document).on('page:init', '.page[data-name="homeespecialista"]', function (e) {
         $(".btnsalir").attr('onclick','salir_app()');
         $(".btnscan2").attr('onclick','scanqr2()');
-      
+        $$(".page-content").addClass('marginauto');
+
       CargarDatosEspecialista();
   var pregunta=localStorage.getItem('pregunta');
-    if (pregunta==0) {
+    if (pregunta==0) { 
      app.dialog.confirm('','¿Desea mantener la sesión activa?', function () {
         localStorage.setItem('session',1);
         localStorage.setItem('pregunta',1);
@@ -399,11 +474,20 @@ $$(document).on('page:init', '.page[data-name="celular"]', function (e) {
     
 });
 
-$$(document).on('page:init', '.page[data-name="celular2"]', function (e) {
-      
-   phoneFormatter('telefono');
-  $$('#btnvalidarcelular').attr('onclick','ValidarCelular()')
+$$(document).on('page:init', '.page[data-name="login2"]', function (e) {
+  
 
+  if (localStorage.getItem('idusuarioinvitado')!='' && localStorage.getItem('idusuarioinvitado')!=undefined) {
+
+    var idu=localStorage.getItem('idusuarioinvitado');
+    localStorage.setItem('id_user',idu);
+  }    
+  
+  $$('#btnlogin').attr('onclick','validar_login2()');
+  $$('#btnregresar').attr('onclick','RegresarCarrito()'); 
+
+  $$(".btninvitado").attr('onclick','entrarinvitado()');
+   $(".versionapp").text(version);
     
 });
 
@@ -456,7 +540,7 @@ $('.show-pass').on('click',function(){
 
 $$(document).on('page:init', '.page[data-name="intereses"]', function (e) {
   ObtenerIntereses();
-
+  
   $("#btnguardarinteres").attr('onclick','GuardarIntereses()');
     
 });
@@ -468,19 +552,40 @@ $$(document).on('page:init', '.page[data-name="login"]', function (e) {
   $$('#btnregresar').attr('onclick','RegresarLanding()'); 
 
   $$(".btninvitado").attr('onclick','entrarinvitado()');
+   $(".versionapp").text(version);
 
 });
 
 $$(document).on('page:init', '.page[data-name="detallesucursal"]', function (e) {
  
 
+    var invitado=  localStorage.getItem('invitado');
+
+    if (invitado==1) {
+
+      $(".menuoculto").css('display','none');
+      $(".menuusuario").css('visibility','hidden');
+      $(".btnsalir").css('display','');
+    }
 ObtenerDatosSucursal();
     
 });
 
 $$(document).on('page:init', '.page[data-name="detalleproductoservicios"]', function (e) {
  
+
+    var invitado=  localStorage.getItem('invitado');
+
+    if (invitado==1) {
+
+      $(".menuoculto").css('display','none');
+      $(".menuusuario").css('visibility','hidden');
+      $(".btnsalir").css('display','');
+    }
+
 ObtenerCategoriasProducto();
+    PintarCantidadcarrito();
+
 //ObtenerProductos();
     
 });
@@ -492,6 +597,16 @@ ObtenerSubCategorias();
 });
 
 $$(document).on('page:init', '.page[data-name="productoscategoria"]', function (e) {
+ 
+    var invitado=  localStorage.getItem('invitado');
+
+    if (invitado==1) {
+
+      $(".menuoculto").css('display','none');
+      $(".menuusuario").css('visibility','hidden');
+      $(".btnsalir").css('display','');
+    }
+
  var div="divproductosservicios2";
 ObtenerProductosCategorias(div);
     
@@ -518,9 +633,9 @@ $$(document).on('page:init','.page[data-name="detalleservicio"]',function(e)
         detalleservicio(paqueteid);
         $(".ptr-content").css('overflow','scroll');
 
-        $(".disponibilidadfecha").attr('onclick','Disponilidadfecha()');
-        $(".disponibilidadespecialista").attr('onclick','Disponibilidadespecialista()');
-
+        $(".disponibilidadfecha").attr('onclick','Disponilidadfecha2()');
+        $(".disponibilidadespecialista").attr('onclick','ObtenerListadoEspecialista()');
+        $(".precioriginal").html('');
 
 });
 
@@ -528,7 +643,7 @@ $$(document).on('page:init','.page[data-name="disponibilidadfecha"]',function(e)
 {
     var paqueteid=localStorage.getItem('idpaquete');
     detalleservicio(paqueteid);
-   
+  
      $("#v_especialista2").attr('onchange','ObtenerEspecialistaCosto2()');
 
      $("#v_horarios").attr('onchange','ObtenerEspecialistaHora()');
@@ -539,17 +654,21 @@ $$(document).on('page:init','.page[data-name="disponibilidadfecha"]',function(e)
 $$(document).on('page:init','.page[data-name="disponibilidadespecialista"]',function(e)
 {
         var paqueteid=localStorage.getItem('idpaquete');
+  ObtenerdetalleEspecialista();
 
     detalleservicio(paqueteid);
    // CargarCalendario(); 
-    CargarEspecialista();
-
+    //CargarEspecialista();
+    CargarCalendarioDispo();
     $("#v_especialista").attr('onchange','ObtenerEspecialistaCosto();');
     $("#demo-calendar-default").attr('onclick','AbrirCalendario()');
 
     $("#v_horarios2").attr('onchange','HabilitarBotonAgendar()');
     $(".btnagendarcita").attr('onclick','AgendarCita2()');
-
+    var precio=localStorage.getItem('precio');
+    if (precio>0) {
+      $(".precioriginal").text('$'+precio);
+    }
 
 });
 
@@ -596,7 +715,16 @@ $$(document).on('page:init', '.page[data-name="resumenpago"]', function (e) {
 
 $$(document).on('page:init','.page[data-name="homeindex"]',function(e)
 {
-  MostrarAnuncios();
+ 
+             setTimeout(function () {
+                    $$(".page-content").removeClass('marginauto');
+
+                    $$('.imagenprincipal').addClass('salida');
+                    $$(".imagenprincipal").css('display','none');  
+                    $$(".landing").css('display','block');
+                    MostrarAnuncios(); 
+                     myStopFunction(intervalo);
+                  }, 4000); 
  
   /*setTimeout(function () {
 
@@ -661,6 +789,7 @@ $$(document).on('page:init','.page[data-name="carrito"]',function(e)
 
   $(".btnpagar").attr('onclick','IrAPago()');
   $(".btnagregarmas").attr('onclick','Agregarmasproducto()');
+  $(".btnregresocarrito").attr('onclick','Agregarmasproducto()');
 
   
 });
@@ -697,11 +826,13 @@ $$(document).on('page:init','.page[data-name="forgotpassword"]',function(e)
 
 $$(document).on('page:init', '.page[data-name="verificacion"]', function (e) {
 
- $$("#t1").focus();
- $$('#t1').attr('onkeyup',"Siguiente('t1','t2')");
+ $$("#t5").focus();
+/* $$('#t1').attr('onkeyup',"Siguiente('t1','t2')");
  $$('#t2').attr('onkeyup',"Siguiente('t2','t3')");
- $$('#t3').attr('onkeyup',"Siguiente('t3','t4')");
- $$('#t4').attr('onkeyup',"Validarcaja('t4');VerificarToken1();CargarBoton();");
+ $$('#t3').attr('onkeyup',"Siguiente('t3','t4')");*/
+ $$('#t5').attr('onkeyup',"VerificarToken1();CargarBoton();");
+
+ //$$('#t4').attr('onkeyup',"Validarcaja('t4');");
  $$("#reenviotoken").attr('onclick',"ReenvioToken()");
  $("#btncancelar1").attr("onclick","EliminarVariables()");
 
@@ -745,7 +876,8 @@ $$(document).on('page:init', '.page[data-name="cambiocontra"]', function (e) {
 $$(document).on('page:init', '.page[data-name="homeadmin"]', function (e) {
         $(".btnsalir").attr('onclick','salir_app()');
 
-      
+        $$(".page-content").addClass('marginauto');
+ 
       CargarDatosAdmin();
   var pregunta=localStorage.getItem('pregunta');
     if (pregunta==0) {
@@ -869,6 +1001,15 @@ $$(document).on('page:init', '.page[data-name="disponibilidadfechasucursal"]', f
     CargarCalendario5();
   $(".btnagendarcita").attr('onclick','AgendarCita4()');
 
+});
+
+$$(document).on('page:init', '.page[data-name="validadoqrcita"]', function (e) {
+  
+  //inicio();
+  $(".regresarvalidado").attr('onclick','RegresarHomeEspecialista()');
+  ObtenerTiempoCita();
+  $(".btnfinalizar").attr('onclick','FinalizarCita()');
+  //colocarvalor(0,0,10,2);
 });
 
 

@@ -284,7 +284,158 @@ function validar_login()
 	}
 }
 
-function entrarinvitado() {
+
+//Funcion que sirve para realizar la validación del login
+function validar_login2()
+{
+	
+	console.log("Ingreso a validar login");
+
+	//GoToPage("/homepage/");
+	//localStorage.setItem("id_user",1);
+
+	//Obtenemos el usuario y la contraseña desde el formulario
+	var usuario = $('#v_usuario').val().trim();
+	var password = $('#v_clave').val();
+	var sistema=localStorage.getItem("SO");
+	var tokenfirebase=localStorage.getItem('tokenfirebase');
+	var uuid=localStorage.getItem('UUID');
+	var mantenersession=0;
+	var anunciovisto=localStorage.getItem('anunciovisto')
+	var idusuarioinvitado=localStorage.getItem('idusuarioinvitado');
+	var btnusuario=$("#btnusuario").hasClass('backgreen');
+	var btnemail=$("#btnemail").hasClass('backgreen');
+	var btncelular=$("#btncelular").hasClass('backgreen');
+	var login="";
+	if (btnusuario==true) {
+		login='btnusuario';
+	}
+	if (btnemail==true) {
+		login='btnemail';
+	}
+	if (btncelular==true) {
+		login='btncelular';
+	}
+
+
+
+	if($('#mantenersession').is(':checked') ) {
+   
+		mantenersession=1;
+	}
+	
+	//Pagina a la que enviaremos los datos
+	var pagina = "validar_login3.php";
+
+
+	//Almacenamos los datos en una variable para poder pasar los parametros vía ajax al script en PHP
+	var data = "usuario="+usuario+"&password="+password+"&sistema="+sistema+"&tokenfirebase="+tokenfirebase+"&uuid="+uuid+"&anunciovisto="+anunciovisto+"&login="+login+"&idusuarioinvitado="+idusuarioinvitado;
+
+	if (usuario!='' && password!='') {
+		$.ajax({
+			type: 'POST',
+			dataType: 'json',
+			url: urlphp+pagina,
+			data: data,
+			crossDomain: true,
+			cache: false,
+			success: function(datos){
+
+				if(datos['resultado'] == 1)
+				{
+
+									//Si todos los datos estan bien
+									//Guardamos el id en una variable local
+									$(".menuoculto").css('display','block');
+									localStorage.removeItem('idusuarioinvitado');
+									localStorage.setItem("id_user", datos['id']);
+									localStorage.setItem("nombre", datos['nombre']);
+									localStorage.setItem("paterno", datos['paterno']);
+									localStorage.setItem("materno", datos['materno']); 
+				    				localStorage.setItem('tipoUsuario',datos['tipousuario']);
+									localStorage.setItem('idtipousuario',datos['tipo']);
+
+									localStorage.setItem('alias',datos['alias']);
+									localStorage.setItem('usuario',datos['usuario']);
+
+									localStorage.setItem('correo',datos['email']);
+									localStorage.setItem("foto", datos['foto']);
+									localStorage.setItem("session",0);
+    								localStorage.setItem("passacademia",password);
+    								localStorage.setItem('pregunta',0);
+									//localStorage.setItem('pregunta',1);
+									localStorage.setItem('actualizadatos','');
+									localStorage.removeItem('asenta');
+									localStorage.removeItem('datosbuscar');
+									localStorage.removeItem('datosbuscar2');
+									localStorage.removeItem('datosbuscar3');
+									localStorage.removeItem('datosbuscar4');
+									localStorage.removeItem('datosbuscar6');
+									localStorage.setItem('factura',0);
+									localStorage.setItem('nuevadireccion',1);
+									localStorage.setItem('asenta','');
+									localStorage.setItem("idopcionespedido",0);
+									localStorage.setItem("iddireccion",0);
+									localStorage.setItem("anunciovisto",0);
+									localStorage.setItem('invitado',0);
+
+									console.log("El ID del usuario es:" + localStorage.getItem("id_user"));
+									
+									//Enviamos al user al index de la app
+									//
+									if (datos['validado']==1) {
+										
+									//	GoToPage("/inicio/");
+
+										if (datos['tipo']==3 ) {
+											
+											 GoToPageHistory("home");
+
+										}
+										       
+										if (datos['tipo']==0) {
+											GoToPageHistory("homeadmin");
+										}
+
+										if (datos['tipo']==5) {
+											GoToPageHistory("homeespecialista");
+										}
+
+									}else{
+
+										//GoToPage("/inicio/");
+										        GoToPage("/");
+
+	
+									}
+
+									//	obtener_token();
+
+									}else
+									{
+
+									//Si los datos estan mal lanzamos una alerta que estan los datos incorrectos
+									alerta("Datos incorrectos","");
+									
+								}
+								
+							},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+								var error;
+				  				if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  				if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+								console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+							}
+						});
+	}else{
+
+		alerta('','Ingresa tus datos de acceso');
+
+
+	}
+}
+
+/*function entrarinvitado() {
 
 	$(".menuoculto").css('display','none');
 	localStorage.setItem("id_user",0);
@@ -297,6 +448,10 @@ function entrarinvitado() {
 
 	GoToPage("inicio");
 
+}*/
+
+function RegresarCarrito() {
+	GoToPage('carrito');
 }
 
 

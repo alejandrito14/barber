@@ -65,19 +65,25 @@ function PintarCarrito(respuesta) {
 	if (respuesta.length>0) {
 
 		for (var i = 0; i < respuesta.length; i++) {
-
-		imagen=urlimagenes+'paquetes/imagenespaquete/'+codigoserv+respuesta[i].foto;
+      var estilo="";
+      if (respuesta[i].foto!='' && respuesta[i].foto!=null ) {
+          imagen=urlimagenes+'paquetes/imagenespaquete/'+codigoserv+respuesta[i].foto;
+  
+        }else{
+            estilo="opacity:0.2";
+          imagen=localStorage.getItem('logo');
+        }
 
 			html+=`
 			<li class="item-content">
               <div class="item-media">
               <img src="`+imagen+`" alt="" style="    width: 100px;
-    border-radius: 10px;"></div>
+    border-radius: 10px;`+estilo+`"></div>
               <div class="item-inner">
                 <div class="row">
                   <div class="col-60">
-                    <p>`+respuesta[i].nombrepaquete+`</p>
-               	    <p>`+respuesta[i].titulo+`</p>
+                    <p style="margin:0;">`+respuesta[i].nombrepaquete+`</p>
+               	    <p style="margin:0;">`+respuesta[i].titulo+`</p>
                     `;
                     if (respuesta[i].servicio==0) {
                    html+=` <p>
@@ -92,12 +98,25 @@ function PintarCarrito(respuesta) {
                      
 
                     </p>`; 
+                  }else{
+
+
+                    html+=` <p style="margin:0;">`+respuesta[i].usuarioespecialista+`</p>`;
+                    html+=` <p style="margin:0;">`+respuesta[i].fechaformato+`</p>`;
+
+
                   }
 
                   html+=`</div>	
 
-                  <div class="col-40">
-                     <p>$`+respuesta[i].costototal+`</p>
+                  <div class="col-40">`;
+
+                  if (respuesta[i].precioante!=0) {
+                     html+=`<p style="margin:0;text-decoration:line-through;font-size: 12px;text-align: right;">$`+respuesta[i].precioante+`</p>`;
+
+                  }
+
+                    html+=` <p style="margin:0;">$`+respuesta[i].costototal+`</p>
                      <p><button class="button color-red" onclick="EliminarProductoCarrito(`+respuesta[i].idcarrito+`,'`+respuesta[i].nombrepaquete+`')">
                         <span class="material-icons-outlined" style="font-size: 30px;">
                         delete
@@ -276,5 +295,12 @@ function IrAPago() {
 }
 
 function Agregarmasproducto() {
-  GoToPage('detalleproductoservicios');
+  if (localStorage.getItem('idsucursal')!=undefined && localStorage.getItem('idsucursal')!=null) {
+      GoToPage('detalleproductoservicios');
+      
+    }else{
+
+      GoToPage('home');
+  
+    }
 }

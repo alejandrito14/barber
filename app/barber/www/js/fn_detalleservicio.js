@@ -355,13 +355,15 @@ function PintarDescripcionServicio(paquete,grupos,opciones,imagenesdelpaquete,id
 }
 
 function PintarImagenesPaquete2(paquete,imagenesdelpaquete) {
-	
+	var estilo=""
 	if (paquete.foto!='' && paquete.foto!=null) {
 		imagen=urlimagenes+'paquetes/imagenespaquete/'+codigoserv+paquete.foto;
 	}else{
-
-		imagen=urlimagendefault;
+		estilo="opacity:0.2";
+		imagen=localStorage.getItem('logo');
 	}
+
+
 	$("#imagenpaquete").attr('src',imagen);
 	
 	$(".imagenpaquetediv").attr('onclick','VisualizarImagen(\''+imagen+'\')');
@@ -375,7 +377,7 @@ function PintarImagenesPaquete2(paquete,imagenesdelpaquete) {
                       <div class="swiper-wrapper" id="contenidopaquete_`+paquete.idpaquete+`" >
 
                       </div>
-                       <div class="swiper-pagination"></div>
+                       <div class="swiper-pagination" style="bottom: 20px!important;"></div>
 
 
                     </div>
@@ -401,23 +403,17 @@ function PintarImagenesPaquete2(paquete,imagenesdelpaquete) {
 
                         }else{
 
-                        	imagen=urlimagendefault;
+                        	imagen=localStorage.getItem('logo');
                         }
 
 
                        html2+=`<div style="" class="">
   
                         <img class="bordesredondeados " onclick="VisualizarImagen(\'`+imagen+`\')" src="`+imagen+`"
-                          style="width:100%;border-radius:10px;margin-bottom:1em;" />
-                           <div class="textoababoderecha precioriginal" id="precioriginal"></div>
+                          style="width:100%;border-radius:10px;margin-bottom:1em;`+estilo+`" />
 
                           </div>`;
-                       /* <div class="card-footer" style="">
-
-                          <div style="font-weight: bold;
-   										 border-radius: 10%;
-   							 padding: .2em;margin-top: .6em;font-size:16px;" class="fuente">`+datos[i].sucursal+`</div>
-                        </div>*/
+            
                       html2+=`</div>
                       </div>`;
 
@@ -447,9 +443,8 @@ function PintarImagenesPaquete2(paquete,imagenesdelpaquete) {
 				                        <div class="card-content" style="margin-right: 1em;margin-left: 1em;"> 
 				                        <div style="" >
 				   						
-				                                                   <img class="bordesredondeados " onclick="VisualizarImagen(\'`+urlimg+`\')" src="`+urlimg+`" style="width:100%;border-radius:10px;margin-bottom:1em;"/>
+				                        <img class="bordesredondeados " onclick="VisualizarImagen(\'`+urlimg+`\')" src="`+urlimg+`" style="width:100%;border-radius:10px;margin-bottom:1em;"/>
 
-				                           <div class="textoababoderecha precioriginal" id="precioriginal"></div>
 
 				                          </div>`;
 				        

@@ -9,10 +9,10 @@ function CargarCalendario5() {
   var fecha=new Date();
   var anio = fecha.getFullYear();
   var mes=(fecha.getMonth() + 1)<10?'0'+(fecha.getMonth() + 1):(fecha.getMonth() + 1);
-
+  var iduser=localStorage.getItem('id_user');
   var sucursal=localStorage.getItem('idsucursal');
   var idespecialista=localStorage.getItem('idespecialista');
-  var datos="idpaquete="+paqueteid+"&idsucursal="+sucursal+"&idespecialista="+idespecialista+"&mes="+mes+"&anio="+anio;
+  var datos="idpaquete="+paqueteid+"&idsucursal="+sucursal+"&idespecialista="+idespecialista+"&mes="+mes+"&anio="+anio+"&iduser="+iduser;
   var pagina = "ObtenerFechasSucursal.php";
   $.ajax({
     type: 'POST',
@@ -23,6 +23,8 @@ function CargarCalendario5() {
     success: function(resp){
        eventos=[];
        nodisponiblejs=[];
+
+       if (resp.hasOwnProperty('disponible')) {
       if (resp.disponible.length>0) {
         var disponible=resp.disponible;
 
@@ -42,6 +44,10 @@ function CargarCalendario5() {
               eventos.push(objeto);
         }
       }
+
+    }
+
+    if (resp.hasOwnProperty('nodisponible')) {
 
        if (resp.nodisponible.length>0) {
 
@@ -65,6 +71,7 @@ function CargarCalendario5() {
         }
 
        }
+     }
 
 		 var monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
       calendarInline = app.calendar.create({
@@ -167,7 +174,7 @@ function ObtenerEspecialistasSucursal() {
       data:datos,
       success: function(resp){
         var respuesta=resp.especialista;
-
+        $(".divbarbero").css('display','block');
         PintarEspecialistaSucursal(respuesta);
 
           },error: function(XMLHttpRequest, textStatus, errorThrown){ 
@@ -185,25 +192,136 @@ function PintarEspecialistaSucursal(respuesta) {
   var html="";
   console.log(respuesta);
   if (respuesta.length>0) {
+    html+=`<div class="swiper-wrapper">`;
     for (var i = 0; i < respuesta.length; i++) {
       var materno=respuesta[i].materno!=null?respuesta[i].materno:'';
-      html+=`
+      
+        urlimagen=urlphp+`upload/perfil/`+respuesta[i].foto;
+
+                          if (respuesta[i].foto!='' && respuesta[i].foto!=null && respuesta[i].foto!='null') {
+
+                          urlimagen=urlphp+`upload/perfil/`+respuesta[i].foto;
+                             }else{
+
+
+                           if (respuesta[i].sexo=='M') {
+
+                             urlimagen=urlphp+`imagenesapp/`+localStorage.getItem('avatarmujer');
+                                          
+                               }else{
+                                 urlimagen=urlphp+`imagenesapp/`+localStorage.getItem('avatarhombre');
+                                                
+                                }
+
+                            }
+
+     /* html+=`
       <div class=" especialistassu sinseleccionar" onclick="ConsultarPaqueteEspecialista(`+respuesta[i].idespecialista+`)" style="" id="especialista_`+respuesta[i].idespecialista+`">
       <p style="margin:0px;"> `+respuesta[i].nombre+` `+respuesta[i].paterno+` `+materno+`</p>
     
-      </div>`;
+      </div>`
+
+      ; 
+
+      */
+    html+=`<div class="swiper-slide"  style="margin-right:5px!important;width: 30%;height:210px;" >`;
+
+
+       html+=` 
+        <a class="especialistassu sinseleccionar" id="especialista_`+respuesta[i].idespecialista+`" >
+        <div class="card-bx featured-card " style="box-shadow:none!important;    height: 150px;"   >
+                <div class="card-media " >
+                   
+                    <img src="`+urlimagen+`" alt="" style="border-radius: 50%;" />
+                  
+                </div>
+                <div class="card-info">
+                  <h5 class="title">`+respuesta[i].nombre+` `+respuesta[i].paterno+ `
+                </h5>
+              
+              </div>
+          </div>
+          </div>
+
+           </a>
+          `;
 
     }
+
+      html+=`</div>`;
+
+  html+=`  <div class="swiper-pagination" style="bottom: -6px!important;"></div>`;
+
   }
 
-  $(".divpintarbarbero").html(html);
+  $(".barberos-swiper").html(html);
+ // $(".divpintarbarbero").html(html);
+  var swiper6 = new Swiper(".barberos-swiper", {
+       slidesPerView: "auto",
+      spaceBetween: 0,
+      pagination: {
+         el: '.swiper-pagination',
+         type: 'bullets',
+       },
+
+   
+
+    });
+
+
+   $(".swiper-slide").find('a').click(function(){
+     console.log($(this));
+
+     var id=$(this).attr('id');
+     var dividirid=id.split('_')[1];
+     
+    var consulta=0;
+        if ($(this).hasClass('sinseleccionar')) {
+
+
+             $(".especialistassu").removeClass('seleccionado');
+             $(".especialistassu").addClass('sinseleccionar');
+
+             $(".especialistassu .card-bx").removeClass('seleccionado');
+             $(".especialistassu .card-bx").addClass('sinseleccionar');
+
+
+             $(this).removeClass('sinseleccionar');
+             $(this).addClass('seleccionado');
+
+             $(this).children('div').removeClass('sinseleccionar');
+             $(this).children('div').addClass('seleccionado');
+             localStorage.setItem('idespecialista',dividirid);
+             consulta=1;
+        }else{
+
+            $(this).removeClass('seleccionado');
+            $(this).addClass('sinseleccionar');
+
+             $(this).children('div').removeClass('seleccionado');
+             $(this).children('div').addClass('sinseleccionar');
+            consulta=0;
+            localStorage.setItem('idespecialista',0);
+
+
+        }
+
+         if (consulta==1) {
+
+           ConsultarPaqueteEspecialista(dividirid);
+          }
+//onclick=""
+
+   });
 }
 
 function ConsultarPaqueteEspecialista(idespecialista) {
 
-  if ($("#especialista_"+idespecialista).hasClass('sinseleccionar')) {
-      $(".especialistassu").removeClass('seleccionado');
-      $(".especialistassu").addClass('sinseleccionar');
+  /*if ($("#especialista_"+idespecialista).hasClass('sinseleccionar')) {
+     
+  
+     $(".especialistassu").removeClass('seleccionado');
+     $(".especialistassu").addClass('sinseleccionar');
 
       $("#especialista_"+idespecialista).removeClass('sinseleccionar');
       $("#especialista_"+idespecialista).addClass('seleccionado');
@@ -217,10 +335,10 @@ function ConsultarPaqueteEspecialista(idespecialista) {
       consulta=0;
       localStorage.setItem('idespecialista',0);
 
-    }
+    }*/
 
 
-    if (consulta==1) {
+   // if (consulta==1) {
 
     var idsucursal=localStorage.getItem('idsucursal');
     var datos='idespecialista='+idespecialista+"&idsucursal="+idsucursal;
@@ -247,11 +365,11 @@ function ConsultarPaqueteEspecialista(idespecialista) {
                 console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
           }
     });
-  }else{
+  /*}else{
 
 
 
-  }
+  }*/
 }
 
 /*function ObtenerPaquetesSucursal() {
@@ -293,8 +411,9 @@ function PintarPaquetesSu(respuesta) {
       html+=`<div class="">`;
 
       for (var i = 0; i <respuesta.length; i++) {
-      html+=`<div class="  servicioscalendario sinseleccionar" onclick="ConsultarHorarios(`+respuesta[i].idpaquete+`,'`+respuesta[i].costo+`')" style="" id="paquete_`+respuesta[i].idpaquete+`">`+respuesta[i].nombrepaquete+
-      `<p style="margin:0px;"> $`+respuesta[i].costo+`</p>
+      html+=`<div class="  servicioscalendario sinseleccionar" onclick="ConsultarHorarios(`+respuesta[i].idpaquete+`,'`+respuesta[i].costo+`')" style="" id="paquete_`+respuesta[i].idpaquete+`">`+
+      `<p style="margin-top: 1px;margin-bottom: 0px;">`+respuesta[i].nombrepaquete+`</p>
+      <p style="margin:0px;"> $`+respuesta[i].costo+`</p>
        <p style="margin:0px;">`+respuesta[i].intervaloservicio+`min.</p>
       </div>`;
       }
@@ -430,17 +549,28 @@ function AgendarCita4() {
 
       var cita=resp.cita[0];
 
-      var html="";
+    /*  var html="";
         html+=`
         <p>Gracias</p>
         <p>Tu cita quedó agendada para el dia
        `+cita.fecha+` a las `+cita.horainicial+` con `+cita.nombre+` `+cita.paterno+`</p>
+      `;*/
+
+        var html="";
+        html+=`
+        <p>Gracias</p>
+        <p>
+        Tu cita ha sido agregada para el dia `+cita.fecha+` a las `+cita.horainicial+` con `+cita.nombre+` `+cita.paterno+`
+        Para confirmar tu cita, realiza tu pago
+      </p>
       `;
 
-      var funcion="";
+       var funcion="";
       funcion+=`
-        <span class="dialog-button" id="btniracarrito" onclick="VerCarrito()">Ir a carrito</span>
+        <span class="dialog-button" id="btniracarrito" onclick="CerrarModalD()">Cerrar</span>
       `;
+      GoToPage('carrito');
+
       CrearModalAviso(html,funcion);
       
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
@@ -452,4 +582,8 @@ function AgendarCita4() {
       }
     });
 });
+}
+
+function CerrarModalD() {
+  modaldialogo.close();
 }

@@ -3,7 +3,7 @@
 	<div class="navbar navbar-style-1 " style="    background: black;">
 		<div class="navbar-inner">
 			<div class="left" >
-				<a href="/detallesucursal/" class="link back" style="    background: white;
+				<a href="/home/" class="link" style="    background: white;
     color: black!important;">
 					<svg width="11" height="16" viewBox="0 0 11 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path fill-rule="evenodd" clip-rule="evenodd" d="M4.3419 8L10.2222 2.22222L8 2.73828e-07L1.22201e-06 8L8 16L10.2222 13.7778L4.3419 8Z" fill="#122261"/>
@@ -16,19 +16,18 @@
         </div>
 	</div>
 	
-	<div class="page-content content-area pt-0" style="">
+	<div class="page-content content-area pt-0" style="margin-top: 6em;">
 		<div class="head-details">
-			<div class="" style="    margin-right: 1em;
-    margin-left: 1em;margin-top: 40px;">
+			<div class="" style="    margin-right: 1em;margin-left: 1em;">
 			<h3 class="title titulosucursal" style="margin: 20px!important;"></h3>
 
 				<div class="">
 					<img src="" class="imagensucursal" style="width: 100%;border-radius: 10px;" alt=""/>
 				</div>
 				
-				<a href="/detalleproductoservicios/" class="block-btn">
-					<h5 class="title" style="    justify-content: center;display: flex;margin: auto;">Ver catálogo</h5>
-					
+				<a  class="block-btn btnagenda" style="background: #C7AA6A;">
+					<h5 class="title" style="    justify-content: center;display: flex;margin: auto;color: white;">Agendar cita</h5>
+					 
 				</a>
 			</div>
 		</div>
@@ -37,22 +36,23 @@
 			
 
 			<div class="row">
-				<div class="col btnagenda">
-					<span style="justify-content: center;display: flex;" class="material-icons-outlined">
-						calendar_month
+				<div class="col ">
+					<a href="/detalleproductoservicios/"><span style="justify-content: center;display: flex;color: #1b5373" class="material-icons-outlined">
+						article
 						</span>
+					</a>
 
 			
-					<h5 class="mt-5 mb-0 " style="font-size: 12px;text-align: center;">Agenda tu cita</h5>
+					<h5 class="mt-5 mb-0 " style="font-size: 12px;text-align: center;">Ver catálogo</h5>
 				</div>
 				<div class="col btnlocalizar">
-					<span style="justify-content: center;
+					<span style="justify-content: center;color: #de0000 ;
     display: flex;" class="material-icons-outlined">location_on</span>
 					<h5 class="mt-5 mb-0" style="font-size: 12px;text-align: center;">Encuentra la sucursal</h5>
 				</div>
 
 				<div class="col btnvercalificaciones">
-					<span style="justify-content: center;
+					<span style="justify-content: center;color: #fcde59;
     display: flex;" class="material-icons-outlined">grade</span>
 
 					<h5 class="mt-5 mb-0" style="font-size: 12px;text-align: center;">Ver calificaciones</h5>
@@ -66,7 +66,18 @@
 			<p class="mb-30 descripcion"></p>
 
 			<div class="row" style="margin-bottom: 1em;">
-				<button class="col button button-fill color-black btnconoceespecialistas">Conoce a los barberos</button>
+				
+				<div style="    font-size: 14px;margin: 0; color: black;text-align: center;
+    font-weight: bold;margin-bottom: 1em;width: 100%">Conoce a nuestros expertos</div>
+
+    	<div id="listadobarberos" style="width: 100%;">
+    		<div data-space-between="20" data-slides-per-view="auto" data-centered-slides="false" class="swiper-container swiper-init mb-30 main-swiper barberos-swiper1" height="210">
+				
+			</div>
+
+    	</div>
+
+				<!-- <button class="col button button-fill color-black btnconoceespecialistas">Conoce a los barberos</button> -->
 
 			</div>
 			
@@ -83,11 +94,83 @@
 
 		<div class="" style="height: 200px;"></div>
 		
+
+		<footer class="footer"><div class="container">
+			<ul class="nav nav-pills nav-justified">
+				<li class="nav-item">
+				<a class="nav-link active iniciotab " href="/home/">
+
+					<span><i class="nav-icon material-icons-outlined">
+						home
+					</i>
+
+					<span class="nav-text">Inicio</span>
+
+					</span>
+			</a>
+
+
+			</li>
+
+			<li class="nav-item btnsalir" style="display: none;">
+				<a class="nav-link  ">
+
+					<span><i class="nav-icon material-icons-outlined">
+						logout
+					</i>
+
+					<span class="nav-text">Salir</span>
+
+					</span>
+				</a>
+			</li>
+
+			<li class="nav-item menuoculto">
+				<a class="nav-link " href="/listadocompras/">
+
+					<span><i class="nav-icon material-icons-outlined">
+						payments
+					</i>
+					<span class="nav-text">Mis compras</span>
+
+					</span>
+				</a>
+			</li>
+
+			<li class="nav-item menuoculto">
+				<a class="nav-link    ">
+
+					<span><i class="nav-icon material-icons-outlined">
+						notifications
+					</i>
+					<span class="nav-text">Notificaciones</span>
+
+					</span>
+				</a>
+			</li>
+
+			<li class="nav-item menuoculto">
+				<a class="nav-link " href="/profile/">
+
+					<span><i class="nav-icon material-icons-outlined">
+						perm_identity
+					</i>
+					<span class="nav-text">Perfil</span>
+
+					</span>
+				</a>
+			</li>
+
+
+
+</ul>
+</div>
+
+</footer>
 	</div>
 
 
-	<div class="toolbar toolbar-bottom tabbar tabbar-labels" style="height: 60px;"><div class="toolbar-inner"><a href="/home/" class="tab-link tab-link-active" style="font-size: 12px;"><span class="material-icons-outlined">home</span>
-		<span class="tabbar-label" style="font-size: 13px!important;">Inicio</span></a><a class="tab-link" href="/listadocompras/" style="font-size: 12px;"><span class="material-icons-outlined">payments</span><span class="tabbar-label" style="font-size: 13px!important;"> Mis compras</span></a><a class="tab-link" style="font-size: 12px;"><span class="material-icons-outlined">notifications</span><span class="tabbar-label" style="font-size: 13px!important;">Notificaciones</span></a><a class="tab-link" style="font-size: 12px;"><span class="material-icons-outlined">perm_identity</span><span class="tabbar-label" style="font-size: 13px!important;">Perfil</span></a><span class="tab-link-highlight" style="width: 25%; transform: translate3d(0%, 0px, 0px);"></span></div></div>
+	
 </div>
 
 

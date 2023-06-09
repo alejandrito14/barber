@@ -151,8 +151,11 @@ var routes = [
 
   },
   
-  
+  {
+    path: '/validadoqrcita/',
+    componentUrl: './pages/validadoqrcita.html',
 
+  },
 
   // Account 
   {

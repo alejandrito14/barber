@@ -1626,6 +1626,11 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 	var idcategoriapaquete='<?php echo $idcategoriapaquete; ?>';
 
 ObtenerSelectorCategorias(idcategoriapaquete);
+
+
+
+// Llamar a la función para expandir todos los elementos li
+
 AlmacenarCategoria(idcategoriapaquete);
 	if (idpaquete>0) {
 

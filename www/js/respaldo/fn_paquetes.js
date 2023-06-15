@@ -211,7 +211,7 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 				var siniva=$("#checkediva").val();
 				var iva=$("#iva").val();
 				var mensajev=$("#mensajev").val();
-
+				var tiempoestimado=$("#tiempoestimado").val();
 				var id = $('#id').val();
 				console.log(id);
 
@@ -279,7 +279,7 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 		data.append('mensajev',mensajev);
 		data.append('especialistaspaquete',JSON.stringify(especialistaspaquete));
 		data.append('v_sucursal',v_sucursal);
-
+		data.append('v_tiempoestimado',tiempoestimado);
 
 		$('#main').html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Subiendo Archivos...</div>')
 
@@ -1014,12 +1014,16 @@ function Habilitarservicio() {
 		$("#divespecialistas").css('display','block');
 		$("#divpromociones").css('display','none');
 		$("#divproducto").css('display','none');
+		$("#divtiempoestimado").css('display','block');
+
 	}else{
 
 		$("#servicio").val(0);
 		$("#divespecialistas").css('display','none');
 		$("#divpromociones").css('display','block');
 		$("#divproducto").css('display','block');
+		$("#divtiempoestimado").css('display','none');
+
 	}
 }
 
@@ -1754,6 +1758,15 @@ function PintarEspecialistasPaquete(respuesta) {
 
 var selectedCategory = null; // Almacenará la categoría o subcategoría seleccionada
 
+function AlmacenarCategoria(idcategoriapaquete) {
+
+		if (idcategoriapaquete!='' && idcategoriapaquete!=null) {
+				selectedCategory=idcategoriapaquete;
+
+		}else{
+			selectedCategory=0;
+		}
+}
 function ObtenerSelectorCategorias(idca) {
 
 

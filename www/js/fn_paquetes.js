@@ -1870,9 +1870,25 @@ function ObtenerSelectorCategorias(idca) {
 		
      		}
 
+     expandirTodos($('#category-list'));
+
+
       },
       error: function() {
         console.log('Error al obtener las categorías');
       }
     });
+}
+
+function expandirTodos($elemento) {
+	console.log('a');
+  $elemento.find('ul.sub-category-list').show(); // Mostrar todas las sublistas
+  
+  $elemento.find('li').each(function() {
+    var $subCategoryList = $(this).find('ul.sub-category-list');
+    
+    if ($subCategoryList.length > 0) {
+      expandirTodos($(this)); // Llamada recursiva para expandir las sublistas internas
+    }
+  });
 }

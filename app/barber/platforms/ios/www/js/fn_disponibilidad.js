@@ -472,9 +472,13 @@ function PintarEspecialista(respuesta) {
 
         }
 
+        localStorage.setItem('precio',0);
+
          if (consulta==1) {
 
           ConsultarFechaHorariosEspecia(dividirid,costo);
+                localStorage.setItem('precio',costo);
+
            //ConsultarPaqueteEspecialista(dividirid);
           }
 
@@ -488,7 +492,7 @@ function ConsultarFechaHorariosEspecia(idespecialista,costo) {
 
         
 
-  if ($("#especialista_"+idespecialista).hasClass('sinseleccionar')) {
+/*  if ($("#especialista_"+idespecialista).hasClass('sinseleccionar')) {
       $(".especialistassu").removeClass('seleccionado');
       $(".especialistassu").addClass('sinseleccionar');
 
@@ -505,7 +509,7 @@ function ConsultarFechaHorariosEspecia(idespecialista,costo) {
       localStorage.setItem('idespecialista',0);
       localStorage.setItem('precio',0);
 
-    }
+    }*/
 
 //if (consulta==1) {
   var iduser=localStorage.getItem('id_user');
@@ -1606,4 +1610,9 @@ function PintarIntervalos2(respuesta) {
 
   $(".divpintarhorarios").html(html);
 
+}
+
+function CerarModalD() {
+  
+  modaldialogo.close();
 }

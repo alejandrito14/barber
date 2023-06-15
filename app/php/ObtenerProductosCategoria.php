@@ -59,7 +59,7 @@ try
     }
     
 }
-
+ 
 
     $respuesta['categoria']=$obtenercategoria[0];
     $respuesta['respuesta']=$obtenerpaquetes;

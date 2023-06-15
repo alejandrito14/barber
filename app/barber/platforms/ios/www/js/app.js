@@ -27,7 +27,10 @@ var app = new Framework7({
   
   // routes.js,
   routes: routes,
-   
+   touch: {
+    // Enable fast clicks
+   // fastClicks: true,
+  },
   popup:{
     closeOnEscape: true,
   },
@@ -43,6 +46,51 @@ var app = new Framework7({
   vi: {
     placementId: 'pltd4o7ibb9rc653x14',
   },
+
+   statusbar: {
+    iosOverlaysWebView: true,
+    androidOverlaysWebView: false,
+  },
+
+  on: {
+    init: function () {
+
+
+      var f7 = this;
+      if (f7.device.cordova) {
+        // Init cordova APIs (see cordova-app.js)
+        cordovaApp.init(f7);
+      }
+
+    },
+  },
+
+
+
+    methods: {
+        onBackKeyDown: function() {
+
+            var leftp = app.panel.left && app.panel.left.opened;
+            var rightp = app.panel.right && app.panel.right.opened;
+
+            if ( leftp || rightp ) {
+
+                app.panel.close();
+                return false;
+            }else if ($$('.modal-in').length > 0) {
+              
+                app.dialog.close();
+                app.popup.close();
+                return false;
+            } else if (app.views.main.router.url == '/home/' || app.views.main.router.url == '/homeadmin/' || app.views.main.router.url == '/homecoach/') {
+
+                   navigator.app.exitApp();
+            } else {
+
+               mainView.router.back();
+           }
+         }
+       }
 });
 var intervalo=0;
 var pictureSource;   // picture source
@@ -91,7 +139,7 @@ $(document).ready(function() {
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.10';
+var version='1.0.11';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;

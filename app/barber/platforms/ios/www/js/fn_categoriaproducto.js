@@ -333,6 +333,8 @@ function ObtenerProductosCategorias(div) {
 			if (idcategoriapadre>0) {
 				localStorage.setItem('idcategoria',idcategoriapadre);
 			}
+			var nombrecate=resp.categoria.nombre;
+			$(".titlecatalogo").text(nombrecate);
 
 			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;
@@ -357,11 +359,16 @@ function ObtenerSubCategorias() {
 		success: function(resp){
 			var respuesta=resp.respuesta;
 			var categoriapadre=resp.idcategoriapadre;
+			var categoria=resp.categoria.nombre;
 			if (respuesta.length>0) {
 				//console.log('sub y productos');
 				PintarSubCategoriaProducto(respuesta);
 				var div="divsub";
 				ObtenerProductosCategorias(div);
+
+			$(".titlecatalogosub").text(categoria);
+			$(".titlecatalogosub").css('display','block');
+
 
 			}else{
 				console.log('productos');
@@ -370,6 +377,7 @@ function ObtenerSubCategorias() {
 				var div="divproductosservicios";
 				ObtenerProductosCategorias(div);
 			}
+
 
 			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;

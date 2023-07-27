@@ -254,12 +254,22 @@ function PintarCalendario2() {
 
             var fecha=date.format();
 
-            ObtenerHorariosFechaEspe(fecha);
+          
             fechaconsulta=fecha;
-			ObtenerHorariosDia(3);
+			//ObtenerHorariosDia(3);
 		$(".divintervaloshorarios").css('display','block');
 		$(".fc-header-title").html('<h2>'+fechaformato(fecha)+'</h2>');
-		PintarFechaSeleccionada(fecha);
+		if (NtabName=='citas') {
+			  ObtenerFechaEspe(fecha);
+
+			}else{
+				ObtenerFechasProductos(fecha);
+
+				// ObtenerProductosFechasCalendario(anio,mes);
+			}
+
+			PintarFechaSeleccionada(fecha);
+
         }, 
         eventClick: function (calEvent, jsEvent, view) {
             $('#event-title').text(calEvent.title);
@@ -274,31 +284,55 @@ function PintarCalendario2() {
   //  calendar.render();
 	 var fecha=new Date();
 	 var f=fecha.toISOString().split('T')[0];
+	
+	 var anio=f.split('-')[0];
+	 var mes=f.split('-')[1];
+	if (NtabName=='citas') {
 
-	 ObtenerHorariosFecha(f);
+	 ObtenerCitasFechasCalendario(anio,mes);
+	}
 	 $("#txttitle").css('display','none');
 	$(".fc-header-title").html('<h2>'+fechaformato(fecha)+'</h2>');
-	PintarFechaActual();
+	//PintarFechaActual();
 
  $('.fc-button-prev').click(function(){
 
-       var moment = $('#picker2').fullCalendar('getDate');
+          var moment = $('#picker2').fullCalendar('getDate');
       
-       var cadenafecha=moment.format().split('-');
+          var cadenafecha=moment.format().split('-');
         console.log(cadenafecha);
        	   var anio=cadenafecha[0];
            var mes=cadenafecha[1];
            var dia=cadenafecha[2];
-          /* if(dia<10) {
-				    dia='0'+dia;
-				} 
-				if(mes<10) {
-				    mes='0'+mes;
-				}*/
 
-            var fecha=anio+'-'+mes+'-'+dia;
-	   ObtenerHorariosFecha(fecha);
-		$(".fc-header-title").html('<h2>'+fechaformato(fecha)+'</h2>');
+           var mes = parseInt(cadenafecha[1], 10);
+
+			// Restamos uno al mes (considerando que los meses van de 1 a 12)
+			mes++;
+
+			// Si el mes resultante es cero, establecemos el valor de mes a 12 (diciembre del año anterior)
+			if (mes === 0) {
+			  mes = 12;
+			  cadenafecha[0]--; // Restamos uno al año si retrocedemos desde enero
+			}
+
+			// Convertimos nuevamente el mes a cadena y le agregamos un cero adelante si es necesario
+			var mesStr = mes.toString().padStart(2, '0');
+
+			// Actualizamos el mes en las partes de la fecha
+
+
+          
+
+            var fecha=anio+'-'+mesStr+'-'+dia;
+             var mes=cadenafecha[1];
+	if (NtabName=='citas') {
+
+	 	 ObtenerCitasFechasCalendario(anio,mes);
+	 	}else{
+	 	 ObtenerProductosFechasCalendario(anio,mes);
+	 	}
+		//$(".fc-header-title").html('<h2>'+fechaformato(fecha)+'</h2>');
 
 	   $("#txttitle").css('display','none');
 	   $(".horarios").css('display','none');
@@ -310,16 +344,35 @@ function PintarCalendario2() {
       	   var anio=cadenafecha[0];
            var mes=cadenafecha[1];
            var dia=cadenafecha[2];
-          /* if(dia<10) {
-				    dia='0'+dia;
-				} 
-				if(mes<10) {
-				    mes='0'+mes;
-				}*/
+          	console.log(mes);
+            var mes = parseInt(cadenafecha[1], 10);
+            if (mes<12) {
+			// Restamos uno al mes (considerando que los meses van de 1 a 12)
+			mes++;
 
-            var fecha=anio+'-'+mes+'-'+dia;
-	    ObtenerHorariosFecha(fecha);
-	   $(".fc-header-title").html('<h2>'+fechaformato(fecha)+'</h2>');
+			// Si el mes resultante es cero, establecemos el valor de mes a 12 (diciembre del año anterior)
+			if (mes === 0) {
+			  mes = 12;
+			  cadenafecha[0]--; // Restamos uno al año si retrocedemos desde enero
+			}
+			
+				
+			}
+
+			// Convertimos nuevamente el mes a cadena y le agregamos un cero adelante si es necesario
+			var mesStr = mes.toString().padStart(2, '0');
+
+
+            var fecha=anio+'-'+mesStr+'-'+dia;
+            console.log(fecha);
+             var mes=cadenafecha[1];
+	   	 if (NtabName=='citas') {
+
+	    	 ObtenerCitasFechasCalendario(anio,mes);
+	    	}else{
+
+	    	 ObtenerProductosFechasCalendario(anio,mes);
+	    	}
 
 	     $("#txttitle").css('display','none');
 	     $(".horarios").css('display','none');
@@ -340,6 +393,53 @@ function PintarCalendario2() {
 
 
 
+}
+
+function ObtenerCitasFechasCalendario(anio,mes) {
+	var datos="anio="+anio+"&mes="+mes;
+	$.ajax({
+					url: 'catalogos/dashboard/ObtenerCitasFechasCalendario.php', //Url a donde la enviaremos
+					type: 'POST', //Metodo que usaremos
+					dataType:'json',
+					data:datos,
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#divcomplementos").html(error);
+					},	
+					success: function (msj) {
+
+						var respuesta=msj.citados;
+						var fecha=msj.fechaformato;
+					$(".fc-header-title").html('<h2>'+fecha+'</h2>');
+
+								for (var i = 0; i <respuesta.length; i++) {
+									
+									$(".fc-day").each(function( index ) {
+									 // console.log( index + ": " + $(this).data('date') );
+									  var fechadiv=$(this).data('date');
+									 var elemento=$(this);
+										$(elemento).find('span').eq(0).remove();
+
+									  	if (respuesta[i].fecha == fechadiv) {
+									  		var html="";
+									  		 html=`
+											<span class="badge colornegro" style="float: right;font-size: 14px;">`+respuesta[i].cantidadcitas+`</span>
+									  		`
+									  		;
+									  		//$(elemento).children().eq(0).css({'cssText': 'background: gray;border-radius: 30px;color: white; cursor:pointer;margin: auto;width:20%;padding-right: 1em;padding-left:1em;justify-content:center;display:flex;'});
+											$(elemento).children().eq(0).prepend(html);
+									  		
+									  	}
+
+									});
+								}
+
+						
+					}
+				});
 }
 
 function PintarDisponible() {
@@ -619,10 +719,11 @@ function ObtenerHorariosFecha(fecha) {
 				});
 
 }
-function ObtenerHorariosFechaEspe(fecha) {
+
+function ObtenerFechaEspe(fecha) {
 	var datos="fecha="+fecha;
 	$.ajax({
-					url: 'catalogos/dashboard/ObtenerHorariosFechaEspecifica.php', //Url a donde la enviaremos
+					url: 'catalogos/dashboard/ObtenerFechaEspecifica.php', //Url a donde la enviaremos
 					type: 'POST', //Metodo que usaremos
 					dataType:'json',
 					data:datos,
@@ -634,30 +735,37 @@ function ObtenerHorariosFechaEspe(fecha) {
 						$("#divcomplementos").html(error);
 					},	
 					success: function (msj) {
-	 $("#txttitle").css('display','block');
-	     $(".horarios").css('display','block');
+					 $("#txttitle").css('display','block');
+	    			 $(".horarios").css('display','block');
 
-	 var dividirfecha=fecha.split('-');
-	 var nueva=dividirfecha[2]+'/'+dividirfecha[1]+'/'+dividirfecha[0];
-	 //$("#txttitle").text('Horarios '+nueva)
+	 				   
 						var respuesta=msj.respuesta;
+						PintarCitasCalendario(respuesta);
+					}
+				});
+}
 
-					
-								var html="";
-								for (var i = 0; i <respuesta.length; i++) {
-									html+=`
+function ObtenerFechasProductos(fecha) {
+	var datos="fecha="+fecha;
+	$.ajax({
+					url: 'catalogos/dashboard/ObtenerFechaProductoEspecifica.php', //Url a donde la enviaremos
+					type: 'POST', //Metodo que usaremos
+					dataType:'json',
+					data:datos,
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#divcomplementos").html(error);
+					},	
+					success: function (msj) {
+					 $("#txttitle").css('display','block');
+	    			 $(".horarios").css('display','block');
 
-										  <li class="list-group-item" style="color:black;">
-										  <p style="font-weight:bold;">`+respuesta[i].titulo+`</p>
-										  <p>`+respuesta[i].horainicial+`-`+respuesta[i].horafinal+`</p>
-										  <span>`+respuesta[i].nombre+`</span>
-										  <div style="background:`+respuesta[i].color+`;border-radius:10px;width:10px;height: 10px;float: right;"></div>
-										  </li>
-
-									`;
-							
-								}
-							$('.horarios').html(html);
+	 				   
+						var respuesta=msj.respuesta;
+						PintarProductosCalendario(respuesta);
 					}
 				});
 }
@@ -674,13 +782,13 @@ function CerrarAlumnos() {
 	$("#mostraralumnos").css('display','none');
 }
 
-function ListadoCoaches() {
-	$("#mostrarcoaches").css('display','block');
+function ListadoCitas() {
+	$("#mostrarcitas").css('display','block');
 
-	
+	CargarCitasActuales();
 }
-function CerrarCoaches(argument) {
-	$("#mostrarcoaches").css('display','none');
+function CerrarCitas(argument) {
+	$("#mostrarcitas").css('display','none');
 
 }
 
@@ -896,3 +1004,821 @@ function ColocarIntervalo() {
 					}
 				});
 }
+
+function CargarCitasActuales() {
+	
+		$.ajax({
+					url: 'catalogos/dashboard/CargarCitasActuales.php', //Url a donde la enviaremos
+					type: 'POST', //Metodo que usaremos
+					dataType:'json',
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#divcomplementos").html(error);
+					},	
+					success: function (msj) {
+						var citas=msj.respuesta;
+						PintarCitas(citas);	
+					}
+				});
+}
+
+function ObtenerTotalCitas() {
+		$.ajax({
+					url: 'catalogos/dashboard/CargarCitasActuales.php', //Url a donde la enviaremos
+					type: 'POST', //Metodo que usaremos
+					dataType:'json',
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#divcomplementos").html(error);
+					},	
+					success: function (msj) {
+						var citas=msj.respuesta;
+						var total=citas.length;
+						$("#citasregistros").text(total);
+						 var notas=msj.notas;
+						$("#productosregistros").text(notas.length);
+
+					}
+				});
+}
+
+function PintarCitas(respuesta) {
+var html="";
+  if (respuesta.length>0) {
+    $(".titulocitas").css('display','block');
+    for (var i = 0; i < respuesta.length; i++) {
+
+          imagen='';
+        var color="color:black;";
+        if (respuesta[i].estatus==0) {
+           color="color:black;";
+        }
+
+        if (respuesta[i].estatus==1) {
+          color="color:#C7AA6A;";
+
+        }
+
+        if (respuesta[i].estatus==2) {
+          color="color:#5ac35b;";
+        }
+      html+=`
+      <li class="col-100 medium-50">
+        <div class="card-bx job-card" >
+          <div class="card-media">
+            <a >
+            <img src="`+imagen+`" alt="">
+            </a>
+          </div>
+          <div class="card-info">
+            <h6 class="item-title">
+      
+            <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].titulo+`-`+respuesta[i].descripcion+`</a></p>
+            <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].nombreespecialista+`</a></p>
+
+
+            <p style="color: #2b952a;font-size: 18px;margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].horacita+`-`+respuesta[i].horafinal+`hrs.</p>
+
+            </h6>
+            <div class="">
+                    <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].nombrepaquete+`</p>
+
+            <p style="margin:0;">`+respuesta[i].nombreusuario+`</p>
+            <p style="margin:0;text-decoration: underline;" onclick="Detallepago(`+respuesta[i].idnotapago+`)">#`+respuesta[i].folio+`</p>
+ 
+            </div>
+            <div class="item-footer">
+
+            </div>
+          </div>
+          <a  class="bookmark-btn active" style="`+color+`" >
+            <i class="fas fa-bookmark" ></i>
+            
+          </a>
+        </div>
+      </li>
+      `;
+    }
+  }
+
+  $(".listadocitas").html(html);
+}
+
+
+function PintarCitasCalendario(respuesta) {
+var html="";
+  if (respuesta.length>0) {
+    $(".titulocitas").css('display','block');
+    for (var i = 0; i < respuesta.length; i++) {
+
+          imagen='catalogos/sucursal/imagenes/'+respuesta[i].imagen;
+        var color="color:black;";
+        if (respuesta[i].estatus==0) {
+           color="color:black;";
+        }
+
+        if (respuesta[i].estatus==1) {
+          color="color:#C7AA6A;";
+
+        }
+
+        if (respuesta[i].estatus==2) {
+          color="color:#5ac35b;";
+        }
+
+      html+=`
+      	<div class="" style="    width: 100%;
+    background: white;
+    border-radius: 30%;
+    height: 150px;
+    padding-top: 1em;">
+			<div class="">
+			 <div class="col-md-2" style="
+			    float: left;">
+			            <a>
+			            <img src="`+imagen+`" alt="" style="width: 100%;border-radius: 10px;">
+			            </a>
+			          </div>
+			  <div class="col-md-6" style="
+			    float: left;">
+            <h6 class="item-title">
+      
+            <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].titulo+`-`+respuesta[i].descripcion+`</a></p>
+            <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].nombreespecialista+`</a></p>
+
+
+            <p style="color: #2b952a;font-size: 18px;margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].horacita+`-`+respuesta[i].horafinal+`hrs.</p>
+
+            </h6>
+            <div class="">
+                    <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].nombrepaquete+`</p>
+
+            <p style="margin:0;">`+respuesta[i].nombreusuario+`</p>
+            <p style="margin:0;text-decoration: underline;" onclick="Detallepago(`+respuesta[i].idnotapago+`)">#`+respuesta[i].folio+`</p>
+ 
+            </div>
+            
+          </div>
+          <div class="col-md-4" style="float: left;">
+          	<a class="bookmark-btn active" style="color:black;">
+           	 <i class="fas fa-bookmark"></i>
+            
+          	</a>
+          </div>
+        </div>
+      </div>
+
+      `;
+
+
+    }
+  }
+
+  $(".listadocitascalendario").html(html);
+}
+
+function AbrirModalCitaAdmin(idcita) {
+		var iduser="";
+	var datos="idcita="+idcita+"&iduser="+iduser;
+	var pagina = "ObtenerDetalleCitaAdmin.php";
+	
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: 'catalogos/dashboard/'+pagina, //Url a donde la enviaremos
+		data:datos,
+		success: function(datos){
+			localStorage.setItem('idcita',idcita);
+			var respuesta=datos.respuesta;
+				ObtenerDetalleCitaAdmin(respuesta);	
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+	
+}
+
+function ObtenerDetalleCitaAdmin(respuesta) {
+	var imagen=`catalogos/sucursal/imagenes/`+respuesta.imagen;
+
+	var html2="";
+
+	
+
+var html=` <div class="" style="">
+            
+            <div class="" style=" ">
+            	
+              <div class="" style="height: 100%;">
+                <div style="">
+   						    
+   			<div class="" style="width: 100%;">
+   							 	
+	   	   <div class="">
+		    <div class="" style="">
+		   	<div class="" style="">
+		   							 	 
+			<div class="row">
+			<div class="col-md-12" style="margin-top:1em;">
+                <div class="card margin-bottom">
+                    <div class="card-header">
+                        <div class="row">
+                            
+                            <div class="col-50">
+                                <h3 class="no-margin-bottom text-color-theme">`+respuesta.titulo+`</h3>
+                            	<p class="no-margin-bottom text-color-theme">`+respuesta.descripcion+`</p>
+
+                            	<p class="no-margin-bottom text-color-theme">`+respuesta.fechaformato+`</p>
+                            	<p class="no-margin-bottom text-color-theme">`+respuesta.horainicial+`-`+respuesta.horafinal+`Hrs.</p>
+
+                            	<p class="no-margin-bottom text-color-theme">Cliente: `+respuesta.nombre+` `+respuesta.paterno+`</p>`;
+
+                            if(respuesta.checkin==1) {
+                            
+                              html+=` <p class="" style="display: flex;"><span>check-in:</span> 
+                              <span class="fas fa-check-circle-o" style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;">
+                        
+                            </span>
+                          </p>`;  
+                                    
+                            }
+                               html+=`
+                          <p class="no-margin-bottom text-color-theme">`+respuesta.concepto+`</p>
+
+
+                           </div>
+
+                            <div class="col-50">
+                                <div class="avatar">
+                                    <img src="`+imagen+`" alt="" style="
+margin-top: 1.4em;    width: 100%;
+    border-radius: 10px;
+">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content card-content-padding">
+                        <p class="text-muted margin-bottom">
+                           
+                        </p>
+                        <div class="row">
+                          
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+							   							  	</div>
+		   							 	 
+		   							 			</div>
+
+
+<div class="row" style="    margin-right: 2em;
+    margin-left: 2em;margin-top:1em;">
+					<div class="col-100">
+
+						
+						<div style="justify-content: center;display: flex;">
+
+							</div>
+
+						</div>
+
+						<div class="col-100" onclick="scanqr()" >
+						
+
+						</div>
+
+					</div>
+
+					<div class="row" style=" margin-right: 2em; margin-left: 2em;">
+						<div class="col-80">
+						<p style="    font-size: 16px;
+    font-weight: bold;">Galeria de imágenes</p>
+						</div>
+						<div class="col-20">
+						
+						</div>
+
+					</div>
+			
+
+
+			</div>
+							   							  	
+           												 </div>
+							   							  	</div>
+		   							 	 
+		   							 			`;
+
+		   							
+		   							 	html+=`</div>
+
+		   							 		<div class="row">`;
+
+		   							 	
+
+
+		   							  		html+=`</div>
+
+		   							  		<div class="row margin-bottom " style="padding-top: 1em;">
+		   							  		<div class="col-100">`;
+		   							  		
+
+
+		   							  		html+=`</div>
+		   							  		</div>
+
+	   							 	</div>
+
+   							 </div>
+
+   				</div>
+                
+              </div>
+            </div>
+          </div>`;
+          
+		$("#divdetallecita").html(html);
+
+		$("#modaldetallecita").modal();
+}
+
+function ObtenerProductosFechasCalendario(anio,mes) {
+	var datos="anio="+anio+"&mes="+mes;
+	$.ajax({
+					url: 'catalogos/dashboard/ObtenerProductosFechasCalendario.php', //Url a donde la enviaremos
+					type: 'POST', //Metodo que usaremos
+					dataType:'json',
+					data:datos,
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#divcomplementos").html(error);
+					},	
+					success: function (msj) {
+
+						var respuesta=msj.productofechas;
+						var fecha=msj.fechaformato;
+					   $(".fc-header-title").html('<h2>'+fecha+'</h2>');
+
+								for (var i = 0; i <respuesta.length; i++) {
+									
+									$(".fc-day").each(function( index ) {
+									 // console.log( index + ": " + $(this).data('date') );
+									  var fechadiv=$(this).data('date');
+									  var elemento=$(this);
+									  $(elemento).find('span').eq(0).remove();
+
+									  	if (respuesta[i].fecha == fechadiv) {
+									  		var html="";
+									  		$(elemento).find('span').eq(0).remove();
+									  		 html=`
+											<span class="badge colordorado" style="float: right;font-size: 14px;">`+respuesta[i].cantidadproducto+`</span>
+									  		`
+									  		;
+									  		//$(elemento).children().eq(0).css({'cssText': 'background: gray;border-radius: 30px;color: white; cursor:pointer;margin: auto;width:20%;padding-right: 1em;padding-left:1em;justify-content:center;display:flex;'});
+											$(elemento).children().eq(0).prepend(html);
+									  		
+									  	}
+
+									});
+								}
+
+						
+					}
+				});
+}
+
+function PintarProductosCalendario(respuesta) {
+	var html="";
+  if (respuesta.length>0) {
+    $(".titulocitas").css('display','block');
+    for (var i = 0; i < respuesta.length; i++) {
+
+          imagen='catalogos/sucursal/imagenes/'+respuesta[i].imagen;
+        var color="color:black;";
+        if (respuesta[i].estatus==0) {
+           color="color:black;";
+        }
+
+        if (respuesta[i].estatus==1) {
+          color="color:#C7AA6A;";
+
+        }
+
+        if (respuesta[i].estatus==2) {
+          color="color:#5ac35b;";
+        }
+  
+      html+=`
+      	<div class="" style="    width: 100%;
+    background: white;
+    border-radius: 30%;
+    height: 150px;
+    padding-top: 1em;">
+			<div class="">
+			 <div class="col-md-2" style="
+			    float: left;">
+			            <a>
+			            <img src="`+imagen+`" alt="" style="width: 100%;border-radius: 10px;">
+			            </a>
+			          </div>
+			  <div class="col-md-6" style="
+			    float: left;">
+            <h6 class="item-title">
+      
+            <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].nombresucursal+`</a></p>
+
+
+
+            </h6>
+            <div class="">
+                    <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].nombrepaquete+`</p>
+
+            <p style="margin:0;">`+respuesta[i].nombre+` `+respuesta[i].paterno+`</p>
+            <p style="margin:0;text-decoration: underline;" onclick="Detallepago(`+respuesta[i].idnotapago+`)">#`+respuesta[i].folio+`</p>
+ 
+            </div>
+            
+          </div>
+          <div class="col-md-4" style="float: left;">
+          	<a class="bookmark-btn active" style="color:black;">
+           	 <i class="fas fa-bookmark"></i>
+            
+          	</a>
+          </div>
+        </div>
+      </div>
+
+      `;
+
+
+    }
+  }
+
+  $(".listadocitascalendario").html(html);
+}
+
+function Detallepago(idnotapago) {
+	PintarDetalleHtml();
+	var detalleimagen=[];
+
+
+	var idusuario="";
+	var datos="idnotapago="+idnotapago+"&id_user="+idusuario;
+	var pagina = "ObtenerDetallePago.php";
+	
+		$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: 'catalogos/dashboard/'+pagina, //Url a donde la enviaremos
+		data:datos,
+		async:false,
+		success: function(resp){
+			var resultado=resp.respuesta[0];
+			$("#lblnumeronota").text(resultado.folio);
+			$(".lblresumen").text(formato_numero(resultado.subtotal,2,'.',','));
+			$(".lblcomision").text(formato_numero(resultado.comisiontotal,2,'.',','));
+			$(".lbltotal").text(formato_numero(resultado.total,2,'.',','));
+			$(".monedero").text(formato_numero(resultado.montomonedero,2,'.',','));
+			$("#tipopago").text(resultado.tipopago);
+			if (resultado.datostarjeta!='') {
+			$(".datostarjeta").html(resultado.datostarjeta);
+			$(".infodatostarjeta").append(resultado.datostarjeta2);
+
+			}
+
+			if (resultado.requierefactura==1) {
+
+
+				var html="";
+				html+=`<p>
+					Razon social: `+resultado.razonsocial+`
+					
+				</p>`;
+				html+=`<p>
+					RFC.: `+resultado.rfc+`</p>`;
+			html+=`<p>
+					Correo.: `+resultado.correo+`</p>`;
+			html+=`<p>
+					Cod. Postal: `+resultado.codigopostal+`</p>`;
+					var imagenes=resultado.imagenconstancia;
+					if (imagenes!='') {
+
+					var imagen=imagenes.split(',');
+					detalleimagen=imagen;
+					var htmlimagenes="";
+					for (var i = 0; i < imagen.length; i++) {
+						        urlimagen=urlphp+`upload/datosfactura/`+imagen[i];
+
+						html+=`
+							<div class="row">
+		                        <div class="col-20" style="margin:0;padding:0;">
+		                          <figure class="avatar   rounded-10">
+		                          <img src="`+urlimagen+`" alt="" style="width:60px;height:60px;" onclick="DetalleImagen(`+i+`)">
+		                          </figure>
+		                        </div>
+
+                       		 </div>
+
+						`;
+					}
+				}
+
+					$(".datosfiscales").html(html);
+				
+
+			}
+			var pagos=resp.pagos;
+
+			Pintarpagosdetalle2(pagos);
+			 $("#visualizardescuentos").css('display','none');
+
+			 $("#modaldetallenota").modal();
+			/*var descuentos=resp.descuentos;
+			if (descuentos.length>0) {
+			Pintardescuentosdetalle(descuentos);	
+			}
+
+			var descuentosmembresia=resp.descuentosmembresia;
+			if (descuentosmembresia.length>0) {
+				Pintardescuentomembresiadetalle(descuentosmembresia);
+			}
+
+			var imagenescomprobante=resp.imagenescomprobante;
+
+			if (imagenescomprobante.length > 0) {
+				PintarImagenesComprobante(imagenescomprobante);
+			}*/
+
+		},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			var error;
+				if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+								console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+		}
+
+	});
+
+}
+
+function PintarDetalleHtml() {
+	/**/
+
+	var html=`
+   <div class="col-md-12 divdetalle" style="display: block;">
+
+	<div class="row">
+	<div class="col-md-12">
+	 <p style="text-align: center;font-size: 18px;" id="">
+      <span style="font-weight: bold;">Pago</span> #<span id="lblnumeronota"></span></p>
+
+    <span id="fechapago" style="text-align: center;
+    font-size: 18px;
+    justify-content: center;
+    font-weight: bold;
+    display: flex;margin-top: 1em;"></span>
+						</div>
+						
+					</div>
+					<div class="listadopagoselegidos" id="listadopagos"> <li class="list-group-item  align-items-center" style="">
+					   
+					</div>
+					<div>
+						<ul class="list-group divmonedero" style="display: block;">
+									<li class="list-group-item  align-items-center" style="color:">
+								   <div class="row">
+								   <div class="col-md-10">
+								   		<p id="">Monedero</p>
+					                    <p class="" style="
+											    float: right;
+											">$<span id="monedero">0.00</span></p>
+					                   </div>
+					                   <div class="col-md-2">
+
+										    <span class="badge ">
+										    </span>
+								   		 </div>
+								    
+								    </div>
+
+								  </li>
+								</ul>
+							</div>
+
+							<div>
+								<ul class="list-group" id="uldescuentos" style="background: #46b2e2;"></ul>
+							</div>
+
+
+
+
+								<div>
+								<ul class="list-group divresumen" style="display: block;">
+									<li class="list-group-item  align-items-center" style="background: #aeb3b7;">
+								   <div class="row">
+								   <div class="col-md-10">
+								   		<p id="">Resumen</p>
+					                    <p class="" style="
+											    float: right;
+											">$<span id="" class="lblresumen">980.00</span></p>
+					                   </div>
+					                   <div class="col-md-2">
+
+										    <span class="badge ">
+										    </span>
+								   		 </div>
+								    
+								    </div>
+
+								  </li>
+								</ul>
+							</div>
+
+								<div>
+								<ul class="list-group divcomision" style="display: block;">
+									<li class="list-group-item  align-items-center" style="background: #aeb3b7;">
+								   <div class="row">
+								   <div class="col-md-10">
+								   		<p id="">Comisión</p>
+					                    <p class="" style="
+											    float: right;
+											">$<span id="" class="lblcomision">0.00</span></p>
+					                   </div>
+					                   <div class="col-md-2">
+
+										    <span class="badge ">
+										    </span>
+								   		 </div>
+								    
+								    </div>
+
+								  </li>
+								</ul>
+							</div>
+
+
+								<div>
+								<ul class="list-group divtotal" style="display: block;">
+									<li class="list-group-item  align-items-center" style="background: #aeb3b7;">
+								   <div class="row">
+								   <div class="col-md-10">
+								   		<p id="">Total</p>
+					                    <p class="" style="
+											    float: right;
+											">$<span id="" class="lbltotal">980.00</span></p>
+					                   </div>
+					                   <div class="col-md-2">
+
+										    <span class="badge ">
+										    </span>
+								   		 </div>
+								    
+								    </div>
+
+								  </li>
+								</ul>
+							</div>
+							<div class="row">
+								<div class="col-md-12 imagenescomprobante">
+				
+
+									</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-12">
+									<label for="">MÉTODO DE PAGO:</label>
+									<span id="tipopago"></span>
+								</div>
+								<div class="col-md-12">
+
+								  <div class="datostarjeta" style="float: left;"></div>
+               					  <div class="infodatostarjeta"></div>
+               					  </div>
+								
+								
+							</div>
+
+								
+							<div class="requierefactura">
+								<div class="row">
+									<div class="col-md-12">
+										<label for="">REQUIERE FACTURA:</label>
+									<span id="requierefactura"></span>
+								</div>
+								</div>
+							</div>
+
+
+								<div class="foliofacturacion" style="display: none;">
+								<div class="row">
+									<div class="col-md-12">
+										<label for="">FOLIO DE FACTURA:</label>
+									<span id="foliofactura"></span>
+								</div>
+								</div>
+							</div>
+
+								<div class="fechafac" style="display: none;">
+								<div class="row">
+									<div class="col-md-12">
+										<label for="">FECHA DE FACTURA:</label>
+									<span id="fechafactura"></span>
+								</div>
+								</div>
+							</div>
+
+							<!-- <div class="row">
+								<div class="col-md-12">
+									<button class="btn btn-success btncambiarestatus" onclick="">ACEPTAR PAGO</button>
+								</div>
+							</div> -->
+
+							</div>
+	
+
+    </div>
+	`;
+
+	$("#divdetallenota").html(html);
+}
+
+function Pintarpagosdetalle2(listado) {
+		// body...
+		var html="";
+		for (var i = 0; i <listado.length; i++) {
+
+			var color='';
+		      if (listado[i].monto<0) {
+		        color='red';
+		      }
+		imagen='catalogos/paquetes/imagenespaquete/'+listado[i].foto;
+
+			html+=`
+				
+			<div class="row" style="border: 1px solid #cacaca;
+    padding: 10px;
+    margin: 1px 1px 0px 1px;">
+              <div class="item-media">
+              <img src="`+imagen+`" alt="" style="width: 80px;border-radius: 10px;"></div>
+              <div class="item-inner">
+                <div class="row" style="margin-left: 1em;">
+                  <div class="col-md-6">
+                    <p style="margin:0;"> `+listado[i].concepto+` </p>
+               	
+                     <p style="margin:0;">Cantidad: `+listado[i].cantidad+`</p>`;
+
+                     if (listado[i].usuarioespecialista!='' && listado[i].usuarioespecialista!=null) {
+
+                     	html+=`<p style="margin:0;">Especialista: `+listado[i].usuarioespecialista+`</p>`;
+
+                     	html+=`<p style="margin:0;">Fecha: `+listado[i].fecha+`</p>`;
+                 
+
+                     }
+               html+= `</div>
+                     
+
+
+                            <div class="col-40">
+                	<p class="text-muted " style="font-size:20px;margin:0px;">$`+formato_numero(listado[i].monto,2,'.',',')+`</p>
+
+                     <p>
+                     </p>
+                  </div>
+
+                    </div>	
+
+          
+                 </div> </div>
+
+              
+            </div>
+
+			`;
+		}
+
+
+		$(".listadopagoselegidos").html(html);
+
+
+		
+	}

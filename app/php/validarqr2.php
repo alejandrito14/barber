@@ -108,6 +108,7 @@ try
 			$cita->qrgenerado=$consultarqr[0]->idqrgenerado;
 			$cita->idusuarios=$idusuario;
 			$cita->idcita=$idcita;
+			$cita->idusuariockeckin=$iduser;
 
 
 			$cita->ActualizarcitaQr();

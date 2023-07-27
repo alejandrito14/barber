@@ -121,7 +121,7 @@ $navegador = $f->navegador();
                         <b class="logo-icon p-l-10">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="images/WOOLIS.png" alt="homepage" class="light-logo" />
+                          <!--   <img src="" alt="homepage" class="light-logo" /> -->
 
                         </b>
                         <!--End Logo icon -->
@@ -1196,7 +1196,10 @@ $navegador = $f->navegador();
 <script src="js/fn_LoginTime.js"></script>
 <!-- <script src="js/fn_presentacion.js"></script>
  -->
+ <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js' type='text/javascript'></script>
  <script src="js/fn_categorias.js"></script>
+ <script src="js/fn_categoriapaquete.js"></script>
+
 <script src="js/fn_notificacion.js"></script>
 <script src="js/fn_politicasaceptacion.js"></script>
 
@@ -1214,6 +1217,8 @@ $navegador = $f->navegador();
 <script src="js/fn_subirarchivos.js?<?php echo time(); ?>"></script>
 <script src="js/fn_subirarchivoscategorias.js?<?php echo time(); ?>"></script>
 <script src="js/fn_subirarchivospaquetes.js?<?php echo time(); ?>"></script>
+<script src="js/fn_productos.js"></script>
+<script src="js/fn_categoriaproducto.js"></script>
 
 <!-- js nuevos de mike -->
 <!-- <script src="js/fn_banner.js"></script>
@@ -1227,7 +1232,8 @@ $navegador = $f->navegador();
 <script src="js/fn_funcionesextras.js?<?php echo time(); ?>"></script>
 
 
-<!-- <script src="js/fn_monedero.js?<?php echo time(); ?>"></script>
+ <script src="js/fn_monedero.js?<?php echo time(); ?>"></script>
+ <!--
 <script src="js/fn_paginas.js?<?php echo time(); ?>"></script>
 <script src="js/fn_contacto.js?<?php echo time(); ?>"></script> -->
 
@@ -1253,8 +1259,10 @@ $navegador = $f->navegador();
 <script src="js/fn_asignarusuarioservicio.js"></script>
 <script src="js/fn_tutor.js"></script>
 <script src="js/fn_clasificacion.js"></script>
+<script src="js/fn_llaves.js"></script>
+<script src="js/fn_sucursales.js?<?php echo time(); ?>"></script>
 <script src="js/fn_nivel.js?<?php echo time(); ?>"></script>
-<script src="js/fn_deportes.js?<?php echo time(); ?>"></script>
+<script src="js/fn_paquetes.js?<?php echo time(); ?>"></script>
 <script src="js/fn_descuento.js?<?php echo time(); ?>"></script>
 <script src="js/fn_usuarioservicio.js?<?php echo time(); ?>"></script>
 <script src="js/fn_asignardescuentos.js?<?php echo time(); ?>"></script>
@@ -1262,6 +1270,7 @@ $navegador = $f->navegador();
 <script src="js/fn_encuesta.js?<?php echo time(); ?>"></script>
 <script src="js/fn_tipousuario.js?<?php echo time(); ?>"></script>
 <script src="js/fn_pagos.js?<?php echo time(); ?>"></script>
+<script src="js/fn_estadomuni.js?<?php echo time(); ?>"></script>
 <script src="js/fn_pagotarjeta.js?<?php echo time(); ?>"></script>
 <script src="js/fn_tipopartido.js?<?php echo time(); ?>"></script>
 <script src="js/fn_partidos.js?<?php echo time(); ?>"></script>
@@ -1269,11 +1278,14 @@ $navegador = $f->navegador();
 <script src="js/fn_notaspago.js?<?php echo time(); ?>"></script>
 <script src="js/fn_tipojuego.js?<?php echo time(); ?>"></script>
   <script src="https://js.stripe.com/v3/"></script>
-
+<script src="js/fn_empresas.js?<?php echo time(); ?>"></script>
  <!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     -->
     <script type="text/javascript" src="js/mark-your-calendar.js"></script>
 <script src="js/fn_dashboard.js?<?php echo time(); ?>"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzK22hMENl-zhFKyDd5TW7aO5cWHJGQ1Q"></script>
+
+
 
 <!-- <script src="js/fn_espacios.js?<?php echo time(); ?>"></script>
 <script src="js/fn_cupones.js?<?php echo time(); ?>"></script>

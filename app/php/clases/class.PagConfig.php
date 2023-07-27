@@ -51,6 +51,9 @@ class PagConfig
 	public $bienvenida;
 	public $diasvencimiento;
 	public $nombrenegocio1;
+	public $v_tiempocancelacion;
+	public $v_habilitardevolucion;
+	public $v_terminoscondiciones;
 	
 	//funcion para guarda una nueva empresas
 	public function GuardarNewConfiguracion()
@@ -136,6 +139,18 @@ class PagConfig
 				$rows=$this->db->fetch_assoc($resp);
 				$total = $this->db->num_rows($resp);				
 				return $rows;
+	}
+
+	public function ActualizarDatosConfi()
+	{
+		
+		$query="UPDATE pagina_configuracion SET terminoscondiciones='$this->v_terminoscondiciones',
+		tiempodecancelacion='$this->v_tiempocancelacion',
+			habilitardevolucionmonedero='$this->v_habilitardevolucion'
+			WHERE idpagina_configuracion=1
+		";
+		
+		$resp=$this->db->consulta($query);
 	}
 	
 	

@@ -135,7 +135,7 @@ class Notapago
 	{
 		$sql="
 			SELECT *FROM notapago
-			 WHERE idnotapago='$this->idnotapago' AND idusuario='$this->idusuario'";
+			 WHERE idnotapago='$this->idnotapago' ";
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 

@@ -9,6 +9,7 @@ require_once("clases/class.Cita.php");
 require_once("clases/class.Funciones.php");
 require_once("clases/class.Carrito.php");
 require_once("clases/class.Paquetes.php");
+require_once("clases/class.Fechas.php");
 
 try
 {
@@ -22,6 +23,7 @@ try
 	$paquetes->db=$db;
 	$cita->db=$db;
 	$carrito->db=$db;
+	$fechas=new Fechas();
 	$db->begin();
 
 
@@ -59,7 +61,11 @@ try
 	$obtenercita=$cita->ObtenerCitaCreada();
 	$db->commit();
 
-	$obtenercita[0]->fecha=date('d-m-Y',strtotime($obtenercita[0]->fecha));
+	$diatexto=$fechas->diasSemanaCorto[date('N', strtotime($obtenercita[0]->fecha))];
+
+	$fechaformato=$diatexto.' '.date('d',strtotime($obtenercita[0]->fecha)).' de '.$fechas->mesesEnEspañol[date('F',strtotime($obtenercita[0]->fecha))].' de '.date('Y', strtotime($obtenercita[0]->fecha));
+	
+	$obtenercita[0]->fecha=$fechaformato;
 	  
 
 

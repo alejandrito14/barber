@@ -181,7 +181,9 @@ try
 		 				$buscarsiestadisponible=$especialista->EvaluarHorarioDisponible();
 
 
-		 				if (count($buscarsiestadisponible)==0) {
+		 				$buscarsiestaapartada=$especialista->EvaluarHorarioApartado();
+
+		 				if (count($buscarsiestadisponible)==0 && count($buscarsiestaapartada)==0) {
 		 				
 		 					$objetodisponible=array('fecha'=>$fechaconsulta,'horainicial'=>$especialista->horainicial,'horafinal'=>$especialista->horafinal);
 

@@ -76,7 +76,7 @@ class Paquetes {
 			paquetes.descripcion,
 			paquetes.foto,
 			paquetes.estatus,
-			categorias.idcategorias,
+			categoriapaquete.idcategoriapaquete,
 			paquetesucursal.idsucursal,
 			paquetes.promocion,
 			paquetes.aplicardirecto,
@@ -104,8 +104,9 @@ class Paquetes {
 
 			FROM
 			paquetes
-			JOIN categorias
-			ON paquetes.idcategorias = categorias.idcategorias
+			JOIN categoriapaquete
+			ON paquetes.idcategoriapaquete = categoriapaquete.idcategoriapaquete
+		
 			JOIN paquetesucursal
 			ON paquetes.idpaquete = paquetesucursal.idpaquete
 			JOIN preciopaquete

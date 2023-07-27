@@ -481,10 +481,10 @@ function AgendarCita3() {
 */
       var html="";
         html+=`
-        <p>Gracias</p>
+        <p>¡Gracias!</p>
         <p>
-      Tu cita ha sido agregada para el dia `+cita.fecha+` a las `+cita.horainicial+` con `+cita.nombre+` `+cita.paterno+`
-      Para confirmar tu cita, realiza tu pago
+      Tu cita ha sido agregada para el dia `+cita.fecha+` a las `+cita.horainicial+` con `+cita.nombre+` `+cita.paterno+`</p>
+      <p>Para confirmar tu cita, realiza tu pago
       </p>
       `;
 

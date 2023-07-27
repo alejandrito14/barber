@@ -4,7 +4,22 @@
 	  public $diasSemana = array('Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sábado');
 	  public $mesesAnho = array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
 	  public $mesesAnho3 = array('Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic');
-	 public $diasSemanaCorto = array('Dom','Lun','Mar','Mie','Jue','Vie','Sáb');	
+	 public $diasSemanaCorto = array('Dom','Lun','Mar','Mie','Jue','Vie','Sáb');
+
+	   public  $mesesEnEspañol = array(
+        'January' => 'ene.',
+        'February' => 'feb.',
+        'March' => 'mar.',
+        'April' => 'abr.',
+        'May' => 'may.',
+        'June' => 'jun.',
+        'July' => 'jul.',
+        'August' => 'ago.',
+        'September' => 'sep.',
+        'October' => 'oct.',
+        'November' => 'nov.',
+        'December' => 'dic.'
+    	);	
 	
 	public function Fechas()
 	{

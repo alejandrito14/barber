@@ -38,8 +38,11 @@ try
 	$obtener=$lo->ListadoNotasProductos();
 
 	$cita->idsucursal=$obtenersucursal[0]->idsucursales;
-	$cita->fechacita=$fechafiltro;
+	$cita->fecha=$fechafiltro;
 	$obtenercitas=$cita->ObtenerCitasNocheckin();
+
+	$cita->fecha=$fechafiltro;
+	$obtenercitasrealizadas=$cita->ObtenerCitascheckin();
 
 		
 
@@ -50,6 +53,7 @@ try
 	$respuesta['respuesta']=1;
 	$respuesta['totalproductosdia']=count($obtener);
 	$respuesta['totalcitasdia']=count($obtenercitas);
+	$respuesta['totalcitasrealizadas']=count($obtenercitasrealizadas);
 
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);

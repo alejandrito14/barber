@@ -61,7 +61,7 @@ try
 		$fechafiltro=date('Y-m-d');
 
 		$lo->fecha=$fechafiltro;
-		$obtener=$lo->ListadoNotasProductos();
+		$obtener=$lo->ListadoNotasDescripcionProductos();
 
 
 		$textoestatus=array('Pendiente','Aceptado','Cancelado');

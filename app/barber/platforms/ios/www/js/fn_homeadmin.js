@@ -14,6 +14,7 @@ function CargarDatosAdmin() {
 		//ObtenerTableroCitasAdmin(1);
 	$(".licompras").css('display','none');
 	$(".lifavoritos").css('display','none');
+  $(".liconfiguracion").css('display','block');
       ObtenerDetalleEmpresa();
     $(".bntcalendario").attr('onclick','AbrirModalCalendario()');
 
@@ -64,7 +65,19 @@ function PintarTableroCitasAdmin(respuesta) {
 		for (var i = 0; i < respuesta.length; i++) {
 
 					imagen=urlimagenes+`sucursal/imagenes/`+codigoserv+respuesta[i].imagen;
+        var color="color:black;";
+        if (respuesta[i].estatus==0) {
+           color="color:black;";
+        }
 
+        if (respuesta[i].estatus==1) {
+          color="color:#C7AA6A;";
+
+        }
+
+        if (respuesta[i].estatus==2) {
+          color="color:#5ac35b;";
+        }
 			html+=`
 			<li class="col-100 medium-50">
 				<div class="card-bx job-card" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">
@@ -89,10 +102,9 @@ function PintarTableroCitasAdmin(respuesta) {
 
 						</div>
 					</div>
-					<a  class="bookmark-btn active">
-					<i class="fas fa-bookmark"></i>
-						<i class="far fa-bookmark">
-						</i>
+					<a  class="bookmark-btn active" style="`+color+`" >
+					  <i class="fas fa-bookmark" ></i>
+						
 					</a>
 				</div>
 			</li>
@@ -441,7 +453,7 @@ function CargarCalendario2() {
 
        if (citas.length>0) {
        
-        PintarCitas(citas);
+        PintarCitas2(citas);
        }
       /*if (resp.disponible.length>0) {
         var disponible=resp.disponible;
@@ -561,6 +573,8 @@ function CargarCalendario2() {
   
 }
 
+
+
 function PintarCitas(respuesta) {
  var html="";
   if (respuesta.length>0) {
@@ -568,7 +582,19 @@ function PintarCitas(respuesta) {
     for (var i = 0; i < respuesta.length; i++) {
 
           imagen=urlimagenes+`sucursal/imagenes/`+codigoserv+respuesta[i].imagen;
+        var color="color:black;";
+        if (respuesta[i].estatus==0) {
+           color="color:black;";
+        }
 
+        if (respuesta[i].estatus==1) {
+          color="color:#C7AA6A;";
+
+        }
+
+        if (respuesta[i].estatus==2) {
+          color="color:#5ac35b;";
+        }
       html+=`
       <li class="col-100 medium-50">
         <div class="card-bx job-card" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">
@@ -588,15 +614,76 @@ function PintarCitas(respuesta) {
             <div class="">
         
             <p style="margin:0;">`+respuesta[i].nombreespecialista+`</p>
+           
             </div>
             <div class="item-footer">
 
             </div>
           </div>
-          <a  class="bookmark-btn active">
-          <i class="fas fa-bookmark"></i>
-            <i class="far fa-bookmark">
-            </i>
+          <a  class="bookmark-btn active" style="`+color+`" >
+            <i class="fas fa-bookmark" ></i>
+            
+          </a>
+        </div>
+      </li>
+      `;
+    }
+  }
+  $(".tablerocitas").html(html);
+}
+
+function PintarCitas2(respuesta) {
+ var html="";
+  if (respuesta.length>0) {
+    $(".titulocitas").css('display','block');
+    for (var i = 0; i < respuesta.length; i++) {
+
+          imagen=urlimagenes+`sucursal/imagenes/`+codigoserv+respuesta[i].imagen;
+        var color="color:black;";
+        if (respuesta[i].estatus==0) {
+           color="color:black;";
+        }
+
+        if (respuesta[i].estatus==1) {
+          color="color:#C7AA6A;";
+
+        }
+
+        if (respuesta[i].estatus==2) {
+          color="color:#5ac35b;";
+        }
+      html+=`
+      <li class="col-100 medium-50">
+        <div class="card-bx job-card" >
+          <div class="card-media">
+            <a >
+            <img src="`+imagen+`" alt="">
+            </a>
+          </div>
+          <div class="card-info">
+            <h6 class="item-title">
+      
+            <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].titulo+`-`+respuesta[i].descripcion+`</a></p>
+            <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].nombreespecialista+`</a></p>
+
+
+            <p style="color: #2b952a;font-size: 18px;margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].horacita+`-`+respuesta[i].horafinal+`hrs.</p>
+
+            </h6>
+            <div class="">
+                    <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].nombrepaquete+`</p>
+
+            <p style="margin:0;">`+respuesta[i].nombreusuario+`</p>
+            <p style="margin:0;text-decoration: underline;" onclick="Detallepago(`+respuesta[i].idnotapago+`)">#`+respuesta[i].folio+`</p>
+ 
+            </div>
+            <div class="item-footer">
+
+            </div>
+          </div>
+          <a  class="bookmark-btn active" style="`+color+`" >
+            <i class="fas fa-bookmark" ></i>
+            
           </a>
         </div>
       </li>
@@ -606,6 +693,7 @@ function PintarCitas(respuesta) {
   $(".tablerocitas").html(html);
 }
 function ConsultarFechaCita(fecha) {
+  
    var iduser=localStorage.getItem('id_user');
   var datos="idusuario="+iduser+"&fecha="+fecha;
 
@@ -623,7 +711,7 @@ function ConsultarFechaCita(fecha) {
       $(".tablerocitas").html('');
        if (citas.length>0) {
        
-        PintarCitas(citas);
+        PintarCitas2(citas);
        }
 
 
@@ -826,17 +914,54 @@ function PintarNotasProductos(pagos) {
         claseestatus="notacancelado";
       }
 
+          imagen=urlimagenes+`sucursal/imagenes/`+codigoserv+pagos[i].imagen;
+
       html+=`
+      <li class="col-100 medium-50" id="pago_`+pagos[i].idnotapago+`" onclick="Detallepago(`+pagos[i].idnotapago+`)">
+        <div class="card-bx job-card" >
+          <div class="card-media">
+            <a>
+            <img src="`+imagen+`" alt="">
+            </a>
+          </div>
+          <div class="card-info">
+            <h6 class="item-title">
+      
+            <p style="margin:0;">`+pagos[i].nombresucursal+`</p>
+            </h6>
+            <div class="">
+             <p class="text-muted small" style="margin:0;">`+pagos[i].nombrepaquete+`</p>
+            <p class="text-muted small" style="margin:0;">`+pagos[i].nombre+` `+pagos[i].paterno+`</p>
+
+             <p class="text-muted small" style="margin:0;text-decoration: underline;">#`+pagos[i].folio+`</p>
+
+          
+            </div>
+            <div class="item-footer">
+
+            </div>
+          </div>
+          <a class="bookmark-btn active" style="color:black;">
+            <i class="fas fa-bookmark"></i>
+            
+          </a>
+        </div>
+      </li>
+
+      `;
+
+    /*  html+=`
         <li class="col-100 medium-50" id="pago_`+pagos[i].idnotapago+`" style="margin-right: 1em;
     margin-left: 1em;">
                     <div class="row">
                         <div class="col-70">
-                            <p class="text-muted "  id="concepto_`+pagos[i].idnotapago+`">
-                               Compra #`+pagos[i].concepto+`
-                            </p>
+                        <p style="margin:0;">`+pagos[i].nombresucursal+`</a></p>
 
-                          <p class="text-muted small">Pagado `+pagos[i].fechaformatopago+`</p>
-                          <p class="text-muted small">$`+pagos[i].monto+`</p>
+
+                          <p class="text-muted small">`+pagos[i].nombrepaquete+`</p>
+                          <p class="text-muted small">`+pagos[i].nombre+` `+pagos[i].paterno+`</p>
+                          <p class="text-muted small">`+pagos[i].folio+`</p>
+
                         <a id="btncalendario" style=" color: #007aff!important;text-align: center;justify-content: center;" onclick="Detallepago(`+pagos[i].idnotapago+`)">Ver detalle</a>
 
 
@@ -849,7 +974,7 @@ function PintarNotasProductos(pagos) {
                     </div>
                  </li>
 
-      `;
+      `;*/
     }
   }
       $(".tableroproductos").html(html);
@@ -906,7 +1031,9 @@ function ObtenerTotales() {
     success: function(resp){
         var totalproductosdia=resp.totalproductosdia;
         var totalcitasdia=resp.totalcitasdia;
+        var totalrealizadas=resp.totalcitasrealizadas;
         $("#totalservicios").text(totalcitasdia);
+        $("#totalserviciosrealizados").text(totalrealizadas);
         $("#totalproductos").text(totalproductosdia);
 
          },error: function(XMLHttpRequest, textStatus, errorThrown){ 

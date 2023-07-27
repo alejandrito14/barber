@@ -26,13 +26,13 @@ try
 	$fechas = new Fechas();
 	//$categorias->db=$db;
 	$idsucursal=$_POST['idsucursal'];
-	
+	$idusuarios=$_POST['id_user'];
 	$idpaquete=$_POST['idpaquete'];
 	$paquetes->idpaquete=$idpaquete;
 	$obtenerpaquete=$paquetes->ObtenerPaquete2();
 
 	$intervalo=$obtenerpaquete[0]->intervaloservicio;
-	
+	$especialista->idusuarios=$idusuarios;
 	$fecha=$_POST['fecha'];
 	$especialista->fecha=$fecha;
 	$especialista->idsucursal=$idsucursal;

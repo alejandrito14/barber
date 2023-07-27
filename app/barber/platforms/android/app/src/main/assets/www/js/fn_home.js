@@ -376,11 +376,15 @@ function AgendarDesdeSucursal(idsucursal) {
 }
 
 function ObtenerTableroCitas(estatus) {
-
+    var fecha="";
+	var estatus=1;
+	var iduser=localStorage.getItem('id_user');
+	var datos="idusuarios="+iduser+"&fechafiltro="+fecha+"&estatus="+estatus+"&hoy=1";
+	var pagina = "ObtenerTableroCitasFiltro.php";
 	//return new Promise((resolve, reject) => {
- 	var idusuarios=localStorage.getItem('id_user');
-	var datos="estatus="+estatus+"&idusuarios="+idusuarios;
-	var pagina = "ObtenerTableroCitas.php";
+ 	//var idusuarios=localStorage.getItem('id_user');
+	//var datos="estatus="+estatus+"&idusuarios="+idusuarios;
+	var pagina = "ObtenerTableroCitasFiltro.php";
 	$.ajax({
 		type: 'POST',
 		dataType: 'json',
@@ -392,6 +396,10 @@ function ObtenerTableroCitas(estatus) {
 
 			var respuesta=datos.respuesta;
 			PintarTableroCitas(respuesta);
+			var fecha=datos.fechafiltro;
+
+			$(".fechaactual").text(fecha);
+
 			//resolve(respuesta);
 			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;
@@ -413,7 +421,20 @@ function PintarTableroCitas(respuesta) {
 		$(".titulocitas").css('display','block');
 		for (var i = 0; i < respuesta.length; i++) {
 
-					imagen=urlimagenes+`sucursal/imagenes/`+codigoserv+respuesta[i].imagen;
+				imagen=urlimagenes+`sucursal/imagenes/`+codigoserv+respuesta[i].imagen;
+				var color="color:black;";
+				if (respuesta[i].estatus==0) {
+					 color="color:black;";
+				}
+
+				if (respuesta[i].estatus==1) {
+					color="color:#C7AA6A;";
+
+				}
+
+				if (respuesta[i].estatus==2) {
+					color="color:#5ac35b;";
+				}
 
 			html+=`
 			<li class="col-100 medium-50">
@@ -427,7 +448,7 @@ function PintarTableroCitas(respuesta) {
 						<h6 class="item-title">
 						<p style="margin:0;color:#d2cfc7;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)" >`+respuesta[i].anio+` </p>
 						<a style="color:#1870bc;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">
-							<p style="margin:0;">`+respuesta[i].fechaformato+` </p>
+							<p style="margin:0;word-break: break-word;">`+respuesta[i].fechaformato+` </p>
 						</a>
 
 						<p style="color: #2b952a;font-size: 18px;margin:0;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">`+respuesta[i].horacita+`hrs.</p>
@@ -443,14 +464,14 @@ function PintarTableroCitas(respuesta) {
 						</div>
 					</div>`;
 					var onclick="";
-					var color="color:black;";
+					
 					if (respuesta[i].checkin==0) {
 
 						onclick="GenerarQrCita2("+respuesta[i].idcita+")";
 	
 					}else{
 
-						color="color:#5ac35b;";
+						
 					}
 
 
@@ -485,9 +506,18 @@ function GenerarQrCita2(idcita) {
 		success: function(datos){
 
 				var respuesta=datos.respuesta;
+				const myPromise = new Promise((resolve, reject) => {
 				ObtenerDetalleCita(respuesta);	
+
+				});
+				
 				localStorage.setItem('idcita',idcita);
+
+				myPromise.then((successMessage) => {
+
 				GenerarQrCita(idcita);
+
+				});
 			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;
 				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
@@ -999,7 +1029,11 @@ function CargarDatos() {
       Obtenerpublicidad(1);
       ObtenerDetalleEmpresa();
     PintarCantidadcarrito();
+    ObtenerFechaActual();
+	$(".divhoy").attr('onclick','ObtenerTableroCitas(1);');
+    $(".liconfiguracion").css('display','none');
 
+	$(".divcalendario").attr('onclick','AbrirCalendarioUsuario()');
 
      var nombre= localStorage.getItem("nombre");
      $(".nombreusuario").text(nombre);
@@ -1128,7 +1162,7 @@ function ObtenerDetalleCita(respuesta) {
 	}
 
 var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;background: white;">
-            <div class="toolbar" style="background: white;">
+            <div class="toolbar" style="background: white;margin-top: 1em;">
               <div class="toolbar-inner">
                 <div class="left"></div>
                 <div class="right">
@@ -1158,13 +1192,12 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
    							 </div>
    							 <div class="" style="position: absolute;top:1em;width: 100%;">
    							 	
-	   														  <div class="">
-		   															  <div class="" style="">
-		   							 	 													<div class="" style="">
+	   						<div class="">
+		   				   <div class="" style="">
+		   					<div class="" style="">
 		   							 	 
-							   							  	<div class="row">
-							   							  						<div class="col-100" style="margin-left: 1em;
-    margin-right: 1em;">
+							<div class="row">
+					<div class="col-100" style="margin-left: 1em;margin-right: 1em;">
                 <div class="card margin-bottom">
                     <div class="card-header">
                     <div class="datoscita">
@@ -1668,7 +1701,7 @@ function CalificarCita(idcita){
                   
                 <div class="col" >
                 	<div>
-                	 <i class=" iconosestrella estrellaseleccionada" id="estre_1"  onclick="Cambio(1)">
+                	 <i class=" iconosestrella " id="estre_1"  onclick="Cambio(1)">
                 	 	<span class="material-icons-outlined">
 						star
 						</span>
@@ -1681,7 +1714,7 @@ function CalificarCita(idcita){
                </div>
                  <div class="col"  >
                  	<div >
-	                  <i class="bi bi-star iconosestrella estrellaseleccionada" id="estre_2" onclick="Cambio(2)">
+	                  <i class="bi bi-star iconosestrella " id="estre_2" onclick="Cambio(2)">
 	                  <span class="material-icons-outlined">
 						star
 						</span>
@@ -1691,7 +1724,7 @@ function CalificarCita(idcita){
                 </div>
                 <div class="col" >
 	                  <div  >
-		                   <i class="bi bi-star iconosestrella estrellaseleccionada" id="estre_3" onclick="Cambio(3)" >
+		                   <i class="bi bi-star iconosestrella " id="estre_3" onclick="Cambio(3)" >
 		                   <span class="material-icons-outlined">
 						star
 						</span>
@@ -1701,7 +1734,7 @@ function CalificarCita(idcita){
                  </div>
                    <div class="col" >
                    <div  >
-                   	    <i class="bi bi-star iconosestrella estrellaseleccionada" id="estre_4" onclick="Cambio(4)">
+                   	    <i class="bi bi-star iconosestrella " id="estre_4" onclick="Cambio(4)">
                    	    <span class="material-icons-outlined">
 						star
 						</span>
@@ -1711,7 +1744,7 @@ function CalificarCita(idcita){
                   </div>
                     <div class="col" >   
 	                    <div  >              
-	                     	 <i class="bi bi-star iconosestrella estrellaseleccionada" id="estre_5" onclick="Cambio(5)" >
+	                     	 <i class="bi bi-star iconosestrella " id="estre_5" onclick="Cambio(5)" >
 	                     	 <span class="material-icons-outlined">
 						star
 						</span>
@@ -1944,7 +1977,7 @@ function SeleccionarEstrella(cantidad) {
 			for (var i = 1; i <=cantidad; i++) {
 				/*$("#estre_"+i).removeClass('bi-star');
 				$("#estre_"+i).addClass('bi-star-fill');*/
-				$("#estre_"+i).addClass('colorestrella');
+				$("#estre_"+i+" span").addClass('colorestrella');
 
 				$("#che_"+i).attr('checked',true);
 			}
@@ -1955,7 +1988,7 @@ function SeleccionarEstrella(cantidad) {
 			for (var i = 1; i <= 10; i++) {
 				/*$("#estre_"+i).removeClass('bi-star-fill');
 				$("#estre_"+i).addClass('bi-star');*/
-				$("#estre_"+i).removeClass('colorestrella');
+				$("#estre_"+i+" span").removeClass('colorestrella');
 
 				$("#che_"+i).attr('checked',false);
 			}
@@ -1964,7 +1997,7 @@ function SeleccionarEstrella(cantidad) {
 			for (var i = 1; i <=cantidad; i++) {
 				/*$("#estre_"+i).removeClass('bi-star');
 				$("#estre_"+i).addClass('bi-star-fill');*/
-				$("#estre_"+i).addClass('colorestrella');
+				$("#estre_"+i+" span").addClass('colorestrella');
 
 
 				$("#che_"+i).attr('checked',true);
@@ -2015,3 +2048,70 @@ function CerrarModal2() {
 	app.dialog.close();
 }
 
+function AbrirCalendarioUsuario() {
+	localStorage.setItem('fechafiltro','');
+
+	  calendarModal = app.calendar.create({
+        inputEl: '#demo-calendar-modal',
+        openIn: 'customModal',
+        header: true,
+        footer: true,
+        toolbarCloseText:'Cerrar',
+        headerPlaceholder:'Seleccionar fecha',
+         dateFormat: 'dd/mm/yyyy',
+         closeOnSelect:true,
+         on:{
+         	 calendarChange:function (c) {
+          
+            var fecha=c.value;
+            var convertirfecha=new Date(fecha);
+            var mes=(convertirfecha.getMonth() + 1)<10?'0'+(convertirfecha.getMonth() + 1):(convertirfecha.getMonth() + 1);
+            var mesdata=convertirfecha.getMonth();
+            var dia=convertirfecha.getDate()<10?'0'+convertirfecha.getDate():convertirfecha.getDate();
+            var diadata=convertirfecha.getDate();
+            fecha1=convertirfecha.getFullYear()+'-'+ mes+'-'+dia;
+            localStorage.setItem('fechafiltro',fecha1);
+         
+
+          },
+         	 close: function (c) {
+
+         	 		if (localStorage.getItem('fechafiltro')!='') {
+         	 			myStopFunction(intervalo);
+         	 			FiltrarTableroCitasUsuario();
+         	 		}
+          }
+         }
+      });
+
+	calendarModal.open();
+
+}
+
+function FiltrarTableroCitasUsuario() {
+	var iduser=localStorage.getItem('id_user');
+	var fecha=localStorage.getItem('fechafiltro');
+	var estatus=1;
+	var datos="idusuarios="+iduser+"&fechafiltro="+fecha+"&estatus="+estatus+"&hoy=0";
+	var pagina = "ObtenerTableroCitasFiltro.php";
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		success: function(datos){
+			myStopFunction(intervalo);
+			var respuesta=datos.respuesta;
+			var fecha=datos.fechafiltro;
+			PintarTableroCitas(respuesta);
+			$(".fechaactual").text(fecha);
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+}

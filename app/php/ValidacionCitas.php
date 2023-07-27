@@ -59,8 +59,9 @@ try
 
 				$cita->horainicial=$obtenerdetallecita[$i]->horainicial;
 				$cita->horafinal=$obtenerdetallecita[$i]->horafinal;
+				$cita->fechacita=$obtenerdetallecita[$i]->fecha;
 				$cita->idespecialista=$obtenerdetallecita[$i]->idespecialista;
-				$existecita=$cita->ChecarHorarioEspecialista();
+				$existecita=$cita->ChecarHorarioFechaEspecialista();
 
 				if (count($existecita)>0) {
 					$citasapartada++;

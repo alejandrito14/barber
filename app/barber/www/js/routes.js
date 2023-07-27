@@ -71,6 +71,13 @@ var routes = [
 
   },
 
+  {
+    path: '/configuracion/',
+    url: './pages/configuracion.html',
+
+  },
+
+
    {
     path: '/detallesucursal/',
     url: './pages/detallesucursal.html',

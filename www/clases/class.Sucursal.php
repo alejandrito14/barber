@@ -50,6 +50,7 @@ class Sucursal
 	public $categoriasucursal;
 	public $porfecha;
 	public $porespecialista;
+	public $idusuario;
 
 	public function ObtenerTodos()
 	{
@@ -288,5 +289,38 @@ class Sucursal
 		$resp=$this->db->consulta($query);
 	}
 	
+
+	public function AccesoSucursal()
+	{
+		$sql="SELECT
+			IFNULL(GROUP_CONCAT(sucursal.idsucursal),0) as idsucursales
+			FROM
+			acceso_sucursal_empleado
+			JOIN sucursal
+			ON acceso_sucursal_empleado.idsucursales = sucursal.idsucursal WHERE acceso_sucursal_empleado.idusuarios='$this->idusuario' AND sucursal.estatus=1  ORDER BY orden asc";
+
+	
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+	
+	
+
 }
 ?>

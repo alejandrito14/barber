@@ -30,7 +30,7 @@ try
 	$lo->idsucursal=$obtenersucursal[0]->idsucursales;
 	$fechafiltro=date('Y-m-d',strtotime($fecha));
 
-	$lo->fechacita=$fechafiltro;
+	$lo->fecha=$fechafiltro;
 	$obtenercitas=$lo->ObtenerCitasFecha();
 
 		

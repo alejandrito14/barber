@@ -31,7 +31,7 @@ try
 	$fechafiltro=date('Y-m-d',strtotime($fecha));
 
 	$lo->fecha=$fechafiltro;
-	$obtener=$lo->ListadoNotasProductos();
+	$obtener=$lo->ListadoNotasDescripcionProductos();
 
 
 		$textoestatus=array('Pendiente','Aceptado','Cancelado');
@@ -41,20 +41,20 @@ try
 		$fecha=$obtener[$i]->fecha;
 		$dianumero=explode('-',$fecha);
 		$obtener[$i]->fechaformatopago=explode(' ',$dianumero[2])[0].'/'.$fechas->mesesAnho3[$fechas->mesdelano($fecha)-1].' '.$dianumero[0];
-			$obtener[$i]->monto=$obtener[$i]->total;
+		/*	$obtener[$i]->monto=$obtener[$i]->total;
 			
-			$obtener[$i]->concepto=$obtener[$i]->folio;
+			$obtener[$i]->concepto=$obtener[$i]->folio;*/
 			$obtener[$i]->textoestatus=$textoestatus[$obtener[$i]->estatus];
 
 
-			$lo->idnotapago=$obtener[$i]->idnotapago;
+			/*$lo->idnotapago=$obtener[$i]->idnotapago;
 			$obtenerdescripcion=$lo->ObtenerdescripcionNota();
 			$total=0;
 			for ($j=0; $j <count($obtenerdescripcion) ; $j++) { 
 
 				$total=$total+$obtenerdescripcion[$j]->monto;
 			
-			}
+			}*/
 			$obtener[$i]->total=$total;
 
 

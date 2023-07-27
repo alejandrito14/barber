@@ -73,6 +73,20 @@ try
 
 					$horafinal=substr($arrayintervalos[0][$k+1],0,5);
 
+
+						$paso=1;
+		 			if (date('Y-m-d',strtotime($fecha))==date('Y-m-d')) {
+
+		 					if(date('H:i:s',strtotime($arrayintervalos[0][$k])) >= $horaactual)
+								{
+		 					$paso=1;
+		 				}else{
+
+		 					$paso=0;
+		 				}
+ 
+		 			}
+		 			if ($paso==1) {
 					$especialista->horainicial=$horainicial;
 					$especialista->horafinal=$horafinal;
 
@@ -121,11 +135,11 @@ try
 				}
 
 					
-
-
-				}
+			}
 
 		}
+
+	}
 
 
 

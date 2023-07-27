@@ -53,7 +53,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 
 ?>
 
-<div class="row">
+<div class="row" style="display: none;">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">DESCARGAS</div>
@@ -108,6 +108,38 @@ if(isset($_SESSION['permisos_acciones_erp'])){
                                     </div>
                                 </div>
                             </div>
+
+
+                             <div class="col-xl-3 col-md-6" id="versionactualdiv">
+                                <div class="card bg-success text-white mb-4">
+                                    <div class="card-body">DISPOSITIVOS</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                          <a class="small text-white stretched-link" >  
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h3>
+                                                    <span class=" mdi mdi-cellphone"></span>
+
+                                              <span style="font-size: 14px;"> VERSION ACTUAL <span id="versionactual"></span></span>
+                                                <span id="totalversionactual">0</span></h3>
+                                            </div>
+
+                                            <br>
+
+                                            <div style="margin-left: 1em">
+                                                <h3>
+                                                 <span class=" mdi mdi-cellphone"></span>
+                                                <span style="font-size: 14px;">VERSIONES ANTERIORES</span>
+                                                <span id="totalversionesanteriores">0</span>
+                                                </h3>
+                                            </div>
+
+                                            </div>
+                                        </a>
+                                        <div class="small text-white"><!-- <i class="fas fa-angle-right"></i> Font Awesome fontawesome.com --></div>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- <div class="col-xl-3 col-md-6">
                                 <div class="card bg-danger text-white mb-4">
                                     <div class="card-body">Danger Card</div>
@@ -126,6 +158,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 	ObtenerClientesAndroidios();
 	Obtenerregistrados();
 	clientesensession();
+    ObtenerClientesVersion();
 </script>
 
 

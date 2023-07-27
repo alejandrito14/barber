@@ -102,10 +102,10 @@ function isValidDate (value) {
 }
 
 function fechaformato(fecha) {
-  var monthNamesShort= ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Agost","Sept", "Oct", "Nov", "Dic"];
+  var monthNamesShort= ["","Ene.", "Feb.", "Mar.", "Abr.", "May.", "Jun.", "Jul.", "Ago.","Sep.", "Oct.", "Nov.", "Dic."];
 
   var f=new Date(fecha);
-  var mes =f.getMonth();
+  var mes =f.getMonth()+1;
   var anio=f.getFullYear();
 
   //console.log(monthNamesShort[mes]+' '+anio);

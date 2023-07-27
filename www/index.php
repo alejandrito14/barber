@@ -116,7 +116,7 @@ $navegador = $f->navegador();
                     <!-- ============================================================== -->
                     <!-- Logo -->
                     <!-- ============================================================== -->
-                    <a class="navbar-brand" href="." style="background: #021836">
+                    <a class="navbar-brand" href="." style="background: black">
                         <!-- Logo icon -->
                         <b class="logo-icon p-l-10">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -303,12 +303,12 @@ $navegador = $f->navegador();
             <!-- ============================================================== -->
             <!-- Left Sidebar - style you can find in sidebar.scss  -->
             <!-- ============================================================== -->
-            <aside class="left-sidebar" style="background: #021836;" data-sidebarbg="skin5">
+            <aside class="left-sidebar" style="background: black;" data-sidebarbg="skin5">
                 <!-- Sidebar scroll-->
                 <div class="scroll-sidebar">
                     <!-- Sidebar navigation-->
                     <nav class="sidebar-nav" >
-                        <ul id="sidebarnav" class="p-t-30" style="background: #021836;">
+                        <ul id="sidebarnav" class="p-t-30" style="background: black;">
                             <?php include("menu.php");?>
                         </ul>
                     </nav>

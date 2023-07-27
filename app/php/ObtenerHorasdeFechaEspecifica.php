@@ -148,6 +148,7 @@ try
 		//var_dump($integrandointervalos);die();
 	$arrayfechasdisponibles=[];
    // for($i=$fechainicio; $i<=$fechafin; $i+=86400){
+	$horaactual=date('H:i:s');
 
     	$fechaconsulta=$primerdia;
     	//$verificardisponibilidad=
@@ -161,7 +162,23 @@ try
 
 		 		for ($j=0; $j < count($buscarintervalodia); $j++) { 
 
+		 			$paso=1;
+		 			if (date('Y-m-d',strtotime($fechaconsulta))==date('Y-m-d')) {
 
+		 					if(date('H:i:s',strtotime($buscarintervalodia[$j]['horainicial'])) >= $horaactual)
+								{
+		 					$paso=1;
+		 				}else{
+
+		 					$paso=0;
+		 				}
+ 
+		 			}
+
+
+		 			if ($paso==1) {
+		 				# code...
+		 			
 		 			$especialista->fecha=$fechaconsulta;
 		 			$especialista->horainicial=substr($buscarintervalodia[$j]['horainicial'],0,5);
 		 			$especialista->horafinal=substr($buscarintervalodia[$j]['horafinal'],0,5);
@@ -191,6 +208,8 @@ try
 		 				}
 		 			}
 
+
+		 			}
 		 		}
 		 	}
 

@@ -493,7 +493,7 @@ function Pintartipodepagos(opciones,tipodepagoseleccionado) {
    var html='';
 
   if (opciones.length>0) {
-     html+=`  <option value="0" >Seleccionar método de pago</option>`;
+     html+=`  <option  class="first-option" value="0" >Seleccionar método de pago</option>`;
     for (var i = 0; i <opciones.length; i++) {
 
     html+=`  <option value="`+opciones[i].idtipodepago+`">`+
@@ -1198,7 +1198,8 @@ function Atras() {
   $("#divagregartarjeta").css('display','none');
   $("#divlistadotarjetas").css('visibility','visible');
   $("#divlistadotarjetas").css('display','block');
-
+  $("#btnpagarresumen").css('display','block');
+ObtenerTarjetasStripe();
 }
 function AbrirModalFotoComprobante() {
 
@@ -1558,7 +1559,7 @@ function ValidacionCitas() {
 }
 
 function RealizarCargo() {
- app.dialog.confirm('','¿Está seguro  de realizar el pago?' , function () {
+ //app.dialog.confirm('','¿Está seguro  de realizar el pago?' , function () {
 
   ValidacionCitas().then(r => {
 //ValidacionCargosTutorados
@@ -1594,7 +1595,7 @@ function RealizarCargo() {
    var tipocomisionpornota=localStorage.getItem('tipocomisionpornota');
    var requierefactura=$("#requierefactura").is(':checked')?1:0;
    var idusuariosdatosfiscales=0; 
-
+   var checkConfirm=$("#checkConfirm").is(':checked')?1:0;
 
 
      $(".opccard").each(function(){
@@ -1634,13 +1635,13 @@ function RealizarCargo() {
       datos+='&comisionpornota='+comisionpornota+"&comisionnota="+comisionnota+"&tipocomisionpornota="+tipocomisionpornota;
       datos+='&datostarjeta2='+datostarjeta2+"&monedero="+monedero;
       datos+='&datostarjeta='+datostarjeta;
-      datos+='&requierefactura='+requierefactura;
+      datos+='&requierefactura='+requierefactura+"&checkConfirm="+checkConfirm;
       datos+='&idusuariosdatosfiscales='+idusuariosdatosfiscales;
       datos+='&descuentosaplicados='+JSON.stringify(descuentosaplicados);
     pagina = urlphp+pagina;
     if (bandera==1) {
           $(".dialog-buttons").css('display','none');
-         CrearModalEspera();
+       
     var promise = $.ajax({
       url: pagina,
       type: 'post',
@@ -1826,11 +1827,159 @@ function RealizarCargo() {
     });
         
   
-          });
+          //});
 
         
 }
 
+function AbrirConfirmacion() {
+
+  var html= `
+      <div class="">
+        <div class="block">
+          <p style="text-align:center;">¿Estás seguro de continuar?</p>
+          <label class="item-checkbox item-content">
+            <input type="checkbox" id="checkConfirm" onchange="ValidarCheckConfirm()" />
+            <i class="icon-checkbox" style="float: left;margin-right: 4px;"></i> 
+         
+             <div class="item-inner" style="margin-left: 40px;">
+                <div class="item-title">Acepto los <a onclick="VerTerminos()">términos y condiciones</a></div>
+              </div>
+
+          </label>
+          <p class="color-red" id="errorMessage" style="display: none;color:red;">Por favor, acepta los términos y condiciones.</p>
+        </div>
+        <div class="block">
+          <p class="row">
+            <a href="#" class="col-100 button" id="btnCancel">Cancelar</a>
+
+            <a href="#" class="col-100 button button-fill" id="btnConfirm" style="display:none;">Aceptar</a>
+          </p>
+        </div>
+      </div>
+    `;
+      var confirmModal = app.dialog.create({
+      content:html,
+              buttons: [
+            
+              ],
+
+              onClick: function (dialog, index) {
+
+                  if(index === 0){
+                   
+                  }
+                 
+                
+              },
+              verticalButtons: true,
+            }).open();
+ 
+
+
+    // Agregar evento al botón de "Aceptar"
+  $$('#btnConfirm').on('click', function () {
+    // Verificar si el checkbox está marcado
+    if ($$('#checkConfirm').prop('checked')) {
+      // Aquí puedes realizar la acción que desees al confirmar con el checkbox aceptado
+      confirmModal.close();
+
+      CrearModalEspera();
+      RealizarCargo();
+      // Cierra el modal
+      
+    } else {
+      // Mostrar un mensaje de error si el checkbox no está marcado
+      $$('#errorMessage').show();
+    }
+  });
+
+  // Agregar evento al botón de "Cancelar"
+  $$('#btnCancel').on('click', function () {
+    // Aquí puedes realizar alguna acción si el usuario cancela la confirmación
+    console.log('Confirmación cancelada');
+    // Cierra el modal
+    confirmModal.close();
+  });
+
+
+
+
+
+
+
+}
+
+function ValidarCheckConfirm() {
+  if ($$('#checkConfirm').is(':checked')) {
+    $("#btnConfirm").css('display','block');
+
+    }else{
+
+      $("#btnConfirm").css('display','none');
+
+    }
+}
+function VerTerminos() {
+    var html=
+    `<div class="sheet-modal" style="height: 400px;
+    z-index: 99999;">
+          <div class="toolbar">
+        <div class="toolbar-inner">
+          <div class="left"></div>
+          <div class="right">
+            <a class="link sheet-close">Cerrar</a>
+          </div>
+        </div>
+      </div>
+      <div class="sheet-modal-inner">
+          <div class="page-content">
+              <div class="block">
+              <div style="text-align:justify;" id="divterminos"></div>
+              </div>
+            </div>
+          </div>
+    </div>`;
+
+    var sheet = app.sheet.create({
+    content: html,
+    on: {
+      opened: function () {
+        ObtenerTerminos();
+      }
+    }
+  });
+
+    sheet.open();
+}
+
+function ObtenerTerminos() {
+   var pagina = "Obtenerdatosconfi.php";
+  var id_user=localStorage.getItem('id_user');
+  var datos="id_user="+id_user;
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    crossDomain: true,
+    cache: false,
+    data:datos,
+    async:false,
+    success: function(res){
+      var respuesta=res.respuesta;
+    // console.log(respuesta.terminoscondiciones);
+     $("#divterminos").html(respuesta.terminoscondiciones);
+
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+
+    });
+}
 
 function ObtenerDescuentosRelacionados() {
    var iduser=localStorage.getItem('id_user');

@@ -61,6 +61,7 @@ function NuevaTarjetaStripe(){
   SetLastCard(null);
 
   LoadSetupIntent();
+  $("#btnpagarresumen").css('display','none');
 }
 
 function PintarTarjetas(tarjetas,setlastcard=false) {
@@ -273,6 +274,8 @@ function LoadSetupIntent(){
                     // The PaymentMethod was successfully set up
                     setupComplete(stripe, setupIntent.client_secret);
                     ObtenerTarjetasStripe(true);
+                      $("#btnpagarresumen").css('display','block');
+
                   }
                 });
             });

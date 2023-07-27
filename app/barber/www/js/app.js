@@ -139,7 +139,7 @@ $(document).ready(function() {
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.11';
+var version='1.0.13';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;
@@ -710,7 +710,7 @@ $$(document).on('page:init', '.page[data-name="resumenpago"]', function (e) {
   $("#divagregartarjeta").css('display','none');
   $("#divlistadotarjetas").css('display','none');
 
-  $$("#btnpagarresumen").attr('onclick','RealizarCargo()')
+  $$("#btnpagarresumen").attr('onclick','AbrirConfirmacion()')
 });
 
 $$(document).on('page:init','.page[data-name="homeindex"]',function(e)
@@ -875,6 +875,7 @@ $$(document).on('page:init', '.page[data-name="cambiocontra"]', function (e) {
 
 $$(document).on('page:init', '.page[data-name="homeadmin"]', function (e) {
         $(".btnsalir").attr('onclick','salir_app()');
+        $(".btnscan2").attr('onclick','scanqr3()');
 
         $$(".page-content").addClass('marginauto');
  
@@ -1012,6 +1013,12 @@ $$(document).on('page:init', '.page[data-name="validadoqrcita"]', function (e) {
   //colocarvalor(0,0,10,2);
 });
 
+$$(document).on('page:init', '.page[data-name="configuracion"]', function (e) {
+  
+ ObtenerdatosFormularioConfiguracion();
+ $(".btnguardarconfi").attr('onclick','GuardarConfiguracion()');
+
+});
 
 /*$$(document).on('page:init', '.page[data-name="disponibilidadfechaadmin"]', function (e) {
   $("#txtfechaadmin").attr('onclick','AbrirModalServicios()');

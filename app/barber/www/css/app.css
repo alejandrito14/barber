@@ -884,7 +884,7 @@ code {
   display: none;
 }
 .colorestrella{
-  color: orange;
+  color: orange!important;
 }
 
 .link .popup-close:after,.link .popup-close:before {
@@ -1213,6 +1213,10 @@ footer .nav .nav-item .nav-link span .nav-text {
 .btnagendarcita{
   background: #C7AA6A;
 }
+
+ select#tipopago  {
+      color: #a09797!important;; /* Cambia el color según tus preferencias */
+    }
 /*.boton{
   outline: none;
   border: 1px solid #363431;

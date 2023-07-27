@@ -14,10 +14,10 @@ try
 	$fechaactual=date('Y-m-d');
 
 
-	$diatexto=$fechas->diasSemana[date('N', strtotime($fechaactual))];
+	$diatexto=$fechas->diasSemanaCorto[date('N', strtotime($fechaactual))];
 
-	$fechaformato=$diatexto.' '.date('d/m/Y',strtotime($fechaactual));
-
+	$fechaformato=$diatexto.' '.date('d',strtotime($fechaactual)).' de '.$fechas->mesesEnEspañol[date('F',strtotime($fechaactual))].' de '.date('Y', strtotime($fechaactual));
+ 
 	$respuesta['respuesta']=1;
 	$respuesta['fechaactual']=$fechaformato;
 	/*$respuesta['fechadia']=$fechadia;

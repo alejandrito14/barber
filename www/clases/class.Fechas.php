@@ -8,6 +8,21 @@
 	  public $mesesAnho = array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
 	  public $mesesAnho3 = array('Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic');
 	  public $mesessms = array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
+
+	   public  $mesesEnEspañol = array(
+        'January' => 'Ene.',
+        'February' => 'Feb.',
+        'March' => 'Mar.',
+        'April' => 'Abr.',
+        'May' => 'May.',
+        'June' => 'Jun.',
+        'July' => 'Jul.',
+        'August' => 'Ago.',
+        'September' => 'Sep.',
+        'October' => 'Oct.',
+        'November' => 'Nov.',
+        'December' => 'Dic.'
+    	);	
 	
 	public function Fechas()
 	{

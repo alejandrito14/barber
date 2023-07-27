@@ -1,20 +1,24 @@
+var calendarModal="";
 function CargarDatosEspecialista() {
 	$(".licompras").css('display','none');
 	$(".lifavoritos").css('display','none');
 	$(".divcalendario").attr('onclick','AbrirCalendarioEspecialista()');
-	$(".divhoy").attr('onclick','ObtenerTableroCitasEspecialista(1);IntervaloCitas();');
+	$(".divhoy").attr('onclick','CargarFechafiltro();IntervaloCitas();');
 	 var nombre= localStorage.getItem("nombre");
-     $(".nombreusuario").text(nombre);
+    $(".nombreusuario").text(nombre);
+    $(".liconfiguracion").css('display','none');
+    CargarFechafiltro();
+
      ObtenerTableroAnuncios();
-           Obtenerpublicidad(1);
-		ObtenerTableroCitasEspecialista();
-		ObtenerFechaActual();
+     Obtenerpublicidad(1);
+	 ObtenerTableroCitasEspecialista();
+	 ObtenerFechaActual();
 		      ObtenerDetalleEmpresa();
-	intervalo=setInterval("ObtenerTableroCitasEspecialista(1)",1000);
+	intervalo=setInterval("FiltrarTableroCitas(1)",1000);
 }
 
 function IntervaloCitas() {
-		intervalo=setInterval("ObtenerTableroCitasEspecialista(1)",1000);
+		intervalo=setInterval("FiltrarTableroCitas(1)",1000);
 
 }
 
@@ -62,6 +66,20 @@ function PintarTableroCitasEspecialista(respuesta) {
 
 					imagen=urlimagenes+`sucursal/imagenes/`+codigoserv+respuesta[i].imagen;
 
+				var color="color:black;";
+				if (respuesta[i].estatus==0) {
+					 color="color:black;";
+				}
+
+				if (respuesta[i].estatus==1) {
+					color="color:#C7AA6A;";
+
+				}
+
+				if (respuesta[i].estatus==2) {
+					color="color:#5ac35b;";
+				}
+
 			html+=`
 			<li class="col-100 medium-50">
 				<div class="card-bx job-card" onclick="AbrirModalCitaEspecialista(`+respuesta[i].idcita+`)">
@@ -90,9 +108,9 @@ function PintarTableroCitasEspecialista(respuesta) {
 					`;
 
 					var onclick="";
-					var color="color:black;";
+					//var color="color:black;";
 					if (respuesta[i].checkin==1) {
-						color="color:#5ac35b;";
+						//color="color:#5ac35b;";
 
 	
 					}
@@ -147,7 +165,7 @@ function ObtenerDetalleCitaEspecialista(respuesta) {
 	var html2="";
 
 var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;background: white;">
-            <div class="toolbar" style="background: white;">
+            <div class="toolbar" style="background: white;margin-top: 1em;">
               <div class="toolbar-inner">
                 <div class="left"></div>
                 <div class="right">
@@ -355,19 +373,106 @@ function ObtenerFechaActual() {
 		});
 }
 
-function AbrirCalendarioEspecialista() {
-	localStorage.setItem('fechafiltro','');
+function CargarFechafiltro() {
+	 const fechaActual = new Date();
 
-	  calendarModal = app.calendar.create({
+    // Obtiene el día, el mes y el año de la fecha actual
+    const dia = fechaActual.getDate();
+    const mes=(fechaActual.getMonth() + 1)<10?'0'+(fechaActual.getMonth() + 1):(fechaActual.getMonth() + 1);
+    const anio = fechaActual.getFullYear();
+
+
+    // Formatea la fecha actual como "DD/MM/AAAA"
+    const fechaFormateada = anio + "-" + mes + "-" + dia;
+	localStorage.setItem('fechafiltro',fechaFormateada);
+
+}
+function AbrirCalendarioEspecialista() {
+MarcarCitasCalendario();
+	  
+
+/*$(".calendar-footer").html('');
+	var html=`
+		<a class="button calendar-close sheet-close popover-close">Filtrar</a>
+		<a class="button calendar-close sheet-close popover-close">Cerrar</a>
+	`;*/
+}
+
+function MarcarCitasCalendario() {
+	
+
+ var fecha=new Date();
+ var mes=(fecha.getMonth() + 1)<10?'0'+(fecha.getMonth() + 1):(fecha.getMonth() + 1);
+ var anio= fecha.getFullYear();
+  var iduser=localStorage.getItem('id_user');
+  var datos="idusuario="+iduser+"&mes="+mes+"&anio="+anio;
+
+  var pagina = "ObtenerCitasFechasCalendarioEspecialista.php";
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+       eventos=[];
+        var citas=resp.citasdia;
+
+       if (resp.citados.length>0) {
+        var fechascitas=resp.citados;
+        for (var i = 0; i <fechascitas.length; i++) {
+         
+            var dividirfecha=fechascitas[i].split('-');
+            var anio=dividirfecha[0];
+            var mes=(dividirfecha[1].replace(/^(0+)/g, '')-1);
+            var dia=dividirfecha[2];
+
+
+          var objeto={
+              date:new Date(anio,mes,dia),
+              color:'rgb(245,212,95)',
+            };
+              eventos.push(objeto);
+        }
+
+
+       }
+
+	 var monthNames = ['Enero', 'Febrero', 'Marzo', 'Abrirl', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+       calendarModal = app.calendar.create({
         inputEl: '#demo-calendar-modal',
         openIn: 'customModal',
+        events:eventos,
+        firstDay:0,
+        weekHeader: true,
         header: true,
         footer: true,
         toolbarCloseText:'Cerrar',
         headerPlaceholder:'Seleccionar fecha',
          dateFormat: 'dd/mm/yyyy',
+
          closeOnSelect:true,
+          renderToolbar: function () {
+          return '<div class="toolbar calendar-custom-toolbar no-shadow">' +
+            '<div class="toolbar-inner">' +
+            '<div class="left">' +
+            '<a  class="link icon-only"><i class="icon icon-back"></i></a>' +
+            '</div>' +
+            '<div class="center"></div>' +
+            '<div class="right">' +
+            '<a  class="link icon-only"><i class="icon icon-forward"></i></a>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+        },
          on:{
+
+         	init: function (c) {
+           
+
+          },
+
          	 calendarChange:function (c) {
           
             var fecha=c.value;
@@ -387,17 +492,106 @@ function AbrirCalendarioEspecialista() {
          	 			myStopFunction(intervalo);
          	 			FiltrarTableroCitas();
          	 		}
+          },
+
+          open:function (c) {
+          	
+          	 $('.calendar-custom-toolbar .left .link').on('click', function () {
+              calendarModal.prevMonth();
+              //alert(c.currentMonth,c.currentYear);
+                           AnteriorSiguiente(c.currentMonth,c.currentYear);
+
+            });
+            $('.calendar-custom-toolbar .right .link').on('click', function () {
+            	calendarModal.nextMonth();
+            	//AnteriorSiguiente(c.currentMonth,c.currentYear);
+             AnteriorSiguiente(c.currentMonth,c.currentYear);
+
+            });
+
+            $('.calendar-custom-toolbar .center').text(monthNames[c.currentMonth] + ', ' + c.currentYear);
+
+          $(".calendar-day-today .calendar-day-number").addClass('diaactual');
+            $(".calendar-day-has-events .calendar-day-number").addClass('calendarevento');
+                 $(".calendar-day-event").css('display','none');
+
+          },
+           monthYearChangeStart: function (c) {
+            $('.calendar-custom-toolbar .center').text(monthNames[c.currentMonth] + ', ' + c.currentYear);
+
           }
          }
       });
 
 	calendarModal.open();
+   },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+}
 
-/*$(".calendar-footer").html('');
-	var html=`
-		<a class="button calendar-close sheet-close popover-close">Filtrar</a>
-		<a class="button calendar-close sheet-close popover-close">Cerrar</a>
-	`;*/
+function AnteriorSiguiente(mes,anio) {
+	
+
+ var mes=(mes + 1)<10?'0'+(mes + 1):(mes + 1);
+
+  var iduser=localStorage.getItem('id_user');
+  var datos="idusuario="+iduser+"&mes="+mes+"&anio="+anio;
+
+  var pagina = "ObtenerCitasFechasCalendarioEspecialista.php";
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+       eventos=[];
+        var citas=resp.citasdia;
+
+       if (resp.citados.length>0) {
+        var fechascitas=resp.citados;
+        for (var i = 0; i <fechascitas.length; i++) {
+         
+            var dividirfecha=fechascitas[i].split('-');
+            var anio=dividirfecha[0];
+            var mes=(dividirfecha[1].replace(/^(0+)/g, '')-1);
+            var dia=dividirfecha[2];
+
+
+          var objeto={
+              date:new Date(anio,mes,dia),
+              color:'rgb(245,212,95)',
+            };
+              eventos.push(objeto);
+        }
+
+
+       }
+
+       // Actualiza el calendario con los nuevos eventos
+		calendarModal.update({
+		  events: eventos
+		});
+
+
+          $(".calendar-day-has-events .calendar-day-number").addClass('calendarevento');
+          $(".calendar-day-event").css('display','none');
+
+
+    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+
 }
 
 function FiltrarTableroCitas() {

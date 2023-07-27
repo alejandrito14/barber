@@ -185,7 +185,7 @@ for (var i = 0; i <listado.length; i++) {
 
 
                             <div class="col-40">
-                	<p class="text-muted " style="font-size:20px;text-align:right;margin:0px;">$`+formato_numero(listado[i].monto,2,'.',',')+`</p>
+                	<p class="text-muted " style="font-size:20px;margin:0px;">$`+formato_numero(listado[i].monto,2,'.',',')+`</p>
 
                      <p>
                      </p>

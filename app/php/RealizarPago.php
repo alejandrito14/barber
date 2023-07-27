@@ -54,6 +54,7 @@ $montovisual=$_POST['montovisual'];
 $cambiomonto=$_POST['cambiomonto'];
 $requierefactura=$_POST['requierefactura'];
 $idusuariosdatosfiscales=$_POST['idusuariosdatosfiscales'];
+$checkConfirm=$_POST['checkConfirm'];
 
 $comisionpornota=$_POST['comisionpornota'];
 $comisionnota=$_POST['comisionnota'];
@@ -137,6 +138,7 @@ try {
          $notapago->descuento=0;
          $notapago->descuentomembresia=0;
          $notapago->requierefactura=$requierefactura;
+         $notapago->checkConfirm=$checkConfirm;
 
          $notapago->comisionpornota=$comisionpornota;
          $notapago->comisionnota=$comisionnota;

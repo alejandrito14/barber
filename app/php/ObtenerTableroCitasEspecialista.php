@@ -62,7 +62,7 @@ try
 
 	$diatexto=$fechas->diasSemana[date('N', strtotime($fechafiltro))];
 
-	$fechaformato=$diatexto.' '.date('d/m/Y',strtotime($fechafiltro));
+	$fechaformato=$diatexto.' '.date('d',strtotime($fechafiltro)).' de '.$fechas->mesesEnEspañol[date('F',strtotime($fechafiltro))].' de '.date('Y', strtotime($fechafiltro));
 
 
 	$respuesta['respuesta']=$obtenertablero;

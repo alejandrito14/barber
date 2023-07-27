@@ -45,7 +45,7 @@ try
     	
 		$dia_semana = date("w", strtotime($fechaconsulta)); 
 
-		$lo->fechacita=$fechaconsulta;
+		$lo->fecha=$fechaconsulta;
 		$existenfechas=$lo->ObtenerCitasFecha();
 		
 			if (count($existenfechas)>0) {
@@ -59,7 +59,7 @@ try
 
 		$fechaactual=date('Y-m-d');
 
-		$lo->fechacita=$fechaactual;
+		$lo->fecha=$fechaactual;
 		$obtenercitas=$lo->ObtenerCitasFecha();
 
 		

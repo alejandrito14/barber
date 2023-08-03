@@ -65,7 +65,13 @@ var routes = [
     `,
   },
 
-{
+  {
+    path: '/seleccionespecialista/',
+    url: './pages/seleccionespecialista.html',
+
+  },
+
+ {
     path: '/politicas/',
     url: './pages/politicas.html',
 
@@ -230,7 +236,14 @@ var routes = [
     path: '/intereses/',
     componentUrl: './pages/intereses.html',
   },
-  
+
+  {
+    path: '/servicioslista/',
+   url: './pages/servicioslista.html',
+
+  },
+
+
   // Pages
   {
     path: '/welcome/',
@@ -275,6 +288,19 @@ var routes = [
    {
     path: '/categoriaspaquetes/',
     componentUrl: './pages/categoriaspaquetes.html',
+  },
+
+  {
+    path: '/seleccionarhorario/',
+    url: './pages/seleccionarhorario.html',
+
+  },
+
+
+  {
+    path: '/listadoespecialista/',
+    url: './pages/listadoespecialista.html',
+
   },
   
   {

@@ -409,6 +409,10 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
      $(".btnsalir").attr('onclick','salir_app()');
      $(".btniracarrito").attr('onclick','IraCarrito()');
     $$(".page-content").addClass('marginauto');
+
+    entrarinvitado().then(resultado => {
+    
+
     var invitado=  localStorage.getItem('invitado');
 
     if (invitado==1) {
@@ -416,12 +420,14 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
       $(".menuoculto").css('display','none');
       $(".menuusuario").css('visibility','hidden');
       $(".btnsalir").css('display','');
-    }
 
-  CargarDatos();
-  var pregunta=localStorage.getItem('pregunta');
-    if (pregunta==0) {
-     app.dialog.confirm('','¿Desea mantener la sesión activa?', function () {
+      
+    }
+    $(".panelizquierdo").attr('onclick','toggleMenu()');
+    CargarDatos();
+    var pregunta=localStorage.getItem('pregunta');
+        if (pregunta==0) {
+        app.dialog.confirm('','¿Desea mantener la sesión activa?', function () {
         localStorage.setItem('session',1);
 
         localStorage.setItem('pregunta',1);
@@ -432,6 +438,16 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
                   }
             );
            }
+
+  })
+  .catch(error => {
+    console.error('Ocurrió un error:', error);
+  });
+
+
+
+
+
 
 });
 
@@ -1018,6 +1034,22 @@ $$(document).on('page:init', '.page[data-name="configuracion"]', function (e) {
  ObtenerdatosFormularioConfiguracion();
  $(".btnguardarconfi").attr('onclick','GuardarConfiguracion()');
 
+});
+
+$$(document).on('page:init', '.page[data-name="servicioslista"]', function (e) {
+  
+ObtenerListaFiltroMostrar();
+
+var invitado=  localStorage.getItem('invitado');
+
+    if (invitado==1) {
+
+      $(".menuoculto").css('display','none');
+      $(".menuusuario").css('visibility','hidden');
+      $(".btnsalir").css('display','');
+
+      
+    }
 });
 
 /*$$(document).on('page:init', '.page[data-name="disponibilidadfechaadmin"]', function (e) {

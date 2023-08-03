@@ -863,9 +863,9 @@ code {
 }
 
 .calendarevento{
-      background: black!important;
+     /* background: black!important;*/
       color: white!important;
-    
+     background: #c7aa6a!important;
   }
   .nodisponible{
     /* background: #ebebeb!important;*/
@@ -1138,7 +1138,7 @@ code {
     width: 100%;
     z-index: 1001;
     border-radius: var(--fimobile-rounded) var(--fimobile-rounded) 0 0;
-    background-color: white;
+    background-color: black;
     box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.07);
     -moz-box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.07);
     -webkt-box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.07);
@@ -1217,6 +1217,32 @@ footer .nav .nav-item .nav-link span .nav-text {
  select#tipopago  {
       color: #a09797!important;; /* Cambia el color según tus preferencias */
     }
+    .title1{
+      color: #C7AA6A;
+    }
+    .title2{
+      color: #C7AA6A;
+    }
+    .titlecatalogosub{
+      color: white;
+    }
+    .nombrepaquete{
+      color: white;
+    }
+  .panelmenu .page{
+    background: #c7aa6a;
+    color: white!important;
+  }
+
+  .panelmenu .sidebar-logo{
+    background: #c7aa6a;
+  }
+  .panelmenu .nav-bar{
+    background: #c7aa6a;
+  }
+  .panelmenu .sidebar-menu{
+     background: #c7aa6a;
+  }
 /*.boton{
   outline: none;
   border: 1px solid #363431;

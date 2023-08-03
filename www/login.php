@@ -15,7 +15,7 @@ $navegador = $f->navegador();
 	<!-- Favicon icon -->
 <!-- 	<link rel="icon" type="image/png" sizes="16x16" href="images/configuracion/imagentransparente.png">  -->
 
-	<title>IS-ACADEMIA</title>
+	<title>IS-BARBER</title>
 
 	<!-- ============ INICIA INCRUSTACION DE ARCHIVOS CSS ============ -->
 	<link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">

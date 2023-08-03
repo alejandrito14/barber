@@ -39,13 +39,14 @@ function CargarInicio() {
                 }
 }
 function CargarDatos() {
+      ObtenerDetalleEmpresa();
 
 	GuardarTokenBase();
 	localStorage.setItem('valor','');
 
 	localStorage.setItem('variable',0);
 	localStorage.setItem('idusuertutorado','');
-  var nombreusuario= localStorage.getItem('alias');
+    var nombreusuario= localStorage.getItem('alias');
 	$$(".nombreusuario").text(nombreusuario);
 	var tipousuario=localStorage.getItem('tipoUsuario');
 	$$(".tipousuario").text(tipousuario);

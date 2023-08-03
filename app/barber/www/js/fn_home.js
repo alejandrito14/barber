@@ -282,7 +282,6 @@ function ObtenerTableroSucursal(estatus) {
 function PintarTableroSucursal(respuesta) {
 	var html="";
 	if (respuesta.length>0) {
-				html+=`<div class="swiper-wrapper">`;
 
 		for (var i = 0; i < respuesta.length; i++) {
 			
@@ -300,75 +299,84 @@ function PintarTableroSucursal(respuesta) {
 
 		onclick="abrirGoogleMaps('"+lat+"','"+long+"')";
 	}
+	var estilo="";
+	var cantidadsucursal=respuesta.length;
+	if (cantidadsucursal>1) {
+		estilo="border-bottom:1px solid; ";
+	}
 
 
 
+		      html+=`
+		      <div class=""> 
+		      	<div class="row" style="`+estilo+`padding-bottom: 1em;">
+			        <div class="col-40" onclick="DetalleSucursal(`+respuesta[i].idsucursal+`)" style="margin-left: 10px;"> 
+							<img src="`+imagen+`" alt="" style="width: 100%;">
 
-			html+=`
-				<div class="swiper-slide swiper-slide-active" role="group"  style="margin-right: 20px;width:200px;" >
-				<div class="">
-						<div class="card-media" style="width:100%;height:72px;" onclick="DetalleSucursal(`+respuesta[i].idsucursal+`)">
-						<span class="material-icons-outlined" style="    z-index: 9999;
-    position: absolute;
-    right: 0;margin-right: 0.5em;margin-top: 0.3em;">favorite_border</span>
-							<span  class="">
-							<img src="`+imagen+`" alt="" style="height: 100px;width: 100%;border-radius: 10px;">
-							</span>
-						</div>
-						<div class="card-info">
-							<div class="row" style="    margin-top: 2em;">
-								<div class="col-70">
-								<p>
-									<p class="title" style="font-weight:bold;color:black;margin:0;">
+			        </div>
+			        <div class="col-60">
+			        	<div class="row" style="    margin-left: 10px;">
+								<div class="col-100">
+								<p class="title" style="color:black;margin:0;font-size: 18px;margin-bottom: 10px;">
 										<a >`+respuesta[i].titulo+`
-										</a>
 									</p>
-									<span class="location">
-									`+respuesta[i].descripcion+`</span>
-									</p>
-									<h6 class="text-primary vacancy">
-									</h6>
+									<p style="font-size: 14px;color:#c7aa6a;line-height: 16px;">
+									`+respuesta[i].direccion+`, `+respuesta[i].colonia+`</p>
+									
+									
 								</div>
-								<div class="col-10" style="text-align: right;position: absolute; right: 0;margin-right: 4em;margin-top: 1em;">
-									<span style="justify-content: center;display: flex;" class="material-icons-outlined" onclick="AgendarDesdeSucursal(`+respuesta[i].idsucursal+`)">
-									calendar_month
-									</span>
-								</div>
-
-								<div class="col-20" style=" 
-							    text-align: right;
-							    position: absolute;
-							    right: 0;
-							    margin-right: 0.5em;
-							    margin-top: 1em;">
-									<span class="material-icons-outlined" style="font-size:28px;line-height: 1;"  onclick="`+onclick+`">
-									location_on
-									</span>
-
-								</div>
+							
 							</div>
-						</div>
-					</div>
-				</div>
-			`;
+							<div class="row" style="
+							    margin-top: 1em;    margin-left: 20px;">
+							
+							</div>
+
+			        </div>
+		      
+
+		      </div>
+
+		      </div>
+
+
+		      `;
+
+
 
 		}
-		html+=`</div>`;
+	
 
 
 		$$(".cardswipersucursal").html(html);
 
 
 
-		 var swiper3 = new Swiper(".cardswipersucursal", {
+		/* var swiper3 = new Swiper(".cardswipersucursal", {
 		     slidesPerView: "auto",
 		    spaceBetween: 30,
 		    pagination: false,
 
 		  });
+	    <div class="col-10" style="">
+																
+								<span style="" class="material-icons-outlined" onclick="AgendarDesdeSucursal(`+respuesta[i].idsucursal+`)">
+									calendar_month
+									</span>
+								</div>
+
+								<div class="col-80" style="">
+									<span class="material-icons-outlined" style="font-size:28px;" onclick="`+onclick+`">
+									location_on
+									</span>
+
+								</div>
+
+		  */
 
 	}
 }
+
 
 function AgendarDesdeSucursal(idsucursal) {
 	localStorage.setItem('idsucursal',idsucursal);
@@ -1022,8 +1030,8 @@ function GuardarIntereses() {
 
 	}
 function CargarDatos() {
-	 ObtenerTableroAnuncios(1);
-      ObtenerTableroCategorias(1);
+	  //ObtenerTableroAnuncios(1);
+     // ObtenerTableroCategorias(1);
       ObtenerTableroSucursal(1);
       ObtenerTableroCitas(1);
       Obtenerpublicidad(1);
@@ -1040,10 +1048,10 @@ function CargarDatos() {
 
 
      var os=  localStorage.getItem("SO");
-       $(".bcantidadcarrito").css('right','3em');
+       $(".bcantidadcarrito").css('right','8px');
 
      if (os=='ios') {
-     	$(".bcantidadcarrito").css('right','3em');
+     	$(".bcantidadcarrito").css('right','8px');
      }
 }
 
@@ -1633,9 +1641,12 @@ function ObtenerPolitica() {
 
 
 function entrarinvitado() {
+	  return new Promise((resolve, reject) => {
 
 	
-	CrearUsuarioInvitado();
+	resolve(CrearUsuarioInvitado());
+
+	});
 	
 
 }
@@ -1652,7 +1663,7 @@ function CrearUsuarioInvitado() {
 				localStorage.removeItem('carrito');
 				localStorage.setItem('invitado',1);
 				localStorage.setItem('idtipousuario',6);
-				GoToPage("home");
+				//GoToPage("home");
 	}else{
 
 		var pagina = "CrearUsuarioInvitado.php";
@@ -1671,7 +1682,7 @@ function CrearUsuarioInvitado() {
 				localStorage.removeItem('carrito');
 				localStorage.setItem('invitado',1);
 				localStorage.setItem('idtipousuario',6);
-				GoToPage("home");
+				//GoToPage("home");
 			
 			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;

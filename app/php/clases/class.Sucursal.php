@@ -32,7 +32,15 @@ class Sucursal
 	
 	public function ObtenerSucursales()
 	{
-		$sql="SELECT * FROM sucursal WHERE estatus=1  ORDER BY orden asc";
+		$sql="SELECT sucursal.*,
+		pais.pais,
+		estados.nombre as nombrestado,
+		municipios.nombre AS nombremunicipio
+		 FROM sucursal
+			left join pais ON sucursal.pais=pais.idpais
+			left JOIN estados on sucursal.estado =estados.id
+			left join municipios on sucursal.municipio=municipios.id
+		 WHERE estatus=1  ORDER BY orden asc";
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 
@@ -170,7 +178,18 @@ class Sucursal
 	///funcion para objeter datos de un usuario
 	public function buscar_sucursal()
 	{
-		$query="SELECT * FROM sucursal WHERE idsucursal=".$this->idsucursales;
+		$query="SELECT sucursal.*,
+		pais.pais,
+		estados.nombre as nombrestado,
+		municipios.nombre AS nombremunicipio
+		 FROM sucursal
+		 LEFT JOIN pais
+		ON sucursal.pais = pais.idpais 
+		LEFT JOIN estados
+		ON sucursal.estado = estados.id 
+		LEFT JOIN municipios
+		ON sucursal.municipio = municipios.id
+  WHERE idsucursal=".$this->idsucursales;
 		$resp=$this->db->consulta($query);
 		
 		//echo $total;

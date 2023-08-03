@@ -55,7 +55,7 @@ $navegador = $f->navegador();
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/configuracion/imagentransparente.png"> 
-    <title>IS-ACADEMIA</title>
+    <title>IS-BARBER</title>
     <!-- Custom CSS -->
     <link href="assets/libs/flot/css/float-chart.css" rel="stylesheet">
     <!-- Custom CSS -->

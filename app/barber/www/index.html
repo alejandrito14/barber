@@ -26,7 +26,8 @@
 	<!-- Fonts -->
 	<link rel="stylesheet" href="css/font-awesome/css/all.min.css">
 	<link rel="stylesheet" href="css/line-awesome/css/line-awesome.min.css">
-	
+		<link rel="stylesheet" href="css/menu.css">
+
 	<!-- Style css -->
 	<link rel="stylesheet" href="css/style.css">
 	
@@ -43,110 +44,47 @@
 <body>
 <div id="app">
     
-	<div class="panel panel-left panel-reveal panel-resizable panel-init sidebar-left">
-		<div class="page">
-			<div class="page-content">
-				<div class="sidebar-menu">
-					
-					<div class="sidebar-logo">
-						<div class="logo-icon" style="display: none;">
-						</div>
-						
-					</div>
-					<a href="#" class="panel-close">
-						<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path d="M25.5188 4.48126C23.4385 2.4011 20.788 0.984547 17.9026 0.410715C15.0171 -0.163118 12.0264 0.131546 9.30839 1.25744C6.59043 2.38334 4.26736 4.28991 2.63294 6.73606C0.998525 9.18221 0.12616 12.0581 0.12616 15C0.12616 17.9419 0.998525 20.8178 2.63294 23.264C4.26736 25.7101 6.59043 27.6167 9.30839 28.7426C12.0264 29.8685 15.0171 30.1631 17.9026 29.5893C20.788 29.0155 23.4385 27.5989 25.5188 25.5188C26.9003 24.1375 27.9961 22.4976 28.7437 20.6928C29.4914 18.888 29.8762 16.9535 29.8762 15C29.8762 13.0465 29.4914 11.1121 28.7437 9.30724C27.9961 7.50242 26.9003 5.86255 25.5188 4.48126ZM20.3126 18.7613C20.4187 18.8606 20.5034 18.9808 20.5612 19.1142C20.6191 19.2476 20.6489 19.3915 20.6489 19.5369C20.6489 19.6823 20.6191 19.8262 20.5612 19.9596C20.5034 20.093 20.4187 20.2131 20.3126 20.3125C20.2133 20.411 20.0956 20.4889 19.9661 20.5418C19.8367 20.5946 19.698 20.6214 19.5582 20.6206C19.2795 20.6195 19.0124 20.5088 18.8145 20.3125L15.0001 16.4981L11.2388 20.3125C11.0409 20.5088 10.7738 20.6195 10.4951 20.6206C10.3553 20.6214 10.2166 20.5946 10.0872 20.5418C9.95773 20.4889 9.83999 20.411 9.74071 20.3125C9.54282 20.1134 9.43174 19.8441 9.43174 19.5634C9.43174 19.2827 9.54282 19.0135 9.74071 18.8144L13.502 15L9.74071 11.2388C9.56665 11.0355 9.47569 10.774 9.48602 10.5066C9.49635 10.2392 9.6072 9.98557 9.79642 9.79635C9.98565 9.60712 10.2393 9.49627 10.5067 9.48594C10.7741 9.47561 11.0356 9.56657 11.2388 9.74063L15.0001 13.5019L18.7613 9.74063C18.8597 9.63878 18.9772 9.55729 19.107 9.50083C19.2369 9.44437 19.3766 9.41404 19.5182 9.41158C19.6598 9.40911 19.8004 9.43456 19.9322 9.48646C20.0639 9.53836 20.1842 9.6157 20.286 9.71407C20.3879 9.81244 20.4694 9.9299 20.5258 10.0598C20.5823 10.1896 20.6126 10.3293 20.6151 10.4709C20.6175 10.6125 20.5921 10.7532 20.5402 10.8849C20.4883 11.0167 20.411 11.1369 20.3126 11.2388L16.4982 15L20.3126 18.7613Z" fill="#AAAAAA"/>
-						</svg>
-					</a>
-					<div class="nav-bar list menu-list dz-list">
-						<ul>
-							
-							<li>
-								<a href="/home/" class="item-link item-selected">
-									
-									<span>Inicio</span>
-								</a>
-							</li>
-							<li>
-								<a onclick="AbrirModalDescripcion()" class="item-link ">
-						
-									<span class="nombreempresa" style="height: 20px;"></span>
-								</a>
-							</li>
-							<li class="lifavoritos">
-								<a href="/home/" class="item-link ">
-									<span class="material-icons-outlined">grade</span>
-									<span> Favoritos</span>
-								</a>
-							</li>
-							<li>
-								<a href="/profile/" class="item-link">
-									<span class="material-icons-outlined">
-									person
-									</span>
+	
+  <div class="menu" id="menu" >
 
-									<span>Mi perfil</span>
-								</a>
-							</li>
-							
+  	<div class="logo"> 
+  		<img class="imagenempresa" style="height: 150px;display: flex;/* width: 150px; */justify-content: center;margin: 0px auto;margin-left: 120px;" src="" alt="">	
 
-							<li class="licompras">
-								<a href="/profile/" class="item-link">
-										<span class="material-icons-outlined">
-											payments
-											</span>
-									<span> Mis compras</span>
-								</a>
-							</li>
-							<li>
-								<a href="/messages-list/" class="item-link">
-										<span class="material-icons-outlined">
-											textsms
-											</span>
-									<span> Mensajes</span>
-								</a>
-							</li>
+  	</div>
+    <ul style="margin-left: 100px;">
+      <li ><a class="limenu"
+href="#">Negocios</a></li>
+      <li ><a class="limenu"
+ href="#">Citas</a></li>
+      <li ><a class="limenu"
+ href="#">Blog</a></li>
 
-							<li class="liconfiguracion" style="display: none;">
-								<a href="/configuracion/" class="item-link">
-								<span class="material-icons-outlined">
-								settings
-											</span>
-									<span> Configuración</span>
-								</a>
-							</li>
-							<!-- <li>
-								<a href="/elements/" class="item-link">
-									<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
-										<path d="M187.628,0H43.707C19.607,0,0,19.607,0,43.707v143.921c0,24.1,19.607,43.707,43.707,43.707h143.921c24.1,0,43.707-19.607,43.707-43.707V43.707C231.335,19.607,211.728,0,187.628,0z"/>
-										<path d="M468.293,0H324.372c-24.1,0-43.707,19.607-43.707,43.707v143.921c0,24.1,19.607,43.707,43.707,43.707h143.921c24.1,0,43.707-19.607,43.707-43.707V43.707C512,19.607,492.393,0,468.293,0z"/>
-										<path d="M187.628,280.665H43.707C19.607,280.665,0,300.272,0,324.372v143.921C0,492.393,19.607,512,43.707,512h143.921c24.1,0,43.707-19.607,43.707-43.707V324.372C231.335,300.272,211.728,280.665,187.628,280.665z"/>
-										<path d="M468.293,280.665H324.372c-24.1,0-43.707,19.607-43.707,43.707v143.921c0,24.1,19.607,43.707,43.707,43.707h143.921c24.1,0,43.707-19.607,43.707-43.707V324.372C512,300.272,492.393,280.665,468.293,280.665z"/>
-									</svg>
-									<span>Elements</span>
-								</a>	
-							</li> -->
-							<!-- <li>
-								<a href="/color-themes/" class="item-link">
-									<svg enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="m22.683 9.394-1.88-.239c-.155-.477-.346-.937-.569-1.374l1.161-1.495c.47-.605.415-1.459-.122-1.979l-1.575-1.575c-.525-.542-1.379-.596-1.985-.127l-1.493 1.161c-.437-.223-.897-.414-1.375-.569l-.239-1.877c-.09-.753-.729-1.32-1.486-1.32h-2.24c-.757 0-1.396.567-1.486 1.317l-.239 1.88c-.478.155-.938.345-1.375.569l-1.494-1.161c-.604-.469-1.458-.415-1.979.122l-1.575 1.574c-.542.526-.597 1.38-.127 1.986l1.161 1.494c-.224.437-.414.897-.569 1.374l-1.877.239c-.753.09-1.32.729-1.32 1.486v2.24c0 .757.567 1.396 1.317 1.486l1.88.239c.155.477.346.937.569 1.374l-1.161 1.495c-.47.605-.415 1.459.122 1.979l1.575 1.575c.526.541 1.379.595 1.985.126l1.494-1.161c.437.224.897.415 1.374.569l.239 1.876c.09.755.729 1.322 1.486 1.322h2.24c.757 0 1.396-.567 1.486-1.317l.239-1.88c.477-.155.937-.346 1.374-.569l1.495 1.161c.605.47 1.459.415 1.979-.122l1.575-1.575c.542-.526.597-1.379.127-1.985l-1.161-1.494c.224-.437.415-.897.569-1.374l1.876-.239c.753-.09 1.32-.729 1.32-1.486v-2.24c.001-.757-.566-1.396-1.316-1.486zm-10.683 7.606c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"/></svg>
-									<span>Setting</span>
-								</a>
-							</li> -->
-							<li><a  class="item-link btnsalir">
-									<img src="img/svg/logout.svg" alt=""/>
-									<span> Salir</span>
-								</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<!-- <div class="sidebar-footer">
-					<h5 class="name">Karier Job Portal</h5>
-					<p>App Version 1.0.0</p>
-				</div> -->
-			</div>
-		</div>
+      <li ><a class="limenu" href="#">Contacto</a></li>
+      <li ><a class="limenu" href="#">Comentarios</a></li>
+    </ul>
+    <div>
+    	<p style="border-bottom: 0.4px solid black;text-align: center;/* margin-left: 100px; */width: 320px;"></p>
     </div>
+
+    <p style="text-align: center;font-size: 14px; margin-left: 100px;color:black;">Nuestras redes</p>
+
+
+    <div class="" style="width: 100%;justify-content: center;display: flex;margin-left: 100px;">
+    	<div class="" style="width: 20%;float: right;">
+    		<img src="img/facebook.png" alt="" style="width: 30px;margin-left: 20px;">
+    	</div>
+    	<div class="" style="width: 50%;">
+    		<img src="img/instagram.png" alt="" style="width: 30px;">
+
+    	</div>
+    </div>
+
+
+	      <p style="text-align: center;font-size: 14px; margin-left: 100px;color:black;"><span class="">©
+				Grupo inversa</span></p>
+
+  </div>
+
 	<div class="view view-main view-init safe-areas" data-master-detail-breakpoint="800" data-url="/">
 		<div class="row no-gutters vh-100 loader-screen">
 			<div class="col align-self-center text-white text-align-center">
@@ -182,8 +120,7 @@
 				</div>
 			</div>
 			<div class="toolbar toolbar-bottom container footer-button landing" style="z-index: 1000;">
-				<a href="/welcome/" class="button-large button button-fill" style="text-transform: capitalize;
-">Empecemos</a>
+				<a href="/home/" class="button-large button button-fill" style="text-transform: capitalize;    background: #c7aa6a;">Empecemos</a>
 			</div>
 		</div>
 	</div>
@@ -255,10 +192,73 @@
 <script src="js/framework7-bundle.min.js"></script>
 <script src="https://js.stripe.com/v3/"></script>
 <script src="js/recuperar.js"></script>
+<script src="js/mapa.js"></script>
 
 <script src="js/routes.js"></script>
 <script src="js/store.js"></script>
 <script src="js/app.js"></script>
+
+<script>
+
+	var abierto=0;
+
+	$(document).ready(function() {
+
+		
+  var menu = $("#menu");
+  var menuIcon = $(".menu-icon");
+  menuIcon.click(function(event) {
+   
+    toggleMenu();
+  });
+
+
+
+	app.on('click', function(event) {
+	  	if (abierto==1) {
+			$(".menu").animate({left:'-400px',
+				
+		},1000,function(){
+
+			 //$(".menu").removeClass('zimenu');
+		});
+	     
+	      abierto=0;
+	     // menu.style.left = "0";
+
+
+	  	}
+	  	
+	  
+	});
+
+	$(".limenu").attr('onclick','SeleccionMenu(this)');
+
+  
+});
+
+function SeleccionMenu(objeto) {
+	$(".limenu").css('color','black');
+	objeto.style.color='white';
+}
+
+function toggleMenu() {
+  var menu = document.getElementById("menu");
+  if (abierto ==1) {
+    menu.style.left = "0";
+
+   $(".menu").removeClass('zimenu');
+   abierto=0;
+  } else {
+    menu.style.left = "-100px";
+    
+    $(".menu").addClass('zimenu');
+    abierto=1;
+  }
+
+
+}
+</script>
 
 </body>
 </html>

@@ -126,15 +126,16 @@ function CargarCalendario() {
           fecha1=convertirfecha.getFullYear()+'-'+ mes+'-'+dia;
            
            localStorage.setItem('fecha',fecha1);
-          CargarEspecialista();
-          $(".divbarbero").css('display','block');
-          $(".divpintarhorarios").html('');
-            $(".divhorarios").css('display','none');
+         // CargarEspecialista();
+         // $(".divbarbero").css('display','block');
+          //$(".divpintarhorarios").html('');
+         //   $(".divhorarios").css('display','none');
 
-            $(".divpintarservicios").html('');
-            $(".divservicios").css('display','none');
-          horaseleccionada="";
-          HabilitarBoton();
+          //  $(".divpintarservicios").html('');
+          //  $(".divservicios").css('display','none');
+         // horaseleccionada="";
+        //  HabilitarBoton();
+        HabilitarBotonContinuar();
 
           },
 
@@ -161,6 +162,17 @@ function CargarCalendario() {
   
 }
 
+function HabilitarBotonContinuar() {
+
+  if (localStorage.getItem('fecha')!=undefined && localStorage.getItem('fecha')!='') {
+      $(".btncontinuareleccion").css('display','block');
+      $(".btncontinuareleccion").attr('onclick','GoToPage("seleccionespecialista")');
+  }else{
+
+      $(".btncontinuareleccion").css('display','none');
+
+  }
+}
 
 function RefrescarFechas1(valor) {
   var mes = calendarInline.currentMonth;
@@ -1615,4 +1627,8 @@ function PintarIntervalos2(respuesta) {
 function CerarModalD() {
   
   modaldialogo.close();
+}
+
+function DisponibilidadBarbero() {
+  // body...
 }

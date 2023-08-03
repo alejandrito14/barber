@@ -227,7 +227,7 @@ function PintarProductosConCategoria(respuesta,div) {
 
 
 		var funcion="";
-		if (respuesta[i].servicio==1) {
+				if (respuesta[i].servicio==1) {
   					
   					funcion="DetalleServicio("+respuesta[i].idpaquete+")";
 						
@@ -239,7 +239,7 @@ function PintarProductosConCategoria(respuesta,div) {
 
 			html+=`
 
-				 <div class="tarjeta" style="width:50%;margin-bottom: 10px;" id="tarjeta_`+respuesta[i].idpaquete+`">
+				 <div class="tarjeta" style="width:100%;margin-bottom: 10px;" id="tarjeta_`+respuesta[i].idpaquete+`">
 		          <div class="card demo-card-header-pic" style="border-radius: 10px;">`;
 		         
 		         var classe="";
@@ -274,9 +274,16 @@ function PintarProductosConCategoria(respuesta,div) {
 		        html+=`  <div style="background-image:url(`+imagen+`);border-radius: 10px 10px 0px 0px;`+estiloimagen+`" onclick="`+funcion+`"
 		          class="card-header align-items-flex-end"></div>
 
-		        <div class="" style="text-align: center;height: 45px;justify-content: center;
-    display: flex;">
-   				 <p style="" class="nombrepaquetes">`+respuesta[i].nombrepaquete;
+		        <div class="" style="display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 50px;
+    background: #C7AA6A;
+    font-size: 16px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;">
+   				 <p style="margin:0px;text-align:center;color: white;" >`+respuesta[i].nombrepaquete;
 			    
 			       html+=` </p>`;
 
@@ -408,7 +415,7 @@ function PintarSubCategoriaProducto(respuesta) {
 
 			html+=`
 
-				 <div class="tarjeta" style="width:50%;" id="tarjeta_`+respuesta[i].idcategoriapaquete+`" onclick="`+funcion+`">
+				 <div class="tarjeta" style="width:100%;" id="tarjeta_`+respuesta[i].idcategoriapaquete+`" onclick="`+funcion+`">
 		          <div class="card demo-card-header-pic" style="border-radius: 10px;">`;
 		         
 		       
@@ -441,4 +448,29 @@ function PintarSubCategoriaProducto(respuesta) {
 	
 
 	
+}
+function ObtenerListaFiltroMostrar() {
+	var idsucursal=localStorage.getItem('idsucursal');
+	var datos="idsucursal="+idsucursal;
+	var pagina = "ObtenerListaFiltroMostrar.php";
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		async:false,
+		data:datos,
+		success: function(resp){
+			var respuesta=resp.respuesta;
+			var categoria=resp.filtro;
+			
+			localStorage.setItem('idcategoria',categoria);
+			ObtenerSubCategorias();
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
 }

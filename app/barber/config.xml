@@ -9,6 +9,8 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+
+    <access origin="whatsapp//*" launch-external="yes" />
     <allow-navigation href="https://*.stripe.network/*" />
     <allow-navigation href="https://*.stripe.com/*" />
     <allow-navigation href="https://*.issoftware1.com.mx/*" />

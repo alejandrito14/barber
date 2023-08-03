@@ -409,6 +409,10 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
      $(".btnsalir").attr('onclick','salir_app()');
      $(".btniracarrito").attr('onclick','IraCarrito()');
     $$(".page-content").addClass('marginauto');
+
+    entrarinvitado().then(resultado => {
+    
+
     var invitado=  localStorage.getItem('invitado');
 
     if (invitado==1) {
@@ -416,12 +420,14 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
       $(".menuoculto").css('display','none');
       $(".menuusuario").css('visibility','hidden');
       $(".btnsalir").css('display','');
-    }
 
-  CargarDatos();
-  var pregunta=localStorage.getItem('pregunta');
-    if (pregunta==0) {
-     app.dialog.confirm('','¿Desea mantener la sesión activa?', function () {
+      
+    }
+    $(".panelizquierdo").attr('onclick','toggleMenu()');
+    CargarDatos();
+    var pregunta=localStorage.getItem('pregunta');
+        if (pregunta==0) {
+        app.dialog.confirm('','¿Desea mantener la sesión activa?', function () {
         localStorage.setItem('session',1);
 
         localStorage.setItem('pregunta',1);
@@ -432,6 +438,16 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
                   }
             );
            }
+
+  })
+  .catch(error => {
+    console.error('Ocurrió un error:', error);
+  });
+
+
+
+
+
 
 });
 
@@ -664,7 +680,7 @@ $$(document).on('page:init','.page[data-name="disponibilidadespecialista"]',func
     $("#demo-calendar-default").attr('onclick','AbrirCalendario()');
 
     $("#v_horarios2").attr('onchange','HabilitarBotonAgendar()');
-    $(".btnagendarcita").attr('onclick','AgendarCita2()');
+    //$(".btnagendarcita").attr('onclick','AgendarCita2()');
     var precio=localStorage.getItem('precio');
     if (precio>0) {
       $(".precioriginal").text('$'+precio);
@@ -1020,6 +1036,33 @@ $$(document).on('page:init', '.page[data-name="configuracion"]', function (e) {
 
 });
 
+$$(document).on('page:init', '.page[data-name="servicioslista"]', function (e) {
+  
+ObtenerListaFiltroMostrar();
+
+var invitado=  localStorage.getItem('invitado');
+
+    if (invitado==1) {
+
+      $(".menuoculto").css('display','none');
+      $(".menuusuario").css('visibility','hidden');
+      $(".btnsalir").css('display','');
+
+      
+    }
+});
+
+$$(document).on('page:init', '.page[data-name="seleccionarhorario"]', function (e) {
+    
+    ConsultarFechaHorarios();
+$(".btnagendarcita").attr('onclick','AgendarCita2()');
+});
+
+
+$$(document).on('page:init', '.page[data-name="listadoespecialista"]', function (e) {
+  ObtenerListadoEspecialista();
+
+});
 /*$$(document).on('page:init', '.page[data-name="disponibilidadfechaadmin"]', function (e) {
   $("#txtfechaadmin").attr('onclick','AbrirModalServicios()');
  CargarCalendario2();

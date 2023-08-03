@@ -19,7 +19,7 @@ function ObtenerDatosSucursal() {
 		var sucursal=datos.sucursal;
 		var imagenes=datos.imagenes;
 		PintarDatosSucursal(sucursal,imagenes);
-		ObtenerListaEspecialistasSucursal3(idsucursal);
+		//ObtenerListaEspecialistasSucursal3(idsucursal);
 	/*	localStorage.setItem('minutosconsiderados',sucursal.minutosconsiderados);
 		localStorage.setItem('nombresucursal',sucursal.sucursal);
 		localStorage.setItem('campomontofactura',sucursal.campomontofactura);
@@ -76,7 +76,9 @@ function PintarDatosSucursal(respuesta,imagenes) {
 	$(".imagensucursal").attr('src',imagen);
 	$(".titulosucursal").text(respuesta.titulo);
 	$(".telefono").text(respuesta.celular);
-	$(".descripcion").text(respuesta.descripcion);
+	$(".btnwhapsap").attr('onclick',"AbrirWhapsap(\'"+respuesta.celular+"\')");
+	var direccion=respuesta.direccion+', '+respuesta.colonia;
+	$(".descripcion").text(direccion);
 	var coordenadas=respuesta.ubicacion;
 	var lat="";
 	var long="";
@@ -85,11 +87,18 @@ function PintarDatosSucursal(respuesta,imagenes) {
 
 		lat=coordenadas[0];
 		long=coordenadas[1];
+
+		ObtenerMapa(long,lat);
 	}
 
+		 imagenesgaleria.push(imagen);
 
-	//$(".btnllamar").attr("onclick","hacerLlamada('"+respuesta.celular+"')");
-	$(".btnagenda").attr("onclick","VistaCategoria("+respuesta.idsucursal+")");
+
+	$(".divvisualizarimagen").attr("onclick","AbrirImagen(0)");
+
+	$(".textelefono").text(respuesta.telefono);
+	$(".btntelefono").attr("onclick","hacerLlamada('"+respuesta.telefono+"')");
+	$(".btnagenda").attr("onclick","GoToPage('servicioslista')");
 	$(".btnlocalizar").attr("onclick","abrirGoogleMaps('"+lat+"','"+long+"')");
 	$(".btnvercalificaciones").attr("onclick","ObtenerCalificacionesSucursal("+respuesta.idsucursal+")");
 	$(".btnconoceespecialistas").attr("onclick","ObtenerListaEspecialistasSucursal2("+respuesta.idsucursal+")");
@@ -114,15 +123,22 @@ function PintarDatosSucursal(respuesta,imagenes) {
 	}
 
 
-	$(".gallery-swiper").html(html);
+	//$(".gallery-swiper").html(html);
 
 
-		 var swiper4 = new Swiper(".gallery-swiper", {
+		 /*var swiper4 = new Swiper(".gallery-swiper", {
 		     slidesPerView: "auto",
 		    spaceBetween: 30,
 		    pagination: false,
 
-		  });
+		  });*/
+}
+
+function AbrirWhapsap(numeroTelefono) {
+	var mensaje="Hola";
+	//window.open("whatsapp://send?phone=" + numeroTelefono, "_system", "location=yes");
+	window.open('whatsapp://send?phone='+numeroTelefono+'&text='+mensaje+'','_system');
+
 }
 function hacerLlamada(numeroTelefono) {
     window.plugins.CallNumber.callNumber(function(){}, function(){}, numeroTelefono, true);
@@ -756,6 +772,8 @@ function AbrirImagen(posicion) {
         photos: [
          nombre
             ]
+            ,
+            theme: 'dark',
       });
       //Open photo browser on click
       myPhotoBrowser.open();

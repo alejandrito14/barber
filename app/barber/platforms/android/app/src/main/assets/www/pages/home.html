@@ -1,35 +1,65 @@
 <template>
 <div class="page page-home light" data-name="home">
-		
 
+	<div class="navbar">
+    <div class="navbar-bg"></div>
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a href="#" class="link panelizquierdo " >
+						<span style="font-size: 30px" class="material-icons-outlined">menu</span>
+						</a>	
+      </div>
+      <div class="title"></div>
+    </div>
+  </div>
+
+		
+	
 
 	<!-- Page Content -->
 	<div class="page-content content-area pt-50" style="margin-top: 4em;">
-		
-		<div class="searchbar-backdrop"></div>
-		
-		<div class="container">
+
+		<div class="container" style="">
 			<div class="row" style="margin-bottom: 1em;">
 				
-				<div class="col-70">
-						<span style="font-weight: bold;color: black;font-size: 18px;" class="title"><span>Bienvenido </span>
-						<span class="nombreusuario" style="color: #C7AA6A;">Invitado</span></span>
+				<div class="col-10">
+					  
 				</div>
+			</div>
+		</div>
+
+		
+			<div  class="cardswipersucursal">
+				
+			</div>
+
+
+			
+		<div class="searchbar-backdrop"></div>
+		
+		<div class="container" style="">
+			<div class="row" style="margin-bottom: 1em;">
+				
+				<!-- <div class="col-10">
+					  <a href="#" class="link panel-open " data-panel="left">
+						<span style="font-size: 30px;" class="material-icons-outlined">menu</span>
+						</a>	
+				</div> -->
 				<div class="col-30">
 					
-					<div class="" style="    ">
-                <a href="#" class="link panel-open menuusuario" data-panel="left">
+					<div class="" style=" ">
+               <!--  <a href="#" class="link panel-open menuusuario" data-panel="left">
 				<span style="font-size: 30px;" class="material-icons-outlined">menu</span>
 				</a>
+ -->
 
-
-				<a  class="btniracarrito" style=" margin-left: 10px;" >
+				<!-- <a  class="btniracarrito" style=" margin-left: 10px;" >
 					<span class="badge color-red bcantidadcarrito" style="position: absolute;top: 3.5em;">0</span>
 				<span class="material-icons-outlined" style="font-size: 30px;">
 					shopping_cart
 					
 					</span>
-				</a>
+				</a> -->
             </div>
 				</div>
 			</div>
@@ -85,7 +115,7 @@
 			    text-align: center;
 			"><h4 class="dz-title" style="
 			    text-align: center;
-			    display: flex;
+			    display: none;
 			    margin: 1em;
 			    justify-content: center;
 			">Categorías</h4>
@@ -93,9 +123,9 @@
 			<div data-space-between="12" data-slides-per-view="auto" data-centered-slides="false" class="swiper-container swiper-init main-swiper cardswipercategorias">
 				
 			</div>
-			<h4 for="" style="text-align: center;">Elige tu negocio favorito</h4>
+			<h4 for="" style="text-align: center;display: none;">Elige tu negocio favorito</h4>
 
-<form data-search-container=".search-list" data-search-in=".item-title" class="searchbar searchbar-init search-box list-search-bx">
+<form data-search-container=".search-list" data-search-in=".item-title" class="searchbar searchbar-init search-box list-search-bx" style="display: none;">
 				<div class="searchbar-inner">
 					<div class="searchbar-input-wrap">
 						
@@ -111,9 +141,7 @@
 
 			
 			<!-- Featured Companies -->
-			<div data-space-between="20" data-slides-per-view="auto" data-centered-slides="false" class="swiper-container swiper-init mb-20 main-swiper cardswipersucursal">
-				
-			</div>
+		
 			
 			<!-- Latest Vacancies -->
 			<!-- <div class="">
@@ -121,7 +149,7 @@
 			
 			</div> -->
 
-			<div class="divcitas">
+			<div class="divcitas" style="display: none;">
 				
 						<h4 class="dz-title" style="text-align: center;">Mis citas</h4>
 
@@ -205,7 +233,7 @@
 				<h4 class="dz-title">Promociones exclusivas</h4>
 				
 			</div> -->
-			  <div class="row margin-bottom ">
+			  <div class="row margin-bottom " style="display: none;">
 		        <div class="col-100 no-padding-horizontal">
 
 					<div data-space-between="20" data-slides-per-view="auto" data-centered-slides="false" class="swiper-container swiper-init mb-20  cardpublicidad">
@@ -224,9 +252,9 @@
 			
 		</div>
 
-		<footer class="footer"><div class="container">
-			<ul class="nav nav-pills nav-justified">
-				<li class="nav-item">
+		<!-- <footer class="footer"><div class="container"> -->
+			<!-- <ul class="nav nav-pills nav-justified">
+				<li class="nav-item menuoculto" style="display: none;">
 				<a class="nav-link active iniciotab ">
 
 					<span><i class="nav-icon material-icons-outlined">
@@ -239,9 +267,24 @@
 			</a>
 
 
-			</li>
+			</li> -->
 
-			<li class="nav-item btnsalir" style="display: none;">
+			<!-- <li class="nav-item btnin" >
+				<a  class="nav-link" href="/login/">
+
+					<span><i class="nav-icon material-icons-outlined">
+						home
+					</i>
+
+					<span class="nav-text">Ingresar</span>
+
+					</span>
+				</a>
+
+
+			</li> -->
+
+			<!-- <li class="nav-item btnsalir" style="display: none;">
 				<a class="nav-link  ">
 
 					<span><i class="nav-icon material-icons-outlined">
@@ -252,9 +295,9 @@
 
 					</span>
 				</a>
-			</li>
+			</li> -->
 
-			<li class="nav-item menuoculto">
+			<!-- <li class="nav-item menuoculto">
 				<a class="nav-link " href="/listadocompras/">
 
 					<span><i class="nav-icon material-icons-outlined">
@@ -264,9 +307,9 @@
 
 					</span>
 				</a>
-			</li>
+			</li> -->
 
-			<li class="nav-item menuoculto">
+			<!-- <li class="nav-item menuoculto">
 				<a class="nav-link    ">
 
 					<span><i class="nav-icon material-icons-outlined">
@@ -276,9 +319,9 @@
 
 					</span>
 				</a>
-			</li>
+			</li> -->
 
-			<li class="nav-item menuoculto">
+			<!-- <li class="nav-item menuoculto">
 				<a class="nav-link " href="/profile/">
 
 					<span><i class="nav-icon material-icons-outlined">
@@ -288,14 +331,14 @@
 
 					</span>
 				</a>
-			</li>
+			</li> -->
 
 
 
-</ul>
+<!-- </ul>
 </div>
 
-</footer>
+</footer> -->
 	</div>
 
 	<!-- <div class="toolbar toolbar-bottom tabbar tabbar-labels" style="height: 60px;"><div class="toolbar-inner">

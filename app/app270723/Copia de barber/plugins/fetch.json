@@ -1,0 +1,48 @@
+{
+  "cordova-plugin-firebasex": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/dpa99c/cordova-plugin-firebase"
+    },
+    "is_top_level": true,
+    "variables": {
+      "IOS_STRIP_DEBUG": "true",
+      "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "false",
+      "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "false",
+      "FIREBASE_CRASHLYTICS_COLLECTION_ENABLED": "false",
+      "SETUP_RECAPTCHA_VERIFICATION": "true"
+    }
+  },
+  "cordova-support-android-plugin": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-support-android-plugin@^2.0.4"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-compat": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-compat@^1.0.0"
+    },
+    "is_top_level": false,
+    "variables": {}
+  },
+  "cordova-plugin-qr-barcode-scanner": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-qr-barcode-scanner@8.0.3"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-call-number": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-call-number"
+    },
+    "is_top_level": true,
+    "variables": {}
+  }
+}

@@ -182,8 +182,8 @@ var routes = [
   },
   {
     //accoun-area pide celular
-    path: '/signup/',
-    componentUrl: './pages/signup.html',
+    path: '/celular/',
+    componentUrl: './pages/celular.html',
   },
 
    {
@@ -306,6 +306,20 @@ var routes = [
     path: '/listadoespecialista/',
     url: './pages/listadoespecialista.html',
 
+  },
+  {
+    path: '/citas/',
+    url: './pages/citas.html',
+  },
+
+   {
+    path: '/escogermetodopago/',
+    url: './pages/escogermetodopago.html',
+  },
+
+   {
+    path: '/escogermonederootro/',
+    url: './pages/escogermonederootro.html',
   },
   
   {

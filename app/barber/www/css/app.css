@@ -1229,7 +1229,7 @@ footer .nav .nav-item .nav-link span .nav-text {
 }
 .icon-text-container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .icon-text-container .material-icons-outlined {
@@ -1307,7 +1307,10 @@ color: white!important;
     bottom: -29px;
    
     }
+  #cantidadagregados{
 
+    color: white;
+  }
 /*.boton{
   outline: none;
   border: 1px solid #363431;

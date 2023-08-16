@@ -1073,7 +1073,7 @@ function HabilitarBotonAgendar() {
 
 function AgendarCita2() {
 
-  app.dialog.confirm('','¿Seguro que desea agendar una cita?' , function () {
+ // app.dialog.confirm('','¿Seguro que desea agendar una cita?' , function () {
 
    var idpaquete=localStorage.getItem('idpaquete');
    var idsucursal=localStorage.getItem('idsucursal');
@@ -1103,9 +1103,7 @@ function AgendarCita2() {
       `;*/
 
        html+=`
-        <p>¡Gracias!</p>
-        <p>
-      Tu cita ha sido agregada para el dia `+cita.fecha+` a las `+cita.horainicial+` con `+cita.nombre+` `+cita.paterno+`</p>
+       
      <p> Para confirmar tu cita, realiza tu pago
       </p>
       `;
@@ -1125,7 +1123,7 @@ function AgendarCita2() {
           console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
       }
     });
-});
+//});
 }
 
 function ObtenerListadoEspecialista() {
@@ -1298,9 +1296,74 @@ function DetalleEspecialista2(idespecialista,costo) {
 */
   localStorage.setItem('idespecialista',idespecialista);
   localStorage.setItem('precio',costo);
-    AgendarCita2();
+
+   
+   ObtenerDetalleAntesdeAgendar();
+   
+    //AgendarCita2();
 
   //GoToPage('disponibilidadespecialista');
+
+}
+
+function ObtenerDetalleAntesdeAgendar(argument) {
+   var idpaquete=localStorage.getItem('idpaquete');
+   var idsucursal=localStorage.getItem('idsucursal');
+   var horario=horaseleccionada.horainicial+'_'+horaseleccionada.horafinal;
+   var fecha=localStorage.getItem('fecha');
+   var idusuario=localStorage.getItem('id_user');
+   var idespecialista=localStorage.getItem('idespecialista');
+   var costo=localStorage.getItem('precio');
+
+  
+    var datos='idsucursal='+idsucursal+"&idpaquete="+idpaquete+"&horario="+horario+"&fecha="+fecha+"&idusuario="+idusuario+"&idespecialista="+idespecialista+"&costo="+costo;
+    var pagina = "ObtenerDetalleAntesdeAgendar.php";
+    $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    async:false,
+    data:datos,
+    success: function(resp){
+
+        var dia=resp.fecha;
+        var hora=horaseleccionada.horainicial;
+        var paquete=resp.paquete[0].nombrepaquete;
+        var especialista=resp.especialista[0].nombre+' '+resp.especialista[0].paterno;
+      var html="";
+        html+=`
+
+        <p>
+      Tu cita quedará agendada el dia `+dia+` a las `+hora+` 
+      con el servicio `+paquete+` atendido por el barbero `+especialista+`.</p>
+      <p>¿Es correcto?</p>
+     
+      `;
+
+      var funcion="";
+      funcion+=`
+        <span class="dialog-button" id="btniracarrito" onclick="AgregarAgenda()">Si</span>
+        <span class="dialog-button" id="btniracarrito" onclick="CerarModalD()">No</span>
+
+      `;
+      CrearModalAviso(html,funcion);
+
+     
+      
+    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+      var error;
+        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+          }
+    });
+
+}
+
+function AgregarAgenda() {
+ CerarModalD();
+ AgendarCita2();
 
 }
 

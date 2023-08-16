@@ -67,7 +67,7 @@ function PintarCategoriaProducto(respuesta) {
 
 		        <div class="" style="display: flex;
     justify-content: center;
-    align-items: center;text-align: center;height: 50px;background:#C7AA6A;font-size: 16px;    
+    align-items: center;text-align: center;height: 50px;background:#C7AA6A;font-size: 18px;    
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;">
    				 <p style="margin:0px;text-align:center;color: white;
@@ -275,18 +275,18 @@ function PintarProductosConCategoria(respuesta,div) {
 		          class="card-header align-items-flex-end"></div>
 
 		        <div class="" style="display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 50px;
-    background: #C7AA6A;
-    font-size: 16px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;">
+    				justify-content: center;
+    				align-items: center;
+    				text-align: center;
+    				height: 50px;
+    				background: #C7AA6A;
+    				font-size: 18px;
+    				border-bottom-left-radius: 10px;
+    				border-bottom-right-radius: 10px;">
    				 <p style="margin:0px;text-align:center;color: white;" >`+respuesta[i].nombrepaquete;
-			    				      html+=` <span style="" class="preciopaqueteestilo2">$`+respuesta[i].precioventa+`</span>`;
+			   	html+=` <span style="" class="preciopaqueteestilo2">$`+respuesta[i].precioventa+`</span>`;
 
-			       html+=` </p>`;
+			    html+=` </p>`;
 
 			       //if (respuesta[i].servicio==0) {
     				/*}else{
@@ -425,7 +425,7 @@ function PintarSubCategoriaProducto(respuesta) {
 
 		        <div class="" style="display: flex;
     justify-content: center;
-    align-items: center;text-align: center;height: 50px;background:#C7AA6A;font-size: 16px;   
+    align-items: center;text-align: center;height: 50px;background:#C7AA6A;font-size: 18px;   
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;">
    				 <p style="margin:0px;text-align:center;color: white;">`+respuesta[i].nombre;

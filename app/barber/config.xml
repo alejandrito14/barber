@@ -43,6 +43,9 @@
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     <platform name="android">
         <resource-file src="google-services.json" target="app/google-services.json" />
+       
+  <!-- ... otros ajustes ... -->
+         <allow-intent href="whatsapp:*" />
 
   <!--   <edit-config file="app/src/main/AndroidManifest.xml" target="/manifest/application/activity" mode="merge">
   <activity android:exported="true" />

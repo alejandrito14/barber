@@ -794,7 +794,7 @@ function AbrirImagen(posicion) {
      $(".popup-close").removeClass('link');
      $(".popup-close").html(html);
      $(".popup-close").css('margin-top','100px');
-     $(".iconocerrar").css('top','80px');
+     //$(".iconocerrar").css('top','80px');
 }
 
 function VistaCategoria(idsucursal) {

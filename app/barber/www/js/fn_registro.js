@@ -2201,19 +2201,19 @@ function ValidarCelular() {
 			var existe=respuesta.existe;
 			var idusuario=respuesta.idusuario;
 			var completado=respuesta.completado;
-				localStorage.setItem('id_user',idusuario);
+			localStorage.setItem('id_usuariologin',idusuario);
 			localStorage.setItem('completado',completado);
 			localStorage.setItem('celular',telefono);
 
-			if (completado==1) {
+			/*if (completado==1) {
 				alerta('','El número celular que ingresaste ya fue asignado a un usuario')
 			
-			}else{
+			}else{*/
 
 				GoToPageHistory('colocartoken');
 				//localStorage.removeItem('idusuarioinvitado');
 
-			}
+			//}
 			//
 
 		},error: function(XMLHttpRequest, textStatus, errorThrown){ 
@@ -2247,7 +2247,7 @@ function ValidarToken(){
 		var token3=$("#t3").val();*/
 		var token4=$("#t5").val();
 		var token=token4;
-		var idcliente=localStorage.getItem('id_user');
+		var idcliente=localStorage.getItem('id_usuariologin');
 		var datos="token="+token+"&idcliente="+idcliente;
 		var pagina = "validaciontoken.php";
 		var enviar=0;
@@ -2285,8 +2285,29 @@ function ValidarToken(){
 		
 
 			if (respuesta==1) {
-				
 				$("#botoncontinuartoken").css('display','block');
+
+			var completado=	localStorage.getItem('completado');
+			var monedero=1;
+		if (completado==1) {
+
+				EnviarCarritoUsuario();
+
+			if (monedero==1) {
+
+					GoToPage('escogermonederootro');
+				}else{
+
+					GoToPage('escogermetodopago');
+				}
+				
+			
+			}else{
+
+					GoToPage('registro');
+
+			}
+				
 
 				$("#botoncontinuartoken").attr('onclick','GoToPageHistory("registro")');
 
@@ -2311,6 +2332,33 @@ function ValidarToken(){
 			
 
 	}
+}
+
+
+function EnviarCarritoUsuario() {
+		var idcliente=localStorage.getItem('id_usuariologin');
+		var iduser=localStorage.getItem('id_user');
+		var pagina="EnviarCarritoUsuario.php";
+		var datos="id_user="+iduser+"&idcliente="+idcliente;
+		$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		async:false,
+		success: function(datos){
+		
+			//
+
+		},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			var error;
+				if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+				//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+				console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+		}
+
+	});
 }
 
 function Bienvenida(){

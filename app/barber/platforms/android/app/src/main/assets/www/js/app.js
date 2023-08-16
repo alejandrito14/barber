@@ -747,6 +747,10 @@ $$(document).on('page:init', '.page[data-name="resumenpago"]', function (e) {
   $("#divlistadotarjetas").css('display','none');
 
   $$("#btnpagarresumen").attr('onclick','AbrirConfirmacion()')
+   if (tipoletra!='') {
+      $(".cambiarfuente").addClass(tipoletra);
+      $(".dialog").addClass(tipoletra);
+    }
 });
 
 $$(document).on('page:init','.page[data-name="homeindex"]',function(e)

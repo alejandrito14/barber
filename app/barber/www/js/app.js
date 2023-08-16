@@ -425,6 +425,7 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
 
       
     }
+    
     $(".panelizquierdo").attr('onclick','toggleMenu()');
     CargarDatos();
     var pregunta=localStorage.getItem('pregunta');
@@ -488,7 +489,9 @@ $$(document).on('page:init', '.page[data-name="celular"]', function (e) {
       
    phoneFormatter('telefono');
   $$('#btnvalidarcelular').attr('onclick','ValidarCelular()')
-
+   if (tipoletra!='') {
+      $(".cambiarfuente").addClass(tipoletra);
+    }
     
 });
 
@@ -628,8 +631,8 @@ $$(document).on('page:init', '.page[data-name="productoscategoria"]', function (
       $(".btnsalir").css('display','');
     }
 
- var div="divproductosservicios2";
-ObtenerProductosCategorias(div);
+    var div="divproductosservicios2";
+    ObtenerProductosCategorias(div);
      if (tipoletra!='') {
       $(".cambiarfuente").addClass(tipoletra);
     }
@@ -747,6 +750,10 @@ $$(document).on('page:init', '.page[data-name="resumenpago"]', function (e) {
   $("#divlistadotarjetas").css('display','none');
 
   $$("#btnpagarresumen").attr('onclick','AbrirConfirmacion()')
+   if (tipoletra!='') {
+      $(".cambiarfuente").addClass(tipoletra);
+      $(".dialog").addClass(tipoletra);
+    }
 });
 
 $$(document).on('page:init','.page[data-name="homeindex"]',function(e)
@@ -1117,6 +1124,14 @@ if (idcategoriapadre!=0) {
 
 }
     
+});
+
+$$(document).on('page:init', '.page[data-name="citas"]', function (e) {
+
+ if (tipoletra!='') {
+      $(".cambiarfuente").addClass(tipoletra);
+    }
+
 });
 /*$$(document).on('page:init', '.page[data-name="disponibilidadfechaadmin"]', function (e) {
   $("#txtfechaadmin").attr('onclick','AbrirModalServicios()');

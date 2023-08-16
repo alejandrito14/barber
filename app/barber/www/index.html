@@ -52,15 +52,19 @@
 
   	</div>
     <ul style="margin-left: 100px;">
-      <li ><a class="limenu"
-href="#">Negocios</a></li>
-      <li ><a class="limenu"
- href="#">Citas</a></li>
-      <li ><a class="limenu"
- href="#">Blog</a></li>
-
-      <li ><a class="limenu" href="#">Contacto</a></li>
-      <li ><a class="limenu" href="#">Comentarios</a></li>
+      <li >
+      	<a class="limenu" data-menu="negocios" href="#">Negocios</a>
+      </li>
+      <li >
+      	<a class="limenu" data-menu="citas" href="#">Citas</a>
+      </li>
+      <li ><a class="limenu" data-menu="blog" href="#">
+      Blog</a>
+  	  </li>
+      <li><a class="limenu" data-menu="contacto" href="#">Contacto</a></li>
+      <li >
+      	<a class="limenu" data-menu="comentarios" href="#">Comentarios</a>
+      </li>
     </ul>
     <div>
     	<p style="border-bottom: 0.4px solid black;text-align: center;/* margin-left: 100px; */width: 320px;"></p>
@@ -189,6 +193,8 @@ href="#">Negocios</a></li>
 <script src="js/fn_homeadmin.js"></script>
 <script src="js/fn_imagencita.js"></script>
 <script src="js/fn_especialista.js"></script>
+<script src="js/fn_menu.js"></script>
+
 <script src="js/fn_disponibilidadfechasucursal.js"></script>
 <script src="js/cronometro.js"></script>
 <script src="js/framework7-bundle.min.js"></script>
@@ -239,27 +245,7 @@ href="#">Negocios</a></li>
   
 });
 
-function SeleccionMenu(objeto) {
-	$(".limenu").css('color','black');
-	objeto.style.color='white';
-}
 
-function toggleMenu() {
-  var menu = document.getElementById("menu");
-  if (abierto ==1) {
-    menu.style.left = "0";
-
-   $(".menu").removeClass('zimenu');
-   abierto=0;
-  } else {
-    menu.style.left = "-100px";
-    
-    $(".menu").addClass('zimenu');
-    abierto=1;
-  }
-
-
-}
 </script>
 
 </body>

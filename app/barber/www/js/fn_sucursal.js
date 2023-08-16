@@ -18,6 +18,11 @@ function ObtenerDatosSucursal() {
 		
 		var sucursal=datos.sucursal;
 		var imagenes=datos.imagenes;
+		tipoletra=datos.sucursal.tipoletra;
+
+		if (tipoletra!='') {
+			$(".cambiarfuente").addClass(tipoletra);
+		}
 		PintarDatosSucursal(sucursal,imagenes);
 		//ObtenerListaEspecialistasSucursal3(idsucursal);
 	/*	localStorage.setItem('minutosconsiderados',sucursal.minutosconsiderados);
@@ -98,7 +103,7 @@ function PintarDatosSucursal(respuesta,imagenes) {
 
 	$(".textelefono").text(respuesta.telefono);
 	$(".btntelefono").attr("onclick","hacerLlamada('"+respuesta.telefono+"')");
-	$(".btnagenda").attr("onclick","GoToPage('servicioslista')");
+	$(".btnagenda").attr("onclick","GoToPage('disponibilidadfechasucursal')");
 	$(".btnlocalizar").attr("onclick","abrirGoogleMaps('"+lat+"','"+long+"')");
 	$(".btnvercalificaciones").attr("onclick","ObtenerCalificacionesSucursal("+respuesta.idsucursal+")");
 	$(".btnconoceespecialistas").attr("onclick","ObtenerListaEspecialistasSucursal2("+respuesta.idsucursal+")");

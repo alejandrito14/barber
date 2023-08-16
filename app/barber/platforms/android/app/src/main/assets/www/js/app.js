@@ -96,6 +96,7 @@ var intervalo=0;
 var pictureSource;   // picture source
  var destinationType; 
 var produccion = 1;
+var idcategoriapadre=0;
 var codigoservicio="0";
 $(document).ready(function() {
 
@@ -154,6 +155,7 @@ var intervalo6=0;
 var identificadorDeTemporizador=0;
 var rutaserver="";
 var puertosockect="";
+var tipoletra="";
 
 
 var codigoserv="";
@@ -583,8 +585,9 @@ $$(document).on('page:init', '.page[data-name="detallesucursal"]', function (e) 
       $(".menuusuario").css('visibility','hidden');
       $(".btnsalir").css('display','');
     }
-ObtenerDatosSucursal();
-    
+      ObtenerDatosSucursal();
+      $(".btnagregarmas").attr('onclick','Agregarmasproducto()');
+
 });
 
 $$(document).on('page:init', '.page[data-name="detalleproductoservicios"]', function (e) {
@@ -599,9 +602,11 @@ $$(document).on('page:init', '.page[data-name="detalleproductoservicios"]', func
       $(".btnsalir").css('display','');
     }
 
-ObtenerCategoriasProducto();
+    ObtenerCategoriasProductodetalle();
     PintarCantidadcarrito();
-
+     if (tipoletra!='') {
+      $(".cambiarfuente").addClass(tipoletra);
+    }
 //ObtenerProductos();
     
 });
@@ -625,7 +630,19 @@ $$(document).on('page:init', '.page[data-name="productoscategoria"]', function (
 
  var div="divproductosservicios2";
 ObtenerProductosCategorias(div);
-    
+     if (tipoletra!='') {
+      $(".cambiarfuente").addClass(tipoletra);
+    }
+
+    if (idcategoriapadre!=0) {
+  localStorage.getItem('idcategoria',idcategoriapadre);
+  $(".regreso").attr("onclick","GoToPage('subcategoriasdetalle')");
+  
+  }else{
+
+  $(".regreso").attr("onclick","GoToPage('detalleproductoservicios')");
+
+}
 });
 
 $$(document).on('page:init','.page[data-name="detallepaquete"]',function(e)
@@ -680,12 +697,15 @@ $$(document).on('page:init','.page[data-name="disponibilidadespecialista"]',func
     $("#demo-calendar-default").attr('onclick','AbrirCalendario()');
 
     $("#v_horarios2").attr('onchange','HabilitarBotonAgendar()');
-    $(".btnagendarcita").attr('onclick','AgendarCita2()');
+    //$(".btnagendarcita").attr('onclick','AgendarCita2()');
     var precio=localStorage.getItem('precio');
     if (precio>0) {
       $(".precioriginal").text('$'+precio);
     }
 
+    if (tipoletra!='') {
+      $(".cambiarfuente").addClass(tipoletra);
+    }
 });
 
 $$(document).on('page:init', '.page[data-name="resumenpago"]', function (e) {
@@ -805,9 +825,13 @@ $$(document).on('page:init','.page[data-name="carrito"]',function(e)
 
   $(".btnpagar").attr('onclick','IrAPago()');
   $(".btnagregarmas").attr('onclick','Agregarmasproducto()');
-  $(".btnregresocarrito").attr('onclick','Agregarmasproducto()');
+  $(".btnregresocarrito").attr('onclick','GoToPage("detallesucursal")');
 
   
+   if (tipoletra!='') {
+      $(".cambiarfuente").addClass(tipoletra);
+      $(".dialog").addClass(tipoletra);
+    }
 });
 
 $$(document).on('page:init','.page[data-name="listadocompras"]',function(e)
@@ -1016,7 +1040,11 @@ $$(document).on('page:init', '.page[data-name="disponibilidadespecialistaelegido
 
 $$(document).on('page:init', '.page[data-name="disponibilidadfechasucursal"]', function (e) {
     CargarCalendario5();
-  $(".btnagendarcita").attr('onclick','AgendarCita4()');
+  $(".btncontinuarcita").attr('onclick','GoToPage("servicioslista")');
+
+   if (tipoletra!='') {
+      $(".cambiarfuente").addClass(tipoletra);
+    }
 
 });
 
@@ -1050,8 +1078,46 @@ var invitado=  localStorage.getItem('invitado');
 
       
     }
+
+    if (tipoletra!='') {
+      $(".cambiarfuente").addClass(tipoletra);
+    }
 });
 
+$$(document).on('page:init', '.page[data-name="seleccionarhorario"]', function (e) {
+    
+    ConsultarFechaHorarios();
+$(".btncontinuarcita").attr('onclick','GoToPage("listadoespecialista")');
+
+   if (tipoletra!='') {
+      $(".cambiarfuente").addClass(tipoletra);
+      $(".dialog").addClass(tipoletra);
+    }
+});
+
+
+$$(document).on('page:init', '.page[data-name="listadoespecialista"]', function (e) {
+  ObtenerListadoEspecialista();
+if (tipoletra!='') {
+      $(".cambiarfuente").addClass(tipoletra);
+    }
+});
+
+$$(document).on('page:init', '.page[data-name="subcategoriasdetalle"]', function (e) {
+ 
+ObtenerSubCategorias();
+
+if (idcategoriapadre!=0) {
+  localStorage.getItem('idcategoria',idcategoriapadre);
+  //$(".regreso").attr("onclick","GoToPage('subcategoriasdetalle')");
+  
+  }else{
+
+  //$(".regreso").attr("onclick","GoToPage('detalleproductoservicios')");
+
+}
+    
+});
 /*$$(document).on('page:init', '.page[data-name="disponibilidadfechaadmin"]', function (e) {
   $("#txtfechaadmin").attr('onclick','AbrirModalServicios()');
  CargarCalendario2();

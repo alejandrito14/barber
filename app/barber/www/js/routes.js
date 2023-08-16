@@ -158,6 +158,11 @@ var routes = [
 
   },
 
+  {
+    path: '/subcategoriasdetalle/',
+    url: './pages/subcategoriasdetalle.html',
+  },
+
    {
     path: '/productoscategoria/',
     url: './pages/productoscategoria.html',

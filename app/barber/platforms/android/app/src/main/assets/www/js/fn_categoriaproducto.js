@@ -58,7 +58,7 @@ function PintarCategoriaProducto(respuesta) {
 
 			html+=`
 
-				 <div class="tarjeta" style="width:50%;" id="tarjeta_`+respuesta[i].idcategoriapaquete+`" onclick="`+funcion+`">
+				 <div class="tarjeta" style="width:100%;" id="tarjeta_`+respuesta[i].idcategoriapaquete+`" onclick="`+funcion+`">
 		          <div class="card demo-card-header-pic" style="border-radius: 10px;">`;
 		         
 		       
@@ -239,7 +239,7 @@ function PintarProductosConCategoria(respuesta,div) {
 
 			html+=`
 
-				 <div class="tarjeta" style="width:100%;margin-bottom: 10px;" id="tarjeta_`+respuesta[i].idpaquete+`">
+				 <div class="tarjeta cambiarfuente" style="width:100%;margin-bottom: 10px;" id="tarjeta_`+respuesta[i].idpaquete+`">
 		          <div class="card demo-card-header-pic" style="border-radius: 10px;">`;
 		         
 		         var classe="";
@@ -284,15 +284,15 @@ function PintarProductosConCategoria(respuesta,div) {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;">
    				 <p style="margin:0px;text-align:center;color: white;" >`+respuesta[i].nombrepaquete;
-			    
+			    				      html+=` <span style="" class="preciopaqueteestilo2">$`+respuesta[i].precioventa+`</span>`;
+
 			       html+=` </p>`;
 
-			       if (respuesta[i].servicio==0) {
-			      html+=` <span style="" class="preciopaqueteestilo">$`+respuesta[i].precioventa+`</span>`;
-    				}else{
+			       //if (respuesta[i].servicio==0) {
+    				/*}else{
 
     					html+=`<p></p>`;
-    				}
+    				}*/
 
 		html+=`	</div>
 		      </div>
@@ -336,13 +336,14 @@ function ObtenerProductosCategorias(div) {
 
 			PintarProductosConCategoria(respuesta,div);
 
-			var idcategoriapadre=resp.idcategoriapadre;
+			//var idcategoriapadre=resp.idcategoriapadre;
+			idcategoriapadre=resp.idcategoriapadre;
 			if (idcategoriapadre>0) {
 				localStorage.setItem('idcategoria',idcategoriapadre);
 			}
-			var nombrecate=resp.categoria.nombre;
+		/*	var nombrecate=resp.categoria.nombre;
 			$(".titlecatalogo").text(nombrecate);
-
+*/
 			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;
 				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
@@ -373,9 +374,9 @@ function ObtenerSubCategorias() {
 				var div="divsub";
 				ObtenerProductosCategorias(div);
 
-			$(".titlecatalogosub").text(categoria);
+			/*$(".titlecatalogosub").text(categoria);
 			$(".titlecatalogosub").css('display','block');
-
+*/
 
 			}else{
 				console.log('productos');
@@ -415,7 +416,7 @@ function PintarSubCategoriaProducto(respuesta) {
 
 			html+=`
 
-				 <div class="tarjeta" style="width:100%;" id="tarjeta_`+respuesta[i].idcategoriapaquete+`" onclick="`+funcion+`">
+				 <div class="tarjeta cambiarfuente" style="width:100%;" id="tarjeta_`+respuesta[i].idcategoriapaquete+`" onclick="`+funcion+`">
 		          <div class="card demo-card-header-pic" style="border-radius: 10px;">`;
 		         
 		       

@@ -597,7 +597,7 @@ function SeleccionarHorario4(objeto) {
   var posicion=idelemento.split('_')[1];
   horaseleccionada=arrayhorarios[posicion];
 
-    HabilitarBoton();
+    HabilitarBoton2();
 
 
 }
@@ -1222,7 +1222,7 @@ function ObtenerListadoEspecialista() {
 
                                   html+=`
 
-                                  <div style="margin-top: 1em;" onclick="DetalleEspecialista2(`+respuesta[i].idespecialista+`,'`+respuesta[i].costo+`')" class="estilobarbero">
+                                  <div style="margin-top: 1em;" onclick="DetalleEspecialista2(`+respuesta[i].idespecialista+`,'`+respuesta[i].costo+`')" class="estilobarbero cambiarfuente">
                                   <div class="item-content">
                                   <div class="item-media">
                                    <div class="card-media">
@@ -1298,7 +1298,9 @@ function DetalleEspecialista2(idespecialista,costo) {
 */
   localStorage.setItem('idespecialista',idespecialista);
   localStorage.setItem('precio',costo);
-  GoToPage('disponibilidadespecialista');
+    AgendarCita2();
+
+  //GoToPage('disponibilidadespecialista');
 
 }
 
@@ -1549,7 +1551,7 @@ function ConsultarFechaHorarios() {
   var paqueteid=localStorage.getItem('idpaquete');
   var sucursal=localStorage.getItem('idsucursal');
   var iduser=localStorage.getItem('id_user');
-  var idespecialista=localStorage.getItem('idespecialista');
+  var idespecialista=0;
   var datos="fecha="+fecha+"&idpaquete="+paqueteid+"&idsucursal="+sucursal+"&idespecialista="+idespecialista+"&iduser="+iduser;
   var pagina = "ObtenerDisponibilidadPaqueteEspecialista.php";
   $.ajax({
@@ -1591,7 +1593,7 @@ function PintarIntervalos2(respuesta) {
 
     html+=`<div class="">`;
     for (var i = 0; i <respuesta.length; i++) { 
-      html+=`<a class=" button button-fill button-small button-round horariossele sinseleccionarhora" style="" onclick="SeleccionarHorario4(this)" id="horario_`+i+`">`+respuesta[i].horainicial+`</a>`;
+      html+=`<a class=" button button-fill button-small button-round cambiarfuente horariossele sinseleccionarhora" style="" onclick="SeleccionarHorario4(this)" id="horario_`+i+`">`+respuesta[i].horainicial+`</a>`;
     }
 
     html+=`</div>`;
@@ -1605,6 +1607,17 @@ function PintarIntervalos2(respuesta) {
 function CerarModalD() {
   
   modaldialogo.close();
+}
+
+function HabilitarBoton2() {
+
+  if (horaseleccionada!='') {
+    $(".btncontinuarcita").css('display','block');
+
+  }else{
+   $(".btncontinuarcita").css('display','none');
+ 
+  }
 }
 
 /*function DisponibilidadBarbero(idpaquete) {

@@ -158,6 +158,11 @@ var routes = [
 
   },
 
+  {
+    path: '/subcategoriasdetalle/',
+    url: './pages/subcategoriasdetalle.html',
+  },
+
    {
     path: '/productoscategoria/',
     url: './pages/productoscategoria.html',
@@ -288,6 +293,19 @@ var routes = [
    {
     path: '/categoriaspaquetes/',
     componentUrl: './pages/categoriaspaquetes.html',
+  },
+
+  {
+    path: '/seleccionarhorario/',
+    url: './pages/seleccionarhorario.html',
+
+  },
+
+
+  {
+    path: '/listadoespecialista/',
+    url: './pages/listadoespecialista.html',
+
   },
   
   {

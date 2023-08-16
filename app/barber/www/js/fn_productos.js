@@ -156,6 +156,6 @@ function DetalleServicio(idpaquete) {
 		localStorage.setItem('idpaquete',idpaquete);
 		//GoToPage('detalleservicio');
 		//Disponilidadfecha2();
-		GoToPage('listadoespecialista');
+		GoToPage('seleccionarhorario');
 		// ObtenerListadoEspecialista();
 }

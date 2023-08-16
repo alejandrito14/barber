@@ -415,12 +415,13 @@ function SeleccionarHorario(i) {
 }
 
 function HabilitarBoton() {
-	
-	if (horaseleccionada!='') {
-		$(".btnagendarcita").css('display','block');
+	var fecha=  localStorage.getItem('fecha');
+
+	if (fecha!='') {
+		$(".btncontinuarcita").css('display','block');
 
 	}else{
-		$(".btnagendarcita").css('display','none');
+		$(".btncontinuarcita").css('display','none');
 
 	}
 }

@@ -11,7 +11,7 @@ function CargarCalendario5() {
   var mes=(fecha.getMonth() + 1)<10?'0'+(fecha.getMonth() + 1):(fecha.getMonth() + 1);
   var iduser=localStorage.getItem('id_user');
   var sucursal=localStorage.getItem('idsucursal');
-  var idespecialista=localStorage.getItem('idespecialista');
+  var idespecialista=0;
   var datos="idpaquete="+paqueteid+"&idsucursal="+sucursal+"&idespecialista="+idespecialista+"&mes="+mes+"&anio="+anio+"&iduser="+iduser;
   var pagina = "ObtenerFechasSucursal.php";
   $.ajax({
@@ -125,13 +125,14 @@ function CargarCalendario5() {
            
            // ConsultarFechaEspecialista(fecha1);
            localStorage.setItem('fecha',fecha1);
-          ObtenerEspecialistasSucursal();
+          
+   /*       ObtenerEspecialistasSucursal();
        		$(".divpintarhorarios").html('');
       	    $(".divhorarios").css('display','none');
 
             $(".divpintarservicios").html('');
             $(".divservicios").css('display','none');
-      		horaseleccionada="";
+      		horaseleccionada="";*/
       		HabilitarBoton();
 
           },

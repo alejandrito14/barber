@@ -11,6 +11,15 @@
     url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
 }
 
+@font-face {
+    font-family: 'Faustina';
+    src: url('../fonts/Faustina/Faustina-VariableFont_wght.ttf') format('truetype');
+
+    /* Otros formatos de fuente aquí si es necesario */
+    font-weight: normal;
+    font-style: normal;
+}
+
 .material-icons {
   font-family: 'Material Icons';
   font-weight: normal;
@@ -977,14 +986,14 @@ code {
  }
   .sinseleccionarhora{
   /*border: 1px solid black;*/
-    background: white;
-    color: black;
+    background: #c7aa6a;
+    color: white;
  }
 
  .seleccionadohora{
   /*border: 1px solid white;*/
-  background: #c7aa6a;
-  color: white;
+  background:white;
+  color: black;
   border-radius: 8px!important;
 
  }
@@ -1259,6 +1268,46 @@ footer .nav .nav-item .nav-link span .nav-text {
   .navbar .right {
     margin-top: 3em!important;
 }
+
+
+.faustina {
+    font-family: 'Faustina', sans-serif;
+}
+
+.seleccionada{
+background: #C7AA6A!important;
+color: white!important;
+
+}
+
+.md .toggle input[type='checkbox']:checked + .toggle-icon {
+    background: rgb(199, 170, 106);
+}
+
+
+
+.preciopaqueteestilo2{
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    /* margin: auto; */
+    /* width: 80px; */
+    background: black;
+    /* margin: auto; */
+    /* width: 100px; */
+    /* margin-bottom: 10px; */
+    /* margin-bottom: 10em; */
+    border-radius: 10px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    
+    bottom: -29px;
+   
+    }
+
 /*.boton{
   outline: none;
   border: 1px solid #363431;

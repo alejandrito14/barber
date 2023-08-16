@@ -1048,10 +1048,10 @@ function CargarDatos() {
 
 
      var os=  localStorage.getItem("SO");
-       $(".bcantidadcarrito").css('right','3em');
+       $(".bcantidadcarrito").css('right','8px');
 
      if (os=='ios') {
-     	$(".bcantidadcarrito").css('right','3em');
+     	$(".bcantidadcarrito").css('right','8px');
      }
 }
 

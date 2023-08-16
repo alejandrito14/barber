@@ -166,7 +166,7 @@ function HabilitarBotonContinuar() {
 
   if (localStorage.getItem('fecha')!=undefined && localStorage.getItem('fecha')!='') {
       $(".btncontinuareleccion").css('display','block');
-      $(".btncontinuareleccion").attr('onclick','GoToPage("seleccionespecialista")');
+      $(".btncontinuareleccion").attr('onclick','GoToPage("seleccionarhorario")');
   }else{
 
       $(".btncontinuareleccion").css('display','none');
@@ -579,7 +579,7 @@ function PintarIntervalos3(respuesta) {
 
     html+=`<div class="">`;
     for (var i = 0; i <respuesta.length; i++) { 
-      html+=`<a class=" button button-fill button-small button-round horariossele sinseleccionarhora" style="" onclick="SeleccionarHorario3(`+i+`)" id="horario_`+i+`">`+respuesta[i].horainicial+`</a>`;
+      html+=`<a class=" button button-fill button-small button-round horariossele sinseleccionarhora" style="" onclick="SeleccionarHorario4(this)" id="horario_`+i+`">`+respuesta[i].horainicial+`</a>`;
     }
 
     html+=`</div>`;
@@ -589,12 +589,23 @@ function PintarIntervalos3(respuesta) {
   $(".divpintarhorarios").html(html);
 }
 
+function SeleccionarHorario4(objeto) {
+  $(".horariossele").removeClass('seleccionadohora');
+  objeto.classList.add('seleccionadohora');
+  var idelemento=objeto.id;
+
+  var posicion=idelemento.split('_')[1];
+  horaseleccionada=arrayhorarios[posicion];
+
+    HabilitarBoton2();
+
+
+}
+
 function SeleccionarHorario3(i) {
 
   if ($("#horario_"+i).hasClass('sinseleccionarhora')) {
-      $(".horariossele").removeClass('seleccionadohora');
-      $(".horariossele").addClass('sinseleccionarhora');
-
+    
       $("#horario_"+i).removeClass('sinseleccionarhora');
       $("#horario_"+i).addClass('seleccionadohora');
        horaseleccionada=arrayhorarios[i];
@@ -604,6 +615,8 @@ function SeleccionarHorario3(i) {
 
       $("#horario_"+i).removeClass('seleccionadohora');
       $("#horario_"+i).addClass('sinseleccionarhora');
+   
+
     }
 
     console.log(horaseleccionada);
@@ -1145,8 +1158,8 @@ function ObtenerListadoEspecialista() {
   function PintarDetalleEspecialistas2(respuesta) {
    
 
-  var html2="";
-var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;background: white;">
+  var html="";
+/*var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;background: white;">
             <div class="toolbar" style="background: black;">
               <div class="toolbar-inner">
                 <div class="left"></div>
@@ -1183,7 +1196,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
                        
                               <div class="list">
                                 <div>
-                              `;
+                              `;*/
 
                               if (respuesta.length>0) {
                                 for (var i = 0; i <respuesta.length; i++) {
@@ -1209,7 +1222,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
 
                                   html+=`
 
-                                  <div style="margin-top: 1em;" onclick="DetalleEspecialista2(`+respuesta[i].idespecialista+`,'`+respuesta[i].costo+`')" class="estilobarbero">
+                                  <div style="margin-top: 1em;" onclick="DetalleEspecialista2(`+respuesta[i].idespecialista+`,'`+respuesta[i].costo+`')" class="estilobarbero cambiarfuente">
                                   <div class="item-content">
                                   <div class="item-media">
                                    <div class="card-media">
@@ -1234,12 +1247,9 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
                   
                 
 
-                  </div>
-
-                      <p style="margin:0;margin-left: 5px;"></p>
-
-
-                  </div>
+                                        </div>
+                                            <p style="margin:0;margin-left: 5px;"></p>
+                                        </div>
 
                                   
                         
@@ -1254,46 +1264,11 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
                                 }
                               }
                               
-                              html+=`
-                                </div>
-                              </div>
-                       
-                          </div>
-                      
-                             </div>
-                      </div>
-                       
-                          `;
-
-                    
-                      html+=`</div>
-
-                        <div class="row">`;
-
-                      
-
-
-                          html+=`</div>
-
-                          <div class="row margin-bottom " style="padding-top: 1em;">
-                          `;
-                          
-
-
-                          html+=`
-                          </div>
-
-                    </div>
-
-                 </div>
-
-          </div>
-                
-              </div>
-            </div>
-          </div>`;
+                             
+              $(".divlistadobarbero").html(html);
+                   
           
-    dynamicSheet1 = app.sheet.create({
+   /* dynamicSheet1 = app.sheet.create({
         content: html,
 
       swipeToClose: true,
@@ -1315,15 +1290,17 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
         }
       });
 
-       dynamicSheet1.open();
+       dynamicSheet1.open();*/
   }
 
 function DetalleEspecialista2(idespecialista,costo) {
-  dynamicSheet1.close();
-
+/*  dynamicSheet1.close();
+*/
   localStorage.setItem('idespecialista',idespecialista);
   localStorage.setItem('precio',costo);
-  GoToPage('disponibilidadespecialista');
+    AgendarCita2();
+
+  //GoToPage('disponibilidadespecialista');
 
 }
 
@@ -1421,12 +1398,15 @@ function CargarCalendarioDispo() {
             $('.calendar-custom-toolbar .left .link').on('click', function () {
               calendarInline.prevMonth();
               RefrescarFechas2(c);
+             localStorage.setItem('fecha','');
+             HabilitarBotonContinuar();
 
             });
             $('.calendar-custom-toolbar .right .link').on('click', function () {
               calendarInline.nextMonth();
               RefrescarFechas2(c);
-
+            localStorage.setItem('fecha','');
+            HabilitarBotonContinuar();
             });
           },
 
@@ -1448,7 +1428,7 @@ function CargarCalendarioDispo() {
      
           //ConsultarFechaHorarios();
           //horaseleccionada="";
-          //HabilitarBoton();
+          HabilitarBotonContinuar();
           //aqui
           },
 
@@ -1571,7 +1551,7 @@ function ConsultarFechaHorarios() {
   var paqueteid=localStorage.getItem('idpaquete');
   var sucursal=localStorage.getItem('idsucursal');
   var iduser=localStorage.getItem('id_user');
-  var idespecialista=localStorage.getItem('idespecialista');
+  var idespecialista=0;
   var datos="fecha="+fecha+"&idpaquete="+paqueteid+"&idsucursal="+sucursal+"&idespecialista="+idespecialista+"&iduser="+iduser;
   var pagina = "ObtenerDisponibilidadPaqueteEspecialista.php";
   $.ajax({
@@ -1613,7 +1593,7 @@ function PintarIntervalos2(respuesta) {
 
     html+=`<div class="">`;
     for (var i = 0; i <respuesta.length; i++) { 
-      html+=`<a class=" button button-fill button-small button-round horariossele sinseleccionarhora" style="" onclick="SeleccionarHorario3(`+i+`)" id="horario_`+i+`">`+respuesta[i].horainicial+`</a>`;
+      html+=`<a class=" button button-fill button-small button-round cambiarfuente horariossele sinseleccionarhora" style="" onclick="SeleccionarHorario4(this)" id="horario_`+i+`">`+respuesta[i].horainicial+`</a>`;
     }
 
     html+=`</div>`;
@@ -1627,6 +1607,17 @@ function PintarIntervalos2(respuesta) {
 function CerarModalD() {
   
   modaldialogo.close();
+}
+
+function HabilitarBoton2() {
+
+  if (horaseleccionada!='') {
+    $(".btncontinuarcita").css('display','block');
+
+  }else{
+   $(".btncontinuarcita").css('display','none');
+ 
+  }
 }
 
 /*function DisponibilidadBarbero(idpaquete) {

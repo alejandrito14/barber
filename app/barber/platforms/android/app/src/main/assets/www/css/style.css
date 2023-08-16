@@ -2778,7 +2778,7 @@ h6,
   color: #ffffff; }
 
 .navbar {
-  background: var(--f7-theme-color-white);
+ /* background: var(--f7-theme-color-white);*/
   height: 120px; 
 
 }
@@ -2790,7 +2790,7 @@ h6,
       font-size: 32px; }
     .navbar a.link [fill],
     .navbar a.link path {
-      fill: var(--f7-theme-color); }
+      fill: #c7aa6a; }
   .navbar .right i {
     font-size: 32px; }
   .navbar .title-large-text {

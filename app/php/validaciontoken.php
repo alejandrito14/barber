@@ -7,10 +7,7 @@ require_once "clases/conexcion.php";
 require_once "clases/class.Usuarios.php";
 //require_once("clases/class.Token.php");
 require_once "clases/class.Funciones.php";
-/*require_once("clases/class.MovimientoBitacora.php");
- *//*require_once("clases/class.Sms.php");
-require_once("clases/class.phpmailer.php");
-require_once("clases/emails/class.Emails.php");*/
+
 require_once "clases/class.AltiriaSMS.php";
 
 try
@@ -31,8 +28,13 @@ try
     $lo->idusuarios = $idcliente;
 
     $validar = $lo->validarToken();
+    $obtenerusuario= $lo->ObtenerUsuario();
+    $monedero=0;
+    if ($obtenerusuario[0]->monedero>0) {
+        $monedero=1;
+    }
 
-    $arra = array('tokenvalidado' => $validar);
+    $arra = array('tokenvalidado' => $validar,'usuario'=>$obtenerusuario[0],'monedero'=>$monedero);
 
     $respuesta['respuesta'] = $arra;
 

@@ -158,9 +158,19 @@ var routes = [
 
   },
 
+  {
+    path: '/subcategoriasdetalle/',
+    url: './pages/subcategoriasdetalle.html',
+  },
+
    {
     path: '/productoscategoria/',
     url: './pages/productoscategoria.html',
+
+  },
+  {
+    path: '/productoscategoriadetalle/',
+    url: './pages/productoscategoriadetalle.html',
 
   },
   
@@ -171,14 +181,19 @@ var routes = [
   },
 
   // Account 
-  {
+/*  {
     path: '/signin/',
     componentUrl: './pages/signin.html',
+  },*/
+
+  {
+    path: '/login/',
+    componentUrl: './pages/login.html',
   },
   {
     //accoun-area pide celular
-    path: '/signup/',
-    componentUrl: './pages/signup.html',
+    path: '/celular/',
+    componentUrl: './pages/celular.html',
   },
 
    {
@@ -218,9 +233,15 @@ var routes = [
     componentUrl: './pages/carrito.html',
   },
   {
-    path: '/listadocompras/',
-    componentUrl: './pages/listadocompras.html',
+   // path: '/listadocompras/',
+   // componentUrl: './pages/listadocompras.html',
+     path: '/listadocompras/',
+    url: './pages/listadocompras.html',
+
+
   },
+
+
 
     {
     path: '/detallepago/',
@@ -288,6 +309,46 @@ var routes = [
    {
     path: '/categoriaspaquetes/',
     componentUrl: './pages/categoriaspaquetes.html',
+  },
+
+  {
+    path: '/seleccionarhorario/',
+    url: './pages/seleccionarhorario.html',
+
+  },
+
+
+  {
+    path: '/seleccionarhorario2/',
+    url: './pages/seleccionarhorario2.html',
+
+  },
+
+   {
+    path: '/seleccionarfecha/',
+    url: './pages/seleccionarfecha.html',
+
+  },
+
+
+  {
+    path: '/listadoespecialista/',
+    url: './pages/listadoespecialista.html',
+
+  },
+  {
+    path: '/citas/',
+    url: './pages/citas.html',
+  },
+
+   {
+    path: '/escogermetodopago/',
+    url: './pages/escogermetodopago.html',
+  },
+
+   {
+    path: '/escogermonederootro/',
+    url: './pages/escogermonederootro.html',
   },
   
   {

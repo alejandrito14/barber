@@ -66,7 +66,7 @@ class Usuarios
 
 	public function GuardarClienteTelefono()
 	{
-		 $query = "INSERT INTO usuarios (celular,sistema) VALUES ('$this->celular','$this->sistema')";
+		 $query = "INSERT INTO usuarios (celular,sistema,usuario) VALUES ('$this->celular','$this->sistema','$this->celular')";
 
 
         $result          = $this->db->consulta($query);
@@ -77,7 +77,8 @@ class Usuarios
     {
        $query = "UPDATE usuarios SET 
            celular ='$this->celular',
-           sistema='$this->sistema' 
+           sistema='$this->sistema' ,
+           usuario='$this->celular'
            WHERE idusuarios='$this->idusuarios'";
         $result= $this->db->consulta($query);
 
@@ -118,6 +119,7 @@ class Usuarios
          email='$this->email',
          clave='$this->clave',
          sexo='$this->sexo',
+         usuario='$this->usuario',
          estatus='$this->estatus',
          fechanacimiento='$this->fecha',
          tipo='$this->tipousuario'
@@ -224,7 +226,7 @@ class Usuarios
     function validarUsuarioClienteCelular ()
     {
         $r ;
-        $sql_cliente = "SELECT * FROM usuarios WHERE celular = '$this->celular' AND email is not null and usuario is not null and email!='' and usuario!='' and clave!='' ";
+        $sql_cliente = "SELECT * FROM usuarios WHERE celular = '$this->celular' and usuario is not null  and usuario!='' and clave!='' ";
        
         $result_cliente = $this->db->consulta($sql_cliente);
         $result_cliente_row = $this->db->fetch_assoc($result_cliente);

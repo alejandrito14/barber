@@ -74,6 +74,9 @@ try
     $lo->clave    = $contra;
     $lo->tipousuario=3;
     $lo->fecha    = $fecha;
+
+  
+
    /* $lo->telefono = $telefono;
    
     $lo->sexo     = $sexo;
@@ -105,7 +108,8 @@ try
     //$lo->principaldireccion = 1;
     $lo->sistema            = $sistema;
     $lo->idusuarios          = $idusuario;
-    
+    $obtenerusuario=$lo->ObtenerUsuario();
+    $lo->usuario=$obtenerusuario[0]->celular;
     $edicion=1;
    /* if ($ediciondedatoscliente==1) {
        $edicion=0;

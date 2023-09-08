@@ -1,8 +1,8 @@
 <template>
 <div class="page" data-name="carrito">
-     <div class="navbar navbar-style-1">
+     <div class="navbar navbar-style-1 navbar-transparent">
     <div class="navbar-bg"></div>
-    <div class="navbar-inner sliding">
+    <div class="navbar-inner sliding navbar-transparent">
       <div class="left">
         <a  class="link btnregresocarrito" >
        
@@ -21,20 +21,32 @@
     </a>
   </div> -->
   <!-- main page content -->
-  <div class="page-content" style="    margin-top: 4em;">
+  <div class="page-content pt-80" style=" ">
     <!-- banner -->
-    
+      <div class="row">
+            <div class="col-100">
+
+      <div class="titlecatalogo title2 cambiarfuente" style="    font-size: 20px;
+    text-align: center;
+    font-weight: 600;color:#c7aa6a;
+   ">Resumen de compra</div>
+    </div>
+
+    <div class="col-100">
+       <p class="cambiarfuente" style="text-align: center;    margin: 0;    margin-bottom: 1em;color:#c7aa6a;">Productos agregados: <span id="cantidadagregados"></span></p>
+    </div>
+    </div>
 
   
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-100">
-          <h3 style="text-align: center;    margin-bottom: 2px;">Detalle del carrito</h3>
-           <p style="text-align: center;    margin: 0;    margin-bottom: 1em;">Productos agregados: <span id="cantidadagregados"></span></p>
+          <h3 style="text-align: center;    margin-bottom: 2px;" class="cambiarfuente">Resumen de compra</h3>
+           <p class="cambiarfuente" style="text-align: center;    margin: 0;    margin-bottom: 1em;">Productos agregados: <span id="cantidadagregados"></span></p>
         </div>
         <div class="col-100">
          
         </div>
-      </div>
+      </div> -->
 
        <div class="row">
         
@@ -42,8 +54,8 @@
    
     <div class="">
 
-      <div class="list  no-margin" style="background: white;overflow:scroll;height: 300px;">
-           <ul class="listadocarrito" style="list-style: none;margin-right: 2em;margin-left: 2em;">
+      <div class="list  no-margin" style="background: black;overflow:scroll;height: 320px;">
+           <ul class="listadocarrito cambiarfuente" style="list-style: none;background: black;">
       
               </ul>
            
@@ -54,27 +66,20 @@
           </div>
       </div>
 
-      <div class="row" style="     margin-right: 2.5em;
-    margin-left: 2.5em;margin-top: 2em;">
-        <div class="col-100">
-            <button style="background: #C7AA6A;" type="button" class="button button-fill color-theme button-large button-raised btnagregarmas" >¿Necesitas algo más?</button>
-        </div>
-       
-
-      </div>
+      
 
     <div class="row" style="margin-right: 2.5em; margin-left: 2.5em;margin-bottom: 1em;">
       <div class="col-100">
-        <h5 style="
-            text-align: center;
-        ">Total de tu carrito</h5>
+        <h5 class="cambiarfuente" style="
+            text-align: center;font-size: 25px;    margin: 10px;
+        ">Total</h5>
       <h3 style="color: #C7AA6A;font-size: 35px;text-align: center;margin: 0;
-    line-height: 1em;">$<span class="totalcarrito">0.00</span></h3>
+    line-height: 1em;">$<span class="cambiarfuente totalcarrito">0.00</span></h3>
   </div>
   <div class="col-100">
-    <button style="    margin-top: 4em;
-    margin-right: 2em;
-   " type="button" class="button button-fill color-theme button-large button-raised btnpagar" id="btnpagar" >Pagar</button>
+    <button style="    margin-top: 1em;
+    margin-right: 2em;color: white;background: #C7AA6A;
+   " type="button" class="button button-fill color-theme button-large button-raised btnpagar cambiarfuente" id="btnpagar" >Pagar</button>
   </div>
 </div>
 
@@ -221,6 +226,6 @@
     </div>
   </footer> -->
   <!-- Footer ends-->
-
+ 
 </div>
 </template>

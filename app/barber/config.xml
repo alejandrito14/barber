@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.inversa.app" version="1.0.13" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.inversa.app" version="1.0.19" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Grupo Inversa</name>
     <description>
         Aplicacion de negocios
@@ -9,8 +9,6 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-
-    <access origin="whatsapp//*" launch-external="yes" />
     <allow-navigation href="https://*.stripe.network/*" />
     <allow-navigation href="https://*.stripe.com/*" />
     <allow-navigation href="https://*.issoftware1.com.mx/*" />
@@ -43,9 +41,6 @@
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     <platform name="android">
         <resource-file src="google-services.json" target="app/google-services.json" />
-       
-  <!-- ... otros ajustes ... -->
-         <allow-intent href="whatsapp:*" />
 
   <!--   <edit-config file="app/src/main/AndroidManifest.xml" target="/manifest/application/activity" mode="merge">
   <activity android:exported="true" />

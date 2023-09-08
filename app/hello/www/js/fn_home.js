@@ -117,6 +117,8 @@ $$('.messages-content').scrollTop( $('.messages-content').get(0).scrollHeight, 4
     		}
     	}
 	});
+
+	
 }
 
 function CargarDatosAdmin(argument) {

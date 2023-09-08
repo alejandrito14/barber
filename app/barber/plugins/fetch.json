@@ -29,18 +29,18 @@
     "is_top_level": false,
     "variables": {}
   },
-  "cordova-plugin-qr-barcode-scanner": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-qr-barcode-scanner@8.0.3"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-call-number": {
     "source": {
       "type": "registry",
       "id": "cordova-plugin-call-number"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-splashscreen": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-splashscreen@6.0.2"
     },
     "is_top_level": true,
     "variables": {}

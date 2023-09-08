@@ -29,13 +29,13 @@ try
 	$lo->db = $db;
 	$fechafiltro="";
 
-	if (isset($_POST['hoy'])) {
+	/*if (isset($_POST['hoy'])) {
 
 		if ($_POST['hoy']==1) {
 			$fechafiltro=date('Y-m-d');
 		}
 		
-	}
+	}*/
 
 	if (isset($_POST['fechafiltro'])) {
 		$fechafiltro=$_POST['fechafiltro'];

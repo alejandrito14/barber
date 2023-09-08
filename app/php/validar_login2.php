@@ -7,6 +7,7 @@ header('Access-Control-Allow-Origin: *');
 require_once("clases/conexcion.php");
 require_once("clases/class.Login.php");
 require_once("clases/class.Usuarios.php");
+require_once("clases/class.Carrito.php");
 
 try
 {
@@ -15,7 +16,8 @@ try
 	$db = new MySQL();
 	$lo = new Login();
 	$cli= new Usuarios();
-
+	$carrito=new Carrito();
+	$carrito->db=$db;
 	//Enviamos la conexion a la clase
 	$lo->db = $db;
 	$cli->db = $db;
@@ -29,6 +31,8 @@ try
 	$valor=$_POST['anunciovisto'];
 	$login=$_POST['login'];
 
+	$idusuarioinvitado=$_POST['idusuarioinvitado'];
+
 	//Enviamos los parametros a la clase
 	$lo->usuario = utf8_decode($usuario);
 	$lo->password = utf8_decode($password);
@@ -37,14 +41,14 @@ try
 		$resultado = $lo->validar_credenciales_cliente();
 	}
 
-	if ($login=='btnemail') {*/
-		$resultado = $lo->validar_credenciales_email();
-	/*}
+	if ($login=='btnemail') {
+		//$resultado = $lo->validar_credenciales_email();
+	}*/
 
 	if ($login=='btncelular') {
 		$resultado = $lo->validar_celular();
 	}
-*/
+
 	//Realizamos validacion del usuario en la DB
 	
 	$resultado_row = $db->fetch_assoc($resultado);
@@ -75,6 +79,31 @@ try
 		$tipo=$cli->ObtenerTipo();	
 		$array->tipousuario=$tipo[0]->nombretipo;
 
+
+		$carrito->idusuarios=$idusuarioinvitado;
+		$obtenercarritoinvitado=$carrito->ObtenerCarrito();
+
+		if (count($obtenercarritoinvitado)>0) {
+			
+			for ($i=0; $i <count($obtenercarritoinvitado) ; $i++) { 
+				
+				$carrito->idcarrito=$obtenercarritoinvitado[$i]->idcarrito;
+				$carrito->idusuarios=$idusuarios;
+				$carrito->ActualizarIdUsuarioCarrito();
+
+
+				if ($obtenercarritoinvitado[$i]->idcitaapartada!=0) {
+					$carrito->idcitaapartada=$obtenercarritoinvitado[$i]->idcitaapartada;
+					$carrito->ActualizarIdusuarioCita();
+
+				}
+
+
+			}
+		}
+
+		$cli->idusuarios=$idusuarioinvitado;
+		$eliminarusuario=$cli->EliminarUsuario();
 			/*if ($sistema!='' && $tokenfirebase!='') {
 
 				$cli->tokenfirebase=$tokenfirebase;

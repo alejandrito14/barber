@@ -51,13 +51,24 @@
   		<img class="imagenempresa" style="height: 150px;display: flex;/* width: 150px; */justify-content: center;margin: 0px auto;margin-left: 120px;" src="" alt="">	
 
   	</div>
-    <ul style="    margin-left: 100px;">
-      <li><a href="#">Negocios</a></li>
-      <li><a href="#">Citas</a></li>
-      <li><a href="#">Blog</a></li>
+    <ul style="margin-left: 100px;">
+      <li >
+      	<a class="limenu" data-menu="negocios" href="#">Negocios</a>
+      </li>
+      <li >
+      	<a class="limenu" data-menu="citas" href="#">Mis citas</a>
+      </li>
+      <li ><a class="limenu" data-menu="miscompras" href="#">
+      Mis compras</a>
+  	  </li>
+      <li><a class="limenu" data-menu="miperfil" href="#">Mi perfil</a></li>
+       <li class="lilogin">
+      	<a class="limenu" data-menu="login" href="#">Login</a>
+      </li>
 
-      <li><a href="#">Contacto</a></li>
-      <li><a href="#">Comentarios</a></li>
+       <li >
+      	<a class="limenu" data-menu="salir" href="#">Salir</a>
+      </li>
     </ul>
     <div>
     	<p style="border-bottom: 0.4px solid black;text-align: center;/* margin-left: 100px; */width: 320px;"></p>
@@ -117,8 +128,7 @@
 				</div>
 			</div>
 			<div class="toolbar toolbar-bottom container footer-button landing" style="z-index: 1000;">
-				<a href="/home/" class="button-large button button-fill" style="text-transform: capitalize;    background: black;
-">Empecemos</a>
+				<a href="/home/" class="button-large button button-fill" style="text-transform: capitalize;    background: #c7aa6a;">Empecemos</a>
 			</div>
 		</div>
 	</div>
@@ -166,12 +176,14 @@
 <script src="js/fn_detallepaquete.js"></script>
 <script src="js/fn_detalleservicio.js"></script>
 <script src="js/fn_disponibilidad.js"></script>
-
+<script src="js/fn_seleccionarfecha.js"></script>
 <script src="js/fn_home.js"></script>
 <script src="js/fn_homeespecialista.js"></script>
 <script src="js/fn_lectorqr.js"></script>
 <!-- subir foto y perfil
  -->
+ <script src="js/detalleproductoservicios.js"></script>
+
  <script src="js/fn_perfil.js"></script>
 <script src="js/fotoperfil.js"></script>
 <script src="js/validacion.js"></script>
@@ -185,6 +197,8 @@
 <script src="js/fn_homeadmin.js"></script>
 <script src="js/fn_imagencita.js"></script>
 <script src="js/fn_especialista.js"></script>
+<script src="js/fn_menu.js"></script>
+
 <script src="js/fn_disponibilidadfechasucursal.js"></script>
 <script src="js/cronometro.js"></script>
 <script src="js/framework7-bundle.min.js"></script>
@@ -199,6 +213,7 @@
 <script>
 
 	var abierto=0;
+
 	$(document).ready(function() {
 
 		
@@ -229,25 +244,12 @@
 	  
 	});
 
+	$(".limenu").attr('onclick','SeleccionMenu(this)');
+
   
 });
 
-function toggleMenu() {
-  var menu = document.getElementById("menu");
-  if (abierto ==1) {
-    menu.style.left = "0";
 
-   $(".menu").removeClass('zimenu');
-   abierto=0;
-  } else {
-    menu.style.left = "-100px";
-    
-    $(".menu").addClass('zimenu');
-    abierto=1;
-  }
-
-
-}
 </script>
 
 </body>

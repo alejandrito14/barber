@@ -43,7 +43,7 @@ function PintarProductos(respuesta) {
 
 			html+=`
 
-				 <div class="tarjeta" style="width:50%;" id="tarjeta_`+respuesta[i].idpaquete+`">
+				 <div class="tarjeta" onclick="`+funcion+`" style="width:50%;" id="tarjeta_`+respuesta[i].idpaquete+`">
 		          <div class="card demo-card-header-pic" style="border-radius: 10px;">`;
 		         
 		         var classe="";
@@ -69,7 +69,7 @@ function PintarProductos(respuesta) {
 
 			      	
 
-		        html+=`  <div style="background-image:url(`+imagen+`);border-radius: 10px 10px 0px 0px;" onclick="`+funcion+`"
+		        html+=`  <div style="background-image:url(`+imagen+`);border-radius: 10px 10px 0px 0px;" 
 		          class="card-header align-items-flex-end"></div>
 
 		        <div class="" style="display: block;text-align: center;height: 50px;">
@@ -156,6 +156,6 @@ function DetalleServicio(idpaquete) {
 		localStorage.setItem('idpaquete',idpaquete);
 		//GoToPage('detalleservicio');
 		//Disponilidadfecha2();
-
-		DisponibilidadBarbero();
+		GoToPage('seleccionarhorario');
+		// ObtenerListadoEspecialista();
 }

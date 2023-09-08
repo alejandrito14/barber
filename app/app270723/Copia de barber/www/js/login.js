@@ -155,7 +155,7 @@ function validar_login()
 	var btnusuario=$("#btnusuario").hasClass('backgreen');
 	var btnemail=$("#btnemail").hasClass('backgreen');
 	var btncelular=$("#btncelular").hasClass('backgreen');
-	var login="";
+	var login="btnusuario";
 	if (btnusuario==true) {
 		login='btnusuario';
 	}

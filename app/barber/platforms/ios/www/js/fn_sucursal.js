@@ -18,6 +18,11 @@ function ObtenerDatosSucursal() {
 		
 		var sucursal=datos.sucursal;
 		var imagenes=datos.imagenes;
+		tipoletra=datos.sucursal.tipoletra;
+
+		if (tipoletra!='') {
+			$(".cambiarfuente").addClass(tipoletra);
+		}
 		PintarDatosSucursal(sucursal,imagenes);
 		//ObtenerListaEspecialistasSucursal3(idsucursal);
 	/*	localStorage.setItem('minutosconsiderados',sucursal.minutosconsiderados);
@@ -76,7 +81,7 @@ function PintarDatosSucursal(respuesta,imagenes) {
 	$(".imagensucursal").attr('src',imagen);
 	$(".titulosucursal").text(respuesta.titulo);
 	$(".telefono").text(respuesta.celular);
-	$(".btnwhapsap").attr('onclick',"AbrirWhapsap('"+respuesta.celular+"')");
+	$(".btnwhapsap").attr('onclick',"AbrirWhapsap(\'"+respuesta.celular+"\')");
 	var direccion=respuesta.direccion+', '+respuesta.colonia;
 	$(".descripcion").text(direccion);
 	var coordenadas=respuesta.ubicacion;
@@ -91,11 +96,14 @@ function PintarDatosSucursal(respuesta,imagenes) {
 		ObtenerMapa(long,lat);
 	}
 
+		 imagenesgaleria.push(imagen);
 
+
+	$(".divvisualizarimagen").attr("onclick","AbrirImagen(0)");
 
 	$(".textelefono").text(respuesta.telefono);
 	$(".btntelefono").attr("onclick","hacerLlamada('"+respuesta.telefono+"')");
-	$(".btnagenda").attr("onclick","GoToPage('servicioslista')");
+	$(".btnagenda").attr("onclick","GoToPage('disponibilidadfechasucursal')");
 	$(".btnlocalizar").attr("onclick","abrirGoogleMaps('"+lat+"','"+long+"')");
 	$(".btnvercalificaciones").attr("onclick","ObtenerCalificacionesSucursal("+respuesta.idsucursal+")");
 	$(".btnconoceespecialistas").attr("onclick","ObtenerListaEspecialistasSucursal2("+respuesta.idsucursal+")");
@@ -132,8 +140,9 @@ function PintarDatosSucursal(respuesta,imagenes) {
 }
 
 function AbrirWhapsap(numeroTelefono) {
-
-	window.open("whatsapp://send?phone=" + numeroTelefono, "_system", "location=yes");
+	var mensaje="Hola";
+	//window.open("whatsapp://send?phone=" + numeroTelefono, "_system", "location=yes");
+	window.open('whatsapp://send?phone='+numeroTelefono+'&text='+mensaje+'','_system');
 
 }
 function hacerLlamada(numeroTelefono) {
@@ -768,6 +777,8 @@ function AbrirImagen(posicion) {
         photos: [
          nombre
             ]
+            ,
+            theme: 'dark',
       });
       //Open photo browser on click
       myPhotoBrowser.open();
@@ -783,7 +794,7 @@ function AbrirImagen(posicion) {
      $(".popup-close").removeClass('link');
      $(".popup-close").html(html);
      $(".popup-close").css('margin-top','100px');
-     $(".iconocerrar").css('top','80px');
+     //$(".iconocerrar").css('top','80px');
 }
 
 function VistaCategoria(idsucursal) {

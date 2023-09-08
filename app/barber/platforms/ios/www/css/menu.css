@@ -1,8 +1,4 @@
-.navbar {
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px;
-}
+
 
 /*.title {
   font-size: 20px;
@@ -46,12 +42,12 @@
 
 .menu a {
   text-decoration: none;
-  color: #333;
+  color:#333;
   font-size: 18px;
 }
 
 .menu a:hover {
-  color: #007bff;
+  color: white;
 }
 .zimenu{
   z-index: 9900;

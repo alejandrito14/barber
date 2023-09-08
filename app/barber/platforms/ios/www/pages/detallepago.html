@@ -1,6 +1,6 @@
 <template>
 <div class="page " data-name="detallepago">
- <div class="navbar navbar-style-1">
+ <div class="navbar navbar-transparent">
     <div class="navbar-bg"></div>
     <div class="navbar-inner">
       <div class="left">
@@ -33,35 +33,33 @@
     </a>
   </div> -->
   <!-- main page content -->
-  <div class="page-content" style="overflow: scroll;margin-top: 6em;">
+  <div class="page-content pt-80" style="overflow: scroll;margin-top: 1em;">
     <!-- banner -->
  
 
-          <div class="row" style="margin-bottom: 1em;">
+         <div class="row">
             <div class="col-100">
 
-      <div class="title" style="    font-size: 20px;
+      <div class="titlecatalogo title2 cambiarfuente" style="    font-size: 20px;
     text-align: center;
     font-weight: 600;
-    color: black;"> 
-        Detalle de pago
-      </div>
+   ">Detalle de pago</div>
     </div>
     </div>
 
 
 
     <div class="" style="margin-bottom: 1em;">
-      <p style="text-align: center;font-size: 18px;" id=""><span style="font-weight: bold;">Pago</span> #<span id="lblnumeronota"></span></p>
+      <p style="text-align: center;font-size: 18px;" id=""><span style="font-weight: bold;color: white;">Pago</span> #<span id="lblnumeronota"></span></p>
 
     </div>
    
     <div class="">
       
 
-      <div class="list " style="background: white;">
+      <div class="list " style="">
            <ul class="listadopagoselegidos" style="list-style: none;margin-right: 2em;
-    margin-left: 2em;">
+    margin-left: 2em;    background: black;">
       
               </ul>
            </div>
@@ -103,8 +101,8 @@
           </div>
       </div> -->
 
-<div class="divmonedero " style="display: none;">
-        <div class="list " style="background: white;margin-right: 2em;margin-left: 2em;">
+<div class="divmonedero cambiarfuente" style="display: none;">
+        <div class="list " style="margin-right: 2em;margin-left: 2em;">
             <ul class="cupon" style="list-style: none;">
              <li class="list-item">
                     <div class="row">
@@ -112,7 +110,7 @@
                             <p class="text-muted small" style="font-size:18px;" id="">
                              Monedero
                             </p>
-                             <p class="text-muted " style="font-size:30px;text-align:right;">$<span class="monedero">0.00</span></p>
+                             <p class="text-muted " style="font-size:30px;text-align:center;">$<span class="monedero">0.00</span></p>
 
                         </div>
                         <div class="col-20">
@@ -170,15 +168,15 @@
         
 
     <div class="">
-        <div class="list " style="background: white;margin-right: 2em;margin-left: 2em;">
+        <div class="list " style="margin-right: 2em;margin-left: 2em;">
             <div class="cupon" style="list-style: none;margin-right: 1em;margin-left: 1em;">
              <div class="list-item">
                     <div class="row">
                         <div class="col-100" style="padding: 0;">
-                            <p class="text-muted small" style="font-size:18px;padding: 0;margin: 0;" id="">
-                             Resúmen
+                            <p class="text-muted small" style="font-size:18px;padding: 0;text-align: center;" id="">
+                             Subtotal
                             </p>
-                             <p class="text-muted " style="font-size:30px;text-align:right;padding: 0;margin: 0;">$<span class="lblresumen">0.00</span></p>
+                             <p class="text-muted " style="font-size:30px;text-align:center;padding: 0;margin: 0;">$<span class="lblresumen">0.00</span></p>
 
                         </div>
                         <div class="col-20">
@@ -194,16 +192,16 @@
 
       <div class="divcomision">
       <div class="">
-        <div class="list " style="background: white;margin-right: 2em;margin-left: 2em;">
+        <div class="list " style="margin-right: 2em;margin-left: 2em;">
             <div class="cupon" style="list-style: none;margin-right: 1em;
     margin-left: 1em;">
              <div class="list-item">
                     <div class="row">
                         <div class="col-100" style="padding: 0;">
-                            <p class="text-muted small" style="font-size:18px;padding: 0;margin: 0;" id="">
+                            <p class="text-muted small" style="font-size:18px;padding: 0;text-align: center;" id="">
                              Comision
                             </p>
-                             <p class="text-muted " style="font-size:30px;text-align:right;padding: 0;margin: 0;">$<span class="lblcomision">0.00</span></p>
+                             <p class="text-muted " style="font-size:30px;text-align:center;padding: 0;margin: 0;">$<span class="lblcomision">0.00</span></p>
 
                         </div>
                         <div class="col-20">
@@ -219,16 +217,16 @@
     </div>
 
       <div class="">
-        <div class="list " style="background: white;margin-right: 2em;margin-left: 2em;">
+        <div class="list " style="margin-right: 2em;margin-left: 2em;">
             <div class="" style="list-style: none;margin-right: 1em;
     margin-left: 1em;">
              <div class="list-item">
                     <div class="row">
                         <div class="col-100" style="padding: 0;">
-                            <p class="text-muted small" style="font-size:18px;padding: 0;margin: 0;" id="">
+                            <p class="text-muted small" style="font-size:18px;padding: 0;text-align: center;" id="">
                              Total
                             </p>
-                             <p class="text-muted " style="font-size:30px;text-align:right;padding: 0;margin: 0;">$<span class="lbltotal">0.00</span></p>
+                             <p class="text-muted " style="font-size:30px;text-align:center;padding: 0;margin: 0;">$<span class="lbltotal">0.00</span></p>
 
                         </div>
                         <div class="col-20">
@@ -248,7 +246,7 @@
           <p class="text-muted" style="opacity: 0.6;">Método de pago</p>
         </div>
       </div>
-      <div class="" style="background: white;">
+      <div class="" style="">
         
         <div class="list " style="margin-right: 2em;margin-left: 2.5em;">
           <div class="metodopago"></div>
@@ -509,12 +507,12 @@
        </div>
 
       
-       <div class="row" style="margin-top: 1em;background: white;margin-bottom: 1em;height: 20px;">
+       <div class="row" style="margin-top: 1em;margin-bottom: 1em;height: 20px;">
              <div class="col-100">
               <div class="datosfiscales"></div>
         </div>
       </div>
- <div  style="margin-top: 1em;background: white;margin-bottom: 1em;height: 20px;">
+ <div  style="margin-top: 1em;margin-bottom: 1em;height: 20px;">
              
       </div>
       <!--  <div class="row">

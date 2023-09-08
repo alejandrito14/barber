@@ -1,42 +1,53 @@
 <template>
-  <div class="page" data-name="verificacion">
-    <div class="navbar navbar-style-1"> 
-      <div class="navbar-inner">
-        <div class="left">
-          <!-- <a href="#" class="button button-fill text-color-theme bg-color-white button-44 back">
-            <i class="bi bi-arrow-left"></i>
-          </a> -->
-        </div>
-        <div class="title">
-          <h5></h5>
-        </div>
-        <div class="right"></div>
+  <div class="page verificacion" data-name="verificacion">
+
+    <div class="navbar  navbar-transparent">
+    <div class="navbar-bg"></div>
+    <div class="navbar-inner sliding">
+      <div class="left" >
+
+        <a class="link back">
+       
+         <svg width="11" height="16" viewBox="0 0 11 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M4.3419 8L10.2222 2.22222L8 2.73828e-07L1.22201e-06 8L8 16L10.2222 13.7778L4.3419 8Z" fill="#122261"/>
+          </svg>
+        </a>
+       
+      </div>
+      <div class="title" style="font-size: 20px;"></div>
+      <div class="right" style="">
+        
+
+
+       
       </div>
     </div>
+  </div>
 
-    <div class="page-content">
-      <div class="block h-100 " style="padding-top: 2em;">
-        <div class="row ">
-           
+    <div class="page-content pt-80" style="">
+      
+          <div class="row">
+            <div class="col-100">
+          <div class="titlecatalogo title2 cambiarfuente" style="    font-size: 20px;text-align: center;font-weight: 600;">Ingresar token</div>
+    </div>
+  </div>
 
-          <div
-            class="col-100 medium-50 large-40 margin-left-auto margin-right-auto align-self-center text-align-center padding-vertical">
-             <div class="tab tab-active form-elements tabs">
-            <form class="tab tab-active" style="margin-right: 1em;margin-left: 1em;" >
-              <div class="">
-               <div class="block">
-                <h3 style="padding-left: .5em;font-size: 20px;"> Ingresa el código que recibiste</h3>
-               </div>
-                  <!--Search-->
-           
-
-         
+   <div class="row" style="    margin-right: 2em;
+    margin-left: 2em;margin-top: 2em;">
+     <div class="col-100">
+    <div class="tabs">
+          <div class="tab tab-active form-elements tabs">
+            <form class="tab tab-active" id="tabA1" style="margin-right: 1em;
+    margin-left: 1em;">
               <div class="list">
-                <ul class="row">
-                  <li class="item-content item-input col-100">
-                    <div class="item-inner">
-                      <div class="item-input-wrap">
-                        <input type="text" placeholder="" value="" id="t5" class="form-control"/>
+                <ul >
+                  <li class="item-content item-input item-input-with-value is-valid linombre">
+               <div class="item-inner">
+               <div class="item-input-wrap">
+            <input type="text" placeholder="" value="" id="t5" class="form-control cambiarfuente"
+
+             placeholder="Token" maxlength="4" style="text-align: center;    font-size: 20px;"
+            />
                       </div>
                     </div>
                   </li>
@@ -57,29 +68,26 @@
             
               <p class="margin-bottom"> </p>
 
-              <a id="botoncontinuartoken" class="button button-fill button-large button-raised margin-bottom color-theme" style="display: none;">
+              <a id="botoncontinuartoken" class="button button-fill button-large button-raised margin-bottom color-theme cambiarfuente" style="display: none;color: white;background: #C7AA6A;">
                Continuar
               </a>
            
 
-           <div class="margin-bottom text-align-center"><a id="reenviotoken" class="form-text" style="background: white;font-size: 17px;">Reenviar token</a></div>
+          
+        <p class="form-text cambiarfuente" style="text-align: center;"> 
+         <a style="color:white;font-size: 20px;" id="reenviotoken">Reenviar token</a></p>
+         
 
-            <p class="margin-bottom text-align-center">
-              <a id="btncancelar1" class="button button-fill button-large button-raised color-theme" style="">Cancelar</a>
-            </p>
-
+        </form>
+       </div>
+      </div>
+     </div>
              
 
           </div>
          
-        </form> 
-   
-    </div>
-  </div>
-</div>
-</div>
-</div>
-</div>
- 
+        </div>
+      </div>
+
     
 </template>

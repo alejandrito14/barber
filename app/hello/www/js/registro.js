@@ -2145,7 +2145,7 @@ function ValidarCelular() {
 			var existe=respuesta.existe;
 			var idusuario=respuesta.idusuario;
 			var completado=respuesta.completado;
-				localStorage.setItem('id_user',idusuario);
+			localStorage.setItem('id_user',idusuario);
 			localStorage.setItem('completado',completado);
 			localStorage.setItem('celular',telefono);
 			

@@ -45,7 +45,7 @@ class CategoriaPaquete
 			SELECT *,
 			(SELECT COUNT(*) FROM categoriapaquete as sub WHERE sub.iddepende=categoriapaquete.idcategoriapaquete) as sub
 
-			FROM categoriapaquete WHERE estatus=1 AND iddepende='$this->iddepende'
+			FROM categoriapaquete WHERE estatus=1 AND iddepende='$this->iddepende' ORDER BY orden ASC
 		";
 
 		$resp=$this->db->consulta($sql);

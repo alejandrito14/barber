@@ -1,61 +1,88 @@
 <template>
 	<div class="page registro" data-name="registro">
-		<div class="page-content bottom-sp40">
-			<div class="container">
-				<div class="title-head">
-					<h4 style="text-align: center;margin-bottom: 2em;margin-top: 3em;">Completa tu registro</h4>
-				</div>
-				<!-- <div class="toolbar tabbar tabbar-swiper tab-style-1">
-					<div class="toolbar-inner">
-						<a href="/signin/" class="tab-link">SIGN IN</a>
-						<a href="/signup/" class="tab-link tab-link-active">REGISTER</a>
-					</div>
-				</div> -->
-				<div class="form-elements" style="margin-top: 1em;">
-					<form>
+   <div class="navbar  navbar-transparent">
+    <div class="navbar-bg"></div>
+    <div class="navbar-inner sliding">
+      <div class="left" >
+        <a href="#" class="link back">
+       
+         <svg width="11" height="16" viewBox="0 0 11 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M4.3419 8L10.2222 2.22222L8 2.73828e-07L1.22201e-06 8L8 16L10.2222 13.7778L4.3419 8Z" fill="#122261"/>
+          </svg>
+        </a>
+      </div>
+      <div class="title" style="font-size: 20px;"></div>
+    </div>
+  </div>
+
+		<div class="page-content pt-80">
+
+
+        <div class="row">
+            <div class="col-100">
+          <div class="titlecatalogo title2 cambiarfuente" style="    font-size: 20px;text-align: center;font-weight: 600;">Ingresa tus datos</div>
+    </div>
+    </div>
+
+
+			
+		
+				<div class="form-elements" style="margin-top: 1em;margin-right: 2em;margin-left: 2em;">
+					<form style="    margin-right: 1em;
+    margin-left: 1em;">
 						<div class="list form-list no-margin margin-bottom">
-                <ul>
+                <ul class="cambiarfuente">
             
                 <li class="item-content item-input item-input-with-value is-valid linombre">
+               
 
                   <div class="item-inner">
-                 <!--  <div class="item-title item-floating-label">Nombre</div> -->
+                 <div class="item-title item-label" style="    color: #9c9c9c;font-size: 18px;">Nombre</div>
                   <div class="item-input-wrap">
-                  <input type="text" name="v_nombre" id="v_nombre" class="input-with-value form-control" placeholder="Nombre" />
+                    
+                  <input type="text" name="v_nombre" id="v_nombre" class="input-with-value form-control" placeholder="Nombre" style="font-size: 20px;" />
                  
                 </div>
               </div>
               </li>
 
                <li class="item-content item-input item-input-with-value is-valid lipaterno">
-
+             
+          
                   <div class="item-inner">
-                <!--   <div class="item-title item-floating-label">Apellido paterno</div> -->
+                     <div class="item-title item-label" style="    color: #9c9c9c;
+    font-size: 18px;">Apellido paterno</div>
                   <div class="item-input-wrap">
-                  <input type="text" name="v_paterno" id="v_paterno" class="input-with-value form-control" placeholder="Apellido paterno" />
+                     
+                  <input type="text" name="v_paterno" id="v_paterno" class="input-with-value form-control" placeholder="Apellido paterno" style="font-size: 20px;" />
                  
                 </div>
               </div>
               </li>
 
                <li class="item-content item-input item-input-with-value is-valid limaterno">
-
+            
                   <div class="item-inner">
-                 <!--  <div class="item-title item-floating-label">Apellido materno</div> -->
+                 <div class="item-title item-label" style="    color: #9c9c9c;
+    font-size: 18px;">Apellido materno</div>
+                  
                   <div class="item-input-wrap">
-                  <input type="text" name="v_materno" id="v_materno" class="input-with-value form-control" placeholder="Apellido materno" />
+                    
+                  <input type="text" name="v_materno" id="v_materno" class="input-with-value form-control" placeholder="Apellido materno" style="font-size: 20px;" />
                  
                 </div>
               </div>
               </li>
 
-               <li class="item-content item-input item-input-with-value is-valid lifechanacimiento " >
- 
+               <li class="item-content item-input item-input-with-value is-valid lifechanacimiento " >  
+              
                   <div class="item-inner">
                  <!--  <div class="item-title item-floating-label">Fecha de nacimiento</div> -->
+                 <div class="item-title item-label" style="    color: #9c9c9c;
+    font-size: 18px;">Fecha de nacimiento</div>
                   <div class="item-input-wrap">
-                   <label for="">Fecha de Nacimiento</label>
-                  <input type="date" name="v_fecha" id="v_fecha" class="input-with-value form-control colorletra" placeholder="Fecha de nacimiento" />
+                  
+                  <input type="date" name="v_fecha" id="v_fecha" class="input-with-value form-control colorletra" placeholder="Fecha de nacimiento" style="font-size: 20px;    margin-top: 10px;" />
                  
                 </div>
               </div>
@@ -75,32 +102,42 @@
               </div>
               </li> -->
 
-                 <li class="item-content item-input item-input-with-value is-valid licorreo">
+                <!--  <li class="item-content item-input item-input-with-value is-valid licorreo" style="display: none;">
 
                   <div class="item-inner">
-                 <!--  <div class="item-title item-floating-label">Correo electrónico</div> -->
+               
                   <div class="item-input-wrap">
                   <input type="text" name="v_email" id="v_email" class="input-with-value form-control" placeholder="Correo electrónico" />
                  
                 </div>
               </div>
-              </li>
+              </li> -->
 
 
              
                 <li class="item-content item-input col-100">
+
+                    
+
                     <div class="item-inner">
-                     <div class="item-input-wrap"><input type="password" placeholder="Contraseña" id="v_contra1" name="v_contra1" class="form-control input-with-value" /><div class="show-pass"><span class="show">Mostrar</span><span class="hide">Ocultar</span></div></div>
+                       <div class="item-title item-label" style="    color: #9c9c9c;
+    font-size: 18px;">Contraseña</div>
+                     <div class="item-input-wrap">
+                     
+                      <input type="password" placeholder="Contraseña" id="v_contra1" name="v_contra1" class="form-control input-with-value" style="font-size: 20px;" /><div class="show-pass"><span class="show" style="color: black;">Mostrar</span><span class="hide" style="color: black;">Ocultar</span></div></div>
               </div>
               </li>
 
               <li class="item-content item-input col-100 item-input-with-value licontra2">
-
-                  <div class="item-inner">
                 
+                  <div class="item-inner">
+                 <div class="item-title item-label" style="    color: #9c9c9c;
+    font-size: 18px;">Confirmar contraseña</div>
                  <div class="item-input-wrap">
-                  <input type="password" placeholder="Contraseña" name="v_contra2" id="v_contra2" class="form-control input-with-value" />
-                  <div class="show-pass"><span class="show">Mostrar</span><span class="hide">Ocultar</span></div></div>
+
+                
+                  <input type="password" placeholder="Contraseña" name="v_contra2" id="v_contra2" class="form-control input-with-value" style="font-size: 20px;"/>
+                  <div class="show-pass"><span class="show" style="color: black;">Mostrar</span><span class="hide" style="color: black;">Ocultar</span></div></div>
               </div>
               </li>
               <div class="">
@@ -113,13 +150,13 @@
 
 
             </div>
-						  <p class="form-text" style="text-align: center;margin-bottom: 1em;">Al registrarse acepta nuestras condiciones de servicio <a href=""></a></p>
+						 <!--  <p class="cambiarfuente form-text" style="text-align: center;margin-bottom: 1em;font-size: 20px;color: white;">Al registrarse acepta nuestras condiciones de servicio <a href=""></a></p> -->
 
 
               
 
 						<div class="clearfix">
-							<a id="btncontinuar" class="button-large button button-fill">Aceptar</a>
+							<a id="btncontinuar" class="button-large button button-fill cambiarfuente" style="color: white;background: #C7AA6A;display: none;">Aceptar</a>
 						</div>
 
             <div class="row" style="height: 30px;"></div>
@@ -130,7 +167,7 @@
 						</div>
 					</form>
 				</div>
-			</div>
+			
 		</div>
 	</div>
 

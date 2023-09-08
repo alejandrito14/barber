@@ -3,6 +3,7 @@ var descuentosmembresia=[];
 var arraycomentarios=[];
 var resultimagendatosfactura=[];
 var dynamicSheet4="";
+var swiper1="";
 function ObtenerTotalPagos() {
 	var pagina = "ObtenerTodosPagos.php";
 	var id_user=localStorage.getItem('id_user');
@@ -490,7 +491,7 @@ function CargartipopagoFactura(tipodepagoseleccionado) {
 
 
 function Pintartipodepagos(opciones,tipodepagoseleccionado) {
-   var html='';
+  /* var html='';
 
   if (opciones.length>0) {
      html+=`  <option  class="first-option" value="0" >Seleccionar método de pago</option>`;
@@ -506,7 +507,68 @@ function Pintartipodepagos(opciones,tipodepagoseleccionado) {
 
   $("#tipopago").html(html);
 
+*/
 
+
+
+ var html="";
+
+      var classe="swiper-slide-active";
+
+    if (opciones.length>0) {
+
+      html+=` <div class="swiper-wrapper" style="margin-left: 1em;">`;
+    for (var i = 0; i < opciones.length; i++) {
+      var checked="";
+     
+        html+=`
+<div class="swiper-slide swiper-slide-active" role="group"  style="margin-right: 20px;width:auto;">
+        <div class="card cardtipopago" id="cardtipopago_`+opciones[i].idtipodepago+`" style="height: 35px!important;padding: 10px;" onclick="CargarOpcionesTipopago(`+opciones[i].idtipodepago+`)">
+        <div class="card-content   featured-card" style="padding-top: 9px;">
+           
+            <div class="card-info">
+              <h5 class="title" >
+                <a >`+opciones[i].tipo+`
+                </a>
+              </h5>
+              <p class="location">
+              </p>
+              <h6 class="text-primary vacancy">
+              </h6>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        `;
+        classe="";
+    }
+
+    html+=`</div>`;
+   
+    $$(".divtablerotipo").html(html);
+
+    if (swiper1 && swiper1.destroy) {
+      // Destruir el Swiper existente si está presente
+      swiper1.destroy(true, true); // Los parámetros true limpian los eventos y la estructura del DOM
+    }
+
+      swiper1 = new Swiper(".divtablerotipo", {
+         slidesPerView: "auto",
+        spaceBetween: 1,
+        pagination: false,
+
+      });
+      $(".divtablerotipo").css('display','block');
+
+
+
+      swiper1.update();
+  }else{
+
+    $(".divtablerotipo").css('display','none');
+
+  }
   }
 
 
@@ -627,6 +689,7 @@ function CalcularTotales() {
    var descuentocupon=0;
    var totaldescuentos=0;
 	var sumatotal=0;
+  var monedero
 	//for (var i = 0; i <obtenerpagos.length; i++) {
 		promesa=ObtenerTotalCarrito();
 	//}
@@ -636,7 +699,7 @@ function CalcularTotales() {
     sumatotal=r;
 
  
-	var monedero=localStorage.getItem('monedero');
+	monedero=localStorage.getItem('monedero');
 	var descuentocupon=localStorage.getItem('descuentocupon');
 	
   var totaldescuentos=0;
@@ -653,6 +716,18 @@ function CalcularTotales() {
   }*/
   var resta=parseFloat(sumatotal)-parseFloat(monedero)-parseFloat(descuentocupon)-parseFloat(totaldescuentos);
   var sumaconcomision=resta;
+
+
+  if (localStorage.getItem('monedero')!=0) {
+
+    $(".divsubtotal").css('display','block');
+    $(".divmonedero").css('display','block');
+
+    $(".lblsubtotal").text(formato_numero(sumatotal,2,'.',','));
+    $(".lblmonedero").text(formato_numero(monedero,2,'.',','));
+
+
+  }
 
   if (localStorage.getItem('comisionmonto')!=0 ){
         comisionmonto=localStorage.getItem('comisionmonto');
@@ -731,14 +806,33 @@ function CalcularTotales() {
     $(".lbltotal").text(formato_numero(sumaconcomision,2,'.',','));
     var suma=localStorage.getItem('sumatotalapagar');
     
+    
+   
     if (suma==0 ) {
     
-        $("#btnpagarresumen").attr('disabled',false);
-   
+        $(".btnpagar").attr('disabled',false);
+        $(".btnpagar").css('display','block');
+
         $(".divtipopago").css('display','none');
         $(".preguntafactura").css('display','none');
 
     }
+
+
+    $(".opccard").each(function(){
+              if($(this).is(':checked')){
+
+                  $(".btnpagar").attr('disabled',false);
+                  $(".btnpagar").css('display','block');
+              }
+          });
+
+          if(localStorage.getItem("rutacomprobante")!='' && localStorage.getItem("rutacomprobante")!=undefined){
+             $(".btnpagar").attr('disabled',false);
+             $(".btnpagar").css('display','block');
+          }
+
+
   });
 
 
@@ -1039,7 +1133,7 @@ function HabilitarOpcionespago(idtipodepago,foto,stripe,habilitarcampo,habilitar
 
 
 }
-function CargarOpcionesTipopago() {
+/*function CargarOpcionesTipopago(idtipopago) {
 
   if($(".opccard")){
       $(".opccard").each(function(){
@@ -1190,6 +1284,187 @@ function CargarOpcionesTipopago() {
     });
   }else{
    //ObtenerDescuentosRelacionados();
+    CalcularTotales();
+  }
+}*/
+
+function CargarOpcionesTipopago(idtipopago) {
+
+  if($(".opccard")){
+      $(".opccard").each(function(){
+          $(this).attr('checked',false);
+
+      });
+  }
+
+   $(".btnpagar").attr('disabled',true);
+   $(".btnpagar").css('display','none');
+
+  $(".cardtipopago").removeClass('seleccionadotipo');
+  $("#cardtipopago_"+idtipopago).addClass('seleccionadotipo');
+
+  //var idtipopago=$("#tipopago").val();
+  var datos="idtipopago="+idtipopago;
+  var pagina="Cargartipopago.php";
+    $(".divtransferencia").css('display','none');
+    $("#divagregartarjeta").css('display','none');
+    $("#divlistadotarjetas").css('display','none');
+    $("#aparecerimagen").css('display','none');
+    $("#campomonto").css('display','none');
+      localStorage.setItem('comisionmonto',0);
+      localStorage.setItem('comisionporcentaje',0);
+      localStorage.setItem('impuesto',0);
+      localStorage.setItem('comision',0);
+      localStorage.setItem('comisiontotal',0);
+      localStorage.setItem('impuestotal',0);
+      localStorage.setItem('comisionpornota',0);
+      localStorage.setItem('tipocomisionpornota',0);
+      localStorage.setItem('cambio',0);
+      localStorage.setItem('idtipodepago',0);
+   //CrearModalEsperaDialogDos();
+   var preloader = document.querySelector('.preloader');
+
+    preloader.style.display = 'block';
+
+  if (idtipopago>0) {
+  
+      $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      url: urlphp+pagina,
+      data:datos,
+      async:false,
+       beforeSend: function() {
+        // Mostrar el spinner
+        
+
+    },
+      success: function(respuesta){
+      var resultado=respuesta.respuesta;
+
+      localStorage.setItem('comisionpornota',resultado.comisionpornota);
+      localStorage.setItem('tipocomisionpornota',resultado.tipocomisionpornota);
+     $(".btnnuevatarjeta").css('display','none');
+
+      HabilitarOpcionespago(resultado.idtipodepago,resultado.habilitarfoto,resultado.constripe,resultado.habilitarcampomonto,resultado.habilitarcampomontofactura);
+    if (resultado.habilitarfoto==1) {
+        $(".divtransferencia").css('display','block');
+        var html="";
+       var datosdecuenta=resultado.cuenta.split('|');
+
+              var html1="";
+              for (var j = 0; j <datosdecuenta.length; j++) {
+                    html1+='<p style="text-align:center;">'+datosdecuenta[j]+'</p>';
+              }
+
+
+              html+=` <div class="cuentas" id="cuenta_`+resultado.idtipodepago+`" style="" >
+              <label class="">
+                <div class="col-100">
+                 
+                  <div class="" style="   text-align: justify;
+    -webkit-line-clamp: 200;
+    display: inline-block;
+    width: 100%;height: 4em;" >
+                    <div style="padding-left: 1em;padding-right: 1em;padding-top: .2em;padding-bottom: .2em;background: #dfdfdf;border-radius: 10px;font-size:16px;" class="cambiarfuente">
+                  `+
+                  html1
+                  +`
+                    </div>
+                  </div>
+                </div>
+              </label>
+            </div>`;
+
+            html+=`
+              <div id="habilitarfoto" style="display: block;">
+      <div class="subdivisiones" style="margin-top: 1.5em" ><span style="margin-top: .5em;margin-left: .5em;"></span></div>
+
+           <div class=""  >
+                  <div class="row">
+                      <button  onclick="AbrirModalFotoComprobante()" class="button button-fill button-large button-raised botonesaccion botonesredondeado estiloboton cambiarfuente" style="margin-top: 1em;background:#c7aa6a;"> Sube tu comprobante</button>
+                             <div class="check-list" style="    display: none;
+                                          margin-right: 10em;
+                                           top: -.2em;
+                                          position: absolute;
+                                             right: -6em;"><span>
+                                             </span>
+                                             </div>
+               
+
+                       <div class="block m-0"> 
+                       <div class="list media-list sortable" id="" style="">           
+
+                      <div id="lista-imagenescomprobante">
+                          
+                      </div>
+                  </div> 
+
+                  </div>   
+                  
+                </div>
+
+              </div>
+
+            `;
+            $(".informacioncuenta").html(html);
+        }
+
+
+        if (resultado.habilitarcampo==1) {
+
+        
+
+         
+
+        }
+
+        if (resultado.constripe==1) {
+
+          
+         if (resultado.comisionporcentaje=='') {
+            resultado.comisionporcentaje=0;
+          }
+          if (resultado.comisionmonto=='') {
+            resultado.comisionmonto=0;
+          }
+          if (resultado.impuesto=='') {
+            resultado.impuesto=0;
+          }
+        
+          localStorage.setItem('comisionporcentaje',resultado.comisionporcentaje);
+          localStorage.setItem('comisionmonto',resultado.comisionmonto);
+          localStorage.setItem('impuesto',resultado.impuesto);
+          localStorage.setItem('clavepublica',resultado.clavepublica);
+          localStorage.setItem('claveprivada',resultado.claveprivada);
+          ObtenerTarjetasStripe();
+          $(".btnnuevatarjeta").css('display','block');
+          $(".btnnuevatarjeta").attr('onclick','NuevaTarjetaStripe()');
+
+            HabilitarBotonPagar();
+           
+        }
+         CalcularTotales();
+
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+          if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+          if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                  //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                  console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      },
+        complete: function() {
+            setTimeout(function() {
+            // Ocultar el preloader
+            preloader.style.display = 'none';
+          }, 2000); 
+        // Ocultar el spinner
+        //app.dialog.close();
+        }
+
+    });
+  }else{
+   ObtenerDescuentosRelacionados();
     CalcularTotales();
   }
 }
@@ -1478,7 +1753,7 @@ function VisualizarImagen(foto) {
     foto,
     ],
     type: 'popup',
-    //theme: 'dark',
+    theme: 'dark',
   });
 
   $(".link .popup-close .icon-only > i").remove('icon icon-back ');
@@ -1736,11 +2011,13 @@ function RealizarCargo() {
                       // Card was successfully charged off-session
                       // No recovery flow needed
                       paymentIntentSucceeded(stripe,output.clientSecret, ".sr-select-pm");
-                      var mensaje = "El pago se ha completado con éxito";
+                      var mensaje = `<p style="line-height:1;">¡Muchas gracias por tu compra!</p>`;
+                          mensaje+= `<p><span style="font-size: 60px;" class="material-icons-outlined">check_circle</span></p>`;
+
                                         $(".mensajeproceso").css('display','none');
                                         $(".mensajeerror").css('display','none');
                                         $(".mensajeexito").css('display','block');
-                                        $(".mensajeexito").text(mensaje);
+                                        $(".mensajeexito").html(mensaje);
 
                                         $(".butonok").css('display','block');
                                         $(".butoerror").css('display','none');
@@ -1760,7 +2037,10 @@ function RealizarCargo() {
                          LimpiarVariables2();
                          $(".mensajeproceso").css('display','none');
                           $(".mensajeerror").css('display','none');
-                          $(".mensajeexito").css('display','block');
+                          var mensaje =`<p>¡Muchas gracias por tu compra!!</p>`;
+                          mensaje+= `<p><span style="font-size: 60px;" class="material-icons-outlined">check_circle</span></p>`;
+    
+                          $(".mensajeexito").html(mensaje);
                           $(".butonok").css('display','block');
                           $(".butoerror").css('display','none');
 
@@ -1832,9 +2112,144 @@ function RealizarCargo() {
         
 }
 
+function ConfirmacionPago() {
+     // CrearModalEspera();
+
+   const myPromise = new Promise((resolve, reject) => {
+        CrearModalEspera2(() => {
+              RealizarCargo();
+                resolve("Modal cerrado después de realizar el cargo");
+            });
+
+        });
+        
+
+       myPromise.then((successMessage) => {
+          console.log(successMessage); // Esto se ejecutará después de cerrar el modal y realizar el cargo
+      });
+}
+
+function CrearModalEspera2(callback) {
+  
+var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;background: black;">
+            
+            <div class="sheet-modal-inner" style=" ">
+              
+              <div class="page-content" style="height: 100%;">
+                <div style="background: black; height: 100%;width: 100%;border-radius: 20px;">
+                   <div class="row">
+                     <div class="col-20">
+                        
+                    </div>
+
+                     <div class="col-60">
+                     <span class="titulomodal cambiarfuente" style="font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+    color: #c7aa6a;"></span>
+                     </div>
+                     <div class="col-20">
+                     <span class="limpiarfiltros"></span>
+                     </div>
+                 </div>
+                 <div class="" style="position: absolute;top:1em;width: 100%;">
+                
+                       
+                        `;
+
+                       
+                          
+                          
+                      
+
+                          html+=`
+                          <div class="row" style="    margin-left: 2em; margin-right: 2em;    margin-top: 20px;">
+                          <div class="col-100">
+                          <div style="color: #c7aa6a;font-size: 30px;text-align: center;" class="cambiarfuente">
+                           
+                          <div id="" class="mensajeproceso" style="font-weight:bold;color:#c7aa6a;" >En proceso...
+                            <img src="img/loading.gif" style="width:20%;display: flex;justify-content: center;align-items: center;margin:0px auto;margin-top: 20px;">
+
+                          </div>
+                          <p id="" class="mensajeerror" style="font-weight:bold;display:none;color:#c7aa6a;text-align:center;line-height: 1;" >Oops, algo no está bien, intenta de nuevo.</p>
+                          <p id="" class="mensajeexito" style="font-weight:bold;display:none;color:#c7aa6a;text-align:center;line-height: 1;" >Se realizó correctamente</p>
+
+                        </div>
+
+                        
+
+                          
+
+                          </div>
+                          </div>
+
+                          <div class="row margin-bottom " style="padding-top: 1em;    margin-left: 2em;margin-right: 2em;margin-top:20px;">
+                            <div class="col-100" style="margin-left: 1em;margin-right: 1em;">
+                            <button style="background: #C7AA6A;color:white;display:none;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente butonok" onclick="VerCompras()"  id="btnConfirm">Aceptar</button>
+                            </div>
+
+                            <div class="col-100" style="margin-left: 1em;margin-right: 1em;" >
+                            <button style="background: #C7AA6A;color:white;display:none;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente butoerror" onclick="CerrarEspera2()"  id="btnCancel" >Aceptar</button>
+                            </div>
+                          </div>
+
+
+                      </div>
+
+                  </div>
+
+                </div>
+                
+              </div>
+            </div>
+          </div>`;
+          /*<p><button class="button color-theme btncortesias" id="cortesia_`+respuesta[i].idcortesia+`" onclick="ElegirCortesia(`+idcarrito+`,`+respuesta[i].idcortesia+`)" style="background: white;color:black;padding: 10px 20px;">
+                                        Elegir
+                                       </button>
+                                     </p>*/
+    dynamicSheet1 = app.sheet.create({
+        content: html,
+
+      swipeToClose: false,
+        backdrop: true,
+        // Events
+        on: {
+          open: function (sheet) {
+
+           $(".cambiarfuente2").css('display','none');
+            if (tipoletra!='') {
+              $(".cambiarfuente").addClass(tipoletra);
+           
+            }
+          $(".cambiarfuente2").css('display','block');
+ 
+
+          },
+          opened: function (sheet) {
+                 console.log('Sheet opened');
+
+          },
+        }
+      });
+
+
+
+       dynamicSheet1.open();
+
+
+        setTimeout(() => {
+        // Ejecuta RealizarCargo() dentro del timeout
+        callback();
+    }, 5000); // Cambiado a 5000 milisegundos (5 segundos)
+}
+
+function CerrarEspera2(argument) {
+  dynamicSheet1.close();
+}
+
 function AbrirConfirmacion() {
 
-  var html= `
+  /*var html= `
       <div class="">
         <div class="block">
           <p style="text-align:center;">¿Estás seguro de continuar?</p>
@@ -1874,15 +2289,127 @@ function AbrirConfirmacion() {
               },
               verticalButtons: true,
             }).open();
+ */
+//aqui 
+
+
+ var html2="";
+
+var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;background: black;">
+            
+            <div class="sheet-modal-inner" style=" ">
+               <div class="iconocerrar link sheet-close" style="z-index:10;">
+               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M25.5188 4.48126C23.4385 2.4011 20.788 0.984547 17.9026 0.410715C15.0171 -0.163118 12.0264 0.131546 9.30839 1.25744C6.59043 2.38334 4.26736 4.28991 2.63294 6.73606C0.998525 9.18221 0.12616 12.0581 0.12616 15C0.12616 17.9419 0.998525 20.8178 2.63294 23.264C4.26736 25.7101 6.59043 27.6167 9.30839 28.7426C12.0264 29.8685 15.0171 30.1631 17.9026 29.5893C20.788 29.0155 23.4385 27.5989 25.5188 25.5188C26.9003 24.1375 27.9961 22.4976 28.7437 20.6928C29.4914 18.888 29.8762 16.9535 29.8762 15C29.8762 13.0465 29.4914 11.1121 28.7437 9.30724C27.9961 7.50242 26.9003 5.86255 25.5188 4.48126ZM20.3126 18.7613C20.4187 18.8606 20.5034 18.9808 20.5612 19.1142C20.6191 19.2476 20.6489 19.3915 20.6489 19.5369C20.6489 19.6823 20.6191 19.8262 20.5612 19.9596C20.5034 20.093 20.4187 20.2131 20.3126 20.3125C20.2133 20.411 20.0956 20.4889 19.9661 20.5418C19.8367 20.5946 19.698 20.6214 19.5582 20.6206C19.2795 20.6195 19.0124 20.5088 18.8145 20.3125L15.0001 16.4981L11.2388 20.3125C11.0409 20.5088 10.7738 20.6195 10.4951 20.6206C10.3553 20.6214 10.2166 20.5946 10.0872 20.5418C9.95773 20.4889 9.83999 20.411 9.74071 20.3125C9.54282 20.1134 9.43174 19.8441 9.43174 19.5634C9.43174 19.2827 9.54282 19.0135 9.74071 18.8144L13.502 15L9.74071 11.2388C9.56665 11.0355 9.47569 10.774 9.48602 10.5066C9.49635 10.2392 9.6072 9.98557 9.79642 9.79635C9.98565 9.60712 10.2393 9.49627 10.5067 9.48594C10.7741 9.47561 11.0356 9.56657 11.2388 9.74063L15.0001 13.5019L18.7613 9.74063C18.8597 9.63878 18.9772 9.55729 19.107 9.50083C19.2369 9.44437 19.3766 9.41404 19.5182 9.41158C19.6598 9.40911 19.8004 9.43456 19.9322 9.48646C20.0639 9.53836 20.1842 9.6157 20.286 9.71407C20.3879 9.81244 20.4694 9.9299 20.5258 10.0598C20.5823 10.1896 20.6126 10.3293 20.6151 10.4709C20.6175 10.6125 20.5921 10.7532 20.5402 10.8849C20.4883 11.0167 20.411 11.1369 20.3126 11.2388L16.4982 15L20.3126 18.7613Z" fill="#AAAAAA"></path>
+            </svg>
+                       </div>
+              <div class="page-content" style="height: 100%;">
+                <div style="background: black; height: 100%;width: 100%;border-radius: 20px;">
+                   <div class="row">
+                     <div class="col-20">
+                        
+                    </div>
+
+                     <div class="col-60">
+                     <span class="titulomodal cambiarfuente" style="font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+    color: #c7aa6a;"></span>
+                     </div>
+                     <div class="col-20">
+                     <span class="limpiarfiltros"></span>
+                     </div>
+                 </div>
+                 <div class="" style="position: absolute;top:1em;width: 100%;">
+                
+                       
+                        `;
+
+                       
+                          
+                          
+                      
+
+                          html+=`
+                          <div class="row" style="margin-left: 1em; margin-right: 1em; margin-top: 60px;">
+                          <div class="col-100">
+                          <p style="color: #c7aa6a;font-size: 30px;text-align: center;" class="cambiarfuente cambiarfuente2">¿Estás seguro de continuar?</p>
+                          </div>
+                            <div class="col-100">
+                               <div class="block">
+                      <label class="">
+                                  <input type="checkbox" id="checkConfirm" onchange="ValidarCheckConfirm()" style=" height: 40px;width: 20px;float: left;">
+                                   
+                                   <div class="" style="margin-left: 40px;">
+                                      <div class="cambiarfuente" style="font-size: 20px;color:white;">Acepto los <a onclick="VerTerminos()" class="">términos y condiciones</a></div>
+                                    </div>
+
+                                </label>
+                                <p class="color-red" id="errorMessage" style="display: none;color:red;">Por favor, acepta los términos y condiciones.</p>
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                          <div class="row margin-bottom " style="padding-top: 1em;    margin-left: 2em;margin-right: 2em;margin-top:20px;">
+                            <div class="col-50">
+                            <button style="background: #C7AA6A;color:white;display:none;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente"   id="btnConfirm">Si</button>
+                            </div>
+
+                            <div class="col-50">
+                            <button style="background: white;color:black;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" id="btnCancel" >No</button>
+                            </div>
+                          </div>
+
+
+                      </div>
+
+                  </div>
+
+                </div>
+                
+              </div>
+            </div>
+          </div>`;
+          /*<p><button class="button color-theme btncortesias" id="cortesia_`+respuesta[i].idcortesia+`" onclick="ElegirCortesia(`+idcarrito+`,`+respuesta[i].idcortesia+`)" style="background: white;color:black;padding: 10px 20px;">
+                                        Elegir
+                                       </button>
+                                     </p>*/
+    dynamicSheet1 = app.sheet.create({
+        content: html,
+
+      swipeToClose: true,
+        backdrop: true,
+        // Events
+        on: {
+          open: function (sheet) {
+           idcortesiaelegida=0;
+
+           $(".cambiarfuente2").css('display','none');
+            if (tipoletra!='') {
+              $(".cambiarfuente").addClass(tipoletra);
+           
+            }
+          $(".cambiarfuente2").css('display','block');
  
 
+          },
+          opened: function (sheet) {
+                 console.log('Sheet opened');
+
+          },
+        }
+      });
+
+       dynamicSheet1.open();
 
     // Agregar evento al botón de "Aceptar"
   $$('#btnConfirm').on('click', function () {
     // Verificar si el checkbox está marcado
     if ($$('#checkConfirm').prop('checked')) {
       // Aquí puedes realizar la acción que desees al confirmar con el checkbox aceptado
-      confirmModal.close();
+      dynamicSheet1.close();
 
       CrearModalEspera();
       RealizarCargo();
@@ -1899,7 +2426,7 @@ function AbrirConfirmacion() {
     // Aquí puedes realizar alguna acción si el usuario cancela la confirmación
     console.log('Confirmación cancelada');
     // Cierra el modal
-    confirmModal.close();
+    dynamicSheet1.close();
   });
 
 
@@ -2144,7 +2671,8 @@ function CrearModalEspera() {
 }
 
 function VerCompras() {
-  app.dialog.close();
+ // app.dialog.close();
+  dynamicSheet1.close();
   GoToPage('listadocompras');
 }
 function CerrarEspera() {
@@ -2328,7 +2856,8 @@ function Detallepago(idnotapago) {
  function PintarlistaImagen() {
     var html="";
       localStorage.setItem('comentarioimagenes',arraycomentarios);
-      $$("#btnpagarresumen").prop('disabled',true);
+      $$(".btnpagar").prop('disabled',true);
+      $$(".btnpagar").css('display','none');
 
      $(".check-list").css('display','none');
 
@@ -2339,7 +2868,8 @@ function Detallepago(idnotapago) {
 
      
       if (comprobante1.length) {
-        $$("#btnpagarresumen").prop('disabled',false);
+        $$(".btnpagar").prop('disabled',false);
+        $$(".btnpagar").css('display','block');
 
          $(".check-list").css('display','block')
         for (var i = 0; i < comprobante1.length; i++) {

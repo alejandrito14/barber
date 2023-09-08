@@ -19,11 +19,12 @@ class Carrito
 	public $estatus;
 	public $titulosgrupos;
 	public $preciooriginal;
+	public $idcortesia;
 
 	public function AgregarCarrito()
 	{
 		$sql="INSERT INTO carrito(idusuarios, idpaquete, cantidad, costounitario, costototal, idsucursal, idespecialista, idcitaapartada, nombrepaquete, estatus,titulosgrupos) VALUES ('$this->idusuarios', '$this->idpaquete',$this->cantidad,'$this->costounitario','$this->costototal','$this->idsucursal','$this->idespecialista','$this->idcitaapartada', '$this->nombrepaquete', 1,'$this->titulosgrupos')";
-	
+		
 		$resp=$this->db->consulta($sql);
 
 	}
@@ -36,6 +37,7 @@ class Carrito
 			carrito.idcarrito,
 			paquetes.nombrepaquete,
 			paquetes.foto,
+			paquetes.concortesia,
 			paquetes.servicio,
 			carrito.cantidad,
 			carrito.costounitario,
@@ -49,7 +51,9 @@ class Carrito
 			carrito.idpaquete,
 			(SELECT  CONCAT(usuarios.nombre,' ',usuarios.paterno) FROM especialista INNER JOIN usuarios on usuarios.idusuarios=especialista.idusuarios where especialista.idespecialista=citaapartado.idespecialista ) as usuarioespecialista,
 			DATE_FORMAT(citaapartado.fecha,'%d-%m-%Y')as fecha,
-			citaapartado.horainicial
+			citaapartado.horainicial,
+			carrito.idcortesia,
+			paquetecortesia.nombrepaquete as nombrepaquetecortesia
 			
 			FROM
 			carrito
@@ -63,6 +67,9 @@ class Carrito
 			ON usuarios.idusuarios = especialista.idusuarios 
 			left JOIN citaapartado
 			ON citaapartado.idcitaapartado = carrito.idcitaapartada
+			left join cortesia 
+			ON carrito.idcortesia=cortesia.idcortesia
+			left join paquetes as paquetecortesia on paquetecortesia.idpaquete=cortesia.idpaquetecortesia
 			WHERE carrito.idusuarios='$this->idusuarios' AND carrito.estatus=1 ORDER BY sucursal.idsucursal
 
 		";
@@ -166,6 +173,15 @@ class Carrito
 		
 		$resp=$this->db->consulta($sql);
 
+	 }
+
+	 public function GuardarCortesiaCarrito()
+	 {
+	 	$sql="UPDATE carrito 
+		SET idcortesia='$this->idcortesia'
+		WHERE idcarrito='$this->idcarrito'";
+		
+		$resp=$this->db->consulta($sql);
 	 }
 
 }

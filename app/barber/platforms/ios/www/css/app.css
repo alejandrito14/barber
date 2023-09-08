@@ -11,6 +11,15 @@
     url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
 }
 
+@font-face {
+    font-family: 'Faustina';
+    src: url('../fonts/Faustina/Faustina-VariableFont_wght.ttf') format('truetype');
+
+    /* Otros formatos de fuente aquí si es necesario */
+    font-weight: normal;
+    font-style: normal;
+}
+
 .material-icons {
   font-family: 'Material Icons';
   font-weight: normal;
@@ -743,7 +752,7 @@ code {
     
 .divpaquetedetalle{
 
-    background: black;
+    background: #c7aa6a;
     color: #fff;
     height: 40px;
     line-height: 40px;
@@ -792,7 +801,7 @@ code {
     color: black;
     font-weight: bold;
     float: left;
-    line-height: 1.4em;
+    line-height: 1em;
     font-size: 16px;
 }
 .divpaquetemas{
@@ -873,7 +882,7 @@ code {
 
   }
     .navbar .left{
-      margin-top: 3em!important;
+      margin-top: 1.5em!important;
     }
 
    /*.page-content{
@@ -892,7 +901,7 @@ code {
  }
  .precioriginal{
   font-weight: bold;
-  color: #5ac35b;
+  color: #c7aa6a;
   font-size: 16px;
 
  }
@@ -977,16 +986,15 @@ code {
  }
   .sinseleccionarhora{
   /*border: 1px solid black;*/
-    background: white;
-    color: black;
+    background: #c7aa6a;
+    color: white;
  }
 
  .seleccionadohora{
   /*border: 1px solid white;*/
-  background: black;
-  color: white;
-
-    border-radius: 8px!important;
+  background:white;
+  color: black;
+  border-radius: 8px!important;
 
  }
  .calendar-day-selected .calendar-day-number{
@@ -1052,7 +1060,7 @@ code {
  .estilobarbero{
     margin-top: 1em;
     border-radius: 10px;
-    background: #eaebf1;
+    background: black;
     margin-left: 1em;
     margin-right: 1em;
  }
@@ -1074,7 +1082,7 @@ code {
 
 }
 .marginauto{
-  margin-top: 4em!important;
+  /*margin-top: 4em!important;*/
 }
 
 
@@ -1214,6 +1222,19 @@ footer .nav .nav-item .nav-link span .nav-text {
   background: #C7AA6A;
 }
 
+.toolbar .toolbar-inner .link{
+
+  color: black;
+
+}
+.icon-text-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+.icon-text-container .material-icons-outlined {
+  margin-right: 10px;
+}
  select#tipopago  {
       color: #a09797!important;; /* Cambia el color según tus preferencias */
     }
@@ -1243,6 +1264,84 @@ footer .nav .nav-item .nav-link span .nav-text {
   .panelmenu .sidebar-menu{
      background: #c7aa6a;
   }
+
+  .navbar .right {
+        margin-top: 1.5em!important;
+}
+
+
+.faustina {
+    font-family: 'Faustina', sans-serif!important;
+}
+
+.seleccionada{
+background: #C7AA6A!important;
+color: white!important;
+
+}
+
+.md .toggle input[type='checkbox']:checked + .toggle-icon {
+    background: rgb(199, 170, 106);
+}
+
+
+
+.preciopaqueteestilo2{
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    /* margin: auto; */
+    /* width: 80px; */
+    background: black;
+    /* margin: auto; */
+    /* width: 100px; */
+    /* margin-bottom: 10px; */
+    /* margin-bottom: 10em; */
+    border-radius: 10px;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    
+    bottom: -29px;
+   
+    }
+  #cantidadagregados{
+
+    color: white;
+  }
+
+  .seleccionadotipo{
+  background:#c7aa6a!important;
+  color: white!important;
+}
+
+.seleccionadotipo a{
+  color: white!important;
+}
+.texto{
+  color: white!important;
+}
+.badge2{
+
+       position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    float: right;
+    top: -15px;
+    color: #000;
+    background: white;
+    text-align: center;
+    line-height: 1.5;
+    margin-left: 40px!important;
+    font-size: 18px;
+}
+
+.page-content.pt-80 {
+    margin-top: 2em;
+}
 /*.boton{
   outline: none;
   border: 1px solid #363431;

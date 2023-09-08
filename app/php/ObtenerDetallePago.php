@@ -11,6 +11,8 @@ require_once "clases/class.Pais.php";
 require_once "clases/class.Estado.php";
 require_once "clases/class.Municipio.php";
 require_once "clases/class.Usocfdi.php";
+require_once("clases/class.Fechas.php");
+require_once("clases/class.Paquetes.php");
 
 try
 {
@@ -21,6 +23,7 @@ try
     $f  = new Funciones();
     $pagos = new Pagos();
     $pagos->db=$db;
+    $fechas=new Fechas();
 
     $pais = new Paises();
     $pais->db=$db;
@@ -29,6 +32,9 @@ try
     $estado->db=$db;
     $municipio=new Municipio();
     $municipio->db=$db;
+
+    $paquetes=new Paquetes();
+    $paquetes->db=$db;
 
     $usocfdi=new Usocfdi();
     $usocfdi->db=$db;
@@ -97,6 +103,28 @@ try
         }
     }
 
+
+
+
+    for ($i=0; $i < count($obtenerpagosstripe); $i++) { 
+       $obtenerpagosstripe[$i]->fechaformato="";
+
+       if ($obtenerpagosstripe[$i]->fecha!='' && $obtenerpagosstripe[$i]->fecha!=null) {
+          $fechacita=date('Y-m-d',strtotime($obtenerpagosstripe[$i]->fecha));
+            
+           $obtenerpagosstripe[$i]->fechaformato=$fechas->fecha_texto5($fechacita).' '.$obtenerpagosstripe[$i]->horainicial.'Hrs.';
+       }
+
+
+       $paquetes->idpaquete=$obtenerpagosstripe[$i]->idpaquete;
+       $obtenerpaquete=$paquetes->ObtenerPaquete2();
+            $obtenerpagosstripe[$i]->precioante=0;
+
+            if ($obtenerpaquete[0]->promocion==1) {
+                $obtenerpagosstripe[$i]->precioante=$obtenerpaquete[0]->precioventa;
+
+            }
+    }
        
 
     if ($resultado[0]->requierefactura==1) {

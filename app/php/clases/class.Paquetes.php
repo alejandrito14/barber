@@ -571,7 +571,8 @@ class Paquetes {
 			preciopaquete.precio as precioventa,
 			paquetes.horainicialpromo,
 			paquetes.horafinalpromo,
-			paquetes.intervaloservicio
+			paquetes.intervaloservicio,
+			paquetes.servicio
 
 			FROM
 			paquetes
@@ -1177,8 +1178,8 @@ class Paquetes {
 			JOIN precio
 			ON precio.idprecio = preciopaquete.idprecio
 			WHERE
-			paquetesucursal.idsucursal=" . $this->idsucursal . "  and precio.principal=1 and 	paquetes.estatus=1 AND paquetes.idcategoriapaquete='$this->idcategoriapaquete'
-				) AS TABLA ORDER BY TABLA.favorito DESC
+			paquetesucursal.idsucursal=" . $this->idsucursal . "  and precio.principal=1 and 	paquetes.estatus=1 AND paquetes.idcategoriapaquete='$this->idcategoriapaquete' and paquetes.escortesia=0 ORDER BY paquetes.orden DESC
+				) AS TABLA ORDER BY TABLA.orden,TABLA.favorito
 
 		";
 		
@@ -1278,6 +1279,28 @@ class Paquetes {
 
 
 		
+        $resp = $this->db->consulta($sql);
+        $cont = $this->db->num_rows($resp);
+
+        $array    = array();
+        $contador = 0;
+        if ($cont > 0) {
+
+            while ($objeto = $this->db->fetch_object($resp)) {
+
+                $array[$contador] = $objeto;
+                $contador++;
+            }
+        }
+        return $array;
+    }
+
+    public function ObtenerCortesias()
+    {
+    	$sql="SELECT *FROM cortesia
+    	left JOIN paquetes ON paquetes.idpaquete=cortesia.idpaquetecortesia
+    	 WHERE cortesia.idpaquete='$this->idpaquete' ";
+    	
         $resp = $this->db->consulta($sql);
         $cont = $this->db->num_rows($resp);
 

@@ -213,14 +213,27 @@ class Notapago
 
 
 	public function ObtenerdescripcionNota()
-	{
+	{ 
 		$sql="
 			SELECT idnotapago,notapago_descripcion.descripcion as concepto,monto,DATE_FORMAT(fechacita,'%d-%m-%Y')as fecha,notapago_descripcion.cantidad,paquetes.foto,
 				citas.idespecialista,
-				(SELECT  CONCAT(usuarios.nombre,' ',usuarios.paterno) FROM especialista INNER JOIN usuarios on usuarios.idusuarios=especialista.idusuarios where especialista.idespecialista=citas.idespecialista ) as usuarioespecialista
-			FROM notapago_descripcion
+				(SELECT  CONCAT(usuarios.nombre,' ',usuarios.paterno) FROM especialista INNER JOIN usuarios on usuarios.idusuarios=especialista.idusuarios where especialista.idespecialista=citas.idespecialista ) as usuarioespecialista,
+					paquetes.concortesia,
+					paquetes.servicio,
+					sucursal.titulo,
+					paquetecortesia.nombrepaquete as nombrepaquetecortesia,
+					citas.horainicial,
+			notapago_descripcion.idpaquete,
+			citas.idcortesia
+			FROM notapago_descripcion 
 			left join paquetes on paquetes.idpaquete=notapago_descripcion.idpaquete
+			left join paquetesucursal on paquetes.idpaquete=paquetesucursal.idpaquete
+			left join sucursal on paquetesucursal.idsucursal=sucursal.idsucursal
+
 			LEFT JOIN citas on citas.idcita=notapago_descripcion.idcita
+			left join cortesia 
+			ON citas.idcortesia=cortesia.idcortesia
+			left join paquetes as paquetecortesia on paquetecortesia.idpaquete=cortesia.idpaquetecortesia
 			
 		 WHERE idnotapago='$this->idnotapago'";
 		$resp=$this->db->consulta($sql);

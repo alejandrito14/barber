@@ -18,10 +18,10 @@
       "IOS_USE_PRECOMPILED_FIRESTORE_POD": "false",
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova-plugin-qr-barcode-scanner": {
+    "cordova-support-android-plugin": {
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova-support-android-plugin": {
+    "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "com.inversa.app"
     }
   },
@@ -60,9 +60,6 @@
       "PACKAGE_NAME": "com.inversa.app"
     },
     "cordova-plugin-network-information": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "com.inversa.app"
     },
     "cordova-plugin-wkwebview-file-xhr": {

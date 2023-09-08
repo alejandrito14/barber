@@ -41,7 +41,7 @@ try
 
     $categoriapadre=0;
     if (count($categoriapaq)>0) {
-        $categoriapadre=$categoria[0]->iddepende;
+        $categoriapadre=$idcategoria;
     }
 
     if (count($obtenerpaquetes)>0) {

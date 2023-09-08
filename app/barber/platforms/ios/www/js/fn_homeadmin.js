@@ -1,8 +1,8 @@
 function CargarDatosAdmin() {
 	  var nombre= localStorage.getItem("nombre");
      $(".nombreusuario").text(nombre);
-      ObtenerTableroAnuncios();
-      Obtenerpublicidad(1);
+      //ObtenerTableroAnuncios();
+     // Obtenerpublicidad(1);
 
       var swiper1 = new Swiper(".cardbx", {
 		     slidesPerView: "auto",
@@ -23,10 +23,10 @@ function CargarDatosAdmin() {
 	$(".disponibilidaproducto").attr('onclick','GoToPage("disponibilidaproductoadmin")');
      $("#btnservicios").attr('onclick','GoToPage("servicios")');
 
-     ObtenerTotales();
+     //ObtenerTotales();
 
-     intervalo=setInterval("ObtenerTotales()",1000);
-
+     //intervalo=setInterval("ObtenerTotales()",1000);
+     ObtenerSucursalesAcceso();
 
 }
 

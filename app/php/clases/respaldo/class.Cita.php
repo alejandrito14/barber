@@ -24,6 +24,8 @@ class Cita
 	public $idcita;
 	public $costo;
 	public $qrgenerado;
+	public $idusuariocheckin;
+	public $idcortesia;
 
 	public function ObtenerCitasUsuario()
 	{
@@ -156,7 +158,7 @@ class Cita
 	public function CitaCreada()
 	{
 		try {
-			$sql="INSERT INTO citas(horacita, fechacita, asuntocita, estatus, orden,idsucursal, horainicial, horafinal, idpaquete, idespecialista, costo, idusuarios) VALUES ( '$this->horacita','$this->fechacita','',$this->estatus, 0, '$this->idsucursal','$this->horainicial','$this->horafinal', '$this->idpaquete','$this->idespecialista','$this->costo','$this->idusuario')";
+			$sql="INSERT INTO citas(horacita, fechacita, asuntocita, estatus, orden,idsucursal, horainicial, horafinal, idpaquete, idespecialista, costo, idusuarios,idcortesia) VALUES ( '$this->horacita','$this->fechacita','',$this->estatus, 0, '$this->idsucursal','$this->horainicial','$this->horafinal', '$this->idpaquete','$this->idespecialista','$this->costo','$this->idusuario','$this->idcortesia')";
 			
 				$resp=$this->db->consulta($sql);
 				$this->idcita=$this->db->id_ultimo();
@@ -184,7 +186,8 @@ class Cita
 			citaapartado.horafinal,
 			citaapartado.idespecialista,
 			citaapartado.idusuario,
-			citaapartado.costo
+			citaapartado.costo,
+			citaapartado.idcortesia
 		FROM citaapartado
 		INNER JOIN sucursal ON sucursal.idsucursal=citaapartado.idsucursal
 		INNER JOIN especialista ON citaapartado.idespecialista=especialista.idespecialista
@@ -230,6 +233,7 @@ class Cita
 			citas.costo,
 			citas.idcita,
 			citas.checkin,
+			citas.idcortesia,
 			citas.fechacheckin,
 			(SELECT paquetes.nombrepaquete from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as concepto
 
@@ -362,6 +366,7 @@ class Cita
         SET estatus = 1,
         checkin=1,
         idqrgenerado='$this->qrgenerado',
+        idusuariocheckin='$this->idusuariocheckin',
         fechacheckin='".date('Y-m-d H:i:s')."'
         WHERE idcita = '$this->idcita'
         AND idusuarios='$this->idusuarios'
@@ -476,12 +481,21 @@ class Cita
 			citas.idespecialista,
 			citas.idusuarios,
 			citas.costo,
-			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreespecialista
+			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreusuario,
+			CONCAT(esp.nombre,' ',esp.paterno) AS nombreespecialista,
+			paquetes.nombrepaquete,
+			notapago.folio,
+			notapago.idnotapago
+
 		FROM citas
 		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal
 		INNER JOIN especialista ON citas.idespecialista=especialista.idespecialista
 		left join usuarios ON usuarios.idusuarios=citas.idusuarios
-		 WHERE 	 fechacita='$this->fechacita' AND sucursal.idsucursal IN($this->idsucursal) AND checkin IN (0,1) ORDER BY idsucursal,fechacita,horainicial";
+		left join usuarios as esp on esp.idusuarios=especialista.idusuarios
+		left join paquetes on citas.idpaquete=paquetes.idpaquete
+		left join notapago_descripcion on citas.idcita=notapago_descripcion.idcita
+		left JOIN notapago on notapago_descripcion.idnotapago=notapago.idnotapago
+		 WHERE 	 fechacita='$this->fecha' AND sucursal.idsucursal IN($this->idsucursal) AND checkin IN (0,1) ORDER BY idsucursal,fechacita,horainicial";
 		
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
@@ -544,6 +558,7 @@ class Cita
 		public function ObtenerCitasNocheckin()
 	{
 		$sql="SELECT 
+			citas.idcita,
 			citas.horainicial,
 			citas.horacita,
 			citas.fechacita,
@@ -559,12 +574,21 @@ class Cita
 			citas.idespecialista,
 			citas.idusuarios,
 			citas.costo,
-			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreespecialista
+			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreusuario,
+			CONCAT(esp.nombre,' ',esp.paterno) AS nombreespecialista,
+			paquetes.nombrepaquete,
+			notapago.folio,
+			notapago.idnotapago
+
 		FROM citas
 		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal
 		INNER JOIN especialista ON citas.idespecialista=especialista.idespecialista
 		left join usuarios ON usuarios.idusuarios=citas.idusuarios
-		 WHERE 	 citas.checkin=0  ORDER BY fechacita,horainicial";
+		left join usuarios as esp on esp.idusuarios=especialista.idusuarios
+		left join paquetes on citas.idpaquete=paquetes.idpaquete
+		left join notapago_descripcion on citas.idcita=notapago_descripcion.idcita
+		left JOIN notapago on notapago_descripcion.idnotapago=notapago.idnotapago
+		 WHERE 	 fechacita='$this->fecha'  AND checkin IN (0,1) ORDER BY idsucursal,fechacita,horainicial";
 
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
@@ -605,6 +629,7 @@ class Cita
         
 	}
 
+	
 
 	public function ChecarHorarioFechaEspecialista()
 	{
@@ -655,7 +680,7 @@ class Cita
 			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreespecialista
 		FROM citas INNER JOIN  especialista ON especialista.idespecialista=citas.idespecialista
 		INNER JOIN usuarios ON usuarios.idusuarios=especialista.idusuarios
-		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal WHERE citas.idusuarios=".$this->idusuarios." AND  fechacita = '$fechafiltro'  ORDER BY horacita desc
+		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal WHERE citas.idusuarios=".$this->idusuarios."   ORDER BY horacita desc
 		";
 		
 		$resp=$this->db->consulta($sql);
@@ -675,5 +700,252 @@ class Cita
 		
 		return $array;
 	}
+
+	public function ObtenerCita()
+	{
+		$sql="SELECT 
+			citas.horacita,
+			citas.fechacita,
+			citas.asuntocita,
+			citas.estatus,
+			citas.orden,
+			citas.idsucursal,
+			sucursal.titulo,
+			sucursal.descripcion,
+			sucursal.imagen,
+			citas.idusuarios,
+			citas.idcita,
+			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreespecialista
+		FROM citas INNER JOIN  especialista ON especialista.idespecialista=citas.idespecialista
+		INNER JOIN usuarios ON usuarios.idusuarios=especialista.idusuarios
+		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal
+		 WHERE citas.idcita='$this->idcita'";
+		
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+
+
+
+	public function ObtenerCitasFechaEspecialista()
+	{
+		$sql="SELECT 
+			citas.idcita,
+			citas.horainicial,
+			citas.horacita,
+			citas.fechacita,
+			citas.estatus,
+			citas.idsucursal,
+			sucursal.titulo,
+			sucursal.descripcion,
+			sucursal.imagen,
+			usuarios.nombre,
+			usuarios.paterno,
+			citas.idpaquete,
+			citas.horafinal,
+			citas.idespecialista,
+			citas.idusuarios,
+			citas.costo,
+			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreespecialista
+		FROM citas
+		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal
+		INNER JOIN especialista ON citas.idespecialista=especialista.idespecialista
+		left join usuarios ON usuarios.idusuarios=citas.idusuarios
+		 WHERE 	 fechacita='$this->fechacita' AND sucursal.idsucursal IN($this->idsucursal) AND checkin IN (0,1) 
+		 AND citas.idespecialista='$this->idespecialista'
+		 ORDER BY idsucursal,fechacita,horainicial";
+		
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+
+
+		public function ObtenerCitascheckin()
+	{
+		$sql="SELECT 
+			citas.horainicial,
+			citas.horacita,
+			citas.fechacita,
+			citas.estatus,
+			citas.idsucursal,
+			sucursal.titulo,
+			sucursal.descripcion,
+			sucursal.imagen,
+			usuarios.nombre,
+			usuarios.paterno,
+			citas.idpaquete,
+			citas.horafinal,
+			citas.idespecialista,
+			citas.idusuarios,
+			citas.costo,
+			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreespecialista
+		FROM citas
+		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal
+		INNER JOIN especialista ON citas.idespecialista=especialista.idespecialista
+		left join usuarios ON usuarios.idusuarios=citas.idusuarios
+		 WHERE 	 citas.checkin=1 AND citas.fechacita='$this->fecha' ORDER BY fechacita,horainicial";
+
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+
+
+		public function ObtenerCitasFechaEspecifica()
+	{
+		$sql="SELECT 
+			citas.idcita,
+			citas.horainicial,
+			citas.horacita,
+			citas.fechacita,
+			citas.estatus,
+			citas.idsucursal,
+			sucursal.titulo,
+			sucursal.descripcion,
+			sucursal.imagen,
+			usuarios.nombre,
+			usuarios.paterno,
+			citas.idpaquete,
+			citas.horafinal,
+			citas.idespecialista,
+			citas.idusuarios,
+			citas.costo,
+			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreusuario,
+			CONCAT(esp.nombre,' ',esp.paterno) AS nombreespecialista,
+			paquetes.nombrepaquete,
+			notapago.folio,
+			notapago.idnotapago
+
+		FROM citas
+		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal
+		INNER JOIN especialista ON citas.idespecialista=especialista.idespecialista
+		left join usuarios ON usuarios.idusuarios=citas.idusuarios
+		left join usuarios as esp on esp.idusuarios=especialista.idusuarios
+		left join paquetes on citas.idpaquete=paquetes.idpaquete
+		left join notapago_descripcion on citas.idcita=notapago_descripcion.idcita
+		left JOIN notapago on notapago_descripcion.idnotapago=notapago.idnotapago
+		 WHERE 	 fechacita='$this->fecha'  AND checkin IN (0,1) ORDER BY idsucursal,fechacita,horainicial";
+		
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+
+		
+	}
+
+
+	public function ActualizarCortesiaCita()
+	{
+		$sql = "UPDATE citaapartado
+        SET idcortesia = '$this->idcortesia' WHERE
+        idcitaapartado = '$this->idcitaapartado'
+        ";
+       
+        $this->db->consulta($sql);
+	}
+
+
+
+	public function VerificarFechaHorarioEspecialista()
+	{
+
+		
+		$sql="SELECT *FROM (SELECT *FROM citas WHERE idespecialista='$this->idespecialista' AND fechacita='$this->fecha') AS TABLA1 WHERE   TABLA1.horainicial>='$this->horainicial' AND TABLA1.horafinal<='$this->horafinal' ";
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+
+	}
+
+	public function VerificarCitaApartada()
+	{
+			
+		$sql="SELECT *FROM (SELECT *FROM citaapartado WHERE idespecialista='$this->idespecialista' AND fecha='$this->fecha') AS TABLA1 WHERE   TABLA1.horainicial>='$this->horainicial' AND TABLA1.horafinal<='$this->horafinal' ";
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+
+
 }
  ?>

@@ -30,7 +30,7 @@ try
     $sistema = $_POST['sistema'];
     $uuid    = $_POST['uuid'];
     $inputleido=$_POST['inputleido'];
-
+    $idusuarios=$_POST['iduser'];
     //$lo->usuario=$email;
     //$lo->idusuarios=$idusuarios;
     $lo->celular = $celular;
@@ -54,7 +54,17 @@ try
     } else {
 
         $completado = 0;
+
+        if ($idusuarios==0) {
+            # code...
+        
         $lo->GuardarClienteTelefono();
+
+        }else{
+
+            $lo->idusuarios=$idusuarios;
+            $lo->ActualizarUsuarioCel();
+        }
 
         $arra = array('existe' => $validar, 'idusuario' => $lo->idusuarios, 'completado' => $completado);
 

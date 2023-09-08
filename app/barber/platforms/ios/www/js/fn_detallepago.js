@@ -149,18 +149,18 @@ for (var i = 0; i <listado.length; i++) {
 
 	}
 
-	function Pintarpagosdetalle2(listado) {
+	function Pintarpagosdetalle2(respuesta) {
 		// body...
 		var html="";
-		for (var i = 0; i <listado.length; i++) {
+		for (var i = 0; i <respuesta.length; i++) {
 
 			var color='';
-		      if (listado[i].monto<0) {
+		      if (respuesta[i].monto<0) {
 		        color='red';
 		      }
-		imagen=urlimagenes+'paquetes/imagenespaquete/'+codigoserv+listado[i].foto;
+		imagen=urlimagenes+'paquetes/imagenespaquete/'+codigoserv+respuesta[i].foto;
 
-			html+=`
+			/*html+=`
 				
 			<li class="item-content">
               <div class="item-media">
@@ -199,7 +199,159 @@ for (var i = 0; i <listado.length; i++) {
               
             </li>
 
-			`;
+			`;*/
+
+
+			 html+=`
+          <li class="item-content cambiarfuente" style="    margin-top: 1em;
+    margin-right: 1em;
+    margin-left: 1em;
+    border-bottom: 1px solid;
+    margin-bottom: 1em;">
+            <div class="row" style="margin-bottom: 10px;">
+              <div class="col-70">
+                <div class="icon-text-container">`;
+                if (respuesta[i].servicio==1) {
+                  etiqueta="Servicio";
+                }
+
+                if (respuesta[i].servicio==0) {
+                  etiqueta="Producto";
+                }
+
+               html+=`
+               <span class="material-icons-outlined">inventory_2
+                </span> <p style="margin:0;">`+etiqueta+`: <span class="texto">`+respuesta[i].concepto+`</span>
+                </p>
+
+                </div>
+                <div class="icon-text-container" style="margin-top: 10px;">
+                <span class="material-icons-outlined">local_atm</span>
+                  <p style="margin:0;">Costo: <span class="texto">$`+respuesta[i].monto+`</span>
+                  </p>
+                </div>
+                <div class="icon-text-container" style="margin-top: 10px;">
+                 <span class="material-icons-outlined">
+                    add_business
+                    </span>
+                    <p style="margin:0;">
+                   
+                    Negocio: <span class="texto">`+respuesta[i].titulo+`</span></p>
+                     </div>
+                    `;
+
+                       if (respuesta[i].servicio==0) {
+                      html+=`<p style="margin:0;">Cantidad: `+respuesta[i].cantidad+`</p>`;
+                  /* html+=` <p>
+                       
+                        <div class="stepper stepper-small stepper-init cantidads_`+respuesta[i].idcarrito+`" id="c_`+respuesta[i].idcarrito+`">
+                          <div class="stepper-button-minus" style="border:0;" ></div>
+                          <div class="stepper-input-wrap" style="border:0;">
+                            <input type="text" id="cantidad_`+respuesta[i].idcarrito+`" value="`+respuesta[i].cantidad+`"  min="1" max="100" step="1" readonly />
+                          </div>
+                          <div class="stepper-button-plus" style="border:0;" ></div>
+                        </div>
+                     
+
+                    </p>`; */
+                  }else{
+
+
+                    html+=` 
+                        <div class="icon-text-container" style="margin-top: 10px;">
+                        <span class="material-icons-outlined">supervised_user_circle</span>
+                    <p style="margin:0;">Barbero: <span class="texto">`+respuesta[i].usuarioespecialista+`</span></p>
+                    </div>
+                    `;
+                    html+=`
+                   <div class="icon-text-container" style="margin-top:10px;">
+                     <span class="material-icons-outlined">calendar_month</span>
+
+                     <p style="margin:0;">Fecha/Hora: <span class="texto">`+respuesta[i].fechaformato+`</span></p>
+
+                     </div>
+                     `;
+
+                        if (respuesta[i].concortesia==1  ) {
+
+
+                          if (respuesta[i].idcortesia>0 ) {
+
+                          html+=`
+
+
+                         <div class="icon-text-container" style="margin-top: 10px;">
+                           <span class="material-icons-outlined">card_giftcard</span>
+
+                           <p style="margin:0;">Cortesía: <span class="texto">`+respuesta[i].nombrepaquetecortesia+`</span></p>
+
+                           </div>`;
+
+                      }
+
+
+                      if (respuesta[i].idcortesia==0 && respuesta[i].colococortesia==1) {
+
+                          html+=`
+
+
+                         <div class="icon-text-container" style="margin-top: 10px;">
+                           <span class="material-icons-outlined">card_giftcard</span>
+
+                           <p style="margin:0;">Cortesía: <span class="texto">Ninguna</span></p>
+
+                           </div>`;
+                      }
+
+                       /* html+=`
+                        <div class="col-100" style="padding-bottom: 1em;
+    padding-top: 1em;">
+                      <button class="button  color-theme  " style="background:#C7AA6A;padding:10px 20px;" onclick="ObtenerCortesia(`+respuesta[i].idcarrito+`,`+respuesta[i].idpaquete+`)">
+                        Cortesia
+                       </button>
+                     
+                     </div>
+                      `;*/
+
+                    }else{
+
+                 
+          
+
+                    }
+                  }
+
+                  
+
+              html+=` </div>
+                <div class="col-30">`;
+
+                  if (respuesta[i].precioante!=0) {
+                     html+=`
+                     <div class="col-100">
+                     <p style="margin:0;text-decoration:line-through;font-size: 12px;text-align: right;">$`+respuesta[i].precioante+`</p>
+                     </div>
+                     `;
+
+                  }
+
+
+                   html+=`
+                   <div class="col-100">
+                   
+                     </div>
+                     `;
+
+                 
+
+
+
+             html+=` </div>
+
+            </div>
+          </li>
+
+        `;
 		}
 
 

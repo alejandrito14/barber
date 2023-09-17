@@ -75,6 +75,7 @@ class Paquetes {
 			paquetes.nombrepaquete,
 			paquetes.descripcion,
 			paquetes.foto,
+			paquetes.foto2,
 			paquetes.estatus,
 			categoriapaquete.idcategoriapaquete,
 			paquetesucursal.idsucursal,
@@ -1309,6 +1310,70 @@ class Paquetes {
         if ($cont > 0) {
 
             while ($objeto = $this->db->fetch_object($resp)) {
+
+                $array[$contador] = $objeto;
+                $contador++;
+            }
+        }
+        return $array;
+    }
+
+
+    public function ObtenerCantidadPaqueteproductos(){
+
+    	
+
+
+    }
+
+    public function ObtenerCantidadPaqueteservicios(){
+
+    }
+
+
+     public function PaquetesCategoriaSuLimite($inicio,$cantidad)
+    {
+    	  $sql = "
+			SELECT *FROM (SELECT
+			paquetes.idpaquete,
+			paquetes.nombrepaquete,
+			paquetes.descripcion,
+			paquetes.idcategoriapaquete as iddepende,
+			paquetes.foto,
+			paquetes.estatus,
+			paquetesucursal.idsucursal,
+			paquetes.promocion,
+			preciopaquete.precio as precioventa,
+			precio.principal,
+			paquetes.orden,
+			paquetes.servicio,
+			IFNULL(paquetes.preciofijo,0) AS preciofijo,
+			(SELECT COUNT(*)  FROM paquetefavorito WHERE idpaquete=paquetes.idpaquete AND idusuarios='$this->idusuario')as favorito
+
+			FROM
+			paquetes
+			JOIN paquetesucursal
+			ON paquetes.idpaquete = paquetesucursal.idpaquete
+			JOIN preciopaquete
+			ON paquetes.idpaquete = preciopaquete.idpaquete
+			JOIN precio
+			ON precio.idprecio = preciopaquete.idprecio
+			WHERE
+			paquetesucursal.idsucursal=" . $this->idsucursal . "  and precio.principal=1 and 	paquetes.estatus=1 AND paquetes.idcategoriapaquete='$this->idcategoriapaquete' and paquetes.escortesia=0 ORDER BY paquetes.orden DESC
+				) AS TABLA ORDER BY TABLA.orden,TABLA.favorito LIMIT $inicio,$cantidad
+
+		";
+		
+        $resp = $this->db->consulta($sql);
+        $cont = $this->db->num_rows($resp);
+
+        $array    = array();
+        $contador = 0;
+        if ($cont > 0) {
+
+            while ($objeto = $this->db->fetch_object($resp)) {
+
+            	
 
                 $array[$contador] = $objeto;
                 $contador++;

@@ -36,10 +36,12 @@ try
     $obtenerpaquetes=$lo->PaquetesCategoriaSu();
     $categoriapaq->iddepende=$idcategoria;
     $categoria= $categoriapaq->ObtenerCategoriapadre();
+    $categoriapaq->idcategoriapaquete=$idcategoria;
+    $obtenercategoria=$categoriapaq->ObtenerCategoria();
 
     $categoriapadre=0;
     if (count($categoriapaq)>0) {
-        $categoriapadre=$categoria[0]->iddepende;
+        $categoriapadre=$idcategoria;
     }
 
     if (count($obtenerpaquetes)>0) {
@@ -55,8 +57,11 @@ try
 
         $obtenerpaquetes[$i]->favorita=$favorita;
     }
+    
 }
+ 
 
+    $respuesta['categoria']=$obtenercategoria[0];
     $respuesta['respuesta']=$obtenerpaquetes;
     $respuesta['idcategoriapadre']=$categoriapadre;
     //Retornamos en formato JSON 

@@ -102,8 +102,17 @@ try
 			}
 		}
 
-		$cli->idusuarios=$idusuarioinvitado;
-		$eliminarusuario=$cli->EliminarUsuario();
+
+		if ($idusuarioinvitado!=$idusuarios) {
+			$cli->idusuarios=$idusuarioinvitado;
+		    $eliminarusuario=$cli->EliminarUsuario();
+		}
+		
+		$carrito->idusuarios=$idusuarios;
+
+		$obtenercarrito=$carrito->ObtenerCarrito();
+
+		$array->carrito=$obtenercarrito;
 			/*if ($sistema!='' && $tokenfirebase!='') {
 
 				$cli->tokenfirebase=$tokenfirebase;
@@ -138,6 +147,7 @@ try
 		$array->resultado = "0";
 		$array->msg = "Usuario o contraseña incorrecta";
 		$array->id = '0';
+
 	}
 	
 	//Retornamos en formato JSON 

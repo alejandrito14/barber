@@ -20,6 +20,8 @@ class Carrito
 	public $titulosgrupos;
 	public $preciooriginal;
 	public $idcortesia;
+	public $colococortesia;
+	public $fechacortesia;
 
 	public function AgregarCarrito()
 	{
@@ -49,6 +51,7 @@ class Carrito
 			carrito.idespecialista,
 			carrito.titulosgrupos,
 			carrito.idpaquete,
+			carrito.colococortesia,
 			(SELECT  CONCAT(usuarios.nombre,' ',usuarios.paterno) FROM especialista INNER JOIN usuarios on usuarios.idusuarios=especialista.idusuarios where especialista.idespecialista=citaapartado.idespecialista ) as usuarioespecialista,
 			DATE_FORMAT(citaapartado.fecha,'%d-%m-%Y')as fecha,
 			citaapartado.horainicial,
@@ -178,7 +181,9 @@ class Carrito
 	 public function GuardarCortesiaCarrito()
 	 {
 	 	$sql="UPDATE carrito 
-		SET idcortesia='$this->idcortesia'
+		SET idcortesia='$this->idcortesia',
+		colococortesia='$this->colococortesia',
+		fechacortesia='$this->fechacortesia'
 		WHERE idcarrito='$this->idcarrito'";
 		
 		$resp=$this->db->consulta($sql);

@@ -63,9 +63,9 @@ try
 
 			$verificar=$citas->VerificarFechaHorarioEspecialista();
 
-			$verificarapartada=$citas->VerificarCitaApartada();
+			//$verificarapartada=$citas->VerificarCitaApartada();
 
-			if (count($verificar)==0 && count($verificarapartada)==0) {
+			if (count($verificar)==0 ) {
 				
 				array_push($especialistasdisponibles, $obtenerespecialistas[$i]);
 			}

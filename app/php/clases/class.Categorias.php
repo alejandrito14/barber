@@ -143,6 +143,11 @@ class Categorias
 		return $array;
 	}
 
+	public function ObtenerCategoriaLimit($limit,$offset)
+	{
+		
+	}
+
 	
 /*
 	public function ObtenerHorariosCategoriasDia()

@@ -370,7 +370,7 @@ public function ObtenerHorariosEspecialistadia($numdia)
 			$sql="SELECT *FROM citaapartado
 				WHERE fecha='$this->fecha' 
 				and horainicial>='$this->horainicial' AND 
-				horafinal<='$this->horafinal' AND idespecialista='$this->idespecialista'";
+				horafinal<='$this->horafinal' AND idespecialista='$this->idespecialista' AND idusuario='$this->idusuarios'";
 
 		
 			$resp = $this->db->consulta($sql);

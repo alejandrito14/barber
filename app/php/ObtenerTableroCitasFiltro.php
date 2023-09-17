@@ -64,8 +64,19 @@ try
 
 			$fecha=date('d/m/Y',strtotime($obtenertablero[$i]->fechacita));
 
+			
+				$porpasar=0;
+			if (date('Y-m-d',strtotime($obtenertablero[$i]->fechacita))>=date('Y-m-d',strtotime($fechactual))){
+					
+						$porpasar=1;
+				
+				}
+
 			$obtenertablero[$i]->anio='';
 			$obtenertablero[$i]->fechacita=$fecha;
+
+
+			$obtenertablero[$i]->porpasar=$porpasar;
 		}
 	}
 

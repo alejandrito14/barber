@@ -22,6 +22,7 @@ class Carrito
 	public $idcortesia;
 	public $colococortesia;
 	public $fechacortesia;
+	public $fechacreacion;
 
 	public function AgregarCarrito()
 	{
@@ -187,6 +188,73 @@ class Carrito
 		WHERE idcarrito='$this->idcarrito'";
 		
 		$resp=$this->db->consulta($sql);
+	 }
+
+	 public function ObtenerCarritoAnterior()
+	 {
+	 	$sql="
+			SELECT
+			carrito.idcarrito,
+			paquetes.nombrepaquete,
+			paquetes.foto,
+			paquetes.concortesia,
+			paquetes.servicio,
+			carrito.cantidad,
+			carrito.costounitario,
+			carrito.costototal,
+			carrito.idsucursal,
+			sucursal.titulo,
+			carrito.idusuarios,
+			carrito.idcitaapartada,
+			carrito.idespecialista,
+			carrito.titulosgrupos,
+			carrito.idpaquete,
+			carrito.fechacreacion,
+			carrito.colococortesia,
+			(SELECT  CONCAT(usuarios.nombre,' ',usuarios.paterno) FROM especialista INNER JOIN usuarios on usuarios.idusuarios=especialista.idusuarios where especialista.idespecialista=citaapartado.idespecialista ) as usuarioespecialista,
+			DATE_FORMAT(citaapartado.fecha,'%d-%m-%Y')as fecha,
+			citaapartado.horainicial,
+			carrito.idcortesia,
+			paquetecortesia.nombrepaquete as nombrepaquetecortesia
+			
+			FROM
+			carrito
+			JOIN paquetes
+			ON carrito.idpaquete = paquetes.idpaquete 
+			JOIN sucursal
+			ON sucursal.idsucursal = carrito.idsucursal 
+			left JOIN especialista
+			ON carrito.idespecialista = especialista.idespecialista 
+			left JOIN usuarios
+			ON usuarios.idusuarios = especialista.idusuarios 
+			left JOIN citaapartado
+			ON citaapartado.idcitaapartado = carrito.idcitaapartada
+			left join cortesia 
+			ON carrito.idcortesia=cortesia.idcortesia
+			left join paquetes as paquetecortesia on paquetecortesia.idpaquete=cortesia.idpaquetecortesia
+			WHERE carrito.idusuarios='$this->idusuarios' AND carrito.estatus=1  fechacreacion<='$this->fechacreacion' ORDER BY sucursal.idsucursal 
+
+				
+
+		";
+		echo $sql;die();
+		
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
 	 }
 
 }

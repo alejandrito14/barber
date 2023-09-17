@@ -235,13 +235,20 @@ class Cita
 			citas.checkin,
 			citas.idcortesia,
 			citas.fechacheckin,
-			(SELECT paquetes.nombrepaquete from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as concepto
+			(SELECT paquetes.nombrepaquete from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as concepto,
+			(SELECT paquetes.concortesia from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as concortesia,
+
+			(SELECT paquetes.servicio from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as servicio,
+			paquetecortesia.nombrepaquete as nombrepaquetecortesia
 
 
 		FROM citas
 		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal
 		INNER JOIN especialista ON citas.idespecialista=especialista.idespecialista
 		left join usuarios ON usuarios.idusuarios=especialista.idusuarios
+		left join cortesia 
+			ON citas.idcortesia=cortesia.idcortesia
+		left join paquetes as paquetecortesia on paquetecortesia.idpaquete=cortesia.idpaquetecortesia
 		 WHERE 	citas.idusuarios='$this->idusuario' AND idcita='$this->idcita'";
 		
 		$resp=$this->db->consulta($sql);
@@ -622,6 +629,7 @@ class Cita
 	{
 		$sql = "UPDATE citas 
         SET estatus = 2,
+        	checkout=1,
         finalizacita='".date('Y-m-d H:i:s')."'
         WHERE idcita = '$this->idcita'
         ";
@@ -677,10 +685,11 @@ class Cita
 			citas.idcita,
 			citas.checkin,
 			citas.fechacheckin,
+			DATE_FORMAT(citas.fechacita,'%Y-%m-%d')as fecha,
 			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreespecialista
 		FROM citas INNER JOIN  especialista ON especialista.idespecialista=citas.idespecialista
 		INNER JOIN usuarios ON usuarios.idusuarios=especialista.idusuarios
-		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal WHERE citas.idusuarios=".$this->idusuarios."   ORDER BY horacita desc
+		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal WHERE citas.idusuarios=".$this->idusuarios."   ORDER BY citas.idcita desc
 		";
 		
 		$resp=$this->db->consulta($sql);
@@ -928,6 +937,54 @@ class Cita
 	{
 			
 		$sql="SELECT *FROM (SELECT *FROM citaapartado WHERE idespecialista='$this->idespecialista' AND fecha='$this->fecha') AS TABLA1 WHERE   TABLA1.horainicial>='$this->horainicial' AND TABLA1.horafinal<='$this->horafinal' ";
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+
+
+	public function ObtenerCitasProgramadasUsuario()
+	{
+		$fechactual=date('Y-m-d');
+		$sql="
+
+		
+		SELECT *FROM (SELECT 
+			citas.horacita,
+			citas.fechacita,
+			citas.asuntocita,
+			citas.estatus,
+			citas.orden,
+			citas.idsucursal,
+			sucursal.titulo,
+			sucursal.descripcion,
+			sucursal.imagen,
+			citas.idusuarios,
+			citas.idcita,
+			citas.checkin,
+			citas.fechacheckin,
+			DATE_FORMAT(citas.fechacita,'%Y-%m-%d')as fecha,
+			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreespecialista
+		FROM citas INNER JOIN  especialista ON especialista.idespecialista=citas.idespecialista
+		INNER JOIN usuarios ON usuarios.idusuarios=especialista.idusuarios
+		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal WHERE  citas.idusuarios=".$this->idusuarios." AND citas.estatus=0)as tablac WHERE tablac.fecha >='$fechactual'
+
+		";
+		
+		
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 

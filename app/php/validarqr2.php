@@ -17,6 +17,9 @@ require_once("clases/class.NotificacionPush.php");
 require_once("clases/class.Qrgenerados.php");
 require_once("clases/class.Especialista.php");
 
+require_once("clases/class.Fechas.php");
+
+require_once("clases/class.Paquetes.php");
 
 try
 {
@@ -35,6 +38,10 @@ try
 	$qrgenerados->db=$db;
 	$especialista=new Especialista();
 	$especialista->db=$db;
+
+	$fechas = new Fechas();
+	$paquetes = new Paquetes();
+	$paquetes->db = $db;
 	$db->begin();
 
 	
@@ -117,6 +124,23 @@ try
 			$qrgenerados->ActualizarEstatusqr($idqrgenerado);
 
 
+	$cita->idusuario=$idusuario;
+	$obtenerdetallecita=$cita->Obtenerdetallecita();
+	$obtenerdetallecita[0]->fecha=date('d-m-Y',strtotime($obtenerdetallecita[0]->fechacita));
+
+	 $obtenerdetallecita[0]->fechaformato=$fechas->fecha_texto5($obtenerdetallecita[0]->fechacita);
+
+
+     $paquetes->idpaquete=$obtenerdetallecita[0]->idpaquete;
+     $obtenerpaquete=$paquetes->ObtenerPaquete2();
+     $obtenerdetallecita[0]->precioante=0;
+
+            if ($obtenerpaquete[0]->promocion==1) {
+                $obtenerdetallecita[0]->precioante=$obtenerpaquete[0]->precioventa;
+
+            }	
+
+
 
 
 
@@ -136,6 +160,7 @@ try
 	$respuesta['validado']=$validado;
 	$respuesta['idusuario']=$idusuario;
 	$respuesta['cita']=$cita->idcita;
+	$respuesta['detallecita']=$obtenerdetallecita;
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);
 	echo $myJSON;

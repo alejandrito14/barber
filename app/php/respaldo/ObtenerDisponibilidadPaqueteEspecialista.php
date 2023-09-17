@@ -41,8 +41,10 @@ try
 	$especialista->idespecialista=$idespecialista;
 	$numdia=$dia['numdia'];
 
+	$horariossucursal->idsucursal=$idsucursal;
+	//$horas=$especialista->ObtenerHorariosEspecialistadia($numdia);
 
-	$horas=$especialista->ObtenerHorariosEspecialistadia($numdia);
+	$horas=$horariossucursal->ObtenerHorariosSucursal($numdia);
 
 	
 	$arrayintervalos=array();
@@ -63,7 +65,7 @@ try
 	$especialista->idpaquete=$idpaquete;
 	
 		$horaactual=date('H:i:s');
-
+		//var_dump($arrayintervalos);die();
 	for ($k=0; $k < count($arrayintervalos[0]); $k++) { 
 			
 			$value=$k+1;
@@ -96,10 +98,10 @@ try
  
 					$verificar=$especialista->EvaluarHorarioDisponible();
 
-					$buscarsiestaapartada=$especialista->EvaluarHorarioApartado();
+					/*$buscarsiestaapartada=$especialista->EvaluarHorarioApartado();*/
 
 					$disponible=1;
-				if (count($verificar)>0 || count($buscarsiestaapartada)>0)  {
+				if (count($verificar)>0)  {
 							$disponible=0;
 						
 					}

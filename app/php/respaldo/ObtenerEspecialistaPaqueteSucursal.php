@@ -33,15 +33,28 @@ try
 
 	$paquetes->idpaquete=$idpaquete;
 	$obtenerpaquete=$paquetes->ObtenerPaquete2();
-
+	$costopaquete=$obtenerpaquete[0]->precioventa;
 	$especialista->idpaquete=$idpaquete;
 	$especialista->idsucursal=$idsucursal;
 	$obtenerespecialistas=$especialista->ObtenerEspecialistas();
 	$especialistasdisponibles=array();
 
+
+
 	if (count($obtenerespecialistas)>0) {
 		for ($i=0; $i < count($obtenerespecialistas); $i++) { 
 			
+			if ($obtenerespecialistas[$i]->costo=='') {
+
+				$obtenerespecialistas[$i]->costo=$costopaquete;
+
+				
+			}
+
+			if ($obtenerespecialistas[$i]->preciofijo!='') {
+				$obtenerespecialistas[$i]->costo=$obtenerespecialistas[$i]->preciofijo;
+
+			}
 
 			$citas->idespecialista=$obtenerespecialistas[$i]->idespecialista;
 			$citas->fecha=$fecha;
@@ -50,7 +63,9 @@ try
 
 			$verificar=$citas->VerificarFechaHorarioEspecialista();
 
-			if (count($verificar)==0) {
+			$verificarapartada=$citas->VerificarCitaApartada();
+
+			if (count($verificar)==0 && count($verificarapartada)==0) {
 				
 				array_push($especialistasdisponibles, $obtenerespecialistas[$i]);
 			}

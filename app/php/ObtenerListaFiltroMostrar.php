@@ -24,12 +24,45 @@ try
 	$confi->db = $db;
 
 	$pagina=$confi->ObtenerInformacionConfiguracion();
-	$filtro=$pagina['filtrocategoriamostrar'];
+	$limitepaginado=$obtenerconfi['cantidadelementospaginado'];
+
+
+
+	$totalelementos=$lo->ObtSubcategoriasMostrarCalendario();
+
+	/*$categoria=$lo->ObtenerCategoriapadre();
+	$categoriapadre=0;
+	if (count($categoria)>0) {
+		$categoriapadre=$categoria[0]->iddepende;
+	}*/
 
 	
-    $respuesta['filtro']=$filtro;
-	$respuesta['respuesta']=1;
+
 	
+
+	 $cantidad=$limitepaginado;
+    if (isset($_POST['inicio'])) {
+       $inicio=$_POST['inicio'];
+
+
+    }
+    
+
+  
+  
+
+    $resultado=$lo->ObtSubcategoriasMostrarCalendarioLimit($inicio,$cantidad);
+
+
+    $inicio=$_POST['inicio']+$cantidad;
+
+    
+    $respuesta['categoria']=$obtenercategoria[0];
+	$respuesta['respuesta']=$resultado;
+	$respuesta['idcategoriapadre']=$categoriapadre;
+	$respuesta['inicio']=$inicio;
+	$respuesta['totalelementos']=count($totalelementos);
+
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);
 	echo $myJSON;

@@ -156,6 +156,64 @@ function DetalleServicio(idpaquete) {
 		localStorage.setItem('idpaquete',idpaquete);
 		//GoToPage('detalleservicio');
 		//Disponilidadfecha2();
-		GoToPage('seleccionarhorario');
+		
+		  var promesa=Verificarfechashorarios();
+        	 promesa.then(r => {
+         	if (r.length>0) {
+
+         			GoToPage('seleccionarhorario');
+	
+         	}else{
+
+         		var aviso='Horarios no disponible';
+         		AbrirModalAviso(aviso);
+         	}
+
+	});
 		// ObtenerListadoEspecialista();
+}
+
+function Verificarfechashorarios(argument) {
+    return new Promise(function(resolve, reject) {
+
+  var fecha=localStorage.getItem('fecha');
+  var paqueteid=localStorage.getItem('idpaquete');
+  var sucursal=localStorage.getItem('idsucursal');
+  var iduser=localStorage.getItem('id_user');
+  var idespecialista=0;
+  var datos="fecha="+fecha+"&idpaquete="+paqueteid+"&idsucursal="+sucursal+"&idespecialista="+idespecialista+"&iduser="+iduser;
+  var pagina = "ObtenerDisponibilidadPaqueteEspecialista.php";
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+
+      var respuesta=resp.intervalos;
+      arrayhorarios=respuesta;
+       //calendarInline.close();
+     // app.preloader.hide();
+      localStorage.setItem('fecha',fecha);
+      if (respuesta.length>0) {
+       // alerta('','Se encontraron horarios disponibles');
+      }
+
+      resolve(respuesta);
+
+     // PintarIntervalos2(respuesta);
+     
+      
+      //resolve(respuesta);
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+    });
+
+   });
 }

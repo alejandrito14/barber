@@ -1510,12 +1510,11 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
 
                            html+=` 
                              
-                               <div class="col-100 " style="    padding-top: 1em;padding-bottom: 1em;    display: flex;
-    justify-content: center;">
+                               <div class="col-100" style="padding-top: 1em;padding-bottom: 1em;    display: flex;justify-content: center;">
                                  
                                  <div class="row opcionescortesia" style="width:50%;">
 
-                                  <div class="col-40" style="float:left;"> 
+                                  <div class="col-40" > 
                                         <div class="toggle">
                                               <label class="">
                                                 <input type="checkbox" class="btncortesias" id="cortesia_`+respuesta[i].idcortesia+`" onchange="ElegirCortesia(`+idcarrito+`,`+respuesta[i].idcortesia+`)">
@@ -1525,13 +1524,13 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
                                      
                                   </div>
 
-                                   <div class="col-60" style="float:right;">
+                                   <div class="col-60" >
                                      <p style="margin:0;color: white;font-size: 25px;" class="cambiarfuente">`+respuesta[i].nombrepaquete+`</p>
                                     </div>  
 
              
                                  </div> 
-                              
+                               </div> 
                               
 
                                 `;
@@ -1539,7 +1538,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
                             }
 
                           html+=`
-                          </div> 
+                         
                           </div>
 
                           <div class="row margin-bottom " style="padding-top: 1em;    margin-left: 2em;margin-right: 2em;margin-top:20px;">

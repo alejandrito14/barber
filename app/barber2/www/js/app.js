@@ -166,6 +166,7 @@ var urlimagenlogo="";
 var globalsockect="";
 var imagenesbancos="";
 var urlimagendefaultservicio=""
+var idcategoriapadre=0;
 
 function Cargar() {
 
@@ -413,7 +414,6 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
      $(".btnsalir").attr('onclick','salir_app()');
      $(".btniracarrito").attr('onclick','IraCarrito()');
     $$(".page-content").addClass('marginauto');
-
     entrarinvitado().then(resultado => {
     
 
@@ -426,7 +426,19 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
       $(".btnsalir").css('display','');
 
       
+    }else{
+      ObtenerCitasProgramadas();
+
+      var pregunta=localStorage.getItem('pregunta');
+    if (pregunta==0) {
+
+           AbrirModalPreguntaSesion(); 
+    
+           }
     }
+
+        Visualizarmenu();
+
     
     $(".panelizquierdo").attr('onclick','toggleMenu()');
     CargarDatos();
@@ -461,11 +473,14 @@ $$(document).on('page:init', '.page[data-name="homeespecialista"]', function (e)
         $(".btnsalir").attr('onclick','salir_app()');
         $(".btnscan2").attr('onclick','scanqr2()');
         $$(".page-content").addClass('marginauto');
-
+        $(".panelizquierdo").attr('onclick','toggleMenu()');
+        Visualizarmenu();
       CargarDatosEspecialista();
   var pregunta=localStorage.getItem('pregunta');
-    if (pregunta==0) { 
-     app.dialog.confirm('','¿Desea mantener la sesión activa?', function () {
+    if (pregunta==0) {
+
+    AbrirModalPreguntaSesion(); 
+     /*app.dialog.confirm('','¿Desea mantener la sesión activa?', function () {
         localStorage.setItem('session',1);
         localStorage.setItem('pregunta',1);
          // app.dialog.alert('','Se guardó la sesión'); 
@@ -474,7 +489,7 @@ $$(document).on('page:init', '.page[data-name="homeespecialista"]', function (e)
          function () {
              localStorage.setItem('pregunta',1);
                   }
-            );
+            );*/
            }
 
 });
@@ -599,7 +614,7 @@ $$(document).on('page:init', '.page[data-name="login"]', function (e) {
       //phoneFormatter('v_usuario');
       $("#v_clave").focus();
     }else{
-       phoneFormatter('v_usuario');
+      phoneFormatter('v_usuario');
     }
 
        
@@ -609,7 +624,7 @@ $$(document).on('page:init', '.page[data-name="login"]', function (e) {
 
 $$(document).on('page:init', '.page[data-name="detallesucursal"]', function (e) {
  
-
+    idcategoriapadre=0;
     var invitado=  localStorage.getItem('invitado');
 
     if (invitado==1) {
@@ -622,11 +637,11 @@ $$(document).on('page:init', '.page[data-name="detallesucursal"]', function (e) 
       $(".btnagregarmas").attr('onclick','Agregarmasproducto()');
       PintarCantidadcarrito();
       $(".btniracarrito").attr('onclick','IraCarrito()');
+      Visualizarmenu();
 
 });
 
 $$(document).on('page:init', '.page[data-name="detalleproductoservicios"]', function (e) {
- 
 
     var invitado=  localStorage.getItem('invitado');
 
@@ -637,15 +652,25 @@ $$(document).on('page:init', '.page[data-name="detalleproductoservicios"]', func
       $(".btnsalir").css('display','');
     }
       localStorage.setItem('idcategoria',0);
+      if (idcategoriapadre!=0) {
 
-    ObtenerCategoriasProductodetalle();
-    PintarCantidadcarrito();
+        localStorage.setItem('idcategoria',idcategoriapadre);
+ 
+      }
+     console.log('detalleproductoservicios');
+    ObtenerCat();
+   
+
+   
      if (tipoletra!='') {
 
       $(".cambiarfuente").addClass(tipoletra);
     }
 //ObtenerProductos();
-    
+ $$('.cargandopre').hide();
+$('.infinite-scroll-preloader').hide();
+     
+
 });
 
 $$(document).on('page:init', '.page[data-name="subcategorias"]', function (e) {
@@ -668,7 +693,10 @@ $$(document).on('page:init', '.page[data-name="productoscategoria"]', function (
     }
 
     var div="divproductosservicios2";
-    ObtenerProductosCategorias(div);
+    //ObtenerProductosCategorias(div);
+    PintarProductosConCategoria(categoriascache5[0],div);
+ 
+
      if (tipoletra!='') {
       $(".cambiarfuente").addClass(tipoletra);
     }
@@ -683,6 +711,10 @@ $$(document).on('page:init', '.page[data-name="productoscategoria"]', function (
   $(".regreso").attr("onclick","GoToPage('detalleproductoservicios')");
 
 }
+
+ $$('.cargandopre').hide();
+$('.infinite-scroll-preloader').hide();
+
 });
 
 $$(document).on('page:init','.page[data-name="detallepaquete"]',function(e)
@@ -982,22 +1014,16 @@ $$(document).on('page:init', '.page[data-name="cambiocontra"]', function (e) {
 $$(document).on('page:init', '.page[data-name="homeadmin"]', function (e) {
         $(".btnsalir").attr('onclick','AbriModalSalir()');
         $(".btnscan2").attr('onclick','scanqr3()');
-
+        $(".panelizquierdo").attr('onclick','toggleMenu()');
+        Visualizarmenu();
         $$(".page-content").addClass('marginauto');
  
       CargarDatosAdmin();
-  var pregunta=localStorage.getItem('pregunta');
+     var pregunta=localStorage.getItem('pregunta');
     if (pregunta==0) {
-     app.dialog.confirm('','¿Desea mantener la sesión activa?', function () {
-        localStorage.setItem('session',1);
-        localStorage.setItem('pregunta',1);
-         // app.dialog.alert('','Se guardó la sesión'); 
-        },
 
-         function () {
-             localStorage.setItem('pregunta',1);
-                  }
-            );
+           AbrirModalPreguntaSesion(); 
+    
            }
 
 });
@@ -1132,7 +1158,9 @@ $$(document).on('page:init', '.page[data-name="configuracion"]', function (e) {
 
 $$(document).on('page:init', '.page[data-name="servicioslista"]', function (e) {
   
-ObtenerListaFiltroMostrar();
+//ObtenerListaFiltroMostrar();
+
+PintarSubCategoriaProducto(categoriascache4);
 
 var invitado=  localStorage.getItem('invitado');
 
@@ -1153,7 +1181,7 @@ var invitado=  localStorage.getItem('invitado');
 $$(document).on('page:init', '.page[data-name="seleccionarhorario"]', function (e) {
     
     ConsultarFechaHorarios();
-$(".btncontinuarcita").attr('onclick','GoToPage("listadoespecialista")');
+$(".btncontinuarcita2").attr('onclick','ValidarAntesListadoEspecialista()');
 
    if (tipoletra!='') {
       $(".cambiarfuente").addClass(tipoletra);
@@ -1163,31 +1191,35 @@ $(".btncontinuarcita").attr('onclick','GoToPage("listadoespecialista")');
 
 
 $$(document).on('page:init', '.page[data-name="listadoespecialista"]', function (e) {
-  ObtenerListadoEspecialista();
+  //ObtenerListadoEspecialista();
+
+  
+
+  PintarDetalleEspecialistas2(cacheespecialista);
 if (tipoletra!='') {
       $(".cambiarfuente").addClass(tipoletra);
     }
 });
 
 $$(document).on('page:init', '.page[data-name="subcategoriasdetalle"]', function (e) {
- 
-ObtenerSubCategoriasdetalle();
+       
+
+
+    PintarSubCategoriaProductodetalle(categoriascache2[0]);
 
 
  if (tipoletra!='') {
       $(".cambiarfuente").addClass(tipoletra);
     }
-   // alert('sub '+idcategoriapadre);
- if (idcategoriapadre!=0) {
 
-  localStorage.getItem('idcategoria',idcategoriapadre);
-  $(".regreso").attr("onclick","GoToPage('subcategoriasdetalle')");
-  
-  }else{
 
-  $(".regreso").attr("onclick","GoToPage('detalleproductoservicios')");
+//ObtenerSubCategoriasdetalle(0);
 
-}
+
+
+
+ $$('.infinite-scroll-preloader').hide();
+  $$(".cargandopre").hide();
     
 });
 
@@ -1246,7 +1278,7 @@ $$(document).on('page:init', '.page[data-name="escogermetodopago"]', function (e
 });
 
 $$(document).on('page:init', '.page[data-name="productoscategoriadetalle"]', function (e) {
- 
+ //aqui
     var invitado=  localStorage.getItem('invitado');
 
     if (invitado==1) {
@@ -1258,14 +1290,36 @@ $$(document).on('page:init', '.page[data-name="productoscategoriadetalle"]', fun
 
     var div="divproductosservicios2";
 
-    ObtenerProductosCategoriasdetalle(div);
-     if (tipoletra!='') {
 
+
+console.log('entro a productoscategoriadetalle');
+console.log('idcategoriapadre: '+idcategoriapadre);
+  
+
+
+
+ PintarProductosConCategoriadetalle(categoriascache3[0],'divproductosservicios2');
+
+ $$('.infinite-scroll-preloader').hide();
+  $$(".cargandopre").hide();
+
+  console.log(categoriascache2);
+  if (categoriascache2.length==0) {
+
+   $(".regreso").attr('href','/detalleproductoservicios/');
+  
+  }else{
+   $(".regreso").attr('href','/subcategoriasdetalle/');
+
+
+  }
+ if (tipoletra!='') {
+      
       $(".cambiarfuente").addClass(tipoletra);
     }
 
-
-  if (idcategoriapadre!=0) {
+    
+/*if (idcategoriapadre!=0) {
 
   localStorage.getItem('idcategoria',idcategoriapadre);
   $(".regreso").attr("onclick","GoToPage('subcategoriasdetalle')");
@@ -1274,7 +1328,8 @@ $$(document).on('page:init', '.page[data-name="productoscategoriadetalle"]', fun
 
   $(".regreso").attr("onclick","GoToPage('detalleproductoservicios')");
 
-}
+}*/
+//CargarEventoScrollProducto();
   
 });
 
@@ -1292,7 +1347,7 @@ $$(document).on('page:init', '.page[data-name="seleccionarfecha"]', function (e)
 $$(document).on('page:init', '.page[data-name="seleccionarhorario2"]', function (e) {
     
     ConsultarFechaHorarios();
-$(".btncontinuarcita").attr('onclick','GoToPage("listadoespecialista")');
+$(".btncontinuarcita2").attr('onclick','GoToPage("listadoespecialista")');
 
    if (tipoletra!='') {
       $(".cambiarfuente").addClass(tipoletra);

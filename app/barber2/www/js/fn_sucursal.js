@@ -2,10 +2,68 @@ var porfecha=0;
 var porbarbero=0;
 var imagenfecha="";
 var imagenbarbero="";
+var totalelementoscategoria=0;
+var totalelementoscategoriacalendario=0;
+var inicioconproducto=0;
+var totalelementosproducto2=0;
+
+var iniciocategoriacalendario=0;
+var iniciocategoria=0;
+var inicioconcat=0;
+var totalelementossubcategoria=0;
+var totalelementosproducto=0;
+var categoriascache=[];
+var categoriascache2=[];
+var categoriascache3=[];
+var categoriascache4=[];
+var categoriascache5=[];
+var categoriascache6=[];
+var categoriascache7=[];
+var categoriascache8=[];
+var categoriascache9=[];
+var categoriascache10=[];
+
+var cache=[];
+var cache2=[];
+var cache3=[];
+var cache4=[];
+var cache5=[];
+var cache6=[];
+var cache7=[];
+var cache8=[];
+var cache9=[];
+var cache10=[];
+
+
+var productoscache=[];
+var servicioscache=[];
+var paginadocategoria=1;
+var idsucursalseleccionada=0;
 function ObtenerDatosSucursal() {
 
-	var idsucursal=localStorage.getItem('idsucursal');
+categoriascache=[];
+categoriascache2=[];
+categoriascache3=[];
+categoriascache4=[];
+categoriascache5=[];
+categoriascache6=[];
+categoriascache7=[];
+categoriascache8=[];
+categoriascache9=[];
+categoriascache10=[];
 
+cache=[];
+cache2=[];
+cache3=[];
+cache4=[];
+cache5=[];
+cache6=[];
+cache7=[];
+cache8=[];
+cache9=[];
+cache10=[];
+
+	    var idsucursal=localStorage.getItem('idsucursal');
 		var datos='idsucursal='+idsucursal;
 		var pagina = "ObtenerSucursal.php";
 		$.ajax({
@@ -15,7 +73,8 @@ function ObtenerDatosSucursal() {
 		async:false,
 		data:datos,
 		success: function(datos){
-		
+		idsucursalseleccionada=idsucursal;
+
 		var sucursal=datos.sucursal;
 		var imagenes=datos.imagenes;
 		tipoletra=datos.sucursal.tipoletra;
@@ -24,6 +83,11 @@ function ObtenerDatosSucursal() {
 			$(".cambiarfuente").addClass(tipoletra);
 		}
 		PintarDatosSucursal(sucursal,imagenes);
+		ObtenerCategoriasCache();
+		//ObtenerProductosServiciosCache();
+		
+		ObtenerListaFiltroMostrar();
+
 		//ObtenerListaEspecialistasSucursal3(idsucursal);
 	/*	localStorage.setItem('minutosconsiderados',sucursal.minutosconsiderados);
 		localStorage.setItem('nombresucursal',sucursal.sucursal);
@@ -40,6 +104,53 @@ function ObtenerDatosSucursal() {
 								console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
 					}
 		});
+
+}
+
+
+function ObtenerCategoriasCache() {
+
+
+	
+	var pagina = "ObtenerCategoriasProductoPaginada.php";
+	var id_user=localStorage.getItem('id_user');
+	var idsucursal=localStorage.getItem('idsucursal');
+	var datos="iduser="+id_user+"&idsucursal="+idsucursal;
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		async:false,
+		success: function(resp){
+			var respuesta=resp.respuesta;
+			 totalelementoscategoria=resp.totalelementos;
+			 iniciocategoria=resp.inicio;
+			 idcategoriapadre=0;
+			 categoriascache=respuesta;
+			 cache={
+			 'idsucursal':idsucursal,
+			 'pantalla':'pantalla1'
+			 };
+			if (respuesta.length>0) {
+			
+				//PintarCategoriaProductodetalle(respuesta);
+				//ObtenerProductosSinCategoriaDetalle();
+
+			}else{
+
+				//ObtenerProductos();
+			}
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+
 
 }
 
@@ -150,7 +261,8 @@ function hacerLlamada(numeroTelefono) {
 }
 
 function abrirGoogleMaps(latitud, longitud) {
-    var url = 'https://www.google.com/maps?q=' + latitud + ',' + longitud;
+   // var url = 'https://www.google.com/maps?q='+parseFloat(latitud)+','+parseFloat(longitud);
+    var url='https://www.google.com/maps/search/?api=1&query='+parseFloat(latitud)+','+parseFloat(longitud)+'&zoom=20'
     var opciones = 'location=yes';
     var navegador = window.open(url, '_blank', opciones);
 
@@ -1075,3 +1187,90 @@ function PintarDetalleEspecialistasSucursal3(respuesta) {
 
 		  });
 }
+
+
+function ObtenerCategoriasProductodetalle() {
+
+		if (categoriascache.length>0) {
+
+					PintarCategoriaProductodetalle(categoriascache);
+
+					if (totalelementoscategoria>categoriascache.length) {
+						var html=`
+						 <div class="cargandopre" style="text-align: center;width:100%;">Cargando</div>
+       					<div class="preloader infinite-scroll-preloader"></div>
+						<div class="" style="margin-right: 1em;margin-left: 1em;width: 100%;">
+						         	 <button style="background: #C7AA6A; color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente faustina" onclick="CargarmasCategorias()">
+						        	 Cargar más ...</button>
+						     		 </div>
+						`;
+						$(".btnmas").append(html);
+
+
+
+					}
+
+				
+		}
+}
+
+function CargarmasCategorias() {
+	
+$$('.infinite-scroll-preloader').show();
+$$('.cargandopre').show();
+ setTimeout(() => {
+	var pagina = "ObtenerCategoriasProductoPaginada.php";
+	var id_user=localStorage.getItem('id_user');
+	var idsucursal=localStorage.getItem('idsucursal');
+	var datos="iduser="+id_user+"&idsucursal="+idsucursal+"&inicio="+iniciocategoria;
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		async:false,
+		success: function(resp){
+			var respuesta=resp.respuesta;
+			 totalelementoscategoria=resp.totalelementos;
+			 iniciocategoria=resp.inicio;
+			 idcategoriapadre=0;
+			if (respuesta.length>0) {
+
+				console.log('---agregando');
+
+			//categoriascache.push(respuesta);
+
+
+
+			for (var i = 0; i <respuesta.length; i++) {
+				categoriascache.push(respuesta[i]);
+			}
+
+			console.log(categoriascache);
+			console.log(respuesta);
+			PintarCategoriaProductodetalle(respuesta);
+				//ObtenerProductosSinCategoriaDetalle();
+				$$('.infinite-scroll-preloader').hide();
+				$$('.cargandopre').hide();
+				var ele=$(".tarjeta").length;
+				if (totalelementoscategoria==ele) {
+					$(".btnmas").remove();
+				}
+
+
+			}else{
+
+				//ObtenerProductos();
+			}
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+	}, 2000);
+}
+

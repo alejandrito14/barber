@@ -882,7 +882,7 @@ code {
 
   }
     .navbar .left{
-      margin-top: 3em!important;
+      margin-top: 1.5em!important;
     }
 
    /*.page-content{
@@ -1216,7 +1216,7 @@ footer .nav .nav-item .nav-link span .nav-text {
   float: left;
   font-size: 40px;
   font-family: Courier,sans-serif;
-  color: #363431;
+  
 }
 .btnagendarcita{
   background: #C7AA6A;
@@ -1266,7 +1266,7 @@ footer .nav .nav-item .nav-link span .nav-text {
   }
 
   .navbar .right {
-    margin-top: 3em!important;
+    margin-top: 1.5em!important;
 }
 
 
@@ -1337,6 +1337,29 @@ color: white!important;
     line-height: 1.5;
     margin-left: 40px!important;
     font-size: 18px;
+}
+
+.notaaceptado{
+    background:#59c158;
+    border-radius: 10px;
+    padding: 3px;
+    font-size: 12px;
+    color: white!important;
+}
+.notapendiente{
+    background:#ebc418;
+    border-radius: 10px;
+    padding: 3px;
+    font-size: 12px;
+    color: white!important;
+}
+
+.notacancelado{
+    background:red;
+    border-radius: 10px;
+    padding: 3px;
+    font-size: 12px;
+    color: white!important;
 }
 /*.boton{
   outline: none;

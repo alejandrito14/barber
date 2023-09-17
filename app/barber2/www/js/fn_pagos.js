@@ -4948,3 +4948,119 @@ function onPhotoDataSuccessdatosfactura(imageData) {
 function CargarTotal() {
  CargarCarrito();
 }
+
+
+
+function CrearModalEspera3(callback) {
+  
+var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;background: black;">
+            
+            <div class="sheet-modal-inner" style=" ">
+              
+              <div class="page-content" style="height: 100%;">
+                <div style="background: black; height: 100%;width: 100%;border-radius: 20px;">
+                   <div class="row">
+                     <div class="col-20">
+                        
+                    </div>
+
+                     <div class="col-60">
+                     <span class="titulomodal cambiarfuente" style="font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+    color: #c7aa6a;"></span>
+                     </div>
+                     <div class="col-20">
+                     <span class="limpiarfiltros"></span>
+                     </div>
+                 </div>
+                 <div class="" style="position: absolute;top:1em;width: 100%;">
+                
+                       
+                        `;
+
+                       
+                          
+                          
+                      
+
+                          html+=`
+                          <div class="row" style="    margin-left: 2em; margin-right: 2em;    margin-top: 20px;">
+                          <div class="col-100">
+                          <div style="color: #c7aa6a;font-size: 30px;text-align: center;" class="cambiarfuente">
+                           
+                          <div id="" class="mensajeproceso" style="font-weight:bold;color:#c7aa6a;" >En proceso...
+                            <img src="img/loading.gif" style="width:20%;display: flex;justify-content: center;align-items: center;margin:0px auto;margin-top: 20px;">
+
+                          </div>
+                          <p id="" class="mensajeerror" style="font-weight:bold;display:none;color:#c7aa6a;text-align:center;line-height: 1;" >Oops, algo no está bien, intenta de nuevo.</p>
+                          <p id="" class="mensajeexito" style="font-weight:bold;display:none;color:#c7aa6a;text-align:center;line-height: 1;" >Se realizó correctamente</p>
+
+                        </div>
+
+                        
+
+                          
+
+                          </div>
+                          </div>
+
+                          <div class="row margin-bottom " style="padding-top: 1em;    margin-left: 2em;margin-right: 2em;margin-top:20px;">
+                            <div class="col-100" style="margin-left: 1em;margin-right: 1em;">
+                            <button style="background: #C7AA6A;color:white;display:none;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente butonok" onclick="VerCompras()"  id="btnConfirm">Aceptar</button>
+                            </div>
+
+                            <div class="col-100" style="margin-left: 1em;margin-right: 1em;" >
+                            <button style="background: #C7AA6A;color:white;display:none;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente butoerror" onclick="CerrarEspera2()"  id="btnCancel" >Aceptar</button>
+                            </div>
+                          </div>
+
+
+                      </div>
+
+                  </div>
+
+                </div>
+                
+              </div>
+            </div>
+          </div>`;
+          /*<p><button class="button color-theme btncortesias" id="cortesia_`+respuesta[i].idcortesia+`" onclick="ElegirCortesia(`+idcarrito+`,`+respuesta[i].idcortesia+`)" style="background: white;color:black;padding: 10px 20px;">
+                                        Elegir
+                                       </button>
+                                     </p>*/
+    dynamicSheet2 = app.sheet.create({
+        content: html,
+
+      swipeToClose: false,
+        backdrop: true,
+        // Events
+        on: {
+          open: function (sheet) {
+
+           $(".cambiarfuente2").css('display','none');
+            if (tipoletra!='') {
+              $(".cambiarfuente").addClass(tipoletra);
+           
+            }
+          $(".cambiarfuente2").css('display','block');
+ 
+
+          },
+          opened: function (sheet) {
+                 console.log('Sheet opened');
+
+          },
+        }
+      });
+
+
+
+       dynamicSheet2.open();
+
+
+        setTimeout(() => {
+        // Ejecuta RealizarCargo() dentro del timeout
+        callback();
+    }, 5000); // Cambiado a 5000 milisegundos (5 segundos)
+}

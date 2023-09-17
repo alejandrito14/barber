@@ -598,8 +598,8 @@ function SeleccionarHorario4(objeto) {
   horaseleccionada=arrayhorarios[posicion];
 
     HabilitarBoton2();
-
-
+//aqui
+  ObtenerListadoEspecialista();
 }
 
 function SeleccionarHorario3(i) {
@@ -1219,7 +1219,7 @@ var htmlmodal=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:
     });
 //});
 }
-
+var cacheespecialista=[];
 function ObtenerListadoEspecialista() {
   // body...
     var idsucursal=localStorage.getItem('idsucursal');
@@ -1236,7 +1236,8 @@ function ObtenerListadoEspecialista() {
     data:datos,
     success: function(datos){
       var especialistas=datos.especialista;
-      PintarDetalleEspecialistas2(especialistas);
+      cacheespecialista=especialistas;
+     // PintarDetalleEspecialistas2(especialistas);
 
     },error: function(XMLHttpRequest, textStatus, errorThrown){ 
       var error;
@@ -1873,14 +1874,26 @@ function CerarModalD() {
 function HabilitarBoton2() {
 
   if (horaseleccionada!='') {
-    $(".btncontinuarcita").css('display','block');
+    $(".btncontinuarcita2").css('display','block');
 
   }else{
-   $(".btncontinuarcita").css('display','none');
+   $(".btncontinuarcita2").css('display','none');
  
   }
 }
 
+function ValidarAntesListadoEspecialista() {
+  // body...
+  if (cacheespecialista.length>0) {
+    GoToPage("listadoespecialista");
+  }else{
+    
+    var aviso="Barberos no disponibles";
+    AbrirModalAviso(aviso);
+  }
+  
+
+}
 /*function DisponibilidadBarbero(idpaquete) {
 localStorage.setItem('idpaquete',idpaquete);
   ObtenerListadoEspecialista();

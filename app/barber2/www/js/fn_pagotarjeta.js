@@ -346,7 +346,7 @@ function PintarTarjetas(tarjetas,setlastcard=false) {
         ShowDiv("btnnextpage");
     }
     else {
-        html += `<div class="simple-list" style="color: white;">No tienes tarjetas guardas</div>`;
+        html += `<div class="simple-list" style="color: white;">(No tienes tarjetas guardadas)</div>`;
         //HideDiv("btnnextpage");
         SetLastCard(null);
         //LoadSetupIntent();       
@@ -499,8 +499,12 @@ function LoadSetupIntent(){
             /////GUARDAR TARJETA////
             button.addEventListener("click", function(event) {
               event.preventDefault();
-              //changeLoadingState(true);
+             
               var cardname = document.getElementById("v_cardholder-name").value;
+
+              //changeLoadingState(true);
+               const myPromise = new Promise((resolve, reject) => {
+        CrearModalEspera3(() => {
           
               stripe
                 .confirmCardSetup(setupIntent.client_secret, {
@@ -522,12 +526,19 @@ function LoadSetupIntent(){
                   } else {
 
                     dynamicSheet1.close();
+                    dynamicSheet2.close();
                     // The PaymentMethod was successfully set up
                     setupComplete(stripe, setupIntent.client_secret);
                     ObtenerTarjetasStripe(true);
                   }
                 });
             });
+
+             resolve("Modal cerrado después de realizar el cargo");
+            });
+
+        });
+        
 
         }, error: function (XMLHttpRequest, textStatus, errorThrown) {
             var error;

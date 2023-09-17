@@ -56,6 +56,7 @@
   },
   "devDependencies": {
     "cordova-android": "^12.0.1",
+    "cordova-ios": "^7.0.1",
     "cordova-plugin-call-number": "^1.0.1",
     "cordova-plugin-camera": "^6.0.0",
     "cordova-plugin-device": "^2.1.0",
@@ -63,7 +64,8 @@
     "cordova-plugin-firebasex": "^16.1.0",
     "cordova-plugin-media": "^6.1.0",
     "cordova-plugin-splashscreen": "^5.0.4",
-    "es6-promise-plugin": "^4.2.2"
+    "es6-promise-plugin": "^4.2.2",
+    "phonegap-plugin-barcodescanner-android12": "^8.1.2"
   },
   "dependencies": {
     "@starley/barcodescanner-sdk31": "^8.1.2"

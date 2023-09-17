@@ -1,3 +1,5 @@
+
+
 function ObtenerCategoriasProducto() {
 	var pagina = "ObtenerCategoriasProducto.php";
 	var id_user=localStorage.getItem('id_user');
@@ -86,6 +88,71 @@ function PintarCategoriaProducto(respuesta) {
 	}
 
 	$(".divproductosservicios").html(html);
+
+
+		if (totalelementoscategoriacalendario>categoriascache4.length) {
+						var html=`
+						 <div class="cargandopre" style="text-align: center;width:100%;">Cargando</div>
+       					<div class="preloader infinite-scroll-preloader"></div>
+						<div class="" style="margin-right: 1em;margin-left: 1em;width: 100%;">
+						         	 <button style="background: #C7AA6A; color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente faustina" onclick="CargarmasCategorias2()">
+						        	 Cargar más ...</button>
+						     		 </div>
+						`;
+						$(".btnpcatmas").append(html);
+
+
+
+					}
+}
+
+function CargarmasCategorias2() {
+	
+$$('.infinite-scroll-preloader').show();
+$$('.cargandopre').show();
+ setTimeout(() => {
+	var pagina = "ObtenerListaFiltroMostrar2.php";
+	var id_user=localStorage.getItem('id_user');
+	var idsucursal=localStorage.getItem('idsucursal');
+	var datos="iduser="+id_user+"&idsucursal="+idsucursal+"&inicio="+iniciocategoriacalendario;
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		async:false,
+		success: function(resp){
+			var respuesta=resp.respuesta;
+			 totalelementoscategoriacalendario=resp.totalelementos;
+			 iniciocategoriacalendario=resp.inicio;
+			
+			if (respuesta.length>0) {
+			categoriascache.push(respuesta);
+			console.log(respuesta);
+			PintarCategoriaProductodetalle(respuesta);
+				//ObtenerProductosSinCategoriaDetalle();
+				$$('.infinite-scroll-preloader').hide();
+				$$('.cargandopre').hide();
+				var ele=$(".tarjeta").length;
+				if (totalelementoscategoriacalendario==ele) {
+					$(".btnpcatmas").hide();
+				}
+
+
+			}else{
+
+				//ObtenerProductos();
+			}
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+	}, 2000);
 }
 
 function ObtenerProductosSinCategoria() {
@@ -239,7 +306,7 @@ function PintarProductosConCategoria(respuesta,div) {
 
 			html+=`
 
-				 <div class="tarjeta cambiarfuente" style="width:100%;margin-bottom: 10px;" id="tarjeta_`+respuesta[i].idpaquete+`">
+				 <div class="tarjeta cambiarfuente contadortarjeta2" style="width:100%;margin-bottom: 10px;" id="tarjeta_`+respuesta[i].idpaquete+`">
 		          <div class="card demo-card-header-pic" style="border-radius: 10px;">`;
 		         
 		         var classe="";
@@ -274,7 +341,7 @@ function PintarProductosConCategoria(respuesta,div) {
 		        html+=`  <div style="background-image:url(`+imagen+`);border-radius: 10px 10px 0px 0px;`+estiloimagen+`" onclick="`+funcion+`"
 		          class="card-header align-items-flex-end"></div>
 
-		        <div class="" style="display: flex;
+		        <div  onclick="`+funcion+`" class="" style="display: flex;
     				justify-content: center;
     				align-items: center;
     				text-align: center;
@@ -304,8 +371,89 @@ function PintarProductosConCategoria(respuesta,div) {
 
 	
 	$("."+div).append(html);
+
+
+	//aquiconsole.log('pro'+totalelementosproducto);
+	if (totalelementosproducto2>categoriascache5[0].length) {
+			var html=`
+				 <div class="cargandopre" style="text-align: center;width:100%;">Cargando</div>
+       			<div class="preloader infinite-scroll-preloader"></div>
+				<div class="" style="margin-right: 1em;margin-left: 1em;width: 100%;">
+					<button style="background: #C7AA6A; color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente faustina" onclick="CargarmasProductos2('`+div+`')">
+				Cargar más ...</button>
+				</div>
+						`;
+				$(".btnproductomas2").html(html);
+
+			}
 		
 	
+}
+
+function CargarmasProductos2(div) {
+	$(".cargandopre").show();
+	$(".infinite-scroll-preloader").show();
+	setTimeout(() => {
+	
+	var pagina = "ObtenerProductosCategoria.php";
+	var idsucursal=localStorage.getItem('idsucursal');
+	var id_user=localStorage.getItem('id_user');
+	var idcategoria=localStorage.getItem('idcategoria');
+	var datos="iduser="+id_user+"&idcategoria="+idcategoria+"&idsucursal="+idsucursal+"&inicio="+inicioconproducto;
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		async:false,
+		success: function(resp){
+			var respuesta=resp.respuesta;
+
+			//PintarProductosConCategoriadetalle(respuesta,div);
+			inicioconproducto=resp.inicio;
+			totalelementosproducto2=resp.totalelementos;
+			
+
+			//var idcategoriapadre=resp.idcategoriapadre;
+			if (respuesta.length>0) {
+
+				for (var i = 0; i <respuesta.length; i++) {
+					categoriascache5[0].push(respuesta[i]);
+				}
+			 	PintarProductosConCategoria(respuesta,div);
+			//idcategoriapadre=resp.idcategoriapadre;
+				//alert('ObtenerProductosCategoriasdetalle '+idcategoriapadre);
+				$(".cargandopre").hide();
+				$(".infinite-scroll-preloader").hide();
+
+			
+		}
+
+		
+
+		var contadortarjeta2=$(".contadortarjeta2").length;
+//aqui
+
+		if (totalelementosproducto2==contadortarjeta2) {
+			
+			$(".btnproductomas2").remove();
+
+			}
+
+		
+
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+
+		//}
+	}, 2000);
 }
 
 function DetalleSubCategoria(idcategoria) {
@@ -315,7 +463,83 @@ function DetalleSubCategoria(idcategoria) {
 
 function DetalleCategiaProducto(idcategoria) {
 	localStorage.setItem('idcategoria',idcategoria);
-	GoToPage('productoscategoria');
+		
+//AQUI 
+
+if (categoriascache5.length>0) {
+
+		var idcategoriaarray=categoriascache5[0][0].iddepende;
+
+		if (idcategoriaarray!=idcategoria) {
+
+			categoriascache5=[];
+		}
+	}
+
+
+	if (categoriascache5.length>0) {
+
+				GoToPage('productoscategoria');
+
+
+	}else{
+
+	var pagina = "ObtenerProductosCategoria.php";
+	var idsucursal=localStorage.getItem('idsucursal');
+	var id_user=localStorage.getItem('id_user');
+	var idcategoria=localStorage.getItem('idcategoria');
+	var datos="iduser="+id_user+"&idcategoria="+idcategoria+"&idsucursal="+idsucursal+"&inicio=0";
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		async:false,
+		success: function(resp){
+		var respuesta=resp.respuesta;
+
+			//PintarProductosConCategoriadetalle(respuesta,div);
+			inicioconproducto=resp.inicio;
+			totalelementosproducto2=resp.totalelementos;
+	
+
+			 idcategoriapadre=resp.idcategoriapadre;
+			if (respuesta.length>0) {
+			//idcategoriapadre=resp.idcategoriapadre;
+				//alert('ObtenerProductosCategoriasdetalle '+idcategoriapadre);
+
+			if (idcategoriapadre>0) {
+			//	localStorage.setItem('idcategoria',idcategoriapadre);
+			}
+		}
+
+		var contadortarjeta2=$(".contadortarjeta2").length;
+
+
+			if (categoriascache5.length==0) {
+				categoriascache5.push(respuesta);
+				
+				console.log(categoriascache5);
+				GoToPage('productoscategoria');
+
+				return 0;
+			}
+			//GoToPage('productoscategoria');
+
+		/*	var nombrecate=resp.categoria.nombre;
+			$(".titlecatalogo").text(nombrecate);
+*/
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+
+	}
+	
 }
 
 function ObtenerProductosCategorias(div) {
@@ -365,7 +589,7 @@ function ObtenerSubCategorias() {
 		data:datos,
 		async:false,
 		success: function(resp){
-				var respuesta=resp.respuesta;
+			var respuesta=resp.respuesta;
 			var categoriapadre=resp.idcategoriapadre;
 			var categoria=resp.categoria.nombre;
 			if (respuesta.length>0) {
@@ -443,9 +667,9 @@ function PintarSubCategoriaProducto(respuesta) {
 	}
 
 	if ($(".divsub")) {
-		$(".divsub").html(html);
+		$(".divsub").append(html);
 	}else{
-		$(".divproductosservicios").html(html);
+		$(".divproductosservicios").append(html);
 	}
 	
 
@@ -453,8 +677,8 @@ function PintarSubCategoriaProducto(respuesta) {
 }
 function ObtenerListaFiltroMostrar() {
 	var idsucursal=localStorage.getItem('idsucursal');
-	var datos="idsucursal="+idsucursal;
-	var pagina = "ObtenerListaFiltroMostrar.php";
+	var datos="idsucursal="+idsucursal+"&inicio=0";
+	var pagina = "ObtenerListaFiltroMostrar2.php";
 	$.ajax({
 		type: 'POST',
 		dataType: 'json',
@@ -462,11 +686,17 @@ function ObtenerListaFiltroMostrar() {
 		async:false,
 		data:datos,
 		success: function(resp){
-			var respuesta=resp.respuesta;
-			var categoria=resp.filtro;
 			
-			localStorage.setItem('idcategoria',categoria);
-			ObtenerSubCategorias();
+			 var respuesta=resp.respuesta;
+			 totalelementoscategoriacalendario=resp.totalelementos;
+			 iniciocategoriacalendario=resp.inicio;
+			 idcategoriapadre=0;
+			 categoriascache4=respuesta;
+
+			//PintarSubCategoriaProducto(respuesta);
+
+			/*localStorage.setItem('idcategoria',categoria);*/
+			//ObtenerSubCategorias();
 			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;
 				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 

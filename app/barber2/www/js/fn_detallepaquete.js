@@ -1017,7 +1017,7 @@ function AgregarAcesta(idpaquete,promocion,cantidad,considerar,nombreproducto,po
 
 
 function AbrirModalPaquete(idpaquete,promocion,cantidad,considerar,nombreproducto,porfechas,directo,repetitivo,lunes,martes,miercoles,jueves,viernes,sabado,domingo,aplicariva,ivaaumentar) {
-  var aviso="¿Desea agregar "+nombreproducto+" al carrito de compras?";
+  var aviso="¿Desea agregar <span style='color:white;'>"+nombreproducto+"</span> al carrito de compras?";
   var parrafo="<p class='cambiarfuente' style='font-size:30px;line-height:1;'>"+aviso+"</p>";
    
 
@@ -3311,8 +3311,10 @@ function CerrarModal() {
 
 function PintarImagenesPaquete(paquete,imagenesdelpaquete) {
 	var estilo="";
-		if (paquete.foto!='' && paquete.foto!=null) {
-		imagen=urlimagenes+'paquetes/imagenespaquete/'+codigoserv+paquete.foto;
+	
+		if (paquete.foto2!='' && paquete.foto2!=null) {
+		imagen=urlimagenes+'paquetes/imagenespaquete/'+codigoserv+paquete.foto2;
+
 	}else{
 				estilo="opacity:0.2";
 
@@ -3353,8 +3355,8 @@ function PintarImagenesPaquete(paquete,imagenesdelpaquete) {
                         </div>
                         <div class="card-content" style="margin-right: 1em;margin-left: 1em;"> `;
 
-                        if (paquete.foto!='' && paquete.foto!=null) {
-                        	imagen=urlimagenes+`paquetes/imagenespaquete/`+codigoserv+paquete.foto;
+                        if (paquete.foto2!='' && paquete.foto2!=null) {
+                        	imagen=urlimagenes+`paquetes/imagenespaquete/`+codigoserv+paquete.foto2;
 
                         }else{
 

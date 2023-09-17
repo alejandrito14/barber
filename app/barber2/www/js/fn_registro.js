@@ -243,6 +243,7 @@ function Registrar() {
    			localStorage.setItem('pregunta',0);
 			localStorage.setItem('habilitarfactura','0');
 			localStorage.setItem("fechanacimiento",v_fecha);
+			localStorage.setItem('idtipousuario',3);
 			//localStorage.setItem("genero",v_sexo);
 
 			

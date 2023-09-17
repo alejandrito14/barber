@@ -17,7 +17,7 @@ geocoder = "";
  promResuelta.then(
     // Registrar el valor de la promesa cumplida
        function() {
-        Marcar(longitud,latitud);
+        //Marcar(longitud,latitud);
     }) .catch(
     // Registrar la razón del rechazo
     function(reason) {
@@ -58,19 +58,16 @@ function initMap2() {
  
 }
 
-
 function ColocarMapa() {
-       //alert('aq2');
-
+       var coordinates = {
+        lat:parseFloat(latitud),
+        lng:parseFloat(longitud)
+      };
       var mapOptions = {
               // How zoomed in you want the map to start at (always required)
-              zoom: 6,
-              mapTypeControl: false,
-             // disableDefaultUI: true,
-              //disableDoubleClickZoom: true,
-              scrollwheel: false,
-              // The latitude and longitude to center the map (always required)
-              center: new google.maps.LatLng(20.8688, -100.2195),
+              zoom: 14,
+              center: coordinates,
+              scrollwheel: false
 
               // How you would like to style the map. 
               // This is where you would paste any style found on Snazzy Maps.
@@ -78,12 +75,30 @@ function ColocarMapa() {
           };
    map = new google.maps.Map(document.getElementById('map'),mapOptions);
 
-      map.addListener("click",(e) => {
+     /* map.addListener("click",(e) => {
         
    placeMarkerAndPanTo(e.latLng, map);
   });
+*/
+      
+      console.log(coordinates);
+    var marker = new google.maps.Marker({
+    position: coordinates,
+    map: map,
+    /*icon: {
+      labelOrigin: new google.maps.Point(75, 32),
+      size: new google.maps.Size(32, 32),
+      anchor: new google.maps.Point(16, 32)
+    },*/
+    /*label: {
+      text: "5409 Madison St",
+      color: "#C70E20",
+      fontWeight: "bold"
+    }*/
+  });
 
-              geocoder = new google.maps.Geocoder();
+
+             // geocoder = new google.maps.Geocoder();
 
 }
 
@@ -337,8 +352,10 @@ function Marcar(longitude,latitude) {
 
 }
 
-function PintarMapa() {
+function PintarMapa(longit,lat) {
   $(document).ready( function () {
+      latitud=lat;
+      longitud=longit;
        window.google = {};
      // alert('aq1');
         var script = document.createElement("script");

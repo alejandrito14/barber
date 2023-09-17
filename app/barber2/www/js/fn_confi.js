@@ -491,7 +491,19 @@ function getConfiguracion() {
 
     	localStorage.setItem('avatarhombre',datos.respuesta.avatarhombre);
     	localStorage.setItem('avatarmujer',datos.respuesta.avatarmujer);
+    	var facebook=datos.respuesta.facebook;
+    	var instagram=datos.respuesta.instagram;
+    	
+    	if (facebook!='') {
 
+    		 $(".divfacebook").attr('onclick','AbrirRutafa(\''+facebook+'\')')
+
+    	}
+    	if (instagram!='') {
+
+    		$(".divinstagram").attr('onclick','AbrirRutafa(\''+instagram+'\')')
+	
+    	}
 
 		},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 			var error;
@@ -505,6 +517,23 @@ function getConfiguracion() {
 
     })
 }
+
+var inAppBrowserRef;
+
+function AbrirRuta(url) {
+
+var inAppBrowserRef;
+var target = "_blank";
+var options = "location=yes,hidden=no,enableViewportScale=yes,toolbar=no,hardwareback=yes";
+inAppBrowserRef = cordova.InAppBrowser.open(url, target, options); 
+
+}
+function AbrirRutafa(url) {
+
+window.open(''+url, '_system');
+
+}
+
 
 function GuardarVersionActual() {
 	

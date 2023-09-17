@@ -45,44 +45,44 @@
 <div id="app">
     
 	
-  <div class="menu" id="menu" >
+  <div class="menu menuelemento" id="menu" >
 
-  	<div class="logo"> 
+  	<div class="logo menuelemento" > 
   		<img class="imagenempresa" style="height: 150px;display: flex;/* width: 150px; */justify-content: center;margin: 0px auto;margin-left: 120px;" src="" alt="">	
 
   	</div>
-    <ul style="margin-left: 100px;">
-      <li >
+    <ul style="margin-left: 100px;" class="">
+      <li class="linegocios">
       	<a class="limenu" data-menu="negocios" href="#">Negocios</a>
       </li>
-      <li >
+      <li class="licitas">
       	<a class="limenu" data-menu="citas" href="#">Mis citas</a>
       </li>
-      <li ><a class="limenu" data-menu="miscompras" href="#">
+      <li class="limiscompras"><a class="limenu" data-menu="miscompras" href="#">
       Mis compras</a>
   	  </li>
-      <li><a class="limenu" data-menu="miperfil" href="#">Mi perfil</a></li>
-      <li class="lilogin">
-      	<a class="limenu" data-menu="login" href="#">Login</a>
+      <li class="liperfil"><a class="limenu" data-menu="miperfil" href="#">Mi perfil</a></li>
+      <li class="lilogin ">
+      	<a class="limenu " data-menu="login" href="#">Login</a>
       </li>
 
-       <li >
-      	<a class="limenu" data-menu="salir" href="#">Salir</a>
+       <li class="lisalir">
+      	<a class="limenu " data-menu="salir" href="#">Salir</a>
       </li>
     </ul>
-    <div>
-    	<p style="border-bottom: 0.4px solid black;text-align: center;/* margin-left: 100px; */width: 320px;"></p>
+    <div class="menuelemento">
+    	<p class="menuelemento" style="border-bottom: 0.4px solid black;text-align: center;/* margin-left: 100px; */width: 320px;"></p>
     </div>
 
-    <p style="text-align: center;font-size: 14px; margin-left: 100px;color:black;">Nuestras redes</p>
+    <p style="text-align: center;font-size: 14px; margin-left: 100px;color:black;" class="menuelemento">Nuestras redes</p>
 
 
-    <div class="" style="width: 100%;justify-content: center;display: flex;margin-left: 100px;">
-    	<div class="" style="width: 20%;float: right;">
-    		<img src="img/facebook.png" alt="" style="width: 30px;margin-left: 20px;">
+    <div class="menuelemento" style="width: 100%;justify-content: center;display: flex;margin-left: 100px;">
+    	<div class="menuelemento divfacebook" style="width: 20%;float: right;">
+    		<img class="menuelemento" src="img/facebook.png" alt="" style="width: 30px;margin-left: 20px;">
     	</div>
-    	<div class="" style="width: 50%;">
-    		<img src="img/instagram.png" alt="" style="width: 30px;">
+    	<div class="menuelemento divinstagram" style="width: 50%;">
+    		<img class="menuelemento" src="img/instagram.png" alt="" style="width: 30px;">
 
     	</div>
     </div>
@@ -182,7 +182,9 @@
 <script src="js/fn_lectorqr.js"></script>
 <!-- subir foto y perfil
  -->
- <script src="js/detalleproductoservicios.js"></script>
+<!--  <script src="js/detalleproductoservicios.js"></script> -->
+
+<script src="js/productosservicios.js"></script>
 
  <script src="js/fn_perfil.js"></script>
 <script src="js/fotoperfil.js"></script>
@@ -227,6 +229,9 @@
 
 
 	app.on('click', function(event) {
+
+		console.log(event);
+	  if (event.target.className !== "menuelemento") {
 	  	if (abierto==1) {
 			$(".menu").animate({left:'-400px',
 				
@@ -237,7 +242,7 @@
 	     
 	      abierto=0;
 	     // menu.style.left = "0";
-
+	 }
 
 	  	}
 	  	

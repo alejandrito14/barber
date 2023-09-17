@@ -20,6 +20,13 @@ function SeleccionMenu(objeto) {
      GoToPage('login');
 
   }
+
+
+  if (menu=='negocios') {
+    
+     GoToPage('home');
+
+  }
 }
 
 function toggleMenu() {

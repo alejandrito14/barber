@@ -27,6 +27,11 @@ class Cita
 	public $idusuariocheckin;
 	public $idcortesia;
 
+	public $cancelacion;
+	public $fechacancelacion;
+	public $motivocancelacion;
+	public $idusuariocancela;
+
 	public function ObtenerCitasUsuario()
 	{
 		$fechactual=date('Y-m-d');
@@ -46,6 +51,8 @@ class Cita
 			citas.idusuarios,
 			citas.idcita,
 			citas.checkin,
+			citas.checkout,
+			citas.cancelacion,
 			citas.fechacheckin,
 
 			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreespecialista
@@ -224,6 +231,7 @@ class Cita
 			sucursal.imagen,
 			sucursal.ubicacion,
 			sucursal.celular,
+			sucursal.telefono,
 			usuarios.nombre,
 			usuarios.paterno,
 			citas.idpaquete,
@@ -233,6 +241,8 @@ class Cita
 			citas.costo,
 			citas.idcita,
 			citas.checkin,
+			citas.checkout,
+			citas.cancelacion,
 			citas.idcortesia,
 			citas.fechacheckin,
 			(SELECT paquetes.nombrepaquete from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as concepto,
@@ -339,6 +349,8 @@ class Cita
 			citas.idusuarios,
 			citas.costo,
 			citas.checkin,
+			citas.checkout,
+			citas.cancelacion,
 			citas.fechacheckin,
 			citas.finalizacita,
 			citas.tiempotranscurrido,
@@ -442,6 +454,8 @@ class Cita
 			citas.costo,
 			citas.idcita,
 			citas.checkin,
+			citas.checkout,
+			citas.cancelacion,
 			citas.fechacheckin,
 			(SELECT paquetes.nombrepaquete from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as concepto
 
@@ -684,7 +698,10 @@ class Cita
 			citas.idusuarios,
 			citas.idcita,
 			citas.checkin,
+			citas.checkout,
 			citas.fechacheckin,
+			citas.cancelacion,
+			citas.finalizacita,
 			DATE_FORMAT(citas.fechacita,'%Y-%m-%d')as fecha,
 			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreespecialista
 		FROM citas INNER JOIN  especialista ON especialista.idespecialista=citas.idespecialista
@@ -1001,6 +1018,54 @@ class Cita
 		}
 		
 		return $array;
+	}
+
+
+	public function BuscarCitaNotapagodescripcion()
+	{
+		
+		$sql="
+		SELECT c.*,citas.idsucursal FROM notapago_descripcion as c
+		LEFT JOIN citas on c.idcita=citas.idcita
+		 WHERE c.idcita='$this->idcita'
+
+		";
+		
+		
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+
+	}
+
+
+	public function CancelarCita()
+	{
+		 $sql = "UPDATE citas 
+        SET estatus = '$this->estatus',
+        fechacancelacion='$this->fechacancelacion',
+        cancelacion='$this->cancelacion',
+        motivocancelacion='$this->motivocancelacion',
+        idusuariocancelacion='$this->idusuariocancela'
+        WHERE idcita = '$this->idcita'
+
+        ";
+
+      
+        $this->db->consulta($sql);
 	}
 
 

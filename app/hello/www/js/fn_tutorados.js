@@ -87,7 +87,15 @@ VerificarexisteCorreoTutorado(v_correotu,v_idtu).then(r => {
 		
 			alerta('','Registro guardado correctamente');
 
-			GoToPage('registrotutorados');
+		var registro=localStorage.getItem('registro');
+			if (registro==1) {
+				GoToPage('registrotutorados');
+			}else{
+
+				GoToPage('registroasociados');
+			}
+
+			
 
 		},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 			var error;
@@ -300,6 +308,29 @@ VerificarexisteCorreoTutorado(v_correotu,v_idtu).then(r => {
 
 }
 
+function ObtenerAsociados() {
+		var id_user=localStorage.getItem('id_user')
+		var pagina = "ObtenerAsociados.php";
+		var datos="id_user="+id_user;
+		$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		async:false,
+		success: function(datos){
+			PintarAsociados(datos.respuesta);
+
+		},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			var error;
+				if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+				//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+				console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+		}
+
+	});
+}
 
 
 
@@ -346,12 +377,19 @@ function PintarTutorados(respuesta) {
     <div class="row margin-bottom-half"><div class="col">
 	    <p class="small text-muted no-margin-bottom">
 	    </p>
-	    <p>`+respuesta[i].nombre+` `+respuesta[i].paterno+` `+respuesta[i].materno+`</p>
-	    </div>
+	    <p>`+respuesta[i].nombre+` `+respuesta[i].paterno+` `+respuesta[i].materno+`</p>`;
+	   var asociado=0;
+	    if (respuesta[i].celular!='' && respuesta[i].celular!=undefined) {
+	    	html+=`<p>`+respuesta[i].celular+`</p>`;
+	  	    asociado=1;
+
+	    }
+	   
+	   html+=`</div>
 
 	     <div class="col-auto" style="text-align: right;">
 	   	    <span class="" style="float: left;padding: .5em;" onclick="EditarTutorado(`+respuesta[i].idusuarios+`)"><i class="bi-pencil-fill"></i> </span>
-	    	<span class="" style="float: left;padding: 0.5em;" onclick="EliminarTutorado(`+respuesta[i].idusuarios+`);"><i class="bi-x-circle-fill"></i></span>
+	    	<span class="" style="float: left;padding: 0.5em;" onclick="EliminarTutorado(`+respuesta[i].idusuarios+`,`+asociado+`);"><i class="bi-x-circle-fill"></i></span>
 	    			</div>
 	    			</div>
     			</div>
@@ -394,10 +432,90 @@ function PintarTutorados(respuesta) {
 	$(".listado").html(html);
 }
 
+
+function PintarAsociados(respuesta) {
+	var html="";
+	if (respuesta.length>0) {
+		for (var i = 0; i <respuesta.length; i++) {
+			html+=`
+			<div class="col-100 medium-33 large-50 elemento" style="    margin-top: 1em;
+    margin-bottom: 1em;" id="elemento_`+respuesta[i].idusuario+`"><div class="card">
+    <div class="card-content card-content-padding ">
+    <div class="row">
+	    <div class="col-auto align-self-center">
+		    <div class="avatar avatar-40 alert-danger text-color-red rounded-circle">
+		    <i class="bi bi-person-circle"></i>
+
+		    </div>
+	    </div>
+    <div class="col align-self-center no-padding-left">
+    <div class="row margin-bottom-half"><div class="col">
+	    <p class="small text-muted no-margin-bottom">
+	    </p>
+	    <p>`+respuesta[i].nombre+` `+respuesta[i].paterno+` `+respuesta[i].materno+`</p>`;
+	    var asociado=0;
+	    if (respuesta[i].celular!='' && respuesta[i].celular!=undefined) {
+	    	html+=`<p>`+respuesta[i].celular+`</p>`;
+	   	asociado=1;
+	    }
+	   
+	   html+=`</div>
+
+	     <div class="col-auto" style="text-align: right;">
+	   	    <span class="" style="float: left;padding: .5em;" onclick="EditarAsociado(`+respuesta[i].idusuarios+`)"><i class="bi-pencil-fill"></i> </span>
+	    	<span class="" style="float: left;padding: 0.5em;" onclick="EliminarTutorado(`+respuesta[i].idusuarios+`,`+asociado+`);"><i class="bi-x-circle-fill"></i></span>
+	    			</div>
+	    			</div>
+    			</div>
+    		</div>
+    	</div>
+   	 </div>
+    </div>
+		`;
+		}
+	}else{
+
+		html+=`
+			<div class="col-100 medium-33 large-50" style="    margin-top: 1em;
+    margin-bottom: 1em;"><div class="card">
+    <div class="card-content card-content-padding ">
+    <div class="row">
+	    <div class="col-auto align-self-center">
+		    <div class="avatar avatar-40 alert-danger text-color-red rounded-circle">
+		    </div>
+	    </div>
+    <div class="col align-self-center no-padding-left">
+    <div class="row margin-bottom-half"><div class="col">
+	    <p class="small text-muted no-margin-bottom">
+	    </p>
+	    <p>No tienes asociados registrados</p>
+	    </div><div class="col-auto text-align-right">
+	    <p class="small text-muted no-margin-bottom"></p>
+	    	<p class="small"></p></div>
+	    			</div>
+    			</div>
+    		</div>
+    	</div>
+   	 </div>
+    </div>
+		`;
+
+	}
+
+
+	$(".listado").html(html);
+}
 function EditarTutorado(idusuario) {
 
 localStorage.setItem('idtutorado',idusuario)
 GoToPage('nuevotutorado');
+
+}
+
+function EditarAsociado(idusuario) {
+
+localStorage.setItem('idtutorado',idusuario)
+GoToPage('nuevoasociado');
 
 }
 
@@ -430,6 +548,8 @@ function Obtenerdatostutorado(idusuario) {
 }
 
 function PintarDatosRegistroTutorado(respuesta) {
+	$$(".lifechanacimientotu").css('display','block');
+
 	$("#v_idtu").val(respuesta.idusuarios);
 	$("#v_nombretu").val(respuesta.nombre);
 	$("#v_paternotu").val(respuesta.paterno);
@@ -446,12 +566,44 @@ if (respuesta.sututor==1) {
 	if (respuesta.sincel==1) {
 		$("#inputsincelular").prop('checked',true);
 	}
-	SoyTutor();
-	SinCelular();
+	//SoyTutor();
+	//SinCelular();
+	
 	localStorage.removeItem('idtutorado');
+
+
+	$("#v_nombretu").css('color','gray');
+	$("#v_nombretu").css('color','gray');
+	$("#v_paternotu").css('color','gray');
+	$("#v_maternotu").css('color','gray');
+	$("#v_fechatu").css('color','gray');
+	$("#v_sexotu").css('color','gray');
+	$("#v_celulartu").css('color','gray');
+
+	$("#v_celulartu").attr('disabled',true);
+	$("#v_nombretu").attr('disabled',true);
+	$("#v_paternotu").attr('disabled',true);
+	$("#v_maternotu").attr('disabled',true);
+	$("#v_fechatu").attr('disabled',true);
+	$("#v_sexotu").prop('disabled','disabled');
+	$(".input-clear-button").css('display','none');
+
+	$(".linombretu").addClass('item-input-with-value');
+	$(".lipaternotu").addClass('item-input-with-value');
+	$(".limaternotu").addClass('item-input-with-value');
+	$(".lifechanacimientotu").addClass('item-input-with-value');
+	$(".licelulartu").addClass('item-input-with-value');
+
+	  ObtenerParentesco(respuesta.idparentesco);
+
 }
-function EliminarTutorado(idusuario) {
-	app.dialog.confirm('','¿Seguro de eliminar tutorado?', function () {
+function EliminarTutorado(idusuario,tipo) {
+	if (tipo==1) {
+		asociado="asociado";
+	}else{
+		asociado="tutorado";
+	}
+	app.dialog.confirm('','¿Seguro de eliminar '+asociado+'?', function () {
        
 	    $(".elemento").each(function(){
 	    	var id=$(this).attr('id');
@@ -471,7 +623,15 @@ function EliminarTutorado(idusuario) {
 		success: function(datos){
 
 			if (datos.respuesta==1) {
+
+				 var registro=localStorage.getItem('registro');
+     		 if (registro==1) {
 				ObtenerTutorados();
+
+				}else{
+					ObtenerAsociados();
+
+				}
 				
 			}
 			if (datos.respuesta==2) {
@@ -531,12 +691,10 @@ function VerificarSiExisteTuTorados() {
 		type: 'POST',
 		dataType: 'json',
 		url: urlphp+pagina,
-		crossDomain: true,
-		cache: false,
 		data:datos,
 		success: function(res){
 			var respuesta=res.respuesta;
-
+			
 			if (respuesta.length>0) {
 				$(".divserviciostutorados").css('display','block');
 				PintarSelecttutorados(respuesta);
@@ -556,72 +714,6 @@ function VerificarSiExisteTuTorados() {
 		});
 }
 
-/*
-function PintarSelecttutorados(respuesta) {
-	var html="";
-	if (respuesta.length>0) {
-
-		for (var i =0; i < respuesta.length; i++) {
-
-			if (respuesta[i].foto!='' && respuesta[i].foto!=null && respuesta[i].foto!='null') {
-
-				urlimagen=urlphp+`upload/perfil/`+respuesta[i].foto;
-				imagen='<img src="'+urlimagen+'" alt="" />';
-				}else{
-
-
-				if (respuesta[i].sexo=='M') {
-
-					urlimagen=urlphp+`imagenesapp/`+localStorage.getItem('avatarmujer');
-	
-				}else{
-					urlimagen=urlphp+`imagenesapp/`+localStorage.getItem('avatarhombre');
-		
-				}
-
-					imagen='<img src="'+urlimagen+'" alt=""  />';
-				}
-
-			html+=`
-
-			<div class="row" style="margin-bottom: 1em;">
-                                <div class="col-auto">
-                                    <div class="form-check avatar">
-                                       
-                                        <label for="contact11" class="avatar avatar-44 elevation-2 rounded-10">
-                                           `+imagen+`
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col align-self-center ">
-                                    <p class="no-margin-bottom text-color-theme">`+respuesta[i].nombre+' '+respuesta[i].paterno+` `+respuesta[i].materno+`</p>
-                                    <p class="text-muted size-12"></p>
-                                </div>
-                                 <div class="col">`;
-                                 if (respuesta[i].chat==1) {
-                                 html+=`<a onclick="Tutoradochat(`+respuesta[i].idusuarios+`)" class="button button-fill button-44 color-theme button-raised" style="width:100px;">
-                                        <i class="bi bi-chat-text" style="margin-right: 2px;"></i>Chat
-                                        <span class="numeros numerochattuto" id="numerochattuto" style="width: 25px;height: 25px;
-    right: 0;justify-content: center;display: flex;align-items: center;">`+respuesta[i].cantidadchat+`</span>
-                                   	   </a>`;
-                                }
-
-                              html+=`  </div>
-                                <div class="col">
-                                    <a onclick="InformacionTutorado(`+respuesta[i].idusuarios+`)" class="button button-fill button-44 color-theme button-raised" style="width:100px;">
-                                        <i class="bi bi-arrow-up-right-circle" style="margin-right: 2px;"></i>Servicios
-                                    </a>
-                                </div>
-                            </div>
-
-
-			`;
-
-		}
-	}
-
-	$(".listatutorados").html(html);
-}*/
 
 
 function PintarSelecttutorados(respuesta) {
@@ -663,6 +755,7 @@ function PintarSelecttutorados(respuesta) {
                             </div>
                             <div class="col no-padding-horizontal align-self-center">
                                 <h3 class="no-margin-bottom text-color-theme">`+respuesta[i].nombre+' '+respuesta[i].paterno+` `+respuesta[i].materno+`</h3>
+                            	<p class="no-margin-bottom text-color-theme">`+respuesta[i].parentesco+`</p>
                             </div>
                         </div>
                     </div>
@@ -672,20 +765,56 @@ function PintarSelecttutorados(respuesta) {
                         </p>
                         <div class="row">
                             <div class="col" style="justify-content: center;display: flex;align-items: center;">
-                                <a onclick="InformacionTutorado(`+respuesta[i].idusuarios+`)" class="button button-fill button-44 color-theme button-raised" style="width:100px;">
+                                <a onclick="InformacionTutorado(`+respuesta[i].idusuarios+`,1)" class="button button-fill button-44 color-theme button-raised" style="width:60px;">
                                         <i class="bi bi-calendar-check" style="margin-right: 2px;"></i>
-                                    </a>
-                            </div>
-                            <div class="col" style="justify-content: center;display: flex;align-items: center;">`;
-                                html+=`<a onclick="Tutoradochat(`+respuesta[i].idusuarios+`)" class="button button-fill button-44 color-theme button-raised" style="width:100px;">
+                                    </a>`;
+ 							if (respuesta[i].contadorasignados>0) {
+
+ 				               html+=`<span class="numeros  numero2" id="">`+respuesta[i].contadorasignados+`</span>`;
+				
+ 							}
+  							/* asignados*/
+                           html+= `</div>
+
+                            <div class="col" style="justify-content: center;display: flex;align-items: center;">
+                                <a onclick="InformacionTutorado(`+respuesta[i].idusuarios+`,2)" class="button button-fill button-44 color-theme button-raised" style="width:60px;">
+                                        <i class="bi bi-card-checklist" style="margin-right: 2px;"></i>
+                                    </a>`;
+                                    if (respuesta[i].contadorasignadospendientes>0) {
+                                    html+=`  <span class="numeros  numero2" id="">`+respuesta[i].contadorasignadospendientes+`</span>`;
+      	
+                                    }
+                                /* pendientes*/
+
+                           html+=` </div>
+                            	<div class="col" style="justify-content: center;display: flex;align-items: center;">
+                                	<a onclick="InformacionTutorado(`+respuesta[i].idusuarios+`,3)" class="button button-fill button-44 color-theme button-raised" style="width:60px;">
+                                        <i class="bi bi-card-heading" style="margin-right: 2px;"></i>
+                                    </a>`;
+
+                                    if (respuesta[i].contadorActivos>0) {
+                             html+=`<span class="numeros  numero2" id="">`+respuesta[i].contadorActivos+`</span>`;
+      	
+                                    }
+                                      
+                         html+=`</div>
+
+                         </div>
+
+                         <div class="row">
+                            <div class="col-100" style="justify-content: center;display: flex;align-items: center;    margin-top: 1em;margin-left: 0.6em;margin-right: 0.6em;">`;
+                                html+=`<a onclick="Tutoradochat(`+respuesta[i].idusuarios+`)" class="button button-fill button-44 color-theme button-raised" style="width:100%;">
                                         <i class="bi bi-chat-text" style="margin-right: 2px;"></i>`;
                                 	if (respuesta[i].cantidadchat>0) {
-                                 html+=`<span class="numeros numerochattuto" id="numerochattuto" style="width: 25px;height: 25px;
-    right: 0;justify-content: center;display: flex;align-items: center;">`+respuesta[i].cantidadchat+`</span>
+                                 html+=`
+
+                               <span class="numeros  numero2" id="">`+respuesta[i].cantidadchat+`</span>
 
                                    	   `; 
 
                                    	}
+
+
                            html+=`</a> </div>
                         </div>
                     </div>
@@ -700,14 +829,20 @@ function PintarSelecttutorados(respuesta) {
 	$(".listatutorados").html(html);
 }
 
-function InformacionTutorado(idusertutorado) {
+function InformacionTutorado(idusertutorado,filtro) {
 	var idusuarioresp=localStorage.getItem('id_user');
 	localStorage.setItem('iduserrespaldo',idusuarioresp);
 	localStorage.setItem('idusuertutorado',idusertutorado);
 	localStorage.setItem('id_user',idusertutorado);
+	localStorage.setItem('filtrotuto',filtro);
 	GoToPage('listadotutoservicios');
 
 }
+
+
+
+
+
 
 function Tutoradochat(idusertutorado) {
 

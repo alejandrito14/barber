@@ -108,7 +108,7 @@ function CargarFechasNuevoServicio() {
             monthYearChangeStart: function (c) {
             $('.calendar-custom-toolbar .center').text(monthNames[c.currentMonth] + ', ' + c.currentYear);
              //$('.current-month-value').text(monthNames[c.currentMonth] + ' ' + c.currentYear);
-             console.log('entro');
+             //console.log('entro');
 
           },
 
@@ -249,13 +249,14 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
 			  			if (r[i].horasposibles[0][j].disponible==1 && r[i].horasposibles[0][j].horafinal!=null) {
 			  				var fecha=r[i].fecha.split('-');
 			  				var fechaformada=fecha[2]+'-'+fecha[1]+'-'+fecha[0];
-			  		
+			  					  				var fechaformada3=fecha[0]+'-'+fecha[1]+'-'+fecha[2];
+
 			  				var fechaformada2=fecha[2]+'-'+fecha[1]+'-'+fecha[0]+'-'+r[i].horasposibles[0][j].horainicial.slice(0,5)+`-`+r[i].horasposibles[0][j].horafinal.slice(0,5) +'-'+r[i].idzona;
 
 			  				if (!BuscarfechaenArrayElegidos(fechaformada2)) {
 			  			htmlhorarios +=`
 			  			<div class="col-100 horarios zonadiv_`+r[i].idzona+`">
-				        <div class="card shadow-sm margin-bottom-half inputdia" id="`+fechaformada+'-'+r[i].horasposibles[0][j].horainicial.slice(0,5)+`-`+r[i].horasposibles[0][j].horafinal.slice(0,5) +'-'+r[i].idzona+`" >
+				        <div class="card shadow-sm margin-bottom-half inputdia" id="`+fechaformada3+'-'+r[i].horasposibles[0][j].horainicial.slice(0,5)+`-`+r[i].horasposibles[0][j].horafinal.slice(0,5) +'-'+r[i].idzona+`" >
 				          <div class="card-content card-content-padding">
 				            <div class="row">
 				              <div class="col-auto no-padding-horizontal">
@@ -271,7 +272,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
 				              </div>
 				              <div class="col-20">
 
-				              <span class="bi bi-check-lg" id="ch_`+fechaformada+'-'+r[i].horasposibles[0][j].horainicial.slice(0,5)+`-`+r[i].horasposibles[0][j].horafinal.slice(0,5) +'-'+r[i].idzona+`"  style="display:none;"  ></span>
+				              <span class="bi bi-check-lg" id="ch_`+fechaformada3+'-'+r[i].horasposibles[0][j].horainicial.slice(0,5)+`-`+r[i].horasposibles[0][j].horafinal.slice(0,5) +'-'+r[i].idzona+`"  style="display:none;"  ></span>
 				              </div>
 				            </div>
 				          </div>
@@ -1410,19 +1411,19 @@ function AplicarFechas() {
 	if (v_fechainicial!='' && v_fechafinal!='' ) {
 		if (arraydiaselegidos.length>0) {
 
- 		ObtenerVerificarFechasDias(v_fechainicial,v_fechafinal,arraydiaselegidos).then(r => {
+ 		/*ObtenerVerificarFechasDias(v_fechainicial,v_fechafinal,arraydiaselegidos).then(r => {
  			console.log(r.noseencuentra);
  			if (r.noseencuentra.length>0) {
 
  				MensajeMostrar(r.noseencuentra);
  				
- 			}else{
+ 			}else{*/
  				HorariosDisponibles();
 				$("#demo-calendar").css('display','block');
 
- 			}
+ 			//}
 
- 		})
+ 		//})
 
 		}else{
 		HorariosDisponibles();
@@ -1498,7 +1499,7 @@ function EliminarHorariosFueraPeriodo(noseencuentra) {
 
 		for (var i = 0; i < noseencuentra.length; i++) {
  				for (var j = 0; j < arraydiaseleccionados.length; j++) {
- 					console.log(noseencuentra[i]+'=='+arraydiaseleccionados[j].id);
+ 					//console.log(noseencuentra[i]+'=='+arraydiaseleccionados[j].id);
  					if (noseencuentra[i] == arraydiaseleccionados[j].id) {
  						//EliminarHorario(noseencuentra[i]);
  						BorrarElemento(noseencuentra[i]);
@@ -1519,10 +1520,18 @@ function HorariosDisponibles() {
 
 
 
-
+	//console.log(arraydiaselegidos);
 	var v_zonas=[];
-	arraydiaselegidos=[];
-	arraydiaseleccionados=[];
+	//arraydiaselegidos=[];
+	//arraydiaseleccionados=[];
+
+	 var v_zonas = [];
+	  $$('#v_zonas option:checked').each(function () {
+	  	
+	  		v_zonas.push($$(this).val());
+	    
+	  });
+
 	var domingo=0,lunes=0,martes=0,miercoles=0,jueves=0,Viernes=0,sabado=0;
 	
 		if($("#Domingo").is(':checked')){
@@ -1553,16 +1562,17 @@ function HorariosDisponibles() {
 
 			 sabado=1;
 		}	
-
+	var v_zonaelegida=$("#v_zonas").val();
+	var v_horarios=$("#v_horarios").val();
 	var v_categoria=$("#v_categoriaservicio").val();
 	var v_tipocategoria=$("#v_categoria").val();
 	var v_fechainicial=$("#v_fechainicial").val();
 	var v_fechafinal=$("#v_fechafinal").val();
 
-		var datos="domingo="+domingo+"&lunes="+lunes+"&martes="+martes+"&miercoles="+miercoles+"&jueves="+jueves+"&viernes="+Viernes+"&sabado="+sabado+"&v_categoria="+v_categoria+"&v_tipocategoria="+v_tipocategoria+"&v_fechainicial="+v_fechainicial+"&v_fechafinal="+v_fechafinal+"&v_zonas="+v_zonas;
+		var datos="domingo="+domingo+"&lunes="+lunes+"&martes="+martes+"&miercoles="+miercoles+"&jueves="+jueves+"&viernes="+Viernes+"&sabado="+sabado+"&v_categoria="+v_categoria+"&v_tipocategoria="+v_tipocategoria+"&v_fechainicial="+v_fechainicial+"&v_fechafinal="+v_fechafinal+"&v_zonas="+v_zonaelegida+"&v_horarios="+v_horarios;
 
 			$.ajax({
-					url: urlphp+'ObtenerHorariosFechas.php', //Url a donde la enviaremos
+					url: urlphp+'ObtenerHorariosFechas2.php', //Url a donde la enviaremos
 					type: 'POST', //Metodo que usaremos
 					data:datos,
 					dataType:'json', 
@@ -1580,9 +1590,11 @@ function HorariosDisponibles() {
 						anioinicial=dividirfechaini[0];
 						mesinicial=(dividirfechaini[1].replace(/^(0+)/g, '')-1);
 						 var fechas=msj.arrayfechasdias[0];
-						 zonasarray=msj.zonas;
-
+						 zonasarray = msj.zonas;
+					
 						 var respuesta=msj.respuesta;
+
+						 console.log(respuesta);
 						 fechasglobal2=respuesta;
 						eventos=[];
 						 if (respuesta.length>0) {
@@ -1611,6 +1623,67 @@ function HorariosDisponibles() {
 						calendarInline.update();
 						 $(".calendar-day-today .calendar-day-number").addClass('diaactual');
 
+						 if($("#habilitarseleccion").val() ==1) {
+
+						 	if (localStorage.getItem('edicionservicio')==0) {
+								arraydiaselegidos=[];
+								arraydiaseleccionados=[];
+							
+								 	}
+			
+
+						 if (respuesta.length>0) {
+						 	$("#calendario").css('display','block');
+						 for (var i = 0; i < respuesta.length; i++) {
+						 	var fecha=respuesta[i].fecha;
+						 	var idzona=respuesta[i].idzona;
+							var nombrezona=respuesta[i].nombrezona;
+						 	var dividirfecha=fecha.split('-');
+						 	var nuevafecha=dividirfecha[0]+'-'+parseInt(dividirfecha[1])+'-'+parseInt(dividirfecha[2]);
+						 	
+						 	var htmlcontenedor= $("."+nuevafecha).html();
+						 	var color=respuesta[i].color;
+						 	var html="";
+								 for (var j = 0; j < respuesta[i].horasposibles.length; j++) {
+								 	
+								 		for (var k = 0; k <respuesta[i].horasposibles[j].length; k++) {
+								 			var horainicial=respuesta[i].horasposibles[j][k].horainicial;
+								 			var horafinal=respuesta[i].horasposibles[j][k].horafinal;
+
+								 			
+								 			if (respuesta[i].horasposibles[j][k].disponible==1) {
+								 			var disponible=respuesta[i].horasposibles[j][k].disponible==0?'':color;
+
+								 			if (horainicial!=null && horafinal!=null) {
+								 				var id=fecha+'-'+horainicial.slice(0,5)+'-'+horafinal.slice(0,5)+'-'+idzona;
+								 					console.log('id'+id);
+
+								 					if (Buscardia(id)==false) {
+
+								 						CargaAutomatica(id);
+								 					}
+								 					 
+								 				
+
+								 				}
+								 			 }
+								 			}
+
+								 		
+						 							
+
+								 			}
+
+								 		}
+
+								 	}
+
+								 	Resumenfechas();
+								 	CantidadHorarios();
+
+								 }
+
+
 
 						}else{
 
@@ -1634,8 +1707,8 @@ function HorariosDisponiblesFlecha() {
 
 
 	var v_zonas=[];
-	arraydiaselegidos=[];
-	arraydiaseleccionados=[];
+	//arraydiaselegidos=[];
+	//arraydiaseleccionados=[];
 	var domingo=0,lunes=0,martes=0,miercoles=0,jueves=0,Viernes=0,sabado=0;
 	
 		if($("#Domingo").is(':checked')){
@@ -1666,16 +1739,17 @@ function HorariosDisponiblesFlecha() {
 
 			 sabado=1;
 		}	
-
+	var v_zonaelegida=$("#v_zonas").val();
+	var v_horarios=$("#v_horarios").val();
 	var v_categoria=$("#v_categoriaservicio").val();
 	var v_tipocategoria=$("#v_categoria").val();
 	var v_fechainicial=$("#v_fechainicial").val();
 	var v_fechafinal=$("#v_fechafinal").val();
 
-		var datos="domingo="+domingo+"&lunes="+lunes+"&martes="+martes+"&miercoles="+miercoles+"&jueves="+jueves+"&viernes="+Viernes+"&sabado="+sabado+"&v_categoria="+v_categoria+"&v_tipocategoria="+v_tipocategoria+"&v_fechainicial="+v_fechainicial+"&v_fechafinal="+v_fechafinal+"&v_zonas="+v_zonas;
+		var datos="domingo="+domingo+"&lunes="+lunes+"&martes="+martes+"&miercoles="+miercoles+"&jueves="+jueves+"&viernes="+Viernes+"&sabado="+sabado+"&v_categoria="+v_categoria+"&v_tipocategoria="+v_tipocategoria+"&v_fechainicial="+v_fechainicial+"&v_fechafinal="+v_fechafinal+"&v_zonas="+v_zonaelegida+"&v_horarios"+v_horarios;
 
 			$.ajax({
-					url: urlphp+'ObtenerHorariosFechas.php', //Url a donde la enviaremos
+					url: urlphp+'ObtenerHorariosFechas2.php', //Url a donde la enviaremos
 					type: 'POST', //Metodo que usaremos
 					data:datos,
 					dataType:'json', 
@@ -1777,15 +1851,17 @@ return new Promise((resolve, reject) => {
 
 		 sabado=1;
 		}	
+	var v_zonaelegida=$("#v_zonas").val();
+	var v_horarios=$("#v_horarios").val();
 	var v_categoria=$("#v_categoriaservicio").val();
 	var v_tipocategoria=$("#v_categoria").val();
 	var v_fechainicial=fechaforma;
 	var v_fechafinal=fechaforma;
 
-		var datos="domingo="+domingo+"&lunes="+lunes+"&martes="+martes+"&miercoles="+miercoles+"&jueves="+jueves+"&viernes="+Viernes+"&sabado="+sabado+"&v_categoria="+v_categoria+"&v_tipocategoria="+v_tipocategoria+"&v_fechainicial="+v_fechainicial+"&v_fechafinal="+v_fechafinal+"&v_zonas="+v_zonas;
+		var datos="domingo="+domingo+"&lunes="+lunes+"&martes="+martes+"&miercoles="+miercoles+"&jueves="+jueves+"&viernes="+Viernes+"&sabado="+sabado+"&v_categoria="+v_categoria+"&v_tipocategoria="+v_tipocategoria+"&v_fechainicial="+v_fechainicial+"&v_fechafinal="+v_fechafinal+"&v_zonas="+v_zonaelegida+"&v_horarios="+v_horarios;
 
 			$.ajax({
-					url: urlphp+'ObtenerHorariosFechas.php', //Url a donde la enviaremos
+					url: urlphp+'ObtenerHorariosFechas2.php', //Url a donde la enviaremos
 					type: 'POST', //Metodo que usaremos
 					data:datos,
 					dataType:'json', 
@@ -1800,7 +1876,7 @@ return new Promise((resolve, reject) => {
 
 						 var respuesta=msj.respuesta;
 						 zonasarray=msj.zonas;
-						 console.log(zonasarray);
+						 //console.log(zonasarray);
 						 resolve(respuesta);
 						
 
@@ -1833,7 +1909,7 @@ function CargarEventoSeleccionador() {
 
 
 						 		}else{
-
+						 			console.log('agrego'+id);
 						 			arraydiaselegidos.push(id);
 						 			var iddividido = id.split('-');
 									var zonaelegida =zonasarray.find(zona => zona.idzona === iddividido[5]);
@@ -1842,13 +1918,15 @@ function CargarEventoSeleccionador() {
 						 			var dividirfecha=id.split('-');
 						 			var objeto={
 						 				id:id,
-						 				fecha:dividirfecha[0]+'-'+dividirfecha[1]+'-'+dividirfecha[2],
+ 					 				fecha:dividirfecha[0]+'-'+dividirfecha[1]+'-'+dividirfecha[2],
 						 				idzona:dividirfecha[5],
 						 				horainicial:dividirfecha[3],
 						 				horafinal:dividirfecha[4],
 						 				color:color,
 
 						 			};
+						 									 			console.log(objeto);
+
 						 			arraydiaseleccionados.push(objeto);
 
 						 			var element = document.getElementById(id);
@@ -1912,7 +1990,7 @@ function Resumenfechas() {
 		$("#selected-dates").html('');
 		let days = ['Domingo','Lunes','Martes','Miércoles', 'Jueves', 'Viernes', 'Sábado','Domingo'];
 		
-		console.log('resumenfechas');
+		//console.log('resumenfechas');
 		console.log(arraydiaseleccionados);
 		var ordenado =arraydiaseleccionados.sort(generateSortFn([{name: 'idzona'}, {name: 'fecha',reverse: false}]));
 
@@ -1973,7 +2051,7 @@ function Resumenfechas() {
 								</div>
 							</div>
 							<div class="col-20">
-							<span id="" onclick="EliminarHorario('`+id+`')"><i class="bi-trash-fill"></i></span>
+							<span id="" class="btneliminarhorario" onclick="EliminarHorario('`+id+`')"><i class="bi-trash-fill"></i></span>
 							</div>
 						</div>
 					 </div>`;
@@ -1982,6 +2060,147 @@ function Resumenfechas() {
 			
 		}
 	}
+}
+
+
+function Resumenfechas() {
+
+		$("#selected-dates").html('');
+		let days = ['Domingo','Lunes','Martes','Miércoles', 'Jueves', 'Viernes', 'Sábado','Domingo'];
+		
+		var ordenado =arraydiaseleccionados.sort(generateSortFn([{name: 'idzona'}, {name: 'fecha',reverse: false}]));
+		var totalhorarios=0;
+		console.log('ordenado');
+		console.log(ordenado);
+		if (ordenado.length>0) {
+			var idzonaante=0;
+		for (var i = 0; i <ordenado.length; i++) {
+			
+			var id=ordenado[i].id;
+			var dividircadena=id.split('-');
+			var fecha=dividircadena[2]+'-'+dividircadena[1]+'-'+dividircadena[0];
+			var horainicial=dividircadena[3];
+			var horafinal=dividircadena[4];
+			var idzona=dividircadena[5];
+			
+			var fecha2=dividircadena[0]+'-'+dividircadena[1]+'-'+dividircadena[2];
+
+			var datatime=new Date(fecha2);
+			var dia=days[datatime.getUTCDay()];
+
+			if (idzona!=idzonaante) {
+
+				if (!!$("#divzona_"+idzona)) {
+				
+
+				var valor =zonasarray.find( zona => zona.idzona === idzona);
+				//console.log(valor);
+				var colordiv=valor.color;
+				var nombrezona=valor.nombre;
+
+					if (!!$("#colocarzona"+idzona)) {
+
+						var html=`
+						<div  class="list-group-item" style="font-weight:bold;">
+						<div class="row">
+						<div class="col-70">
+							<p style="margin:0;margin-left: 1em;margin-left:0.8em;">	`+nombrezona+`</p>
+						<p style="margin-left: 1em;margin-left:0.8em;margin-top:1em;margin-bottom:1em;">Cantidad de horarios por espacio: <span id="cantidadhoras_`+idzona+`">0</span></p>
+
+						</div>
+							<div class="col-20">
+							<div class="row">
+										<div class="col-10" style="text-align: right;">
+											<div class="badge1" style="background:`+colordiv+`">
+											</div>
+										</div>
+										
+										<div class="col-10">
+										<span id="" class="btneliminarhorario" onclick="QuitarFechaHoraZona('`+idzona+`')"><i class="bi-trash-fill"></i></span>
+
+											</div>
+									</div>
+
+									</div>
+						</div>
+					
+						</div>
+
+
+						<div class="zonas" id="colocarzona`+idzona+`"></div>`;
+						
+						$("#selected-dates").append(html);
+
+					}
+				
+				
+
+				}
+				idzonaante=idzona;
+			}
+
+
+			/*var htmlfechas=`<div class="list-group-item clasfecha_`+id+`"  id="div_`+id+`">
+						<div class="row">
+							<div class="col-md-2">
+								`+dia+`
+							</div>
+							<div class="col-md-4">
+								`+fecha+`
+							</div>
+							<div class="col-md-4">
+							 `+horainicial+`-`+horafinal+`
+							</div>
+
+							<div class="col-md-2">
+								<button type="button" class="btn btn_rojo" onclick="QuitarFechaHora('`+id+`')" ><i class="mdi mdi-delete-empty"></i></button>
+							</div>
+						</div>
+					 </div>`;*/
+
+					 		var htmlfechas=`<div class="list-group-item" class="fechas" style="background: white;border-radius: 20px;margin-bottom: 0.5em;">
+						<div class="row" style="">
+						
+							<div class="col-60" >
+								<div class="col-md-4" style="font-weight:bold;">`+dia+`</div>
+							
+								<div class="col-md-4">
+									`+fecha+`
+								</div>
+								<div class="col-md-4">
+								 `+horainicial+`-`+horafinal+`
+								</div>
+							</div>
+							<div class="col-20">
+							<span id="" class="btneliminarhorario" onclick="EliminarHorario('`+id+`')"><i class="bi-trash-fill"></i></span>
+							</div>
+						</div>
+					 </div>`;
+			
+			$("#colocarzona"+idzona).append(htmlfechas);
+
+			var cantidadhoras=$("#cantidadhoras_"+idzona).text();
+			var can=parseFloat(cantidadhoras)+1;
+			$("#cantidadhoras_"+idzona).text(can);
+			totalhorarios++;
+		}
+
+		//$("#selected-dates").append('Total de horarios seleccionados '+totalhorarios);
+	}
+		$("#selected-dates").prepend('<p style="text-align:right;">Total de horarios seleccionados: '+totalhorarios+'</p>');
+		if (totalhorarios>0) {
+			$(".btnfechas").css('display','block');
+			$("#titulototalhorarios").css('display','block');
+
+			$("#totalhorarios").text(totalhorarios);
+	
+		}else{
+			$(".btnfechas").css('display','none');
+			$("#titulototalhorarios").css('display','none');
+			$("#totalhorarios").text(totalhorarios);
+
+		}
+	
 }
 
 
@@ -2151,6 +2370,8 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
 											                <select name="" id="tipo">
 				   							 						<option value="0">Porcentaje</option>
 				   							 				   	    <option value="1">Monto</option>
+				   							 				   	    <option value="2">Por horarios</option>
+
 				   							 					</select>
 											                </div>
 											              </div>
@@ -2239,7 +2460,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
           
              $("#btnguardarcoach").attr('onclick','GuardarCoachServicio()');
 
-             console.log(val);
+             //console.log(val);
              if (val>=0) {
 
              	if (asignacioncoach.length>0) {
@@ -2829,6 +3050,10 @@ function Guardarservicio()
           }
           else if(index === 1){
           	if (Validacion()==1) {
+          	var habilitarhorarios=	localStorage.getItem('habilitarhorarios');
+
+          	if (habilitarhorarios==1) {
+
           		if (arraydiaselegidos.length>0) {
           		
           			GuardarservicioNuevo();
@@ -2839,6 +3064,16 @@ function Guardarservicio()
 
           		}
           	}else{
+
+          			GuardarservicioNuevo();
+
+          	}
+          		
+
+
+
+
+          	}else{
           		alerta('','Datos incompletos');
           	}
           }
@@ -2848,6 +3083,12 @@ function Guardarservicio()
         },
           verticalButtons: false,
         }).open();
+
+}
+
+function LimpiarVariableHorarios() {
+	 arraydiaselegidos=[];
+ 	arraydiaseleccionados=[];
 
 }
 	/*if(confirm("\u00BFDesea realizar esta operaci\u00f3n?"))
@@ -2968,6 +3209,8 @@ function GuardarservicioNuevo() {
 
 		}
 
+		var v_aceptarserviciopago=$("#v_aceptarserviciopago").val();
+
 	
 		var perido=$("#v_periodo").val();
 
@@ -3052,7 +3295,7 @@ function GuardarservicioNuevo() {
 
 		});
 
-		console.log(porcentajescoachs);
+		//console.log(porcentajescoachs);
 
 		$(".from").each(function(){
 			var valor=$(this).val();
@@ -3180,7 +3423,8 @@ function GuardarservicioNuevo() {
 		datos.append('imageneservicio',imagenessucursal);
 		datos.append('iduser',iduser);
 		datos.append('idtipousuario',idtipousuario);
-
+		datos.append('v_aceptarserviciopago',v_aceptarserviciopago);
+		datos.append('fechashorasseleccionadas',JSON.stringify(fechashorasseleccionadas));
 		var bandera1=1;
 		if (nombre=='') {
 			$("#lbltitulo").addClass('inputrequerido');
@@ -3409,7 +3653,7 @@ function GuardarservicioNuevo() {
 				if (bandera1==1) {
 		//setTimeout(function(){
 				  $.ajax({
-					url:urlphp+'GuardarServicio.php', //Url a donde la enviaremos
+					url:urlphp+'GuardarServicio2.php', //Url a donde la enviaremos
 					type:'POST', //Metodo que usaremos
 					contentType: false, //Debe estar en false para que pase el objeto sin procesar
 					data: datos, //Le pasamos el objeto que creamos con los archivos
@@ -3889,22 +4133,29 @@ var bandera=1;
 		}
 		var fechainicial=$("#v_fechainicial").val();
 		var fechafinal=$("#v_fechafinal").val();
+		
 
 		if (!isValidDate(fechainicial)) {
 			bandera=0;
 			$(".lifechainicial").addClass('requerido');
 		}
+
+	
 		if (!isValidDate(fechafinal)) {
 			bandera=0;
 			$(".lifechafinal").addClass('requerido');
 
 		}
 
-		if(arraydiaseleccionados.length==0){
+		if (localStorage.getItem('habilitarhorarios')==1) {
+				if(arraydiaseleccionados.length==0){
 				bandera=0;
 			$(".liseleccionafechas").addClass('requerido2');
 
 			}
+		}
+
+		
 
 			
 	if (localStorage.getItem('idtipousuario')== 0) {
@@ -4073,4 +4324,632 @@ function BuscarfechaenArrayElegidos(fechaformada) {
 	}
 
 	return encontrado;
+}
+
+function ValidarCheckmodalidad(valor) {
+	$("#v_aceptarserviciopago").attr('checked',false);		
+
+	if (valor==1) {
+		//habilitaropcionpago
+		$("#divaceptarserviciopago").css('display','block');
+
+			} else {
+
+				$("#divaceptarserviciopago").css('display','none');
+				$("#v_aceptarserviciopago").val(0);
+
+		}
+}
+
+function HabilitarOpcionaceptarserviciopago() {
+
+	if($("#v_aceptarserviciopago").is(':checked')) {
+		
+		$("#v_aceptarserviciopago").val(1);
+	
+		}else{
+
+		$("#v_aceptarserviciopago").val(0);
+	}
+}
+
+function CargarZonas() {
+
+				$.ajax({
+					url:urlphp+'ObtenerEspacios.php', //Url a donde la enviaremos
+					type: 'POST', //Metodo que usaremos
+					dataType:'json',
+					async:false,
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#divcomplementos").html(error);
+					},	
+					success: function (msj) {
+					
+					var respuesta=msj.respuesta;
+					PintarEspacios(respuesta);
+
+					
+			
+					}
+				});
+}
+
+function PintarEspacios(respuesta) {
+
+	var html="";
+	if (respuesta.length>0) {
+		for (var i = 0; i <respuesta.length; i++) {
+			html+=`<option value="`+respuesta[i].idzona+`">`+respuesta[i].nombre+`</option>`;
+		}
+	}
+
+	$("#v_zonas").html(html);
+}
+
+function ObtenerHorariosCategoria() {
+
+		var v_zonas=[];
+
+$(".chkzona").each(function( index ) {
+	 if($( this ).is(':checked')){
+
+	 		var id=$(this).attr('id');
+	 		var dividir=id.split('_');
+
+	 		v_zonas.push(dividir[1]);
+
+			 }
+
+	 	;
+	});
+
+
+	var domingo=0,lunes=0,martes=0,miercoles=0,jueves=0,Viernes=0,sabado=0;
+		if($("#Domingo").is(':checked')){
+
+		 domingo=1;
+		}
+		 if($("#Lunes").is(':checked')){
+
+		 lunes=1;
+		}
+		 if($("#Martes").is(':checked')){
+
+		 martes=1;
+		}
+		 if($("#Miercoles").is(':checked')){
+
+		 miercoles=1;
+		}
+		if($("#Jueves").is(':checked')){
+
+		 jueves=1;
+		}
+		 if($("#Viernes").is(':checked')){
+
+		 Viernes=1;
+		}
+		 if($("#Sabado").is('.checked')){
+
+		 sabado=1;
+		}	
+
+	//if(v_zonas.length>0){
+
+	var v_categoria=$("#v_categoriaservicio").val();
+	var v_tipocategoria=$("#v_categoria").val();
+	var v_fechainicial=$("#v_fechainicial").val();
+	var v_fechafinal=$("#v_fechafinal").val();
+
+	var datos="domingo="+domingo+"&lunes="+lunes+"&martes="+martes+"&miercoles="+miercoles+"&jueves="+jueves+"&viernes="+Viernes+"&sabado="+sabado+"&v_categoria="+v_categoria+"&v_tipocategoria="+v_tipocategoria+"&v_fechainicial="+v_fechainicial+"&v_fechafinal="+v_fechafinal+"&v_zonas="+v_zonas;
+	
+
+	$.ajax({
+					url:urlphp+'ObtenerHorariosCategoria.php', //Url a donde la enviaremos
+					type: 'POST', //Metodo que usaremos
+					dataType:'json',
+					async:false,
+					data:datos,
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#divcomplementos").html(error);
+					},	
+					success: function (msj) {
+			/*		var smartSelect = app.smartSelect.get('.smartselectorhora');
+
+					smartSelect.unsetValue();
+					*/
+					var respuesta=msj.respuesta;
+					PintarHorariosCategoria(respuesta);
+			
+					}
+				});
+}
+
+function ObtenerHorariosCategoria2(idcategoria,idcategoriaservicio,valor,lunes,martes,miercoles,jueves,viernes,sabado,domingo) {
+
+		var v_zonas=[];
+
+$(".chkzona").each(function( index ) {
+	 if($( this ).is(':checked')){
+
+	 		var id=$(this).attr('id');
+	 		var dividir=id.split('_');
+
+	 		v_zonas.push(dividir[1]);
+
+			 }
+
+	 	;
+	});
+
+	var v_tipocategoria=idcategoriaservicio;
+	var v_fechainicial=$("#v_fechainicial").val();
+	var v_fechafinal=$("#v_fechafinal").val();
+
+	var datos="domingo="+domingo+"&lunes="+lunes+"&martes="+martes+"&miercoles="+miercoles+"&jueves="+jueves+"&viernes="+viernes+"&sabado="+sabado+"&v_categoria="+idcategoria+"&v_tipocategoria="+v_tipocategoria+"&v_fechainicial="+v_fechainicial+"&v_fechafinal="+v_fechafinal+"&v_zonas="+v_zonas;
+	
+
+	$.ajax({
+					url:urlphp+'ObtenerHorariosCategoria.php', //Url a donde la enviaremos
+					type: 'POST', //Metodo que usaremos
+					dataType:'json',
+					async:false,
+					data:datos,
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#divcomplementos").html(error);
+					},	
+					success: function (msj) {
+			/*		var smartSelect = app.smartSelect.get('.smartselectorhora');
+
+					smartSelect.unsetValue();
+					*/
+					var respuesta=msj.respuesta;
+					PintarHorariosCategoria(respuesta);
+			
+					}
+				});
+}
+
+function PintarHorariosCategoria(respuesta) {
+	var html="";
+/*	html+=`<option value="0">Seleccionar horario</option>`;
+*/
+	if (respuesta.length>0) {
+
+		for (var i = 0; i < respuesta.length; i++) {
+			html+=`<option value="`+respuesta[i].horainicial+'-'+respuesta[i].horafinal+`">`+respuesta[i].horainicial+'-'+respuesta[i].horafinal+`</option>`;
+		}
+
+
+	}
+
+	$("#v_horarios").html(html);
+
+	
+}
+
+function HabilitarSeleccion(argument) {
+	
+	if($("#habilitarseleccion").is(':checked')){
+		$("#habilitarseleccion").val(1);
+		$("#habilitarseleccion").prop('checked',true);
+	}else{
+		$("#habilitarseleccion").val(0);
+		$("#habilitarseleccion").prop('checked',false);
+
+	}
+}
+
+function CargaAutomatica(id) {
+	
+
+						 		var encontrado=Buscardia(id);
+
+						 		if (encontrado==1) {
+						 			 var element = document.getElementById(id);
+						 			 if (element !== null) {
+ 									 element.classList.remove("activohorario");
+ 									 element.style.border='none';
+
+ 								 	BorrarElemento(id);
+ 								 	BorrarElementoObjeto(id);
+ 								 	element.style.color='black';
+ 								 }
+						 		}else{
+
+						 			arraydiaselegidos.push(id);
+						 			var iddividido = id.split('-');
+									
+									var zonaelegida =zonasarray.find( zona => zona.idzona === iddividido[5]);
+									var color=zonaelegida.color;
+									
+						 			var dividirfecha=id.split('-');
+						 			console.log('aq');
+
+						 			console.log(dividirfecha);
+						 			var objeto={
+						 				id:id,
+						 				fecha:dividirfecha[0]+'-'+dividirfecha[1]+'-'+dividirfecha[2],
+						 				idzona:dividirfecha[5],
+						 				horainicial:dividirfecha[3],
+						 				horafinal:dividirfecha[4],
+						 				color:color,
+
+						 			};
+						 			arraydiaseleccionados.push(objeto);
+
+						 			/*var element = document.getElementById(id);
+								    element.classList.add("activohorario");
+								    element.style.border="1px solid "+color;
+			*/
+						 		}
+}
+
+
+function QuitarFechaHoraZona(idzona) {
+
+	 var html=`
+         
+              <div class="">
+
+                <div class="row" style="padding-top:1em;">
+                <span>¿Seguro que desea eliminar el espacio con los horarios?</span>
+                </div>
+              </div>
+           
+         
+        `;
+       app.dialog.create({
+          title: '',
+          //text: 'Dialog with vertical buttons',
+          content:html,
+          buttons: [
+            {
+              text: 'NO',
+            },
+            {
+              text: 'SI',
+            },
+            
+          ],
+
+           onClick: function (dialog, index) {
+            if(index === 0){
+             
+          }
+          else if(index === 1){
+					console.log('entro a eliminar');
+				for (var i = 0; i <arraydiaselegidos.length; i++) {
+						
+						var id=arraydiaselegidos[i];
+						 var elemento= id.split('-');
+						 console.log(elemento);
+						if (elemento[5] == idzona) {
+							
+							arraydiaselegidos.splice(i,1);
+							 i--; //ajustar indice
+						}
+				}
+
+
+				for (var i = 0; i <arraydiaseleccionados.length; i++) {
+						
+						var id=arraydiaseleccionados[i].id;
+						 var elemento= id.split('-');
+
+						 console.log(elemento);
+					if (elemento[5] == idzona) {
+						arraydiaseleccionados.splice(i,1);
+						i--; //ajustar indice
+					}
+				}
+
+
+
+				Resumenfechas();
+				CantidadHorarios();
+
+            }
+
+        },
+          verticalButtons: false,
+        }).open();
+
+	
+	
+	
+
+}
+
+
+function VerificarPermisoUsuario() {
+	
+var pagina = "Obtenerdatospersonales.php";
+	var id_user=localStorage.getItem('id_user');
+	var datos="id_user="+id_user;
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		crossDomain: true,
+		cache: false,
+		data:datos,
+		success: function(datos){
+
+			var resp=datos.respuesta.habilitarhorarios;
+			if (resp==1) {
+  $("#btnaplicar").attr('onclick','AplicarFechas()');
+  $(".contadorhorarios").css('display','block');
+  $(".divseleccionarhorarios").css('display','block');
+		 	}else{
+
+  $("#btnaplicar").attr('onclick','AplicarSeleccion()');
+  $(".contadorhorarios").css('display','none');
+  $(".divseleccionarhorarios").css('display','none');
+
+			}
+
+		localStorage.setItem('habilitarhorarios',resp);
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+}
+
+function AplicarSeleccion() {
+	
+	//console.log(arraydiaselegidos);
+	var v_zonas=[];
+	//arraydiaselegidos=[];
+	//arraydiaseleccionados=[];
+
+
+	var domingo=0,lunes=0,martes=0,miercoles=0,jueves=0,Viernes=0,sabado=0;
+	
+		if($("#Domingo").is(':checked')){
+
+		 domingo=1;
+		}
+		 if($("#Lunes").is(':checked')){
+
+		 lunes=1;
+		}
+		 if($("#Martes").is(':checked')){
+
+		 martes=1;
+		}
+		 if($("#Miercoles").is(':checked')){
+
+		 miercoles=1;
+		}
+		if($("#Jueves").is(':checked')){
+
+		 jueves=1;
+		}
+		 if($("#Viernes").is(':checked')){
+
+		 Viernes=1;
+		}
+		 if($("#Sabado").is(':checked')){
+
+			 sabado=1;
+		}	
+	var v_zonaelegida=$("#v_zonas").val();
+	var v_horarios=$("#v_horarios").val();
+	var v_categoria=$("#v_categoriaservicio").val();
+	var v_tipocategoria=$("#v_categoria").val();
+	var v_fechainicial=$("#v_fechainicial").val();
+	var v_fechafinal=$("#v_fechafinal").val();
+
+		var datos="domingo="+domingo+"&lunes="+lunes+"&martes="+martes+"&miercoles="+miercoles+"&jueves="+jueves+"&viernes="+Viernes+"&sabado="+sabado+"&v_categoria="+v_categoria+"&v_tipocategoria="+v_tipocategoria+"&v_fechainicial="+v_fechainicial+"&v_fechafinal="+v_fechafinal+"&v_zonas="+v_zonaelegida+"&v_horarios="+v_horarios;
+
+			$.ajax({
+					url: urlphp+'ObtenerHorariosFechasSeleccion.php', //Url a donde la enviaremos
+					type: 'POST', //Metodo que usaremos
+					data:datos,
+					dataType:'json', 
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#divcomplementos").html(error);
+					},	
+					success: function (msj) {
+
+						var v_fechainicial=msj.fechadia;
+						var dividirfechaini=v_fechainicial.split('-');
+						anioinicial=dividirfechaini[0];
+						mesinicial=(dividirfechaini[1].replace(/^(0+)/g, '')-1);
+						 var fechas=msj.arrayfechasdias[0];
+						 zonasarray = msj.zonas;
+					
+						 var respuesta=msj.arrayfechahora;
+
+						 console.log(respuesta);
+						 fechasglobal2=respuesta;
+						eventos=[];
+						var html="";
+						 if (respuesta.length>0) {
+						 
+						 for (var i = 0; i < respuesta.length; i++) {
+						 		
+						 		 var horas=respuesta[i].horas;
+
+						 		 if (horas.length>0) {
+						 	html+=`
+
+						 		<div class="col-100 fechas divfechas" style="height:auto;" >
+						 					<div class="row"   id="div_`+respuesta[i].fecha+`" onclick="VerHorariosD(this)">
+						 								<span class="col-80" style="line-height: 0.9;">`+respuesta[i].fecha+`</span>
+						 			 	<span class="col-20" style="float: right;"  data-respuesta='${JSON.stringify(respuesta[i])}'>
+						 			 	<i class="bi bi-chevron-down"></i>
+						 			 	</span>
+						 					</div>
+						 				
+						 			 	<div id="horarios_`+respuesta[i].fecha+`" class="row" style="display:none;background: white;padding-top: 0.5em;"></div>
+
+						 		</div>
+						 	`;
+					
+									}
+
+															 respuesta[i].horas.sort(compararHoras);
+
+
+							 }
+					
+						$("#listadofechas").html(html);
+
+
+
+							for (var j = 0; j < respuesta.length; j++) {
+											var html2="";
+
+									  var horas=respuesta[j].horas;
+									  var fecha=respuesta[j].fecha;
+									for (var i = 0; i <horas.length; i++) {
+												html2+=`
+															<div class="col-100 horas" id="horas_`+fecha+`_`+horas[i]+`" style="background:white;padding-top: 0.5em;padding-bottom: 0.5em;" onclick="SeleccionarHora('`+fecha+`','`+horas[i]+`',this)" >
+
+												 					<span class="col-80">`+horas[i]+`</span>
+												 			 	<span class="col-20" style="float: right;"  >
+												 			 	
+												 			 	</span>
+
+												 		</div>
+
+												`;
+									}
+							$("#horarios_"+fecha).html(html2);
+							}
+
+
+
+						}else{
+
+							alerta('','No se encuentran horarios disponibles dentro del periodo');
+							//AbrirNotificacion('No se encuentran horarios disponibles dentro del periodo','mdi mdi-alert-circle');
+					
+						}
+						$(".calendar-day-has-events .calendar-day-number").addClass('calendarevento');
+
+						
+
+					}
+				});
+}
+
+function VerHorariosD(elemento) {
+
+
+  var idelemento=elemento.id;
+
+
+  var dividir=idelemento.split('_');
+
+  var elemento = $('#horarios_'+dividir[1]);
+  var display = elemento.css('display');
+
+
+  if (display === 'block') {
+
+  	$('#horarios_'+dividir[1]).css('display','none');
+  
+  } else {
+  $('#horarios_'+dividir[1]).css('display','block');
+
+   
+  }
+
+}
+
+var fechashorasseleccionadas=[];
+
+function SeleccionarHora(fecha,hora,elemento) {
+
+
+  var objeto = {
+    fecha: fecha,
+    hora: hora
+  };
+  	
+  	if (elemento.classList.contains('horaselecciona')) {
+
+  				elemento.classList.remove('horaselecciona');
+
+
+  		  for (var i = 0; i < fechashorasseleccionadas.length; i++) {
+			    if (fechashorasseleccionadas[i].fecha === fecha) {
+			      var horas = fechashorasseleccionadas[i].horas;
+			      var indiceHora = horas.indexOf(hora);
+			      if (indiceHora !== -1) {
+			        horas.splice(indiceHora, 1);
+			       
+			        break;
+			      }
+			    }
+			  }
+
+
+  	}else{
+
+  	elemento.classList.add('horaselecciona');
+
+			 var encontrado = false;
+		  for (var i = 0; i < fechashorasseleccionadas.length; i++) {
+		    if (fechashorasseleccionadas[i].fecha === fecha) {
+		      encontrado = true;
+		      fechashorasseleccionadas[i].horas.push(hora);
+		      break;
+		    }
+		  }
+
+		  if (!encontrado) {
+		    fechashorasseleccionadas.push({
+		      fecha: fecha,
+		      horas: [hora]
+		    });
+		  }
+
+		  console.log(fechashorasseleccionadas);
+
+  	}
+}
+
+
+function compararHoras(horaA, horaB) {
+  // Extraemos solo la hora sin los minutos
+  var horaSeparadaA = horaA.split(":")[0];
+  var horaSeparadaB = horaB.split(":")[0];
+
+  // Convertimos las horas a números enteros
+  var horaNumA = parseInt(horaSeparadaA);
+  var horaNumB = parseInt(horaSeparadaB);
+
+  // Comparamos las horas numéricamente
+  if (horaNumA < horaNumB) {
+    return -1;
+  } else if (horaNumA > horaNumB) {
+    return 1;
+  } else {
+    return 0;
+  }
 }

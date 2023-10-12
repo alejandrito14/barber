@@ -10,6 +10,7 @@ require_once "clases/class.Funciones.php";
 */require_once "clases/class.Usuarios.php";
 require_once "clases/class.Carrito.php";
 require_once "clases/class.Cita.php";
+require_once "clases/class.UsoCupon.php";
 
 //require_once("clases/class.PagosCoach.php");
 
@@ -60,6 +61,10 @@ $comisionpornota=$_POST['comisionpornota'];
 $comisionnota=$_POST['comisionnota'];
 $tipocomisionpornota=$_POST['tipocomisionpornota'];
 $idtipodepago=$_POST['idtipodepago'];
+$codigocupon=$_POST['codigocupon'];
+$montocupon=$_POST['montocupon'];
+$idcupon=$_POST['idcupon'];
+
 $variable="";
 
 
@@ -71,6 +76,7 @@ try {
    $obj->db=$db;
      $db->begin();
      $f = new Funciones();
+
   /* $lo=new ServiciosAsignados();
    $lo->db=$db;*/
    $idnotapago=0;
@@ -173,8 +179,12 @@ try {
               $notapago->imagenconstancia=$imagenesfac;
               $notapago->idusuariodatofiscal=$idusuariosdatosfiscales;
          }
-         $notapago->CrearNotapago();
-         $idnotapago=$notapago->idnotapago;
+
+           $notapago->codigocupon=$codigocupon;
+           $notapago->montocupon=$montocupon;
+           $notapago->idcupon=$idcupon;
+          $notapago->CrearNotapago();
+          $idnotapago=$notapago->idnotapago;
 
             $constripe=$obtenertipopago[0]->constripe;
 
@@ -341,11 +351,14 @@ try {
                $notapago->db=$db;
                $carrito=new Carrito();
                $carrito->db=$db;
+               $usocupon     = new UsoCupon();
+               $usocupon->db = $db;
 
              
          $carrito->idusuarios=$iduser;
          $obtenercarrito=$carrito->ObtenerCarrito();
-
+         $sumacarrito=0;
+         $idsucursal="";
              for ($i=0; $i <count($obtenercarrito) ; $i++) { 
               $tipo=0;
               $cita->idcita=0;
@@ -364,7 +377,10 @@ try {
                 $cita->horainicial=$obtenerapartada[0]->horainicial;
                 $cita->horafinal=$obtenerapartada[0]->horafinal;
 
+
                 $cita->idsucursal=$obtenerapartada[0]->idsucursal;
+
+                $idsucursal=$obtenerapartada[0]->idsucursal;
                 $cita->idpaquete=$obtenerapartada[0]->idpaquete;
                 $cita->costo=$obtenercarrito[$i]->costototal;
                 $cita->idcortesia=$obtenerapartada[0]->idcortesia;
@@ -390,6 +406,7 @@ try {
                 $carrito->estatus=2;
                 $carrito->ActualizarEstatusCarrito();
 
+                $sumacarrito=$sumacarrito+$obtenercarrito[$i]->costototal;
                }
         
 
@@ -443,7 +460,7 @@ try {
 
 
 
-  /*if ($montomonedero!='' && $montomonedero!=0) {
+  if ($montomonedero!='' && $montomonedero!=0) {
             $usuarios=new Usuarios();
             $usuarios->db=$db;
               
@@ -463,9 +480,71 @@ try {
 
      $db->consulta($sql_movimiento);
 
+     if ($montomonedero>=$sumacarrito) {
+              $notapago->estatus=1;
+              $notapago->ActualizarNotapago();
+          }
 
 
-   }*/
+   }
+
+    if ($idcupon != 0 && $codigocupon != '' && $estatusdeproceso==1) {
+
+            if ($constripe == 1) {
+                 $db = new MySQL();
+                $usocupon->db = $db; 
+            }
+            
+            $usocupon->idcupon     = $idcupon;
+            $usocupon->codigocupon = $codigocupon;
+            $usocupon->idsucursal  = $idsucursal;
+            $usocupon->fecha       = date('Y-m-d');
+            $usocupon->idcliente   = $iduser;
+            $cupon                 = $usocupon->ObtenerUsocupon();
+
+            if (count($cupon) > 0) {
+                $usocupon->numerodeveces = $cupon[0]->numerodeveces + 1;
+                $usocupon->ActualizaUsoCupon();
+            } else {
+
+                $usocupon->numerodeveces = 1;
+                $usocupon->GuardarUsoCupon();
+            }
+
+            $cuponsucursal = $usocupon->ObtenerUsocuponSucursal();
+
+            if (count($cuponsucursal) > 0) {
+                $usocupon->numerodeveces = $cuponsucursal[0]->numerodeveces + 1;
+                $usocupon->ActualizaUsoCuponSucursal();
+            } else {
+
+                $usocupon->numerodeveces = 1;
+                $usocupon->GuardarUsoCuponSucursal();
+            }
+
+            $cupondia = $usocupon->ObtenerUsocuponDia();
+
+            if (count($cupondia) > 0) {
+                $usocupon->numerodeveces = $cupondia[0]->numerodeveces + 1;
+                $usocupon->ActualizaUsoCuponDia();
+            } else {
+
+                $usocupon->numerodeveces = 1;
+                $usocupon->GuardarUsoCuponDia();
+            }
+
+            $cuponcliente = $usocupon->ObtenerUsocuponCliente();
+
+            if (count($cuponcliente) > 0) {
+                $usocupon->numerodeveces = $cuponcliente[0]->numerodeveces + 1;
+                $usocupon->ActualizaUsoCuponCliente();
+            } else {
+
+                $usocupon->numerodeveces = 1;
+                $usocupon->GuardarUsoCuponCliente();
+            }
+
+        }
 
     /*if ($confoto == 1) {
 
@@ -498,6 +577,8 @@ try {
               $notapago->ActualizarMonto();
             
           }
+
+
          
 
               $db->commit();

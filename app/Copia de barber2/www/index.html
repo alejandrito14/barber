@@ -62,6 +62,11 @@
       Mis compras</a>
   	  </li>
       <li class="liperfil"><a class="limenu" data-menu="miperfil" href="#">Mi perfil</a></li>
+
+       <li class="limonedero " style="display: none;">
+      	<a class="limenu" data-menu="monedero" href="#">Mi monedero</a>
+      </li>
+
       <li class="lilogin ">
       	<a class="limenu " data-menu="login" href="#">Login</a>
       </li>
@@ -145,8 +150,15 @@
 
 <script src="cordova.js"></script>
 
-<script src="js/jquery-3.6.0.min.js"></script>
+<!-- <script src="js/jquery-3.6.0.min.js"></script> -->
+<script src="js/jquery-2.1.3.min.js"></script>
+  <script src="js/stacktrace.min.js"></script>
+<!--   <script src="js/index.js"></script>
+ --><!-- 
+ -->
   <script src="js/cordova-app.js"></script>
+
+
 
 <link href="https://fonts.googleapis.com/css2?family=Material+Icons"
       rel="stylesheet">
@@ -194,6 +206,8 @@
 <script src="js/fn_empresa.js"></script>
 <script src="js/fn_pagos.js"></script>
 <script src="js/fn_pagotarjeta.js"></script>
+<script src="js/fn_pagotarjetamercadopago.js"></script>
+
 <script src="js/fn_carrito.js"></script>
 <script src="js/fn_detallepago.js"></script>
 <script src="js/fn_homeadmin.js"></script>
@@ -204,9 +218,11 @@
 <script src="js/fn_disponibilidadfechasucursal.js"></script>
 <script src="js/cronometro.js"></script>
 <script src="js/framework7-bundle.min.js"></script>
-<script src="https://js.stripe.com/v3/"></script>
+
 <script src="js/recuperar.js"></script>
 <script src="js/mapa.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
+ <script src="https://sdk.mercadopago.com/js/v2"></script>
 
 <script src="js/routes.js"></script>
 <script src="js/store.js"></script>
@@ -229,8 +245,8 @@
 
 
 	app.on('click', function(event) {
-
-		console.log(event);
+/*
+		console.log(event);*/
 	  if (event.target.className !== "menuelemento") {
 	  	if (abierto==1) {
 			$(".menu").animate({left:'-400px',

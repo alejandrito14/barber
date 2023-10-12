@@ -56,7 +56,7 @@ class Imagencita
 
 	}
 
-	public function EliminarImagenGrupal()
+	public function EliminarImagenCita()
 	{
 		$sql="DELETE FROM imagencita 
 				 WHERE idimagencita = '$this->idimagencita'

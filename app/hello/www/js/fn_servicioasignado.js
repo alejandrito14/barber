@@ -136,6 +136,7 @@ function ObtenerServicioAsignado() {
 
 				if (respuesta.abiertocoach == 1) {
 					$("#permisoasignaralumno").css('display','block');
+					$(".habilitareliminacion").css('display','block');
 				}
 			}
 
@@ -144,6 +145,9 @@ function ObtenerServicioAsignado() {
 
 			if (respuesta.abiertoadmin == 1) {
 				$("#permisoasignaralumno").css('display','block');
+				$(".habilitareliminacion").css('display','block');
+
+
 			}
 		}
 			
@@ -1375,27 +1379,49 @@ html+=`
                         </figure>
                         </div>
                         
-                    <div class="col-60">
+                    <div class="col-50">
                          <div class="col-100 item-text" style="margin-left: 1em;font-size:14px;`+background+`" id="participante_`+respuesta[i].idusuarios+`">`+respuesta[i].nombre+` `+respuesta[i].paterno+`
                          </div>
              		 
 	             		 <div class="col-100 item-text" style="font-size:14px;margin-left: 1em;`+background+`" id="correo_`+respuesta[i].idusuarios+`">`+respuesta[i].usuario+`
 	             		 	</div>
              		
-                        	  <div class=" col-100 item-text" style="font-size:14px;margin-left: 1em;`+background+`">`+respuesta[i].nombretipo+`</div>
-               
-                        </div>
-                        	 <div class="col-20">
-                         <div class="col"> 
+                        	  <div class=" col-100 item-text" style="font-size:14px;margin-left: 1em;`+background+`">`+respuesta[i].nombretipo+`</div>`;
+
+             
+               	
+                	       html+=` </div>
+                        	 <div class="col-30">
+
+                        	 <div class="row">
+                         
                         `;
 
                        	if (localStorage.getItem('idtipousuario')==5) {
-	                       html+=`<button id="" class="button " style="font-size: 26px;" onclick="SubirFotoIndividual(`+respuesta[i].idusuarios+`)">
+	                       html+=`
+	                       <div class="col-50"> 
+	                       <button id="" class="button " style="font-size: 26px;" onclick="SubirFotoIndividual(`+respuesta[i].idusuarios+`)">
 	                       		 <i class="bi bi-card-image"></i>
-	                        </button>`;
+	                        </button>
+ 							</div>
+	                        `;
 	                    }
+	          if (localStorage.getItem('idtipousuario')==0 || localStorage.getItem('idtipousuario')==5 ) {
 
-                      html+= ` </div>
+                     if (respuesta[i].aceptarterminos==0 || respuesta[i].pagado==0 ){
+
+                   		html+=`<div class="col-50"> 
+                        	<button id="" class="button habilitareliminacion " style="font-size: 26px;color:red;" onclick="CancelarUsuarioServicio(`+respuesta[i].idusuarios+`)">
+								<i class="bi-trash-fill"></i>	                        </button> 
+	                        </div>`;
+                    		
+
+                    		}
+
+                    	}
+                        html+=`
+
+                        	</div>
                         </div>
 
                         `;
@@ -1526,42 +1552,62 @@ function PintarAlumnosAdmin(respuesta) {
                          <div class="col-50">
 	                         <div class="row">
 
-	                         <div class="row">`;
-		             		  if(respuesta[i].alias!='' && respuesta[i].alias!=null) {
+	                         `;
 
-	                         html+=` <div class="col-100 item-text" style="font-size:20px;word-break: break-word;" id="correo_`+respuesta[i].idusuarios+`">Alias: `+respuesta[i].alias+`
-		             		    	 </div>`;	
-	                         }
-		             		   
-	             		    html+=` </div>
+	                         html+=`
+	                         <div class="row">`;
+		           			if (respuesta[i].alias!='') {
+
+	                          		html+=`
+	                          		<div class="col-100 item-text" style="font-size:20px;word-break: break-word;color:#7a7a7a;" id="correo_`+respuesta[i].idusuarios+`">`+respuesta[i].alias+`
+		            
+		             		    	 </div>`;
+
+		             		    	}
+		             		   html+=` </div>
+		             		    	 `;	
+		             		    
+	                        // }
+
+	                           html+=` 
              		  
 	                       <div class="row">
 
-	                        <div class="col-100 item-text" style="font-size:18px;word-break: break-word;" id="participante_`+respuesta[i].idusuarios+`">`+respuesta[i].nombre+` `+respuesta[i].paterno+`
+	                        <div class="col-100 " style="font-size:18px;word-break: break-word;color:#9c9c9c;" id="participante_`+respuesta[i].idusuarios+`">`+respuesta[i].nombre+` `+respuesta[i].paterno+` `+respuesta[i].materno+`
 	             		    </div>
-	             		   </div>
+	             		  </div>
 
 
                     `;
+		             		   
+		
 
-
-	             		   html+=` <div class="row">
-	             		     <div class="col-100 item-text" style="font-size:18px;word-break: break-word;" id="correo_`+respuesta[i].idusuarios+`">`+respuesta[i].celular+`
-	             		     </div>
-             		   `;
+	             		   html+=` <div class="row">`;
+	             		   if (respuesta[i].celular!='') {
+	             		    	html+=`
+	             		    	<div class="col-100 item-text" style="font-size:18px;word-break: break-word;color:#7a7a7a;" id="correo_`+respuesta[i].idusuarios+`">`+respuesta[i].celular+`
+	             		     	</div>`;
+	             		     }
+	             		    html+=` </div> `;
 
              		   html+=`<div class="row">`;
-             		   		if (respuesta[i].tutorado==1) {
 
-             		   		html+=`<div class="item-text">Tutorado</div>`;
+             		   		
+             		   		if (respuesta[i].tutorado==1) {
+             		   		html+=`<div class="item-text"><span class="badge" style="background:#38a2f7;">Tutorado</span></div>`;
+             		   		html+=`<div class="item-text" style="color:#9c9c9c;">`+respuesta[i].tutor+`</div>`;
 
              		   		}
+
+             		   	//	html+=`<div class="item-text">Tutorado: `+t+`</div>`;
+
+             		   		
 
 
 
                   			html+= `</div>
 
-                   		 </div>
+                   		
 
                         	</div>
 
@@ -1668,7 +1714,7 @@ function PintarAlumnos(respuesta) {
 	                         <div class="row">`;
 
 	                         if (respuesta[i].alias!='' && respuesta[i].alias!=null) {
-	                         html+=` <div class="col-100 item-text" style="font-size:20px;word-break: break-word;" id="correo_`+respuesta[i].idusuarios+`">Alias: `+respuesta[i].alias+`
+	                         html+=` <div class="col-100 item-text" style="font-size:20px;word-break: break-word;color:#7a7a7a;" id="correo_`+respuesta[i].idusuarios+`">`+respuesta[i].alias+`
 		             		     </div>`;	
 	                         }
 		             		   
@@ -1678,7 +1724,7 @@ function PintarAlumnos(respuesta) {
              		  
 	                       <div class="row">
 
-	                        <div class="col-100 item-text" style="font-size:18px;word-break: break-word;" id="participante_`+respuesta[i].idusuarios+`">`+respuesta[i].nombre+` `+respuesta[i].paterno+`
+	                        <div class="col-100 item-text" style="font-size:18px;word-break: break-word;color:#9c9c9c;" id="participante_`+respuesta[i].idusuarios+`">`+respuesta[i].nombre+` `+respuesta[i].paterno+` `+respuesta[i].materno+`
 	             		    </div>
 	             		   </div>
 
@@ -1687,14 +1733,15 @@ function PintarAlumnos(respuesta) {
 
 
 	             		   html+=` <div class="row">
-	             		     <div class="col-100 item-text" style="font-size:18px;word-break: break-word;" id="correo_`+respuesta[i].idusuarios+`">`+respuesta[i].celular+`
+	             		     <div class="col-100 item-text" style="font-size:18px;word-break: break-word;color:#7a7a7a;" id="correo_`+respuesta[i].idusuarios+`">`+respuesta[i].celular+`
 	             		     </div>
              		   `;
 
              	
              		   html+=`<div class="row">`;
              		   		if (respuesta[i].tutorado==1) {
-             		   		html+=`<div class="item-text">Tutorado</div>`;
+             		   		html+=`<div class="item-text"><span class="badge" style="background:#38a2f7;">Tutorado</span></div>`;
+             		   		html+=`<div class="item-text" style="color:#9c9c9c;">`+respuesta[i].tutor+`</div>`;
 
              		   		}
 
@@ -1731,24 +1778,42 @@ function PintarAlumnos(respuesta) {
 
 function SeleccionarAsignado(idusuarios) {
 	var contar=0;
-	$(".idusuariosiniciar").each(function( index ) {
-  			if ($(this).is(':checked')) {
-  				contar++;
-  			}
-	});
+
+	if($("#idusuarios_"+idusuarios).is(':checked')) {
+
+	 var promesa=VerificacionUsuarioServicio(idusuarios);
+     promesa.then(r => {
+
+    	if (r.pagospendientes==0) {
+		    	$(".idusuariosiniciar").each(function( index ) {
+		  			if ($(this).is(':checked')) {
+		  				contar++;
+		  			}
+				});
 
 
-	if (contar>0) {
-		$("#btnpasar2").text('Agregar ('+contar+') elemento(s)');
-		$("#btnpasar2").css('display','block');
-		$(".divflotanteasignacion").css('display','block');
+			if (contar>0) {
+				$("#btnpasar2").text('Agregar ('+contar+') elemento(s)');
+				$("#btnpasar2").css('display','block');
+				$(".divflotanteasignacion").css('display','block');
 
-	}else{
+			}else{
 
-		$("#btnpasar2").text('Agregar elementos');
-		$("#btnpasar2").css('display','none');
-		$(".divflotanteasignacion").css('display','none');
+				$("#btnpasar2").text('Agregar elementos');
+				$("#btnpasar2").css('display','none');
+				$(".divflotanteasignacion").css('display','none');
 
+			}
+			
+		}else{
+			alerta('','El usuario no se puede asignar a este servicio, debido a que tiene un pago pendiente');
+			
+			$("#idusuarios_"+idusuarios).prop('checked',false);
+
+		}
+
+    });
+	
 	}
 
 	/*if (contar>0) {
@@ -1759,6 +1824,35 @@ function SeleccionarAsignado(idusuarios) {
 		$("#btnguardarasignacion").css('display','none');
 	
 	}*/
+}
+
+function VerificacionUsuarioServicio(idusuario) {
+	    return new Promise(function(resolve, reject) {
+	   
+	    var idservicio=localStorage.getItem('idservicio');
+	    var datos="idusuario="+idusuario+"&idservicio="+idservicio;
+	    var pagina = "VerificacionUsuarioServicio.php";
+		$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		async:false,
+		success: function(resp){
+
+			resolve(resp);
+
+		},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			var error;
+				if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+								console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+		}
+
+	});
+
+	});
 }
 function SeleccionarUsuarioAsignado(argument) {
 	var contar=0;
@@ -2946,4 +3040,36 @@ html+=`
 	}
 }
 
+function CancelarUsuarioServicio(idusuarios) {
+	
+	 app.dialog.confirm('','¿Está seguro  de realizar la cancelación del usuario ?' , function () {
+	 	var pagina="CancelarUsuarioServicio.php";
+	 	var idservicio=localStorage.getItem('idservicio');
+	 	var idtipousuario=localStorage.getItem('idtipousuario');
+	 	var datos="idservicio="+idservicio+"&idusuarios="+idusuarios+"&idtipousuario="+idtipousuario;
+	 	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+	 	url: urlphp+pagina,
+		crossDomain: true,
+		cache: false,
+		data:datos,
+		success: function(resp){
+
+
+  			ObtenerParticipantesAlumnosAdmin();
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+		 		  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+
+		});
+
+
+	});
+}
 

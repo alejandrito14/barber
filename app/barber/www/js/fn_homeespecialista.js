@@ -13,12 +13,12 @@ function CargarDatosEspecialista() {
      Obtenerpublicidad(1);
 	 ObtenerTableroCitasEspecialista();
 	 ObtenerFechaActual();
-		      ObtenerDetalleEmpresa();
-	intervalo=setInterval("FiltrarTableroCitas(1)",1000);
+	ObtenerDetalleEmpresa();
+	intervalo=setInterval("FiltrarTableroCitas()",1000);
 }
 
 function IntervaloCitas() {
-		intervalo=setInterval("FiltrarTableroCitas(1)",1000);
+		intervalo=setInterval("FiltrarTableroCitas()",1000);
 
 }
 

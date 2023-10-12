@@ -77,6 +77,16 @@ try
 
 
 			$obtenertablero[$i]->porpasar=$porpasar;
+
+
+			$fechachekin=date('H:i:s',strtotime($obtenertablero[$i]->fechacheckin));
+			$fechachekout=date('H:i:s',strtotime($obtenertablero[$i]->finalizacita));;
+
+			$obtenertablero[$i]->fechachekin=$fechachekin;
+			$obtenertablero[$i]->fechachekout=$fechachekout;
+
+			
+
 		}
 	}
 

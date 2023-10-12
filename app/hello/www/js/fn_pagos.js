@@ -2,7 +2,11 @@ var descuentosaplicados=[];
 var descuentosmembresia=[];
 var arraycomentarios=[];
 var resultimagendatosfactura=[];
-
+var dynamicSheet4="";
+var dynamicSheet5="";
+var dynamicSheet1="";
+var dynamicSheet2="";
+ var swiper1 ="";
 function ObtenerTotalPagos() {
 	var pagina = "ObtenerTodosPagos.php";
 	var id_user=localStorage.getItem('id_user');
@@ -44,8 +48,11 @@ function ProximopagoaVencer() {
 				var resultado=respuesta.respuesta;
 
 				if (resultado.length>0) {
-
-					$(".vencimiento").text(resultado[0].fechaformato);
+          if (resultado[0].fechaformato!='') {
+             //$(".divvencimiento").css('display','block');
+            // $(".vencimiento").text(resultado[0].fechaformato);
+          }
+         
 				}
 			
 
@@ -72,7 +79,7 @@ function ObtenerTodosPagos() {
 	var pagina = "ObtenerTodosPagos.php";
 	var id_user=localStorage.getItem('id_user');
 	var datos="id_user="+id_user;
-	$.ajax({
+	$.ajax({ 
 		type: 'POST',
 		dataType: 'json',
 		url: urlphp+pagina,
@@ -98,24 +105,34 @@ function ObtenerTodosPagos() {
 }
 function Pintarpagos(pagos) {
 	
+ 
 	if (pagos.length>0) {
 		var html="";
 		html+=`
-		<li class="list-item">
-                    <div class="row">
+		<li class="list-item lipagos" style="    padding-top: 10px;">
+                    <div class="row" >
                         <div class="col-80">
                         <p>Seleccionar todos</p>
                         </div>
-                        <div class="col-20">
-                        <input type="checkbox" id="checktodos" onchange="SeleccionarTodos()" style="    width: 30px;height: 20px;" />
-                        </div>
+                        <div class="col-20">`;
+                        //<input type="checkbox" id="checktodos" onchange="SeleccionarTodos()" style="    width: 30px;height: 20px;" />
+                             html+=`
+                              <div class="toggle">
+                                  <label>
+                                    <input type="checkbox" id="checktodos"  onchange="SeleccionarTodos()" />
+                                    <span class="toggle-icon"></span>
+                                  </label>
+                                </div>
+
+                            `;
+                       html+=` </div>
                     </div>
                  </li>
 
 		`;
 		for (var i = 0; i <pagos.length; i++) {
 			html+=`
-				<li class="list-item">
+				<li class="list-item lipagos">
                     <div class="row">
                         <div class="col-80">
                             <p class="text-muted " id="concepto_`+pagos[i].idpago+`">
@@ -125,15 +142,88 @@ function Pintarpagos(pagos) {
 
                              html+=`<p class="text-muted small">Vencimiento `+pagos[i].fechaformato+`</p>`;
                           }
-                        html+=`<p class="text-muted small"> `+pagos[i].nombre+` `+pagos[i].paterno+` `+pagos[i].materno+`</p>
-   
-                          <p class="text-muted small">$`+pagos[i].monto+`</p>
-                          <input type="hidden" value="`+pagos[i].monto+`" class="montopago" id="val_`+pagos[i].idpago+`">
-                        </div>
-                        <div class="col-20">
+                        html+=`<p class="text-muted small"> `+pagos[i].nombre+` `+pagos[i].paterno+` `+pagos[i].materno+`</p>`;
+                            
+                        if (pagos[i].alumnos!='') {
 
-                        <input type="checkbox" id="check_`+pagos[i].idpago+`" class="seleccionar" onchange="Seleccionarcheck(`+pagos[i].idpago+`)" style="width: 30px;height: 20px;" />
+                         html+=`<p class="text-muted small"> Asignados:`+pagos[i].alumnos+` Aceptados: `+pagos[i].aceptados+`</p>`;
+ 
+                        }
+
+
+                     if (pagos[i].fechamin!='') {
+
+                         html+=`<p class="text-muted small"> Fecha inicio: `+pagos[i].fechamin+`</p>
+                         <p  class="text-muted small"> Fecha fin: `+pagos[i].fechamax+`</p>`;
+ 
+                        }
+
+                         html+=` <p class="text-muted small" style="font-size:20px;color:red;">$`+formato_numero(pagos[i].monto,2,'.',',')+`</p>
+
+                          <input type="hidden" value="`+pagos[i].monto+`" class="montopago" id="val_`+pagos[i].idpago+`">
+                         <input type="hidden" value="`+pagos[i].tipopago+`" class="tipopago" id="tipopago_`+pagos[i].idpago+`">
+
+                        </div>
+                        <div class="col-20">`;
+
+                        if (pagos[i].dividido==2) {
+
+
+                          if (pagos[i].alumnos==pagos[i].aceptados) {
+
+                            html+=`
+                              <div class="toggle">
+                                  <label>
+                                    <input type="checkbox" id="check_`+pagos[i].idpago+`" class="seleccionar" onchange="Seleccionarcheck(`+pagos[i].idpago+`)" />
+                                    <span class="toggle-icon"></span>
+                                  </label>
+                                </div>
+
+                            `;
+                            // html+=` <input type="checkbox" id="check_`+pagos[i].idpago+`" class="seleccionar" onchange="Seleccionarcheck(`+pagos[i].idpago+`)" style="width: 30px;height: 20px;" />`;
+                               html+=` <input type="hidden" id="sepuede_`+pagos[i].idpago+`" class="" value="1" style="" />`;
+
+                          }else{
+
+                            html+=`
+                              <div class="toggle">
+                                  <label>
+                                    <input type="checkbox" id="check_`+pagos[i].idpago+`" class="seleccionar" onchange="Advertencia(`+pagos[i].idpago+`)" />
+                                    <span class="toggle-icon"></span>
+                                  </label>
+                                </div>
+
+                            `;
+
+                           // html+=` <input type="checkbox" id="check_`+pagos[i].idpago+`" class="seleccionar" onchange="Advertencia(`+pagos[i].idpago+`)" style="width: 30px;height: 20px;" />`;
+                               html+=` <input type="hidden" id="sepuede_`+pagos[i].idpago+`" class="" value="0" style="" />`;
+
+                          }
+     
+                        }else{
+
+                              html+=`
+                              <div class="toggle">
+                                  <label>
+                                    <input type="checkbox" id="check_`+pagos[i].idpago+`" class="seleccionar" onchange="Seleccionarcheck(`+pagos[i].idpago+`)" />
+                                    <span class="toggle-icon"></span>
+                                  </label>
+                                </div>
+
+                            `;
+
+                        // html+=` <input type="checkbox" id="check_`+pagos[i].idpago+`" class="seleccionar" onchange="Seleccionarcheck(`+pagos[i].idpago+`)" style="width: 30px;height: 20px;" />`;
+                         html+=` <input type="hidden" id="sepuede_`+pagos[i].idpago+`" class="" value="1" style="" />`;
+
+                        }
+
+                      
+
+                      html+=`
+
                         <input type="hidden" id="tipo_`+pagos[i].idpago+`" value="`+pagos[i].tipo+`"  />
+                        <input type="hidden" id="habilitarmonedero_`+pagos[i].idpago+`" value="`+pagos[i].habilitarmonedero+`"  />
+                        <input type="hidden" id="monederousado_`+pagos[i].idpago+`" value="`+pagos[i].monederousado+`"  />
 
                         <input type="hidden" id="servicio_`+pagos[i].idpago+`" value="`+pagos[i].idservicio+`"  />
                         <input type="hidden" id="fechainicial_`+pagos[i].idpago+`" value="`+pagos[i].fechainicial+`"  />
@@ -154,11 +244,41 @@ function Pintarpagos(pagos) {
   }
 }
 
+function Advertencia(idpago) {
+  $("#check_"+idpago).prop('checked',false);
+
+  alerta('','Para pagar, todos los participantes deben aceptar');
+
+}
+
 function SeleccionarTodos() {
 	if ($("#checktodos").is(':checked')) {
-		$(".seleccionar").prop('checked',true);
+		//$(".seleccionar").prop('checked',true);
+
+    $(".seleccionar").each(function( index ) {
+
+       var id=$(this).attr('id');
+       var explode=id.split('_');
+
+       var sepuede=$("#sepuede_"+explode[1]).val();
+          console.log(explode);
+        if ($("#val_"+explode[1]).val()>0  && sepuede==1) {
+
+          $("#check_"+explode[1]).prop('checked',true);
+        }
+
+      });
 	 }else{
-		$(".seleccionar").prop('checked',false);
+		//$(".seleccionar").prop('checked',false);
+    $(".seleccionar").each(function( index ) {
+
+        var id=$(this).attr('id');
+        var explode=id.split('_');
+       
+         $("#check_"+explode[1]).prop('checked',false);
+       
+
+        });
 	}
 	HabilitarBotonPago();
 }
@@ -178,15 +298,26 @@ var pagosarealizar=[];
 function HabilitarBotonPago() {
 	var contar=0;
 	var suma=0;
+  var contarseleccionadoscero=0;
+  var pagocero=0;
     pagosarealizar=[];
-	$( ".seleccionar" ).each(function( index ) {
+	$( ".seleccionar" ).each(function(index) {
 	
-		 if($(this ).is(':checked')){
+		 if($(this).is(':checked')){
 		 	var id=$(this).attr('id');
-     
+     console.log('idelemento'+id);
 		 	var dividir=id.split('_')[1];
 		 	var contador=$("#val_"+dividir).val();
 		 	suma=parseFloat(suma)+parseFloat(contador);
+    
+
+
+      if (contador==0) {
+       // $(this).prop('checked',false);
+        pagocero=1;  
+        contarseleccionadoscero++;    
+      }
+
 		 	concepto=$("#concepto_"+dividir).text();
       tipo=$("#tipo_"+dividir).val();
       if ($("#servicio_"+dividir)) {
@@ -215,8 +346,11 @@ function HabilitarBotonPago() {
             usuario="";
            }
 
+          tipopago=$("#tipopago_"+dividir).val();
+         var habilitarmonedero=$("#habilitarmonedero_"+dividir).val();
+         var monederousado=$("#monederousado_"+dividir).val();
 		 	contar++;
-
+      console.log('mon'+monederousado)
 		 	var objeto={
 		 		id:dividir,
 		 		concepto:concepto.trim(),
@@ -225,26 +359,87 @@ function HabilitarBotonPago() {
         servicio:servicio,
         fechainicial:fechainicial,
         fechafinal:fechafinal,
-        usuario:usuario
+        usuario:usuario,
+        tipopago:tipopago,
+        habilitarmonedero:habilitarmonedero,
+        monederousado:monederousado
 		 	};
 		 	pagosarealizar.push(objeto);
 
+
+     
 		 }
 	
 	});
+ // console.log(contar+''+contarseleccionadoscero);
+ // console.log('pago cero'+pagocero);
+   if (contar!=contarseleccionadoscero) {
+    if (pagocero==1) {
+      
+      alerta('','El pago con monto cero se debe pagar en un ticket independiente');
+      $( ".seleccionar" ).each(function( index ) {
+  
+     if($(this ).is(':checked')){
+        var id=$(this).attr('id');
+     
+        var dividir=id.split('_')[1];
+        var valor=$("#val_"+dividir).val();
+
+        if (valor==0) {
+        for (var i=0;i< pagosarealizar.length; i++) {
+          
+           if (pagosarealizar[i].id==dividir) {
+           
+            $("#check_"+dividir).prop('checked',false);
+
+            pagosarealizar.splice(i,1);
+
+           }
+        
+        }
+      }
+
+        }
+      });
+    }
+
+  }
+  
 
 
 	if (contar==0) {
 		$(".btnpagar").prop('disabled',true);
-		$(".checktodos").prop('checked',false);
+		$("#checktodos").prop('checked',false);
 		$(".cantidad").text(formato_numero(suma,2,'.',','));
 		localStorage.setItem('montopago',suma);
 	}
 	if (contar>0) {
 
-		$(".btnpagar").prop('disabled',false);
-		$(".cantidad").text(formato_numero(suma,2,'.',','));
-		localStorage.setItem('montopago',suma);
+     if (contar!=contarseleccionadoscero) {
+    if (pagocero==1) {
+          $(".btnpagar").prop('disabled',true);
+          $(".checktodos").prop('checked',false);
+          $(".cantidad").text(formato_numero(suma,2,'.',','));
+          localStorage.setItem('montopago',suma);
+
+      }else{
+
+         $(".btnpagar").prop('disabled',false);
+       $(".cantidad").text(formato_numero(suma,2,'.',','));
+       localStorage.setItem('montopago',suma);
+
+         
+
+      }
+    }else{
+       $(".btnpagar").prop('disabled',false);
+       $(".cantidad").text(formato_numero(suma,2,'.',','));
+       localStorage.setItem('montopago',suma);
+
+       
+    }
+
+	
 	}
 
   localStorage.setItem('pagos',JSON.stringify(pagosarealizar));
@@ -252,41 +447,321 @@ function HabilitarBotonPago() {
 }
 
 function ResumenPago() {
+/*var contartipo=0;
+var sintitpo=0;
+var concepto="";
+var contipo=[];
+  if (pagosarealizar.length>0) {
+    for (var i =0; i < pagosarealizar.length; i++) {
+      
+      var tipopago=pagosarealizar[i].tipopago;
 
-	GoToPageHistory('resumenpago');
+      if (tipopago>0) {
+         concepto=concepto+'*'+pagosarealizar[i].concepto+'<br>';
+        contartipo++;
+        contipo.push(pagosarealizar[i]);
+
+      }else{
+        sintitpo++;
+      }
+    }
+
+  }
+  var pasa=0;
+  if (contartipo>0 && sintitpo==0) {
+
+        var tipo=0;
+        if (contipo.length>=2) {
+          
+          var igual=0;
+              for(var i = 0; i < contipo.length; i++) {
+                 tipo=contipo[i].tipopago
+
+                 if (i< contipo.length-1) {
+                   if (contipo[i + 1].tipopago === contipo[i].tipopago) {
+                   igual++;
+                  }
+                }
+
+            }
+            var con=contipo.length-1;
+
+
+            if (igual==con) {
+              pasa=1;
+            }else{
+              pasa=0;
+            }
+        }else{
+
+          pasa=1;
+        }
+    
+
+    
+  }
+
+  else if (sintitpo>0 && contartipo==0) {
+    pasa=1;
+  }
+
+  else{
+
+    pasa=0;
+  }*/
+
+  VerificarPagosRelacionados().then(r => {
+    var concepto="";
+    var pasa=r.pasa;
+      if (pasa==1) {
+      GoToPageHistory('resumenpago');
+
+       }else{
+
+        var conceptos=r.conceptos;
+
+        for (var i = 0; i < conceptos.length; i++) {
+          concepto+='*'+conceptos[i]+'<br>';
+        }
+
+        alerta('','Los siguientes pagos: <br>  '+concepto+' se deberán de pagar de forma individual');
+      }
+
+  });
+
+
+  
+}
+
+
+function VerificarPagosRelacionados() {
+      return new Promise(function(resolve, reject) {
+
+        var pagina = "VerificarPagosRelacionados.php";
+        var iduser=localStorage.getItem('id_user');
+        var datos="pagosarealizar="+JSON.stringify(pagosarealizar)+"&iduser="+iduser;
+        $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: urlphp+pagina,
+        data:datos,
+        async:false,
+        success: function(resp){
+          resolve(resp);
+        },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+          var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                    //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                    console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+        }
+
+      });
+
+    });
 }
 
 function CargarPagosElegidos() {
 
 	var listado=JSON.parse(localStorage.getItem('pagos'));
 	console.log(listado);
+ 
 	var html="";
 	for (var i = 0; i <listado.length; i++) {
    var color='';
       if (listado[i].monto<0) {
         color='red';
       }
+      var todosdescuento=0;
 			html+=`
 				<li class="list-item" style="color:`+color+`">
-                    <div class="row">
+                    <div class="row" style="padding-right: 1em;padding-left: 1em;">
                         <div class="col-80" style="padding:0;">
                             <p class="text-muted small" style="font-size:18px;" id="concepto_`+listado[i].id+`">
                               `+listado[i].concepto+`
-                            </p>
-                            <p class="text-muted " style="font-size:30px;text-align:right;">$`+formato_numero(listado[i].monto,2,'.',',')+`</p>
+                            </p>`;
+                            var estilo="";
 
-                          <input type="hidden" value="`+listado[i].monto+`" class="montopago" id="val_`+listado[i].id+`">
+                            if (listado[i].monederousado>0) {
+
+                             estilo="text-decoration:line-through;";
+
+                            }
+                           html+=` <p class="text-muted " id="montopago_`+listado[i].id+`" style="font-size:30px;text-align:right;`+estilo+`">
+
+                            $`+formato_numero(listado[i].monto,2,'.',',')+`
+                            </p>`;
+
+                           
+
+                        html+=` <input type="hidden" value="`+listado[i].monto+`" class="montopago" id="val_`+listado[i].id+`">
                         </div>
-                        <div class="col-20">
+                        <div class="col-20">`;
+                     
+
+                        html+=`</div>
 
                         </div>
-                    </div>
-                 </li>
 
-			`;
+                        <div id="descuentospagos_`+listado[i].id+`"></div>
+                       `;
+                          
+                          
+                              
+
+                       html+=`
+
+
+
+                        </div>`;
+
+                         if (listado[i].monederousado>0) {
+                              html+=`
+
+                              <div class="row" style="padding-left: 1em; padding-right: 1em;">
+                              <div class="col-80" style="padding: 0;" >
+                              <p style="color:#d77a34;text-align: left;margin-top: 10px;">Monedero aplicado </p>
+                              </div>
+                              <div class="col-80" style="color:#d77a34;font-size:30px;text-align: right;margin: 0;padding: 0;" >
+                                <p> -$`+formato_numero(listado[i].monederousado,2,'.',',')+`</p> 
+                              </div>
+                              </div>
+                              `;
+       
+                            }
+                       html+=` <div class="row" >
+                        <div class="col-90" style="padding:0;text-align: end;margin-top: 1em;">
+
+                        `;
+
+                        if (listado[i].habilitarmonedero==1) {
+                           if (listado[i].monederousado==0) {
+                        html+=`  <span class="chip  btnmonedero" 
+                          id="" style=" height: 30px;width:150px;background:#007aff;color:white;margin-right: 10px;text-align:center;justify-content: center;" 
+                          onclick="AbrirModalmonedero('`+listado[i].id+`')">
+                                
+                                Aplicar monedero
+                                </span>`;
+
+                              }else{
+
+                         html+=`  <span class="chip  btnmonedero" 
+                          id="" style=" height: 30px;width:150px;background:#007aff;color:white;margin-right: 10px;text-align:center;justify-content: center;" 
+                          onclick="RevertirMonedero('`+listado[i].id+`')">
+                                
+                                Revertir
+                                </span>`;
+
+
+                              }
+                            }
+
+                           html+=`
+                               </div>
+                              <div class="col-20"></div>
+                            </div>
+
+                            <div id="subtotal_`+listado[i].id+`"></div>
+                            
+                           </div>
+                           </div>
+                         </li>`;
 		}
 
+
+
 		$(".listadopagoselegidos").html(html);
+
+
+    var html2="";
+      for (var i = 0; i <listado.length; i++) {
+
+                 if (descuentosaplicados.length>0) {
+                                       
+                                listado[i].descuentos=[];
+                                for (var k = 0; k <descuentosaplicados.length; k++) {
+
+                                  if (descuentosaplicados[k].idpago == listado[i].id) {
+                                   html2=`
+                                    <div class="row desc" style="    padding-right: 1em;padding-left: 1em;">
+
+                                   <div class="col-80" style="    margin-top: 10px;padding:0;">
+
+                                      <p class="text-muted" style="text-align: left;">Descuento `+descuentosaplicados[i].titulo+`</p> 
+
+                                         </div>
+                                   <div class="col-80" style="margin: 0;padding: 0;">
+                                      <p style="text-align: right;font-size:30px;"> -$`+formato_numero(descuentosaplicados[i].montoadescontar,2,'.',',')+`</p> 
+                                   </div>
+
+                                   </div>
+                                   `;
+                                   todosdescuento=todosdescuento+descuentosaplicados[i].montoadescontar;
+                                   listado[i].descuentos.push(descuentosaplicados[k]);
+                                    
+                                      $("#montopago_"+listado[i].id).css('text-decoration','line-through');
+                                   
+                                     $("#descuentospagos_"+listado[i].id).append(html2);
+
+                                    }
+                                }
+                              }
+
+
+                                   if (descuentosmembresia.length>0) {
+                                       
+                                  listado[i].descuentosmembresia=[];
+                                for (var k = 0; k <descuentosmembresia.length; k++) {
+
+                                  if (descuentosmembresia[k].idpago == listado[i].id) {
+                                   html2=`
+                                   <div class="row desc" style="padding-right: 1em; padding-left: 1em;">
+                                   <div class="col-80" style="    margin-top: 10px;padding:0;">
+
+                                           <p class="text-muted" style="text-align: left;">Descuento `+descuentosmembresia[i].titulo+`</p> 
+
+                                         </div>
+                                   <div class="col-80" style="margin: 0;padding: 0;">
+                                      <p style="text-align: right;font-size:30px;"> -$`+formato_numero(descuentosmembresia[i].montoadescontar,2,'.',',')+`</p> 
+                                   </div>
+
+                                     </div>
+                                   `;
+                                  todosdescuento=todosdescuento+descuentosaplicados[i].montoadescontar;
+
+                                   listado[i].descuentosmembresia.push(descuentosmembresia[k]);
+                                  $("#descuentospagos_"+listado[i].id).append(html2);
+
+
+                                    }
+                                }
+
+                                $("#montopago_"+listado[i].id).css('text-decoration','line-through');
+
+                              }
+
+
+                            html2=` <div class="row" style="padding-right: 1em;padding-left: 1em;">
+                              <div class="col-80" style="text-align: end;    margin: 0;padding: 0; ">
+
+                            `;
+                              var t=listado[i].monto-todosdescuento-listado[i].monederousado;
+                              html2+=`<p class="text-muted small" style="text-align: left;font-size:18px;"> 
+                              Subtotal </p>
+
+                              `;
+                           html2+=` </div>
+                                 <div class="col-80" style="font-size:30px;margin: 0;padding: 0;" >
+                                   <p class="text-muted " style="text-align: right;"> $`+formato_numero(t,2,'.',',')+`</p> 
+                               </div>`;
+
+                         $("#subtotal_"+listado[i].id).append(html2);
+
+
+                        }
+
+            localStorage.setItem('pagos',JSON.stringify(listado));
+
 }
 
 
@@ -318,9 +793,71 @@ function Cargartipopago(tipodepagoseleccionado) {
   });
 }
 
+function CargartipopagoSeleccionado(tipodepagoseleccionado) {
+     return new Promise(function(resolve, reject) {
+
+    var pagina = "obtenertipodepagos5.php";
+    var factura=0;
+    var datos="tipodepagoseleccionado="+tipodepagoseleccionado+"&factura="+factura;
+    $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(datos){
+
+      var opciones=datos.respuesta;
+  
+      Pintartipodepagos(opciones,tipodepagoseleccionado);
+      resolve(1);
+    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+      var error;
+        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+    }
+
+  });
+  });
+}
+
+
+function CargartipopagoSeleccionado2(tipodepagoseleccionado) {
+     return new Promise(function(resolve, reject) {
+
+    var pagina = "obtenertipodepagos5.php";
+    var factura=0;
+    var datos="tipodepagoseleccionado="+tipodepagoseleccionado+"&factura="+factura;
+    $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(datos){
+
+      var opciones=datos.respuesta;
+  
+      Pintartipodepagos(opciones,tipodepagoseleccionado);
+      resolve(1);
+    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+      var error;
+        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+    }
+
+  });
+  });
+}
+
+
 function CargartipopagoFactura(tipodepagoseleccionado) {
-   var pagina = "obtenertipodepagos2.php";
-    var datos="tipo=1";
+   var pagina = "obtenertipodepagos5.php";
+    var datos="tipodepagoseleccionado="+tipodepagoseleccionado+"&factura=1";
     $.ajax({
     type: 'POST',
     dataType: 'json',
@@ -345,7 +882,7 @@ function CargartipopagoFactura(tipodepagoseleccionado) {
 }
 
 
-function Pintartipodepagos(opciones,tipodepagoseleccionado) {
+/*function Pintartipodepagos(opciones,tipodepagoseleccionado) {
    var html='';
 
   if (opciones.length>0) {
@@ -363,7 +900,72 @@ function Pintartipodepagos(opciones,tipodepagoseleccionado) {
   $("#tipopago").html(html);
 
 
+  }*/
+
+  function Pintartipodepagos(opciones, tipodepagoseleccionado) {
+ 
+
+ var html="";
+
+      var classe="swiper-slide-active";
+
+    if (opciones.length>0) {
+
+      html+=` <div class="swiper-wrapper" style="margin-left: 1em;">`;
+    for (var i = 0; i < opciones.length; i++) {
+      var checked="";
+     
+        html+=`
+<div class="swiper-slide swiper-slide-active" role="group"  style="margin-right: 20px;width:auto;">
+        <div class="card cardtipopago" id="cardtipopago_`+opciones[i].idtipodepago+`" style="height: 35px!important;padding: 10px;" onclick="CargarOpcionesTipopago(`+opciones[i].idtipodepago+`)">
+        <div class="card-content card-content-padding  featured-card">
+           
+            <div class="card-info">
+              <h5 class="title" >
+                <a >`+opciones[i].tipo+`
+                </a>
+              </h5>
+              <p class="location">
+              </p>
+              <h6 class="text-primary vacancy">
+              </h6>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        `;
+        classe="";
+    }
+
+    html+=`</div>`;
+   
+    $$(".divtablerotipo").html(html);
+
+    if (swiper1 && swiper1.destroy) {
+      // Destruir el Swiper existente si está presente
+      swiper1.destroy(true, true); // Los parámetros true limpian los eventos y la estructura del DOM
+    }
+
+      swiper1 = new Swiper(".divtablerotipo", {
+         slidesPerView: "auto",
+        spaceBetween: 20,
+        pagination: false,
+
+      });
+      $(".divtablerotipo").css('display','block');
+
+
+
+      swiper1.update();
+  }else{
+
+    $(".divtablerotipo").css('display','none');
+
   }
+
+}
+
 
 
 function CalcularTotales() {
@@ -374,6 +976,7 @@ function CalcularTotales() {
   var comision=0;
   var comisionpornota=0;
   var tipocomisionpornota=localStorage.getItem('tipocomisionpornota');
+   $(".divtipopago").css('display','block');
 
 
 	var obtenerpagos=JSON.parse(localStorage.getItem('pagos'));
@@ -473,34 +1076,81 @@ function CalcularTotales() {
 	  $(".lblresumen").text(formato_numero(resta,2,'.',','));
     $(".lbltotal").text(formato_numero(sumaconcomision,2,'.',','));
     var suma=localStorage.getItem('sumatotalapagar');
-    if (suma==0) {
+    $(".lbltotalapagar").text(formato_numero(suma,2,'.',','));
 
-      $("#btnpagarresumen").attr('disabled',false);
+    if (suma==0 ) {
+        $$("#btnpagarnota").css('display','block');
+
+        $("#btnpagarnota").attr('disabled',false);
+   
+        $(".divtipopago").css('display','none');
+        $(".preguntafactura").css('display','none');
+
     }
+      var restatotaldes=parseFloat(sumatotal)-parseFloat(descuentocupon)-parseFloat(totaldescuentos);
+
+     
+    if (monedero==restatotaldes) {
+
+      localStorage.setItem('idtipodepago',0);
+
+    }
+    if (restatotaldes==0) {
+
+      localStorage.setItem('idtipodepago',100);
+
+    }
+
+
 }
 
 
-function AbrirModalmonedero() {
-	
-	
+var monederousuario=0;
+
+
+function AbrirModalmonedero(idpago) {
+
+
+	  var listado=localStorage.getItem('pagos');
+	  var id_user=localStorage.getItem('id_user');
+    var pagina = "VerificarPagosMonedero.php";
+    var datos="id_user="+id_user+"&pagos="+listado+"&idpago="+idpago;
+    $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+      var respuesta=resp.monedero;
+      var montopago=resp.montopago;
+
+      var valor=montopago;
+      if (montopago>=respuesta) {
+
+      var valor=respuesta;
+
+      }
        var html=`
          
-              <div class="block">
+              <div class="">
                <div class="row" style="">
                 	<p style="font-size:26px;padding:1px;"  >$<span id="monedero">0.00</span></p>
 
                 </div>
 
-                <div class="row" style="padding-top:1em;">
+                <div class="row" style="padding-top:1em;justify-content: center;">
                 	<label style="font-size:16px;padding:1px;">Cantidad a utilizar:</label>
-                	<input type="number" name="txtcantidad" id="txtcantidad"  />
+                	<input type="number" name="txtcantidad" id="txtcantidad" onkeyup="ValidarNumero()"; value="`+valor+`" style="width: 100px;font-size: 26px;"/>
                 </div>
+                <p id="txtadvertencia" style="color:red;"></p>
               </div>
            
          
         `;
        app.dialog.create({
-          title: 'Monedero',
+          title: 'Tienes en monedero',
+
           //text: 'Dialog with vertical buttons',
           content:html,
           buttons: [
@@ -515,49 +1165,215 @@ function AbrirModalmonedero() {
 
            onClick: function (dialog, index) {
                     if(index === 0){
-              
+                CerrarDialog();
           }
           else if(index === 1){
-                AplicarMonedero();
+                AplicarMonedero(idpago);
               
             }
            },
 
           verticalButtons: false,
+           close:false,
         }).open();
+
+
+       $("#monedero").text(formato_numero(respuesta,2,'.',','));
+       $(".monederotxt").text(formato_numero(respuesta,2,'.',','));
+       monederousuario=respuesta;
+       
+       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+      var error;
+        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+    }
+
+  });
 		
-		ObtenerMonedero();
+		//ObtenerMonedero();
 
 }
 
-function AplicarMonedero() {
-	var monederousuario=parseFloat($("#monedero").text());
-	var txtcantidad=parseFloat($("#txtcantidad").val());
+function CerrarDialog() {
+     app.dialog.close();
 
+}
+function ValidarNumero() {
+ /* var numero= $("#txtcantidad").replace(/\D/g, "")
+        .replace(/([0-9])([0-9]{2})$/, '$1$2');
+
+    $("#txtcantidad").val(numero);*/
+}
+
+function AplicarMonedero(idpago) {
+
+    $("#txtadvertencia").text('');
+    var txtcantidad=parseFloat($("#txtcantidad").val());
+    var sumatotalapagar=localStorage.getItem('sumatotalapagar');
+    if (monederousuario>0) {
+  if (txtcantidad!='' &&txtcantidad!=0) {
+      if (txtcantidad>monederousuario) {
+         $("#txtadvertencia").text('La cantidad supera el monedero acumulado');
+         alerta('','La cantidad supera el monedero acumulado');
+
+      }else{
+
+
+
+        if (txtcantidad>parseFloat(sumatotalapagar)) {
+          console.log('1');
+          $("#txtadvertencia").text('La cantidad ingresada es mayor al total');
+              alerta('','La cantidad ingresada es mayor al total');
+
+        }else{
+            if (txtcantidad>0) {
+              
+
+               var listado=localStorage.getItem('pagos');
+                var id_user=localStorage.getItem('id_user');
+                var pagina = "AplicarMonederoPago.php";
+                var datos="id_user="+id_user+"&pagos="+listado+"&idpago="+idpago+"&txtcantidad="+txtcantidad;
+                $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: urlphp+pagina,
+                data:datos,
+                async:false,
+                success: function(resp){
+                  var respuesta=resp.pagos;
+                  console.log(respuesta);
+                  localStorage.setItem('pagos',JSON.stringify(respuesta));
+                 
+                  var monederousado=resp.monederousado;
+                  localStorage.setItem('monedero',monederousado);
+                  CargarPagosElegidos();
+                   CalcularTotales();
+                   },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+                  var error;
+                    if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+                    if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                            //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                            console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+                }
+                });
+
+            }
+
+             app.dialog.close();
+
+        }
+      
+      }
+
+    }else{
+                    app.dialog.close();
+                              console.lo('3');
+
+        alerta('','Ingrese una cantidad válida')
+      }
+
+  }else{
+
+              app.dialog.close();
+          console.log('4');
+
+    alerta('','No cuenta con monedero acumulado');
+  }
+
+
+   
+	/*var monederousuario=parseFloat($("#monedero").text());
+	var txtcantidad=parseFloat($("#txtcantidad").val());
+  var sumatotalapagar=localStorage.getItem('sumatotalapagar');
 	if (monederousuario>0) {
 	if (txtcantidad!='' &&txtcantidad!=0) {
 			if (txtcantidad>monederousuario) {
-				alerta('','La cantidad supera el monedero acumulado');
-			}else{
+				 $("#txtadvertencia").text('La cantidad supera el monedero acumulado');
+			   alerta('','La cantidad supera el monedero acumulado');
 
-				localStorage.setItem('monedero',txtcantidad);
+      }else{
 
-				CalcularTotales();
-				app.dialog.close();
-				$(".monedero").text(formato_numero(txtcantidad,2,'.',','));
+
+
+        if (txtcantidad>parseFloat(sumatotalapagar)) {
+          console.log('1');
+          $("#txtadvertencia").text('La cantidad ingresada es mayor al total');
+              alerta('','La cantidad ingresada es mayor al total');
+
+        }else{
+            if (txtcantidad>0) {
+              localStorage.setItem('monedero',txtcantidad);
+
+              CalcularTotales();
+             
+              $(".monedero").text(formato_numero(txtcantidad,2,'.',','));
+              console.log('2');
+
+              $(".btnmonedero .chip-label").text('Revertir');
+              $(".btnmonedero").attr('onclick','RevertirMonedero()');
+
+            }
+
+             app.dialog.close();
+
+        }
+			
 			}
 
 		}else{
+                    app.dialog.close();
+                              console.lo('3');
 
 				alerta('','Ingrese una cantidad válida')
 			}
 
 	}else{
 
+              app.dialog.close();
+          console.log('4');
 
 		alerta('','No cuenta con monedero acumulado');
-	}
+	}*/
 	
+}
+
+function RevertirMonedero(idpago) {
+
+    var listado=localStorage.getItem('pagos');
+    var id_user=localStorage.getItem('id_user');
+    var pagina = "RevertirPagosMonedero.php";
+    var datos="id_user="+id_user+"&pagos="+listado+"&idpago="+idpago;
+    $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+
+      var respuesta=resp.pagos;
+      console.log(respuesta);
+      localStorage.setItem('pagos',JSON.stringify(respuesta));
+     
+      var monederousado=resp.monederousado;
+      localStorage.setItem('monedero',monederousado);
+      CargarPagosElegidos();
+      CalcularTotales();
+        /*$(".btnmonedero .chip-label").text('Aplicar');
+        $(".btnmonedero").attr('onclick','AbrirModalmonedero()');
+*/
+         },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+      var error;
+        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+    }
+
+  });
+
 }
 
 function ObtenerMonedero() {
@@ -573,8 +1389,19 @@ function ObtenerMonedero() {
     success: function(datos){
 
     var respuesta=datos.respuesta;
-    $("#monedero").text(respuesta);
-    $(".monederotxt").text(respuesta);
+    $("#monedero").text(formato_numero(respuesta,2,'.',','));
+    $(".monederotxt").text(formato_numero(respuesta,2,'.',','));
+    var sumatotalapagar=localStorage.getItem('sumatotalapagar');
+
+
+   /* if (parseFloat(respuesta)>=parseFloat(sumatotalapagar)) {
+
+      $("#txtcantidad").val(sumatotalapagar);
+    }else{
+    
+      $("#txtcantidad").val(respuesta);
+
+    }*/
 
     },error: function(XMLHttpRequest, textStatus, errorThrown){ 
       var error;
@@ -696,6 +1523,11 @@ function HabilitarOpcionespago(idtipodepago,foto,stripe,habilitarcampo,habilitar
      // $("#datosdecuenta").html(cuenta);
       $("#habilitarfoto").css('display','block');
 
+      $$("#btnpagarnota").prop('disabled',true);
+
+      $$("#btnpagarnota").css('display','none');
+      
+
       }else{
 
       $(".cuentas").css('display','none');
@@ -704,7 +1536,7 @@ function HabilitarOpcionespago(idtipodepago,foto,stripe,habilitarcampo,habilitar
 
       $("#habilitarfoto").css('display','none');
      // $("#datosdecuenta").css('display','none');
-
+     
     }
 
     if (stripe==1) {
@@ -729,7 +1561,12 @@ function HabilitarOpcionespago(idtipodepago,foto,stripe,habilitarcampo,habilitar
        localStorage.setItem('datostarjeta','');
 
         $(".botoneditar").attr('onclick','EditarMontoCliente()');
-        $("#btnpagarresumen").attr('disabled',false);
+        //$("#btnpagarresumen").attr('disabled',false);
+
+         $$("#btnpagarnota").prop('disabled',false);
+
+         $$("#btnpagarnota").css('display','block');
+      
 
     }else{
         $("#campomonto").css('display','none');
@@ -757,6 +1594,7 @@ function HabilitarOpcionespago(idtipodepago,foto,stripe,habilitarcampo,habilitar
        localStorage.setItem('impuesto',0);
        localStorage.setItem('datostarjeta2','');
        localStorage.setItem('datostarjeta','');
+      localStorage.setItem('campomonto',0);
 
   }
 
@@ -764,7 +1602,7 @@ function HabilitarOpcionespago(idtipodepago,foto,stripe,habilitarcampo,habilitar
 
 
 }
-function CargarOpcionesTipopago() {
+function CargarOpcionesTipopago(idtipopago) {
 
   if($(".opccard")){
       $(".opccard").each(function(){
@@ -772,16 +1610,18 @@ function CargarOpcionesTipopago() {
 
       });
   }
-  
 
-	var idtipopago=$("#tipopago").val();
+  $(".cardtipopago").removeClass('seleccionadotipo');
+  $("#cardtipopago_"+idtipopago).addClass('seleccionadotipo');
+
+	//var idtipopago=$("#tipopago").val();
 	var datos="idtipopago="+idtipopago;
 	var pagina="Cargartipopago.php";
     $(".divtransferencia").css('display','none');
     $("#divagregartarjeta").css('display','none');
     $("#divlistadotarjetas").css('display','none');
-    $$("#btnpagarresumen").prop('disabled',true);
     $("#aparecerimagen").css('display','none');
+    $("#campomonto").css('display','none');
       localStorage.setItem('comisionmonto',0);
       localStorage.setItem('comisionporcentaje',0);
       localStorage.setItem('impuesto',0);
@@ -791,6 +1631,10 @@ function CargarOpcionesTipopago() {
       localStorage.setItem('comisionpornota',0);
       localStorage.setItem('tipocomisionpornota',0);
       localStorage.setItem('cambio',0);
+      localStorage.setItem('idtipodepago',0);
+   //CrearModalEsperaDialogDos();
+ 
+
   if (idtipopago>0) {
   
       $.ajax({
@@ -799,6 +1643,11 @@ function CargarOpcionesTipopago() {
       url: urlphp+pagina,
       data:datos,
       async:false,
+       beforeSend: function() {
+        // Mostrar el spinner
+        
+
+    },
       success: function(respuesta){
       var resultado=respuesta.respuesta;
 
@@ -834,7 +1683,7 @@ function CargarOpcionesTipopago() {
 
             html+=`
             	<div id="habilitarfoto" style="display: block;">
-      <div class="subdivisiones" style="margin-top: 1.5em" ><span style="margin-top: .5em;margin-left: .5em;">Comprobante</span></div>
+      <div class="subdivisiones" style="margin-top: 1.5em" ><span style="margin-top: .5em;margin-left: .5em;"></span></div>
 
            <div class=""  >
                   <div>
@@ -869,6 +1718,8 @@ function CargarOpcionesTipopago() {
 
         if (resultado.habilitarcampo==1) {
 
+        
+
          
 
         }
@@ -897,6 +1748,9 @@ function CargarOpcionesTipopago() {
             HabilitarBotonPagar();
            
         }
+
+
+       
          CalcularTotales();
 
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
@@ -905,11 +1759,15 @@ function CargarOpcionesTipopago() {
           if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
                   //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
                   console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
-      }
+      },
+        complete: function() {
+        // Ocultar el spinner
+        //app.dialog.close();
+        }
 
     });
   }else{
-
+   ObtenerDescuentosRelacionados();
     CalcularTotales();
   }
 }
@@ -1212,7 +2070,7 @@ function VisualizarImagen(foto) {
 function ValidacionCargosTutorados() {
 
   var iduser=localStorage.getItem('id_user');
-  var pagina = "ValidacionCargosTutor.php";
+  var pagina = "ValidacionCargosTutor2.php";
   var datos= 'pagos='+localStorage.getItem('pagos')+"&id_user="+iduser;
   pagina = urlphp+pagina;
 
@@ -1245,18 +2103,104 @@ function ValidacionCargosTutorados() {
 
 }
 
+function ValidacionAceptar() {
+
+ return new Promise(function(resolve, reject) {
+   var pagina = "ValidacionPagoAceptarServicio.php";
+   var iduser = localStorage.getItem('id_user');
+   var datos='pagos='+localStorage.getItem('pagos')+"&id_user="+iduser;
+
+    $.ajax({
+      url: urlphp+pagina,
+      type: 'post',
+      dataType: 'json',
+      data:datos,
+    success: function(res) {
+    
+     
+       
+      resolve(res);
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+                        var error;
+                        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+                        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                                                 //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                         app.dialog.alert('Error leyendo fichero jsonP '+error,'Error');
+                     $(".check-list").css('display','none');
+                     $("#aparecerimagen").css('display','none');
+                    }
+                                       
+
+          }); 
+  });
+}
+
+function ValidacionBuscarasignacion() {
+
+ return new Promise(function(resolve, reject) {
+   var pagina = "ValidacionBuscarasignacion.php";
+   var iduser = localStorage.getItem('id_user');
+   var datos='pagos='+localStorage.getItem('pagos')+"&id_user="+iduser;
+
+    $.ajax({
+      url: urlphp+pagina,
+      type: 'post',
+      dataType: 'json',
+      data:datos,
+    success: function(res) {
+    
+     
+       
+      resolve(res);
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+                        var error;
+                        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+                        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                                                 //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                         app.dialog.alert('Error leyendo fichero jsonP '+error,'Error');
+                     $(".check-list").css('display','none');
+                     $("#aparecerimagen").css('display','none');
+                    }
+                                       
+
+          }); 
+  });
+}
+
 function RealizarCargo() {
+
+
+
  app.dialog.confirm('','¿Está seguro  de realizar el pago?' , function () {
 
-  ValidacionCargosTutorados().then(r => {
+   ValidacionBuscarasignacion().then(r=>{
+  var noencontrado=0;
+      var pagosencontrados=r.pagosencontrados;
+      if (pagosencontrados.length>0) {
 
+        for (var i = 0; i < pagosencontrados.length; i++) {
+          console.log(pagosencontrados[i].idusuarios_servicios);
+          if (pagosencontrados[i].idusuarios_servicios == 'null' || pagosencontrados[i].idusuarios_servicios==null) {
+
+            noencontrado++;
+          }
+       }
+      }
+
+       if (noencontrado==0) {
+
+  ValidacionCargosTutorados().then(r => {
+ 
  
     if (r.pagosadeudados==0) {
+
+      $$("#btnpagarresumen").attr('onclick','');
+      $$("#btnpagarresumen").addClass('disabled-button');
        var respuesta=0;
      var mensaje='';
      var pedido='';
      var informacion='';
-   var pagina = "RealizarPago.php";
+   var pagina = "RealizarPago7.php";
    var iduser=localStorage.getItem('id_user');
    var constripe=localStorage.getItem('constripe');
    var idtipodepago=localStorage.getItem('idtipodepago');
@@ -1274,7 +2218,7 @@ function RealizarCargo() {
    var idopcion=0;
    var confoto=localStorage.getItem('llevafoto');
    var bandera=1;
-   var campomonto=localStorage.getItem('campomonto');
+   var campomonto=localStorage.getItem('campomonto'); 
    var montovisual=localStorage.getItem('montocliente');
    var cambiomonto=localStorage.getItem('cambio');
    var comisionpornota=localStorage.getItem('comisionpornota');
@@ -1314,7 +2258,9 @@ function RealizarCargo() {
         }
       
      }
-   var datos='pagos='+localStorage.getItem('pagos')+"&id_user="+iduser+"&constripe="+constripe+"&idtipodepago="+idtipodepago+"&descuentocupon="+descuentocupon+"&codigocupon="+codigocupon+"&descuentosaplicados="+JSON.stringify(descuentosaplicados)+"&sumatotalapagar="+sumatotalapagar+"&comision="+comision+"&comisionmonto="+comisionmonto+"&comisiontotal="+comisiontotal+"&impuestototal="+impuestototal+"&subtotalsincomision="+subtotalsincomision+"&impuesto="+impuesto+"&descuentosmembresia="+JSON.stringify(descuentosmembresia);
+
+     console.log(descuentosaplicados);
+   var datos='pagos='+localStorage.getItem('pagos')+"&id_user="+iduser+"&constripe="+constripe+"&idtipodepago="+idtipodepago+"&descuentocupon="+descuentocupon+"&codigocupon="+codigocupon+"&sumatotalapagar="+sumatotalapagar+"&comision="+comision+"&comisionmonto="+comisionmonto+"&comisiontotal="+comisiontotal+"&impuestototal="+impuestototal+"&subtotalsincomision="+subtotalsincomision+"&impuesto="+impuesto+"&descuentosmembresia="+JSON.stringify(descuentosmembresia);
       datos+='&confoto='+confoto+"&rutacomprobante="+rutacomprobante+"&comentarioimagenes="+comentarioimagenes;
       datos+='&campomonto='+campomonto+'&montovisual='+montovisual+'&cambiomonto='+cambiomonto;
       datos+='&comisionpornota='+comisionpornota+"&comisionnota="+comisionnota+"&tipocomisionpornota="+tipocomisionpornota;
@@ -1322,6 +2268,7 @@ function RealizarCargo() {
       datos+='&datostarjeta='+datostarjeta;
       datos+='&requierefactura='+requierefactura;
       datos+='&idusuariosdatosfiscales='+idusuariosdatosfiscales;
+      datos+='&descuentosaplicados='+JSON.stringify(descuentosaplicados);
     pagina = urlphp+pagina;
     if (bandera==1) {
           $(".dialog-buttons").css('display','none');
@@ -1389,6 +2336,9 @@ function RealizarCargo() {
                                         $(".mensajeexito").css('display','none');
                                         $(".butonok").css('display','none');
                                         $(".butoerror").css('display','block');
+                                        $$("#btnpagarnota").removeClass('disabled-button');
+                                        $$("#btnpagarnota").attr('onclick','RealizarCargo()');
+
                     // PagoNorealizado(mensaje,output.paymentIntent,notapago);
                          // alerta('',mensaje);
 
@@ -1404,6 +2354,9 @@ function RealizarCargo() {
                                         $(".mensajeexito").css('display','none');
                                         $(".butonok").css('display','none');
                                         $(".butoerror").css('display','block');
+                                        $$("#btnpagarnota").removeClass('disabled-button');
+                                        $$("#btnpagarnota").attr('onclick','RealizarCargo()');
+
                     }
                      else if (output.error) {
                       var mensaje = "La tarjeta fue declinada";
@@ -1415,7 +2368,10 @@ function RealizarCargo() {
                                         $(".mensajeexito").css('display','none');
                                         $(".butonok").css('display','none');
                                         $(".butoerror").css('display','block');
+                                        $$("#btnpagarnota").removeClass('disabled-button');
+                                        $$("#btnpagarnota").attr('onclick','RealizarCargo()');
 
+                    
                      } else if (output.succeeded) {
                       // Card was successfully charged off-session
                       // No recovery flow needed
@@ -1456,6 +2412,7 @@ function RealizarCargo() {
 
 
                }else{
+                      var mensaje = "Oops, algo no está bien, intenta de nuevo";
 
 
                           $(".mensajeproceso").css('display','none');
@@ -1464,7 +2421,7 @@ function RealizarCargo() {
                           $(".butonok").css('display','none');
                           $(".butoerror").css('display','block');
 
-                alerta('',mensaje);
+                      alerta('',mensaje);
                }
 
                 
@@ -1501,13 +2458,23 @@ function RealizarCargo() {
               }
         })
 
+
+  }else{
+
+    GoToPage('listadopagos');
+  }
+
+});
   
       },function () {
 
           
            
 
-    });
+});
+
+
+
         
   
          //  });
@@ -1517,25 +2484,35 @@ function RealizarCargo() {
 
 
 function ObtenerDescuentosRelacionados() {
+  console.log('descuentos');
    var iduser=localStorage.getItem('id_user');
-
+ descuentosaplicados=[];
+ $$("#uldescuentos").html('');
+ $$(".desc").remove();
   var datos= 'pagos='+localStorage.getItem('pagos')+"&id_user="+iduser;
   var pagina = "ObtenerDescuentosRelacionados.php";
 
-    $.ajax({
+var promesa= new Promise(function(resolve, reject) {
+
+   $.ajax({
       url: urlphp+pagina,
       type: 'post',
       dataType: 'json',
       data:datos,
-      async:false,
     success: function(res) {
-
+    
       var resultado=res.descuentos;
       descuentosaplicados=[];
 
-      PintarDescuentos(resultado);
-       ObtenerDescuentoMembresia();
-      
+      if (resultado.length>0) {
+
+
+            descuentosaplicados=resultado;
+
+      }
+     // PintarDescuentos(resultado);
+       
+      resolve(resultado);
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
                         var error;
                         if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
@@ -1548,6 +2525,17 @@ function ObtenerDescuentosRelacionados() {
                                        
 
           }); 
+ }).then(function(value) { 
+    console.log('1'); 
+   ObtenerDescuentoMembresia();
+
+ }).then(function (value) {
+
+    CargarPagosElegidos();
+ });
+
+
+
 
 }
 
@@ -1556,12 +2544,11 @@ function PintarDescuentos(respuesta) {
   $("#visualizardescuentos").css('display','none');
 
  if (respuesta.length>0) {
-    descuentosaplicados=respuesta;
     $("#visualizardescuentos").css('display','block');
 
   for (var i = 0; i <respuesta.length; i++) {
     html+=`
-     <li class="list-item">
+     <li class="list-item desc">
                     <div class="row">
                         <div class="col-80" style="padding: 0;">
                             <p class="text-muted small" style="font-size:18px;" id="">
@@ -1585,8 +2572,8 @@ function PintarDescuentos(respuesta) {
   }
  }
 
+ //$("#uldescuentos").append(html);
 
- $("#uldescuentos").append(html);
 }
 
 
@@ -1617,7 +2604,7 @@ function CrearModalEspera() {
                     <img src="img/loading.gif" style="width:20%;display: flex;justify-content: center;align-items: center;margin:0px auto;">
 
                   </div>
-                  <div id="" class="mensajeerror" style="font-size:20px;font-weight:bold;display:none;" >Error en la conexción,vuelva a intentar.</div>
+                  <div id="" class="mensajeerror" style="font-size:20px;font-weight:bold;display:none;" >Oops, algo no está bien, intenta de nuevo.</div>
                   <div id="" class="mensajeexito" style="font-size:20px;font-weight:bold;display:none;" >Se realizó correctamente</div>
 
 
@@ -1682,9 +2669,11 @@ function HabilitarBotonPagar() {
         seleccion=1; 
         }
       });
-      $$("#btnpagarresumen").prop('disabled',true);
+      $$("#btnpagarnota").prop('disabled',true);
       if (seleccion==1) {
-          $$("#btnpagarresumen").prop('disabled',false);
+          $$("#btnpagarnota").css('display','block');
+
+          $$("#btnpagarnota").prop('disabled',false);
       }
 }
 
@@ -1778,17 +2767,16 @@ function ObtenerDescuentoMembresia() {
     type: 'POST',
     dataType: 'json',
     url: urlphp+pagina,
-    crossDomain: true,
-    cache: false,
     data:datos,
-    async:false,
     success: function(respuesta){
 
-      var descuentomembresia=respuesta.descuentomembresia;
+      var descuentomem=respuesta.descuentomembresia;
         descuentosmembresia=[];
 
-      if (descuentomembresia.length>0) {
-        PintarDescuentosMembresia(descuentomembresia);
+      if (descuentomem.length>0) {
+            descuentosmembresia=descuentomem;
+
+       // PintarDescuentosMembresia(descuentomembresia);
       }
        CalcularTotales();
 
@@ -1813,7 +2801,7 @@ function PintarDescuentosMembresia(respuesta) {
 
   for (var i = 0; i <respuesta.length; i++) {
     html+=`
-     <li class="list-item">
+     <li class="list-item desc">
                     <div class="row">
                         <div class="col-80" style="padding: 0;">
                             <p class="text-muted small" style="font-size:18px;" id="">
@@ -1840,7 +2828,7 @@ function PintarDescuentosMembresia(respuesta) {
  }
 
 
- $("#uldescuentos").append(html);
+ //$("#uldescuentos").append(html);
 
 }
 
@@ -1863,8 +2851,10 @@ function Detallepago(idnotapago) {
 
      
       if (comprobante1.length) {
-        $$("#btnpagarresumen").prop('disabled',false);
 
+        $$("#btnpagarnota").css('display','block');
+        $("#btnpagarnota").attr('disabled',false);
+   
          $(".check-list").css('display','block')
         for (var i = 0; i < comprobante1.length; i++) {
         ruta=urlphp+`upload/comprobante/`+comprobante1[i];
@@ -2423,10 +3413,12 @@ function CancelarMonto() {
 
 function RequiereFactura() {
 
+  $("#listadotarjetas").html('');
+ 
   if ($("#requierefactura").is(':checked')) {
 
     AbrirModalDatos();
-    CargartipopagoFactura(0)
+    CargartipopagoFactura(0);
 
   }else{
 
@@ -2441,6 +3433,11 @@ function RequiereFactura() {
     CargarOpcionesTipopago();
     HabilitarOpcionespago(0,0,0,0,0);
     CalcularTotales();
+}
+function RequiereFactura2(tipodepagoselegidos) {
+    AbrirModalDatos2(tipodepagoselegidos);
+
+
 }
 
 function AbrirModalDatos() {
@@ -2568,7 +3565,7 @@ function AbrirModalDatos() {
 
                                  <li class="item-content item-input licolonia is-valid">
                                  <div class="item-inner">
-                                  <div class="item-title item-floating-label" id="flotante">Colonia</div>
+                                  <div class="item-title item-floating-label" id="flotante">Asentamiento</div>
                                   <div class="item-input-wrap">
                                   <input type="text"   id="v_colonia" onclick="FiltrarColonias()">
                                        <span class="input-clear-button">
@@ -2678,7 +3675,7 @@ function AbrirModalDatos() {
                        <form class="searchbar bordesredondeados" style="background: #ffffff!important;margin-left: 1em;margin-right: 1em;">
                         <div class="searchbar-inner">
                           <div class="searchbar-input-wrap">
-                            <input type="search" placeholder="Buscar colonia" id="buscador4" style="font-size: 16px;background: white;" />
+                            <input type="search" placeholder="Buscar asentamiento" id="buscador4" style="font-size: 16px;background: white;" />
                             <i class="searchbar-icon"></i>
                             <span class="input-clear-button" onclick="Vertodoscolonia()" ></span>
                           </div>
@@ -2718,7 +3715,338 @@ function AbrirModalDatos() {
                   </div>
                 </div>
               </div>`;
-    dynamicSheet2 = app.sheet.create({
+    dynamicSheet4 = app.sheet.create({
+        content: html,
+      swipeToClose: true,
+        backdrop: true,
+        // Events
+        on: {
+          open: function (sheet) {
+              ObtenerDatosfiscales();
+              ObtenerMetodoPago();
+              ObtenerFormaPago();
+              ObtenerPais(0);
+              ObtenerUsoCfdi();
+              $(".lipais").addClass('item-input-focused');
+              $(".btnaceptarfiscal").attr("onclick","Aceptardatofiscal()");
+
+
+          },
+          opened: function (sheet) {
+            console.log('Sheet opened');
+
+          },
+
+           close:function (sheet) {
+             PintarDatofiscalElegido();
+
+         
+            
+           },
+
+           closed:function (sheet) {
+             if (localStorage.getItem('idusuariosdatosfiscales')==undefined) {
+                
+                 $("#requierefactura").prop('checked', false);
+             }
+
+              if ($("#requierefactura").is(':checked')) {
+
+                    CargartipopagoFactura(0);
+
+                  }else{
+                  
+                    Cargartipopago(0);
+                    $(".lidatosfacturaelegido").html('');
+                    if(localStorage.getItem('idusuariosdatosfiscales')!=undefined) {
+                      localStorage.removeItem('idusuariosdatosfiscales');
+                    }
+                  }
+
+          },
+        }
+      });
+
+       dynamicSheet4.open();
+
+}
+
+function AbrirModalDatos2(tipodepagoselegidos) {
+  var html="";
+
+  html+=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;background: none;">
+            <div class="toolbar">
+              <div class="toolbar-inner">
+                <div class="left"></div>
+                <div class="right">
+                  <a class="link sheet-close"></a>
+                </div>
+              </div> 
+            </div>
+            <div class="sheet-modal-inner" style="background: white;border-top-left-radius: 20px;border-top-right-radius:20px; ">
+              <div class="iconocerrar link sheet-close" style="z-index:100;">
+                    <span class="bi bi-x-circle-fill"></span>
+                       </div>
+
+              <div class="" style="height: 100%;">
+                   <div class="row">
+                     <div class="col-20">
+                        
+                    </div>
+
+                     <div class="col-60">
+                     <span class="titulomodal"></span>
+                     </div>
+                     <div class="col-20">
+                     <span class="limpiarfiltros"></span>
+                     </div>
+                 </div>
+                <div class="page-content" style="background: white; height: 100%;width: 100%;border-radius: 20px;">
+              
+                 <div class="" style="position: absolute;top:2em;width: 100%;">
+                  
+                    <div class="">
+                      <div class="block" style="margin-right:1em;margin-left:1em;">
+
+                        `;
+        
+
+                    html+=`
+                    <div class="formulario" style="display:none">
+                    <h3 style="text-align:center;font-size:22px;margin-bottom:1em;">Datos de facturación</h3>
+                        <div class="row">
+                        <form class="was-validated needs-validation">
+                            <div class="list form-list no-margin margin-bottom">
+                              <ul>
+                                <input type="hidden" id="v_idfactura" value="0"/>
+                                <li class="item-content item-input lirazonsocial is-valid">
+                                <div class="item-inner">
+                                <div class="item-title item-floating-label" id="flotante">Razon social</div>
+                                <div class="item-input-wrap">
+                                     <input type="text"   id="v_razonsocial">
+                                     <span class="input-clear-button">
+                                     </span>
+                                  </div>
+                                </div>
+                                </li>
+
+                                 <li class="item-content item-input lirfc is-valid">
+                                 <div class="item-inner">
+                                  <div class="item-title item-floating-label" id="flotante">Rfc</div>
+                                  <div class="item-input-wrap">
+                                  <input type="text"  id="v_rfc">
+                                       <span class="input-clear-button">
+                                       </span>
+                                    </div>
+                                  </div>
+                                </li>
+
+
+                                 <li class="item-content item-input liemail is-valid">
+                                 <div class="item-inner">
+                                  <div class="item-title item-floating-label" id="flotante">Email</div>
+                                  <div class="item-input-wrap">
+                                  <input type="text"   id="v_email">
+                                       <span class="input-clear-button">
+                                       </span>
+                                    </div>
+                                  </div>
+                                </li>
+
+                                <li class="item-content item-input licodigopostal is-valid">
+                                 <div class="item-inner">
+                                  <div class="item-title item-floating-label" id="flotante">Código postal</div>
+                                  <div class="item-input-wrap">
+                                  <input type="text"   id="v_codigopostal" onkeyup="Buscarcodigo()">
+                                       <span class="input-clear-button">
+                                       </span>
+                                    </div>
+                                  </div>
+                                </li>
+
+                                <li class="item-content item-input lipais is-valid">
+                                 <div class="item-inner">
+                                  <div class="item-title item-floating-label" id="flotante">País</div>
+                                  <div class="item-input-wrap">
+                                  <select id="v_pais" onchange="ObtenerEstado(0,$(this).val())"></select>
+                                       
+                                    </div>
+                                  </div>
+                                </li>
+
+                                 <li class="item-content item-input liestado is-valid">
+                                 <div class="item-inner">
+                                  <div class="item-title item-floating-label" id="flotante">Estado</div>
+                                  <div class="item-input-wrap">
+                                  <select name="v_estado" id="v_estado" onchange="ObtenerMunicipios(0,$(this).val())"></select>
+                                  
+                                    </div>
+                                  </div>
+                                </li>
+
+                                 <li class="item-content item-input limunicipio is-valid">
+                                 <div class="item-inner">
+                                  <div class="item-title item-floating-label" id="flotante">Municipio</div>
+                                  <div class="item-input-wrap">
+                                  <select name="v_municipio" id="v_municipio"></select>
+                                 
+                                    </div>
+                                  </div>
+                                </li>
+
+                                 <li class="item-content item-input licolonia is-valid">
+                                 <div class="item-inner">
+                                  <div class="item-title item-floating-label" id="flotante">Asentamiento</div>
+                                  <div class="item-input-wrap">
+                                  <input type="text"   id="v_colonia" onclick="FiltrarColonias()">
+                                       <span class="input-clear-button">
+                                       </span>
+                                    </div>
+                                  </div>
+                                </li>
+
+                                 <li class="item-content item-input licalle is-valid">
+                                 <div class="item-inner">
+                                  <div class="item-title item-floating-label" id="flotante">Calle</div>
+                                  <div class="item-input-wrap">
+                                  <input type="text"   id="v_calle">
+                                       <span class="input-clear-button">
+                                       </span>
+                                    </div>
+                                  </div>
+                                </li>
+
+                                 <li class="item-content item-input linoexterior is-valid">
+                                 <div class="item-inner">
+                                  <div class="item-title item-floating-label" id="flotante">No. exterior</div>
+                                  <div class="item-input-wrap">
+                                  <input type="text"   id="v_noexterior">
+                                       <span class="input-clear-button">
+                                       </span>
+                                    </div>
+                                  </div>
+                                </li>
+                                 <li class="item-content item-input linointerior is-valid">
+                                 <div class="item-inner">
+                                  <div class="item-title item-floating-label" id="flotante">No. interior</div>
+                                  <div class="item-input-wrap">
+                                  <input type="text"   id="v_nointerior">
+                                       <span class="input-clear-button">
+                                       </span>
+                                    </div>
+                                  </div>
+                                </li>
+
+                                <li class="item-content item-input liformapago is-valid item-input-with-value">
+                                 <div class="item-inner">
+                                  <div class="item-title item-floating-label" id="flotante">Forma de pago</div>
+                                  <div class="item-input-wrap">
+                                  <select name="" id="v_formapago"></select>
+                                       <span class="input-clear-button">
+                                       </span>
+                                    </div>
+                                  </div>
+                                </li>
+
+                                <li class="item-content item-input limetodopago is-valid item-input-with-value">
+                                 <div class="item-inner">
+                                  <div class="item-title item-floating-label" id="flotante">Método de pago</div>
+                                  <div class="item-input-wrap">
+                                        <select name="" id="v_metodopago"></select>
+                                       <span class="input-clear-button">
+                                       </span>
+                                    </div>
+                                  </div>
+                                </li>
+
+                                <li class="item-content item-input liusocfdi is-valid item-input-with-value">
+                                 <div class="item-inner">
+                                  <div class="item-title item-floating-label" id="flotante">Uso de cfdi</div>
+                                  <div class="item-input-wrap">
+                                        <select name="" id="v_usocfdi"></select>
+                                       <span class="input-clear-button">
+                                       </span>
+                                    </div>
+                                  </div>
+                                </li>
+
+                                
+                                
+                              </ul>
+                            </div>
+
+                        </form>
+                        </div>
+                        <div class="row">
+                          <div class="" id="vimagen" style="display:none;"></div>
+                        </div>
+                        <div class="row">
+                          <a id="btnsubirimagen" onclick="AbrirModalImagenDatosFactura()" style="border-radius: 10px;
+                          height: 60px;margin-left:1em;margin-right:1em;" class="button button-fill button-large button-raised margin-bottom color-theme">
+                            <div class="fab-text">Subir imagen de constancia (SAT)</div>
+                          </a>
+                        </div>
+
+                         <div class="row" style="margin-bottom:1em;margin-top:3em;">
+
+                           <a id="btnguardardatosfactura" onclick="GuardarDatosfactura()" style="border-radius: 10px;
+                            height: 60px;margin-left:1em;margin-right:1em" class="button button-fill button-large button-raised margin-bottom color-theme">
+                              <div class="fab-text">Guardar</div>
+                            </a>
+
+                            <a id="btnregresar" onclick="RegresarFormfactura()" style="border-radius: 10px;
+                            height: 60px;margin-left:1em;margin-right:1em" class="button button-fill button-large button-raised margin-bottom color-theme">
+                              <div class="fab-text">Cancelar</div>
+                            </a>
+                          </div>
+
+                    </div>
+                    <div class="divcolonias" style="display:none;">
+
+                       <form class="searchbar bordesredondeados" style="background: #ffffff!important;margin-left: 1em;margin-right: 1em;">
+                        <div class="searchbar-inner">
+                          <div class="searchbar-input-wrap">
+                            <input type="search" placeholder="Buscar asentamiento" id="buscador4" style="font-size: 16px;background: white;" />
+                            <i class="searchbar-icon"></i>
+                            <span class="input-clear-button" onclick="Vertodoscolonia()" ></span>
+                          </div>
+                          <span class="searchbar-disable-button if-not-aurora">Cancel</span>
+                        </div>
+                      </form>
+
+                      <div class="list media-list" style="margin-top: 1em;">
+
+                        <ul id="listadocolonias" style="font-size: 14px;"></ul>
+                         <a id="btnseleccionar" onclick="GuardarColonia()" style="border-radius: 10px;
+                            height: 60px;color: white;" class="button button-fill button-large button-raised margin-bottom color-theme">
+                              <div class="fab-text">Aceptar</div>
+                            </a>
+                      </div>
+                    </div>
+
+
+                    <div class="divlistadodatosfiscales" >
+                         <div class="list media-list" style="margin-top: 1em;">
+
+                           <ul id="listadodatosfiscales" style="font-size: 14px;"></ul>
+                            
+
+                            
+                        </div>
+                    </div>
+
+                   
+
+
+                    </div>
+                    </div>
+                 </div>
+              </div>
+                    
+                  </div>
+                </div>
+              </div>`;
+    dynamicSheet5 = app.sheet.create({
         content: html,
       swipeToClose: true,
         backdrop: true,
@@ -2736,23 +4064,46 @@ function AbrirModalDatos() {
           },
           opened: function (sheet) {
             console.log('Sheet opened');
+
+          $(".btnaceptarfiscal").attr("onclick","Aceptardatofiscal()");
+
           },
 
            close:function (sheet) {
              PintarDatofiscalElegido();
+
+         
             
            },
 
            closed:function (sheet) {
-             if (localStorage.getItem('idusuariosdatosfiscales')==undefined) {
+                if (localStorage.getItem('idusuariosdatosfiscales')==undefined) {
                 
                  $("#requierefactura").prop('checked', false);
              }
+
+              if ($("#requierefactura").is(':checked')) {
+
+                    CargartipopagoFactura(0);
+
+                  }else{
+                  
+                    CargartipopagoSeleccionado(tipodepagoselegidos);
+                    $(".lidatosfacturaelegido").html('');
+                    if(localStorage.getItem('idusuariosdatosfiscales')!=undefined) {
+                      localStorage.removeItem('idusuariosdatosfiscales');
+                    }
+
+                    CargarOpcionesTipopago(0);
+                  }
+
+             
+
           },
         }
       });
 
-       dynamicSheet2.open();
+       dynamicSheet5.open();
 
 }
 function ObtenerDatosfiscales() {
@@ -3079,6 +4430,7 @@ function GuardarDatosfactura(valor) {
     resultimagendatosfactura=[];
       ObtenerDatosfiscales();
      RegresarFormfactura();
+
     
     },error: function(XMLHttpRequest, textStatus, errorThrown){ 
       var error;
@@ -3196,7 +4548,15 @@ function PintarDatosfiscales(respuesta) {
   for (var i = 0; i <respuesta.length; i++) {
 
       var imagenes=respuesta[i].imagenes;
-      var imagen=urlphp+'upload/datosfactura/'+imagenes[0].ruta;
+
+      if (imagenes.length>0) {
+              var imagen=urlphp+'upload/datosfactura/'+imagenes[0].ruta;
+
+            }else{
+
+             var imagen=urlimagendefaultservicio;
+
+            }
 
       html+=`<li style="border-radius: 10px;margin-bottom: 1em;background: white;border-radius: 10px;" class="listadatosfactura"  id="listadatosfactura_`+respuesta[i].idusuariosdatosfiscales+`" >
             <label class="label-radio item-content">                                                                               
@@ -3263,8 +4623,8 @@ function PintarDatosfiscales(respuesta) {
 
 
                           <div class="row">
-                          <a id="btnaceptarfiscal" onclick="Aceptardatofiscal()" style="border-radius: 10px;
-                            height: 60px;color: white;display:none;margin-right:1em;margin-left:1em;" class="button button-fill button-large button-raised margin-bottom color-theme">
+                          <a  style="border-radius: 10px;
+                            height: 60px;color: white;display:none;margin-right:1em;margin-left:1em;" class="button button-fill button-large button-raised margin-bottom color-theme btnaceptarfiscal">
                               <div class="fab-text">ACEPTAR</div>
                             </a>
                          </div>
@@ -3285,11 +4645,11 @@ function SeleccionarDatofiscal(idusuariosdatosfiscales) {
   if ($("#datosfactura_"+idusuariosdatosfiscales).is(':checked')) {
   
        $("#datosfactura_"+idusuariosdatosfiscales).attr('checked',false);
-       $("#btnaceptarfiscal").css('display','block');
+       $(".btnaceptarfiscal").css('display','block');
 
       }else{
 
-      $("#btnaceptarfiscal").css('display','none');
+      $(".btnaceptarfiscal").css('display','none');
       $("#datosfactura_"+idusuariosdatosfiscales).attr('checked',true);
 
   }
@@ -3316,7 +4676,15 @@ function Aceptardatofiscal() {
 
     localStorage.removeItem('idusuariosdatosfiscales');
   }
-  dynamicSheet2.close();
+
+  if (dynamicSheet5!='') {
+    dynamicSheet5.close();
+  }
+
+  if (dynamicSheet4!='') {
+    dynamicSheet4.close();
+  }
+  
 }
 
 function Editardatosfactura(idusuariosdatosfiscales) {
@@ -3912,4 +5280,306 @@ function onPhotoDataSuccessdatosfactura(imageData) {
          PintarlistaImagenfactura();
       });
     }
+var pagosenmodal=[];
 
+function AbrirModalPagosParaAceptar(pagosporaceptar,posicion) {
+  
+pagosenmodal=pagosporaceptar;
+var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;background: none;">
+            <div class="toolbar">
+              <div class="toolbar-inner">
+                <div class="left"></div>
+                <div class="right">
+                
+                </div>
+              </div>
+            </div>
+            <div class="sheet-modal-inner" style="background: white;border-top-left-radius: 20px;border-top-right-radius:20px; ">
+               
+              <div class="page-content" style="height: 100%;">
+                <div style="background: white; height: 100%;width: 100%;border-radius: 20px;">
+                   <div class="row">
+                     <div class="col-20">
+                        
+                    </div>
+
+                     <div class="col-60">
+                     <span class="titulomodal"></span>
+                     </div>
+                     <div class="col-20">
+                     <span class="limpiarfiltros"></span>
+                     </div>
+                 </div>
+                 <div class="" style="position: absolute;top:2em;width: 100%;">
+                  
+                    <div class=""> 
+                      <div class="block" style="margin-right:1em;margin-left:1em;">`;
+                       
+                     //  for (var i = 0; i < pagosporaceptar.length; i++) {
+                      html+=`
+
+                      <div class="row" style="height:12em;">
+                       <div class="col-100">
+                       <div class="row" style="margin-top:.5em;">
+                    
+                     <span class="text-color-theme size-12" style="text-align:center;font-weight:bold;" onclick=""><span style="color:black;font-size:18px;"> </span><br><span style="margin-top:.5em;font-size:16px;"></span></span>
+                     <span class="text-color-theme size-12" style="text-align:center;"></span>
+
+                     <h3 class="text-muted no-margin-bottom" style="text-align: center;" >`+pagosporaceptar[posicion].concepto+`</h3>
+                          
+                     <h3 class="fechasservicio" style=" text-align: center;font-weight: bold; 
+    color: #919191;font-size: 16px;">`+pagosporaceptar[posicion].fechainicial+` - `+pagosporaceptar[posicion].fechafinal+`</h3>
+                         <h4 style="text-align: center;font-size: 18px;" class="">Numero de horarios: <span class="cantidadhorarios">`+pagosporaceptar[posicion].horarios+`</span></h4>  
+                           <a class="btncalendario" style="text-align:center;color:#007aff;font-size: 14px;" onclick="VerHorarios(`+pagosporaceptar[posicion].idservicio+`)">Ver horarios
+                           </a>
+
+
+                  </div>
+                  <div class="row">
+                   <div class="col">
+                    <p style="text-align:center;">`+pagosporaceptar[posicion].politicasservicio+`</p></div>
+                  </div>
+                  
+                  <div class="row" style="margin-top:1em;">
+
+                    <div class="col-100" style="text-align:center;">
+                    
+                    <button class="button button-fill button-large color-theme button-raised margin-bottom-half" id="btnaceptartermino_`+pagosporaceptar[posicion].idpago+`" onclick="AceptarTerminosPago(`+pagosporaceptar[posicion].idpago+`,`+pagosporaceptar.length+`,`+posicion+`)">Aceptar</button>
+                      <div style="display:none;">
+                       <input type="checkbox" id="check_`+pagosporaceptar[posicion].idpago+`" class="checkaceptar">
+                     </div>
+                    </div>
+                    <div class="col-100">
+                    <button class="button button-fill button-large color-theme button-raised margin-bottom-half" id="btnrechazarterminos" onclick="RechazarTerminospago(`+pagosporaceptar[posicion].idusuarios_servicios+`)" style="background:gray;">Rechazar</button>
+                    </div>
+                  
+                                  
+
+                  </div>
+
+                </div>
+                  
+                </div>
+
+         
+
+
+                      `;
+                     //  }
+
+
+                
+                      html+=`
+                             <div class="row" style="margin-top: 100px;">
+
+                   
+
+                </div>
+
+                      <div class="row" style="padding-top: 100px;">
+                      <div class="col-100">
+                    <button class="button button-fill button-large color-theme button-raised margin-bottom-half" id="btnregresar" onclick="Regresarapagos()" style="background:gray;   ">Regresar a pagos</button>
+                    </div>
+                </div>
+
+                      </div>
+
+                    </div>
+
+                 </div>
+
+          </div>
+                
+              </div>
+            </div>
+          </div>`;
+          
+    dynamicSheet1 = app.sheet.create({
+        content: html,
+ closeByBackdropClick: false,
+        backdrop: true,
+        // Events
+        on: {
+          open: function (sheet) {
+           
+          },
+          opened: function (sheet) {
+            console.log('Sheet opened');
+          },
+          close:function (sheet) {
+            console.log('Sheet close');
+           /* var valor=pagosporaceptar.length-1;
+            if (posicion<valor) {
+              posicion=posicion+1;
+              AbrirModalPagosParaAceptar(pagosporaceptar,posicion);
+            }*/
+          }
+        }
+      });
+
+       dynamicSheet1.open();
+}
+function AceptarTerminosPago(idpago,contador,posicion) {
+     app.dialog.confirm('','¿Está seguro  de aceptar el servicio?' , function () {
+
+  $("#check_"+idpago).prop('checked',true);
+  $("#btnaceptartermino_"+idpago).css('background','#ededed');
+    GuardarAceptarTerminosPago(idpago);
+    var con=0;
+   /* $(".checkaceptar" ).each(function( index ) {
+      if($( this ).is(':checked')){
+
+        con++;
+      }
+    });*/
+
+    dynamicSheet1.close();
+
+
+           var valor=contador-1;
+            if (posicion<valor) {
+              posicion=posicion+1;
+              AbrirModalPagosParaAceptar(pagosenmodal,posicion);
+            }
+    
+    });
+
+}
+function RechazarTerminospago(idusuarios_servicios) {
+  PantallaRechazarTerminos2(idusuarios_servicios);
+
+
+}
+
+function PantallaRechazarTerminos2(idusuarios_servicios) {
+   var html=`
+         
+              <div class="">
+
+                <div class="row" style="padding-top:1em;">
+                  <label style="font-size:16px;padding:1px;">Motivo:</label>
+                  <textarea name="" id="txtcomentariorechazo" cols="30" rows="3"></textarea>
+                <span class="mensajemotivo"></span>
+                </div>
+              </div>
+           
+         
+        `;
+       app.dialog.create({
+          title: 'Rechazar servicio',
+          //text: 'Dialog with vertical buttons',
+          content:html,
+          buttons: [
+            {
+              text: 'Cancelar',
+            },
+            {
+              text: 'Aceptar',
+            },
+            
+          ],
+
+           onClick: function (dialog, index) {
+            if(index === 0){
+             
+          }
+          else if(index === 1){
+               RechazarTerminos2(idusuarios_servicios);
+
+            }
+
+        },
+          verticalButtons: false,
+        }).open();
+  
+}
+
+function VerHorarios(idservicio) {
+ localStorage.setItem('idservicio',idservicio);
+  MostrarHorarios();
+}
+
+function RechazarTerminos2(idusuarios_servicios) {
+  var pagina = "RechazarTerminos.php";
+  var id_user=localStorage.getItem('id_user');
+  var motivo=$("#txtcomentariorechazo").val();
+  var datos="id_user="+id_user+"&idusuarios_servicios="+idusuarios_servicios+"&motivocancelacion="+motivo;
+
+  if (motivo!='' && motivo.length>=10) {
+      app.dialog.close();
+      CrearModalEsperaDialog();
+
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    crossDomain: true,
+    cache: false,
+    data:datos,
+    success: function(datos){
+
+      if (datos.respuesta==1) {
+
+         $(".mensajeproceso").css('display','none');
+             $(".mensajeerror").css('display','none');
+             $(".mensajeexito").css('display','block');
+             $(".botonok").css('display','block');
+        Regresarapagos();
+        //alerta('','Operación realizada');
+       // GoToPage('home');
+      }
+      
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+          $(".mensajeproceso").css('display','none');
+                    $(".mensajeerror").css('display','block');
+                    $(".mensajeexito").css('display','none');
+                    $(".botonok").css('display','block');
+      }
+
+    });
+  }else{
+
+    alerta('','Para continuar coloque un motivo de rechazo, cantidad mínima de 10 caracteres');
+  }
+}
+
+function Regresarapagos() {
+ dynamicSheet1.close();
+ GoToPage('listadopagos');
+}
+
+function ContinuarPago() {
+  dynamicSheet1.close();
+ 
+}
+
+function GuardarAceptarTerminosPago(idpago) {
+   var pagina = "GuardarAceptarTerminosPago.php";
+    var datos="idpago="+idpago;
+      $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      url: urlphp+pagina,
+      data:datos,
+      async:false,
+      success: function(resp){
+       
+
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+          if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+          if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                  //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                  console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+            }
+      });
+}
+
+function ContinuarMetodoPago() {
+  GoToPage('metodopago');
+}

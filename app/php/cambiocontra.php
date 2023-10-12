@@ -56,6 +56,7 @@ try
 		$lo->materno=$result_cliente_row['materno'];
 		$lo->celular=$result_cliente_row['celular'];
 		$lo->email=$result_cliente_row['email'];
+		$lo->tipo=$result_cliente_row['tipo'];
 		$lo->Actualizarcontra();
 
 
@@ -100,10 +101,10 @@ try
 
 			}
 
-		$arra = array('existe' => $validar,'idusuario'=>$lo->idusuarios,'nombre'=>mb_strtoupper($lo->nombre),'paterno'=>mb_strtoupper($lo->paterno),'materno'=>mb_strtoupper($lo->materno),'email'=>$lo->usuario);
+		$arra = array('existe' => $validar,'idusuario'=>$lo->idusuarios,'nombre'=>$lo->nombre,'paterno'=>$lo->paterno,'materno'=>$lo->materno,'email'=>$lo->usuario,'celular'=>$lo->celular,'tipousuario'=>$lo->tipo);
 
 
-
+ 
 
 	}else{
 

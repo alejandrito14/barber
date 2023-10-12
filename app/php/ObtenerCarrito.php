@@ -57,7 +57,8 @@ try
 */
 			}
 
-			
+			/*$lo->idcarrito=$obtenercarrito[$i]->idcarrito;
+			$lo->ActualizarValoresCarrito();*/
 			
 	}
 

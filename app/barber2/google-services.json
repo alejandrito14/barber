@@ -29,6 +29,13 @@
             {
               "client_id": "637238338697-ot0bcompkkefd8e1o2dmm7pdo8iecio7.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "637238338697-qoc8hggk42ojtded6toegrjrbtpvtoas.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inversa.app"
+              }
             }
           ]
         }

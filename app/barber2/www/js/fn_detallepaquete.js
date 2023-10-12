@@ -1040,9 +1040,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
 
                      <div class="col-60">
                      <span class="titulomodal cambiarfuente" style="font-size: 20px;
-    text-align: center;
-    font-weight: 600;
-    color: #c7aa6a;"></span>
+    text-align: center;font-weight: 600;color: #c7aa6a;"></span>
                      </div>
                      <div class="col-20">
                      <span class="limpiarfiltros"></span>
@@ -1055,9 +1053,9 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
                       
 
                           html+=`
-                          <div class="row" style="    margin-left: 2em; margin-right: 2em;    margin-top: 20px;">
+                          <div class="row" style="    margin-left: 2em; margin-right: 2em;margin-top: 20px;">
                           <div class="col-100">
-                          <div style="color: #c7aa6a;font-size: 30px;text-align: center;" class="cambiarfuente">
+                          <div style="color: #c7aa6a;font-size: 30px;text-align: center;" class="cambiarfuente `+estiloparrafo+`">
                             `+parrafo+`
 
                             </div>

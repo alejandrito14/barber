@@ -58,10 +58,17 @@ class Notapago
 	public $fechareporte;
 	public $idsucursal;
 	public $checkConfirm;
-	
+	public $idnotapagodescripcion;
+	public $cancelado;
+	public $fechacancelado;
+	public $motivocancelacion;
+	public $idusuariocancela;
+	public $codigocupon;
+	public $montocupon;
+	public $idcupon;
 	public function CrearNotapago()
 	{
-		$sql="INSERT INTO notapago( idusuario, subtotal, iva, total, comisiontotal, montomonedero, estatus, idtipopago, tipopago, confoto, datostarjeta,datostarjeta2,idpagostripe,folio,comisionpornota,comisionnota,tipocomisionpornota,requierefactura,razonsocial,rfc,direccion,nointerior,noexterior,colonia,municipio,estado,codigopostal,correo,pais,asentamiento,calle,formapago,metodopago,usocfdi,imagenconstancia,idusuariodatofiscal,confirmaciontermino) VALUES ('$this->idusuario', '$this->subtotal','$this->iva', '$this->total', '$this->comisiontotal','$this->montomonedero','$this->estatus','$this->idtipopago','$this->tipopago','$this->confoto','$this->datostarjeta','$this->datostarjeta2','$this->idpagostripe','$this->folio','$this->comisionpornota','$this->comisionnota','$this->tipocomisionpornota',
+		$sql="INSERT INTO notapago( idusuario, subtotal, iva, total, comisiontotal, montomonedero, estatus, idtipopago, tipopago, confoto, datostarjeta,datostarjeta2,idpagostripe,folio,comisionpornota,comisionnota,tipocomisionpornota,requierefactura,razonsocial,rfc,direccion,nointerior,noexterior,colonia,municipio,estado,codigopostal,correo,pais,asentamiento,calle,formapago,metodopago,usocfdi,imagenconstancia,idusuariodatofiscal,confirmaciontermino,montocupon,codigocupon,idcupon) VALUES ('$this->idusuario', '$this->subtotal','$this->iva', '$this->total', '$this->comisiontotal','$this->montomonedero','$this->estatus','$this->idtipopago','$this->tipopago','$this->confoto','$this->datostarjeta','$this->datostarjeta2','$this->idpagostripe','$this->folio','$this->comisionpornota','$this->comisionnota','$this->tipocomisionpornota',
 			'$this->requierefactura',
 			'$this->razonsocial',
 			'$this->rfc',
@@ -81,7 +88,10 @@ class Notapago
 			'$this->usocfdi',
 			'$this->imagenconstancia',
 			'$this->idusuariodatofiscal',
-			'$this->checkConfirm'
+			'$this->checkConfirm',
+			'$this->montocupon',
+			'$this->codigocupon',
+			'$this->idcupon'
 
 			)";
 
@@ -424,6 +434,37 @@ class Notapago
 			return $array;
 		}
 
+
+		public function ActualizarConsecutivoCancelado()
+	{
+
+		 $sql="SELECT *FROM pagina_configuracion";
+		 $resp = $this->db->consulta($sql);
+		 $datos=$this->db->fetch_assoc($resp);
+
+
+		 $val=$datos['contadorfoliocancelado'];
+		 $valor=$val+1;
+
+		$sql="UPDATE pagina_configuracion SET contadorfoliocancelado='$valor'";
+
+
+		 $resp = $this->db->consulta($sql);
+		return $val;
+		
+	}
+
+	public function ActualizarEstatusdescripcion()
+	{
+			$sql="UPDATE notapago_descripcion SET 
+			  cancelado = '$this->cancelado',  
+			  fechacancelado='$this->fechacancelado',
+			  motivocancelacion='$this->motivocancelacion',
+			  idusuariocancelacion='$this->idusuariocancela'
+			  WHERE idnotapago_descripcion='$this->idnotapagodescripcion'";
+			
+				$resp=$this->db->consulta($sql);
+	}
 
 }
  ?>

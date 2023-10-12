@@ -1,0 +1,66 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-call-number": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-support-android-plugin": {
+      "PACKAGE_NAME": "com.inversa.app"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-geolocation": {
+      "GPS_REQUIRED": "true",
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-ios-camera-permissions": {
+      "CAMERA_USAGE_DESCRIPTION": "This app needs camera access",
+      "MICROPHONE_USAGE_DESCRIPTION": "This app needs microphone access",
+      "PHOTOLIBRARY_ADD_USAGE_DESCRIPTION": "This app needs write-access to photo library",
+      "PHOTOLIBRARY_USAGE_DESCRIPTION": "This app needs read/write-access photo library access",
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-media": {
+      "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO",
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-wkwebview-file-xhr": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "es6-promise-plugin": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-x-socialsharing": {
+      "PHOTO_LIBRARY_ADD_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
+      "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
+      "PACKAGE_NAME": "com.inversa.app"
+    }
+  }
+}

@@ -44,7 +44,7 @@ try
 
 
     
-
+     $inicio=0;
      $cantidad=$limitepaginado;
     if (isset($_POST['inicio'])) {
        $inicio=$_POST['inicio'];

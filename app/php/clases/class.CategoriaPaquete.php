@@ -244,13 +244,14 @@ public function ObtenerCategoriaPaqueteTotal()
 
 
 
-public function ObtenerTodas($inicio,$cantidad)
+public function ObtenerTodas()
 	{
 		$sql="
 			SELECT *
 			FROM categoriapaquete WHERE iddepende='$this->iddepende' AND estatus=1
 			ORDER BY orden ASC
 		";
+		
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 

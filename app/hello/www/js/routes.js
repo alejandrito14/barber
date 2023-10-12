@@ -437,7 +437,6 @@ var routes = [
     path: '/datospersonales/',
     componentUrl: './pages/datospersonales.html',
   },
-
    //nuevadireccion
   {
     path: '/nuevadireccion/',
@@ -481,6 +480,12 @@ var routes = [
     path:'/pagos/',
     componentUrl: './pages/pagos.html',
   },
+
+  {
+    path:'/monedero/',
+    componentUrl: './pages/monedero.html',
+  },
+
   {
     path:'/listadopagos/',
     componentUrl: './pages/listadopagos.html',
@@ -496,14 +501,47 @@ var routes = [
   
   },
 
+
+   {
+    path:'/metodopago/',
+    componentUrl: './pages/metodopago.html',
+  },
+
    {
     path:'/listadopagospagados/',
     componentUrl: './pages/listadopagospagados.html',
   },
  {
     path:'/resumenpago/',
-    componentUrl: './pages/resumenpago.html',
-  },
+     async({ resolve, reject }) {
+
+      ValidacionBuscarasignacion().then(r=>{
+  var noencontrado=0;
+      var pagosencontrados=r.pagosencontrados;
+      if (pagosencontrados.length>0) {
+
+        for (var i = 0; i < pagosencontrados.length; i++) {
+          console.log(pagosencontrados[i].idusuarios_servicios);
+          if (pagosencontrados[i].idusuarios_servicios == 'null' || pagosencontrados[i].idusuarios_servicios==null) {
+
+            noencontrado++;
+          }
+       }
+      }
+
+       if (noencontrado==0) {
+             resolve({componentUrl: './pages/resumenpago.html', })
+
+        }else{
+
+             resolve({componentUrl: './pages/listadopagos.html', })
+
+        }
+
+     });
+  }
+
+},
     {
     path: '/detallepago/',
     componentUrl:'./pages/detallepago.html',
@@ -514,9 +552,19 @@ var routes = [
       path:'/registrotutorados/',
       componentUrl: './pages/registrotutorados.html',
     },
+
+     {
+      path:'/registroasociados/',
+      componentUrl: './pages/registroasociados.html',
+    },
     {
       path:'/nuevotutorado/',
       componentUrl: './pages/nuevotutorado.html',
+    },
+
+     {
+      path:'/nuevoasociado/',
+      componentUrl: './pages/nuevoasociado.html',
     },
 
       // membresia
@@ -684,6 +732,16 @@ var routes = [
   {
     path: '/politicas/',
     componentUrl: './pages/politicas.html',
+  },
+
+   {
+    path: '/politicas2/',
+    componentUrl: './pages/politicas2.html',
+  },
+
+   {
+    path: '/politicas3/',
+    componentUrl: './pages/politicas3.html',
   },
   
   {

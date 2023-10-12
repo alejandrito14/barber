@@ -54,11 +54,16 @@ $montovisual=$_POST['montovisual'];
 $cambiomonto=$_POST['cambiomonto'];
 $requierefactura=$_POST['requierefactura'];
 $idusuariosdatosfiscales=$_POST['idusuariosdatosfiscales'];
+$checkConfirm=$_POST['checkConfirm'];
 
 $comisionpornota=$_POST['comisionpornota'];
 $comisionnota=$_POST['comisionnota'];
 $tipocomisionpornota=$_POST['tipocomisionpornota'];
 $idtipodepago=$_POST['idtipodepago'];
+$codigocupon=$_POST['codigocupon'];
+$montocupon=$_POST['montocupon'];
+$idcupon=$_POST['idcupon'];
+
 $variable="";
 
 
@@ -137,6 +142,7 @@ try {
          $notapago->descuento=0;
          $notapago->descuentomembresia=0;
          $notapago->requierefactura=$requierefactura;
+         $notapago->checkConfirm=$checkConfirm;
 
          $notapago->comisionpornota=$comisionpornota;
          $notapago->comisionnota=$comisionnota;
@@ -171,8 +177,12 @@ try {
               $notapago->imagenconstancia=$imagenesfac;
               $notapago->idusuariodatofiscal=$idusuariosdatosfiscales;
          }
-         $notapago->CrearNotapago();
-         $idnotapago=$notapago->idnotapago;
+
+           $notapago->codigocupon=$codigocupon;
+           $notapago->montocupon=$montocupon;
+           $notapago->idcupon=$idcupon;
+          $notapago->CrearNotapago();
+          $idnotapago=$notapago->idnotapago;
 
             $constripe=$obtenertipopago[0]->constripe;
 
@@ -343,7 +353,7 @@ try {
              
          $carrito->idusuarios=$iduser;
          $obtenercarrito=$carrito->ObtenerCarrito();
-
+         $sumacarrito=0;
              for ($i=0; $i <count($obtenercarrito) ; $i++) { 
               $tipo=0;
               $cita->idcita=0;
@@ -365,6 +375,7 @@ try {
                 $cita->idsucursal=$obtenerapartada[0]->idsucursal;
                 $cita->idpaquete=$obtenerapartada[0]->idpaquete;
                 $cita->costo=$obtenercarrito[$i]->costototal;
+                $cita->idcortesia=$obtenerapartada[0]->idcortesia;
 
 
                 $cita->CitaCreada();
@@ -387,6 +398,7 @@ try {
                 $carrito->estatus=2;
                 $carrito->ActualizarEstatusCarrito();
 
+                $sumacarrito=$sumacarrito+$obtenercarrito[$i]->costototal;
                }
         
 
@@ -440,7 +452,7 @@ try {
 
 
 
-  /*if ($montomonedero!='' && $montomonedero!=0) {
+  if ($montomonedero!='' && $montomonedero!=0) {
             $usuarios=new Usuarios();
             $usuarios->db=$db;
               
@@ -460,9 +472,13 @@ try {
 
      $db->consulta($sql_movimiento);
 
+     if ($montomonedero>=$sumacarrito) {
+              $notapago->estatus=1;
+              $notapago->ActualizarNotapago();
+          }
 
 
-   }*/
+   }
 
     /*if ($confoto == 1) {
 
@@ -495,6 +511,8 @@ try {
               $notapago->ActualizarMonto();
             
           }
+
+
          
 
               $db->commit();

@@ -226,7 +226,7 @@
                                   </label>
                         </div>
 
-                        <div class="row" style="margin-top: 1em;">
+              <div class="row" style="margin-top: 1em;">
                <p style="font-weight: bold;background: rgba(0, 0, 0, 0.03);">Asignar horarios</p>
 
               </div>
@@ -257,13 +257,60 @@
 
               
               </div>
+              <div class="row divrow divseleccionarhorarios" style="margin-top: 1em;display: none;">
+
+                 <div class="item-title item-label">Seleccionar cancha</div>
+
+                    <li style="    margin: 0;padding: 0;">
+                    <a class="item-link smart-select smart-select-init smartselectzonas" data-open-in="popover">
+                      <select name="superhero" id="v_zonas" multiple>
+                       
+                      </select>
+                      <div class="item-content">
+                        <div class="item-inner">
+                          <div class="item-title">Canchas</div>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+              </div>
+
+               <div class="row divseleccionarhorarios" style="margin-top: 1em;display: none;">
+
+                 <div class="item-title item-label">Seleccionar horario</div>
+
+                    <li style="    margin: 0;padding: 0;">
+                    <a class="item-link smart-select smart-select-init smartselectorhora" data-open-in="popover">
+                      <select name="horarios" id="v_horarios" multiple>
+                       
+                      </select>
+                      <div class="item-content">
+                        <div class="item-inner">
+                          <div class="item-title">Horarios</div>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+              </div>
+
+              <div class="row" style="margin-top: 1em;">
+              <div class="form-check" >
+                  <input type="checkbox" id="habilitarseleccion" class="form-check-input " value="0" style="top: -0.3em;" />
+                  <label for="" class="form-check-label">Selección automática</label>
+
+                 </div>
+            </div>
+
+
               <div class="row" style="margin-top: 1em;">
                 <div class="col">
                    <button class="link button " style="font-size: 17px;background: white;" id="btnaplicar" style="">Aplicar</button>
                 </div>
               
               </div>
-              <div class="row" style="margin-bottom:1em;">
+
+              <div class="row" style="" id="listadofechas"></div>
+              <div class="row contadorhorarios" style="margin-bottom:1em;display:none;">
                 <div class="col">
                  <span style="font-weight: bold;">Horarios:</span> <span id="cantidadhorarios">0</span>
                </div>
@@ -322,6 +369,10 @@
               <div class="row">
                 <label class="btn btn_colorgray2  btn_colorgray3">
                     <input type="radio" name="v_grupo" id="v_individual" class="" value="1" /> Monto fijo
+                  </label>
+
+                  <label for="" style="    margin-left: 1em;height: 40px;    margin-top: 1em;display: none;" id="divaceptarserviciopago">
+                    <input type="checkbox" name="" id="v_aceptarserviciopago" value="0" />Aceptar el servicio en el pago
                   </label>
 
 
@@ -446,7 +497,7 @@
 
                 <div class="row" style="">
                 <div class="item-content item-input item-input-with-value">
-                  <div class="item-inner litituloavisos">
+                  <div class="item-inner litituloavisos" style="display: none;">
                         <div class="item-title item-label">Mensaje</div>
                       <div class="item-input-wrap">
                         <input name="v_tituloaviso" id="v_tituloaviso" type="text" placeholder="" class="input-with-value"/>
@@ -654,7 +705,7 @@
 
       <div class="row" style="margin-top: 1em;">
         <div class="col" id="btncancelar">
-          <button class="button button-fill color-red" id="btncancelarservicio">Cancelar</button>
+          <button class="button button-fill color-red" id="btncancelarservicio">Cancelar servicio</button>
         </div>
       </div>
    
@@ -676,4 +727,7 @@
 
 </div>
 
+
+
 </template>
+

@@ -23,17 +23,18 @@ class Especialista
 				usuarios.idusuarios,
 				usuarios.paterno,
 				usuarios.materno,
-				paquetes_especialista.idespecialista,
-				paquetes_especialista.idpaquete,
+				usuarios.sexo,
+				especialista.idespecialista,
 				especialista.idsucursal,
-				paquetes_especialista.costo,
+				usuarios.orden,
 				usuarios.foto
 			FROM especialista
 			left JOIN sucursal ON especialista.idsucursal=sucursal.idsucursal
 			left join usuarios on especialista.idusuarios=usuarios.idusuarios
-			left JOIN paquetes_especialista ON especialista.idespecialista=paquetes_especialista.idespecialista
 
-		 WHERE usuarios.estatus=1 AND especialista.bloqueo=0 AND  paquetes_especialista.idpaquete='$this->idpaquete' AND sucursal.idsucursal='$this->idsucursal'";
+
+			
+		 WHERE usuarios.estatus=1 AND especialista.bloqueo=0 and sucursal.idsucursal='$this->idsucursal' ORDER BY usuarios.orden asc ";
 
 		
 			$resp = $this->db->consulta($sql);
@@ -128,7 +129,7 @@ class Especialista
 			WHERE fechacita='$this->fecha' and '$this->horainicial'<=horafinal AND '$this->horafinal'>=horainicial AND idespecialista='$this->idespecialista'";*/
 
 			$sql="SELECT *FROM citas
-			WHERE fechacita='$this->fecha' and horainicial>='$this->horainicial' AND horafinal<='$this->horafinal' AND idespecialista='$this->idespecialista'";
+			WHERE fechacita='$this->fecha' and horainicial>='$this->horainicial' AND horafinal<='$this->horafinal' AND idespecialista='$this->idespecialista' AND estatus IN(0,1,2)";
 		
 			$resp = $this->db->consulta($sql);
 			$cont = $this->db->num_rows($resp);

@@ -34,7 +34,8 @@ try
     $nombre   = $_POST['v_nombre'];
     $paterno  = $_POST['v_paterno'];
     $materno  = $_POST['v_materno'];
-    $sexo     = $f->guardar_cadena_utf8($_POST['v_sexo']);
+
+    $sexo     = $f->guardar_cadena_utf8($_POST['sexoseleccionado']);
     $fecha    = $f->guardar_cadena_utf8($_POST['v_fecha']);
 
      $email    = $f->guardar_cadena_utf8($_POST['v_correo']);
@@ -74,9 +75,12 @@ try
     $lo->clave    = $contra;
     $lo->tipousuario=3;
     $lo->fecha    = $fecha;
+
+  
+    $lo->sexo     = $sexo;
    /* $lo->telefono = $telefono;
    
-    $lo->sexo     = $sexo;
+    
     
     /*$lo->usuario  = $email;
   
@@ -105,7 +109,8 @@ try
     //$lo->principaldireccion = 1;
     $lo->sistema            = $sistema;
     $lo->idusuarios          = $idusuario;
-    
+    $obtenerusuario=$lo->ObtenerUsuario();
+    $lo->usuario=$obtenerusuario[0]->celular;
     $edicion=1;
    /* if ($ediciondedatoscliente==1) {
        $edicion=0;

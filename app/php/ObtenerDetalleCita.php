@@ -9,6 +9,7 @@ require_once("clases/class.Cita.php");
 require_once("clases/class.Funciones.php");
 require_once("clases/class.Fechas.php");
 require_once("clases/class.Paquetes.php");
+require_once("clases/class.Calificacion.php");
 
 try
 {
@@ -20,6 +21,8 @@ try
 	$fechas = new Fechas();
 	$paquetes = new Paquetes();
 	$paquetes->db = $db;
+	$calificacion=new Calificacion();
+	$calificacion->db=$db;
 
 	//Enviamos la conexion a la clase
 	$lo->db = $db;
@@ -32,10 +35,10 @@ try
 	$obtenerdetallecita[0]->fecha=date('d-m-Y',strtotime($obtenerdetallecita[0]->fechacita));
 
 	$obtenerdetallecita[0]->fechaformato=$fechas->fecha_texto5($obtenerdetallecita[0]->fechacita);
+	$calificacion->idcita=$idcita;
+	$obtener=$calificacion->ObtenerCalificacionCita();
 
-
-
-
+	$obtenerdetallecita[0]->llevacalificacion=count($obtener);
        $paquetes->idpaquete=$obtenerdetallecita[0]->idpaquete;
        $obtenerpaquete=$paquetes->ObtenerPaquete2();
             $obtenerdetallecita[0]->precioante=0;

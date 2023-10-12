@@ -23,6 +23,9 @@ class Carrito
 	public $colococortesia;
 	public $fechacortesia;
 	public $fechacreacion;
+	public $codigocupon;
+	public $montocupon;
+	public $idcupon;
 
 	public function AgregarCarrito()
 	{
@@ -255,6 +258,31 @@ class Carrito
 		}
 		
 		return $array;
+	 }
+
+	 public function ActualizarValoresCarrito()
+	 {
+	 	$sql="UPDATE carrito 
+		SET codigocupon='',
+		montocupon=0,
+		idcupon=0,
+		montomonedero=0
+		WHERE idcarrito='$this->idcarrito'";
+		
+		$resp=$this->db->consulta($sql);
+	 }
+
+
+	  public function ActualizarValoresCarritoCupon()
+	 {
+	 	$sql="UPDATE carrito 
+		SET codigocupon='$this->codigocupon',
+		montocupon='$this->montocupon',
+		idcupon='$this->idcupon',
+
+		WHERE idcarrito='$this->idcarrito'";
+		
+		$resp=$this->db->consulta($sql);
 	 }
 
 }

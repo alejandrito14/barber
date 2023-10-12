@@ -51,22 +51,30 @@
       "cordova-plugin-file": {
         "ANDROIDX_WEBKIT_VERSION": "1.4.0"
       },
-      "cordova-plugin-media": {}
+      "cordova-plugin-media": {},
+      "cordova-plugin-ios-camera-permissions": {},
+      "cordova-plugin-wkwebview-file-xhr": {}
     }
   },
   "devDependencies": {
-    "cordova-android": "^12.0.1",
+    "cordova-android": "^12.0.0",
     "cordova-ios": "^7.0.1",
     "cordova-plugin-call-number": "^1.0.1",
     "cordova-plugin-camera": "^6.0.0",
+    "cordova-plugin-customfcmreceiver": "^0.0.7",
     "cordova-plugin-device": "^2.1.0",
     "cordova-plugin-file": "^7.0.0",
     "cordova-plugin-firebasex": "^16.1.0",
+    "cordova-plugin-ios-camera-permissions": "^1.2.0",
     "cordova-plugin-media": "^6.1.0",
     "cordova-plugin-splashscreen": "^5.0.4",
-    "es6-promise-plugin": "^4.2.2"
+    "cordova-plugin-wkwebview-file-xhr": "^3.1.0",
+    "cordova-support-android-plugin": "^2.0.4",
+    "es6-promise-plugin": "^4.2.2",
+    "phonegap-plugin-barcodescanner-android12": "^8.1.2"
   },
   "dependencies": {
-    "@starley/barcodescanner-sdk31": "^8.1.2"
+    "@starley/barcodescanner-sdk31": "^8.1.2",
+    "cordova-custom-config": "^5.1.1"
   }
 }

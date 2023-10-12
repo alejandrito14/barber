@@ -58,6 +58,11 @@ class Notapago
 	public $fechareporte;
 	public $idsucursal;
 	public $checkConfirm;
+	public $idnotapagodescripcion;
+	public $cancelado;
+	public $fechacancelado;
+	public $motivocancelacion;
+	public $idusuariocancela;
 	
 	public function CrearNotapago()
 	{
@@ -221,9 +226,10 @@ class Notapago
 					paquetes.concortesia,
 					paquetes.servicio,
 					sucursal.titulo,
-					paquetecortesia.nombrepaquete as nombrepaquetecortesia
-			
-
+					paquetecortesia.nombrepaquete as nombrepaquetecortesia,
+					citas.horainicial,
+			notapago_descripcion.idpaquete,
+			citas.idcortesia
 			FROM notapago_descripcion 
 			left join paquetes on paquetes.idpaquete=notapago_descripcion.idpaquete
 			left join paquetesucursal on paquetes.idpaquete=paquetesucursal.idpaquete
@@ -423,6 +429,37 @@ class Notapago
 			return $array;
 		}
 
+
+		public function ActualizarConsecutivoCancelado()
+	{
+
+		 $sql="SELECT *FROM pagina_configuracion";
+		 $resp = $this->db->consulta($sql);
+		 $datos=$this->db->fetch_assoc($resp);
+
+
+		 $val=$datos['contadorfoliocancelado'];
+		 $valor=$val+1;
+
+		$sql="UPDATE pagina_configuracion SET contadorfoliocancelado='$valor'";
+
+
+		 $resp = $this->db->consulta($sql);
+		return $val;
+		
+	}
+
+	public function ActualizarEstatusdescripcion()
+	{
+			$sql="UPDATE notapago_descripcion SET 
+			  cancelado = '$this->cancelado',  
+			  fechacancelado='$this->fechacancelado',
+			  motivocancelacion='$this->motivocancelacion',
+			  idusuariocancelacion='$this->idusuariocancela'
+			  WHERE idnotapago_descripcion='$this->idnotapagodescripcion'";
+			
+				$resp=$this->db->consulta($sql);
+	}
 
 }
  ?>

@@ -49,6 +49,11 @@ try
 			$obtener[$i]->total=$total;
 
 
+			if ($obtener[$i]->monto==0) {
+				$obtener[$i]->monto=$obtener[$i]->montomonedero;
+			}
+
+
 		}
 
 

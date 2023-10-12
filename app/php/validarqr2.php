@@ -85,9 +85,32 @@ try
 
 	$cita->idespecialista=$obtenerespecialista[0]->idespecialista;
 	$obtenercita=$cita->ObtenerCitaEspecialista();
+	$fechacita=date('Y-m-d',strtotime($obtenercita[0]->fechacita));
+	$horainicial=date('H:i',strtotime($obtenercita[0]->horacita));
+	$horafinal=date('H:i',strtotime($obtenercita[0]->horafinal));
+	$fechaactual=date('Y-m-d');
+	$horactual=date('H:i');
+	$pasa=0;
+	if ($fechaactual==$fechacita) {
+		$pasa=1;
 
+		if ($horactual>=$horainicial && $horactual<=$horafinal) {
+				$pasa=1;
+			}else{
+				$pasa=0;
+			}
+	
+	}else{
+		$pasa=0;
+	}
 
+	
 	$validado=1;
+
+	if (count($obtenercita)>0) {
+	if ($pasa==1) {
+		# code...
+	
 	//if ($iduser==$idusuario) {
 		$qrgenerados->idusuarios=$idusuario;
 		$qrgenerados->idcita=$idcita;
@@ -144,15 +167,24 @@ try
 
 
 
-		}else{
+			}else{
 
+				$validado=0;
+			}
+		}else{
 			$validado=0;
 		}
+
 	}else{
+
+		$validado=2;
+	}
+	
+	}else{
+
+
 		$validado=0;
 	}
-
-	
 
 	
     $db->commit();

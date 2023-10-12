@@ -11,7 +11,7 @@
       <div class="title">
         <div class="logo-small">
          
-          <h5>Servicios </h5>
+          <h5>Todos los servicios </h5>
         </div>
       </div>
       <div class="right">
@@ -19,7 +19,7 @@
           <i class="bi bi-bell"></i>
         </a> -->
       </div>
-       <div class="subnavbar" style="background-color: whitesmoke!important;">
+     <!--   <div class="subnavbar" style="background-color: whitesmoke!important;">
           <form class="searchbar">
             <div class="searchbar-inner">
               <div class="searchbar-input-wrap">
@@ -30,7 +30,7 @@
               <span class="searchbar-disable-button if-not-aurora ">Cancel</span>
             </div>
           </form>
-        </div>
+        </div> -->
     </div>
   </div>
 
@@ -42,6 +42,67 @@
   <!-- main page content -->
   <div class="page-content">
     <!-- banner -->
+
+     <div style="display: none;margin-bottom: 1em;" id="filtrocategorias">
+         <div class="row" style="">
+        <div class="col-100">
+          <select style="text-align: center;background: #a09f9a;" name="v_categorias" id="v_categorias" class="v_categorias"></select>
+          <input type="hidden" id="buscandocategorias" class="buscandocategorias"/>
+        </div>
+      </div>
+      </div>
+
+     <div style="display: none;margin-bottom: 1em;" id="filtrocoach">
+         <div class="row" >
+        <div class="col-100">
+          <select style="text-align: center;background: #a09f9a;" name="v_coach" id="v_coach" class="v_coach"></select>
+          <input type="hidden" id="buscandoservicios" class="buscandoservicios"/>
+        </div>
+      </div>
+      </div>
+
+
+       <div style="display: none;margin-bottom: 1em;" id="filtromes">
+         <div class="row" >
+        <div class="col-100">
+          <select style="text-align: center;background: #a09f9a;" name="v_meses" id="v_meses" class="v_meses"></select>
+        
+        </div>
+      </div>
+      </div>
+
+       <div style="display: none;margin-bottom: 1em;" id="filtroanio">
+         <div class="row" >
+        <div class="col-100">
+          <select style="text-align: center;background: #a09f9a;" name="v_anios" id="v_anios" class="v_anios"></select>
+        </div>
+      </div>
+      </div>
+
+<!-- 
+      <div style="display: none;" id="filtro">
+         <div class="row" >
+        <div class="col-100">
+        
+          <input type="text" id="buscador" class="buscador" placeholder="Buscar" />
+        </div>
+      </div>
+      </div> -->
+      <div style="display: none;" id="filtro">
+
+      <form class="searchbar" style="background-color: whitesmoke!important;    margin-left: 1em;
+    margin-right: 1em;">
+            <div class="searchbar-inner">
+              <div class="searchbar-input-wrap">
+                <input type="search" placeholder="" id="buscador" class="buscador" />
+                <i class="searchbar-icon"></i>
+                <span class="input-clear-button limpiarspan"></span>
+              </div>
+              <span class="searchbar-disable-button if-not-aurora ">Cancel</span>
+            </div>
+          </form>
+     
+     </div>
     
    <div class="row margin-bottom">
         <div class="col-100 no-padding-horizontal">

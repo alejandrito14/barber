@@ -1,0 +1,29 @@
+{
+  "devDependencies": {
+    "cordova-android": "^12.0.1",
+    "cordova-plugin-camera": "^7.0.0",
+    "cordova-plugin-device": "^2.1.0",
+    "cordova-plugin-firebasex": "https://github.com/dpa99c/cordova-plugin-firebase"
+  },
+  "dependencies": {
+    "cordova-custom-config": "^5.1.1"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-firebasex": {
+        "IOS_STRIP_DEBUG": "true",
+        "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "false",
+        "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "false",
+        "FIREBASE_CRASHLYTICS_COLLECTION_ENABLED": "false",
+        "SETUP_RECAPTCHA_VERIFICATION": "true"
+      },
+      "cordova-plugin-device": {},
+      "cordova-plugin-camera": {
+        "ANDROIDX_CORE_VERSION": "1.6.+"
+      }
+    },
+    "platforms": [
+      "android"
+    ]
+  }
+}

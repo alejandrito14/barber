@@ -48,7 +48,7 @@ function recuperar() {
 }
 function AbrirModalAviso(aviso) {
    
-  var parrafo="<p class='cambiarfuente' style='font-size:30px;line-height:1;'>"+aviso+"</p>";
+  var parrafo="<p class='cambiarfuente "+estiloparrafo+"' style='font-size:30px;line-height:1;'>"+aviso+"</p>";
    
 
   var html2="";
@@ -87,7 +87,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
                           html+=`
                           <div class="row" style="    margin-left: 2em; margin-right: 2em;    margin-top: 20px;">
                           <div class="col-100">
-                          <div style="color: #c7aa6a;font-size: 30px;text-align: center;" class="cambiarfuente">
+                          <div style="color: #c7aa6a;text-align: center;" class="cambiarfuente">
                             `+parrafo+`
 
                             </div>
@@ -353,7 +353,7 @@ function Iralogin(){
 
 function AbrirModalAvisoRess(aviso,funcionsi,funcionno) {
   
-  var parrafo="<p class='cambiarfuente' style='font-size:30px;line-height:1;'>"+aviso+"</p>";
+  var parrafo="<p class='cambiarfuente "+estiloparrafo+"' style=''>"+aviso+"</p>";
    
 
   var html2="";
@@ -392,7 +392,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
                           html+=`
                           <div class="row" style="    margin-left: 2em; margin-right: 2em;    margin-top: 20px;">
                           <div class="col-100">
-                          <div style="color: #c7aa6a;font-size: 30px;text-align: center;" class="cambiarfuente">
+                          <div style="color: #c7aa6a;text-align: center;" class="cambiarfuente">
                             `+parrafo+`
 
                             </div>

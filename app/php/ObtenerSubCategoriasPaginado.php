@@ -39,7 +39,7 @@ try
 	$cantidadelementos=count($obtenercategoria);
 
 	
-
+	$inicio=0;
 	 $cantidad=$limitepaginado;
     if (isset($_POST['inicio'])) {
        $inicio=$_POST['inicio'];
@@ -48,9 +48,8 @@ try
     }
     
 
-  
     $totalelementos=$lo->ObtenerTodas();
-  
+  	
 
     $resultado=$lo->ObtenerCategoriaLimit($inicio,$cantidad);
 

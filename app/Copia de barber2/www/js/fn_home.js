@@ -1,6 +1,9 @@
 var dynamicSheet1="";
 var intervalove=0;
 var dynamicSheet4="";
+var dynamicSheet5="";
+var dynamicSheet6="";
+
 function ObtenerTableroAnuncios(estatus) {
 
 	//return new Promise((resolve, reject) => {
@@ -321,7 +324,7 @@ function PintarTableroSucursal(respuesta) {
 										<a >`+respuesta[i].titulo+`
 									</p>
 									<p style="font-size: 14px;color:#c7aa6a;line-height: 16px;">
-									`+respuesta[i].direccion+`, `+respuesta[i].colonia+`</p>
+									`+respuesta[i].direccion+`</p>
 									
 									
 								</div>
@@ -401,14 +404,15 @@ function ObtenerTableroCitas(estatus) {
 		async:false,
 		success: function(datos){
 			
+			var fecha=datos.fechafiltro;
 
 			var respuesta=datos.respuesta;
 			if (respuesta.length>0) {
-				$(".iconocitas").css('display','');
+				//$(".iconocitas").css('display','');
 			}
-			$(".numerocitas").text(respuesta.length);
-			PintarTableroCitas(respuesta);
-			var fecha=datos.fechafiltro;
+			//$(".numerocitas").text(respuesta.length);
+			PintarTableroCitas(respuesta,fecha);
+			
 
 			$(".fechaactual").text(fecha);
 
@@ -425,13 +429,72 @@ function ObtenerTableroCitas(estatus) {
 	//});
 }
 
-function PintarTableroCitas(respuesta) {
-	var html="";
-	$(".titulocitas").css('display','none');
+function ObtenerCitasProgramadas() {
+	var fecha="";
+	var estatus=1;
+	var iduser=localStorage.getItem('id_user');
+	var datos="idusuarios="+iduser+"&fechafiltro="+fecha+"&estatus="+estatus+"&hoy=1";
+	//return new Promise((resolve, reject) => {
+ 	//var idusuarios=localStorage.getItem('id_user');
+	//var datos="estatus="+estatus+"&idusuarios="+idusuarios;
+	var pagina = "ObtenerCitasProgramadas.php";
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		async:false,
+		success: function(datos){
+			
+			var respuesta=datos.respuesta;
+			if (respuesta.length>0) {
+				$(".iconocitas").css('display','');
+			}else{
+				$(".iconocitas").css('display','none');
 
+			}
+			$(".numerocitas").text(respuesta.length);
+			
+			//resolve(respuesta);
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+}
+
+function PintarTableroCitas(respuesta,fechaactual) {
+	var html="";
+
+	$(".titulocitas").css('display','none');
+		
+		var contadorpasado=0;
 	if (respuesta.length>0) {
 		$(".titulocitas").css('display','block');
 		for (var i = 0; i < respuesta.length; i++) {
+			var cancelado=0;
+			var clasecancelado="";
+			if (respuesta[i].cancelacion==1) {
+				cancelado=1;
+				clasecancelado="clasecancelado";
+			}
+
+		if (respuesta[i].porpasar==0 && contadorpasado==0) {
+
+
+				html+=`<div class="row" style="    display: flex;
+    justify-content: center;
+    width: 100%;">
+				<div class="linea"><span>Hoy `+fechaactual+`</span></div>
+
+				</div>`;
+				contadorpasado++;
+
+
+			}
 
 				imagen=urlimagenes+`sucursal/imagenes/`+codigoserv+respuesta[i].imagen;
 				var color="color:black;";
@@ -458,19 +521,47 @@ function PintarTableroCitas(respuesta) {
 					</div>
 					<div class="card-info">
 						<p class="item-title cambiarfuente">
-						<p class="cambiarfuente" style="margin:0;color:white;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)" >`+respuesta[i].anio+` </p>
+						<p class="cambiarfuente `+clasecancelado+`" style="margin:0;color:white;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)" >`+respuesta[i].anio+` </p>
 						<a style="color:white;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">
-							<p class="cambiarfuente" style="margin:0;word-break: break-word;">`+respuesta[i].fechaformato+` </p>
+							<p class="cambiarfuente `+clasecancelado+`" style="margin:0;word-break: break-word;">`+respuesta[i].fechaformato+` </p>
 						</a>
 
-						<p class="cambiarfuente" style="color: white;font-size: 18px;margin:0;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">`+respuesta[i].horacita+`hrs.</p>
+						<p class="cambiarfuente `+clasecancelado+`" style="color: white;font-size: 18px;margin:0;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">`+respuesta[i].horacita+`hrs.</p>
 
 						</p>
 					  <div class="">
 				
-						<p class="cambiarfuente" style="color: white;margin:0;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">`+respuesta[i].nombreespecialista+`</p>
-						<p class="cambiarfuente" style="color: white;margin:0;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">`+respuesta[i].titulo+`-`+respuesta[i].descripcion+`</a></p>
-						</div>
+						<p class="cambiarfuente `+clasecancelado+`" style="color: white;margin:0;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">`+respuesta[i].nombreespecialista+`</p>
+						<p class="cambiarfuente `+clasecancelado+`" style="color: white;margin:0;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">`+respuesta[i].titulo+`-`+respuesta[i].descripcion+`</a></p>`;
+						
+							//aqui checkin checkout
+
+								
+									if (respuesta[i].checkin==1) {
+								html+=`
+									<p class="" style="display: flex;">`;
+								html+=`<span>check-in: `+respuesta[i].fechachekin+`</span> <span class="material-icons-outlined" style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;margin-left: 5px;">
+										check_circle_outline
+										</span>
+
+										`;
+								html+=`</p>`;
+									}
+
+									if (respuesta[i].checkout==1) {
+								html+=`
+									<p class="" style="display: flex;">`;
+								html+=`<span>check-out: `+respuesta[i].fechachekout+`</span> <span class="material-icons-outlined" style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;margin-left: 5px;">
+										check_circle_outline
+										</span>`;
+								html+=`</p>`;
+									}
+
+								html+=`</p>`;
+								
+							
+
+						html+=`</div>
 						<div class="item-footer">
 
 						</div>
@@ -1042,6 +1133,7 @@ function CargarDatos() {
       ObtenerDetalleEmpresa();
     PintarCantidadcarrito();
     ObtenerFechaActual();
+    ObtenerEdad();
 	$(".divhoy").attr('onclick','ObtenerTableroCitas(1);');
     $(".liconfiguracion").css('display','none');
 
@@ -1057,6 +1149,7 @@ function CargarDatos() {
     		var nombre=localStorage.getItem('nombre');
     		$(".nombreusuario").text(nombre);
     		$(".lilogin").css('display','none');
+    		//$(".lblusuario").attr('onclick','verperfil()');
     	}
 
 
@@ -1068,6 +1161,9 @@ function CargarDatos() {
      }
 }
 
+function verperfil() {
+	GoToPage('perfil');
+}
 
 function Cargarperfilfoto() {
 	
@@ -1178,8 +1274,8 @@ function ObtenerDetalleCita(respuesta) {
 		long=coordenadas[1];
 	}
 		var llamada="";
-	if (respuesta.celular!='') {
-		llamada="hacerLlamada('"+respuesta.celular+"')";
+	if (respuesta.telefono!='') {
+		llamada="hacerLlamada('"+respuesta.telefono+"')";
 	}
 
 var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;background: black;">
@@ -1224,8 +1320,8 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
                     <div class="card-header">
                     <div class="datoscita">
 
-                    <div class="row" style="margin-top: 10px;">
-                        	<div class="imagenqr" style="    justify-content: center;display: flex;"></div>
+                    <div class="row divimgqr itemcarrito1" style="margin-top: 10px;padding: 20px;padding-top: 1em;border-top: 1px solid white;display:none" >
+                        	<div class="imagenqr" style="justify-content: center;display: flex;"></div>
                         </div>
                         <div class="row" style="" >
                             
@@ -1233,11 +1329,8 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
                   
                            html+=`
                             		<div class=" cambiarfuente " style="list-style: none;background: black;">
-          							<li class="item-content cambiarfuente" style="    margin-top: 1em;
-    margin-right: 1em;
-    margin-left: 1em;
-    border-bottom: 1px solid;
-    margin-bottom: 1em;">
+          							<li class="item-content cambiarfuente itemcarrito2" style="margin-top: 1em;border-bottom: 1px solid;margin-bottom: 1em;padding: 20px;
+    padding-top: 1em;border-top: 1px solid white;">
             <div class="row" style="margin-bottom: 10px;">
               <div class="col-90">
                 <div class="icon-text-container">`;
@@ -1286,7 +1379,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
                    <div class="icon-text-container" style="margin-top:10px;">
                      <span class="material-icons-outlined">calendar_month</span>
 
-                     <p style="margin:0;">Fecha/Hora: <span class="texto">`+respuesta.fechaformato+`</span></p>
+                     <p style="margin:0;">Fecha/Hora: <span class="texto">`+respuesta.fechaformato+` `+respuesta.horainicial+'-'+respuesta.horafinal+`</span></p>
 
                      </div>
                      `;
@@ -1348,7 +1441,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
                   if (respuesta.precioante!=0) {
                      html+=`
                      <div class="col-100">
-                     <p style="margin:0;text-decoration:line-through;font-size: 12px;text-align: right;">$`+respuesta[i].precioante+`</p>
+                     <p style="margin:0;text-decoration:line-through;font-size: 12px;text-align: right;">$`+respuesta.precioante+`</p>
                      </div>
                      `;
 
@@ -1371,18 +1464,68 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
           </li>
 
         </div>
+           <div class="icon-text-container" style="margin-top: 10px; margin-left: 30px;">
 
+                            	
                             	`;
-
+                            	//aqui
                             if(respuesta.checkin==1) {
-                            
-                            	html+=` <p class="" style="display: flex;"><span>check-in:</span> <span class="material-icons-outlined" 
-                            	style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;">
+                            	
+                            	html+=`
+ 								<p class="" style="display: flex;">
+                            	 <span>check-in:</span> <span class="material-icons-outlined" 
+                            	style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;margin-left: 5px;">
 								check_circle_outline
 								</span>
-							</p>`;	
+								</p>
+								`;	
                             
                             }
+
+                            	if (respuesta.checkout==1) {
+
+								html+=`
+								<p class="" style="display: flex;">
+										<span>check-out:</span> <span class="material-icons-outlined" style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;margin-left: 5px;">
+										check_circle_outline
+										</span>
+								</p>
+										`;
+									}
+								html+=`
+							
+							</div>
+							
+								`;
+
+                            		if(respuesta.cancelacion==0 && respuesta.checkin==0 && respuesta.checkout==0) {
+
+	                            	html+=`
+	                            		<div class="col-100">
+	                            			<button style="background: rgb(199, 170, 106); display: block;" type="button" class="button button-fill color-theme button-large button-raised btncontinuarcita cambiarfuente faustina" 
+	                            			onclick="AbrirModalCancelacion(`+respuesta.idcita+`)">Cancelar</button>
+
+	                            		</div>
+
+	                            	`;
+
+                            	}
+
+
+                            	 if (respuesta.cancelacion==1) {
+                                  html+=`
+                                    <div class="col-100">
+                                      <p class="" style="display: flex;margin-left: 20px;"><span>cancelado:</span> <span class="material-icons-outlined" 
+                                      style=" width: 30px;justify-content: center;font-size: 20px;color:red;">
+                                      block
+                                      </span>
+                                    </p>
+                                </div>
+
+                                  `;
+
+                                }
+                            
                             html+=`
 
                             </div>
@@ -1410,12 +1553,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
                         	</div>
                        
                     </div>
-                    <div class="card-content card-content-padding">
-                        <p class="text-muted margin-bottom">
-                           
-                        </p>
-                        
-                    </div>
+                    
                 </div>
             </div>
 			</div>
@@ -1433,14 +1571,27 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
 					<span style="justify-content: center;
     display: flex;" class="material-icons-outlined">location_on</span>
 					<p class=" mt-5 mb-0 cambiarfuente" style="color:white;font-size: 14px;text-align: center;">Encuentra la sucursal</p>
-				</div>
+				</div>`;
 
-				<div class="col" onclick="CalificarCita(`+respuesta.idcita+`)">
-					<span style="justify-content: center;
-    display: flex;" class="material-icons-outlined">grade</span>
+				if (respuesta.checkout==1) { 
+					califica=`<span style="justify-content: center;display: flex;" class="material-icons-outlined"> grade </span>`;
 
+					if (respuesta.llevacalificacion>0) {
+					califica=`
+						<i class=" iconosestrella" >
+	                     	 <span class="material-icons-outlined " style="color: #C7AA6A!important;justify-content: center;display: flex;">
+						star
+						</span>
+	                  </i>
+					`;
+	
+					}
+				html+=`<div class="col" onclick="CalificarCita(`+respuesta.idcita+`)">
+					`+califica+`
 					<p class=" cambiarfuente mt-5 mb-0" style="color:white;font-size: 14px;text-align: center;">Califica</p>
 				</div>`;
+
+				}
 
 				if (respuesta.checkin==0) {
 			/*	html+=`<div class="col" onclick="GenerarQrCita(`+respuesta.idcita+`)">
@@ -1457,7 +1608,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
 			
 					<div class="row cambiarfuente" style=" margin-right: 2em; margin-left: 2em;">
 						<div class="col-100">
-							<p style="font-size: 16px;font-weight: bold;margin-left: 1em;text-align:center;">Galeria de imágenes</p>
+							<p style="font-size: 16px;font-weight: bold;margin-left: 1em;text-align:center;" id="titulogaleria">Galeria de imágenes</p>
 						</div>
 						
 					</div>
@@ -1519,7 +1670,8 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
         on: {
           open: function (sheet) {
 
-          	if (respuesta.checkin==0) {
+          	if (respuesta.checkin==0 && respuesta.cancelacion==0) {
+          		$(".divimgqr").css('display','');
           		GenerarQrCita(respuesta.idcita);
           	}
            	ObtenerImagenescitaCliente();
@@ -1569,9 +1721,9 @@ function GenerarQrCita(idcita) {
 		
 
 			//$(".datoscita").css('display','none');
-			$(".imagenqr").html('<img src="" id="colocarqr" alt="" style="width:100%"/>');
+			$(".imagenqr").html('<img src="" id="colocarqr" class="colocarqr" alt="" style="width:100%"/>');
 
-			$("#colocarqr").attr('src',ruta.trim());
+			$(".colocarqr").attr('src',ruta.trim());
 
 				//countdown(agregaMinutos(new Date(), .50).toString(), 'clock', '');
 		 intervalove=setInterval('VerificarSihasidoleido()',1000);
@@ -1607,7 +1759,8 @@ function VerificarSihasidoleido() {
 					 dynamicSheet1.close();
 					 dynamicSheet1.destroy();
 					 var datosqr=resultado.datosqr[0];
-					AbrirValidacionQr(datosqr);
+					 var detallecita=resultado.detallecita[0];
+					AbrirValidacionQr(detallecita);
 					
 				}
 				
@@ -1623,45 +1776,46 @@ function VerificarSihasidoleido() {
 }
 
 
-function AbrirValidacionQr(datos) {
+function AbrirValidacionQr(respuesta) {
 			
-var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;">
-            <!--<div class="toolbar">
-              <div class="toolbar-inner">
-                <div class="left"></div>
-                <div class="right">
-                  <a class="link sheet-close"></a>
-                </div>
-              </div>
-            </div>--!>
-            <div class="sheet-modal-inner" style="background: white;border-top-left-radius: 20px;border-top-right-radius:20px; ">
-            	 
+var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;background: black;">
+            
+            <div class="sheet-modal-inner" style="background: black;">
+               <div class="iconocerrar link sheet-close" style="z-index:10;">
+               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M25.5188 4.48126C23.4385 2.4011 20.788 0.984547 17.9026 0.410715C15.0171 -0.163118 12.0264 0.131546 9.30839 1.25744C6.59043 2.38334 4.26736 4.28991 2.63294 6.73606C0.998525 9.18221 0.12616 12.0581 0.12616 15C0.12616 17.9419 0.998525 20.8178 2.63294 23.264C4.26736 25.7101 6.59043 27.6167 9.30839 28.7426C12.0264 29.8685 15.0171 30.1631 17.9026 29.5893C20.788 29.0155 23.4385 27.5989 25.5188 25.5188C26.9003 24.1375 27.9961 22.4976 28.7437 20.6928C29.4914 18.888 29.8762 16.9535 29.8762 15C29.8762 13.0465 29.4914 11.1121 28.7437 9.30724C27.9961 7.50242 26.9003 5.86255 25.5188 4.48126ZM20.3126 18.7613C20.4187 18.8606 20.5034 18.9808 20.5612 19.1142C20.6191 19.2476 20.6489 19.3915 20.6489 19.5369C20.6489 19.6823 20.6191 19.8262 20.5612 19.9596C20.5034 20.093 20.4187 20.2131 20.3126 20.3125C20.2133 20.411 20.0956 20.4889 19.9661 20.5418C19.8367 20.5946 19.698 20.6214 19.5582 20.6206C19.2795 20.6195 19.0124 20.5088 18.8145 20.3125L15.0001 16.4981L11.2388 20.3125C11.0409 20.5088 10.7738 20.6195 10.4951 20.6206C10.3553 20.6214 10.2166 20.5946 10.0872 20.5418C9.95773 20.4889 9.83999 20.411 9.74071 20.3125C9.54282 20.1134 9.43174 19.8441 9.43174 19.5634C9.43174 19.2827 9.54282 19.0135 9.74071 18.8144L13.502 15L9.74071 11.2388C9.56665 11.0355 9.47569 10.774 9.48602 10.5066C9.49635 10.2392 9.6072 9.98557 9.79642 9.79635C9.98565 9.60712 10.2393 9.49627 10.5067 9.48594C10.7741 9.47561 11.0356 9.56657 11.2388 9.74063L15.0001 13.5019L18.7613 9.74063C18.8597 9.63878 18.9772 9.55729 19.107 9.50083C19.2369 9.44437 19.3766 9.41404 19.5182 9.41158C19.6598 9.40911 19.8004 9.43456 19.9322 9.48646C20.0639 9.53836 20.1842 9.6157 20.286 9.71407C20.3879 9.81244 20.4694 9.9299 20.5258 10.0598C20.5823 10.1896 20.6126 10.3293 20.6151 10.4709C20.6175 10.6125 20.5921 10.7532 20.5402 10.8849C20.4883 11.0167 20.411 11.1369 20.3126 11.2388L16.4982 15L20.3126 18.7613Z" fill="#AAAAAA"></path>
+            </svg>
+                       </div>
               <div class="page-content" style="height: 100%;">
-                <div style="background: white; height: 100%;width: 100%;border-radius: 20px;">
-   						     <div class="row">
-	   						     <div class="col-20">
-	   						      	
-	   						    </div>
+                <div style="background: black; height: 100%;width: 100%;border-radius: 20px;">
+                   <div class="row">
+                     <div class="col-20">
+                        
+                    </div>
 
-   						    	 <div class="col-60">
-   						    	 <span class="titulomodal"></span>
-   						    	 </div>
-   						    	 <div class="col-20">
-   						    	 <span class="limpiarfiltros"></span>
-   						    	 </div>
-   							 </div>
-   							 <div class="" style="position: absolute;top:2em;width: 100%;">
-   							 	
+                     <div class="col-60">
+                     <span class="titulomodal cambiarfuente" style="font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+    color: #c7aa6a;"></span>
+                     </div>
+                     <div class="col-20">
+                     <span class="limpiarfiltros"></span>
+                     </div>
+                 </div>
+                 <div class="" style="position: absolute;top:1em;width: 100%;">
+                
 	   							  <div class="">
 		   							  <div class="block" style="margin-right:1em;margin-left:1em;">
 		   									
 
-		   							  		<div class="card-content" style="margin-top:6em;">
+		   							  		<div class="card-content" style="margin-top:2em;">
 		   										<div class="row">
 			   										<div class="col-100">
 			   											<h3 style="margin-left: 1em;
-    margin-right: 1em;
-    text-align: center;">Tu código qr se ha leído exitosamente</h3>
+    														margin-right: 1em;
+    														text-align: center;line-height:1;
+    									">Check-in realizado exitosamente</h3>
 			   										</div>
 		   										</div>
 		   									</div>
@@ -1681,23 +1835,155 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
 																			</span>
 			   							 		</div>
 		   							 		</div>
-		   							 		<div class="col-100" style="margin-top:1em;">
 		   		
-		   							 		
-			   							 		
-			   							 	
-																		<a onclick="CerrarModal()" class="button-large button button-fill color-theme button-raised">
-													                  Cerrar
-													    </a>		   		
-											
-		   						
-
-			   							 		</div>
 			   							 		<div class="col-100">
 			   							 		</div>
 		   							 		</div>
-		   							 		<div class="row">
-		   							 			<div class="col">
+		   							 				<div class="row">
+		   							 					<div class="col">`;
+
+		   						 html+=`
+                 <div class=" cambiarfuente " style="list-style: none;background: black;">
+          							<li class="item-content cambiarfuente" style="    margin-top: 1em;
+    								margin-right: 1em;
+    								margin-left: 1em;
+    								border-bottom: 1px solid;
+    								margin-bottom: 1em;">
+          					  <div class="row" style="margin-bottom: 10px;">
+             					 <div class="col-90">
+				                <div class="icon-text-container">`;
+				                if (respuesta.servicio==1) {
+				                  etiqueta="Servicio";
+				                }
+
+				                if (respuesta.servicio==0) {
+				                  etiqueta="Producto";
+				                }
+
+               html+=`
+               <span class="material-icons-outlined">inventory_2
+                </span> <p style="margin:0;">`+etiqueta+`: <span class="texto">`+respuesta.concepto+`</span>
+                </p>
+
+                </div>
+                <div class="icon-text-container" style="margin-top: 10px;">
+                <span class="material-icons-outlined">local_atm</span>
+                  <p style="margin:0;">Costo: <span class="texto">$`+respuesta.costo+`</span>
+                  </p>
+                </div>
+                <div class="icon-text-container" style="margin-top: 10px;">
+                 <span class="material-icons-outlined">
+                    add_business
+                    </span>
+                    <p style="margin:0;">
+                   
+                    Negocio: <span class="texto">`+respuesta.titulo+`</span></p>
+                     </div>
+                    `;
+
+                       if (respuesta.servicio==0) {
+                      html+=`<p style="margin:0;">Cantidad: `+respuesta.cantidad+`</p>`;
+                 
+                  }else{
+
+
+                    html+=` 
+                        <div class="icon-text-container" style="margin-top: 10px;">
+                        <span class="material-icons-outlined">supervised_user_circle</span>
+                    <p style="margin:0;">Barbero: <span class="texto">`+respuesta.nombre+` `+respuesta.paterno+`</span></p>
+                    </div>
+                    `;
+                    html+=`
+                   <div class="icon-text-container" style="margin-top:10px;">
+                     <span class="material-icons-outlined">calendar_month</span>
+
+                     <p style="margin:0;">Fecha/Hora: <span class="texto">`+respuesta.fechaformato+` `+respuesta.horainicial+'-'+respuesta.horafinal+`</span></p>
+
+                     </div>
+                     `;
+
+                        if (respuesta.concortesia==1  ) {
+
+
+                          if (respuesta.idcortesia>0 ) {
+
+                          html+=`
+
+
+                         <div class="icon-text-container" style="margin-top: 10px;">
+                           <span class="material-icons-outlined">card_giftcard</span>
+
+                           <p style="margin:0;">Cortesía: <span class="texto">`+respuesta.nombrepaquetecortesia+`</span></p>
+
+                           </div>`;
+
+                      }
+
+
+                      if (respuesta.idcortesia==0 && respuesta.colococortesia==1) {
+
+                          html+=`
+
+
+                         <div class="icon-text-container" style="margin-top: 10px;">
+                           <span class="material-icons-outlined">card_giftcard</span>
+
+                           <p style="margin:0;">Cortesía: <span class="texto">Ninguna</span></p>
+
+                           </div>`;
+                      }
+
+                       /* html+=`
+                        <div class="col-100" style="padding-bottom: 1em;
+    padding-top: 1em;">
+                      <button class="button  color-theme  " style="background:#C7AA6A;padding:10px 20px;" onclick="ObtenerCortesia(`+respuesta[i].idcarrito+`,`+respuesta[i].idpaquete+`)">
+                        Cortesia
+                       </button>
+                     
+                     </div>
+                      `;*/
+
+                    }else{
+
+                 
+          
+
+                    }
+                  }
+
+                  
+
+              html+=` </div>
+                <div class="col-10">`;
+
+                  if (respuesta.precioante!=0) {
+                     html+=`
+                     <div class="col-100">
+                     <p style="margin:0;text-decoration:line-through;font-size: 12px;text-align: right;">$`+respuesta.precioante+`</p>
+                     </div>
+                     `;
+
+                  }
+
+
+				                   html+=`
+				                   <div class="col-100">
+				                   
+				                     </div>
+				                     `;
+
+                 
+
+
+
+									             html+=` </div>
+
+									              </div>
+									          </li>
+
+									        </div>`;
+									html+=`
+
 		   							 					</div>
 		   							 				</div>
 		   							 			</div>
@@ -1750,7 +2036,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
           },
 
           close:function () {
-          	 AbrirModalCita(datos.idcita);
+          	 AbrirModalCita(respuesta.idcita);
           }
         }
       });
@@ -1812,6 +2098,8 @@ function CrearUsuarioInvitado() {
 				localStorage.removeItem('carrito');
 				localStorage.setItem('invitado',1);
 				localStorage.setItem('idtipousuario',6);
+				$(".lblusuario").css('display','');
+	
 				//GoToPage("home");
 	}else if(localStorage.getItem("id_user")!=undefined && localStorage.getItem("id_user")!=null && localStorage.getItem("id_user")!=0){
 
@@ -1862,10 +2150,57 @@ function CerrarCalificacion() {
 }
 function CalificarCita(idcita){
 
-       var html=`
-         
-              <div class="block">
-               <div class="row">
+
+  var parrafo="<p class='cambiarfuente "+estiloparrafo+"' style=''>Califica tu cita</p>";
+     var parrafo2="<p class='cambiarfuente "+estiloparrafo+"' style=''>Ingresa tu comentario</p>";
+
+
+  var html2="";
+
+var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;background: black;">
+            
+            <div class="sheet-modal-inner" style="background: white;border-top-left-radius: 20px;border-top-right-radius:20px; ">
+               <div class="iconocerrar link sheet-close" style="z-index:10;">
+               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M25.5188 4.48126C23.4385 2.4011 20.788 0.984547 17.9026 0.410715C15.0171 -0.163118 12.0264 0.131546 9.30839 1.25744C6.59043 2.38334 4.26736 4.28991 2.63294 6.73606C0.998525 9.18221 0.12616 12.0581 0.12616 15C0.12616 17.9419 0.998525 20.8178 2.63294 23.264C4.26736 25.7101 6.59043 27.6167 9.30839 28.7426C12.0264 29.8685 15.0171 30.1631 17.9026 29.5893C20.788 29.0155 23.4385 27.5989 25.5188 25.5188C26.9003 24.1375 27.9961 22.4976 28.7437 20.6928C29.4914 18.888 29.8762 16.9535 29.8762 15C29.8762 13.0465 29.4914 11.1121 28.7437 9.30724C27.9961 7.50242 26.9003 5.86255 25.5188 4.48126ZM20.3126 18.7613C20.4187 18.8606 20.5034 18.9808 20.5612 19.1142C20.6191 19.2476 20.6489 19.3915 20.6489 19.5369C20.6489 19.6823 20.6191 19.8262 20.5612 19.9596C20.5034 20.093 20.4187 20.2131 20.3126 20.3125C20.2133 20.411 20.0956 20.4889 19.9661 20.5418C19.8367 20.5946 19.698 20.6214 19.5582 20.6206C19.2795 20.6195 19.0124 20.5088 18.8145 20.3125L15.0001 16.4981L11.2388 20.3125C11.0409 20.5088 10.7738 20.6195 10.4951 20.6206C10.3553 20.6214 10.2166 20.5946 10.0872 20.5418C9.95773 20.4889 9.83999 20.411 9.74071 20.3125C9.54282 20.1134 9.43174 19.8441 9.43174 19.5634C9.43174 19.2827 9.54282 19.0135 9.74071 18.8144L13.502 15L9.74071 11.2388C9.56665 11.0355 9.47569 10.774 9.48602 10.5066C9.49635 10.2392 9.6072 9.98557 9.79642 9.79635C9.98565 9.60712 10.2393 9.49627 10.5067 9.48594C10.7741 9.47561 11.0356 9.56657 11.2388 9.74063L15.0001 13.5019L18.7613 9.74063C18.8597 9.63878 18.9772 9.55729 19.107 9.50083C19.2369 9.44437 19.3766 9.41404 19.5182 9.41158C19.6598 9.40911 19.8004 9.43456 19.9322 9.48646C20.0639 9.53836 20.1842 9.6157 20.286 9.71407C20.3879 9.81244 20.4694 9.9299 20.5258 10.0598C20.5823 10.1896 20.6126 10.3293 20.6151 10.4709C20.6175 10.6125 20.5921 10.7532 20.5402 10.8849C20.4883 11.0167 20.411 11.1369 20.3126 11.2388L16.4982 15L20.3126 18.7613Z" fill="#AAAAAA"></path>
+            </svg>
+                       </div>
+              <div class="page-content" style="height: 100%;">
+                <div style="background: black; height: 100%;width: 100%;border-radius: 20px;">
+                   <div class="row">
+                     <div class="col-20">
+                        
+                    </div>
+
+                     <div class="col-60">
+                     <span class="titulomodal cambiarfuente" style="font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+    color: #c7aa6a;"></span>
+                     </div>
+                     <div class="col-20">
+                     <span class="limpiarfiltros"></span>
+                     </div>
+                 </div>
+                 <div class="" style="position: absolute;top:1em;width: 100%;">
+                
+                       
+                        `;
+                      
+
+                          html+=`
+                          <div class="row" style="margin-left: 3em; margin-right: 3em;margin-top: 20px;">
+                          <div class="col-100">
+                          <div style="color: #c7aa6a;text-align: center;" class="cambiarfuente">
+                            `+parrafo+`
+
+                            </div>
+                          </div>
+
+                          </div>`;
+
+                          html+=`
+                          	 <div class="row" style=" margin-left: 3em; margin-right: 3em;">
                   
                 <div class="col" >
                 	<div>
@@ -1924,48 +2259,91 @@ function CalificarCita(idcita){
 
                 </div>
 
-                <div class="row" style="padding-top:1em;">
-                	<label style="font-size:16px;padding:1px;">Comentarios:</label>
-                	<textarea name="" id="txtcomentario" cols="30" rows="3"></textarea>
-                </div>
-              </div>
-           
-         
-        `;
-       app.dialog.create({
-          title: 'Califica cita',
-          //text: 'Dialog with vertical buttons',
-          content:html,
-          buttons: [
-            {
-              text: 'Cancelar',
-            },
-            {
-              text: 'Calificar',
-            },
-            
-          ],
-           onClick: function (dialog, index) {
-                    if(index === 0){
+                <div class="row" style="    margin-left: 3em; margin-right: 3em;margin-top:1em;">
+                                <div style="color: #c7aa6a;text-align: center;width: 100%;" class="cambiarfuente">
+ 								`+parrafo2+`</div>
+                          <div class="col-100">
+                              <form>
+                            <div class="list" style="margin:0;">
+                              <ul class="row">
+
+                                <li class="item-content col-100 item-input item-input-with-value">
+
+                                  <div class="item-inner">
+                                    <div class="item-input-wrap">
+                                      <textarea placeholder="" id="txtcomentario" class="form-control"></textarea>
+                                    </div>
+                                  </div>
+                                </li>
+
+                                </ul>
+                                </div>
+
+
+                                </form>
+
+                           <div id="txtadvertencia" style="color:red;"></div>
+
+                          </div>
+
+                          </div>
+
                
-          }
-          else if(index === 1){
-             	GuardarCalificacion(idcita);
 
+                          `;
+
+                          html+=`
+
+
+                            <div class="row margin-bottom " style="padding-top: 1em;margin-left: 3em;margin-right:3em;margin-top:20px;display:flex;justify-content:center;">
+                            <div class="col-100">
+                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="GuardarCalificacion(`+idcita+`);">Guardar</button>
+                            </div>
+
+                          </div>
+                          `;
+
+                      
+                         html+=` </div>
+
+                         
+
+
+                      </div>
+
+                  </div>
+
+                </div>
+                
+              </div>
+            </div>
+          </div>`;
+         
+    dynamicSheet1 = app.sheet.create({
+        content: html,
+
+      swipeToClose: true,
+        backdrop: true,
+        // Events
+        on: {
+          open: function (sheet) {
+
+             if (tipoletra!='') {
+              $(".cambiarfuente").addClass(tipoletra);
             }
-           
-        },
-          verticalButtons: false,
-        }).open();
-	/*var calificacion=respuesta.calificacion;
-	if (calificacion.length>0) {
-		var cantidad=calificacion[0].calificacion;
-		Cambio(cantidad);
-		disableClicks();
-		$("#txtcomentario").val(calificacion[0].comentario);
-		$("#txtcomentario").attr('disabled',true);
 
-	}*/
+          },
+          opened: function (sheet) {
+            console.log('Sheet opened');
+
+           
+          },
+        }
+      });
+
+
+       dynamicSheet1.open();
+
 }
 function CalificarCita2(idcita) {
 		$(".datoscita").css('display','none');
@@ -2127,6 +2505,13 @@ function Cambio(valor) {
 
 function SeleccionarEstrella(cantidad) {
 	var colocar=0;
+
+	$(".iconosestrella span" ).each(function( index ) {
+		  $(this).removeClass('colorestrella');
+
+
+	});
+
 	if ($("#che_"+cantidad).is(':checked')) {
 
 		
@@ -2135,36 +2520,38 @@ function SeleccionarEstrella(cantidad) {
 	}else{
 		
 		colocar=1;
-
+		$("#estre_"+cantidad).removeClass('colorestrella')
+		$("#che_"+cantidad).attr('checked',false);
 	}
 
-	if (colocar==1) {
-		/*$("#estre_"+cantidad).removeClass('bi-star');
+	/*if (colocar==1) {
+		$("#estre_"+cantidad).removeClass('bi-star');
 		$("#estre_"+cantidad).addClass('bi-star-fill');*/
+		
+
 		if (cantidad>=1) {
 			for (var i = 1; i <=cantidad; i++) {
-				/*$("#estre_"+i).removeClass('bi-star');
-				$("#estre_"+i).addClass('bi-star-fill');*/
+			
+
 				$("#estre_"+i+" span").addClass('colorestrella');
 
 				$("#che_"+i).attr('checked',true);
 			}
 		}
+
+		/*
 		
 	}else{
 			
 			for (var i = 1; i <= 10; i++) {
-				/*$("#estre_"+i).removeClass('bi-star-fill');
-				$("#estre_"+i).addClass('bi-star');*/
+				
 				$("#estre_"+i+" span").removeClass('colorestrella');
-
 				$("#che_"+i).attr('checked',false);
 			}
 
 			if (cantidad>=1) {
 			for (var i = 1; i <=cantidad; i++) {
-				/*$("#estre_"+i).removeClass('bi-star');
-				$("#estre_"+i).addClass('bi-star-fill');*/
+				
 				$("#estre_"+i+" span").addClass('colorestrella');
 
 
@@ -2173,7 +2560,7 @@ function SeleccionarEstrella(cantidad) {
 			}
 		}
 	
-	}
+	}*/
 	
 
 }
@@ -2182,7 +2569,13 @@ function GuardarCalificacion(idcita) {
 	var idusuario=localStorage.getItem('id_user');
 	var cantidad=$(".colorestrella").length;
 	var comentario=$("#txtcomentario").val();
-	 app.dialog.confirm('','¿Seguro de guardar la calificación?', function () {
+	
+	// app.dialog.confirm('','¿Seguro de guardar la calificación?', function () {
+ 	const myPromise = new Promise((resolve, reject) => {
+     dynamicSheet1.close();
+
+     CrearModalEspera5(() => {
+	
 
 	var datos="idcita="+idcita+"&idusuario="+idusuario+"&cantidad="+cantidad+"&comentario="+comentario;
 	var pagina = "GuardarCalificacionCita.php";
@@ -2193,13 +2586,14 @@ function GuardarCalificacion(idcita) {
 		data:datos,
 		async:false,
 		success: function(resp){
+			dynamicSheet2.close();
 
-			
+			var aviso="Calificación guardada exitosamente";
+			AbrirModalAviso(aviso);
 				$("#txtcomentario").val('');
-				$(".opcionescita").css('display','block');
-				$(".datoscita").css('display','block');
+			
 				//$(".calificacion").css('display','none');
-				CerrarModal2();
+				//CerrarModal2();
 			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;
 				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
@@ -2210,6 +2604,7 @@ function GuardarCalificacion(idcita) {
 		});
 
 	});
+});
 }
 
 function CerrarModal2() {
@@ -2285,3 +2680,577 @@ function FiltrarTableroCitasUsuario() {
 }
 
 
+function AbrirModalCancelacion(idcita) {
+	 var aviso='El monto será reembolsado a tu monedero';
+	 aviso+='¿Estás seguro de cancelar el servicio?';
+
+  var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;background: black;">
+           
+            <div class="sheet-modal-inner" style="background: white;border-top-left-radius: 20px;border-top-right-radius:20px; ">
+               <div class="iconocerrar link sheet-close" style="z-index:10;">
+               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M25.5188 4.48126C23.4385 2.4011 20.788 0.984547 17.9026 0.410715C15.0171 -0.163118 12.0264 0.131546 9.30839 1.25744C6.59043 2.38334 4.26736 4.28991 2.63294 6.73606C0.998525 9.18221 0.12616 12.0581 0.12616 15C0.12616 17.9419 0.998525 20.8178 2.63294 23.264C4.26736 25.7101 6.59043 27.6167 9.30839 28.7426C12.0264 29.8685 15.0171 30.1631 17.9026 29.5893C20.788 29.0155 23.4385 27.5989 25.5188 25.5188C26.9003 24.1375 27.9961 22.4976 28.7437 20.6928C29.4914 18.888 29.8762 16.9535 29.8762 15C29.8762 13.0465 29.4914 11.1121 28.7437 9.30724C27.9961 7.50242 26.9003 5.86255 25.5188 4.48126ZM20.3126 18.7613C20.4187 18.8606 20.5034 18.9808 20.5612 19.1142C20.6191 19.2476 20.6489 19.3915 20.6489 19.5369C20.6489 19.6823 20.6191 19.8262 20.5612 19.9596C20.5034 20.093 20.4187 20.2131 20.3126 20.3125C20.2133 20.411 20.0956 20.4889 19.9661 20.5418C19.8367 20.5946 19.698 20.6214 19.5582 20.6206C19.2795 20.6195 19.0124 20.5088 18.8145 20.3125L15.0001 16.4981L11.2388 20.3125C11.0409 20.5088 10.7738 20.6195 10.4951 20.6206C10.3553 20.6214 10.2166 20.5946 10.0872 20.5418C9.95773 20.4889 9.83999 20.411 9.74071 20.3125C9.54282 20.1134 9.43174 19.8441 9.43174 19.5634C9.43174 19.2827 9.54282 19.0135 9.74071 18.8144L13.502 15L9.74071 11.2388C9.56665 11.0355 9.47569 10.774 9.48602 10.5066C9.49635 10.2392 9.6072 9.98557 9.79642 9.79635C9.98565 9.60712 10.2393 9.49627 10.5067 9.48594C10.7741 9.47561 11.0356 9.56657 11.2388 9.74063L15.0001 13.5019L18.7613 9.74063C18.8597 9.63878 18.9772 9.55729 19.107 9.50083C19.2369 9.44437 19.3766 9.41404 19.5182 9.41158C19.6598 9.40911 19.8004 9.43456 19.9322 9.48646C20.0639 9.53836 20.1842 9.6157 20.286 9.71407C20.3879 9.81244 20.4694 9.9299 20.5258 10.0598C20.5823 10.1896 20.6126 10.3293 20.6151 10.4709C20.6175 10.6125 20.5921 10.7532 20.5402 10.8849C20.4883 11.0167 20.411 11.1369 20.3126 11.2388L16.4982 15L20.3126 18.7613Z" fill="#AAAAAA"></path>
+            </svg>
+                       </div>
+              <div class="page-content" style="height: 100%;">
+                <div style="background: black; height: 100%;width: 100%;border-radius: 20px;">
+                   <div class="row">
+                     <div class="col-20">
+                        
+                    </div>
+
+                     <div class="col-60">
+                     <span class="titulomodal cambiarfuente" style="font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+    color: #c7aa6a;"></span>
+                     </div>
+                     <div class="col-20">
+                     <span class="limpiarfiltros"></span>
+                     </div>
+                 </div>
+                 <div class="" style="position: absolute;top:1em;width: 100%;">
+                
+                       
+                        `;
+
+                       
+
+                          html+=`
+                          <div class="divcitacancela">
+                          <div class="row" style="margin-left: 2em;margin-right: 2em;margin-top:20px;">
+                          <div class="col-100">
+                          <p class="cambiarfuente cambiarfuente2" style="color: #c7aa6a;font-size: 30px;text-align: center;line-height: 1;" class="cambiarfuente `+estiloparrafo+`">`+aviso+`</p>
+                          </div>
+
+                          </div>
+
+                          <div class="row margin-bottom " style="padding-top: 1em;    margin-left: 2em;margin-right: 2em;margin-top:20px;">
+                            <div class="col-50">
+                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="CancelarCita(`+idcita+`)">Si</button>
+                            </div>
+
+                            <div class="col-50">
+                            <button style="background: white;color:black;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="CerrarModalAviso5()">No</button>
+                            </div>
+                          </div>
+
+                          </div>
+
+                          <div class="divmotivocancela" style="display:none;">
+                          	<div class="">
+                          		<div class="col-100">
+                              <form>
+                            	<div class="list" style="margin:0;">
+	                              <ul class="row">
+	                                <li class="item-content col-100 item-input item-input-with-value">
+	                                  <div class="item-inner">
+	                                    <div class="item-input-wrap">
+	                                      <input type="text" placeholder="Motivo de cancelación"  id="motivocancelacion" class="form-control"/>
+	                                    </div>
+	                                  </div>
+	                                </li>
+
+	                                </ul>
+                                </div>
+                                </form>
+                          	</div>
+                          </div>
+
+
+                      </div>
+
+                  </div>
+
+                </div>
+                
+              </div>
+            </div>
+          </div>`;
+          /*<p><button class="button color-theme btncortesias" id="cortesia_`+respuesta[i].idcortesia+`" onclick="ElegirCortesia(`+idcarrito+`,`+respuesta[i].idcortesia+`)" style="background: white;color:black;padding: 10px 20px;">
+                                        Elegir
+                                       </button>
+                                     </p>*/
+    dynamicSheet5 = app.sheet.create({
+        content: html,
+
+      swipeToClose: true,
+        backdrop: true,
+        // Events
+        on: {
+          open: function (sheet) {
+           $(".cambiarfuente2").css('display','none');
+            
+
+          },
+          opened: function (sheet) {
+            console.log('Sheet opened');
+
+            if (tipoletra!='') {
+              $(".cambiarfuente").addClass(tipoletra);
+            }
+          $(".cambiarfuente2").css('display','block');
+
+          },
+        }
+      });
+
+       dynamicSheet5.open();
+
+}
+
+function CancelarCita(idcita) {
+	dynamicSheet5.close();
+	AbirModalMotivo(idcita);
+	/* const myPromise = new Promise((resolve, reject) => {
+        CrearModalEspera2(() => {
+              RealizarCancelacion(idcita);
+                resolve("Modal cerrado después de realizar el cargo");
+            });
+
+        });*/
+}
+
+function AbirModalMotivo(idcita) {
+	
+  var aviso='Por favor escriba el motivo de la cancelación';
+  var parrafo="<p class='cambiarfuente "+estiloparrafo+"' >"+aviso+"</p>";
+
+  var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;background: black;">
+           
+            <div class="sheet-modal-inner" style="background: white;border-top-left-radius: 20px;border-top-right-radius:20px; ">
+               <div class="iconocerrar link sheet-close" style="z-index:10;">
+               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M25.5188 4.48126C23.4385 2.4011 20.788 0.984547 17.9026 0.410715C15.0171 -0.163118 12.0264 0.131546 9.30839 1.25744C6.59043 2.38334 4.26736 4.28991 2.63294 6.73606C0.998525 9.18221 0.12616 12.0581 0.12616 15C0.12616 17.9419 0.998525 20.8178 2.63294 23.264C4.26736 25.7101 6.59043 27.6167 9.30839 28.7426C12.0264 29.8685 15.0171 30.1631 17.9026 29.5893C20.788 29.0155 23.4385 27.5989 25.5188 25.5188C26.9003 24.1375 27.9961 22.4976 28.7437 20.6928C29.4914 18.888 29.8762 16.9535 29.8762 15C29.8762 13.0465 29.4914 11.1121 28.7437 9.30724C27.9961 7.50242 26.9003 5.86255 25.5188 4.48126ZM20.3126 18.7613C20.4187 18.8606 20.5034 18.9808 20.5612 19.1142C20.6191 19.2476 20.6489 19.3915 20.6489 19.5369C20.6489 19.6823 20.6191 19.8262 20.5612 19.9596C20.5034 20.093 20.4187 20.2131 20.3126 20.3125C20.2133 20.411 20.0956 20.4889 19.9661 20.5418C19.8367 20.5946 19.698 20.6214 19.5582 20.6206C19.2795 20.6195 19.0124 20.5088 18.8145 20.3125L15.0001 16.4981L11.2388 20.3125C11.0409 20.5088 10.7738 20.6195 10.4951 20.6206C10.3553 20.6214 10.2166 20.5946 10.0872 20.5418C9.95773 20.4889 9.83999 20.411 9.74071 20.3125C9.54282 20.1134 9.43174 19.8441 9.43174 19.5634C9.43174 19.2827 9.54282 19.0135 9.74071 18.8144L13.502 15L9.74071 11.2388C9.56665 11.0355 9.47569 10.774 9.48602 10.5066C9.49635 10.2392 9.6072 9.98557 9.79642 9.79635C9.98565 9.60712 10.2393 9.49627 10.5067 9.48594C10.7741 9.47561 11.0356 9.56657 11.2388 9.74063L15.0001 13.5019L18.7613 9.74063C18.8597 9.63878 18.9772 9.55729 19.107 9.50083C19.2369 9.44437 19.3766 9.41404 19.5182 9.41158C19.6598 9.40911 19.8004 9.43456 19.9322 9.48646C20.0639 9.53836 20.1842 9.6157 20.286 9.71407C20.3879 9.81244 20.4694 9.9299 20.5258 10.0598C20.5823 10.1896 20.6126 10.3293 20.6151 10.4709C20.6175 10.6125 20.5921 10.7532 20.5402 10.8849C20.4883 11.0167 20.411 11.1369 20.3126 11.2388L16.4982 15L20.3126 18.7613Z" fill="#AAAAAA"></path>
+            </svg>
+                       </div>
+              <div class="page-content" style="height: 100%;">
+                <div style="background: black; height: 100%;width: 100%;border-radius: 20px;">
+                   <div class="row">
+                     <div class="col-20">
+                        
+                    </div>
+
+                     <div class="col-60">
+                     <span class="titulomodal cambiarfuente" style="font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+    color: #c7aa6a;"></span>
+                     </div>
+                     <div class="col-20">
+                     <span class="limpiarfiltros"></span>
+                     </div>
+                 </div>
+                 <div class="" style="position: absolute;top:1em;width: 100%;">
+                
+                       
+                        `;
+
+                       html+=`
+                          <div class="row" style="    margin-left: 2em; margin-right: 2em;    margin-top: 20px;">
+                          <div class="col-100">
+                          <div style="color: #c7aa6a;text-align: center;" class="cambiarfuente">
+                            `+parrafo+`
+
+                            </div>
+                          </div>
+
+                          </div>`;
+
+                          html+=`
+                          <div class="row" style="    margin-left: 2em; margin-right: 2em;margin-top:1em;">
+                          <div class="col-100">
+                              <form>
+                            <div class="list" style="margin:0;">
+                              <ul class="row">
+                                <li class="item-content col-100 item-input item-input-with-value">
+                                  <div class="item-inner">
+                                    <div class="item-input-wrap">
+                                      <textarea  placeholder=""  id="motivocancelacion" class="form-control"/></textarea>
+                                    </div>
+                                  </div>
+                                </li>
+
+                                </ul>
+                                </div>
+
+
+                                </form>
+
+                           <div id="txtadvertencia" style="color:red;"></div>
+
+                          </div>
+
+                          </div>`;
+
+                       
+                      
+                        
+
+
+                               html+=`
+                            <div class="row margin-bottom " style="padding-top: 1em;    margin-left: 2em;margin-right: 2em;margin-top:20px;display:flex;justify-content:center;">
+                            <div class="col-100">
+                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="AceptarCancelacion(`+idcita+`)">Aceptar</button>
+                            </div>
+
+                            
+                          </div>
+                          `;
+                           html+=` </div>`;
+                     html+=` </div>
+
+                  </div>
+
+                </div>
+                
+              </div>
+            </div>
+          </div>`;
+          /*<p><button class="button color-theme btncortesias" id="cortesia_`+respuesta[i].idcortesia+`" onclick="ElegirCortesia(`+idcarrito+`,`+respuesta[i].idcortesia+`)" style="background: white;color:black;padding: 10px 20px;">
+                                        Elegir
+                                       </button>
+                                     </p>*/
+    dynamicSheet3 = app.sheet.create({
+        content: html,
+
+      swipeToClose: true,
+        backdrop: true,
+        // Events
+        on: {
+          open: function (sheet) {
+           $(".cambiarfuente2").css('display','none');
+            
+
+          },
+          opened: function (sheet) {
+            console.log('Sheet opened');
+
+            if (tipoletra!='') {
+              $(".cambiarfuente").addClass(tipoletra);
+            }
+          $(".cambiarfuente2").css('display','block');
+
+          },
+        }
+      });
+
+       dynamicSheet3.open();
+}
+
+function AceptarCancelacion(idcita) {
+
+	 var iduser=localStorage.getItem('id_user');
+	 var motivocancelac=$("#motivocancelacion").val();
+ 
+	 const myPromise = new Promise((resolve, reject) => {
+                  dynamicSheet3.close();
+
+     CrearModalEspera5(() => {
+	
+
+	var datos="idusuarios="+iduser+"&motivocancela="+motivocancelac+"&idcita="+idcita;
+	var pagina = "RealizarCancelacion.php";
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		success: function(respuesta){
+				var resp=respuesta.montoamonedero;
+				var idusucursal=respuesta.detallecita.idsucursal;
+				localStorage.setItem('idsucursal',idusucursal);
+               dynamicSheet2.close();
+
+               CrearModalRetorno(resp);
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+
+	 resolve("Modal cerrado después de realizar el cargo");
+            });
+ 	});
+
+
+
+}
+
+
+function CrearModalRetorno(resp) {
+	 var aviso=`<p style="line-height:1;">Tu cancelación se realizó exitosamente</p>`;
+	     aviso+=`<p style="line-height:1;">El monto <span style="color:white;">$`+resp+`</span> fue enviado a tu <span style="color:white;">monedero</span></p>`;
+	     aviso+=`<p>¿Deseas reagendar?</p>`;
+
+  var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;background: black;">
+           
+            <div class="sheet-modal-inner" style="background: white;border-top-left-radius: 20px;border-top-right-radius:20px; ">
+               <div class="iconocerrar link sheet-close" style="z-index:10;">
+               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M25.5188 4.48126C23.4385 2.4011 20.788 0.984547 17.9026 0.410715C15.0171 -0.163118 12.0264 0.131546 9.30839 1.25744C6.59043 2.38334 4.26736 4.28991 2.63294 6.73606C0.998525 9.18221 0.12616 12.0581 0.12616 15C0.12616 17.9419 0.998525 20.8178 2.63294 23.264C4.26736 25.7101 6.59043 27.6167 9.30839 28.7426C12.0264 29.8685 15.0171 30.1631 17.9026 29.5893C20.788 29.0155 23.4385 27.5989 25.5188 25.5188C26.9003 24.1375 27.9961 22.4976 28.7437 20.6928C29.4914 18.888 29.8762 16.9535 29.8762 15C29.8762 13.0465 29.4914 11.1121 28.7437 9.30724C27.9961 7.50242 26.9003 5.86255 25.5188 4.48126ZM20.3126 18.7613C20.4187 18.8606 20.5034 18.9808 20.5612 19.1142C20.6191 19.2476 20.6489 19.3915 20.6489 19.5369C20.6489 19.6823 20.6191 19.8262 20.5612 19.9596C20.5034 20.093 20.4187 20.2131 20.3126 20.3125C20.2133 20.411 20.0956 20.4889 19.9661 20.5418C19.8367 20.5946 19.698 20.6214 19.5582 20.6206C19.2795 20.6195 19.0124 20.5088 18.8145 20.3125L15.0001 16.4981L11.2388 20.3125C11.0409 20.5088 10.7738 20.6195 10.4951 20.6206C10.3553 20.6214 10.2166 20.5946 10.0872 20.5418C9.95773 20.4889 9.83999 20.411 9.74071 20.3125C9.54282 20.1134 9.43174 19.8441 9.43174 19.5634C9.43174 19.2827 9.54282 19.0135 9.74071 18.8144L13.502 15L9.74071 11.2388C9.56665 11.0355 9.47569 10.774 9.48602 10.5066C9.49635 10.2392 9.6072 9.98557 9.79642 9.79635C9.98565 9.60712 10.2393 9.49627 10.5067 9.48594C10.7741 9.47561 11.0356 9.56657 11.2388 9.74063L15.0001 13.5019L18.7613 9.74063C18.8597 9.63878 18.9772 9.55729 19.107 9.50083C19.2369 9.44437 19.3766 9.41404 19.5182 9.41158C19.6598 9.40911 19.8004 9.43456 19.9322 9.48646C20.0639 9.53836 20.1842 9.6157 20.286 9.71407C20.3879 9.81244 20.4694 9.9299 20.5258 10.0598C20.5823 10.1896 20.6126 10.3293 20.6151 10.4709C20.6175 10.6125 20.5921 10.7532 20.5402 10.8849C20.4883 11.0167 20.411 11.1369 20.3126 11.2388L16.4982 15L20.3126 18.7613Z" fill="#AAAAAA"></path>
+            </svg>
+                       </div>
+              <div class="page-content" style="height: 100%;">
+                <div style="background: black; height: 100%;width: 100%;border-radius: 20px;">
+                   <div class="row">
+                     <div class="col-20">
+                        
+                    </div>
+
+                     <div class="col-60">
+                     <span class="titulomodal cambiarfuente" style="font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+    color: #c7aa6a;"></span>
+                     </div>
+                     <div class="col-20">
+                     <span class="limpiarfiltros"></span>
+                     </div>
+                 </div>
+                 <div class="" style="position: absolute;top:1em;width: 100%;">
+                
+                       
+                        `;
+
+                       html+=`
+                          <div class="row" style="    margin-left: 2em; margin-right: 2em;    margin-top: 20px;">
+                          <div class="col-100">
+                          <div style="color: #c7aa6a;font-size: 30px;text-align: center;" class="cambiarfuente">
+                            `+aviso+`
+
+                            </div>
+                          </div>
+
+                          </div>`;
+
+                      	
+                       html+=`
+                       	     <div class="row margin-bottom " style="padding-top: 1em;    margin-left: 2em;margin-right: 2em;margin-top:20px;">
+                            <div class="col-50">
+                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="ContinuarReagenda()">Si</button>
+                            </div>
+
+                            <div class="col-50">
+                            <button style="background: white;color:black;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="CerrarModalAviso6()">No</button>
+                            </div>
+                          </div>
+
+                          </div>
+                       `;
+                      
+                        
+
+
+                   
+                           html+=` </div>`;
+                     html+=` </div>
+
+                  </div>
+
+                </div>
+                
+              </div>
+            </div>
+          </div>`;
+          
+    dynamicSheet6 = app.sheet.create({
+        content: html,
+
+      swipeToClose: true,
+        backdrop: true,
+        // Events
+        on: {
+          open: function (sheet) {
+           $(".cambiarfuente2").css('display','none');
+            
+
+          },
+          opened: function (sheet) {
+            console.log('Sheet opened');
+
+            if (tipoletra!='') {
+              $(".cambiarfuente").addClass(tipoletra);
+            }
+          $(".cambiarfuente2").css('display','block');
+
+          },
+        }
+      });
+
+       dynamicSheet6.open();
+}
+
+function ContinuarReagenda() {
+	dynamicSheet1.close();
+	dynamicSheet6.close();
+	GoToPage('disponibilidadfechasucursal');
+}
+
+
+
+function CrearModalEspera5(callback) {
+  
+var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;background: black;">
+            
+            <div class="sheet-modal-inner" style=" ">
+              
+              <div class="page-content" style="height: 100%;">
+                <div style="background: black; height: 100%;width: 100%;border-radius: 20px;">
+                   <div class="row">
+                     <div class="col-20">
+                        
+                    </div>
+
+                     <div class="col-60">
+                     <span class="titulomodal cambiarfuente" style="font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+    color: #c7aa6a;"></span>
+                     </div>
+                     <div class="col-20">
+                     <span class="limpiarfiltros"></span>
+                     </div>
+                 </div>
+                 <div class="" style="position: absolute;top:1em;width: 100%;">
+                
+                       
+                        `;
+
+                       
+                          
+                          
+                      
+
+                          html+=`
+                          <div class="row" style="    margin-left: 2em; margin-right: 2em;    margin-top: 20px;">
+                          <div class="col-100">
+                          <div style="color: #c7aa6a;font-size: 30px;text-align: center;" class="cambiarfuente">
+                           
+                          <div id="" class="mensajeproceso" style="font-weight:bold;color:#c7aa6a;" >En proceso...
+                            <img src="img/loading.gif" style="width:20%;display: flex;justify-content: center;align-items: center;margin:0px auto;margin-top: 20px;">
+
+                          </div>
+                          <p id="" class="mensajeerror" style="font-weight:bold;display:none;color:#c7aa6a;text-align:center;line-height: 1;" >Oops, algo no está bien, intenta de nuevo.</p>
+                          <p id="" class="mensajeexito" style="font-weight:bold;display:none;color:#c7aa6a;text-align:center;line-height: 1;" >Se realizó correctamente</p>
+
+                        </div>
+
+                        
+
+                          
+
+                          </div>
+                          </div>
+
+                          <div class="row margin-bottom " style="padding-top: 1em;    margin-left: 2em;margin-right: 2em;margin-top:20px;">
+                            <div class="col-100" style="margin-left: 1em;margin-right: 1em;">
+                            <button style="background: #C7AA6A;color:white;display:none;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente butonok" onclick="VerCompras()"  id="btnConfirm">Aceptar</button>
+                            </div>
+
+                            <div class="col-100" style="margin-left: 1em;margin-right: 1em;" >
+                            <button style="background: #C7AA6A;color:white;display:none;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente butoerror" onclick="CerrarEspera2()"  id="btnCancel" >Aceptar</button>
+                            </div>
+                          </div>
+
+
+                      </div>
+
+                  </div>
+
+                </div>
+                
+              </div>
+            </div>
+          </div>`;
+          /*<p><button class="button color-theme btncortesias" id="cortesia_`+respuesta[i].idcortesia+`" onclick="ElegirCortesia(`+idcarrito+`,`+respuesta[i].idcortesia+`)" style="background: white;color:black;padding: 10px 20px;">
+                                        Elegir
+                                       </button>
+                                     </p>*/
+    dynamicSheet2 = app.sheet.create({
+        content: html,
+
+      swipeToClose: false,
+        backdrop: true,
+        // Events
+        on: {
+          open: function (sheet) {
+
+           $(".cambiarfuente2").css('display','none');
+            if (tipoletra!='') {
+              $(".cambiarfuente").addClass(tipoletra);
+           
+            }
+          $(".cambiarfuente2").css('display','block');
+ 
+
+          },
+          opened: function (sheet) {
+                 console.log('Sheet opened');
+
+          },
+        }
+      });
+
+
+
+       dynamicSheet2.open();
+
+
+        setTimeout(() => {
+        // Ejecuta RealizarCargo() dentro del timeout
+        callback();
+    }, 1000); // Cambiado a 5000 milisegundos (5 segundos)
+}
+
+function CerrarModalAviso5() {
+	dynamicSheet5.close();
+}
+
+function CerrarModalAviso6() {
+	dynamicSheet6.close();
+}
+
+function ObtenerEdad() {
+	var iduser=localStorage.getItem('id_user');
+	var datos="idusuarios="+iduser;
+	var pagina = "Validaredad.php";
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		data:datos,
+		async:false,
+		success: function(resp){
+
+			var edadusuario=resp.edadusuario;
+			if (edadusuario=='') {
+				estiloparrafo='textoestilo1';
+			}
+
+			if (edadusuario<=30) {
+
+				estiloparrafo='textoestilo1';
+	
+			}
+			if(edadusuario>30) {
+
+				estiloparrafo='textoestilo2';
+	
+			}
+
+			
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+}

@@ -957,7 +957,9 @@ function Visualizarmenu() {
 		$(".licitas").css('display','none');
 		$(".liperfil").css('display','none');
 		$(".lisalir").css('display','');
-
+		$(".limonedero").css('display','none');
+    	$(".lblusuario").css('display','none');
+    	$(".lilogin").css('display','');
 
 	}
 
@@ -968,8 +970,9 @@ function Visualizarmenu() {
 		$(".licitas").css('display','');
 		$(".liperfil").css('display','');
 		$(".lisalir").css('display','');
-
+		$(".limonedero").css('display','');
 		
+    	$(".lblusuario").css('display','');
 
 	}
 	if (tiposusuario==5) {
@@ -980,6 +983,8 @@ function Visualizarmenu() {
 		$(".liperfil").css('display','none');
 		$(".lisalir").css('display','');
 		$(".lilogin").css('display','none');
+		$(".limonedero").css('display','none');
+    	$(".lblusuario").css('display','');
 
 		
 	}
@@ -990,15 +995,17 @@ function Visualizarmenu() {
 		$(".licitas").css('display','none');
 		$(".liperfil").css('display','none');
 		$(".lisalir").css('display','');
+		$(".limonedero").css('display','none');
+    	$(".lblusuario").css('display','');
 
 	}
 
 }
 
-function AbrirModalPregunta(argument) {
+function AbrirModalPreguntaSesion(argument) {
 	
   var html2="";
-
+  
 var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;background: black;">
            
             <div class="sheet-modal-inner" style="background: white;border-top-left-radius: 20px;border-top-right-radius:20px; ">
@@ -1037,8 +1044,8 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;
                           html+=`
                           <div class="row" style="margin-left: 2em;margin-right: 2em;margin-top:20px;">
                           <div class="col-100">
-                          <p class="cambiarfuente" style="color: #c7aa6a;font-size: 30px;text-align: center;" class="cambiarfuente">¿Desea mantener la sesión activa?</p>
-                          <p class="cambiarfuente" style="color: #c7aa6a;font-size: 30px;text-align: center;"></p>
+                          <p  style="color: #c7aa6a;text-align: center;" class="cambiarfuente `+estiloparrafo+`">¿Desea mantener la sesión activa?</p>
+                          <p  style="color: #c7aa6a;text-align: center;" class="cambiarfuente `+estiloparrafo+`"></p>
                           </div>
 
                           </div>

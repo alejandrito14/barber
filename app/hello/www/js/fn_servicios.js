@@ -1,4 +1,8 @@
 var asignacionperiodos=[];
+var meses = [
+  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+];
 function ObtenerServiciosAdicionales() {
 	var pagina = "ObtenerServiciosAdicionales.php";
 	$.ajax({
@@ -136,17 +140,23 @@ function ObtenerServicioAdmin() {
 				if(respuesta.abiertocliente == 1) {
 				$("#permisoasignaralumno").css('display','block');
 				}
-			}
+			}					
+		$(".habilitareliminacion").css('display','none');
+
+
 		if(localStorage.getItem('idtipousuario')==5) {
 
 				if(respuesta.abiertocoach == 1) {
 					$("#permisoasignaralumno").css('display','block');
+					$(".habilitareliminacion").css('display','block');
 				}
 			}
 	if(localStorage.getItem('idtipousuario')==0) {
 	
 			if(respuesta.abiertoadmin == 1) {
 				$("#permisoasignaralumno").css('display','block');
+				$(".habilitareliminacion").css('display','block');
+
 			}
 		}
 			
@@ -190,7 +200,7 @@ function ObtenerParticipantesAlumnosAdmin() {
 		crossDomain: true,
 		cache: false,
 		data:datos,
-		success: function(datos){
+		success: function(datos){ 
 			var respuesta=datos.respuesta;
 			$(".cantidadalumnos").text(respuesta.length);
 			PintarParticipantesAlumnos(respuesta);
@@ -202,7 +212,7 @@ function ObtenerParticipantesAlumnosAdmin() {
 								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
 					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
 			}
-
+ 
 		});
 }
 
@@ -549,7 +559,7 @@ function ObtenerServicioNuevo(valor) {
 		cache: false,
 		data:datos,
 		success: function(datos){
- 		
+ 		var encontropago=datos.encontropago;
 		var respuesta=datos.respuesta;
 		var idcategoriaservicio=respuesta.idcategoriaservicio;
 		var idservicio=respuesta.idservicio;
@@ -562,10 +572,11 @@ function ObtenerServicioNuevo(valor) {
 		var idpoliticaaceptacion=respuesta.idpoliticaaceptacion;
 		var tiempoaviso=respuesta.tiempoaviso;
 		var tituloaviso=respuesta.tituloaviso;
+		var aceptarserviciopago=respuesta.aceptarserviciopago;
 		$("#v_tiempoaviso").val(tiempoaviso);
 		$("#v_tituloaviso").val(tituloaviso);
 		//$("#v_estatus").val(estatus);
- 
+ 	
 		if (estatus==1) {
 			$("#v_estatus").prop('checked',true);
 		}else{
@@ -606,15 +617,30 @@ function ObtenerServicioNuevo(valor) {
    	SeleccionarCategoriaNuevo2(idcategoriaservicio,valor,lunes,martes,miercoles,jueves,viernes,sabado,domingo);
 		 ObtenerEncuestas(idservicio);
 
+
 		 var modalidad=respuesta.modalidad;
+		 ValidarCheckmodalidad(modalidad);
 
 		 if (modalidad==1) {
 		 	 $("#v_individual").attr('checked',true);
+
+		 	 if (aceptarserviciopago==1) {
+		 	 	$("#v_aceptarserviciopago").val(1);
+		 	 	$("#v_aceptarserviciopago").attr('checked',true);
+
+		 	 }
 		 }
 
 		 if (modalidad==2) {
+
 		 	 $("#v_grupal").attr('checked',true);
+		 	 $("#v_aceptarserviciopago").attr('checked',false);
+		 	 $("#v_aceptarserviciopago").val(0);
+
 		 }
+
+
+
 
 		 
 		 var numparticipantes=respuesta.numeroparticipantes;
@@ -666,6 +692,7 @@ function ObtenerServicioNuevo(valor) {
 		//ObtenerHorariosServicioComprobacion(idservicio);
 		ObtenerPeriodos(idservicio);
 		ObtenerCoachesServicio(idservicio);
+		
 	abiertocliente=respuesta.abiertocliente;
 	abiertocoach=respuesta.abiertocoach;
 	abiertoadmin=respuesta.abiertoadmin;
@@ -745,8 +772,21 @@ function ObtenerServicioNuevo(valor) {
 
 		$("#cantidadhorarios").text(arraydiaselegidos.length);
 
+			if (encontropago>0) {
+
+				$("#v_fechainicial").attr('disabled',true);
+				$("#v_fechafinal").attr('disabled',true);
+				$("#btnaplicar").attr('disabled',true);
+				$(".btneliminarhorario").css('display','none');
+			}
 		  }
     );
+
+demo.then(()=>{
+		ObtenerHorariosCategoria2(idcategoria,idcategoriaservicio,valor,lunes,martes,miercoles,jueves,viernes,sabado,domingo);
+
+
+});
 	//	Permitirligar();
 		//HabilitarcantidadReembolso();
 
@@ -1094,8 +1134,10 @@ function PintarHorariosServicio(horarios,servicio) {
 		for (var i = 0; i <horarios.length; i++) {
 				var fecha=horarios[i].fecha;
 				var dividir=fecha.split('-');
-				var id=dividir[2]+'-'+dividir[1]+'-'+dividir[0]+'-'+horarios[i].horainicial+'-'+horarios[i].horafinal+'-'+horarios[i].idzona;
+				//aqui
+				var id=dividir[0]+'-'+dividir[1]+'-'+dividir[2]+'-'+horarios[i].horainicial+'-'+horarios[i].horafinal+'-'+horarios[i].idzona;
 			
+
 				//10-10-2022-19:00-20:00-6
 				arraydiaselegidos.push(id);
 				var iddividido = id.split('-');
@@ -1311,9 +1353,40 @@ function PintarAlumnosServicio(respuesta) {
 	$(".usuarios").html(html);
 }
 
+function VerificarSiElServicioUsuarios(idservicio) {
+		    return new Promise(function(resolve, reject) {
+
+				var iduser=localStorage.getItem('id_user');
+				var datos="idservicio="+idservicio+"&id_user="+iduser;
+			
+					$.ajax({
+					url: urlphp+'VerificarServicioUsuarios.php', //Url a donde la enviaremos
+					type: 'POST', //Metodo que usaremos
+					data:datos,
+					dataType:'json',
+
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#divcomplementos").html(error);
+					},	
+					success: function (msj) {
+
+						resolve(msj);
+						
+					}
+				});
+				
+			});
+}
+
 function CancelarServicioAdmin(idservicio) {
 
-	
+	VerificarSiElServicioUsuarios(idservicio).then(r => {
+
+		if (r.existeasignados==0) {
 	
        var html=`
          
@@ -1356,6 +1429,14 @@ function CancelarServicioAdmin(idservicio) {
 
           verticalButtons: false,
         }).open();
+	   }else{
+
+
+	   	alerta('','El servicio no se puede cancelar, cuenta con usuarios asignados');
+	   }
+
+
+       });
 		
 }
 
@@ -1392,3 +1473,70 @@ function GuardarCancelacion(idservicio) {
 				}
 							
 }
+
+
+
+function CargarMeses() {
+	var html="";
+	html+=`<option value="0">Seleccionar mes</option>
+			`;
+	if (meses.length>0) {
+		for (var i = 0; i <meses.length; i++) {
+			html+=` <option value="`+(i+1)+`">`+meses[i]+`</option>`;
+		}
+	}
+
+	$("#v_meses").html(html);
+
+	const fechaActual = new Date();
+	const mesActual = fechaActual.getMonth() + 1;
+	//$("#v_meses").val(mesActual);
+
+	}
+
+function Cargaranios(anio) {
+
+			$.ajax({
+					url: urlphp+'Obteneranios.php', //Url a donde la enviaremos
+					type: 'POST', //Metodo que usaremos
+					dataType:'json',
+					async:false,
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#divcomplementos").html(error);
+					},	
+					success: function (msj) {
+					
+					var respuesta=msj.respuesta;
+					Pintaranios(respuesta);
+					if (anio>0) {
+					$("#v_anios").val(anio);
+
+					}	
+					}
+				});
+}
+	
+function Pintaranios(anios) {
+	var html="";
+	html+=`<option value="0">Seleccionar año</option>
+			`;
+	if (anios.length>0) {
+		for (var i = 0; i <anios.length; i++) {
+			html+=`
+			<option value="`+anios[i].valor+`">`+anios[i].valor+`</option>
+			`;
+		}
+	}
+
+	$("#v_anios").html(html);
+
+	const fechaActual = new Date();
+	const mesanio = fechaActual.getFullYear();
+	
+	//$("#v_anios").val(mesanio);
+}
+

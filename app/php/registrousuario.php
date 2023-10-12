@@ -11,6 +11,7 @@ require_once "clases/class.AltiriaSMS.php";
 require_once "clases/class.phpmailer.php";
 require_once "clases/emails/class.Emails.php";
 //require_once("clases/class.PagConfig.php");
+require_once("clases/class.Carrito.php");
 
 try
 {
@@ -19,7 +20,8 @@ try
     $db = new MySQL();
     $lo = new Usuarios();
     $f  = new Funciones();
-
+    $carrito=new Carrito();
+    $carrito->db=$db;
    /* $paginaconfi     = new Configuracion();
     $paginaconfi->db = $db;
     $obtenerconfiguracion=$paginaconfi->ObtenerInformacionConfiguracion();
@@ -34,11 +36,13 @@ try
     $nombre   = $_POST['v_nombre'];
     $paterno  = $_POST['v_paterno'];
     $materno  = $_POST['v_materno'];
-    $sexo     = $f->guardar_cadena_utf8($_POST['v_sexo']);
+
+    $sexo     = $f->guardar_cadena_utf8($_POST['sexoseleccionado']);
     $fecha    = $f->guardar_cadena_utf8($_POST['v_fecha']);
 
      $email    = $f->guardar_cadena_utf8($_POST['v_correo']);
      $contra   = $f->guardar_cadena_utf8($_POST['v_contra1']);
+
    /* $telefono = $f->guardar_cadena_utf8($_POST['v_telefono']);
    
     
@@ -76,10 +80,10 @@ try
     $lo->fecha    = $fecha;
 
   
-
+    $lo->sexo     = $sexo;
    /* $lo->telefono = $telefono;
    
-    $lo->sexo     = $sexo;
+    
     
     /*$lo->usuario  = $email;
   
@@ -110,6 +114,7 @@ try
     $lo->idusuarios          = $idusuario;
     $obtenerusuario=$lo->ObtenerUsuario();
     $lo->usuario=$obtenerusuario[0]->celular;
+    $usuario=$obtenerusuario[0]->usuario;
     $edicion=1;
    /* if ($ediciondedatoscliente==1) {
        $edicion=0;
@@ -142,6 +147,11 @@ try
              $lo->GuardarTokenfirebase();
 
         }
+
+        $carrito->idusuarios=$idusuario;
+        $obtenercarrito=$carrito->ObtenerCarrito();
+
+        
 
         /*if ($rutaine != 0) {
 
@@ -248,7 +258,7 @@ try
         //Realizamos envio de email
         $enviar_mail->envio_registro($lo);
 */
-        $arra = array('existe' => 1, 'idusuario' => $lo->idusuarios, 'nombre' => mb_strtoupper($lo->nombre), 'paterno' => mb_strtoupper($lo->paterno), 'materno' => mb_strtoupper($lo->materno), 'celular' => $v_celular, 'email' => $email,'usuario' => $usuario);
+        $arra = array('existe' => 1, 'idusuario' => $lo->idusuarios, 'nombre' => $lo->nombre, 'paterno' => $lo->paterno, 'materno' => $lo->materno, 'celular' => $v_celular, 'email' => $email,'usuario' => $usuario, 'carrito'=>count($obtenercarrito));
 
     /*} else {
 

@@ -1,7 +1,7 @@
 var watchID2 = "";
 var dynamicSheet2="";
 var deportes=[];
-
+var sexoseleccionado="";
 function Registrar() {
 
 	$(".linombre").removeClass('is-invalid');
@@ -60,7 +60,7 @@ function Registrar() {
 	var id_user=localStorage.getItem('id_usuariologin');
 	var id_usercreado=localStorage.getItem('id_user');
 
-	var datos="v_nombre="+v_nombre+"&v_paterno="+v_paterno+"&v_materno="+v_materno+"&v_fecha="+v_fecha+"&sistema="+sistema+"&tokenfirebase="+tokenfirebase+"&uuid="+uuid+"&id_user="+id_user+"&v_contra1="+v_contra1+"&id_usercreado="+id_usercreado;
+	var datos="v_nombre="+v_nombre+"&v_paterno="+v_paterno+"&v_materno="+v_materno+"&v_fecha="+v_fecha+"&sistema="+sistema+"&tokenfirebase="+tokenfirebase+"&uuid="+uuid+"&id_user="+id_user+"&v_contra1="+v_contra1+"&id_usercreado="+id_usercreado+"&sexoseleccionado="+sexoseleccionado;
 	var pagina = "registrousuario.php";
 
 	var msj="";
@@ -243,7 +243,9 @@ function Registrar() {
    			localStorage.setItem('pregunta',0);
 			localStorage.setItem('habilitarfactura','0');
 			localStorage.setItem("fechanacimiento",v_fecha);
+			localStorage.setItem('idtipousuario',3);
 			//localStorage.setItem("genero",v_sexo);
+			    ObtenerEdad();
 
 			
     		GoToPage("escogermetodopago");
@@ -2172,11 +2174,22 @@ function validarEmail(valor) {
 
 
 function ValidarCelular() {
-
+ 
 	var telefono=$("#telefono").val();
-	console.log(telefono);
+	
 	var inputleido=$("#inputleido").is(':checked')?1:0;
 	//GoToPage('colocartoken');
+
+	var number = telefono.replace(/[^\d]/g, '');
+
+		if (number.length == 7) { 
+			telefono = number.replace(/(\d{3})(\d{4})/, "$1-$2"); 
+		} else if (number.length == 10) { 
+
+			telefono = number.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3"); 
+
+		} 
+		
 	if (telefono!='') {
 	if (inputleido==1) {
 	
@@ -2201,12 +2214,26 @@ function ValidarCelular() {
 
 }
 
+function SeleccionarhM(sexo) {
+	$(".btns").removeClass('seleccionadotipo');
+
+	if(sexo=='M'){
+	$("#txtsexom").addClass('seleccionadotipo');
+	}
+	if (sexo=='H') {
+	$("#txtsexoh").addClass('seleccionadotipo');
+	
+	}
+	sexoseleccionado=sexo;
+}
+
 function AbrirModalPregunta(telefono,inputleido) {
 	
 	   var html="";
         html+=`
 
-        <p style="line-height: 1;text-align: justify;font-size:30px;margin-top: 60px;">¿Es correcto tu número celular `+telefono+`?</p>
+        <p class="`+estiloparrafo+`" style="margin-top: 60px;">¿Es correcto tu número celular </p>
+        <p class="`+estiloparrafo+`" style="">`+telefono+`?</p>
      
       `;
 
@@ -2266,11 +2293,11 @@ var htmlmodal=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:
 
                           <div class="row margin-bottom " style="padding-top: 1em;margin-left: 2em;margin-right: 2em;">
                             <div class="col-50">
-                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="EjecutarValidacion('`+telefono+`',`+inputleido+`)">Si</button>
+                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente cambiarfuente2" onclick="EjecutarValidacion('`+telefono+`',`+inputleido+`)">Si</button>
                             </div>
 
                             <div class="col-50">
-                            <button style="background: white;color:black;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="CerarModalD()">No</button>
+                            <button style="background: white;color:black;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente cambiarfuente2" onclick="CerarModalCel()">No</button>
                             </div>
                           </div>
 
@@ -2297,14 +2324,15 @@ var htmlmodal=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:
         on: {
           open: function (sheet) {
       
-             $(".cambiarfuente").css('display','none');
+             $(".cambiarfuente2").css('display','none');
             if (tipoletra!='') {
               
               $(".cambiarfuente").addClass(tipoletra);
-              $(".cambiarfuente").css('display','block');
+              
 
             }
             
+              $(".cambiarfuente2").css('display','block');
 
           },
           opened: function (sheet) {
@@ -2316,6 +2344,10 @@ var htmlmodal=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:
 
        dynamicSheet1.open();
      
+}
+
+function CerarModalCel(argument) {
+	  dynamicSheet1.close();
 }
 
 function EjecutarValidacion(telefono,inputleido) {
@@ -5196,4 +5228,9 @@ function ComprobacionContrase() {
 			}
 		}
 	}
+}
+
+function vistaRegistro() {
+
+	GoToPage('celular');
 }

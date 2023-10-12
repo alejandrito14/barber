@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.inversa.app" version="1.0.18" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.inversa.app" version="1.0.23" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
 
-    <name>Grupo Inversa</name>
+    <name>DonPorfirio</name>
     <description>
         Aplicacion de negocios
     </description>
@@ -23,15 +23,13 @@
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
-     <!-- <plugin name="cordova-plugin-firebasex" spec="https://github.com/dpa99c/cordova-plugin-firebase" >
-     <variable name="ANDROID_FIREBASE_ANALYTICS_VERSION" value="17.0.0" />
-
+      <plugin name="cordova-plugin-firebasex" spec="https://github.com/dpa99c/cordova-plugin-firebase" >
         <variable name="IOS_STRIP_DEBUG" value="true" />
         <variable name="FIREBASE_ANALYTICS_COLLECTION_ENABLED" value="false" />
         <variable name="FIREBASE_PERFORMANCE_COLLECTION_ENABLED" value="false" />
         <variable name="FIREBASE_CRASHLYTICS_COLLECTION_ENABLED" value="false" />
         <variable name="SETUP_RECAPTCHA_VERIFICATION" value="true" />
-    </plugin> -->
+    </plugin>
 
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -49,9 +47,13 @@
        
   <!-- ... otros ajustes ... -->
          <allow-intent href="whatsapp:*" />
-          <preference name="android-compileSdkVersion" value="33" />
+          <preference name="AndroidXEnabled" value="true" />
 
-           <preference name="AndroidXEnabled" value="true" />
+        <!-- Build with SDK: Android 13 -->
+        <preference name="android-targetSdkVersion" value="33" />
+
+        <!-- Android 5.1 -->
+        <preference name="android-minSdkVersion" value="22" />
         <preference name="AndroidInsecureFileModeEnabled" value="true" />
         <preference name="loadUrlTimeoutValue" value="700000" />
         <preference name="android-targetSdkVersion" value="33" />

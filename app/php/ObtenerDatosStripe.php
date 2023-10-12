@@ -92,7 +92,7 @@ try
             }            
         break;
         case 'setupIntent':
-            \Stripe\Stripe::setApiKey($skey);
+            \Stripe\Stripe::setApiKey($skey); 
             $idclientestripe = ObtenerIdClienteStripe($obj);
             
             $setupIntent = \Stripe\SetupIntent::create([

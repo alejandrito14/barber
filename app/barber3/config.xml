@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.inversa.app" version="1.0.20" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>FirebaseTest</name>
+    <description>
+        Test project for cordova-plugin-firebasex
+    </description>
+    <author email="dave@workingedge.co.uk">
+       Dave Alden
+    </author>
+
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <allow-navigation href="*" />
+
+     <uses-permission android:name="android.permission.INTERNET" />
+
+    <plugin name="cordova-plugin-firebasex" spec="https://github.com/dpa99c/cordova-plugin-firebase" >
+        <variable name="IOS_STRIP_DEBUG" value="true" />
+        <variable name="FIREBASE_ANALYTICS_COLLECTION_ENABLED" value="false" />
+        <variable name="FIREBASE_PERFORMANCE_COLLECTION_ENABLED" value="false" />
+        <variable name="FIREBASE_CRASHLYTICS_COLLECTION_ENABLED" value="false" />
+        <variable name="SETUP_RECAPTCHA_VERIFICATION" value="true" />
+    </plugin>
+
+    <platform name="android">
+        <preference name="AndroidXEnabled" value="true" />
+
+        <!-- Build with SDK: Android 13 -->
+        <preference name="android-targetSdkVersion" value="33" />
+
+        <!-- Android 5.1 -->
+        <preference name="android-minSdkVersion" value="22" />
+
+        <resource-file src="res/android/build-extras.gradle" target="app/build-extras.gradle" />
+        <resource-file src="res/android/gradle.properties" target="gradle.properties" />
+
+         <preference name="AndroidWindowSplashScreenBackground" value="#000000" />
+         <preference name="AndroidwindowSplashScreenAnimatedIcon" value="res/icons/android/imagennegra.png" />
+
+        <resource-file src="res/android/raw/blackberry.mp3" target="app/src/main/res/raw/blackberry.mp3" />
+        <resource-file src="res/android/raw/msn.mp3" target="app/src/main/res/raw/msn.mp3" />
+        <resource-file src="res/android/raw/crystal.mp3" target="app/src/main/res/raw/crystal.mp3" />
+        <resource-file src="res/android/drawable-mdpi/bell.png" target="app/src/main/res/drawable-mdpi/notification_icon.png" />
+        <resource-file src="res/android/drawable-hdpi/bell.png" target="app/src/main/res/drawable-hdpi/notification_icon.png" />
+        <resource-file src="res/android/drawable-xhdpi/bell.png" target="app/src/main/res/drawable-xhdpi/notification_icon.png" />
+        <resource-file src="res/android/drawable-xxhdpi/bell.png" target="app/src/main/res/drawable-xxhdpi/notification_icon.png" />
+        <resource-file src="res/android/drawable-xxxhdpi/bell.png" target="app/src/main/res/drawable-xxxhdpi/notification_icon.png" />
+        <resource-file src="res/android/drawable-xxxhdpi/bell_large.png" target="app/src/main/res/drawable-xxxhdpi/notification_icon_large.png" />
+        <resource-file src="res/android/drawable-mdpi/coffee.png" target="app/src/main/res/drawable-mdpi/coffee.png" />
+        <resource-file src="res/android/drawable-hdpi/coffee.png" target="app/src/main/res/drawable-hdpi/coffee.png" />
+        <resource-file src="res/android/drawable-xhdpi/coffee.png" target="app/src/main/res/drawable-xhdpi/coffee.png" />
+        <resource-file src="res/android/drawable-xxhdpi/coffee.png" target="app/src/main/res/drawable-xxhdpi/coffee.png" />
+        <resource-file src="res/android/drawable-xxxhdpi/coffee.png" target="app/src/main/res/drawable-xxxhdpi/coffee.png" />
+        <resource-file src="res/android/drawable-xxxhdpi/coffee_large.png" target="app/src/main/res/drawable-xxxhdpi/coffee_large.png" />
+        <resource-file src="res/android/drawable-mdpi/thumbs_up.png" target="app/src/main/res/drawable-mdpi/thumbs_up.png" />
+        <resource-file src="res/android/drawable-hdpi/thumbs_up.png" target="app/src/main/res/drawable-hdpi/thumbs_up.png" />
+        <resource-file src="res/android/drawable-xhdpi/thumbs_up.png" target="app/src/main/res/drawable-xhdpi/thumbs_up.png" />
+        <resource-file src="res/android/drawable-xxhdpi/thumbs_up.png" target="app/src/main/res/drawable-xxhdpi/thumbs_up.png" />
+        <resource-file src="res/android/drawable-xxxhdpi/thumbs_up.png" target="app/src/main/res/drawable-xxxhdpi/thumbs_up.png" />
+        <resource-file src="res/android/drawable-xxxhdpi/thumbs_up_large.png" target="app/src/main/res/drawable-xxxhdpi/thumbs_up_large.png" />
+        <custom-config-file parent="./application" target="AndroidManifest.xml">
+            <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/notification_icon" />
+        </custom-config-file>
+
+        <config-file target="app/src/main/res/values/colors.xml" parent="/resources">
+            <color name="background">#000000</color>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+        </config-file>
+    </platform>
+
+    <platform name="ios">
+    	<preference name="deployment-target" value="11.0" /> <!-- min supported iOS version  -->
+        <resource-file src="res/ios/sound/blackberry.caf" />
+        <resource-file src="res/ios/sound/crystal.caf" />
+        <resource-file src="res/ios/sound/msn.caf" />
+        <resource-file src="res/ios/pn-actions.json" />
+    </platform>
+</widget>
+

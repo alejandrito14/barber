@@ -458,7 +458,7 @@ function getConfiguracion() {
 		url: urlphp+pagina,
 		async:false,
 		success: function(datos){
-
+			
 			localStorage.setItem('imagensplashprincipal',datos.respuesta.splasimgprincipal);
 			resolve(datos);
 

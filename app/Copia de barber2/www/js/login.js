@@ -157,6 +157,17 @@ function validar_login()
 	var btnemail=$("#btnemail").hasClass('backgreen');
 	var btncelular=$("#btncelular").hasClass('backgreen');
 	var login="";
+
+
+		var number = usuario.replace(/[^\d]/g, '');
+
+		if (number.length == 7) { 
+			usuario = number.replace(/(\d{3})(\d{4})/, "$1-$2"); 
+		} else if (number.length == 10) { 
+
+			usuario = number.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3"); 
+
+		} 
 	/*if (btnusuario==true) {
 		login='btnusuario';
 	}
@@ -235,12 +246,14 @@ function validar_login()
 									//Enviamos al user al index de la app
 									//
 									if (datos['validado']==1) {
-										
+										 GuardarTokenBase(0); 
 									//	GoToPage("/inicio/");
 
 										if (datos['tipo']==3 ) {
+										
 
 											if (datos['carrito'].length>0) {
+
 												var carrito=datos['carrito'];
 
 												idsucursal=carrito[0].idsucursal;
@@ -348,19 +361,19 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;
                           html+=`
                           <div class="row" style="margin-left: 2em;margin-right: 2em;margin-top:20px;">
                           <div class="col-100">
-                          <p class="cambiarfuente" style="color: #c7aa6a;font-size: 30px;text-align: center;" class="cambiarfuente">Tienes algo pendiente por pagar</p>
-                          <p class="cambiarfuente" style="color: #c7aa6a;font-size: 30px;text-align: center;">¿Deseas conservarlos?</p>
+                          <p class="cambiarfuente cambiarfuente2 `+estiloparrafo+`" style="color: #c7aa6a;font-size: 30px;text-align: center;">Tienes compras pendientes en tu usuario</p>
+                          <p class="cambiarfuente cambiarfuente2 `+estiloparrafo+`" style="color: #c7aa6a;font-size: 30px;text-align: center;">¿Deseas cargarlas?</p>
                           </div>
 
                           </div>
 
                           <div class="row margin-bottom " style="padding-top: 1em;    margin-left: 2em;margin-right: 2em;margin-top:20px;">
                             <div class="col-50">
-                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="CerrarModalAviso()">Si</button>
+                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente cambiarfuente2" onclick="CerrarModalAviso()">Si</button>
                             </div>
 
                             <div class="col-50">
-                            <button style="background: white;color:black;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="LimpiarCarrito()">No</button>
+                            <button style="background: white;color:black;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente cambiarfuente2" onclick="LimpiarCarrito()">No</button>
                             </div>
                           </div>
 
@@ -387,7 +400,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;
         on: {
           open: function (sheet) {
            idcortesiaelegida=0;
-           $(".cambiarfuente").css('display','none');
+           $(".cambiarfuente2").css('display','none');
             
 
           },
@@ -397,13 +410,52 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;
             if (tipoletra!='') {
               $(".cambiarfuente").addClass(tipoletra);
             }
-          $(".cambiarfuente").css('display','block');
+          $(".cambiarfuente2").css('display','block');
 
           },
         }
       });
 
        dynamicSheet1.open();
+
+}
+
+function QuitarCarritoAnterior() {
+  var id_user=localStorage.getItem('id_user');
+  var datos="id_user"+id_user;
+  var pagina = "EliminarCarritoAnterior.php";
+  var datos="id_user="+id_user;
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    crossDomain: true,
+    cache: false,
+    data:datos,
+    success: function(resp){
+
+      var res=resp.respuesta;
+      if (res.length>0) {
+        PintarCarrito(res);
+        var total=formato_numero(resp.totalcarrito,2,'.',',');
+        $(".totalcarrito").text(total);
+        localStorage.setItem('sumatotalapagar',total);
+      
+      }else{
+
+        GoToPage('home');
+      }
+      
+    
+   },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+
+    });
 
 }
 

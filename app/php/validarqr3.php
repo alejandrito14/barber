@@ -17,6 +17,9 @@ require_once("clases/class.NotificacionPush.php");
 require_once("clases/class.Qrgenerados.php");
 require_once("clases/class.Especialista.php");
 
+require_once("clases/class.Fechas.php");
+
+require_once("clases/class.Paquetes.php");
 
 try
 {
@@ -35,6 +38,9 @@ try
 	$qrgenerados->db=$db;
 	$especialista=new Especialista();
 	$especialista->db=$db;
+	$fechas = new Fechas();
+	$paquetes = new Paquetes();
+	$paquetes->db = $db;
 	$db->begin();
 
 	
@@ -82,7 +88,32 @@ try
 
 
 		//fwrite($logFile, "\n".date("d/m/Y H:i:s")." cadena encr ".$qrgenerados->idusuarios.'-'.$qrgenerados->idcita.'- '.$qrgenerados->qrgenerado) or die("Error escribiendo en el archivo");
+
+	$fechacita=date('Y-m-d',strtotime($obtenercita[0]->fechacita));
+	$horainicial=date('H:i',strtotime($obtenercita[0]->horacita));
+	$horafinal=date('H:i',strtotime($obtenercita[0]->horafinal));
+	$fechaactual=date('Y-m-d');
+	$horactual=date('H:i');
+	$pasa=0;
+	if ($fechaactual==$fechacita) {
+		$pasa=1;
+
+		if ($horactual>=$horainicial && $horactual<=$horafinal) {
+				$pasa=1;
+			}else{
+				$pasa=0;
+			}
+	
+	}else{
+		$pasa=0;
+	}
+
 		$validado=0;
+
+		if (count($obtenercita)>0) {
+		if ($pasa==1) {
+		# code...
+
 		
 		if (count($obtenercita)>0) {
 			# code...
@@ -112,18 +143,45 @@ try
 			$qrgenerados->ActualizarEstatusqr($idqrgenerado);
 
 
+	$cita->idusuario=$idusuario;
+	$obtenerdetallecita=$cita->Obtenerdetallecita();
+	$obtenerdetallecita[0]->fecha=date('d-m-Y',strtotime($obtenerdetallecita[0]->fechacita));
+
+	 $obtenerdetallecita[0]->fechaformato=$fechas->fecha_texto5($obtenerdetallecita[0]->fechacita);
+
+
+     $paquetes->idpaquete=$obtenerdetallecita[0]->idpaquete;
+     $obtenerpaquete=$paquetes->ObtenerPaquete2();
+     $obtenerdetallecita[0]->precioante=0;
+
+            if ($obtenerpaquete[0]->promocion==1) {
+                $obtenerdetallecita[0]->precioante=$obtenerpaquete[0]->precioventa;
+
+            }	
 
 
 
+			}else{
+
+				$validado=0;
+			}
 		}else{
-
 			$validado=0;
 		}
+
 	}else{
+
+		$validado=2;
+	}
+	
+	}else{
+
+
 		$validado=0;
 	}
 
-	
+
+	 
 
 	
     $db->commit();
@@ -131,6 +189,8 @@ try
 	$respuesta['validado']=$validado;
 	$respuesta['idusuario']=$idusuario;
 	$respuesta['cita']=$cita->idcita;
+	$respuesta['detallecita']=$obtenerdetallecita;
+	$respuesta['pasa']=$horactual;
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);
 	echo $myJSON;

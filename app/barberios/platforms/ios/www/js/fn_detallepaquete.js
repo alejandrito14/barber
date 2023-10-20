@@ -1055,7 +1055,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
                           html+=`
                           <div class="row" style="    margin-left: 2em; margin-right: 2em;margin-top: 20px;">
                           <div class="col-100">
-                          <div style="color: #c7aa6a;font-size: 30px;text-align: center;" class="cambiarfuente `+estiloparrafo+`">
+                          <div style="color: #c7aa6a;text-align: center;" class="cambiarfuente `+estiloparrafo+`">
                             `+parrafo+`
 
                             </div>

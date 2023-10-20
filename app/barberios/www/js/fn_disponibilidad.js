@@ -2011,8 +2011,10 @@ function BuscarBarberoDisponible() {
     success: function(datos){
              dynamicSheet1.close();
 
-      var especialista=datos.especialista[0];
-      DetalleEspecialista2(especialista.idespecialista,especialista.costo);
+      var especialista=datos.especialista;
+      var elementoaleatorio=obtenerElementoAleatorio(especialista);
+
+      DetalleEspecialista2(elementoaleatorio.idespecialista,elementoaleatorio.costo);
 
     },error: function(XMLHttpRequest, textStatus, errorThrown){ 
       var error;
@@ -2027,6 +2029,11 @@ function BuscarBarberoDisponible() {
 function ElegirBarbero() {
   dynamicSheet1.close();
   GoToPage('listadoespecialista')
+}
+
+function obtenerElementoAleatorio(arr) {
+  const indiceAleatorio = Math.floor(Math.random() * arr.length);
+  return arr[indiceAleatorio];
 }
 /*function DisponibilidadBarbero(idpaquete) {
 localStorage.setItem('idpaquete',idpaquete);

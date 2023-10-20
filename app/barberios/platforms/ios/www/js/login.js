@@ -242,7 +242,8 @@ function validar_login()
 									localStorage.setItem('invitado',0);
 
 									console.log("El ID del usuario es:" + localStorage.getItem("id_user"));
-									
+									 ObtenerEdad();
+			 					    Visualizarmenu();
 									//Enviamos al user al index de la app
 									//
 									if (datos['validado']==1) {
@@ -361,8 +362,8 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;
                           html+=`
                           <div class="row" style="margin-left: 2em;margin-right: 2em;margin-top:20px;">
                           <div class="col-100">
-                          <p class="cambiarfuente cambiarfuente2 `+estiloparrafo+`" style="color: #c7aa6a;font-size: 30px;text-align: center;">Tienes compras pendientes en tu usuario</p>
-                          <p class="cambiarfuente cambiarfuente2 `+estiloparrafo+`" style="color: #c7aa6a;font-size: 30px;text-align: center;">¿Deseas cargarlas?</p>
+                          <p class="cambiarfuente cambiarfuente2 `+estiloparrafo+`" style="color: #c7aa6a;text-align: center;">Tienes compras pendientes en tu usuario</p>
+                          <p class="cambiarfuente cambiarfuente2 `+estiloparrafo+`" style="color: #c7aa6a;text-align: center;">¿Deseas cargarlas?</p>
                           </div>
 
                           </div>

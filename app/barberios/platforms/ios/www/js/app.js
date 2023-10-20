@@ -93,6 +93,8 @@ var app = new Framework7({
        }
 });
 var intervalo=0;
+var intervalocitas=0;
+
 var pictureSource;   // picture source
  var destinationType; 
 var produccion = 1;
@@ -138,7 +140,7 @@ $(document).ready(function() {
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.23';
+var version='1.0.24';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;
@@ -433,6 +435,8 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
      $(".btniracarrito").attr('onclick','IraCarrito()');
     $$(".page-content").addClass('marginauto');
     CargarMenu();
+    myStopFunction(intervalocitas);
+
     entrarinvitado().then(resultado => {
     
      
@@ -645,7 +649,7 @@ $$(document).on('page:init', '.page[data-name="login"]', function (e) {
 
   $$(".btninvitado").attr('onclick','entrarinvitado()');
    $(".versionapp").text(version);
-
+   ObtenerEdad();
     if (tipoletra!='') {
 
       $(".cambiarfuente").each(function(index) {
@@ -665,6 +669,8 @@ $$(document).on('page:init', '.page[data-name="login"]', function (e) {
       $("#v_clave").focus();
    
     }else{
+        $("#v_usuario").focus();
+
       //phoneFormatter('v_usuario');
     }
 
@@ -966,7 +972,17 @@ $$(document).on('page:init','.page[data-name="carrito"]',function(e)
    localStorage.setItem('montocupon',0);
   localStorage.setItem('codigocupon','');
   localStorage.setItem('idcupon','');
-  CargarCarrito();
+
+
+   var p1 = new Promise(function(resolve, reject) {
+      resolve(ActualizarValoresCarrito());
+     
+    });
+
+    p1.then(function(value) {
+      CargarCarrito();
+    });
+ 
 
   $(".btnpagar").attr('onclick','IrAPago()');
   $(".btnagregarmas").attr('onclick','Agregarmasproducto()');
@@ -1115,7 +1131,8 @@ $$(document).on('page:init', '.page[data-name="homeadmin"]', function (e) {
 
 
 $$(document).on('page:init', '.page[data-name="servicios"]', function (e) {
-
+  myStopFunction(intervalo);
+  myStopFunction(control);
  CargarCalendario2();
 
 });
@@ -1228,7 +1245,21 @@ $$(document).on('page:init', '.page[data-name="disponibilidadfechasucursal"]', f
 $$(document).on('page:init', '.page[data-name="validadoqrcita"]', function (e) {
   
   //inicio();
+    myStopFunction(intervalo);
+
   $(".regresarvalidado").attr('onclick','RegresarHomeEspecialista()');
+  ObtenerTiempoCita();
+  $(".btnfinalizar").attr('onclick','FinalizarCita()');
+  //colocarvalor(0,0,10,2);
+});
+
+
+$$(document).on('page:init', '.page[data-name="validadoqrcita2"]', function (e) {
+  
+  //inicio();
+    myStopFunction(intervalo);
+
+ $(".regresarvalidado").attr('onclick','Parar()');
   ObtenerTiempoCita();
   $(".btnfinalizar").attr('onclick','FinalizarCita()');
   //colocarvalor(0,0,10,2);
@@ -1244,7 +1275,7 @@ $$(document).on('page:init', '.page[data-name="configuracion"]', function (e) {
 $$(document).on('page:init', '.page[data-name="servicioslista"]', function (e) {
   
 //ObtenerListaFiltroMostrar();
-
+myStopFunction(control);
 PintarSubCategoriaProducto(categoriascache4);
 
 var invitado=  localStorage.getItem('invitado');
@@ -1448,7 +1479,7 @@ $$(document).on('page:init', '.page[data-name="monedero"]', function (e) {
          promesa.then(r => {
             var monedero=r.respuesta;
 
-            $("#colocarmonedero").html(monedero);
+            $("#colocarmonedero").html(formato_numero(monedero,2,'.',','));
 
             
           });

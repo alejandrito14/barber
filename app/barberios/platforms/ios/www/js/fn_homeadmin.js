@@ -158,6 +158,8 @@ function AbrirModalCalendario() {
 
 
 function AbrirModalCitaAdmin(idcita) {
+    myStopFunction(intervalo);
+
 	var iduser=localStorage.getItem('id_user');
 	var datos="idcita="+idcita+"&iduser="+iduser;
 	var pagina = "ObtenerDetalleCitaAdmin.php";
@@ -259,7 +261,8 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
 
                             if(respuesta.checkin==1) {
                             
-                              html+=` <p class="" style="display: flex;"><span>check-in:</span> <span class="material-icons-outlined" 
+                              html+=` <p class="" style="display: flex;">
+                              <span>check-in:</span> <span class="material-icons-outlined" 
                                       style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;">
                             check_circle_outline
                             </span>
@@ -270,6 +273,18 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
 
 
                             }
+
+                            if (respuesta.checkout==1) {
+
+                                html+=`
+                                <p class="" style="display: flex;">
+                                    <span>check-out:</span> <span class="material-icons-outlined" 
+                                    style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;">
+                                    check_circle_outline
+                                    </span>
+                                </p>
+                                    `;
+                                  }
                                html+=`
 
 
@@ -288,6 +303,14 @@ margin-top: 1.4em;    width: 100%;
                     <div class="card-content card-content-padding">
                       
                         <div class="row">`;
+
+                        if(respuesta.checkin==1 && (respuesta.finalizacita=='' || respuesta.finalizacita==null) ) {
+                            
+                            html+=`<div class="cronometro"></div>`;
+                               html+=`<button class="button button-large button-raised"  style="background:#C7AA6A;color:white;" onclick="VisualizarTiempo2()">Tiempo transcurrido</button>`;
+                          
+                          }
+
                            if(respuesta.checkin==0  && respuesta.checkout==0 && respuesta.cancelacion==0) {
                              html+=`
                                 <div class="col-100">
@@ -343,7 +366,7 @@ margin-top: 1.4em;    width: 100%;
 						<p style="    font-size: 16px;
     font-weight: bold;">Galeria de imágenes</p>
 						</div>
-						<div class="col-20">
+						<div class="col-20" onclick="AbrirModalFotoimagencita()">
 						<span class="material-icons-outlined" style="    font-size: 30px;
     line-height: 60px;">
 								camera_alt
@@ -355,6 +378,16 @@ margin-top: 1.4em;    width: 100%;
 
 
 			</div>
+
+      <div class="" style="
+    
+    margin-bottom: 100px;
+">
+        <div class="">
+            <div class="listadoimagenescita" style="width:100%;">
+            </div>
+        </div>
+</div>
 							   							  	
            												 </div>
 							   							  	</div>
@@ -389,7 +422,7 @@ margin-top: 1.4em;    width: 100%;
             </div>
           </div>`;
           
-	  dynamicSheet1 = app.sheet.create({
+	  dynamicSheet10 = app.sheet.create({
         content: html,
 
     	swipeToClose: true,
@@ -397,7 +430,9 @@ margin-top: 1.4em;    width: 100%;
         // Events
         on: {
           open: function (sheet) {
-           
+          
+           ObtenerImagenescita();
+
 			
 
           },
@@ -407,7 +442,23 @@ margin-top: 1.4em;    width: 100%;
         }
       });
 
-       dynamicSheet1.open();
+       dynamicSheet10.open();
+}
+
+function VisualizarTiempo2() {
+
+  dynamicSheet10.close();
+  GoToPage('validadoqrcita2');
+
+
+}
+
+function Parar() {
+  
+    clearInterval(control);
+    GoToPage('servicios');
+  
+
 }
 
 function CargarPaquetes() {
@@ -558,7 +609,6 @@ function CargarCalendario2() {
          
             var fecha=c.value;
 
-
             var convertirfecha=new Date(fecha);
             var mes=(convertirfecha.getMonth() + 1)<10?'0'+(convertirfecha.getMonth() + 1):(convertirfecha.getMonth() + 1);
           var mesdata=convertirfecha.getMonth();
@@ -567,6 +617,8 @@ function CargarCalendario2() {
           var diadata=convertirfecha.getDate();
 
           fecha1=convertirfecha.getFullYear()+'-'+ mes+'-'+dia;
+          localStorage.setItem('fechaconsulta',fecha1);
+
             ConsultarFechaCita(fecha1);
             $("#v_especialista").html('');
             //var fechadata=convertirfecha.getFullYear()+'-'+mesdata+'-'+diadata;
@@ -710,9 +762,29 @@ function PintarCitas2(respuesta) {
                     <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].nombrepaquete+`</p>
 
             <p style="margin:0;">`+respuesta[i].nombreusuario+`</p>
-            <p style="margin:0;text-decoration: underline;" onclick="Detallepago(`+respuesta[i].idnotapago+`)">#`+respuesta[i].folio+`</p>
- 
-            </div>
+            <p style="margin:0;text-decoration: underline;" onclick="Detallepago(`+respuesta[i].idnotapago+`)">#`+respuesta[i].folio+`</p>`;
+            if (respuesta[i].checkin==1) {
+                html+=`
+                  <p class="" style="display: flex;">`;
+                html+=`<span>check-in: `+respuesta[i].fechacheckin+`</span> <span class="material-icons-outlined" style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;margin-left: 5px;">
+                    check_circle_outline
+                    </span>
+
+                    `;
+                html+=`</p>`;
+                  }
+
+                  if (respuesta[i].checkout==1) {
+                html+=`
+                  <p class="" style="display: flex;">`;
+                html+=`<span>check-out: `+respuesta[i].fechacheckout+`</span> <span class="material-icons-outlined" style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;margin-left: 5px;">
+                    check_circle_outline
+                    </span>`;
+                html+=`</p>`;
+                  }
+  
+
+           html+= `</div>
             <div class="item-footer">
 
             </div>

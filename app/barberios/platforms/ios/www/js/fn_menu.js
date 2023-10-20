@@ -93,7 +93,7 @@ function Empezar() {
         localStorage.removeItem("idusuarioinvitado");
         localStorage.removeItem('id_usuariologin');
   
-       GoToPage('home');
+       GoToPage('login');
   }
 
 }

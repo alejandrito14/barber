@@ -1404,6 +1404,10 @@ color: white!important;
 
   color: white;
 }
+.alineacionestrella{
+      display: flex;
+    justify-content: center;
+}
 
 /*.textoestilo3{
 

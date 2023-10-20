@@ -1498,7 +1498,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
 							
 								`;
 
-                            		if(respuesta.cancelacion==0 && respuesta.checkin==0 && respuesta.checkout==0) {
+                            		if(respuesta.cancelacion==0 && respuesta.checkin==0 && respuesta.checkout==0 && respuesta.sepuedecancelar==1) {
 
 	                            	html+=`
 	                            		<div class="col-100">
@@ -3460,6 +3460,7 @@ function CerrarModalAviso6() {
 function ObtenerEdad() {
 	var iduser=localStorage.getItem('id_user');
 	var datos="idusuarios="+iduser;
+	if (iduser>0) {
 	var pagina = "Validaredad.php";
 	$.ajax({
 		type: 'POST',
@@ -3495,4 +3496,11 @@ function ObtenerEdad() {
 					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
 			}
 		});
+	}else{
+
+
+		estiloparrafo='textoestilo1';
+
+
+	}
 }

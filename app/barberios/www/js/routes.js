@@ -184,6 +184,12 @@ var routes = [
 
   },
 
+   {
+    path: '/validadoqrcita2/',
+    componentUrl: './pages/validadoqrcita2.html',
+
+  },
+
   // Account 
 /*  {
     path: '/signin/',

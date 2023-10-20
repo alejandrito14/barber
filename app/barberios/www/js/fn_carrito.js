@@ -371,7 +371,6 @@ function SumarCarrito(idcarrito,valor) {
          // var cantidad=$("#cantidad_"+idcarrito).val();
          var datos="idcarrito="+idcarrito+"&operacion=1"+"&cantidad="+valor;
 
-         console.log(valor);
     
            $.ajax({
             type: 'POST',
@@ -381,7 +380,11 @@ function SumarCarrito(idcarrito,valor) {
             success: function(resp){
 
               CargarCarrito();
-            
+              $("#divdescuentoaplicado").css('display','none');
+              localStorage.setItem('idcupon',0);
+              localStorage.setItem('montocupon',0);
+              localStorage.setItem('codigocupon','');
+
             },error: function(XMLHttpRequest, textStatus, errorThrown){ 
                 var error;
                     if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
@@ -699,8 +702,8 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;
                           html+=`
                           <div class="row" style="margin-left: 2em;margin-right: 2em;margin-top:20px;">
                           <div class="col-100">
-                          <p  style="color: #c7aa6a;font-size: 30px;text-align: center;" class="cambiarfuente `+estiloparrafo+`">Tienes algo pendiente por pagar</p>
-                          <p  style="color: #c7aa6a;font-size: 30px;text-align: center;" class="cambiarfuente `+estiloparrafo+`">¿Deseas conservarlos?</p>
+                          <p  style="color: #c7aa6a;text-align: center;" class="cambiarfuente `+estiloparrafo+`">Tienes algo pendiente por pagar</p>
+                          <p  style="color: #c7aa6a;text-align: center;" class="cambiarfuente `+estiloparrafo+`">¿Deseas conservarlos?</p>
                           </div>
 
                           </div>
@@ -1186,32 +1189,57 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
 
 function AbrirMonedero(){
   dynamicSheet1.close();
-   var promesa= ConsultarMonedero();
+   var promesa= VerificarCarritoMonedero();
          promesa.then(r => {
-           monederousuario=r.respuesta;
+          monederousuario=r.monederoporusar;
+          monederousado=r.monederousado;
+          localStorage.setItem('monedero',monederousado);
+         // console.log(r.respuesta);
+          if (r.respuesta.length>0) {
+              var carritomonedero=r.respuesta[0];
+              console.log(carritomonedero);
+              AbrirModalAgregarMonedero(carritomonedero,monederousuario);
+          
+            }else{
 
-           var montopago=localStorage.getItem('sumatotalapagar');
+            GoToPage('escogermetodopago');
+
+          }
+
+  
+
+        });
+ 
+}
+
+function AbrirModalAgregarMonedero(carritomonedero,monederoporusar) {
+           // console.log(carritomonedero);
+            var montopago=(carritomonedero.costototal-carritomonedero.montocupon);
             var valor=parseFloat(montopago);
-              if (parseFloat(montopago)>=parseFloat(monederousuario)) {
+              if (parseFloat(montopago)>=parseFloat(monederoporusar)) {
 
-               valor=monederousuario;
+               valor=monederoporusar;
+               
+              }
+
+              if(parseFloat(monederoporusar)<=parseFloat(montopago)) {
+                     valor=monederoporusar;
 
               }
 
-              if(parseFloat(monederousuario)<=parseFloat(montopago)) {
-                     valor=monederousuario;
-
-              }
-
-                if(parseFloat(monederousuario)>=parseFloat(montopago)) {
+                if(parseFloat(monederoporusar)>=parseFloat(montopago)) {
                      valor=montopago;
 
               }
-    var sumatotalapagar=localStorage.getItem('sumatotalapagar');
-  var parrafo="<p class='cambiarfuente "+estiloparrafo+"' style='margin:0;'><span style='color:white'>Total</span></p>";
+
+ /* var parrafo="<p class='cambiarfuente "+estiloparrafo+"' style='margin:0;'><span style='color:white'>Total</span></p>";
       parrafo+="<p class='cambiarfuente "+estiloparrafo+"' style='margin:0;'>$"+sumatotalapagar+"</p>"
       parrafo+="<p class='cambiarfuente "+estiloparrafo+"' style='margin:0;'><span style='color:white'>Monedero disponible</span></p>";
-      parrafo+="<p class='cambiarfuente "+estiloparrafo+"' style='margin:0;'>$"+r.respuesta+"</p>"
+      parrafo+="<p class='cambiarfuente "+estiloparrafo+"' style='margin:0;'>$"+r.respuesta+"</p>"*/
+     var parrafo="<p class='cambiarfuente "+estiloparrafo+"'>"+carritomonedero.nombrepaquete+"</p>";
+     var resta=carritomonedero.costototal-carritomonedero.montocupon;
+         parrafo+="<p class='cambiarfuente "+estiloparrafo+"'> $"+formato_numero(resta,2,'.',',')+"</p>";
+
       parrafo+="<p class='cambiarfuente "+estiloparrafo+"' style='' >¿Cuanto deseas utilizar?</p>"
 
   var html2="";
@@ -1287,7 +1315,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
                           html+=`
                             <div class="row margin-bottom " style="padding-top: 1em;    margin-left: 2em;margin-right: 2em;margin-top:20px;display:flex;justify-content:center;">
                             <div class="col-100">
-                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="ColocarMonederoUsar()">Aceptar</button>
+                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="ColocarMonederoUsar(`+montopago+`,`+monederoporusar+`,`+carritomonedero.idcarrito+`)">Aceptar</button>
                             </div>
 
                             
@@ -1337,7 +1365,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
   
 
   dynamicSheet1.open();
-  });
+ 
 }
 function IrAmetodopago(){
  dynamicSheet1.close();
@@ -1345,7 +1373,78 @@ function IrAmetodopago(){
 }
 var monederousuario=0;
 
-function ColocarMonederoUsar() {
+
+function ColocarMonederoUsar(costocarrito,monederoporusar,idcarrito) {
+
+   $("#txtadvertencia").text('');
+    var txtcantidad=parseFloat($("#monederousado").val());
+
+    var sumatotalapagar=localStorage.getItem('sumatotalapagar');
+    if (monederoporusar>0) {
+  if (txtcantidad!='' &&txtcantidad!=0){
+      if (txtcantidad>monederoporusar) {
+         $("#txtadvertencia").text('La cantidad supera el monedero disponible');
+         //alerta('','La cantidad supera el monedero acumulado');
+
+      }else{
+
+
+
+        if (txtcantidad>costocarrito) {
+          console.log('1');
+          $("#txtadvertencia").text('La cantidad ingresada es mayor al total');
+             // alerta('','La cantidad ingresada es mayor al total');
+
+        }else{
+            if (txtcantidad>0) {
+            //localStorage.setItem('monedero',txtcantidad);
+              dynamicSheet1.close();
+           // GoToPage('escogermetodopago');
+              GuardarMonederoCarrito(idcarrito,txtcantidad);
+           }
+
+
+        }
+      
+      }
+
+    }else{
+                    
+        alerta('','Ingrese una cantidad válida')
+      }
+
+  }else{
+
+       
+
+    alerta('','No cuenta con monedero acumulado');
+  }
+}
+
+function GuardarMonederoCarrito(idcarrito,txtcantidad) {
+   var datos="idcarrito="+idcarrito+"&txtcantidad="+txtcantidad;
+   var pagina="GuardarMonederoCarrito.php";
+   $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+
+      AbrirMonedero();
+    
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+    });
+}
+
+/*function ColocarMonederoUsar() {
 
    $("#txtadvertencia").text('');
     var txtcantidad=parseFloat($("#monederousado").val());
@@ -1390,7 +1489,7 @@ function ColocarMonederoUsar() {
 
     alerta('','No cuenta con monedero acumulado');
   }
-}
+}*/
 
 function ConsultarMonedero() {
   return new Promise(function(resolve, reject) {
@@ -1716,9 +1815,28 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
                           
                         
 
-      var classe="swiper-slide-active";
-      html+=` <div class="swiper-wrapper" style="margin-left: 1em;">`;
+      html+=` <div class="row" style="margin-left: 1em;">`;
+      html+=`
+         <div class="tarjeta contadortarjeta cambiarfuente  " style="width:100%;"  onclick="ElegirCortesia(`+idcarrito+`,0)">
+              <div class="card demo-card-header-pic" style="border-radius: 10px;">  
+              <div style="justify-content:center;display:flex; border-radius: 10px 10px 0px 0px;" class="card-header align-items-flex-end">
+                <span class="material-icons-outlined" style="color: red;
+    font-size: 35px;">
+              block
+              </span>
+              </div>
 
+            <div class="cardcortesia" id="cardcortesia_0"  style="display: flex;
+    justify-content: center;
+    align-items: center;text-align: center;height: 50px;background:#9c9c9c ;font-size: 18px;   
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;">
+           <p style="margin:0px;text-align:center;color: white;">Ninguna</p> </div>
+          </div>
+          </div>
+
+      `;
+/*
       html+=`
           <div class="swiper-slide swiper-slide-active" role="group"  style="margin-right: 20px;width: 40%;">
         <div class="card cardcortesia" id="cardcortesia_0" style="height: 55px!important;padding: 10px;"  onclick="ElegirCortesia(`+idcarrito+`,0)">
@@ -1752,7 +1870,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
               </h5>
         </div>
 
-      `;
+      `;*/
 
     if (respuesta.length>0) {
 
@@ -1770,7 +1888,22 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
 
       var checked="";
      
-        html+=`
+      html+=`
+        <div class="tarjeta contadortarjeta cambiarfuente  " style="width:100%;"   onclick="ElegirCortesia(`+idcarrito+`,`+respuesta[i].idcortesia+`)">
+              <div class="card demo-card-header-pic" style="border-radius: 10px;">  
+              <div style="background-image:url(`+imagen+`);border-radius: 10px 10px 0px 0px;" class="card-header align-items-flex-end"></div>
+
+            <div class="cardcortesia" id="cardcortesia_`+respuesta[i].idcortesia+`" style="display: flex;
+    justify-content: center;
+    align-items: center;text-align: center;height: 50px;background:#9c9c9c ;font-size: 18px;   
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;">
+           <p style="margin:0px;text-align:center;color: white;">`+respuesta[i].nombrepaquete+` </p> </div>
+          </div>
+          </div>
+
+      `;
+       /* html+=`
 <div class="swiper-slide swiper-slide-active" role="group"  style="margin-right: 20px;width: 40%;">
         <div class="card cardcortesia" id="cardcortesia_`+respuesta[i].idcortesia+`" style="height: 55px!important;padding: 10px;"  onclick="ElegirCortesia(`+idcarrito+`,`+respuesta[i].idcortesia+`)">
         <div class="card-content   featured-card" style="padding-top: 9px;">
@@ -1801,7 +1934,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
               </h5>
         </div>
 
-        `;
+        `;*/
     }
   }
 
@@ -1848,10 +1981,9 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
             }
 
            
-
+/*
     if (swiper1 && swiper1.destroy) {
-      // Destruir el Swiper existente si está presente
-      swiper1.destroy(true, true); // Los parámetros true limpian los eventos y la estructura del DOM
+      swiper1.destroy(true, true); 
     }
 
       swiper1 = new Swiper(".divtablerocortesia", {
@@ -1859,11 +1991,11 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
         spaceBetween: 1,
         pagination: false,
 
-      });
+      });*/
 
 
 
-      swiper1.update();
+     // swiper1.update();
   
                 
 
@@ -1972,6 +2104,37 @@ function VerificarProductosCarritoConCortesia() {
   var idusuario=localStorage.getItem('id_user');
   var datos="idusuario="+idusuario;
   var pagina="VerificarProductosCarritoConCortesia.php";
+
+ $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+
+      resolve(resp);
+    
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+    });
+
+  });
+}
+
+
+function VerificarCarritoMonedero() {
+   return new Promise(function(resolve, reject) {
+
+
+  var idusuario=localStorage.getItem('id_user');
+  var datos="idusuario="+idusuario;
+  var pagina="VerificarCarritoMonedero.php";
 
  $.ajax({
     type: 'POST',

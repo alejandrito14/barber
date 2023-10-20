@@ -1,6 +1,5 @@
 var calendarModal="";
-
-var intervalocitas=0;
+var dynamicSheet10="";
 function CargarDatosEspecialista() {
 	$(".licompras").css('display','none');
 	$(".lifavoritos").css('display','none');
@@ -102,8 +101,29 @@ function PintarTableroCitasEspecialista(respuesta) {
 						</h6>
 					  <div class="">
 				
-						<p style="margin:0;">`+respuesta[i].nombreespecialista+`</p>
-						</div>
+						<p style="margin:0;">`+respuesta[i].nombreespecialista+`</p>`;
+							if (respuesta[i].checkin==1) {
+								html+=`
+									<p class="" style="display: flex;">`;
+								html+=`<span>check-in: `+respuesta[i].fechacheckin+`</span> <span class="material-icons-outlined" style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;margin-left: 5px;">
+										check_circle_outline
+										</span>
+
+										`;
+								html+=`</p>`;
+									}
+
+									if (respuesta[i].checkout==1) {
+								html+=`
+									<p class="" style="display: flex;">`;
+								html+=`<span>check-out: `+respuesta[i].fechacheckout+`</span> <span class="material-icons-outlined" style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;margin-left: 5px;">
+										check_circle_outline
+										</span>`;
+								html+=`</p>`;
+									}
+
+
+						html+=`</div>
 						<div class="item-footer">
 
 						</div>
@@ -247,6 +267,18 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
                             
                             }
 
+                            if (respuesta.checkout==1) {
+
+								html+=`
+								<p class="" style="display: flex;">
+										<span>check-out:</span> <span class="material-icons-outlined" 
+										style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;">
+										check_circle_outline
+										</span>
+								</p>
+										`;
+									}
+
                               if (respuesta.cancelacion==1) {
                                   html+=`
                                     <div class="col-100">
@@ -360,7 +392,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
             </div>
           </div>`;
           
-	  dynamicSheet1 = app.sheet.create({
+	  dynamicSheet10 = app.sheet.create({
         content: html,
 
     	swipeToClose: true,
@@ -369,29 +401,28 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
         on: {
           open: function (sheet) {
            
-										ObtenerImagenescita();
+					ObtenerImagenescita();
 
           },
           opened: function (sheet) {
             console.log('Sheet opened');
           },
 
-          
           close: function (sheet) {
            
           		intervalocitas=setInterval("FiltrarTableroCitas()",2000);
 
-          }
+          },
       }
         
       });
 
-       dynamicSheet1.open();
+       dynamicSheet10.open();
 }
 
 function VisualizarTiempo() {
 
-	dynamicSheet1.close();
+	dynamicSheet10.close();
 	GoToPage('validadoqrcita');
 }
 
@@ -851,7 +882,7 @@ function AceptarFinalizar() {
 			$("#contenedor").html('');
 			$("#txttiempo").html('');
 			$(".btnfinalizar").css('display','none');
-
+			myStopFunction(control);
 			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;
 				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 

@@ -268,7 +268,7 @@ html+=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;ba
       dynamicSheet2 = app.sheet.create({
         content: html,
         swipeToClose: true,
-        backdrop: true,
+        backdrop: true, 
         // Events
         on: {
           open: function (sheet) {

@@ -153,6 +153,16 @@ class Empresas
 	}
 	
 
+	public function ObtenerTodos()
+	{
+		$query="SELECT * FROM empresa  ORDER BY orden asc";
+		
+		$resp=$this->db->consulta($query);
+		
+		//echo $total;
+		return $resp;
+	}
+	
 	
 	
 	

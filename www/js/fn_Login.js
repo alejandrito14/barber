@@ -44,8 +44,19 @@ $(document).ready(function()
 				$('.modal').modal();
 				$("#validar").html(boton);
 			}
-			else
-			{			
+			else 
+			{		
+
+			var number = user.replace(/[^\d]/g, '');
+
+			if (number.length == 7) { 
+				user = number.replace(/(\d{3})(\d{4})/, "$1-$2"); 
+			} else if (number.length == 10) { 
+
+				user = number.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3"); 
+
+			} 
+
 				setTimeout(function(){
 					$.ajax({
 						  type: 'POST',
@@ -196,3 +207,4 @@ function Borrar()
 	/*$("#email").val("");
 	$("#codigo").val("");*/
 }
+

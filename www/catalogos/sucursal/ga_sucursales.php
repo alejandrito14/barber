@@ -79,6 +79,7 @@ try
 	$su->mensajesecciontipopago=$_POST['mensajesecciontipopago'];
 	$su->porfecha=$_POST['porfecha'];
 	$su->porespecialista=$_POST['porespecialista'];
+	$su->horascancelaciones=$_POST['horascancelaciones'];
 
 	if ($su->orden=='') {
 		$su->orden=0;

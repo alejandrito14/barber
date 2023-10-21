@@ -276,7 +276,9 @@ if(isset($_SESSION['permisos_acciones_erp'])){
       <div class="modal-footer">
 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
 
-<button type="button" id="btnguardarpc" class="btn btn-success" style="float: right;" title="">Cancelar cita</button>   
+<button type="button" id="btnreagendarcita" class="btn btn-warning btnreagendarcita" style="float: right;" title="">Reagendar</button>   
+
+<button type="button" id="btncancelarcita" class="btn btn-success btncancelarcita" style="float: right;" title="">Cancelar cita</button>   
 
      
        
@@ -599,6 +601,8 @@ display: flex;
 
 <script>
 	var NtabName="citas";
+ var idmenumodulo='<?php echo $idmenumodulo; ?>';
+ 
 	/*ObtenerClientesAndroidios();
 	Obtenerregistrados();
 	clientesensession();

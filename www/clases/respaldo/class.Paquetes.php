@@ -626,6 +626,50 @@ class Paquetes
 	}
 
 
+	public function obtenerDependenciaHaciaArriba($subcategoriaId) {
+
+    $consulta = "SELECT idcategoriapaquete, nombre, iddepende FROM categoriapaquete WHERE idcategoriapaquete = '$subcategoriaId'";
+		$resultado1=$this->db->consulta($consulta);
+    	
+    	$subcategoria=$this->db->fetch_assoc($resultado1);
+
+    	//var_dump($subcategoria);die();
+   
+    $resultado = array(
+        'id' => $subcategoria['idcategoriapaquete'],
+        'nombre' => $subcategoria['nombre']
+    );
+    
+    $idDependencia = $subcategoria['iddepende'];
+   
+    if ($idDependencia != null && $idDependencia!='' && $idDependencia!=0) {
+        $dependenciaPadre = $this->obtenerDependenciaHaciaArriba($idDependencia, $conexion);
+        $resultado['dependencia_padre'] = $dependenciaPadre;
+    }
+    
+    return $resultado;
+}
+
+
+ public function mostrarEstructuraDependencia($dependencia) {
+ 	
+ 	    $estructura = $dependencia['nombre'];
+    $dependenciaPadre = $dependencia['dependencia_padre'];
+
+    while ($dependenciaPadre) {
+        $estructura = $dependenciaPadre['nombre'] . '/' . $estructura;
+        $dependenciaPadre = $dependenciaPadre['dependencia_padre'];
+
+
+    }
+
+    
+
+    return $estructura;
+
+}
+
+
 
 	
 }

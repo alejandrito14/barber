@@ -38,6 +38,7 @@ class Usuarios
 	public $sexo;
 	public $fechanacimiento;
 	public $idservicio;
+	public $idsucursal;
 	
 	//Funcion para obtener todos los usuarios activos
 	public function ObtUsuariosActivos()
@@ -834,6 +835,138 @@ class Usuarios
 		
 		$resp = $this->db->consulta($sql);
 		return $resp;
+	}
+
+	public function ObtTodosUsuariosFiltro($valor)
+	{
+		$sql = "SELECT * FROM usuarios WHERE tipo = '$valor'";
+		
+		$resp = $this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
+
+
+		public function ListadoUsuariostipo($tipo)
+	{
+		$sql = "SELECT
+				usuarios.idusuarios,
+				usuarios.tipo FROM
+					usuarios
+ 				INNER JOIN tipousuario ON usuarios.tipo=tipousuario.idtipousuario WHERE tipo IN($tipo)";
+		
+		$resp = $this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto->idusuarios;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
+
+
+	
+	public function ObtenerTodosUsuarios()
+	{
+		$sql = "SELECT idusuarios as idusuarios FROM usuarios WHERE estatus = 1";
+		$resp = $this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto->idusuarios;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
+
+	public function verificarusuariosucursal()
+	{
+		$sql = "SELECT * FROM especialista WHERE idusuarios = '$this->id_usuario' AND idsucursal='$this->idsucursal'";
+		
+		$resp = $this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
+
+
+	public function EliminarHorarios()
+	{
+		$sql = "SELECT * FROM especialista WHERE idusuarios = '$this->id_usuario' ";
+		
+		$resp = $this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$idespecialista=$objeto->idespecialista;
+				
+				$sql2="SELECT *FROM horarioespecialista WHERE idespecialista='$idespecialista'";
+
+				$resp2 = $this->db->consulta($sql2);
+				$cont2 = $this->db->num_rows($resp2);
+
+				if ($cont2>0) {
+
+			while ($objeto2=$this->db->fetch_object($resp2)) {
+
+
+					$sql3="DELETE FROM horarioespecialista WHERE idespecialista='$idespecialista' ";
+
+					$resp3 = $this->db->consulta($sql3);
+
+
+				}
+
+			}
+
+
+			} 
+		}
+		return 1;
 	}
 
 }

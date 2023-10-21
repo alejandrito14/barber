@@ -297,7 +297,7 @@ $su->lista_empresas = $lista_empresas;
 					$bt->icon = "mdi mdi-content-save";
 					
 					 $bt->funcion="
-					 var resp=MM_validateFormUsuario('v_celular','','R','v_alias','','R','nombre','','R','v_paterno','','R','v_materno','','R','email','','RisEmail','v_usuario','','R','clave','','R','v_sexo','','R','v_fechanacimiento','','R'); if(resp==1){  Guardarusuario('form_usuario','catalogos/alumnos/vi_alumnos.php','main','catalogos/alumnos/ga_clientes.php',$idmenumodulo);}
+					 var resp=MM_validateFormUsuario('v_celular','','R','v_alias','','R','nombre','','R','v_paterno','','R','v_materno','','R','v_usuario','','R','clave','','R','v_sexo','','R','v_fechanacimiento','','R'); if(resp==1){  GuardarusuarioEspecialista('form_usuario','catalogos/especialistas/vi_especialista.php','main','catalogos/especialistas/ga_especialistas.php',$idmenumodulo);}
 					 ";
 
 					$bt->estilos = "float: right;";
@@ -359,7 +359,7 @@ $su->lista_empresas = $lista_empresas;
 			</div>
 		</div>
 			
-
+ 
 		<div class="card" >
 					<div class="card-header" style="margin-top: 1em;">
 					<h5>DATOS GENERALES </h5>
@@ -375,10 +375,10 @@ $su->lista_empresas = $lista_empresas;
 					</div>
 
 
-					<div class="form-group m-t-20">
+					<!-- <div class="form-group m-t-20">
 					<label>*ALIAS:</label>
 					<input type="text" name="alias" id="v_alias" class="form-control" title="Alias" value="<?php echo $fu->imprimir_cadena_utf8($alias); ?>" placeholder="ALIAS" tabindex="100" />
-				</div>
+				</div> -->
 
 					<div class="form-group ">
 						<label>*NOMBRE:</label>
@@ -615,6 +615,27 @@ $su->lista_empresas = $lista_empresas;
 					</div>
 				</div>
 			</div>
+
+
+			<div class="card" >
+			<div class="card-header" style="margin-top: 1em;">
+			<h5>HORARIOS</h5>
+			</div>
+				
+			<div class="card-body">
+				<div class="row">
+				<button type="button" onclick="AbrirModalHorario()" class="btn btn-primary" title="NUEVO HORARIO" style="margin-right: 10px;float: right;"><i class="mdi mdi-arrow-left-box"></i>NUEVO HORARIO</button>
+
+
+				</div>
+
+				<div class="row horariosespecialistas" >
+
+								
+				</div>
+			</div>
+		</div>
+
 	</form>
 			<!-- <div class="card" id="divasociados">
 			<div class="card-header" style="margin-top: 1em;">
@@ -800,6 +821,70 @@ $su->lista_empresas = $lista_empresas;
 
   </div>
 </div>
+
+ <div class="modal" id="modalhorario" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">NUEVO HORARIO</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       		<form>
+											<div class="form-group">
+											    <label for="">SUCURSAL</label>
+											  		<select name="" class="form-control" id="v_sucursal"></select>
+											</div>
+										
+										<div class="form-group">
+									<label>DIA</label>	
+
+									<select class="form-control diasemanasele" id="diasemana">
+										<option value="t">SELECCIONAR DIA</option>
+										<option value="0">DOMINGO</option>
+										<option value="1">LUNES</option>
+										<option value="2">MARTES</option>
+										<option value="3">MIÉRCOLES</option>
+										<option value="4">JUEVES</option>
+										<option value="5">VIERNES</option>
+										<option value="6">SÁBADO</option>
+
+									</select>
+									</div>
+									<div class="form-group">
+									<label>HORA INICIO:</label>
+										<div class="form-group mb-2" style="">
+											<input type="time" id="horai_1" class="form-control horainiciodiaselec" >
+										</div>
+
+									</div>
+
+								
+									<div class="form-group">
+
+										<label>HORA FIN:</label>
+										<div class="form-group mb-2" style="">
+											<input type="time" id="horaf_1" class="form-control horafindiaselec" tabindex="8">
+										</div>
+									</div>
+							</form>
+						</div>
+     
+      <div class="modal-footer">
+
+      	<button type="button" class="btn btn-primary " onclick="AgregarNuevoHorario()">AGREGAR</button>
+
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+
+     
+       
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 
 
@@ -828,6 +913,7 @@ $su->lista_empresas = $lista_empresas;
 	var idusuario='<?php echo $idusuario; ?>';
 	var asociados=[];
 	var asociadoseliminados=[];
+	ObtenerHorariosSucursal(idusuario);
 
 	if (idusuario>0){
 		var opcionestipopago='<?php echo $opcionespago; ?>';
@@ -856,12 +942,11 @@ $su->lista_empresas = $lista_empresas;
 
  	//validartelefonocheck(validartelefono);
 	ObtenerTipos(idtipo);
-	ObtenerAsociados(idusuario);
-	ObtenerDependencia(idusuario);
-
+	//ObtenerAsociados(idusuario);
+	//ObtenerDependencia(idusuario);
 	}else{
 
-		 ObtenerTipos(3);
+		 ObtenerTipos(5);
 	// ObtenerEstados(0);
 	 $("#avanzado").css('display','none');
 	 $("#opcionesavanzadas").css('display','none');

@@ -15,7 +15,7 @@ $navegador = $f->navegador();
 	<!-- Favicon icon -->
 <!-- 	<link rel="icon" type="image/png" sizes="16x16" href="images/configuracion/imagentransparente.png">  -->
 
-	<title>IS-ACADEMIA</title>
+	<title>IS-BARBER</title>
 
 	<!-- ============ INICIA INCRUSTACION DE ARCHIVOS CSS ============ -->
 	<link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
@@ -98,7 +98,7 @@ $navegador = $f->navegador();
             		<div class="card login-card" style="border-radius: 30px;">
             			<div class="row no-gutters">
             				<div class="col-md-5">
-            					<img  src="./images/market.png" alt="login" class="login-card-img">
+            					<img  src="./images/home-office-gfe6fae277_1280.jpg" alt="login" class="login-card-img">
 
             				</div>
 
@@ -140,9 +140,9 @@ $navegador = $f->navegador();
 
 									</form>
 
-									<p class="forgot-password-link" style="float: left;"><a>V.2021.1.1</a></p>
+									<p class="forgot-password-link" style="width: 326px;text-align: center;"><a>V.2022.1.1</a></p>
 									<p class="forgot-password-link" style="float: left;">
-										<a class="olvide" style="color: #0d2366;margin-left: 6em;" href="">¿Olvidaste la contraseña?</a>
+										<!-- <a class="olvide" style="color: #0d2366;margin-left: 6em;" href="">¿Olvidaste la contraseña?</a> -->
 									</p>
 									<br>
 									<br>
@@ -153,7 +153,7 @@ $navegador = $f->navegador();
 
 
 								<div class="col-md-8 copi" style="text-align: center;margin-left: 2.2em;">
-									<span class="copi" style="font-size: 10px;float: left;"> Copyright © 2021 Innovative Software Services (ISS). 
+									<span class="copi" style="font-size: 10px;float: left;"> Copyright © 2022 Innovative Software Services (ISS). 
 									</span>	
 								<span class="copi2" style="font-size: 10px;float: left;text-align: center;margin-left: 6em;">Todos los derechos reservados.</span>
 
@@ -242,7 +242,7 @@ $navegador = $f->navegador();
 
 	<style>
 		.main-bg{
-			background-color: #35b4f0!important;
+			background-color: #e5ecfe!important;
 
 		}
 

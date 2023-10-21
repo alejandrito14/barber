@@ -89,6 +89,7 @@ function Guardar_sucursal(form,donde,regresar,idmenumodulo)
 		var tproduccion=$("#tproduccion").val();
 		var porfecha=$("#habilitarcampoporfecha").val();
 		var porespecialista=$("#habilitarcampoporespecialista").val();
+		var horascancelaciones=$("#v_horascancelaciones").val();
 		var datofiscal=0;
 		var diasemana=[];
 		var horainicio=[];
@@ -215,7 +216,7 @@ function Guardar_sucursal(form,donde,regresar,idmenumodulo)
 		data.append('v_ubicacion',v_ubicacion);
 		data.append('porfecha',porfecha);
 		data.append('porespecialista',porespecialista);
-
+		data.append('horascancelaciones',horascancelaciones);
 		$('#main').html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Procesando...</div>')
 				
 

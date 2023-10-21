@@ -46,6 +46,11 @@ try
 
 	$obtenerdetallecita[0]->fechaformato=$fechas->fecha_texto5($obtenerdetallecita[0]->fechacita);
 
+	$obtenerdetallecita[0]->fechacheckin=date('d/m/Y H:i:s',strtotime($obtenerdetallecita[0]->fechacheckin));
+	$obtenerdetallecita[0]->fechacheckout=date('d/m/Y H:i:s',strtotime($obtenerdetallecita[0]->finalizacita));
+
+
+
 	$codigo=$se->obtenerSesion('codservicio');
     $obtener[0]->imagen=$codigo.'/'.$obtener[0]->imagen;
 

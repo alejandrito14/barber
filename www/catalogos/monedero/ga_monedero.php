@@ -59,7 +59,7 @@ try
 		
 		//Guardamos el movimiento en tabla cliente_monedero
 		$sql_movimiento = "INSERT INTO monedero (idusuarios,monto,modalidad,tipo,saldo_ant,saldo_act,concepto) VALUES ('$cliente','$cantidad','2','$tipo','$saldo_anterior','$nuevo_saldo','$concepto');";
-
+		
 		$db->consulta($sql_movimiento);
 		$ultimo = $db->id_ultimo();
 		

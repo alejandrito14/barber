@@ -266,3 +266,24 @@ input[type=number] { -moz-appearance:textfield; }
     color: #9c9c9c;
      cursor: pointer;
   }
+  .disponible{
+    background:#c7aa6a!important;
+  }
+
+  .seleccionadofecha2{
+   background: #9c9c9c!important;
+   /*border-radius: 30px;*/
+   color: white; 
+   cursor:pointer;margin: auto;
+   /*width:20%;*/
+ /*  padding-right: 1em;*/
+   padding-left:1em;
+   justify-content:center;
+   /*display:flex;*/
+}
+
+.btn_dorado{
+    background-color:#c7aa6a;
+    border: 1px solid #FFFFFF;
+    color:#ffffff;
+}

@@ -104,7 +104,7 @@ var oTable = $('#zero_config').dataTable( {
 
 <div class="card mb-3">
 		<div class="card-body">
-		<h5 class="card-title" style="float: left; margin-top: 5px;">LISTADO DE ESPECIALISTAS</h5>
+		<h5 class="card-title" style="float: left; margin-top: 5px;">LISTADO DE BARBEROS</h5>
 		<!--<button type="button" onClick="AbrirModalGeneral2('ModalPrincipal','900','560','catalogos/Usuarios/fa_cliente.php');" class="btn btn-info" style="float: right;">AGREGAR CLIENTE</button>-->
 		<?php
 		
@@ -146,8 +146,7 @@ var oTable = $('#zero_config').dataTable( {
 						<!--<th>NO TARJETA</th>-->
 						<th width="88">CELULAR</th>
 						<th>CORREO</th>
-						<th>ASOCIADOS</th>
-						<th>ASOCIADO DE</th>
+						
 <!-- 						<th width="97">LOCALIDAD</th>
  --> 
 						<th>ESTATUS</th>
@@ -208,19 +207,11 @@ var oTable = $('#zero_config').dataTable( {
 						  	</td>
 						  		<td width="30"><?php echo utf8_encode($result_row['email']); ?></td>
 
-						  		<td>
+						  	
 						  		
 
-						  		</td>
-						  		<td>
-
-						  			<?php 
 						  		
 
-						  			 ?>
-						  			
-
-						  		</td>
 						  
 						 	<td width="30"><?php echo utf8_encode($estatus[$result_row['estatus']]); ?></td>
 							

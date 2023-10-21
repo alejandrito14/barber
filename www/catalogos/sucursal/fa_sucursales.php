@@ -118,6 +118,7 @@ if(!isset($_GET['idsucursales'])){
 	$celular="";
 	$ubicacion="";
 	$idcategoriasucursal=="";
+	$horascancelacion=0;
 }else{
 	//El formulario funcionara para modificacion de un registro
 
@@ -158,6 +159,7 @@ $idcategoriasucursal=$result_sucursal_row['idcategorias'];
 	$telefono4 = $f->imprimir_cadena_utf8($result_sucursal_row['telefono4']);
 $celular=$result_sucursal_row['celular'];
 $ubicacion=$result_sucursal_row['ubicacion'];
+$horascancelacion=$result_sucursal_row['horascancelacion'];
 		/*$horainicio=$result_sucursal_row['horaentrada'];
 	$horafin=$result_sucursal_row['horasalida'];*/
 	$minutosconsiderados=$result_sucursal_row['minutosconsiderados'];
@@ -501,6 +503,12 @@ if ($campoporespecialista==1) {
 					<div class="form-group m-t-20" >
 						<label>I.V.A %:</label>
 						<input type="text" class="form-control" id="v_iva" name="v_iva" value="<?php echo $iva; ?>" placeholder='0.0' title="I.V.A" tabindex="119">
+					</div>	
+
+					<div class="form-group m-t-20" style="">
+						<label>Horas cancelaciones</label>
+							<input type="number" class="form-control" id="v_horascancelaciones" name="v_horascancelaciones" value="<?php echo $horascancelacion; ?>" title="EMAIL" tabindex="120">
+						
 					</div>
 
 					
@@ -516,6 +524,9 @@ if ($campoporespecialista==1) {
 						<input type="checkbox" name="habilitarcampomontofactura" id="habilitarcampomontofactura" onchange="habilitarcampomontofactura1()" value="<?php echo $campomontofactura?>" <?php echo $check3; ?>>
 					</div>
 
+
+
+					<div style="display: none;">
 					<label for="">OPCIONES DE AGENDA</label>
 
 						<div class="form-group m-t-20" style="">
@@ -587,7 +598,7 @@ if ($campoporespecialista==1) {
 
 								</div>
 
-
+</div>
 					<div class="form-group m-t-20">
 						<label>ORDEN:</label>
 						<input type="number" name="v_orden" id="v_orden" class="form-control" value="<?php echo $orden ?>"tabindex="120">

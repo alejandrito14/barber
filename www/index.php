@@ -426,7 +426,7 @@ $navegador = $f->navegador();
         <!-- footer -->
         <!-- ============================================================== -->
         <footer class="footer text-center" style="color: #bdc3c8;">
-           Copyright &copy; 2022 Innovative Software Services (ISS). Todos los derechos reservados.
+           Copyright &copy; 2023 Innovative Software Services (ISS). Todos los derechos reservados.
 
 
        </footer>
@@ -1243,7 +1243,8 @@ $navegador = $f->navegador();
 <script src="js/fn_opcionpedido.js?<?php echo time(); ?>"></script>
 
 <script src="js/fn_cupones.js?<?php echo time(); ?>"></script>
-<script src="js/fn_notificaciones.js"></script>
+<script src="js/fn_notificaciones.js?<?php echo time(); ?>">
+</script>
 <script src="js/fn_seccion.js"></script>
 <script src="js/fn_anuncios.js"></script>
 <script src="js/fn_servicio.js"></script>

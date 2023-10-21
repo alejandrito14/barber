@@ -48,6 +48,9 @@ class Sucursal
 	public $celular;
 	public $ubicacion;
 	public $categoriasucursal;
+	public $porfecha;
+	public $porespecialista;
+	public $idusuario;
 
 	public function ObtenerTodos()
 	{
@@ -75,7 +78,7 @@ class Sucursal
 	//funcion que sirve para guardar una sucursal 
 	public function guardar_sucursal()
 	{
-		$query = "INSERT INTO sucursal (titulo,descripcion,direccion,telefono,email,estatus,iva,pais,estado,municipio,horaentrada,horasalida,minutosconsiderados,solicitarfactura,orden,iddatofiscal,colonia,encabezadoticket,leyendaticket,telefono2,telefono3,telefono4,tventa,tproduccion,codigopostal,trecordatorio,minutosrecordatorio,mensajesucursal,mensajecliente,campomontofactura,habilitarnotaventa,mensajesecciontipopago,celular,ubicacion,idcategorias) VALUES ('$this->sucursal','$this->descripcion','$this->direccion','$this->telefono','$this->email','$this->estatus','$this->iva','$this->v_pais','$this->v_estado','$this->v_municipio','$this->horainicio','$this->horafin','$this->minutosconsiderados','$this->solicitarfactura','$this->orden','$this->iddatofiscal','$this->colonia','$this->encabezado','$this->leyendafinal','$this->telefono2','$this->telefono3','$this->telefono4','$this->ticketventa','$this->ticketproduccion','$this->codigopostal','$this->trecordatorio','$this->minutosrecordatorio','$this->mensajesucursal','$this->mensajecliente','$this->habilitarcampomontofactura','$this->habilitarnotaventa','$this->mensajesecciontipopago','$this->celular','$this->ubicacion','$this->categoriasucursal');";
+		$query = "INSERT INTO sucursal (titulo,descripcion,direccion,telefono,email,estatus,iva,pais,estado,municipio,horaentrada,horasalida,minutosconsiderados,solicitarfactura,orden,iddatofiscal,colonia,encabezadoticket,leyendaticket,telefono2,telefono3,telefono4,tventa,tproduccion,codigopostal,trecordatorio,minutosrecordatorio,mensajesucursal,mensajecliente,campomontofactura,habilitarnotaventa,mensajesecciontipopago,celular,ubicacion,idcategorias,porbarbero,porfecha) VALUES ('$this->sucursal','$this->descripcion','$this->direccion','$this->telefono','$this->email','$this->estatus','$this->iva','$this->v_pais','$this->v_estado','$this->v_municipio','$this->horainicio','$this->horafin','$this->minutosconsiderados','$this->solicitarfactura','$this->orden','$this->iddatofiscal','$this->colonia','$this->encabezado','$this->leyendafinal','$this->telefono2','$this->telefono3','$this->telefono4','$this->ticketventa','$this->ticketproduccion','$this->codigopostal','$this->trecordatorio','$this->minutosrecordatorio','$this->mensajesucursal','$this->mensajecliente','$this->habilitarcampomontofactura','$this->habilitarnotaventa','$this->mensajesecciontipopago','$this->celular','$this->ubicacion','$this->categoriasucursal','$this->porespecialista','$this->porfecha');";
 
 		
 	
@@ -114,7 +117,9 @@ class Sucursal
 			mensajesecciontipopago='$this->mensajesecciontipopago',
 			celular='$this->celular',
 			ubicacion='$this->ubicacion',
-			idcategorias='$this->categoriasucursal'
+			idcategorias='$this->categoriasucursal',
+			porbarbero='$this->porespecialista',
+			porfecha='$this->porfecha'
 		 WHERE idsucursal = '$this->idsucursales'";
 
 		
@@ -284,5 +289,38 @@ class Sucursal
 		$resp=$this->db->consulta($query);
 	}
 	
+
+	public function AccesoSucursal()
+	{
+		$sql="SELECT
+			IFNULL(GROUP_CONCAT(sucursal.idsucursal),0) as idsucursales
+			FROM
+			acceso_sucursal_empleado
+			JOIN sucursal
+			ON acceso_sucursal_empleado.idsucursales = sucursal.idsucursal WHERE acceso_sucursal_empleado.idusuarios='$this->idusuario' AND sucursal.estatus=1  ORDER BY orden asc";
+
+	
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+	
+	
+
 }
 ?>

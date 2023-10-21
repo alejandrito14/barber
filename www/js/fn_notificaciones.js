@@ -1,17 +1,16 @@
-function dirigira() {
+function dirigira(idnotificacion) {
 
 var valor=$("#dirigido").val();
 
-
-	if (valor==0) {
-		$(".clienteslistado").css('display','none');
-		$(".usuarioslista").css('display','none');
+	/*if (valor==0) {
+		//$(".clienteslistado").css('display','none');
+		$(".usuarioslista").css('display','flex');
 
 	}
 	if (valor==1) {
 
-		$(".clienteslistado").css('display','flex');
-		$(".usuarioslista").css('display','none');
+		//$(".clienteslistado").css('display','flex');
+		$(".usuarioslista").css('display','flex');
 
 
 	}
@@ -31,7 +30,18 @@ var valor=$("#dirigido").val();
 	if (valor==4) {
 		$(".clienteslistado").css('display','none');
 		$(".usuarioslista").css('display','none');
+	}*/
+	$(".usuarioslista").css('display','none');
+	if (valor!=-1) {
+
+		ObtenerUsuarios(valor,idnotificacion);
+	   $(".usuarioslista").css('display','flex');
+
 	}
+
+	
+
+
 }
 
 function programar() {
@@ -42,14 +52,14 @@ $("#mostrarfecha").css('display','none');
 	if (programdo==2) {
 		$("#mostrarfecha").css('display','block');
 
-		CargarClientes()
+		//CargarClientes()
 		CargarUsuarios();
 	}
 
 	if (programdo==1) {
 
 
-		CargarClientesToken();
+		//CargarClientesToken();
 		CargarUsuariosToken();
 	}
 			// body...
@@ -206,8 +216,9 @@ function PintarUsuarios(usuarios) {
 }
 
 function Guardarnotificacion(form,regresar,donde,idmenumodulo)
-{
+{ 
 
+	var nousuario=1;
 	var v_tclientes=$("#v_tclientes").val();
 	var v_tusuarios=$("#v_tusuarios").val();
 	var dirigido=$("#dirigido").val();
@@ -243,10 +254,10 @@ function Guardarnotificacion(form,regresar,donde,idmenumodulo)
 	}
 
 
-	if (dirigido==0) {
+	/*if (dirigido==0) {
 		bandera=0;
-	}
-if ( dirigido==1 || dirigido==3) {
+	}*/
+/*if ( dirigido==1 || dirigido==3) {
 	if (v_tclientes==2) {
 
 		bandera=0;
@@ -263,11 +274,10 @@ if ( dirigido==1 || dirigido==3) {
 
 	}
 
-}
+}*/
 
-if ( dirigido==2 || dirigido==3) {
 
-	if (v_tusuarios==2) {
+	/*if (v_tusuarios==2) {
 
 		bandera=0;
 	}
@@ -280,8 +290,8 @@ if ( dirigido==2 || dirigido==3) {
 				 	}
 				});
 
-	}
-}
+		}
+*/
 
 
 
@@ -309,7 +319,7 @@ if ( dirigido==2 || dirigido==3) {
 				});
 
 		datos1="clientes="+clientes+"&usuarios="+usuarios+"&todosadmin="+v_tusuarios+"&"+datos;
-	
+		console.log(datos1);
 	
 		 $('#main').html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Procesando...</div>')
 				
@@ -376,13 +386,13 @@ if ( dirigido==2 || dirigido==3) {
 
 	}
 
-		if (dirigido==0) {
+		/*if (dirigido==0) {
 			respuesta+="-Dirigido a es requerido"+"<br>";
 
 			}
-
+*/
 		
-	if ( dirigido==1 || dirigido==3) {
+	/*if ( dirigido==1 || dirigido==3) {
 
 			if (v_tclientes==2) {
 
@@ -409,9 +419,9 @@ if ( dirigido==2 || dirigido==3) {
 					respuesta+="-Clientes es requerido"+"<br>";
 				}
 
-			}
+			}*/
 
-	if ( dirigido==2 || dirigido==3) {
+	if ( dirigido>-1) {
 
 		if (v_tusuarios==2) {
 
@@ -575,24 +585,74 @@ function ObtenerClientesNotificacion(idnotificacion) {
 					});
  }
 
- function PintarClientesNotificacion(clientes) {
+ /*function PintarClientesNotificacion(clientes) {
  	
  	if (clientes.length>0) {
  		for (var i =0; i <clientes.length; i++) {
-
  
- 			$("#inputcli_"+clientes[i].idcliente).prop('checked',true);
+ 			$("#inputcli_"+clientes[i].idusuario).prop('checked',true);
  			
  		}
  	}
- }
+ }*/
  function PintarUsuariosNotificacion(usuarios) {
 
  	if (usuarios.length>0) {
  		for (var i = 0; i<usuarios.length; i++) {
  			
- 		 	$("#inputusuario_"+usuarios[i].idusuario).prop('checked',true);
+ 		 	$("#inputcli_"+usuarios[i].idusuario).prop('checked',true);
 
  		}
  	}
+ }
+
+ function ObtenerUsuarios(valor,idnotificacion) {
+ 		var datos='valor='+valor;
+ 				$.ajax({
+					url:'catalogos/notificaciones/ObtenerUsuarios.php', //Url a donde la enviaremos
+					type:'POST', //Metodo que usaremos
+					dataType:'json',
+					data:datos,
+					async:false,
+					error:function(XMLHttpRequest, textStatus, errorThrown){
+						var error;
+						console.log(XMLHttpRequest);
+						  if (XMLHttpRequest.status === 404)  error="Pagina no existe"+XMLHttpRequest.status;// display some page not found error 
+						  if (XMLHttpRequest.status === 500) error="Error del Servidor"+XMLHttpRequest.status; // display some server error 
+						  $('#abc').html('<div class="alert_error">'+error+'</div>');	
+						  //aparecermodulos("catalogos/vi_ligas.php?ac=0&msj=Error. "+error,'main');
+						},
+						success:function(msj){
+							
+							var respuesta=msj.usuarios;
+							PintarUsuarios(respuesta);	
+							if (idnotificacion>0) {
+							
+								ObtenerUsuariosNotificacion(idnotificacion);
+
+							}
+						}
+					});
+ }
+
+ function PintarUsuarios(respuesta) {
+ 	var html="";
+ 	if (respuesta.length>0) {
+ 		for (var i = 0; i < respuesta.length; i++) {
+ 			var nombre=respuesta[i].nombre+' '+respuesta[i].paterno;
+ 			if (nombre!='' && respuesta[i].nombre!=null) {
+ 			html+=`
+ 			<div class="form-check usu_"  id="`+respuesta[i].idusuarios+`">
+						    	  
+				<input  type="checkbox"  onchange="UsuarioSeleccionado()" value="`+respuesta[i].idusuarios+`" class="form-check-input chkusuario" id="inputcli_`+respuesta[i].idusuarios+`" >
+				<label class="form-check-label" for="flexCheckDefault">`+nombre+`</label>
+			</div>	
+
+ 			`;
+ 		}
+ 		}
+
+ 	}
+
+ 	$(".usuarios").html(html);
  }

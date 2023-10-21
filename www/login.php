@@ -220,6 +220,7 @@ $navegador = $f->navegador();
 
 
 <script>
+   phoneFormatter2('usuario');
 
 	
 
@@ -237,6 +238,10 @@ $navegador = $f->navegador();
 			$("#recoverform").hide();
 			$("#loginform").fadeIn();
 		});
+	</script>
+
+	<script>
+	
 	</script>
 
 

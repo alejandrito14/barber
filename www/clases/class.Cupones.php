@@ -44,7 +44,8 @@ class Cupones
 
 	public function ObtenerCuponSucursales($idcupon)
 	{
-		$sql = "SELECT cuponsucursales.idsucursal, sucursales.sucursal FROM cuponsucursales JOIN sucursales ON cuponsucursales.idsucursal = sucursales.idsucursales WHERE cuponsucursales.idcupon = ".$idcupon;
+		$sql = "SELECT cuponsucursales.idsucursal, sucursal.titulo FROM cuponsucursales JOIN sucursal ON cuponsucursales.idsucursal = sucursal.idsucursal WHERE cuponsucursales.idcupon = ".$idcupon;
+		
 		$resp = $this->db->consulta($sql);
 		return $resp;
 	}
@@ -58,7 +59,8 @@ class Cupones
 
 	public function ObtenerCuponClientes($idcupon)
 	{
-		$sql = "SELECT cuponclientes.idcliente, clientes.nombre, clientes.paterno, clientes.materno FROM cuponclientes JOIN clientes ON cuponclientes.idcliente = clientes.idcliente WHERE cuponclientes.idcupon = ".$idcupon;
+		$sql = "SELECT cuponclientes.idusuarios, usuarios.nombre, usuarios.paterno, usuarios.materno FROM cuponclientes JOIN usuarios ON cuponclientes.idusuarios = usuarios.idusuarios WHERE cuponclientes.idcupon = ".$idcupon;
+		
 		$resp = $this->db->consulta($sql);
 		return $resp;
 	}
@@ -98,7 +100,7 @@ class Cupones
 
 	public function guardarCuponClientes($idcli)
 	{
-		$query = "INSERT INTO cuponclientes(idcupon,idcliente) VALUES ('".$this->db->real_escape_string($this->idcupon)."','".$this->db->real_escape_string($idcli)."');";
+		$query = "INSERT INTO cuponclientes(idcupon,idusuarios) VALUES ('".$this->db->real_escape_string($this->idcupon)."','".$this->db->real_escape_string($idcli)."');";
 		$this->db->consulta($query);
 	}
 

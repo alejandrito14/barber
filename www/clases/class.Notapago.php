@@ -58,12 +58,26 @@ class Notapago
   
 	}
 
-	public function Creardescripcionpago()
+/*	public function Creardescripcionpago()
 	{
 		$sql="INSERT INTO notapago_descripcion( idnotapago, descripcion, cantidad, monto, idpago) VALUES ( '$this->idnotapago', '$this->descripcion', '$this->cantidad','$this->monto', '$this->idpago')";
 
 		$resp=$this->db->consulta($sql);
 
+	}*/
+
+	public function Creardescripcionpago()
+	{
+		try {
+			$sql="INSERT INTO notapago_descripcion(idnotapago, descripcion, cantidad, monto, idpaquete,idcita,tipo,costounitario,monederoaplicado,idcupon,codigocupon,montocupon) VALUES ( '$this->idnotapago', '$this->descripcion', '$this->cantidad','$this->monto', '$this->idpaquete','$this->idcita','$this->tipo','$this->costounitario','$this->monederoaplicado','$this->idcupon','$this->codigocupon','$this->montocupon')";
+		
+		$resp=$this->db->consulta($sql);
+		$this->idnotapagodescripcion=$this->db->id_ultimo();
+			
+		} catch (Exception $e) {
+			echo $e;
+		}
+		
 	}
 	
 
@@ -150,10 +164,31 @@ class Notapago
 		$sql="
 			SELECT idnotapago,notapago_descripcion.descripcion as concepto,monto,DATE_FORMAT(fechacita,'%d-%m-%Y')as fecha,notapago_descripcion.cantidad,paquetes.foto,
 				citas.idespecialista,
-				(SELECT  CONCAT(usuarios.nombre,' ',usuarios.paterno) FROM especialista INNER JOIN usuarios on usuarios.idusuarios=especialista.idusuarios where especialista.idespecialista=citas.idespecialista ) as usuarioespecialista
+				(SELECT  CONCAT(usuarios.nombre,' ',usuarios.paterno) FROM especialista INNER JOIN usuarios on usuarios.idusuarios=especialista.idusuarios where especialista.idespecialista=citas.idespecialista ) as usuarioespecialista,
+					paquetes.concortesia,
+					paquetes.servicio,
+					sucursal.titulo,
+					paquetecortesia.nombrepaquete as nombrepaquetecortesia,
+					citas.horainicial,
+			notapago_descripcion.idpaquete,
+			notapago_descripcion.monto,
+			notapago_descripcion.montocupon,
+			notapago_descripcion.codigocupon,
+			notapago_descripcion.idcupon,
+			notapago_descripcion.monederoaplicado,	
+			citas.idcortesia,
+			cupones.tipodescuento,
+			cupones.descuento
 			FROM notapago_descripcion
 			left join paquetes on paquetes.idpaquete=notapago_descripcion.idpaquete
+			left join paquetesucursal on paquetes.idpaquete=paquetesucursal.idpaquete
+			left join sucursal on paquetesucursal.idsucursal=sucursal.idsucursal
+
 			LEFT JOIN citas on citas.idcita=notapago_descripcion.idcita
+			left join cortesia 
+			ON citas.idcortesia=cortesia.idcortesia
+			left join paquetes as paquetecortesia on paquetecortesia.idpaquete=cortesia.idpaquetecortesia
+			left join cupones on notapago_descripcion.idcupon=cupones.idcupon
 			
 		 WHERE idnotapago='$this->idnotapago'";
 		$resp=$this->db->consulta($sql);
@@ -362,7 +397,38 @@ class Notapago
 		}
 	
 
+		public function ActualizarEstatusdescripcion()
+	{
+			$sql="UPDATE notapago_descripcion SET 
+			  cancelado = '$this->cancelado',  
+			  fechacancelado='$this->fechacancelado',
+			  motivocancelacion='$this->motivocancelacion',
+			  idusuariocancelacion='$this->idusuariocancela'
+			  WHERE idnotapago_descripcion='$this->idnotapagodescripcion'";
+			
+				$resp=$this->db->consulta($sql);
+	}
 
+
+
+	public function ActualizarConsecutivo()
+	{
+
+		 $sql="SELECT *FROM pagina_configuracion";
+		 $resp = $this->db->consulta($sql);
+		 $datos=$this->db->fetch_assoc($resp);
+
+
+		 $val=$datos['contadorfolio'];
+		 $valor=$val+1;
+
+		$sql="UPDATE pagina_configuracion SET contadorfolio='$valor'";
+
+
+		 $resp = $this->db->consulta($sql);
+		return $val;
+		
+	}
 	
 }
  ?>

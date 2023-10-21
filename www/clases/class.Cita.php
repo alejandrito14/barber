@@ -432,13 +432,29 @@ class Cita
 			citas.costo,
 			citas.idcita,
 			citas.checkin,
+			citas.checkout,
+			citas.cancelacion,
 			citas.fechacheckin,
-			(SELECT paquetes.nombrepaquete from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as concepto
+			citas.idcortesia,
+			citas.finalizacita,
+
+			(SELECT paquetes.nombrepaquete from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as concepto,
+
+			(SELECT paquetes.concortesia from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as concortesia,
+
+			(SELECT paquetes.servicio from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as servicio,
+			paquetecortesia.nombrepaquete as nombrepaquetecortesia
+
+
 
 		FROM citas
 		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal
 		INNER JOIN especialista ON citas.idespecialista=especialista.idespecialista
 		left join usuarios ON usuarios.idusuarios=citas.idusuarios
+		left join cortesia 
+			ON citas.idcortesia=cortesia.idcortesia
+		left join paquetes as paquetecortesia on paquetecortesia.idpaquete=cortesia.idpaquetecortesia
+		
 		 WHERE 	 idcita='$this->idcita'";
 		
 		$resp=$this->db->consulta($sql);
@@ -519,6 +535,7 @@ class Cita
 			citas.fechacita,
 			citas.asuntocita,
 			citas.estatus,
+			citas.horainicial,
 			citas.orden,
 			citas.idsucursal,
 			sucursal.titulo,
@@ -701,22 +718,45 @@ class Cita
 
 	public function ObtenerCita()
 	{
-		$sql="SELECT 
+		$sql=" 
+			
+		SELECT 
 			citas.horacita,
 			citas.fechacita,
 			citas.asuntocita,
 			citas.estatus,
+			citas.idpaquete,
 			citas.orden,
 			citas.idsucursal,
 			sucursal.titulo,
 			sucursal.descripcion,
 			sucursal.imagen,
 			citas.idusuarios,
+			citas.idespecialista,
+			citas.horainicial,
+			citas.horafinal,
 			citas.idcita,
-			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreespecialista
+			citas.checkin,
+			citas.checkout,
+			citas.fechacheckin,
+			citas.cancelacion,
+			citas.finalizacita,
+			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreusuario,
+			DATE_FORMAT(citas.fechacita,'%Y-%m-%d')as fecha,
+			CONCAT(esp.nombre,' ',esp.paterno) AS nombreespecialista,
+
+			(SELECT paquetes.servicio from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as servicio,
+			paquetecortesia.nombrepaquete as nombrepaquetecortesia
+		
+		
 		FROM citas INNER JOIN  especialista ON especialista.idespecialista=citas.idespecialista
-		INNER JOIN usuarios ON usuarios.idusuarios=especialista.idusuarios
+		INNER JOIN usuarios ON usuarios.idusuarios=citas.idusuarios
+		left join usuarios as esp on esp.idusuarios=especialista.idusuarios
 		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal
+
+		left join cortesia 
+			ON citas.idcortesia=cortesia.idcortesia
+		left join paquetes as paquetecortesia on paquetecortesia.idpaquete=cortesia.idpaquetecortesia
 		 WHERE citas.idcita='$this->idcita'";
 		
 		$resp=$this->db->consulta($sql);
@@ -884,6 +924,95 @@ class Cita
 
 		
 	}
+
+		public function VerificarFechaHorarioEspecialista()
+	{
+
+		
+		$sql="SELECT *FROM (SELECT *FROM citas WHERE idespecialista='$this->idespecialista' AND fechacita='$this->fecha') AS TABLA1 WHERE   TABLA1.horainicial>='$this->horainicial' AND TABLA1.horafinal<='$this->horafinal' ";
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+
+	}
+
+	public function GuardarReagenda()
+	{
+		$sql = "UPDATE citas 
+        SET estatus=0,
+        horacita='$this->horainicial',
+        fechacita='$this->fecha',
+        horainicial='$this->horainicial',
+        horafinal='$this->horafinal',
+        idespecialista='$this->idespecialista'
+        WHERE idcita = '$this->idcita'
+        ";
+        $this->db->consulta($sql);
+	}
+
+
+	
+	public function BuscarCitaNotapagodescripcion()
+	{
+		
+		$sql="
+		SELECT c.*,citas.idsucursal FROM notapago_descripcion as c
+		LEFT JOIN citas on c.idcita=citas.idcita
+		 WHERE c.idcita='$this->idcita'
+
+		";
+		
+		
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+
+	}
+
+
+	public function CancelarCita()
+	{
+		 $sql = "UPDATE citas 
+        SET estatus = '$this->estatus',
+        fechacancelacion='$this->fechacancelacion',
+        cancelacion='$this->cancelacion',
+        motivocancelacion='$this->motivocancelacion',
+        idusuariocancelacion='$this->idusuariocancela'
+        WHERE idcita = '$this->idcita'
+
+        ";
+
+      
+        $this->db->consulta($sql);
+	}
+	
+
 
 }
  ?>

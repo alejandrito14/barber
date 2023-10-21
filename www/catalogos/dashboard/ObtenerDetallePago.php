@@ -21,7 +21,9 @@ require_once("../../clases/class.Pais.php");
 require_once("../../clases/class.Estado.php");
 require_once("../../clases/class.Municipio.php");
 require_once("../../clases/class.Usocfdi.php");
+require_once("../../clases/class.Paquetes.php");
 
+require_once("../../clases/class.Fechas.php");
 
 try
 {
@@ -35,6 +37,10 @@ try
 
     $pais = new Paises();
     $pais->db=$db;
+    $paquetes=new Paquetes();
+    $paquetes->db=$db;
+    $fechas=new Fechas();
+
 
     $estado=new Estado();
     $estado->db=$db;
@@ -84,26 +90,7 @@ try
     
       for ($i=0; $i < count($obtenerpagosstripe); $i++) { 
             $pagos->idpago=$obtenerpagosstripe[$i]->idpago;
-            /*$pagosdescuentos=$pagos->ObtenerdescuentosPagos();
-
-        $pagos->descuentos=array();*/
-         /*   if (count($pagosdescuentos)>0) {
-                $pagos->descuentos=$pagosdescuentos;
-                        array_push($descuentos,$pagosdescuentos);
-
-            }*/
-
-
-          /*  $pagosdescuentomembresia=$pagos->Obtenerdescuentosmembresia();
-
-
-            $pagos->descuentosmembresia=array();
-
-          if (count($pagosdescuentomembresia)>0) {
-                $pagos->descuentosmembresia=$pagosdescuentomembresia;
-            array_push($descuentosmembresia, $pagosdescuentomembresia);
-
-            }*/
+          
 
         }
     }
@@ -117,6 +104,31 @@ try
       }
   }
 
+
+ $subtotalnota=0;
+    $subtotalcupon=0;
+    for ($i=0; $i < count($obtenerpagosstripe); $i++) { 
+       $obtenerpagosstripe[$i]->fechaformato="";
+
+       if ($obtenerpagosstripe[$i]->fecha!='' && $obtenerpagosstripe[$i]->fecha!=null) {
+          $fechacita=date('Y-m-d',strtotime($obtenerpagosstripe[$i]->fecha));
+            
+           $obtenerpagosstripe[$i]->fechaformato=$fechas->fecha_texto5($fechacita).' '.$obtenerpagosstripe[$i]->horainicial.'Hrs.';
+       }
+
+
+       $paquetes->idpaquete=$obtenerpagosstripe[$i]->idpaquete;
+       $obtenerpaquete=$paquetes->ObtenerPaquete2();
+            $obtenerpagosstripe[$i]->precioante=0;
+
+            if ($obtenerpaquete[0]->promocion==1) {
+                $obtenerpagosstripe[$i]->precioante=$obtenerpaquete[0]->precioventa;
+
+            }
+
+          $subtotalnota=$subtotalnota+$obtenerpagosstripe[$i]->monto;  
+          $subtotalcupon =$subtotalcupon+$obtenerpagosstripe[$i]->montocupon;  
+    }
          
 
 
@@ -162,7 +174,8 @@ try
     $respuesta['descuentos']=$descuentos;
     $respuesta['descuentosmembresia']=$descuentosmembresia;
     $respuesta['imagenescomprobante']=$obtenerimagenes;
-
+      $respuesta['subtotalnota']=$subtotalnota;
+    $respuesta['subtotalcupon']=$subtotalcupon;
 
     //Retornamos en formato JSON
     $myJSON = json_encode($respuesta);

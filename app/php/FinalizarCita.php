@@ -21,7 +21,9 @@ try
 	$db->begin();
 
 	$idcita=$_POST['idcita'];
+	$iduser=$_POST['iduser'];
 	$cita->idcita=$idcita;
+	$cita->idusuariockeckout=$iduser;
 	$cita->GuardarFinalizar();
 
 

@@ -45,9 +45,12 @@ try
         $result_row     = $db->fetch_assoc($obtenercliente);
         $lo->idusuarios  = $result_row['idusuarios'];
 
-        if ( $result_row['clave'] == '') {
+        if ( $result_row['clave'] == '' || $result_row['nombre'] == '' 
+        || $result_row['usuario'] == '' 
+        || $result_row['paterno'] == '' 
+        || $result_row['materno'] == '') {
             $completado = 0;
-        }
+            }
 
         $arra = array('existe' => $validar, 'idusuario' => $result_row['idusuarios'], 'completado' => $completado);
 

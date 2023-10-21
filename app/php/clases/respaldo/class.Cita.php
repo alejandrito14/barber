@@ -31,7 +31,7 @@ class Cita
 	public $fechacancelacion;
 	public $motivocancelacion;
 	public $idusuariocancela;
-
+	public $idusuariockeckout;
 	public function ObtenerCitasUsuario()
 	{
 		$fechactual=date('Y-m-d');
@@ -298,6 +298,7 @@ class Cita
 			citas.checkin,
 			citas.fechacheckin,
 			citas.finalizacita,
+			citas.checkout,
 			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreespecialista
 		FROM citas INNER JOIN  especialista ON especialista.idespecialista=citas.idespecialista
 		INNER JOIN usuarios ON usuarios.idusuarios=citas.idusuarios
@@ -436,6 +437,7 @@ class Cita
 	public function ObtenerdetallecitaAdmin()
 	{
 		$sql="SELECT 
+			citas.horacita,
 			citas.horainicial,
 			citas.fechacita,
 			citas.estatus,
@@ -457,6 +459,7 @@ class Cita
 			citas.checkout,
 			citas.cancelacion,
 			citas.fechacheckin,
+			citas.finalizacita,
 			(SELECT paquetes.nombrepaquete from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as concepto
 
 		FROM citas
@@ -502,6 +505,10 @@ class Cita
 			citas.idespecialista,
 			citas.idusuarios,
 			citas.costo,
+			citas.checkin,
+			citas.fechacheckin,
+			citas.finalizacita,
+			citas.checkout,
 			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreusuario,
 			CONCAT(esp.nombre,' ',esp.paterno) AS nombreespecialista,
 			paquetes.nombrepaquete,
@@ -540,6 +547,7 @@ class Cita
 	{
 		$sql="SELECT 
 			citas.horacita,
+			citas.horafinal,
 			citas.fechacita,
 			citas.asuntocita,
 			citas.estatus,
@@ -644,9 +652,11 @@ class Cita
 		$sql = "UPDATE citas 
         SET estatus = 2,
         	checkout=1,
+        	idusuariochekout='$this->idusuariockeckout',
         finalizacita='".date('Y-m-d H:i:s')."'
         WHERE idcita = '$this->idcita'
         ";
+        
         $this->db->consulta($sql);
         
 	}
@@ -1066,6 +1076,56 @@ class Cita
 
       
         $this->db->consulta($sql);
+	}
+
+
+	public function ObtenerdetallecitaTiempo()
+	{
+		$sql="SELECT 
+			citas.horainicial,
+			citas.horafinal,
+			citas.fechacita,
+			citas.estatus,
+			citas.idsucursal,
+			sucursal.titulo,
+			sucursal.descripcion,
+			sucursal.imagen,
+			usuarios.nombre,
+			usuarios.paterno,
+			citas.idpaquete,
+			citas.horafinal,
+			citas.idespecialista,
+			citas.idusuarios,
+			citas.costo,
+			citas.checkin,
+			citas.checkout,
+			citas.cancelacion,
+			citas.fechacheckin,
+			citas.finalizacita,
+			citas.tiempotranscurrido,
+			(SELECT paquetes.nombrepaquete from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as concepto
+		FROM citas
+		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal
+		INNER JOIN especialista ON citas.idespecialista=especialista.idespecialista
+		left join usuarios ON usuarios.idusuarios=citas.idusuarios
+		 WHERE 	 idcita='$this->idcita'";
+		
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
 	}
 
 

@@ -53,7 +53,7 @@ class UsoCupon
 	public function ObtenerUsocuponSucursal()
 	{
 		$sql="SELECT *FROM usocuponsucursal WHERE idcupon='".$this->idcupon."' AND codigocupon='".$this->codigocupon."'  AND idsucursal='".$this->idsucursal."'";
-
+		
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 

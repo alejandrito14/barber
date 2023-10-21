@@ -105,7 +105,8 @@ try
 
 
 
-
+    $subtotalnota=0;
+    $subtotalcupon=0;
     for ($i=0; $i < count($obtenerpagosstripe); $i++) { 
        $obtenerpagosstripe[$i]->fechaformato="";
 
@@ -124,6 +125,9 @@ try
                 $obtenerpagosstripe[$i]->precioante=$obtenerpaquete[0]->precioventa;
 
             }
+
+          $subtotalnota=$subtotalnota+$obtenerpagosstripe[$i]->monto;  
+          $subtotalcupon =$subtotalcupon+$obtenerpagosstripe[$i]->montocupon;  
     }
        
 
@@ -169,7 +173,8 @@ try
     $respuesta['descuentos']=$descuentos;
     $respuesta['descuentosmembresia']=$descuentosmembresia;
     $respuesta['imagenescomprobante']=$obtenerimagenes;
-
+    $respuesta['subtotalnota']=$subtotalnota;
+    $respuesta['subtotalcupon']=$subtotalcupon;
 
     //Retornamos en formato JSON
     $myJSON = json_encode($respuesta);

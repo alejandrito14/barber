@@ -57,7 +57,7 @@ try
 	$lo->CancelarCita();
 
 
-	$monto=$obtenercitanota[0]->monto;
+	$monto=$obtenercitanota[0]->monto-$obtenercitanota[0]->montocupon-$obtenercitanota[0]->monederoaplicado;
 	$idnotapago=$obtenercitanota[0]->idnotapago;
 	$nombrepaquete=$obtenercitanota[0]->descripcion;
 
@@ -66,9 +66,9 @@ try
     $anio = substr($fecha[2], 2, 4);
     $folio = $fecha[0].$fecha[1].$anio.$contador;
 
-
+ 
      	 $notapago->idusuario=$idusuario;
-         $notapago->subtotal=$subtotalsincomision;
+         $notapago->subtotal=$monto;
          $notapago->iva=0;
          $notapago->total=$monto;
          $notapago->comisiontotal=0;
@@ -84,12 +84,14 @@ try
          $notapago->descuento=0;
          $notapago->descuentomembresia=0;
          $notapago->requierefactura=0;
-
+         $notapago->checkConfirm=0;
          $notapago->comisionpornota=0;
          $notapago->comisionnota=0;
          $notapago->tipocomisionpornota=0;
          $notapago->idusuariodatofiscal=0;
-        
+         $notapago->montocupon=0;
+         $notapago->idcupon=0;
+
          $notapago->CrearNotapago();
          $idnotapagonueva=$notapago->idnotapago;
 
@@ -102,6 +104,8 @@ try
           $notapago->costounitario=$obtenercitanota[0]->costounitario;
            $notapago->tipo=1;
            $notapago->idnotapago=$idnotapagonueva;
+           $notapago->monederoaplicado=$obtenercitanota[0]->monederoaplicado;
+
            $notapago->Creardescripcionpago();
 
         $contador=$notapago->ActualizarConsecutivoCancelado();
@@ -126,12 +130,12 @@ try
 
      $usuarios=new Usuarios();
      $usuarios->db=$db;
-     $montomonedero=$obtenercitanota[0]->monto;
+     $montomonedero=$obtenercitanota[0]->monto-$obtenercitanota[0]->montocupon-$obtenercitanota[0]->monederoaplicado;
     $usuarios->idusuarios = $idusuario;
     $iduser=$idusuario;
     $row_cliente = $usuarios->ObtenerUsuario();
     $saldo_anterior = $row_cliente[0]->monedero;
-    
+    $montomonedero=$montomonedero+$obtenercitanota[0]->monederoaplicado;
     //Calculamos nuevo saldo
     $nuevo_saldo = $saldo_anterior + $montomonedero;
     $sql = "UPDATE usuarios SET monedero = '$nuevo_saldo' WHERE idusuarios = '$iduser'";
@@ -148,7 +152,7 @@ try
 	
 	$respuesta['respuesta']=1;
 	$respuesta['detallecita']=$obtenercitanota[0];
-	$respuesta['montoamonedero']=$obtenercitanota[0]->monto;
+	$respuesta['montoamonedero']=$montomonedero;
 	
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);

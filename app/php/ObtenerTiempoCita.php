@@ -28,10 +28,10 @@ try
 	$lo->idcita=$idcita;
 	$lo->idusuario=$idusuario;
 	$especialista->idusuarios=$idusuario;
-	$datosespecialista=$especialista->ObtenerIdEspecialista();
-	$lo->idespecialista=$datosespecialista[0]->idespecialista;
+	/*$datosespecialista=$especialista->ObtenerIdEspecialista();
+	$lo->idespecialista=$datosespecialista[0]->idespecialista;*/
 
-	$obtenerdetallecita=$lo->ObtenerdetallecitaEspecialista();
+	$obtenerdetallecita=$lo->ObtenerdetallecitaTiempo();
 	$fechacheckin=date('Y-m-d H:i:s',strtotime($obtenerdetallecita[0]->fechacheckin));
 
 	$actual=date('Y-m-d H:i:s');

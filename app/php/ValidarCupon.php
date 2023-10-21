@@ -648,6 +648,8 @@ try
 												$car->codigocupon=$cupones[0]->codigocupon;
 												$car->idcarrito=$carrito[$x]->{'idcarrito'};
 
+													$car->ActualizarValoresCarritoCupon();
+
 
 													}
 
@@ -679,6 +681,10 @@ try
 												$car->montocupon=$montoadescontar;
 												$car->codigocupon=$cupones[0]->codigocupon;
 												$car->idcarrito=$carrito[$x]->{'idcarrito'};
+
+
+										
+													$car->ActualizarValoresCarritoCupon();
 													
 
 											}

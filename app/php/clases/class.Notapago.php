@@ -66,9 +66,11 @@ class Notapago
 	public $codigocupon;
 	public $montocupon;
 	public $idcupon;
+	public $monederoaplicado;
+	public $descripcioncupon;
 	public function CrearNotapago()
 	{
-		$sql="INSERT INTO notapago( idusuario, subtotal, iva, total, comisiontotal, montomonedero, estatus, idtipopago, tipopago, confoto, datostarjeta,datostarjeta2,idpagostripe,folio,comisionpornota,comisionnota,tipocomisionpornota,requierefactura,razonsocial,rfc,direccion,nointerior,noexterior,colonia,municipio,estado,codigopostal,correo,pais,asentamiento,calle,formapago,metodopago,usocfdi,imagenconstancia,idusuariodatofiscal,confirmaciontermino,montocupon,codigocupon,idcupon) VALUES ('$this->idusuario', '$this->subtotal','$this->iva', '$this->total', '$this->comisiontotal','$this->montomonedero','$this->estatus','$this->idtipopago','$this->tipopago','$this->confoto','$this->datostarjeta','$this->datostarjeta2','$this->idpagostripe','$this->folio','$this->comisionpornota','$this->comisionnota','$this->tipocomisionpornota',
+		$sql="INSERT INTO notapago( idusuario, subtotal, iva, total, comisiontotal, montomonedero, estatus, idtipopago, tipopago, confoto, datostarjeta,datostarjeta2,idpagostripe,folio,comisionpornota,comisionnota,tipocomisionpornota,requierefactura,razonsocial,rfc,direccion,nointerior,noexterior,colonia,municipio,estado,codigopostal,correo,pais,asentamiento,calle,formapago,metodopago,usocfdi,imagenconstancia,idusuariodatofiscal,confirmaciontermino,montocupon,codigocupon,idcupon,descripcioncupon) VALUES ('$this->idusuario', '$this->subtotal','$this->iva', '$this->total', '$this->comisiontotal','$this->montomonedero','$this->estatus','$this->idtipopago','$this->tipopago','$this->confoto','$this->datostarjeta','$this->datostarjeta2','$this->idpagostripe','$this->folio','$this->comisionpornota','$this->comisionnota','$this->tipocomisionpornota',
 			'$this->requierefactura',
 			'$this->razonsocial',
 			'$this->rfc',
@@ -91,11 +93,12 @@ class Notapago
 			'$this->checkConfirm',
 			'$this->montocupon',
 			'$this->codigocupon',
-			'$this->idcupon'
+			'$this->idcupon',
+			'$this->descripcioncupon'
 
 			)";
 
-
+			
 		 $resp=$this->db->consulta($sql);
 		 $this->idnotapago=$this->db->id_ultimo();
 
@@ -131,10 +134,10 @@ class Notapago
 	public function Creardescripcionpago()
 	{
 		try {
-			$sql="INSERT INTO notapago_descripcion(idnotapago, descripcion, cantidad, monto, idpaquete,idcita,tipo,costounitario) VALUES ( '$this->idnotapago', '$this->descripcion', '$this->cantidad','$this->monto', '$this->idpaquete','$this->idcita','$this->tipo','$this->costounitario')";
+			$sql="INSERT INTO notapago_descripcion(idnotapago, descripcion, cantidad, monto, idpaquete,idcita,tipo,costounitario,monederoaplicado,idcupon,codigocupon,montocupon) VALUES ( '$this->idnotapago', '$this->descripcion', '$this->cantidad','$this->monto', '$this->idpaquete','$this->idcita','$this->tipo','$this->costounitario','$this->monederoaplicado','$this->idcupon','$this->codigocupon','$this->montocupon')";
 		
 		$resp=$this->db->consulta($sql);
-
+		$this->idnotapagodescripcion=$this->db->id_ultimo();
 			
 		} catch (Exception $e) {
 			echo $e;
@@ -234,7 +237,15 @@ class Notapago
 					paquetecortesia.nombrepaquete as nombrepaquetecortesia,
 					citas.horainicial,
 			notapago_descripcion.idpaquete,
-			citas.idcortesia
+			notapago_descripcion.monto,
+			notapago_descripcion.montocupon,
+			notapago_descripcion.codigocupon,
+			notapago_descripcion.idcupon,
+			notapago_descripcion.monederoaplicado,	
+			citas.idcortesia,
+			cupones.tipodescuento,
+			cupones.descuento
+
 			FROM notapago_descripcion 
 			left join paquetes on paquetes.idpaquete=notapago_descripcion.idpaquete
 			left join paquetesucursal on paquetes.idpaquete=paquetesucursal.idpaquete
@@ -244,6 +255,7 @@ class Notapago
 			left join cortesia 
 			ON citas.idcortesia=cortesia.idcortesia
 			left join paquetes as paquetecortesia on paquetecortesia.idpaquete=cortesia.idpaquetecortesia
+			left join cupones on notapago_descripcion.idcupon=cupones.idcupon
 			
 		 WHERE idnotapago='$this->idnotapago'";
 		$resp=$this->db->consulta($sql);

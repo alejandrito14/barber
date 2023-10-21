@@ -47,6 +47,24 @@ try
                 $obtenerdetallecita[0]->precioante=$obtenerpaquete[0]->precioventa;
 
             }
+
+
+	$fechaHoraActual = time();
+
+	// Obtener la fecha y hora de la cita en formato de timestamp (debes ajustar esto según tus necesidades)
+	$fechahora=$obtenerdetallecita[0]->fechacita.' '.$obtenerdetallecita[0]->horainicial;
+	$fechaHoraCita = strtotime($fechahora); // Cambia esto por la fecha y hora de la cita
+
+	// Calcular la diferencia de tiempo en segundos
+	$diferenciaTiempo = $fechaHoraCita - $fechaHoraActual;
+
+	// Definir el límite de tiempo en segundos (1 hora = 3600 segundos)
+	 $limiteTiempo = 3600;
+	 $obtenerdetallecita[0]->sepuedecancelar=0;
+	if ($diferenciaTiempo > $limiteTiempo) {
+	    // Puedes cancelar la cita
+	   $obtenerdetallecita[0]->sepuedecancelar=1;
+		} 
     
 
 	$respuesta['respuesta']=$obtenerdetallecita[0];

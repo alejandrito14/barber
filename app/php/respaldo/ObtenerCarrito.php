@@ -32,12 +32,14 @@ try
 	$iduser=$_POST['idusuario'];
 	$lo->idusuarios=$iduser;
 	$obtenercarrito=$lo->ObtenerCarrito();
-
+	
 	$totalcarrito=0;
 	for ($i=0; $i < count($obtenercarrito); $i++) { 
 		$totalcarrito=$totalcarrito+$obtenercarrito[$i]->costototal;
-
-			$obtenercarrito[$i]->fechaformato=$fechas->fecha_texto5($obtenercarrito[$i]->fecha).' '.$obtenercarrito[$i]->horainicial.'Hrs.';
+		
+			$fechacita=date('Y-m-d',strtotime($obtenercarrito[$i]->fecha));
+			
+			$obtenercarrito[$i]->fechaformato=$fechas->fecha_texto5($fechacita).' '.$obtenercarrito[$i]->horainicial.'Hrs.';
 			$paquetes->idpaquete=$obtenercarrito[$i]->idpaquete;
 			$obtenerpaquete=$paquetes->ObtenerPaquete2();
 			$obtenercarrito[$i]->precioante=0;

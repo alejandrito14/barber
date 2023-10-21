@@ -106,7 +106,7 @@ try
 	
 	}else{
 		$pasa=0;
-	}
+	} 
 
 		$validado=0;
 

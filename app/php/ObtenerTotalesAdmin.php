@@ -40,7 +40,7 @@ try
 	$cita->idsucursal=$obtenersucursal[0]->idsucursales;
 	$cita->fecha=$fechafiltro;
 	$obtenercitas=$cita->ObtenerCitasNocheckin();
-
+	//totalcitasrealizadas
 	$cita->fecha=$fechafiltro;
 	$obtenercitasrealizadas=$cita->ObtenerCitascheckin();
 

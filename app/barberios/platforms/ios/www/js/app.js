@@ -140,7 +140,7 @@ $(document).ready(function() {
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.24';
+var version='1.0.25';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;
@@ -1134,12 +1134,15 @@ $$(document).on('page:init', '.page[data-name="servicios"]', function (e) {
   myStopFunction(intervalo);
   myStopFunction(control);
  CargarCalendario2();
+ $(".regresar").attr('onclick','GoToPage("homeadmin")');
 
 });
 
 $$(document).on('page:init', '.page[data-name="productos"]', function (e) {
-
+ myStopFunction(intervalo);
+  myStopFunction(control);
  CargarCalendario3();
+ $(".regresar").attr('onclick','GoToPage("homeadmin")');
 
 });
 

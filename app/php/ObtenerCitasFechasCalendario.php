@@ -62,13 +62,30 @@ try
 		$lo->fecha=$fechaactual;
 		$obtenercitas=$lo->ObtenerCitasFecha();
 
-		
+			if (count($obtenercitas)>0) {
+		for ($i=0; $i < count($obtenercitas); $i++) { 
+			
+$fechachekin=date('H:i:s',strtotime($obtenercitas[$i]->fechacheckin));
+			$fechachekout=date('H:i:s',strtotime($obtenercitas[$i]->finalizacita));;
+
+			$obtenercitas[$i]->fechacheckin=$fechachekin;
+			$obtenercitas[$i]->fechacheckout=$fechachekout;
+
+	}
+}
+
+
+	$diatexto=$fechas->diasSemanaCorto[date('N', strtotime($fechaactual))];
+
+	$fechaformato=$diatexto.' '.date('d',strtotime($fechaactual)).' de '.$fechas->mesesEnEspañol[date('F',strtotime($fechaactual))].' de '.date('Y', strtotime($fechaactual));
 
 	//echo $mes;
 	
 	$respuesta['respuesta']=1;
 	$respuesta['citados']=$fechascitas;
 	$respuesta['citasdia']=$obtenercitas;
+	$respuesta['fechaactual']=$fechaformato;
+
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);
 	echo $myJSON;

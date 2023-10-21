@@ -9,21 +9,33 @@ function Pintardetallepago() {
 		type: 'POST',
 		dataType: 'json',
 		url: urlphp+pagina, 
-		data:datos,
+		data:datos, 
 		async:false,
 		success: function(resp){
 			var resultado=resp.respuesta[0];
+      var subtotalnota=resp.subtotalnota;
+      var subtotalcupon=resp.subtotalcupon;
 			$("#lblnumeronota").text(resultado.folio);
-			$(".lblresumen").text(formato_numero(resultado.subtotal,2,'.',','));
+			$(".lblresumen").text(formato_numero(subtotalnota,2,'.',','));
 			$(".lblcomision").text(formato_numero(resultado.comisiontotal,2,'.',','));
 			$(".lbltotal").text(formato_numero(resultado.total,2,'.',','));
-			$(".monedero").text(formato_numero(resultado.montomonedero,2,'.',','));
+			$(".lblmonedero").text(formato_numero(resultado.montomonedero,2,'.',','));
 			$(".metodopago").text(resultado.tipopago);
+      $(".lblcupon").text(formato_numero(subtotalcupon,2,'.',','));
 			if (resultado.datostarjeta!='') {
 			$(".datostarjeta").html(resultado.datostarjeta);
 			$(".infodatostarjeta").append(resultado.datostarjeta2);
 
 			}
+      if (resultado.descripcioncupon!=null && resultado.descripcioncupon!='' && resultado.idcupon>0) {
+
+        var cupon=`
+          <p style="color: #C7AA6A;text-align:center;font-size:30px;margin:0;" class="cambiarfuente">`+resultado.codigocupon+`</p>
+              <p style="color: #C7AA6A;text-align:center;" class="cambiarfuente">Descuento aplicado `+resultado.descripcioncupon+`</p>
+        `;
+
+        $(".cuponaplicado").html(cupon);
+      }
 
 			if (resultado.requierefactura==1) {
 
@@ -41,7 +53,7 @@ function Pintardetallepago() {
 					Cod. Postal: `+resultado.codigopostal+`</p>`;
 					var imagenes=resultado.imagenconstancia;
 					if (imagenes!='') {
-
+  
 					var imagen=imagenes.split(',');
 					detalleimagen=imagen;
 					var htmlimagenes="";
@@ -152,12 +164,19 @@ for (var i = 0; i <listado.length; i++) {
 	function Pintarpagosdetalle2(respuesta) {
 		// body...
 		var html="";
+        var numero=respuesta.length;
+
 		for (var i = 0; i <respuesta.length; i++) {
 
 			var color='';
 		      if (respuesta[i].monto<0) {
 		        color='red';
 		      }
+
+         var estilolista="itemcarrito1";
+         if (numero % i === 0) {
+          estilolista="itemcarrito2";
+        }
 		imagen=urlimagenes+'paquetes/imagenespaquete/'+codigoserv+respuesta[i].foto;
 
 			/*html+=`
@@ -202,8 +221,10 @@ for (var i = 0; i <listado.length; i++) {
 			`;*/
 
 
+//itemcarrito1
+
 			 html+=`
-          <li class="item-content cambiarfuente" style="    margin-top: 1em;
+          <li class="item-content cambiarfuente `+estilolista+`" style="    margin-top: 1em;
     margin-right: 1em;
     margin-left: 1em;
     border-bottom: 1px solid;

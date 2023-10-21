@@ -22,7 +22,7 @@ function CargarDatosAdmin() {
     $(".disponibilidadfecha").attr('onclick','GoToPage("disponibilidadfechaadmin")');
 	$(".disponibilidadespecialista").attr('onclick','GoToPage("disponibilidadespecialistaadmin")');
 	$(".disponibilidaproducto").attr('onclick','GoToPage("disponibilidaproductoadmin")');
-     $("#btnservicios").attr('onclick','GoToPage("servicios")');
+     $(".btnservicios").attr('onclick','GoToPage("servicios")');
 
      ObtenerTotales();
 
@@ -361,7 +361,7 @@ margin-top: 1.4em;    width: 100%;
 
 				html+=	`</div>
 
-					<div class="row" style=" margin-right: 2em; margin-left: 2em;">
+					<div class="row" style=" margin-right: 2em; margin-left: 2em;margin-top: 10px;">
 						<div class="col-80">
 						<p style="    font-size: 16px;
     font-weight: bold;">Galeria de imágenes</p>
@@ -388,10 +388,81 @@ margin-top: 1.4em;    width: 100%;
             </div>
         </div>
 </div>
+
+    <div class="divcalificacion" style="display:none;">
+        <p style="    text-align: center;
+        font-size: 16px;font-weight: bold; margin-top: 20px; color: white;">Comentarios</p>
+
+                 <div class="row" style=" margin-left: 3em; margin-right: 3em;">
+                  
+                    <div class="col" >
+                      <div class="alineacionestrella">
+                       <i class=" iconosestrella " id="estre_1"  >
+                        <span class="material-icons-outlined">
+                        star
+                        </span>
+                         </i>
+                         <div class="oculto">
+                         <input type="checkbox"  id="che_1" >
+                        </div>
+                      </div>
+                   
+                   </div>
+                     <div class="col"  >
+                      <div  class="alineacionestrella">
+                        <i class="bi bi-star iconosestrella " id="estre_2" >
+                        <span class="material-icons-outlined">
+                star
+                </span>
+                        </i>
+                        <input type="checkbox" class="oculto" id="che_2"  >
+                      </div>
+                    </div>
+                <div class="col" >
+                    <div  class="alineacionestrella" >
+                       <i class="bi bi-star iconosestrella " id="estre_3"  >
+                       <span class="material-icons-outlined">
+            star
+            </span>
+                       </i>
+                      <input type="checkbox" class="oculto" id="che_3"  >
+                    </div>
+                 </div>
+                   <div class="col" >
+                   <div   class="alineacionestrella">
+                        <i class="bi bi-star iconosestrella " id="estre_4" >
+                        <span class="material-icons-outlined">
+            star
+            </span>
+                        </i>
+                    <input type="checkbox" class="oculto" id="che_4" >
+                  </div>
+                  </div>
+                    <div class="col" >   
+                      <div   class="alineacionestrella">              
+                         <i class="bi bi-star iconosestrella " id="estre_5" >
+                         <span class="material-icons-outlined">
+            star
+            </span>
+                         </i>
+                       <input type="checkbox" class="oculto" id="che_5"  >
+                      </div>
+                    </div>
+               
+
+                </div>
+
+   
+    <div class="row">
+      <div class="col-100">
+        <p style="color: white;
+    text-align: center;" class="comentariocita">Comentario</p>
+      </div>
+    </div>
 							   							  	
            												 </div>
 							   							  	</div>
-		   							 	 
+		   							 	  </div>
 		   							 			`;
 
 		   							
@@ -406,7 +477,6 @@ margin-top: 1.4em;    width: 100%;
 
 		   							  		<div class="row margin-bottom " style="padding-top: 1em;">
 		   							  		<div class="col-100">`;
-		   							  		
 
 
 		   							  		html+=`</div>
@@ -433,7 +503,7 @@ margin-top: 1.4em;    width: 100%;
           
            ObtenerImagenescita();
 
-			
+			     ObtenerCalificacion(respuesta.idcita);
 
           },
           opened: function (sheet) {
@@ -459,6 +529,36 @@ function Parar() {
     GoToPage('servicios');
   
 
+}
+
+function ObtenerCalificacion(idcita) {
+  var idusuario=localStorage.getItem('id_user');
+  var datos="idcita="+idcita+"&idusuario="+idusuario;
+  var pagina = "ObtenerCalificacion.php";
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+
+      if (resp.calificacion.length>0) {
+        var califica=resp.calificacion[0];
+        Cambio(califica.calificacion);
+        var comentariocita=califica.comentario;
+        $(".comentariocita").text(comentariocita);
+        $(".divcalificacion").css('display','block');
+      }
+
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+    });
 }
 
 function CargarPaquetes() {
@@ -516,6 +616,8 @@ function CargarCalendario2() {
     success: function(resp){
        eventos=[];
         var citas=resp.citasdia;
+        var fechactual1=resp.fechaactual;
+        $(".divfechaactual").html(fechactual1);
 
        if (resp.citados.length>0) {
         var fechascitas=resp.citados;
@@ -814,6 +916,8 @@ function ConsultarFechaCita(fecha) {
     async:false,
     success: function(resp){
         var citas=resp.citasdia;
+        var fechafiltro=resp.fechafiltro;
+        $(".divfechaactual").html(fechafiltro);
 
       
       $(".tablerocitas").html('');
@@ -861,6 +965,9 @@ function CargarCalendario3() {
     success: function(resp){
        eventos=[];
         var productofechasdia=resp.productofechasdia;
+        var fechafiltro=resp.fechafiltro;
+        $(".divfechaactual").html(fechafiltro);
+
 
        if (resp.productofechas.length>0) {
         var productofechas=resp.productofechas;
@@ -1104,6 +1211,8 @@ function ConsultarFechaNota(fecha) {
     async:false,
     success: function(resp){
         var notasproducto=resp.notasproducto;
+        var fechafiltro=resp.fechafiltro;
+        $(".divfechaactual").html(fechafiltro);
 
       
       $(".tableroproductos").html('');
@@ -1640,6 +1749,7 @@ function AbrirModalCancelacionAdmin(idcita,idusuario) {
 
   function AceptarCancelacionAdmin(idcita,idusuario) {
      var iduser=localStorage.getItem('id_user');
+     localStorage.setItem('idusuariocita',idusuario);
    var motivocancelac=$("#motivocancelacion").val();
  
    const myPromise = new Promise((resolve, reject) => {
@@ -1661,7 +1771,7 @@ function AbrirModalCancelacionAdmin(idcita,idusuario) {
         localStorage.setItem('idsucursal',idusucursal);
                dynamicSheet2.close();
 
-               CrearModalRetornoAdmin(resp);
+               CrearModalRetornoAdmin(idcita);
 
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;
@@ -1677,10 +1787,9 @@ function AbrirModalCancelacionAdmin(idcita,idusuario) {
   });
 
   }
-function CrearModalRetornoAdmin(resp) {
+function CrearModalRetornoAdmin(idcita) {
    var aviso=`<p style="line-height:1;">La cancelación se realizó exitosamente</p>`;
       // aviso+=`<p style="line-height:1;">El monto <span style="color:white;">$`+resp+`</span> fue enviado al <span style="color:white;">monedero</span></p>`;
-       aviso+=`<p>¿Deseas reagendar?</p>`;
 
   var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;background: black;">
            
@@ -1726,13 +1835,11 @@ function CrearModalRetornoAdmin(resp) {
                         
                        html+=`
                              <div class="row margin-bottom " style="padding-top: 1em;    margin-left: 2em;margin-right: 2em;margin-top:20px;">
-                            <div class="col-50">
-                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="ContinuarReagendaAdmin()">Si</button>
+                            <div class="col-100">
+                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="CerrarModalRetorno(`+idcita+`)">Cerrar</button>
                             </div>
 
-                            <div class="col-50">
-                            <button style="background: white;color:black;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="CerrarModalAviso6()">No</button>
-                            </div>
+                           
                           </div>
 
                           </div>
@@ -1778,4 +1885,21 @@ function CrearModalRetornoAdmin(resp) {
       });
 
        dynamicSheet6.open();
+}
+
+function ContinuarReagendaAdmin(resp) {
+  dynamicSheet6.close();
+  dynamicSheet10.close();
+
+  var idsucursal=resp.detallecita.idsucursal;
+  localStorage.setItem('idsucursal',idsucursal);
+  localStorage.setItem('reagendando',1);
+  GoToPage('detalleproductoservicios');
+
+}
+
+function CerrarModalRetorno(idcita) {
+   dynamicSheet6.close();
+   dynamicSheet10.close();
+  AbrirModalCitaAdmin(idcita);
 }

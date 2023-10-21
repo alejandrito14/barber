@@ -56,6 +56,15 @@ try
 
 			$obtenertablero[$i]->anio=date('Y',strtotime($obtenertablero[$i]->fechacita));
 			$obtenertablero[$i]->fechacita=$fecha;
+
+			$fechachekin=date('H:i:s',strtotime($obtenertablero[$i]->fechacheckin));
+			$fechachekout=date('H:i:s',strtotime($obtenertablero[$i]->finalizacita));;
+
+			$obtenertablero[$i]->fechacheckin=$fechachekin;
+			$obtenertablero[$i]->fechacheckout=$fechachekout;
+
+
+
 		}
 	}
 

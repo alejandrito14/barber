@@ -21,9 +21,11 @@ try
 	$lo->idusuarios=$_POST['id_user'];
 
 	$obtener=$lo->ObtenerUsuario();
-
-
-	$respuesta['respuesta']=$obtener[0]->monedero;
+	$monedero=0;
+	if ($obtener[0]->monedero!='') {
+		$monedero=$obtener[0]->monedero;
+	}
+	$respuesta['respuesta']=$monedero;
 	
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);

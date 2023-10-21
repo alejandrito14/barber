@@ -22,7 +22,7 @@ function CargarDatosAdmin() {
     $(".disponibilidadfecha").attr('onclick','GoToPage("disponibilidadfechaadmin")');
 	$(".disponibilidadespecialista").attr('onclick','GoToPage("disponibilidadespecialistaadmin")');
 	$(".disponibilidaproducto").attr('onclick','GoToPage("disponibilidaproductoadmin")');
-     $("#btnservicios").attr('onclick','GoToPage("servicios")');
+     $(".btnservicios").attr('onclick','GoToPage("servicios")');
 
      ObtenerTotales();
 
@@ -158,6 +158,8 @@ function AbrirModalCalendario() {
 
 
 function AbrirModalCitaAdmin(idcita) {
+    myStopFunction(intervalo);
+
 	var iduser=localStorage.getItem('id_user');
 	var datos="idcita="+idcita+"&iduser="+iduser;
 	var pagina = "ObtenerDetalleCitaAdmin.php";
@@ -259,7 +261,8 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
 
                             if(respuesta.checkin==1) {
                             
-                              html+=` <p class="" style="display: flex;"><span>check-in:</span> <span class="material-icons-outlined" 
+                              html+=` <p class="" style="display: flex;">
+                              <span>check-in:</span> <span class="material-icons-outlined" 
                                       style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;">
                             check_circle_outline
                             </span>
@@ -270,6 +273,18 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
 
 
                             }
+
+                            if (respuesta.checkout==1) {
+
+                                html+=`
+                                <p class="" style="display: flex;">
+                                    <span>check-out:</span> <span class="material-icons-outlined" 
+                                    style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;">
+                                    check_circle_outline
+                                    </span>
+                                </p>
+                                    `;
+                                  }
                                html+=`
 
 
@@ -288,6 +303,14 @@ margin-top: 1.4em;    width: 100%;
                     <div class="card-content card-content-padding">
                       
                         <div class="row">`;
+
+                        if(respuesta.checkin==1 && (respuesta.finalizacita=='' || respuesta.finalizacita==null) ) {
+                            
+                            html+=`<div class="cronometro"></div>`;
+                               html+=`<button class="button button-large button-raised"  style="background:#C7AA6A;color:white;" onclick="VisualizarTiempo2()">Tiempo transcurrido</button>`;
+                          
+                          }
+
                            if(respuesta.checkin==0  && respuesta.checkout==0 && respuesta.cancelacion==0) {
                              html+=`
                                 <div class="col-100">
@@ -338,12 +361,12 @@ margin-top: 1.4em;    width: 100%;
 
 				html+=	`</div>
 
-					<div class="row" style=" margin-right: 2em; margin-left: 2em;">
+					<div class="row" style=" margin-right: 2em; margin-left: 2em;margin-top: 10px;">
 						<div class="col-80">
 						<p style="    font-size: 16px;
     font-weight: bold;">Galeria de imágenes</p>
 						</div>
-						<div class="col-20">
+						<div class="col-20" onclick="AbrirModalFotoimagencita()">
 						<span class="material-icons-outlined" style="    font-size: 30px;
     line-height: 60px;">
 								camera_alt
@@ -355,10 +378,91 @@ margin-top: 1.4em;    width: 100%;
 
 
 			</div>
+
+      <div class="" style="
+    
+    margin-bottom: 100px;
+">
+        <div class="">
+            <div class="listadoimagenescita" style="width:100%;">
+            </div>
+        </div>
+</div>
+
+    <div class="divcalificacion" style="display:none;">
+        <p style="    text-align: center;
+        font-size: 16px;font-weight: bold; margin-top: 20px; color: white;">Comentarios</p>
+
+                 <div class="row" style=" margin-left: 3em; margin-right: 3em;">
+                  
+                    <div class="col" >
+                      <div class="alineacionestrella">
+                       <i class=" iconosestrella " id="estre_1"  >
+                        <span class="material-icons-outlined">
+                        star
+                        </span>
+                         </i>
+                         <div class="oculto">
+                         <input type="checkbox"  id="che_1" >
+                        </div>
+                      </div>
+                   
+                   </div>
+                     <div class="col"  >
+                      <div  class="alineacionestrella">
+                        <i class="bi bi-star iconosestrella " id="estre_2" >
+                        <span class="material-icons-outlined">
+                star
+                </span>
+                        </i>
+                        <input type="checkbox" class="oculto" id="che_2"  >
+                      </div>
+                    </div>
+                <div class="col" >
+                    <div  class="alineacionestrella" >
+                       <i class="bi bi-star iconosestrella " id="estre_3"  >
+                       <span class="material-icons-outlined">
+            star
+            </span>
+                       </i>
+                      <input type="checkbox" class="oculto" id="che_3"  >
+                    </div>
+                 </div>
+                   <div class="col" >
+                   <div   class="alineacionestrella">
+                        <i class="bi bi-star iconosestrella " id="estre_4" >
+                        <span class="material-icons-outlined">
+            star
+            </span>
+                        </i>
+                    <input type="checkbox" class="oculto" id="che_4" >
+                  </div>
+                  </div>
+                    <div class="col" >   
+                      <div   class="alineacionestrella">              
+                         <i class="bi bi-star iconosestrella " id="estre_5" >
+                         <span class="material-icons-outlined">
+            star
+            </span>
+                         </i>
+                       <input type="checkbox" class="oculto" id="che_5"  >
+                      </div>
+                    </div>
+               
+
+                </div>
+
+   
+    <div class="row">
+      <div class="col-100">
+        <p style="color: white;
+    text-align: center;" class="comentariocita">Comentario</p>
+      </div>
+    </div>
 							   							  	
            												 </div>
 							   							  	</div>
-		   							 	 
+		   							 	  </div>
 		   							 			`;
 
 		   							
@@ -373,7 +477,6 @@ margin-top: 1.4em;    width: 100%;
 
 		   							  		<div class="row margin-bottom " style="padding-top: 1em;">
 		   							  		<div class="col-100">`;
-		   							  		
 
 
 		   							  		html+=`</div>
@@ -389,7 +492,7 @@ margin-top: 1.4em;    width: 100%;
             </div>
           </div>`;
           
-	  dynamicSheet1 = app.sheet.create({
+	  dynamicSheet10 = app.sheet.create({
         content: html,
 
     	swipeToClose: true,
@@ -397,8 +500,10 @@ margin-top: 1.4em;    width: 100%;
         // Events
         on: {
           open: function (sheet) {
-           
-			
+          
+           ObtenerImagenescita();
+
+			     ObtenerCalificacion(respuesta.idcita);
 
           },
           opened: function (sheet) {
@@ -407,7 +512,53 @@ margin-top: 1.4em;    width: 100%;
         }
       });
 
-       dynamicSheet1.open();
+       dynamicSheet10.open();
+}
+
+function VisualizarTiempo2() {
+
+  dynamicSheet10.close();
+  GoToPage('validadoqrcita2');
+
+
+}
+
+function Parar() {
+  
+    clearInterval(control);
+    GoToPage('servicios');
+  
+
+}
+
+function ObtenerCalificacion(idcita) {
+  var idusuario=localStorage.getItem('id_user');
+  var datos="idcita="+idcita+"&idusuario="+idusuario;
+  var pagina = "ObtenerCalificacion.php";
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+
+      if (resp.calificacion.length>0) {
+        var califica=resp.calificacion[0];
+        Cambio(califica.calificacion);
+        var comentariocita=califica.comentario;
+        $(".comentariocita").text(comentariocita);
+        $(".divcalificacion").css('display','block');
+      }
+
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+    });
 }
 
 function CargarPaquetes() {
@@ -465,6 +616,8 @@ function CargarCalendario2() {
     success: function(resp){
        eventos=[];
         var citas=resp.citasdia;
+        var fechactual1=resp.fechaactual;
+        $(".divfechaactual").html(fechactual1);
 
        if (resp.citados.length>0) {
         var fechascitas=resp.citados;
@@ -558,7 +711,6 @@ function CargarCalendario2() {
          
             var fecha=c.value;
 
-
             var convertirfecha=new Date(fecha);
             var mes=(convertirfecha.getMonth() + 1)<10?'0'+(convertirfecha.getMonth() + 1):(convertirfecha.getMonth() + 1);
           var mesdata=convertirfecha.getMonth();
@@ -567,6 +719,8 @@ function CargarCalendario2() {
           var diadata=convertirfecha.getDate();
 
           fecha1=convertirfecha.getFullYear()+'-'+ mes+'-'+dia;
+          localStorage.setItem('fechaconsulta',fecha1);
+
             ConsultarFechaCita(fecha1);
             $("#v_especialista").html('');
             //var fechadata=convertirfecha.getFullYear()+'-'+mesdata+'-'+diadata;
@@ -710,9 +864,29 @@ function PintarCitas2(respuesta) {
                     <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].nombrepaquete+`</p>
 
             <p style="margin:0;">`+respuesta[i].nombreusuario+`</p>
-            <p style="margin:0;text-decoration: underline;" onclick="Detallepago(`+respuesta[i].idnotapago+`)">#`+respuesta[i].folio+`</p>
- 
-            </div>
+            <p style="margin:0;text-decoration: underline;" onclick="Detallepago(`+respuesta[i].idnotapago+`)">#`+respuesta[i].folio+`</p>`;
+            if (respuesta[i].checkin==1) {
+                html+=`
+                  <p class="" style="display: flex;">`;
+                html+=`<span>check-in: `+respuesta[i].fechacheckin+`</span> <span class="material-icons-outlined" style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;margin-left: 5px;">
+                    check_circle_outline
+                    </span>
+
+                    `;
+                html+=`</p>`;
+                  }
+
+                  if (respuesta[i].checkout==1) {
+                html+=`
+                  <p class="" style="display: flex;">`;
+                html+=`<span>check-out: `+respuesta[i].fechacheckout+`</span> <span class="material-icons-outlined" style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;margin-left: 5px;">
+                    check_circle_outline
+                    </span>`;
+                html+=`</p>`;
+                  }
+  
+
+           html+= `</div>
             <div class="item-footer">
 
             </div>
@@ -742,6 +916,8 @@ function ConsultarFechaCita(fecha) {
     async:false,
     success: function(resp){
         var citas=resp.citasdia;
+        var fechafiltro=resp.fechafiltro;
+        $(".divfechaactual").html(fechafiltro);
 
       
       $(".tablerocitas").html('');
@@ -789,6 +965,9 @@ function CargarCalendario3() {
     success: function(resp){
        eventos=[];
         var productofechasdia=resp.productofechasdia;
+        var fechafiltro=resp.fechafiltro;
+        $(".divfechaactual").html(fechafiltro);
+
 
        if (resp.productofechas.length>0) {
         var productofechas=resp.productofechas;
@@ -1032,6 +1211,8 @@ function ConsultarFechaNota(fecha) {
     async:false,
     success: function(resp){
         var notasproducto=resp.notasproducto;
+        var fechafiltro=resp.fechafiltro;
+        $(".divfechaactual").html(fechafiltro);
 
       
       $(".tableroproductos").html('');
@@ -1568,6 +1749,7 @@ function AbrirModalCancelacionAdmin(idcita,idusuario) {
 
   function AceptarCancelacionAdmin(idcita,idusuario) {
      var iduser=localStorage.getItem('id_user');
+     localStorage.setItem('idusuariocita',idusuario);
    var motivocancelac=$("#motivocancelacion").val();
  
    const myPromise = new Promise((resolve, reject) => {
@@ -1589,7 +1771,7 @@ function AbrirModalCancelacionAdmin(idcita,idusuario) {
         localStorage.setItem('idsucursal',idusucursal);
                dynamicSheet2.close();
 
-               CrearModalRetornoAdmin(resp);
+               CrearModalRetornoAdmin(idcita);
 
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;
@@ -1605,10 +1787,9 @@ function AbrirModalCancelacionAdmin(idcita,idusuario) {
   });
 
   }
-function CrearModalRetornoAdmin(resp) {
+function CrearModalRetornoAdmin(idcita) {
    var aviso=`<p style="line-height:1;">La cancelación se realizó exitosamente</p>`;
       // aviso+=`<p style="line-height:1;">El monto <span style="color:white;">$`+resp+`</span> fue enviado al <span style="color:white;">monedero</span></p>`;
-       aviso+=`<p>¿Deseas reagendar?</p>`;
 
   var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;background: black;">
            
@@ -1654,13 +1835,11 @@ function CrearModalRetornoAdmin(resp) {
                         
                        html+=`
                              <div class="row margin-bottom " style="padding-top: 1em;    margin-left: 2em;margin-right: 2em;margin-top:20px;">
-                            <div class="col-50">
-                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="ContinuarReagendaAdmin()">Si</button>
+                            <div class="col-100">
+                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="CerrarModalRetorno(`+idcita+`)">Cerrar</button>
                             </div>
 
-                            <div class="col-50">
-                            <button style="background: white;color:black;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="CerrarModalAviso6()">No</button>
-                            </div>
+                           
                           </div>
 
                           </div>
@@ -1706,4 +1885,21 @@ function CrearModalRetornoAdmin(resp) {
       });
 
        dynamicSheet6.open();
+}
+
+function ContinuarReagendaAdmin(resp) {
+  dynamicSheet6.close();
+  dynamicSheet10.close();
+
+  var idsucursal=resp.detallecita.idsucursal;
+  localStorage.setItem('idsucursal',idsucursal);
+  localStorage.setItem('reagendando',1);
+  GoToPage('detalleproductoservicios');
+
+}
+
+function CerrarModalRetorno(idcita) {
+   dynamicSheet6.close();
+   dynamicSheet10.close();
+  AbrirModalCitaAdmin(idcita);
 }

@@ -57,7 +57,7 @@ try
 			 
 		
 		}
-
+ 
 		$fechafiltro=date('Y-m-d');
 
 		$lo->fecha=$fechafiltro;
@@ -90,13 +90,16 @@ try
 
 		}
 
-		
+		$diatexto=$fechas->diasSemanaCorto[date('N', strtotime($fechafiltro))];
+
+	$fechaformato=$diatexto.' '.date('d',strtotime($fechafiltro)).' de '.$fechas->mesesEnEspañol[date('F',strtotime($fechafiltro))].' de '.date('Y', strtotime($fechafiltro));
 
 	//echo $mes;
 	
 	$respuesta['respuesta']=1;
 	$respuesta['productofechas']=$productofechas;
 	$respuesta['productofechasdia']=$obtener;
+	$respuesta['fechafiltro']=$fechaformato;
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);
 	echo $myJSON;

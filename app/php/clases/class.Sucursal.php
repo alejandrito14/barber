@@ -30,6 +30,7 @@ class Sucursal
 	}
 	
 	
+	
 	public function ObtenerSucursales()
 	{
 		$sql="SELECT sucursal.*,

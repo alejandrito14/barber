@@ -15,6 +15,12 @@
     },
     "cordova-support-android-plugin": {
       "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-barcodescanner": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "com.lampa.startapp": {
+      "PACKAGE_NAME": "com.inversa.app"
     }
   },
   "dependent_plugins": {
@@ -60,6 +66,9 @@
     "cordova-plugin-x-socialsharing": {
       "PHOTO_LIBRARY_ADD_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
       "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-compat": {
       "PACKAGE_NAME": "com.inversa.app"
     }
   }

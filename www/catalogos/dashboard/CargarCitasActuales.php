@@ -43,9 +43,12 @@ try
 	$notapago->fecha=date('Y-m-d');
 	$obtenernotas=$notapago->ListadoNotasDescripcionProductos();
 
+	$obtenerrealizadas=$citas->ObtenerCitascheckin();
+
 
 	$respuesta['respuesta']=$obtener;
 	$respuesta['notas']=$obtenernotas;
+	$respuesta['realizadas']=$obtenerrealizadas;
 
 	echo json_encode($respuesta);
 

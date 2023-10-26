@@ -617,7 +617,7 @@ class Cita
 		left join paquetes on citas.idpaquete=paquetes.idpaquete
 		left join notapago_descripcion on citas.idcita=notapago_descripcion.idcita
 		left JOIN notapago on notapago_descripcion.idnotapago=notapago.idnotapago
-		 WHERE 	 fechacita='$this->fecha'  AND checkin IN (0,1) ORDER BY idsucursal,fechacita,horainicial";
+		 WHERE 	 fechacita='$this->fecha'  AND checkin IN (0,1) GROUP BY idcita ORDER BY idsucursal,fechacita,horainicial";
 
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
@@ -842,11 +842,19 @@ class Cita
 			citas.idespecialista,
 			citas.idusuarios,
 			citas.costo,
-			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreespecialista
+			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreusuario,
+			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreespecialista,
+			paquetes.nombrepaquete,
+			notapago.folio,
+			notapago.idnotapago
 		FROM citas
 		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal
 		INNER JOIN especialista ON citas.idespecialista=especialista.idespecialista
 		left join usuarios ON usuarios.idusuarios=citas.idusuarios
+		left join usuarios as esp on esp.idusuarios=especialista.idusuarios
+		left join paquetes on citas.idpaquete=paquetes.idpaquete
+		left join notapago_descripcion on citas.idcita=notapago_descripcion.idcita
+		left JOIN notapago on notapago_descripcion.idnotapago=notapago.idnotapago
 		 WHERE 	 citas.checkin=1 AND citas.checkout=1 AND citas.fechacita='$this->fecha' ORDER BY fechacita,horainicial";
 
 		$resp=$this->db->consulta($sql);

@@ -95,7 +95,7 @@ var app = new Framework7({
 var intervalo=0;
 var pictureSource;   // picture source
  var destinationType; 
-var produccion = 1;
+var produccion = 0;
 var idcategoriapadre=0;
 var codigoservicio="0";
 $(document).ready(function() {

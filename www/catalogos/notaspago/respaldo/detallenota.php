@@ -214,6 +214,33 @@ $idnotapago=$_POST['idnotapago'];
 								<span id="estatus"></span>
 							</div>
 							</div>
+							<div class="requierefactura">
+								<div class="row">
+									<div class="col-md-12">
+										<label for="">REQUIERE FACTURA:</label>
+									<span id="requierefactura"></span>
+								</div>
+								</div>
+							</div>
+
+
+								<div class="foliofacturacion" style="display: none;">
+								<div class="row">
+									<div class="col-md-12">
+										<label for="">FOLIO DE FACTURA:</label>
+									<span id="foliofactura"></span>
+								</div>
+								</div>
+							</div>
+
+								<div class="fechafac" style="display: none;">
+								<div class="row">
+									<div class="col-md-12">
+										<label for="">FECHA DE FACTURA:</label>
+									<span id="fechafactura"></span>
+								</div>
+								</div>
+							</div>
 
 							<!-- <div class="row">
 								<div class="col-md-12">
@@ -226,6 +253,45 @@ $idnotapago=$_POST['idnotapago'];
 			</div>
 
 </form>
+
+<div class="modal" id="modalimagen" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      	  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+		 <div class="modal-body">
+		      	<div class="row">
+		       <img id="imagenModal" src="" alt="Imagen" onclick="zoomImagen(event)">
+		   </div>
+		</div>
+  </div>
+</div>
+</div>
+
+
+
+
+<style>
+	.modal img {
+  display: block;
+  margin: 0 auto;
+  max-width: 90%;
+  max-height: 90%;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.modal img.zoom {
+  transform: scale(1.5);
+  max-width: 100%;
+  max-height: 100%;
+}
+
+</style>
 			<script>
 				var idnotapago="<?php echo $idnotapago; ?>";
 				DetalleNota(idnotapago);

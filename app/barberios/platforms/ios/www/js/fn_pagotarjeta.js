@@ -365,14 +365,13 @@ function LoadSetupIntent(){
       $("#"+ "checkclassnombre").prop('checked', false);
     }
     app.dialog.preloader();
-
     //var displayError = document.getElementById("card-errors");
     //displayError.textContent = "";
    // HideDiv("divlistadotarjetas");
     //ShowDiv("divagregartarjeta")
     $("#abackpage").attr("onclick","BackToList()");
     
-          var clavepublica=localStorage.getItem('clavepublica');
+    var clavepublica=localStorage.getItem('clavepublica');
 
   //  var pkey = "pk_test_51JNNdFJrU4M0Qnc879SI1I0o7BIpTnoMgioMaKYGDbOjTLCcfl8Rx8TLTlqPbBEifMXrRGqREEOBjCXY6RQo83Uw00M5z8GOPe"
     var pkey = clavepublica;
@@ -564,7 +563,7 @@ function setupComplete(stripe, clientSecret) {
 
     //changeLoadingState(false);
   });
-};
+}
 
 function eliminarTarjeta(icard,idtag){
   var idtipodepago=localStorage.getItem('idtipodepago');

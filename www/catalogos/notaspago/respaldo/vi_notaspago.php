@@ -291,6 +291,40 @@ $estatuspago = array('NO PAGADO','PAGADO');
   </div>
 </div>
 
+<div class="modal" id="modalfiltro" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">EXPORTAR A EXCEL</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<form action="">
+      		  <div class="form-group">
+			    <label for="formGroupExampleInput">Fecha inicio</label>
+			    <input type="date" class="form-control" id="txtfechainicio" placeholder="">
+			  </div>
+
+			  <div class="form-group">
+			    <label for="formGroupExampleInput">Fecha final</label>
+			    <input type="date" class="form-control" id="txtfechafinal" placeholder="">
+			  </div>
+      	</form>
+     	
+
+      		
+      </div>
+      <div class="modal-footer">
+
+      	<button type="button" class="btn btn-success" onclick="ExportarExcel()">EXPORTAR</button>
+        
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -322,25 +356,29 @@ $estatuspago = array('NO PAGADO','PAGADO');
 
 		} );
 
-	 
+
 	  $('#exportarBtn').click(function() {
 
-	  	var type, fn, dl;
-	  	  var tabla = $('#tbl_pagos').DataTable();
-	  	   var elt = document.getElementById('tbl_pagos');
-	  
-				  var libro = XLSX.utils.table_to_book(elt);
-				  console.log(libro);
-						// Obtiene la primera hoja del libro
-						var nombreHoja = libro.SheetNames[0];
-						var hoja = libro.Sheets[nombreHoja];
-						delete hoja['G1'];
+	  	$("#modalfiltro").modal();
+	  	
+		});
 
+		function ExportarExcel() {
+	var idservicio='';
+	var fechainicio=$("#txtfechainicio").val();
+	var fechafin=$("#txtfechafinal").val();
 
-			// Guarda el libro en un archivo
-			var libroModificado = XLSX.utils.book_new();
-			XLSX.utils.book_append_sheet(libroModificado, hoja, nombreHoja);
-			XLSX.writeFile(libroModificado, 'LISTADO DE NOTAS DE PAGO.xlsx');
-				});
+	var horainicio='';
+	var horafin='';
+
+	var fechainicio1=fechainicio.split(' ')[0];
+	var fechafin1=fechafin.split(' ')[0];
+
+	var datos="idservicio="+idservicio+"&fechainicio="+fechainicio1+"&fechafin="+fechafin1+"&horainicio="+horainicio+"&horafin="+horafin+"&pantalla=0";
+
+	var url='catalogos/notaspago/reporte/reportenotas.php?'+datos; 
+
+			window.open(url, '_blank');
+		}
 </script>
 

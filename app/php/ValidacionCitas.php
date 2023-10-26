@@ -67,10 +67,24 @@ try
 					$citasapartada++;
 				}
 
+				$fechaactual=date('Y-m-d');
+				$fechacita=date('Y-m-d',strtotime($cita->fechacita));
+
+				if ($fechaactual==$fechacita) {
+					
+					$horaactual=date('H:i:s');
+					$horainicial=date('H:i:s',strtotime($cita->horainicial));
+
+					if ($horaactual>=$horainicial) {
+						$citasapartada++;
+					}
+				}
+
 
 			}
 			
 	}
+
 
 
 	

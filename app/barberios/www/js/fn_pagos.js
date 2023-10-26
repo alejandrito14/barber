@@ -4,6 +4,8 @@ var arraycomentarios=[];
 var resultimagendatosfactura=[];
 var dynamicSheet4="";
 var swiper1="";
+var lastcard=0;
+
 function ObtenerTotalPagos() {
 	var pagina = "ObtenerTodosPagos.php";
 	var id_user=localStorage.getItem('id_user');
@@ -1474,6 +1476,7 @@ function CargarOpcionesTipopago(idtipopago) {
           localStorage.setItem('impuesto',resultado.impuesto);
           localStorage.setItem('clavepublica',resultado.clavepublica);
           localStorage.setItem('claveprivada',resultado.claveprivada);
+        
           ObtenerTarjetasStripe();
           $(".btnnuevatarjeta").css('display','block');
           $(".btnnuevatarjeta").attr('onclick','NuevaTarjetaStripe()');
@@ -1482,9 +1485,9 @@ function CargarOpcionesTipopago(idtipopago) {
            
         }
 
-          if (resultado.conmercadopagotarjeta==1) {
+         /* if (resultado.conmercadopagotarjeta==1) {
 
-          alert('a')
+          
           if (resultado.comisionporcentaje=='') {
             resultado.comisionporcentaje=0;
           }
@@ -1507,7 +1510,7 @@ function CargarOpcionesTipopago(idtipopago) {
 
             HabilitarBotonPagar();
 
-         }
+         }*/
          CalcularTotales();
 
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
@@ -1531,6 +1534,36 @@ function CargarOpcionesTipopago(idtipopago) {
    ObtenerDescuentosRelacionados();
     CalcularTotales();
   }
+}
+
+function ObtenerTarjetasStripe2(setlastcard=false) {
+    var idtipodepago=localStorage.getItem('idtipodepago');
+    var fname = "getCardList";
+    var pagina = "ObtenerDatosStripe.php";
+    var idcliente = localStorage.getItem('id_user');
+    var datos = "idcliente=" + idcliente + "&fname="+fname+"&idtipodepago="+idtipodepago;
+    $("#btnatras").css('display','none');
+
+    HideDiv("divagregartarjeta");
+    ShowDiv("divlistadotarjetas");
+
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: urlphp + pagina,
+        data: datos,
+        async: false,
+        success: function (datos) {
+            PintarTarjetas(datos,setlastcard);
+            HabilitarBotonPagar();
+        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+            var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe " + pagina + " " + XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+            //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+            console.log("Error leyendo fichero jsonP " + d_json + pagina + " " + error, "ERROR");
+        }
+    });
 }
 
 function Atras() {
@@ -2043,7 +2076,7 @@ function RealizarCargo() {
                      var mensaje = "La tarjeta requiere autenticación (3DSecure)";
                                        $(".mensajeproceso").css('display','none');
                                         $(".mensajeerror").css('display','block');
-                                        $(".mensajeerror").text(mensaje);
+                                        $(".mensajeerror").text(JSON.stringify(output));
                                         $(".mensajeexito").css('display','none');
                                         $(".butonok").css('display','none');
                                         $(".butoerror").css('display','block');
@@ -2120,9 +2153,11 @@ function RealizarCargo() {
 
 
                }else{
-                      var mensaje = "Oops, algo no está bien, intenta de nuevo";
 
+                          var output=JSON.stringify(informacion.output);
+                          var mensaje = "Oops, algo no está bien, intenta de nuevo";
 
+                          $(".mensajeerror").text(mensaje);//quitar
                           $(".mensajeproceso").css('display','none');
                           $(".mensajeerror").css('display','block');
                           $(".mensajeexito").css('display','none');
@@ -5334,3 +5369,21 @@ function AplicarCupon() {
             }
       });
 }
+
+
+////pago tarjeta
+
+
+
+
+///CUANDO SELECCIONAMOS UNA TARJETA////
+/*function CheckCardSelection(obj,objclass,cardid)
+{
+  $('.'+objclass).prop('checked', false);
+  $("#"+ obj.id).prop('checked', true);
+
+  SetLastCard(cardid);
+ 
+
+}*/
+

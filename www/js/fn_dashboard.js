@@ -1084,10 +1084,12 @@ function ObtenerTotalCitas() {
 					success: function (msj) {
 						var citas=msj.respuesta;
 						var total=citas.length;
+						var realizadas=msj.realizadas;
 						$("#citasregistros").text(total);
 						 var notas=msj.notas;
 						$("#productosregistros").text(notas.length);
 
+						$("#citasregistrosrealizadas").text(realizadas.length);
 					}
 				});
 }
@@ -1457,6 +1459,14 @@ margin-top: 1.4em;    width: 100%;
 		                }
 		$(".btnreagendarcita").attr('onclick','ReagendarCita('+respuesta.idcita+')');
 		$(".btncancelarcita").attr('onclick','CancelarCita('+respuesta.idcita+')');
+
+}
+
+function AgregarCita() {
+		var regresar='catalogos/citas/agendarcita.php';
+	    var donde='main';
+
+		aparecermodulos(regresar+"&idmenumodulo="+idmenumodulo+"&msj=",donde);
 
 }
 
@@ -2404,7 +2414,9 @@ function GuardarReagenda(idcita) {
 function GuardarCancelacion(idcita) {
 	  var datos='idcita='+idcita;
     var pagina = "RealizarCancelacionAdmin.php";
-   if(confirm("\u00BFDesea realizar esta operaci\u00f3n?"))
+
+    AbrirModalCancelacion(idcita);
+  /* if(confirm("\u00BFDesea realizar esta operaci\u00f3n?"))
 	{
 	$('#main').html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Procesando...</div>')
 				
@@ -2432,6 +2444,137 @@ function GuardarCancelacion(idcita) {
 			    });
     	},1000);
 
-    }
+    }*/
 }
 
+
+function AbrirModalCancelacion(idcita) {
+	$("#modalcancelacion").modal();
+}
+
+function CancelacionAdmin(idcita,idusuario) {
+
+    var pagina = "RealizarCancelacionAdmin.php";
+    var motivocancela=$("#v_motivocancelacion").val();
+    var datos="motivocancela="+motivocancela+"&idcita="+idcita+"&idusuarios="+idusuario;
+		$("#modalcancelacion").modal('hide');
+
+	    $.ajax({
+			    type: 'POST',
+			    dataType: 'json',
+				url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+			    async:false,
+			    data:datos,
+			    success: function(resp){
+$(".modal-backdrop").hide();
+			    if (resp.respuesta==1) {
+			    	var montoamonedero=resp.montoamonedero;
+			    	var mensaje="Operación realizada con éxito";
+			    		mensaje+="<br>El monto de $"+montoamonedero+" se agregó al monedero";
+			    	aparecermodulos('catalogos/citas/cancelarcita.php?idcita='+idcita+"&ac=1&msj="+mensaje,'main');
+				}
+
+			    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			      var error;
+			        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+			        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+			                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			          }
+			    });
+}
+
+function ListadoCitasRealizadas() {
+	$("#mostrarcitasrealizadas").css('display','block');
+
+	CargarCitasRealizadas();
+}
+
+
+function CargarCitasRealizadas() {
+	$.ajax({
+					url: 'catalogos/dashboard/CargarCitasActuales.php', //Url a donde la enviaremos
+					type: 'POST', //Metodo que usaremos
+					dataType:'json',
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#divcomplementos").html(error);
+					},	
+					success: function (msj) {
+						var citas=msj.realizadas;
+						console.log(citas);
+						PintarCitasRealizadas(citas);	
+					}
+				});
+}
+
+function PintarCitasRealizadas(respuesta) {
+var html="";
+  if (respuesta.length>0) {
+    $(".titulocitas").css('display','block');
+    for (var i = 0; i < respuesta.length; i++) {
+
+          imagen='';
+        var color="color:black;";
+        if (respuesta[i].estatus==0) {
+           color="color:black;";
+        }
+
+        if (respuesta[i].estatus==1) {
+          color="color:#C7AA6A;";
+
+        }
+
+        if (respuesta[i].estatus==2) {
+          color="color:#5ac35b;";
+        }
+      html+=`
+      <li class="col-100 medium-50">
+        <div class="card-bx job-card" >
+          <div class="card-media">
+            <a >
+            <img src="`+imagen+`" alt="">
+            </a>
+          </div>
+          <div class="card-info">
+            <h6 class="item-title">
+      
+            <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].titulo+`-`+respuesta[i].descripcion+`</a></p>
+            <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].nombreespecialista+`</a></p>
+
+
+            <p style="color: #2b952a;font-size: 18px;margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].horacita+`-`+respuesta[i].horafinal+`hrs.</p>
+
+            </h6>
+            <div class="">
+                    <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].nombrepaquete+`</p>
+
+            <p style="margin:0;">`+respuesta[i].nombreusuario+`</p>
+            <p style="margin:0;text-decoration: underline;" onclick="Detallepago(`+respuesta[i].idnotapago+`)">#`+respuesta[i].folio+`</p>
+ 
+
+            </div>
+            <div class="item-footer">
+
+            </div>
+          </div>
+          <a  class="bookmark-btn active" style="`+color+`" >
+            <i class="fas fa-bookmark" ></i>
+            
+          </a>
+        </div>
+      </li>
+      `;
+    }
+  }
+
+  $(".listadocitasrealizadas").html(html);
+}
+
+function CerrarCitasRealizadas() {
+	$("#mostrarcitasrealizadas").css('display','none');
+
+}

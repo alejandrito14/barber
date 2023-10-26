@@ -19,11 +19,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.25</string>
+	<string>1.0.27</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.25</string>
+	<string>1.0.27</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -52,9 +52,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Grupo Inversa needs access to camera files to add a pictures and photo user profile</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string> Grupo Inversa access to your approximate location, to choose the zip code</string>
+	<string>Grupo Inversa needs access to the phone&apos;s files to add a pictures and photo user profile</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string> Grupo Inversa access to your approximate location, to choose the zip code</string>
+	<string>Grupo Inversa needs access to the phone&apos;s files to add a pictures and photo user profile</string>
 	<key>NSMainNibFile</key>
 	<string></string>
 	<key>NSMainNibFile~ipad</key>
@@ -62,9 +62,9 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app needs microphone access</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Grupo Inversa needs access to the phone's files to add a pictures and photo user profile</string>
+	<string>Grupo Inversa needs access to camera files to add a pictures and photo user profile</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Grupo Inversa needs access to the phone's files to add a pictures and photo user profile</string>
+	<string>Grupo Inversa needs access to the phone&apos;s files to add a pictures and photo user profile</string>
 	<key>UIInterfaceOrientation</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -82,6 +82,10 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>whatsapp</string>
 	</array>
 </dict>
 </plist>

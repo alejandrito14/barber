@@ -30,5 +30,21 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "cordova-plugin-barcodescanner": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-barcodescanner@^0.7.4"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "com.lampa.startapp": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/lampaa/com.lampa.startapp.git"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }

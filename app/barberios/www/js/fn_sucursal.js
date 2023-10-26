@@ -192,7 +192,7 @@ function PintarDatosSucursal(respuesta,imagenes) {
 	$(".imagensucursal").attr('src',imagen);
 	$(".titulosucursal").text(respuesta.titulo);
 	$(".telefono").text(respuesta.celular);
-	$(".btnwhapsap").attr('onclick',"AbrirWhapsap(\'"+respuesta.celular+"\')");
+	//<a href="whatsapp://send?text=Hello%20World!">Hello, world!</a>
 	var direccion=respuesta.direccion+', '+respuesta.colonia;
 	$(".descripcion").text(direccion);
 	var coordenadas=respuesta.ubicacion;
@@ -231,7 +231,7 @@ function PintarDatosSucursal(respuesta,imagenes) {
 		
 		imagen=urlimagenes+`sucursal/imagenes/`+codigoserv+respuesta.botonwhatsap;
 
-		var imagen=`<img src="`+imagen+`" alt="" style="width:80px;">`;
+		var imagen=`<a class="btnwhapsaplink"><img src="`+imagen+`" alt="" style="width:80px;"></a>`;
 			
 		$(".btnwhapsap").html(imagen);
 
@@ -256,9 +256,18 @@ function PintarDatosSucursal(respuesta,imagenes) {
 		$(".btnubicacion").html(imagen);
 
 	}
+	//$(".btnwhapsap").attr('onclick',"AbrirWhapsap(\'"+respuesta.celular+"\')");
 
+	if (typeof cordova !== "undefined") {
+	if (cordova.platformId=='android') {
+	$(".btnwhapsaplink").attr('onclick',"AbrirWhapsap(\'"+respuesta.celular+"\')");
+	
+	}else{
 
-
+	$(".btnwhapsaplink").attr('onclick',"AbrirApp(\'"+respuesta.celular+"\')");
+	}
+}
+	//$(".btnwhapsaplink").attr('onclick',"AbrirWhapsap(\'"+respuesta.celular+"\')");
 
 
 		 imagenesgaleria.push(imagen);
@@ -309,6 +318,16 @@ function AbrirWhapsap(numeroTelefono) {
 	//window.open("whatsapp://send?phone=" + numeroTelefono, "_system", "location=yes");
 	window.open('whatsapp://send?phone='+numeroTelefono+'&text='+mensaje+'','_system');
 
+}
+function AbrirApp(telefono) {
+	var mensaje="Hola";
+	var sApp = startApp.set("whatsapp://send?phone="+telefono+'&text='+mensaje);
+
+	sApp.start(function() { /* success */
+		console.log("OK");
+	}, function(error) { /* fail */
+		alert(error);
+	});
 }
 function hacerLlamada(numeroTelefono) {
     window.plugins.CallNumber.callNumber(function(){}, function(){}, numeroTelefono, true);

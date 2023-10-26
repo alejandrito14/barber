@@ -1,9 +1,18 @@
 var fechaconsulta="";
+var idsucursal="";
+var horainicial="";
+var horafinal="";
+var fechaseleccionada="";
+var horainicialsele="";
+var idespecialistaseleccionado=0;
+var horarioseleccionado="";
+
+var horafinalsele="";
 $(document).ready(function() {
     aparecermodulos('catalogos/dashboard/vi_dashboard.php','main');
 });
 
-
+ 
 
 function ObtenerClientesAndroidios() {
 
@@ -964,6 +973,7 @@ function PintarFechaActual() {
 
 function PintarFechaSeleccionada(fecha) {
 
+	
 	$(".fc-day").each(function( index ) {
 									 // console.log( index + ": " + $(this).data('date') );
 		  var fechadiv=$(this).data('date');
@@ -988,6 +998,34 @@ function PintarFechaSeleccionada(fecha) {
 
 }
 
+
+
+function PintarFechaSeleccionada2(fecha) {
+
+	
+	$(".fc-day").each(function( index ) {
+									 // console.log( index + ": " + $(this).data('date') );
+		  var fechadiv=$(this).data('date');
+		  var elemento=$(this);
+		  $(elemento).children().eq(0).removeClass('seleccionadofecha2');
+
+		});
+							
+		$(".fc-day").each(function( index ) {
+									 // console.log( index + ": " + $(this).data('date') );
+		  var fechadiv=$(this).data('date');
+		  var elemento=$(this);
+
+		  	if (fechadiv == fecha) {
+		  		
+		  		$(elemento).children().eq(0).addClass('seleccionadofecha2');
+		  		return 0;		
+		  }
+
+		});
+							
+
+}
 
 function ColocarIntervalo() {
 		var intervalo=$("#v_intervalo").val();
@@ -1046,10 +1084,12 @@ function ObtenerTotalCitas() {
 					success: function (msj) {
 						var citas=msj.respuesta;
 						var total=citas.length;
+						var realizadas=msj.realizadas;
 						$("#citasregistros").text(total);
 						 var notas=msj.notas;
 						$("#productosregistros").text(notas.length);
 
+						$("#citasregistrosrealizadas").text(realizadas.length);
 					}
 				});
 }
@@ -1098,6 +1138,7 @@ var html="";
             <p style="margin:0;">`+respuesta[i].nombreusuario+`</p>
             <p style="margin:0;text-decoration: underline;" onclick="Detallepago(`+respuesta[i].idnotapago+`)">#`+respuesta[i].folio+`</p>
  
+
             </div>
             <div class="item-footer">
 
@@ -1143,7 +1184,7 @@ var html="";
     background: white;
     border-radius: 30%;
     height: 150px;
-    padding-top: 1em;">
+    padding-top: 1em;margin-bottom: 1em;">
 			<div class="">
 			 <div class="col-md-2" style="
 			    float: left;">
@@ -1167,7 +1208,8 @@ var html="";
 
             <p style="margin:0;">`+respuesta[i].nombreusuario+`</p>
             <p style="margin:0;text-decoration: underline;" onclick="Detallepago(`+respuesta[i].idnotapago+`)">#`+respuesta[i].folio+`</p>
- 
+              <button type="button" class="btn btn-primary" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">Ver detalle</button>
+
             </div>
             
           </div>
@@ -1249,18 +1291,63 @@ var html=` <div class="" style="">
                             	<p class="no-margin-bottom text-color-theme">`+respuesta.horainicial+`-`+respuesta.horafinal+`Hrs.</p>
 
                             	<p class="no-margin-bottom text-color-theme">Cliente: `+respuesta.nombre+` `+respuesta.paterno+`</p>`;
+                            	html+=` <p class="no-margin-bottom text-color-theme">`+respuesta.concepto+`</p>`;
+                          if (respuesta.concortesia==1  ) {
+
+
+                          if (respuesta.idcortesia>0 ) {
+
+                          html+=`
+
+
+                         <div class="icon-text-container" style="margin-top: 10px;">
+
+                           <p style="margin:0;">Cortesía: <span class="texto">`+respuesta.nombrepaquetecortesia+`</span></p>
+
+                           </div>`;
+
+                      }
+
+
+                      if (respuesta.idcortesia==0 && respuesta.colococortesia==1) {
+
+                          html+=`
+
+
+                         <div class="icon-text-container" style="margin-top: 10px;">
+
+                           <p style="margin:0;">Cortesía: <span class="texto">Ninguna</span></p>
+
+                           </div>`;
+                      }
+                  }
 
                             if(respuesta.checkin==1) {
                             
-                              html+=` <p class="" style="display: flex;"><span>check-in:</span> 
-                              <span class="fas fa-check-circle-o" style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;">
-                        
-                            </span>
-                          </p>`;  
+                             
+                          	html+=`
+									<p class="" style="margin:0;">`;
+								html+=`<span>check-in: `+respuesta.fechacheckin+`</span>                               
+								<span class="mdi mdi-check-circle-outline" style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;">
+
+
+										`;
+								html+=`</p>`;
                                     
                             }
+
+                            if (respuesta.checkout==1) {
+								html+=`
+									<p class="" style="">`;
+								html+=`<span>check-out: `+respuesta.fechacheckout+`</span> 
+									   <span class="mdi mdi-check-circle-outline" style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;">`;
+								html+=`</p>`;
+									}
+
+
+
+
                                html+=`
-                          <p class="no-margin-bottom text-color-theme">`+respuesta.concepto+`</p>
 
 
                            </div>
@@ -1310,12 +1397,11 @@ margin-top: 1.4em;    width: 100%;
 
 					</div>
 
-					<div class="row" style=" margin-right: 2em; margin-left: 2em;">
-						<div class="col-80">
-						<p style="    font-size: 16px;
-    font-weight: bold;">Galeria de imágenes</p>
+					<div class="row" style=" ">
+						<div class="col-md-12">
+						<p style="font-size: 16px;font-weight: bold;">Galeria de imágenes</p>
 						</div>
-						<div class="col-20">
+						<div class="col-md-12">
 						
 						</div>
 
@@ -1361,6 +1447,35 @@ margin-top: 1.4em;    width: 100%;
 		$("#divdetallecita").html(html);
 
 		$("#modaldetallecita").modal();
+		$(".btnreagendarcita").css('display','block');
+		$(".btncancelarcita").css('display','block');
+
+		                if(respuesta.checkin==1) {
+						$(".btnreagendarcita").css('display','none');
+		                }
+
+		                if(respuesta.checkin==1) {
+						$(".btncancelarcita").css('display','none');
+		                }
+		$(".btnreagendarcita").attr('onclick','ReagendarCita('+respuesta.idcita+')');
+		$(".btncancelarcita").attr('onclick','CancelarCita('+respuesta.idcita+')');
+
+}
+
+function ReagendarCita(idcita) {
+	$("#modaldetallecita").modal('hide');
+	
+	 var donde='main';
+	var regresar='catalogos/citas/reagendarcita.php?idcita='+idcita;
+	aparecermodulos(regresar+"&idmenumodulo="+idmenumodulo+"&msj=",donde);
+}
+
+function CancelarCita(idcita) {
+	$("#modaldetallecita").modal('hide');
+	
+	var donde='main';
+	var regresar='catalogos/citas/cancelarcita.php?idcita='+idcita;
+	aparecermodulos(regresar+"&idmenumodulo="+idmenumodulo+"&msj=",donde);
 }
 
 function ObtenerProductosFechasCalendario(anio,mes) {
@@ -1498,17 +1613,34 @@ function Detallepago(idnotapago) {
 		async:false,
 		success: function(resp){
 			var resultado=resp.respuesta[0];
+     		 var subtotalnota=resp.subtotalnota;
+
+     		 var subtotalcupon=resp.subtotalcupon;
+
+			$(".lblsubtotal").text(formato_numero(subtotalnota,2,'.',','));
+			$(".lblcupon").text(formato_numero(subtotalcupon,2,'.',','));
+
 			$("#lblnumeronota").text(resultado.folio);
 			$(".lblresumen").text(formato_numero(resultado.subtotal,2,'.',','));
 			$(".lblcomision").text(formato_numero(resultado.comisiontotal,2,'.',','));
 			$(".lbltotal").text(formato_numero(resultado.total,2,'.',','));
-			$(".monedero").text(formato_numero(resultado.montomonedero,2,'.',','));
+			$(".lblmonedero").text(formato_numero(resultado.montomonedero,2,'.',','));
 			$("#tipopago").text(resultado.tipopago);
 			if (resultado.datostarjeta!='') {
 			$(".datostarjeta").html(resultado.datostarjeta);
 			$(".infodatostarjeta").append(resultado.datostarjeta2);
 
 			}
+
+			  if (resultado.descripcioncupon!=null && resultado.descripcioncupon!='' && resultado.idcupon>0) {
+
+		        var cupon=`
+		          <p style="color: #C7AA6A;text-align:center;font-size:15px;margin:0;" class="cambiarfuente">`+resultado.codigocupon+`</p>
+		              <p style="color: #C7AA6A;text-align:center;" class="cambiarfuente">Descuento aplicado `+resultado.descripcioncupon+`</p>
+		        `;
+
+		        $(".cuponaplicado").html(cupon);
+		      }
 
 			if (resultado.requierefactura==1) {
 
@@ -1604,18 +1736,20 @@ function PintarDetalleHtml() {
 						</div>
 						
 					</div>
-					<div class="listadopagoselegidos" id="listadopagos"> <li class="list-group-item  align-items-center" style="">
+					<div class="listadopagoselegidos" id="listadopagos"> 
+					<li class="list-group-item  align-items-center" style="">
 					   
 					</div>
+
 					<div>
-						<ul class="list-group divmonedero" style="display: block;">
+						<ul class="list-group subtotal" style="display: block;">
 									<li class="list-group-item  align-items-center" style="color:">
 								   <div class="row">
-								   <div class="col-md-10">
-								   		<p id="">Monedero</p>
+								   <div class="col-md-12">
+								   		<p id="" style="text-align:center;">Subtotal</p>
 					                    <p class="" style="
-											    float: right;
-											">$<span id="monedero">0.00</span></p>
+											   text-align:center;
+											">$<span id="lblsubtotal" class="lblsubtotal">0.00</span></p>
 					                   </div>
 					                   <div class="col-md-2">
 
@@ -1628,23 +1762,17 @@ function PintarDetalleHtml() {
 								  </li>
 								</ul>
 							</div>
+
 
 							<div>
-								<ul class="list-group" id="uldescuentos" style="background: #46b2e2;"></ul>
-							</div>
-
-
-
-
-								<div>
-								<ul class="list-group divresumen" style="display: block;">
-									<li class="list-group-item  align-items-center" style="background: #aeb3b7;">
+						<ul class="list-group comision" style="display: block;">
+									<li class="list-group-item  align-items-center" style="color:">
 								   <div class="row">
-								   <div class="col-md-10">
-								   		<p id="">Resumen</p>
+								   <div class="col-md-12">
+								   		<p id="" style="text-align:center;">Comisión</p>
 					                    <p class="" style="
-											    float: right;
-											">$<span id="" class="lblresumen">980.00</span></p>
+											   text-align:center;
+											">$<span id="lblcomision" class="lblcomision">0.00</span></p>
 					                   </div>
 					                   <div class="col-md-2">
 
@@ -1658,15 +1786,22 @@ function PintarDetalleHtml() {
 								</ul>
 							</div>
 
+
 								<div>
-								<ul class="list-group divcomision" style="display: block;">
-									<li class="list-group-item  align-items-center" style="background: #aeb3b7;">
+							<ul class="list-group divcupon" style="display: block;">
+									<li class="list-group-item  align-items-center" style="color:">
 								   <div class="row">
-								   <div class="col-md-10">
-								   		<p id="">Comisión</p>
+								   <div class="col-md-12">
+								   		<p id="" style="text-align:center;">Cupón</p>
+								   		</div>
+								   		<div class="col-md-12">
+								   		   <div class="cuponaplicado"></div>
+								   		</div>
+								   		<div class="col-md-12">
+
 					                    <p class="" style="
-											    float: right;
-											">$<span id="" class="lblcomision">0.00</span></p>
+											   text-align:center;
+											">$<span id="lblcupon" class="lblcupon">0.00</span></p>
 					                   </div>
 					                   <div class="col-md-2">
 
@@ -1679,17 +1814,45 @@ function PintarDetalleHtml() {
 								  </li>
 								</ul>
 							</div>
+
+						<div>
+							<ul class="list-group divmonedero" style="display: block;">
+									<li class="list-group-item  align-items-center" style="color:">
+								   <div class="row">
+								   <div class="col-md-12">
+								   		<p id="" style="text-align:center;">Monedero</p>
+					                    <p class="" style="
+											   text-align:center;
+											">$<span id="lblmonedero" class="lblmonedero">0.00</span></p>
+					                   </div>
+					                   <div class="col-md-2">
+
+										    <span class="badge ">
+										    </span>
+								   		 </div>
+								    
+								    </div>
+
+								  </li>
+								</ul>
+							</div>
+
+							
+
+
+
+
+							
+
 
 
 								<div>
 								<ul class="list-group divtotal" style="display: block;">
 									<li class="list-group-item  align-items-center" style="background: #aeb3b7;">
 								   <div class="row">
-								   <div class="col-md-10">
-								   		<p id="">Total</p>
-					                    <p class="" style="
-											    float: right;
-											">$<span id="" class="lbltotal">980.00</span></p>
+								   <div class="col-md-12">
+								   		<p id="" style="text-align:center;">Total</p>
+					                    <p class="" style="text-align:center;">$<span id="" class="lbltotal">980.00</span></p>
 					                   </div>
 					                   <div class="col-md-2">
 
@@ -1709,7 +1872,7 @@ function PintarDetalleHtml() {
 									</div>
 							</div>
 
-							<div class="row">
+							<div class="row" style="margin-top:10px;">
 								<div class="col-md-12">
 									<label for="">MÉTODO DE PAGO:</label>
 									<span id="tipopago"></span>
@@ -1780,41 +1943,61 @@ function Pintarpagosdetalle2(listado) {
 
 			html+=`
 				
-			<div class="row" style="border: 1px solid #cacaca;
-    padding: 10px;
-    margin: 1px 1px 0px 1px;">
-              <div class="item-media">
-              <img src="`+imagen+`" alt="" style="width: 80px;border-radius: 10px;"></div>
-              <div class="item-inner">
+			<div class="row" style="border: 1px solid #cacaca;padding: 10px; margin: 1px 1px 0px 1px; justify-content: space-between;display: flex;">
+              <div class="col-md-4" style="width: 40%;">
+             	 <img src="`+imagen+`" alt="" style="width: 150px;">
+              </div>
+              <div class="col-md-8" style="width: 60%;">
                 <div class="row" style="margin-left: 1em;">
                   <div class="col-md-6">
-                    <p style="margin:0;"> `+listado[i].concepto+` </p>
-               	
-                     <p style="margin:0;">Cantidad: `+listado[i].cantidad+`</p>`;
+                   	    <p style="margin:0;"> `+listado[i].concepto+` </p>
+           
+                     	<p style="margin:0;">Cantidad: `+listado[i].cantidad+`</p>`;
 
-                     if (listado[i].usuarioespecialista!='' && listado[i].usuarioespecialista!=null) {
+                     	if (listado[i].usuarioespecialista!='' && listado[i].usuarioespecialista!=null) {
+                     		html+=`<p style="margin:0;">Especialista: `+listado[i].usuarioespecialista+`</p>`;
+                     		html+=`<p style="margin:0;">Fecha: `+listado[i].fecha+`</p>`;
+                      	}
 
-                     	html+=`<p style="margin:0;">Especialista: `+listado[i].usuarioespecialista+`</p>`;
+                      	   if (listado[i].concortesia==1  ) {
 
-                     	html+=`<p style="margin:0;">Fecha: `+listado[i].fecha+`</p>`;
+
+                          if (listado[i].idcortesia>0 ) {
+
+                          html+=`
+
+
+                         <div class="icon-text-container" style="">
+
+                           <p style="margin:0;">Cortesía: <span class="texto">`+listado[i].nombrepaquetecortesia+`</span></p>
+
+                           </div>`;
+
+                      }
+
+
+                      if (listado[i].idcortesia==0 && listado[i].colococortesia==1) {
+
+                          html+=`
+
+
+                         <div class="icon-text-container" >
+
+                           <p style="margin:0;">Cortesía: <span class="texto">Ninguna</span></p>
+
+                           </div>`;
+                      }
+                  }
+              		 html+= `</div>
                  
-
-                     }
-               html+= `</div>
-                     
-
-
-                            <div class="col-40">
-                	<p class="text-muted " style="font-size:20px;margin:0px;">$`+formato_numero(listado[i].monto,2,'.',',')+`</p>
-
-                     <p>
-                     </p>
-                  </div>
+	                   	<div class="col-md-6">
+	                	 <p class="text-muted " style="font-size:20px;margin:0px;">$`+formato_numero(listado[i].monto,2,'.',',')+`</p>
+	                     
+	                  	</div>
 
                     </div>	
-
-          
-                 </div> </div>
+                  </div> 
+                 </div>
 
               
             </div>
@@ -1828,3 +2011,523 @@ function Pintarpagosdetalle2(listado) {
 
 		
 	}
+
+
+	function PintarCalendario3() {
+
+	//alert( yyyy+'-'+mm+'-'+dd);
+   // var calendarEl = document.getElementById('picker');
+
+   // var calendar = new FullCalendar.Calendar(calendarEl, {
+	$('#picker3').fullCalendar({
+        header: {
+        	left:'prev',
+            center: 'title',
+            right: 'next',
+
+        },
+            locale:'es',
+        	monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio","Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+			monthNamesShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Agost","Sept", "Oct", "Nov", "Dic"],
+			dayNames: ['Domingo', 'Lunes', 'Martes', 'Miercoles','Jueves', 'Viernes', 'Sabado'],
+			dayNamesShort: ["Dom", "Lun", "Mar", "Mier", "Jue", "Vier", "Sab", "Dom"],
+        firstDay:0,
+        defaultDate: yyyy+'-'+mm+'-'+dd,
+       eventLimit: true, // allow "more" link when too many events 
+        events: [
+           
+        ],
+        dayClick: function (date, jsEvent, view) {
+           console.log('Has hecho click en: '+  date.format());
+         
+
+            var fecha=date.format();
+            idespecialistaseleccionado='';
+			horarioseleccionado='';
+          
+            fechaconsulta=fecha;
+
+         PintarHoraSeleccionada(fecha);
+         PintarFechaSeleccionada2(fecha);
+			//ObtenerHorariosDia(3);
+		$(".divintervaloshorarios").css('display','block');
+		$(".fc-header-title").html('<h2>'+fechaformato(fecha)+'</h2>');
+		VerificarSiLlevavalor();
+
+
+        }, 
+        eventClick: function (calEvent, jsEvent, view) {
+            $('#event-title').text(calEvent.title);
+            $('#event-description').html(calEvent.description);
+            $('#modal-event').modal();
+
+        }, 
+
+       
+	});
+
+  //  calendar.render();
+	 var fecha=new Date();
+	 var f=fecha.toISOString().split('T')[0];
+	
+	 var anio=f.split('-')[0];
+	 var mes=f.split('-')[1];
+
+	 ObtenerFechasCalendario(anio,mes);
+	 $("#recargar").attr('onclick','ObtenerFechasCalendario('+anio+','+mes+')');
+	 $("#txttitle").css('display','none');
+	$(".fc-header-title").html('<h2>'+fechaformato(fecha)+'</h2>');
+	//PintarFechaActual();
+
+ $('.fc-button-prev').click(function(){
+
+          var moment = $('#picker3').fullCalendar('getDate');
+      
+          var cadenafecha=moment.format().split('-');
+       
+       	   var anio=cadenafecha[0];
+           var mes=cadenafecha[1];
+           var dia=cadenafecha[2];
+
+           var mes = parseInt(cadenafecha[1], 10);
+
+			// Restamos uno al mes (considerando que los meses van de 1 a 12)
+			mes++;
+
+			// Si el mes resultante es cero, establecemos el valor de mes a 12 (diciembre del año anterior)
+			if (mes === 0) {
+			  mes = 12;
+			  cadenafecha[0]--; // Restamos uno al año si retrocedemos desde enero
+			}
+
+			// Convertimos nuevamente el mes a cadena y le agregamos un cero adelante si es necesario
+			var mesStr = mes.toString().padStart(2, '0');
+
+
+
+            var fecha=anio+'-'+mesStr+'-'+dia;
+            var mes=cadenafecha[1];
+	
+	 	 ObtenerFechasCalendario(anio,mes);
+	 	
+		//$(".fc-header-title").html('<h2>'+fechaformato(fecha)+'</h2>');
+
+	   $("#txttitle").css('display','none');
+	   $(".horarios").css('display','none');
+  });
+
+  $('.fc-button-next').click(function(){
+     var moment = $('#picker3').fullCalendar('getDate');
+       	   var cadenafecha=moment.format().split('-');
+      	   var anio=cadenafecha[0];
+           var mes=cadenafecha[1];
+           var dia=cadenafecha[2];
+          	console.log(mes);
+            var mes = parseInt(cadenafecha[1], 10);
+            if (mes<12) {
+			// Restamos uno al mes (considerando que los meses van de 1 a 12)
+			mes++;
+
+			// Si el mes resultante es cero, establecemos el valor de mes a 12 (diciembre del año anterior)
+			if (mes === 0) {
+			  mes = 12;
+			  cadenafecha[0]--; // Restamos uno al año si retrocedemos desde enero
+			}
+			
+				
+			}
+
+			// Convertimos nuevamente el mes a cadena y le agregamos un cero adelante si es necesario
+			var mesStr = mes.toString().padStart(2, '0');
+            var fecha=anio+'-'+mesStr+'-'+dia;
+            console.log(fecha);
+             var mes=cadenafecha[1];
+
+	    	 ObtenerFechasCalendario(anio,mes);
+	    
+
+	     $("#txttitle").css('display','none');
+	     $(".horarios").css('display','none');
+  });
+
+
+  $(".fc-rigid").css('height','30px');
+  $(".fc-day-grid-container").css('height','144.9px');
+  $(".fc-day-top .fc-day-number").css({'cssText':'margin: 5em!important;'});
+
+  $(".fc-day-header").css('text-align','center');
+  $(".fc-day-top ").css({'cssText':'text-align: center!important;'});
+
+  $(".fc-header-right").css('visibility','visible');
+
+  //$(".fc-header-left .fc-corner-right").css('display','none');
+  $(".fc-button-today").css('display','none');
+
+
+
+}
+
+function ObtenerFechasCalendario(anio,mes) {
+	
+
+	var datos="idsucursal="+idsucursal+"&mes="+mes+"&anio="+anio;
+	var pagina = "ObtenerFechasSucursal.php";
+	
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+		data:datos,
+		success: function(msj){
+			
+				var respuesta=msj.disponible;
+						var fecha=msj.fechaformato;
+					$(".fc-header-title").html('<h2>'+fecha+'</h2>');
+							$(".fc-day").each(function( index ) {
+								var elemento=$(this);
+
+								$(elemento).find('span').eq(0).remove();
+
+								for (var i = 0; i <respuesta.length; i++) {
+									
+
+									  var fechadiv=$(this).data('date');
+
+											console.log(respuesta[i]);
+									  	if (respuesta[i] == fechadiv) {
+									  		  console.log(elemento);
+									  		  $(this).addClass('disponible');
+									  		
+									  	}
+
+									}
+								});
+								
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+	
+}
+function PintarHoraSeleccionada(fecha) {
+
+fechaseleccionada=fecha;
+
+	var datos="fecha="+fecha+"&idsucursal="+idsucursal+"&idpaquete="+idpaquete;
+
+	var pagina="ObtenerDisponibilidadPaqueteEspecialista.php";
+		$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+		data:datos,
+		success: function(msj){
+			horarioseleccionado=0;
+			
+				var intervalos=msj.intervalos;
+				PintarIntervalos(intervalos);
+				VerificarSiLlevavalor();			
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+
+}
+
+function PintarIntervalos(respuesta) {
+		var html="";
+		if (respuesta.length>0) {
+			for (var i = 0; i < respuesta.length; i++) {
+					
+				html+=`
+								<label class="btn btn_dorado btncategointervalo1 horariossele" id="catebtn_`+i+`" style="margin: 10px;">
+								    <input type="checkbox" id="cate_15" class="catecheck" onchange="SeleccionarHorario('`+respuesta[i].horainicial+`','`+respuesta[i].horafinal+`','`+i+`')" value="0" >`+respuesta[i].horainicial+`
+								  </label>
+				`;
+			}
+		}
+
+	$(".liintervalos").html(html);
+}
+
+function SeleccionarHorario(horainicial,horafinal,i) {
+	
+	 $(".horariossele").removeClass('active');
+
+  $("#catebtn_"+i).add('active');
+  horainicialsele=horainicial;
+  horafinalsele=horafinal;
+  horarioseleccionado=horainicialsele+'_'+horafinalsele;
+//horaseleccionada=arrayhorarios[posicion];
+
+   //HabilitarBoton2();
+//aqui
+idespecialistaseleccionado="";
+  ObtenerListadoEspecialista();
+  VerificarSiLlevavalor();
+}
+
+function ObtenerListadoEspecialista() {
+	
+
+    var horario=horainicialsele+'_'+horafinalsele;
+    var datos='idsucursal='+idsucursal+"&idpaquete="+idpaquete+"&horaseleccionada="+horario+"&fecha="+fechaseleccionada;
+    var pagina = "ObtenerEspecialistaPaqueteSucursal.php";
+    $.ajax({
+    type: 'POST',
+    dataType: 'json',
+				url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+    async:false,
+    data:datos,
+    success: function(datos){
+      var especialistas=datos.especialista;
+      PintarDetalleEspecialistas(especialistas);
+     // PintarDetalleEspecialistas2(especialistas);
+
+    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+      var error;
+        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+          }
+    });
+
+}
+
+function PintarDetalleEspecialistas(especialistas) {
+	var html="";
+	html+=`<div class="list-group">`;
+						if (especialistas.length>0) {
+							for (var i = 0; i <especialistas.length; i++) {
+								html+=`
+
+					  		<a  class="list-group-item list-group-item-action especialistalista" id="especialista_`+especialistas[i].idespecialista+`" onclick="SeleccionarEspecialista(`+especialistas[i].idespecialista+`)" style="background:#c7aa6a;color:white;margin-bottom: 1em;margin-top: 1em;">
+					    		<div class="row">
+
+					    			<div class="col-md-4 justify-content-between">
+					      		<img src="`+especialistas[i].foto+`" style="width:100px;">
+					      	</div>
+
+					    		<div class="col-md-4 justify-content-between">
+					      		`+especialistas[i].nombre+` `+especialistas[i].paterno+`
+					      	
+					    		</div>
+					    	</div>
+					  		</a>
+								`;
+
+							}
+						}
+
+	html+=`</div>`;
+
+	$(".seleccionarbarbero").html(html);
+}
+
+function SeleccionarEspecialista(idespecialista) {
+	$(".especialistalista").removeClass('active');
+
+	$("#especialista_"+idespecialista).addClass('active');
+	idespecialistaseleccionado=idespecialista;
+	VerificarSiLlevavalor();
+}
+
+function VerificarSiLlevavalor() {
+	var pasa=1;
+	
+	if (fechaseleccionada=='') {
+		pasa=0;
+	}
+
+	if (horarioseleccionado=='' || horarioseleccionado==0) {
+		pasa=0;
+	}
+	if (idespecialistaseleccionado=='') {
+		pasa=0;
+	}
+
+	if (pasa==1) {
+
+		$(".btnguardarreagenda").css('display','block');
+	}else{
+
+		$(".btnguardarreagenda").css('display','none');
+
+	}
+}
+
+
+function GuardarReagenda(idcita) {
+	
+    var datos='horarioseleccionado='+horarioseleccionado+'&fechaseleccionada='+fechaseleccionada+'&idespecialistaseleccionado='+idespecialistaseleccionado+'&idcita='+idcita;
+    var pagina = "GuardarReagenda.php";
+   if(confirm("\u00BFDesea realizar esta operaci\u00f3n?"))
+	{
+	$('#main').html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Procesando...</div>')
+				
+		setTimeout(function(){
+			    $.ajax({
+			    type: 'POST',
+			    dataType: 'json',
+				url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+			    async:false,
+			    data:datos,
+			    success: function(resp){
+			    if (resp.respuesta==1) {
+
+			    	var mensaje="Operación realizada con éxito";
+			    	aparecermodulos('catalogos/citas/reagendarcita.php?idcita='+idcita+"&ac=1&msj="+mensaje,'main');
+				}
+
+			    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			      var error;
+			        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+			        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+			                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			          }
+			    });
+    	},1000);
+
+    }
+}
+
+function GuardarCancelacion(idcita) {
+	  var datos='idcita='+idcita;
+    var pagina = "RealizarCancelacionAdmin.php";
+   if(confirm("\u00BFDesea realizar esta operaci\u00f3n?"))
+	{
+	$('#main').html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Procesando...</div>')
+				
+		setTimeout(function(){
+			    $.ajax({
+			    type: 'POST',
+			    dataType: 'json',
+				url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+			    async:false,
+			    data:datos,
+			    success: function(resp){
+			    if (resp.respuesta==1) {
+
+			    	var mensaje="Operación realizada con éxito";
+			    	aparecermodulos('catalogos/citas/cancelarcita.php?idcita='+idcita+"&ac=1&msj="+mensaje,'main');
+				}
+
+			    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			      var error;
+			        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+			        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+			                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			          }
+			    });
+    	},1000);
+
+    }
+}
+
+function ListadoCitasRealizadas() {
+	$("#mostrarcitasrealizadas").css('display','block');
+
+	CargarCitasRealizadas();
+}
+
+
+function CargarCitasRealizadas() {
+	$.ajax({
+					url: 'catalogos/dashboard/CargarCitasActuales.php', //Url a donde la enviaremos
+					type: 'POST', //Metodo que usaremos
+					dataType:'json',
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#divcomplementos").html(error);
+					},	
+					success: function (msj) {
+						var citas=msj.realizadas;
+						console.log(citas);
+						PintarCitasRealizadas(citas);	
+					}
+				});
+}
+
+function PintarCitasRealizadas(respuesta) {
+var html="";
+  if (respuesta.length>0) {
+    $(".titulocitas").css('display','block');
+    for (var i = 0; i < respuesta.length; i++) {
+
+          imagen='';
+        var color="color:black;";
+        if (respuesta[i].estatus==0) {
+           color="color:black;";
+        }
+
+        if (respuesta[i].estatus==1) {
+          color="color:#C7AA6A;";
+
+        }
+
+        if (respuesta[i].estatus==2) {
+          color="color:#5ac35b;";
+        }
+      html+=`
+      <li class="col-100 medium-50">
+        <div class="card-bx job-card" >
+          <div class="card-media">
+            <a >
+            <img src="`+imagen+`" alt="">
+            </a>
+          </div>
+          <div class="card-info">
+            <h6 class="item-title">
+      
+            <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].titulo+`-`+respuesta[i].descripcion+`</a></p>
+            <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].nombreespecialista+`</a></p>
+
+
+            <p style="color: #2b952a;font-size: 18px;margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].horacita+`-`+respuesta[i].horafinal+`hrs.</p>
+
+            </h6>
+            <div class="">
+                    <p style="margin:0;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`+respuesta[i].nombrepaquete+`</p>
+
+            <p style="margin:0;">`+respuesta[i].nombreusuario+`</p>
+            <p style="margin:0;text-decoration: underline;" onclick="Detallepago(`+respuesta[i].idnotapago+`)">#`+respuesta[i].folio+`</p>
+ 
+
+            </div>
+            <div class="item-footer">
+
+            </div>
+          </div>
+          <a  class="bookmark-btn active" style="`+color+`" >
+            <i class="fas fa-bookmark" ></i>
+            
+          </a>
+        </div>
+      </li>
+      `;
+    }
+  }
+
+  $(".listadocitasrealizadas").html(html);
+}
+
+function CerrarCitasRealizadas() {
+	$("#mostrarcitasrealizadas").css('display','none');
+
+}

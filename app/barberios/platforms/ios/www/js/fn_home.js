@@ -470,7 +470,8 @@ function PintarTableroCitas(respuesta,fechaactual) {
 	var html="";
 
 	$(".titulocitas").css('display','none');
-		
+	 var numero=respuesta.length;
+
 		var contadorpasado=0;
 	if (respuesta.length>0) {
 		$(".titulocitas").css('display','block');
@@ -482,12 +483,20 @@ function PintarTableroCitas(respuesta,fechaactual) {
 				clasecancelado="clasecancelado";
 			}
 
+			var colorborde='#c7aa6a';
+
+	         if (numero % i === 0) {
+	         
+	         colorborde='#9c9c9c';
+	         }
+
+
 		if (respuesta[i].porpasar==0 && contadorpasado==0) {
 
 
 				html+=`<div class="row" style="    display: flex;
     justify-content: center;
-    width: 100%;">
+    width: 100%;margin-bottom: 10px;">
 				<div class="linea"><span>Hoy `+fechaactual+`</span></div>
 
 				</div>`;
@@ -512,27 +521,31 @@ function PintarTableroCitas(respuesta,fechaactual) {
 				}
 
 			html+=`
-			<li class="col-100 medium-50">
+			<li class="col-100 medium-50" style="    border: 1px solid `+colorborde+`;
+    border-radius: 10px;
+    margin-right: 1em;
+    margin-left: 1em;
+    margin-bottom: 1em;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">
 				<div class="card-bx job-card" >
 					<div class="card-media">
 						<a >
-						<img src="`+imagen+`" alt="" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">
+						<img src="`+imagen+`" alt="" >
 						</a>
 					</div>
 					<div class="card-info">
 						<p class="item-title cambiarfuente">
-						<p class="cambiarfuente `+clasecancelado+`" style="margin:0;color:white;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)" >`+respuesta[i].anio+` </p>
-						<a style="color:white;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">
+						<p class="cambiarfuente `+clasecancelado+`" style="margin:0;color:white;"  >`+respuesta[i].anio+` </p>
+						<a style="color:white;" >
 							<p class="cambiarfuente `+clasecancelado+`" style="margin:0;word-break: break-word;">`+respuesta[i].fechaformato+` </p>
 						</a>
 
-						<p class="cambiarfuente `+clasecancelado+`" style="color: white;font-size: 18px;margin:0;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">`+respuesta[i].horacita+`hrs.</p>
+						<p class="cambiarfuente `+clasecancelado+`" style="color: white;font-size: 18px;margin:0;" >`+respuesta[i].horacita+`hrs.</p>
 
 						</p>
 					  <div class="">
 				
-						<p class="cambiarfuente `+clasecancelado+`" style="color: white;margin:0;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">`+respuesta[i].nombreespecialista+`</p>
-						<p class="cambiarfuente `+clasecancelado+`" style="color: white;margin:0;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">`+respuesta[i].titulo+`-`+respuesta[i].descripcion+`</a></p>`;
+						<p class="cambiarfuente `+clasecancelado+`" style="color: white;margin:0;" >`+respuesta[i].nombreespecialista+`</p>
+						<p class="cambiarfuente `+clasecancelado+`" style="color: white;margin:0;" >`+respuesta[i].titulo+`-`+respuesta[i].descripcion+`</a></p>`;
 						
 							//aqui checkin checkout
 
@@ -570,7 +583,7 @@ function PintarTableroCitas(respuesta,fechaactual) {
 					
 					if (respuesta[i].checkin==0) {
 
-						onclick="GenerarQrCita2("+respuesta[i].idcita+")";
+						//onclick="GenerarQrCita2("+respuesta[i].idcita+")";
 	
 					}else{
 
@@ -1245,8 +1258,10 @@ var iduser=localStorage.getItem('id_user');
 		success: function(datos){
 
 			var respuesta=datos.respuesta;
+			localStorage.setItem('idcita',idcita);
+
 				ObtenerDetalleCita(respuesta);	
-				localStorage.setItem('idcita',idcita);
+
 			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;
 				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
@@ -1320,7 +1335,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
                     <div class="card-header">
                     <div class="datoscita">
 
-                    <div class="row divimgqr itemcarrito1" style="margin-top: 10px;padding: 20px;padding-top: 1em;border-top: 1px solid white;display:none" >
+                    <div class="row divimgqr itemcarrito1" style="margin-top: 10px;padding: 20px;padding-top: 1em;display:none" >
                         	<div class="imagenqr" style="justify-content: center;display: flex;"></div>
                         </div>
                         <div class="row" style="" >

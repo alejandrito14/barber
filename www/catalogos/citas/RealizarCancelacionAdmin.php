@@ -32,7 +32,7 @@ try
 
     $obj->db=$db;
      $db->begin();
-    $idusuariocancela=$_POST['idusuariocancela'];
+    $idusuariocancela=$_SESSION['se_sas_Usuario'];
 	$idusuario=$_POST['idusuarios'];
 	$idcita=$_POST['idcita'];
 	$motivocancelacion=$_POST['motivocancela'];
@@ -68,7 +68,7 @@ try
 
 
      	 $notapago->idusuario=$idusuario;
-         $notapago->subtotal=$subtotalsincomision;
+         $notapago->subtotal=$monto;
          $notapago->iva=0;
          $notapago->total=$monto;
          $notapago->comisiontotal=0;
@@ -134,6 +134,10 @@ try
     $iduser=$idusuario;
     $row_cliente = $usuarios->ObtenerUsuario();
     $saldo_anterior = $row_cliente[0]->monedero;
+
+    if ($saldo_anterior=='') {
+       $saldo_anterior=0;
+    }
       $montomonedero=$montomonedero+$obtenercitanota[0]->monederoaplicado;
     //Calculamos nuevo saldo
     $nuevo_saldo = $saldo_anterior + $montomonedero;

@@ -847,7 +847,7 @@ class Cita
 		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal
 		INNER JOIN especialista ON citas.idespecialista=especialista.idespecialista
 		left join usuarios ON usuarios.idusuarios=citas.idusuarios
-		 WHERE 	 citas.checkin=1 AND citas.fechacita='$this->fecha' ORDER BY fechacita,horainicial";
+		 WHERE 	 citas.checkin=1 AND citas.checkout=1 AND citas.fechacita='$this->fecha' ORDER BY fechacita,horainicial";
 
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);

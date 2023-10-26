@@ -7,6 +7,8 @@ header('Access-Control-Allow-Origin: *');
 require_once("clases/conexcion.php");
 require_once("clases/class.Paquetes.php");
 require_once("clases/class.Funciones.php");
+require_once("clases/class.Sucursal.php");
+
 //require_once("clases/class.MovimientoBitacora.php");
 /*require_once("clases/class.Sms.php");
 require_once("clases/class.phpmailer.php");
@@ -19,7 +21,8 @@ try
 	$db = new MySQL();
 	$lo = new Paquetes();
 	$f=new Funciones();
-
+	$sucursal=new Sucursal();
+	$sucursal->db=$db;
 	//Enviamos la conexion a la clase
 	$lo->db = $db;
 
@@ -30,9 +33,14 @@ try
 
 	$obtenerpaquete=$lo->ObtenerPaquete2();
 
+	$idsucursal=$obtenerpaquete[0]->idsucursal;
+
+	$sucursal->idsucursales=$idsucursal;
+	$obtener=$sucursal->ObtenerSucursal();
 
 	$respuesta['respuesta']=$obtenercortesias;
 	$respuesta['paquete']=$obtenerpaquete[0];
+	$respuesta['sucursal']=$obtener[0];
 	
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);

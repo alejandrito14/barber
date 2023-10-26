@@ -135,6 +135,9 @@ try
     $iduser=$idusuario;
     $row_cliente = $usuarios->ObtenerUsuario();
     $saldo_anterior = $row_cliente[0]->monedero;
+     if ($saldo_anterior=='') {
+       $saldo_anterior=0;
+    }
     $montomonedero=$montomonedero+$obtenercitanota[0]->monederoaplicado;
     //Calculamos nuevo saldo
     $nuevo_saldo = $saldo_anterior + $montomonedero;

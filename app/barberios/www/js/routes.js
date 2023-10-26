@@ -309,7 +309,7 @@ var routes = [
 
  {
     path: '/datospersonales/',
-    componentUrl: './pages/datospersonales.html',
+    url: './pages/datospersonales.html',
   },
 
    {

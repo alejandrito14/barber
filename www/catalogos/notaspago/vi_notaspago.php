@@ -103,7 +103,7 @@ $estatuspago = array('NO PAGADO','PAGADO');
 				$bt->title="NUEVO PAGO";
 				
 
-				$bt->armar_boton();
+				//$bt->armar_boton();
 			
 			?>
 			
@@ -120,7 +120,7 @@ $estatuspago = array('NO PAGADO','PAGADO');
 				<div class="row" style="margin-bottom:1em;">
 				<div class="col-md-9"></div>
 					<div class="col-md-3">
-							<button id="exportarBtn" class="btn btn-success" style="margin-left: 70px;">Exportar a Excel</button>
+							<button id="exportarBtn" class="btn btn-success" style="margin-left: 70px;display: none;">Exportar a Excel</button>
 					</div>
 			</div>
 		

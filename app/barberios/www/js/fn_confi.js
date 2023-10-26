@@ -593,3 +593,30 @@ function getdatoscliente() {
 
     })
 }
+
+function GuardarZonaHoraria() {
+	  var zonahoraria=localStorage.getItem('zonahoraria');
+	  var iduser=localStorage.getItem('id_user');
+	  var datos="zonahoraria="+zonahoraria+"&id_user="+iduser;
+
+		var pagina = "GuardarZonaHoraria.php";
+		$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		data:datos,
+		url: urlphp+pagina,
+		async:false,
+		success: function(datos){
+
+			
+
+		},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			var error;
+				if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+								console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+		}
+
+	});
+}

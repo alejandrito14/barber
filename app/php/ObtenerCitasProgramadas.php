@@ -28,6 +28,7 @@ try
 
 	$lo->estatus=$_POST['estatus'];
 	$lo->idusuarios=$_POST['idusuarios'];
+	
 	$obtenertablero=$lo->ObtenerCitasProgramadasUsuario();
 /*
 	if (count($obtenertablero)>0) {

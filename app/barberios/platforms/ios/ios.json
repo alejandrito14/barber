@@ -10,7 +10,7 @@
           "NSCameraUsageDescription": [
             {
               "xml": "<string>Grupo Inversa needs access to camera files to add a pictures and photo user profile </string>",
-              "count": 39
+              "count": 79
             },
             {
               "xml": "<string>This app needs camera access</string>",
@@ -20,7 +20,7 @@
           "NSPhotoLibraryUsageDescription": [
             {
               "xml": "<string>Grupo Inversa needs access to the phone's files to add a pictures and photo user profile\n          </string>",
-              "count": 39
+              "count": 79
             },
             {
               "xml": "<string>This app needs read/write-access photo library access</string>",
@@ -34,19 +34,19 @@
           "NSLocationWhenInUseUsageDescription": [
             {
               "xml": "<string>\n          Grupo Inversa needs access to your approximate location, to choose the zip code\n        </string>",
-              "count": 39
+              "count": 79
             }
           ],
           "NSLocationAlwaysUsageDescription": [
             {
               "xml": "<string> Grupo Inversa access to your approximate location, to choose the zip code</string>",
-              "count": 39
+              "count": 79
             }
           ],
           "CFBundleAllowMixedLocalizations": [
             {
               "xml": "<true />",
-              "count": 39
+              "count": 79
             }
           ],
           "NSMicrophoneUsageDescription": [
@@ -121,6 +121,14 @@
             {
               "xml": "<feature name=\"SocialSharing\"><param name=\"ios-package\" value=\"SocialSharing\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
+            },
+            {
+              "xml": "<feature name=\"BarcodeScanner\"><param name=\"ios-package\" value=\"CDVBarcodeScanner\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"startApp\"><param name=\"ios-package\" value=\"startApp\" /></feature>",
+              "count": 1
             }
           ]
         }
@@ -179,6 +187,15 @@
       "PACKAGE_NAME": "com.inversa.app"
     },
     "cordova-support-android-plugin": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-compat": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-barcodescanner": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "com.lampa.startapp": {
       "PACKAGE_NAME": "com.inversa.app"
     }
   },
@@ -530,6 +547,22 @@
       "clobbers": [
         "window.plugins.socialsharing"
       ]
+    },
+    {
+      "id": "cordova-plugin-barcodescanner.BarcodeScanner",
+      "file": "plugins/cordova-plugin-barcodescanner/www/barcodescanner.js",
+      "pluginId": "cordova-plugin-barcodescanner",
+      "clobbers": [
+        "cordova.plugins.barcodeScanner"
+      ]
+    },
+    {
+      "id": "com.lampa.startapp.startapp",
+      "file": "plugins/com.lampa.startapp/www/startApp.js",
+      "pluginId": "com.lampa.startapp",
+      "merges": [
+        "startApp"
+      ]
     }
   ],
   "plugin_metadata": {
@@ -547,6 +580,9 @@
     "cordova-plugin-wkwebview-file-xhr": "3.0.0",
     "es6-promise-plugin": "4.2.2",
     "cordova-plugin-x-socialsharing": "6.0.4",
-    "cordova-support-android-plugin": "2.0.4"
+    "cordova-support-android-plugin": "2.0.4",
+    "cordova-plugin-compat": "1.2.0",
+    "cordova-plugin-barcodescanner": "0.7.4",
+    "com.lampa.startapp": "6.1.6"
   }
 }

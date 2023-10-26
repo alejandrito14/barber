@@ -130,10 +130,14 @@ try
      $usuarios=new Usuarios();
      $usuarios->db=$db;
      $montomonedero=$obtenercitanota[0]->monto-$obtenercitanota[0]->montocupon-$obtenercitanota[0]->monederoaplicado;
-    $usuarios->idusuarios = $idusuario;
+    $usuarios->id_usuario = $idusuario;
     $iduser=$idusuario;
     $row_cliente = $usuarios->ObtenerUsuario();
+
     $saldo_anterior = $row_cliente[0]->monedero;
+     if ($saldo_anterior=='') {
+       $saldo_anterior=0;
+    }
       $montomonedero=$montomonedero+$obtenercitanota[0]->monederoaplicado;
     //Calculamos nuevo saldo
     $nuevo_saldo = $saldo_anterior + $montomonedero;
@@ -144,7 +148,7 @@ try
     $tipo=0;
     $concepto="Abono por cancelacion";
     $sql_movimiento = "INSERT INTO monedero (idusuarios,monto,modalidad,tipo,saldo_ant,saldo_act,concepto,idnota) VALUES ('$iduser','$montomonedero','2','$tipo','$saldo_anterior','$nuevo_saldo','$concepto','$idnotapagonueva');";
-  
+ 
      $db->consulta($sql_movimiento);
 
  	$db->commit();

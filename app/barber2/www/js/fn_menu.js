@@ -97,3 +97,23 @@ function Empezar() {
   }
 
 }
+
+
+
+function IrHome() {
+  var tipousuario= localStorage.getItem('idtipousuario');
+  var session=localStorage.getItem('session');
+  if (tipousuario==5) {
+    GoToPage('homeespecialista');
+
+  }
+   if (tipousuario==3 ) {
+
+        GoToPage('home');
+
+  }
+   if (tipousuario==0 ) {
+      GoToPage('homeadmin');
+
+  }
+}

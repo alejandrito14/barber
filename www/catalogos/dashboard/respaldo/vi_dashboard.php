@@ -56,8 +56,8 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 <div class="row">
 
 	 <div class="col-xl-3 col-md-4">
-                   <div class="card colornegro text-white mb-4">
-                      <div class="card-body" style="    font-size: 16px;">CITAS de hoy</div>
+                   <div class="card colornegro text-white mb-4" style="background: #375d97">
+                      <div class="card-body" style="    font-size: 16px;">CITAS AGENDADAS de hoy</div>
                      <div class="card-footer ">
                        <a class="small text-white stretched-link" onclick="ListadoCitas()" style="width: 100%;cursor: pointer;">
                        <h3>
@@ -73,7 +73,36 @@ if(isset($_SESSION['permisos_acciones_erp'])){
    									</span>
           </div>
 
-            <div class="listadocitas">
+            <div class="listadocitas" style="list-style: none;">
+           
+           </div>
+                                          
+          </div>
+
+               </div>
+           </div>
+       </div>
+      </div>
+
+      <div class="col-xl-3 col-md-4">
+                   <div class="card colornegro text-white mb-4">
+                      <div class="card-body" style="    font-size: 16px;">CITAS REALIZADAS de hoy</div>
+                     <div class="card-footer ">
+                       <a class="small text-white stretched-link" onclick="ListadoCitasRealizadas()" style="width: 100%;cursor: pointer;">
+                       <h3>
+                          <span class="mdi mdi-calendar"></span></span>
+                          <span id="citasregistrosrealizadas">0</span>
+                        </h3>
+                      </a>
+                      <div class="small text-white">
+                 <div id="mostrarcitasrealizadas" style="display: none;">
+
+            <div id="" class="panel-actions">
+            <span style="    justify-content: right;display: flex;font-size: 15px;" onclick="CerrarCitasRealizadas()" class="actions "><span class="mdi mdi-close-circle"></span>
+                    </span>
+          </div>
+
+            <div class="listadocitasrealizadas" style="    list-style: none;">
            
            </div>
                                           
@@ -103,7 +132,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
    									</span>
           </div>
 
-            <div class="listadocitas">
+            <div class=""style="list-style: none;">
            
            </div>
                                           
@@ -276,7 +305,9 @@ if(isset($_SESSION['permisos_acciones_erp'])){
       <div class="modal-footer">
 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
 
-<button type="button" id="btnguardarpc" class="btn btn-success" style="float: right;" title="">Cancelar cita</button>   
+<button type="button" id="btnreagendarcita" class="btn btn-warning btnreagendarcita" style="float: right;" title="">Reagendar</button>   
+
+<button type="button" id="btncancelarcita" class="btn btn-success btncancelarcita" style="float: right;" title="">Cancelar cita</button>   
 
      
        
@@ -599,6 +630,8 @@ display: flex;
 
 <script>
 	var NtabName="citas";
+ var idmenumodulo='<?php echo $idmenumodulo; ?>';
+ 
 	/*ObtenerClientesAndroidios();
 	Obtenerregistrados();
 	clientesensession();

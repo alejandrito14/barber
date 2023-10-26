@@ -97,7 +97,11 @@ var intervalocitas=0;
 
 var pictureSource;   // picture source
  var destinationType; 
-var produccion = 1;
+var produccion =1;
+const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+localStorage.setItem('zonahoraria',userTimeZone);
+
 var idcategoriapadre=0;
 var codigoservicio="0";
 $(document).ready(function() {
@@ -140,7 +144,7 @@ $(document).ready(function() {
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.25';
+var version='1.0.27';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;
@@ -1163,8 +1167,12 @@ $('input[name="demo-radio-start"]').change(function () {
 
 $$(document).on('page:init', '.page[data-name="datospersonales"]', function (e) {
 
-Cargardatospersonales();
+    Cargardatospersonales();
 
+    $("#txtsexoh").attr('onclick','SeleccionarhM("H")');
+    $("#txtsexom").attr('onclick','SeleccionarhM("M")');
+    $("#btnguardardatos").attr('onclick','Guardardatospersonales()');
+    $(".regreso").attr('onclick','GoToPage("perfil")');
 });
 $$(document).on('page:init', '.page[data-name="profile"]', function (e) {
 
@@ -1496,11 +1504,15 @@ $$(document).on('page:init', '.page[data-name="monedero"]', function (e) {
 
 $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
     Cargardatospersonales();
-
-    $("#txtsexoh").attr('onclick','SeleccionarhM("H")');
-    $("#txtsexom").attr('onclick','SeleccionarhM("M")');
-    $("#btnguardardatos").attr('onclick','Guardardatospersonales()');
+    $("#btndatospersonales").attr('onclick','GoToPage("datospersonales")');
+    $("#btneliminarcuenta").attr('onclick','EliminarCuenta()');
+    $(".regreso").attr('onclick','IrHome()');
+ 
+   // $("#txtsexoh").attr('onclick','SeleccionarhM("H")');
+   // $("#txtsexom").attr('onclick','SeleccionarhM("M")');
+   // $("#btnguardardatos").attr('onclick','Guardardatospersonales()');
 });
+
 
 
 /*$$(document).on('page:init', '.page[data-name="disponibilidadfechaadmin"]', function (e) {

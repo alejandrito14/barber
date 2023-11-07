@@ -333,8 +333,9 @@ var getID = function(){
 var getToken = function(showAlert){
     FirebasePlugin.getToken(function(token){
         log("Got FCM token: " + token, showAlert)
-   
-        $("#txtarea").val(token);
+       
+        localStorage.setItem('tokenfirebase',token);
+        //$("#txtarea").val(token);
     }, function(error) {
         logError("Failed to get FCM token", error, true);
     });
@@ -368,14 +369,128 @@ var handleNotificationMessage = function(message){
         body = message.aps.alert.body;
     }
 
-    var msg = "Notification message received";
-    if(message.tap){
+  //  var msg = "Notification message received";
+    var msg = "Notification message received FB";
+    if (message.tap) {
         msg += " (tapped in " + message.tap + ")";
+        if (message.navigation && localStorage.id_user) {
+
+          // alert(localStorage.id_user+''+message.idcliente);
+            var idcliente=message.idcliente;
+
+
+                if (localStorage.id_user == message.idcliente) {
+                  
+                    if (message.tap == "background") {
+                        localStorage.pushnav = message.navigation;
+                        localStorage.valor=message.valor;
+                        localStorage.idcliente=message.idcliente;
+
+
+                       if (message.navigation == 'messages') {
+                        localStorage.setItem('bandera',1);
+                          if (localStorage.valor!='') {
+                            
+                                localStorage.setItem('idsala',localStorage.valor);
+                             }
+                         }else{
+
+                              if (localStorage.valor!='') {
+                                localStorage.setItem('idservicio',localStorage.valor);
+                             }
+                         }
+
+                          
+                                   
+                       // mainView.router.navigate("/"+localStorage.pushnav+"/", {reloadCurrent: true} );
+                        //var view=app.views.current;
+                        //view.router.navigate("/"+message.navigation+"/", {reloadCurrent: true} );
+                        //view.router.navigate("/"+message.navigation+"/", {reloadCurrent: true} );
+                        GoToPage(message.navigation);
+                    }
+                    else{
+
+
+                        localStorage.pushnav = message.navigation;
+                        localStorage.valor=message.valor;
+
+                           if (message.navigation == 'messages') {
+                        localStorage.setItem('bandera',1);
+                          if (localStorage.valor!='') {
+                            
+                                localStorage.setItem('idsala',localStorage.valor);
+                             }
+                         }else{
+
+                              if (localStorage.valor!='') {
+                                localStorage.setItem('idservicio',localStorage.valor);
+                             }
+                         }
+
+             
+
+                        //mainView.router.navigate("/"+localStorage.pushnav+"/", {reloadCurrent: true} );
+                       GoToPage(message.navigation);
+                    }
+                }else{
+
+
+                         localStorage.pushnav = message.navigation;
+                         localStorage.valor=message.valor;
+                            /*if (localStorage.valor!='') {
+                                localStorage.setItem('idservicio',localStorage.valor);
+                            }*/
+
+                              var banderatuto=message.banderatuto;
+
+                                //alert(banderatuto);
+                             /*   if (banderatuto == 0) {
+
+                                    if(localStorage.getItem('iduserrespaldo')!=null && localStorage.getItem('iduserrespaldo')!=0 && localStorage.getItem('iduserrespaldo')!=undefined)
+                                    {
+                                        var iduserrespaldo=localStorage.getItem('iduserrespaldo');
+                                        localStorage.setItem('id_user',iduserrespaldo);
+                                        localStorage.removeItem('iduserrespaldo');
+
+                                    }
+
+                                }else{
+                                 var idcliente=message.idcliente;
+                                 var iduser=localStorage.getItem('id_user');
+            
+                                 localStorage.setItem('iduserrespaldo',iduser);
+                            
+                                 localStorage.setItem('idusuertutorado',idcliente);
+
+                       
+                                }*/
+
+                   
+                        //mainView.router.navigate("/"+localStorage.pushnav+"/", {reloadCurrent: true} );
+                          /* if (message.navigation == 'messages') {
+                        localStorage.setItem('bandera',1);
+                          if (localStorage.valor!='') {
+                            
+                                localStorage.setItem('idsala',localStorage.valor);
+                             }
+                         }else{
+
+                              if (localStorage.valor!='') {
+                                localStorage.setItem('idservicio',localStorage.valor);
+                             }
+                         }*/
+
+                        //GoToPage(message.navigation);
+
+
+
+                }
+        }
     }
     if(title){
         msg += '; title='+title;
     }
-    if(body){
+    if(body){ 
         msg += '; body='+body;
     }
     msg  += ": "+ JSON.stringify(message);

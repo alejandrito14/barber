@@ -2412,12 +2412,14 @@ var htmlmodal=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:
                           </div>
 
                           <div class="row margin-bottom " style="padding-top: 1em;margin-left: 2em;margin-right: 2em;">
-                            <div class="col-50">
-                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente cambiarfuente2" onclick="EjecutarValidacion('`+telefono+`',`+inputleido+`,1)">SMS</button>
-                            </div>
+                            
 
                             <div class="col-50">
                             <button style="background: white;color:black;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente cambiarfuente2" onclick="EjecutarValidacion('`+telefono+`',`+inputleido+`,2)">WhatsApp</button>
+                            </div>
+
+                            <div class="col-50">
+                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente cambiarfuente2" onclick="EjecutarValidacion('`+telefono+`',`+inputleido+`,1)">SMS</button>
                             </div>
                           </div>
 
@@ -4423,12 +4425,14 @@ var htmlmodal=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:
                           </div>
 
                           <div class="row margin-bottom " style="padding-top: 1em;margin-left: 2em;margin-right: 2em;">
-                            <div class="col-50">
-                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente cambiarfuente2" onclick="EjecutarReeenvio('`+usuario+`',1)">SMS</button>
-                            </div>
+                            
 
                             <div class="col-50">
                             <button style="background: white;color:black;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente cambiarfuente2" onclick="EjecutarReeenvio('`+usuario+`',2)">WhatsApp</button>
+                            </div>
+
+                            <div class="col-50">
+                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente cambiarfuente2" onclick="EjecutarReeenvio('`+usuario+`',1)">SMS</button>
                             </div>
                           </div>
 

@@ -7,7 +7,7 @@ var theme = 'md';
 if (document.location.search.indexOf('theme=') >= 0) {
   theme = document.location.search.split('theme=')[1].split('&')[0];
 }
-
+ 
 // Preloader
 setTimeout(function () {
     $('.loader-screen').hide();
@@ -97,7 +97,10 @@ var intervalocitas=0;
 
 var pictureSource;   // picture source
  var destinationType; 
-var produccion = 1;
+var produccion =1;
+const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+localStorage.setItem('zonahoraria',userTimeZone);
 
 var idcategoriapadre=0;
 var codigoservicio="0";
@@ -141,7 +144,7 @@ $(document).ready(function() {
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.27';
+var version='1.0.30';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;
@@ -318,10 +321,11 @@ var carpetaapp="";
 
     p1.then(function(value) {
      var tokenfirebase=localStorage.getItem('tokenfirebase');
-       
+      
     // ObtenerConfiVersion();     
     
-    
+   
+
     },function(reason) {
      console.log(reason); // Error!
   });
@@ -420,7 +424,7 @@ $$(document).on('page:init', '.page[data-name="landing"]', function (e) {
        MostrarAnuncios(); 
     });
 
-   
+
 
 });
 // Option 1. Using one 'page:init' handler for all pages
@@ -429,7 +433,6 @@ $$(document).on('page:init', function (e) {
  
 //Cargar();
   
- 
 }); 
 $$(document).on('page:init', '.page[data-name="home"]', function (e) {
      $(".btnsalir").attr('onclick','salir_app()');
@@ -909,8 +912,14 @@ $$(document).on('page:init','.page[data-name="homeindex"]',function(e)
                     $$(".landing").css('display','block');
                     MostrarAnuncios(); 
                      myStopFunction(intervalo);
+
+                     var tokenfirebase=localStorage.getItem('tokenfirebase');
+                     
+                      GuardarTokenBase(0);
                   }, 4000); 
  $(".btnempezar").attr('onclick','Empezar()');
+
+
   /*setTimeout(function () {
 
       var id_user=localStorage.getItem('id_user');
@@ -1136,7 +1145,12 @@ $$(document).on('page:init', '.page[data-name="servicios"]', function (e) {
   myStopFunction(control);
  CargarCalendario2();
  $(".regresar").attr('onclick','GoToPage("homeadmin")');
-
+ $(".btnserviciosagendados").attr('onclick','FiltrarEstatus(100)');
+ $(".btnserviciosproceso").attr('onclick','FiltrarEstatus(1)');
+ $(".btnserviciospendientes").attr('onclick','FiltrarEstatus(0)');
+ $(".btnserviciosrealizados").attr('onclick','FiltrarEstatus(2)');
+ $(".btnservicioscancelados").attr('onclick','FiltrarEstatus(3)');
+ $(".btnserviciosnorealizados").attr('onclick','FiltrarEstatus(4)');
 });
 
 $$(document).on('page:init', '.page[data-name="productos"]', function (e) {
@@ -1508,6 +1522,21 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
    // $("#txtsexoh").attr('onclick','SeleccionarhM("H")');
    // $("#txtsexom").attr('onclick','SeleccionarhM("M")');
    // $("#btnguardardatos").attr('onclick','Guardardatospersonales()');
+});
+
+
+$$(document).on('page:init', '.page[data-name="calendarioespecialista"]', function (e) {
+
+ CargarCalendarioespecialista();
+ $(".regresar").attr('onclick','GoToPage("homeespecialista")');
+ $(".btnserviciosagendados").attr('onclick','FiltrarEstatusEspe(100)');
+ $(".btnserviciosproceso").attr('onclick','FiltrarEstatusEspe(1)');
+ $(".btnserviciospendientes").attr('onclick','FiltrarEstatusEspe(0)');
+ $(".btnserviciosrealizados").attr('onclick','FiltrarEstatusEspe(2)');
+ $(".btnservicioscancelados").attr('onclick','FiltrarEstatusEspe(3)');
+ $(".btnserviciosnorealizados").attr('onclick','FiltrarEstatusEspe(4)');
+
+
 });
 
 

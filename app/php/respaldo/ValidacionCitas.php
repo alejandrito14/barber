@@ -59,8 +59,9 @@ try
 
 				$cita->horainicial=$obtenerdetallecita[$i]->horainicial;
 				$cita->horafinal=$obtenerdetallecita[$i]->horafinal;
+				$cita->fechacita=$obtenerdetallecita[$i]->fecha;
 				$cita->idespecialista=$obtenerdetallecita[$i]->idespecialista;
-				$existecita=$cita->ChecarHorarioEspecialista();
+				$existecita=$cita->ChecarHorarioFechaEspecialista();
 
 				if (count($existecita)>0) {
 					$citasapartada++;
@@ -77,7 +78,7 @@ try
 	$respuesta['citasapartada']=$citasapartada;
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);
-	echo $myJSON;die();
+	echo $myJSON;
 
 }catch(Exception $e){
 	//$db->rollback();

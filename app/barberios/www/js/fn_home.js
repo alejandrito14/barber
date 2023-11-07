@@ -485,18 +485,17 @@ function PintarTableroCitas(respuesta,fechaactual) {
 				clasecancelado="clasecancelado";
 			}
 
-			var colorborde='#c7aa6a';
-
-	         if (numero % i === 0) {
+			var colorborde='#9c9c9c';
+	         if (i % 2 === 0) {
 	         
-	         colorborde='#9c9c9c';
+	         colorborde='#c7aa6a';
 	         }
 
 
 		if (respuesta[i].porpasar==0 && contadorpasado==0) {
 
 
-				html+=`<div class="row" style="    display: flex;
+	html+=`<div class="row" style="    display: flex;
     justify-content: center;
     width: 100%;margin-bottom: 10px;">
 				<div class="linea"><span>Hoy `+fechaactual+`</span></div>
@@ -524,16 +523,12 @@ function PintarTableroCitas(respuesta,fechaactual) {
 
 			html+=`
 			<li class="col-100" style=" border: 1px solid `+colorborde+`;
-    border-radius: 10px;
-    margin-right: 1em;
-    margin-left: 1em;
-    margin-bottom: 1em;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">
-				<div class="card-bx job-card" >
-					<div class="card-media">
-						<a >
-						<img src="`+imagen+`" alt="" >
-						</a>
-					</div>
+    border-radius: 10px; margin-right: 1em; margin-left: 1em;margin-bottom: 1em;" >
+				
+				<div class="row">
+				<div class="col-60">
+					<div class="card-bx job-card" style="padding-right: 0;" >
+						
 					<div class="card-info">
 						<p class="item-title cambiarfuente">
 						<p class="cambiarfuente `+clasecancelado+`" style="margin:0;color:white;"  >`+respuesta[i].anio+` </p>
@@ -546,8 +541,8 @@ function PintarTableroCitas(respuesta,fechaactual) {
 						</p>
 					  <div class="">
 				
-						<p class="cambiarfuente `+clasecancelado+`" style="color: white;margin:0;" >`+respuesta[i].nombreespecialista+`</p>
-						<p class="cambiarfuente `+clasecancelado+`" style="color: white;margin:0;" >`+respuesta[i].titulo+`-`+respuesta[i].descripcion+`</a></p>`;
+						<p class="cambiarfuente `+clasecancelado+`" style="color: white;margin:0;" >Barbero: `+respuesta[i].nombreespecialista+`</p>
+						<p class="cambiarfuente `+clasecancelado+`" style="color: white;margin:0;" >Barbería: `+respuesta[i].titulo+`</a></p>`;
 						
 							//aqui checkin checkout
 
@@ -574,10 +569,44 @@ function PintarTableroCitas(respuesta,fechaactual) {
 
 								html+=`</p>`;
 								
-							
+								html+=`<a id="btncalendario" style=" color: #007aff!important;text-align: center;justify-content: center;" onclick="AbrirModalCita(`+respuesta[i].idcita+`)">Ver detalle</a>`;
 
 						html+=`</div>
-						<div class="item-footer">
+							</div>
+
+						</div>
+
+						</div>
+						<div class="col-40">`;
+					var claseestatus="";
+
+                if (respuesta[i].estatuscita==0) {
+                  claseestatus='estatuscitapendiente';
+                  }
+                  if (respuesta[i].estatuscita==1) {
+                  claseestatus='estatuscitaproceso';
+                  }
+                  if(respuesta[i].estatuscita==2) {
+                  claseestatus='estatuscitafinalizada';
+                  }
+
+                  if(respuesta[i].estatuscita==3) {
+                  claseestatus='estatuscitacancelada';
+                  }
+
+                   if(respuesta[i].estatuscita==4) {
+                  claseestatus='estatuscitavencida';
+                  }
+
+                 
+                html+=`
+                  <p  style="display: flex;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`;
+                html+=`<span class="`+claseestatus+`">`+respuesta[i].textoestatus+`</span>  `;
+                html+=`</p>`;
+                  
+
+						html+=`</div>
+
 
 						</div>
 					</div>`;
@@ -594,11 +623,11 @@ function PintarTableroCitas(respuesta,fechaactual) {
 
 
 
-					html+=`<a  class="bookmark-btn active" onclick="`+onclick+`" >
+					/*html+=`<a  class="bookmark-btn active" onclick="`+onclick+`" >
 						<span class="material-icons-outlined" style="font-size: 28px;`+color+`">
 							qr_code
 						</span>
-					</a>`;
+					</a>`;*/
 
 
 				html+=`
@@ -1689,7 +1718,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
         on: {
           open: function (sheet) {
 
-          	if (respuesta.checkin==0 && respuesta.cancelacion==0) {
+          	if (respuesta.estatus==0 && respuesta.checkin==0 && respuesta.cancelacion==0) {
           		$(".divimgqr").css('display','');
           		GenerarQrCita(respuesta.idcita);
           	}

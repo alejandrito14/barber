@@ -44,9 +44,13 @@ try
 	$cita->fecha=$fechafiltro;
 	$obtenercitasrealizadas=$cita->ObtenerCitascheckin();
 
-		
+	$cita->horaactual=date('H:i');
 
+	$obtenerpendientes=$cita->ObtenerCitasPendientes();
+	$obtenernorealizados=$cita->ObtenerCitasNoRealizados();
 		
+	$obtenercancelados=$cita->ObtenerCitasCanceladas();
+	$obtenerenproceso=$cita->ObtenerCitasProceso();
 
 	//echo $mes;
 	
@@ -54,7 +58,10 @@ try
 	$respuesta['totalproductosdia']=count($obtener);
 	$respuesta['totalcitasdia']=count($obtenercitas);
 	$respuesta['totalcitasrealizadas']=count($obtenercitasrealizadas);
-
+	$respuesta['totalpendientes']=count($obtenerpendientes);
+	$respuesta['totalnorealizados']=count($obtenernorealizados);
+	$respuesta['totalcancelados']=count($obtenercancelados);
+	$respuesta['totalproceso']=count($obtenerenproceso);
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);
 	echo $myJSON;

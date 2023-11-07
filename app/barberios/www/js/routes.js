@@ -298,6 +298,14 @@ var routes = [
     path: '/servicios/',
     componentUrl: './pages/servicios.html',
   },
+
+  {
+    path: '/calendarioespecialista/',
+    componentUrl: './pages/calendarioespecialista.html',
+  },
+
+  
+
    {
     path: '/productos/',
     componentUrl: './pages/productos.html',

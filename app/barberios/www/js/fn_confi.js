@@ -393,6 +393,7 @@ function GuardarTokenBase(idcliente) {
 
 	 var sistema=localStorage.getItem("SO");
 	 var tokenfirebase=localStorage.getItem('tokenfirebase');
+	
 	 var idcliente=localStorage.getItem('id_user');
 	 var uuid=localStorage.getItem('UUID');
 	

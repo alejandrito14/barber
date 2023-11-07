@@ -785,6 +785,7 @@ function salir_app()
 	localStorage.removeItem("idusuarioinvitado");
 	localStorage.removeItem('id_usuariologin');
 	myStopFunction(identificadorDeTemporizador);
+	myStopFunction(intervalocitas);
 
 	GoToPage("/");
 /*

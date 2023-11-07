@@ -8,16 +8,19 @@ function CargarDatosEspecialista() {
 	 var nombre= localStorage.getItem("nombre");
     $(".nombreusuario").text(nombre);
     $(".liconfiguracion").css('display','none');
-    ObtenerEdad();
+     ObtenerEdad();
      CargarFechafiltro();
      ObtenerTableroAnuncios();
      Obtenerpublicidad(1);
-	 ObtenerTableroCitasEspecialista();
+	// ObtenerTableroCitasEspecialista();
+	 ObtenerTotalesCitasEspecialista();
 	 ObtenerFechaActual();
 	 
 	 ObtenerDetalleEmpresa();
-		      
-	intervalocitas=setInterval("FiltrarTableroCitas()",2000);
+
+	 $(".btnserviciosagendados").attr('onclick','GoToPage("calendarioespecialista")');
+	intervalocitas=setInterval("ObtenerTotalesCitasEspecialista()",2000);	      
+	//intervalocitas=setInterval("FiltrarTableroCitas()",2000);
 }
 
 function IntervaloCitas() {
@@ -66,7 +69,7 @@ function PintarTableroCitasEspecialista(respuesta) {
 	if (respuesta.length>0) {
 		$(".titulocitas").css('display','block');
 		for (var i = 0; i < respuesta.length; i++) {
-
+ 
 					imagen=urlimagenes+`sucursal/imagenes/`+codigoserv+respuesta[i].imagen;
 
 				var color="color:black;";
@@ -83,72 +86,114 @@ function PintarTableroCitasEspecialista(respuesta) {
 					color="color:#5ac35b;";
 				}
 
+			var colorborde='#9c9c9c';
+	         if (i % 2 === 0) {
+	         
+	         colorborde='#c7aa6a';
+	         }
+
+
 			html+=`
-			<li class="col-100 medium-50">
-				<div class="card-bx job-card" onclick="AbrirModalCitaEspecialista(`+respuesta[i].idcita+`)">
-					<div class="card-media">
-						<a >
-						<img src="`+imagen+`" alt="">
-						</a>
-					</div>
-					<div class="card-info">
-						<h6 class="item-title">
-			
-						<p style="margin:0;">`+respuesta[i].titulo+`-`+respuesta[i].descripcion+`</a></p>
-
-						<p style="color: #2b952a;font-size: 18px;margin:0;">`+respuesta[i].horacita+`-`+respuesta[i].horafinal+`hrs.</p>
-
-						</h6>
-					  <div class="">
+						<li class="col-100" style=" border: 1px solid `+colorborde+`;
+    border-radius: 10px; margin-right: 1em; margin-left: 1em;margin-bottom: 1em;" >`;
 				
-						<p style="margin:0;">`+respuesta[i].nombreespecialista+`</p>`;
-							if (respuesta[i].checkin==1) {
-								html+=`
-									<p class="" style="display: flex;">`;
-								html+=`<span>check-in: `+respuesta[i].fechacheckin+`</span> <span class="material-icons-outlined" style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;margin-left: 5px;">
-										check_circle_outline
-										</span>
-
-										`;
-								html+=`</p>`;
-									}
-
-									if (respuesta[i].checkout==1) {
-								html+=`
-									<p class="" style="display: flex;">`;
-								html+=`<span>check-out: `+respuesta[i].fechacheckout+`</span> <span class="material-icons-outlined" style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;margin-left: 5px;">
-										check_circle_outline
-										</span>`;
-								html+=`</p>`;
-									}
 
 
-						html+=`</div>
-						<div class="item-footer">
-
-						</div>
-					</div>
-
-					`;
-
-					var onclick="";
-					//var color="color:black;";
-					if (respuesta[i].checkin==1) {
-						//color="color:#5ac35b;";
-
-	
-					}
-
-
-
-					html+=`<a  class="bookmark-btn active"  >
+					/*html+=`<a  class="bookmark-btn active"  >
 						<span class="material-icons-outlined" style="font-size: 28px;`+color+`">
 							qr_code
 						</span>
-					</a>`;
+					</a>`;*/
 
 				
 				html+=`
+				</div>
+
+				<div class="row">
+					<div class="col-60">`;
+			 html+=`<div class="card-bx job-card" style="padding-right: 0;">
+         
+          <div class="card-info">
+            <p class="item-title" style="">
+            <p style="margin:0;color:white;" >`+respuesta[i].fechaformato+`</a></p>
+              <p style="color: white;font-size: 18px;margin:0;">`+respuesta[i].horacita+`-`+respuesta[i].horafinal+`hrs.</p>
+
+            <p style="margin:0;color: white;" >Cliente: `+respuesta[i].nombreusuario+`</a></p>
+
+            <p style="margin:0;color: white;" >Barbería: `+respuesta[i].titulo+`</a></p>
+             <p style="margin:0;color: white;" >`+respuesta[i].concepto+`</p>
+
+
+
+            </h6>
+            <div class=""> `;
+
+            if (respuesta[i].checkin==1) {
+                html+=`
+                  <p class="" style="display: flex;" >`;
+                html+=`<span>check-in: `+respuesta[i].fechacheckin+`</span> <span class="material-icons-outlined" style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;margin-left: 5px;">
+                    check_circle_outline
+                    </span>
+
+                    `;
+                html+=`</p>`;
+                  }
+
+                  if (respuesta[i].checkout==1) {
+                html+=`
+                  <p class="" style="display: flex;" >`;
+                html+=`<span>check-out: `+respuesta[i].fechacheckout+`</span> <span class="material-icons-outlined" style=" width: 30px;justify-content: center;font-size: 20px;color:#5ac35b;margin-left: 5px;">
+                    check_circle_outline
+                    </span>`;
+                html+=`</p>`;
+                  }
+
+  
+                html+=`<a id="btncalendario" style=" color: #007aff!important;text-align: center;justify-content: center;" onclick="AbrirModalCitaEspecialista(`+respuesta[i].idcita+`)">Ver detalle</a>`;
+
+           html+= `</div>
+            <div class="item-footer" onclick="AbrirModalCitaEspecialista(`+respuesta[i].idcita+`)">
+
+            </div>
+          </div>
+          
+        </div>`;
+
+				html+=`	</div> 
+
+					<div class="col-40">`;
+
+					var claseestatus="";
+
+                if (respuesta[i].estatuscita==0) {
+                  claseestatus='estatuscitapendiente';
+                  }
+                  if (respuesta[i].estatuscita==1) {
+                  claseestatus='estatuscitaproceso';
+                  }
+                  if(respuesta[i].estatuscita==2) {
+                  claseestatus='estatuscitafinalizada';
+                  }
+
+                  if(respuesta[i].estatuscita==3) {
+                  claseestatus='estatuscitacancelada';
+                  }
+
+                   if(respuesta[i].estatuscita==4) {
+                  claseestatus='estatuscitavencida';
+                  }
+
+                 
+                html+=`
+                  <p  style="display: flex;text-align: right;
+    justify-content: right;
+    margin-right: 10px;" onclick="AbrirModalCitaEspecialista(`+respuesta[i].idcita+`)">`;
+                html+=`<span class="`+claseestatus+`">`+respuesta[i].textoestatus+`</span>  `;
+                html+=`</p>`;
+                  
+
+					html+=`
+					</div>
 				</div>
 			</li>
 			`;
@@ -189,8 +234,15 @@ function ObtenerDetalleCitaEspecialista(respuesta) {
 
 	var html2="";
 
-var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;background: white;">
-           
+var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%;background: black;">
+            <div class="toolbar" style="background: black;margin-top: 20px;">
+              <div class="toolbar-inner">
+                <div class="left"></div>
+                <div class="right">
+                  <a class="link sheet-close"></a>
+                </div>
+              </div>
+            </div>
             <div class="sheet-modal-inner" style="background: black; ">
             	 <div class="iconocerrar link sheet-close" style="z-index:10;margin-top:1em;">
             	 <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -234,29 +286,160 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
    							 </div>
    							 <div class="" style="position: absolute;top:1em;width: 100%;">
    							 	
-	   														  <div class="">
-		   															  <div class="" style="">
-		   							 	 													<div class="" style="">
+	   						 <div class="row">
+		   															 
+		   			 <div class="col-100" style="    margin-left: 1em; margin-right: 1em;">
+		   		<div class="card margin-bottom" style="background:black!important;">
 		   							 	 
 			<div class="row">
 			<div class="col-100" style="margin-left: 1em;margin-right: 1em;margin-top: 1em;">
-                <div class="card margin-bottom" style="    background: black;">
-                    <div class="card-header" style="color:white;">
-                        <div class="row">
-                            
-                            <div class="col-50">
-                                <h3 class="no-margin-bottom text-color-theme">`+respuesta.titulo+`</h3>
-                            	<p class="no-margin-bottom text-color-theme">`+respuesta.descripcion+`</p>
+              
+     <div class=" cambiarfuente " style="list-style: none;background: black;">
 
-                            	<p class="no-margin-bottom text-color-theme">`+respuesta.fechaformato+`</p>
-                            	<p class="no-margin-bottom text-color-theme">`+respuesta.horainicial+`-`+respuesta.horafinal+`Hrs.</p>
+                 <li class="item-content cambiarfuente itemcarrito2" style="margin-top: 1em;border-bottom: 1px solid;margin-bottom: 1em;padding: 20px;
+    padding-top: 1em;border-top: 1px solid white;">
+            <div class="row" style="margin-bottom: 10px;">
+              <div class="col-90">
+                <div class="icon-text-container">`;
+                var etiqueta='';
+                if (respuesta.servicio==1) {
+                  etiqueta="Servicio";
+                }
 
-                            	<p class="no-margin-bottom text-color-theme">Cliente: `+respuesta.nombre+` `+respuesta.paterno+`</p>
+                if (respuesta.servicio==0) {
+                  etiqueta="Producto";
+                }
 
-                            	<p class="no-margin-bottom text-color-theme">`+respuesta.concepto+`</p>
+               html+=`
+               <span class="material-icons-outlined">inventory_2
+                </span> <p style="margin:0;">`+etiqueta+`: <span class="texto">`+respuesta.concepto+`</span>
+                </p>
 
-                            	`;
+                </div>
+                <div class="icon-text-container" style="margin-top: 10px;">
+                <span class="material-icons-outlined">local_atm</span>
+                  <p style="margin:0;">Costo: <span class="texto">$`+respuesta.costo+`</span>
+                  </p>
+                </div>
+                <div class="icon-text-container" style="margin-top: 10px;">
+                 <span class="material-icons-outlined">
+                    add_business
+                    </span>
+                    <p style="margin:0;">
+                   
+                    Negocio: <span class="texto">`+respuesta.titulo+`</span></p>
+                     </div>
+                    `;
 
+                       if (respuesta.servicio==0) {
+                      html+=`<p style="margin:0;">Cantidad: `+respuesta.cantidad+`</p>`;
+                 
+                  }else{
+
+
+                    html+=` 
+                        <div class="icon-text-container" style="margin-top: 10px;">
+                        <span class="material-icons-outlined">supervised_user_circle</span>
+                    <p style="margin:0;">Barbero: <span class="texto">`+respuesta.nombreespecialista+` </span></p>
+                    </div>
+                    `;
+
+                    html+=` 
+                        <div class="icon-text-container" style="margin-top: 10px;">
+                        <span class="material-icons-outlined">supervised_user_circle</span>
+                    <p style="margin:0;">Cliente: <span class="texto">`+respuesta.nombreusuario+`</span></p>
+                    </div>
+                    `;
+                    html+=`
+                   <div class="icon-text-container" style="margin-top:10px;">
+                     <span class="material-icons-outlined">calendar_month</span>
+
+                     <p style="margin:0;">Fecha/Hora: <span class="texto">`+respuesta.fechaformato+` `+respuesta.horainicial+'-'+respuesta.horafinal+`</span></p>
+
+                     </div>
+                     `;
+
+                        if (respuesta.concortesia==1  ) {
+
+
+                          if (respuesta.idcortesia>0 ) {
+
+                          html+=`
+
+
+                         <div class="icon-text-container" style="margin-top: 10px;">
+                           <span class="material-icons-outlined">card_giftcard</span>
+
+                           <p style="margin:0;">Cortesía: <span class="texto">`+respuesta.nombrepaquetecortesia+`</span></p>
+
+                           </div>`;
+
+                      }
+
+
+                      if (respuesta.idcortesia==0 && respuesta.colococortesia==1) {
+
+                          html+=`
+
+
+                         <div class="icon-text-container" style="margin-top: 10px;">
+                           <span class="material-icons-outlined">card_giftcard</span>
+
+                           <p style="margin:0;">Cortesía: <span class="texto">Ninguna</span></p>
+
+                           </div>`;
+                      }
+
+                       /* html+=`
+                        <div class="col-100" style="padding-bottom: 1em;
+    padding-top: 1em;">
+                      <button class="button  color-theme  " style="background:#C7AA6A;padding:10px 20px;" onclick="ObtenerCortesia(`+respuesta[i].idcarrito+`,`+respuesta[i].idpaquete+`)">
+                        Cortesia
+                       </button>
+                     
+                     </div>
+                      `;*/
+
+                    }else{
+
+                 
+          
+
+                    }
+                  }
+
+                  
+
+              html+=` </div>
+                <div class="col-10">`;
+
+                  if (respuesta.precioante!=0) {
+                     html+=`
+                     <div class="col-100">
+                     <p style="margin:0;text-decoration:line-through;font-size: 12px;text-align: right;">$`+respuesta.precioante+`</p>
+                     </div>
+                     `;
+
+                  }
+
+
+                   html+=`
+                   <div class="col-100">
+                   
+                     </div>
+                     `;
+
+                 
+
+
+
+             html+=` </div>
+
+              </div> 
+          </li>
+         <div class="icon-text-container" style="margin-top: 10px; margin-left: 30px;">
+                 	`;
+                            	
                             	if(respuesta.checkin==1) {
                             
                             	html+=` <p class="" style="display: flex;"><span>check-in:</span> <span class="material-icons-outlined" 
@@ -327,9 +510,6 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
                     </div>
                 </div>
             </div>
-							   							  	</div>
-		   							 	 
-		   							 			</div>
 
 
 <div class="row" style="    margin-right: 2em;
@@ -410,7 +590,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
 
           close: function (sheet) {
            
-          		intervalocitas=setInterval("FiltrarTableroCitas()",2000);
+          		//intervalocitas=setInterval("FiltrarTableroCitas()",2000);
 
           },
       }
@@ -893,4 +1073,272 @@ function AceptarFinalizar() {
 		});
 
 
+}
+
+function CargarCalendarioespecialista() {
+  var fecha=new Date();
+  var mes=(fecha.getMonth() + 1)<10?'0'+(fecha.getMonth() + 1):(fecha.getMonth() + 1);
+  var anio= fecha.getFullYear();
+//  var iduser=localStorage.getItem('id_user');
+  var estatuscarga=localStorage.getItem('estatusmostrar');
+  var fecha=new Date();
+  var mes=(fecha.getMonth() + 1)<10?'0'+(fecha.getMonth() + 1):(fecha.getMonth() + 1);
+  var anio= fecha.getFullYear();
+  var iduser=localStorage.getItem('id_user');
+  var datos="idusuario="+iduser+"&mes="+mes+"&anio="+anio;
+
+  var pagina = "ObtenerCitasFechasCalendarioEspecialista.php";
+ 
+
+  //var pagina = "ObtenerCitasFechasCalendario.php";
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+        eventos=[];
+        var citas=resp.citasdia;
+        var fechactual1=resp.fechaactual;
+        $(".divfechaactual").html(fechactual1);
+ 
+       if (resp.citados.length>0) {
+        var fechascitas=resp.citados;
+        for (var i = 0; i <fechascitas.length; i++) {
+         
+            var dividirfecha=fechascitas[i].split('-');
+            var anio=dividirfecha[0];
+            var mes=(dividirfecha[1].replace(/^(0+)/g, '')-1);
+            var dia=dividirfecha[2];
+
+
+          var objeto={
+              date:new Date(anio,mes,dia),
+              color:'rgb(245,212,95)',
+            };
+              eventos.push(objeto);
+        }
+
+
+       }
+
+        if (citas.length>0) {
+       
+       	 PintarTableroCitasEspecialista(citas);
+       }
+
+     // $(".tablerocitas").html('');
+
+     /* 
+
+       var citasagendadas=resp.totalcitasdia;
+       var totalcitasrealizadas=resp.totalcitasrealizadas;
+       var totalnorealizados=resp.totalnorealizados;
+       var totalpendientes=resp.totalpendientes;
+       $("#totalservicios2").text(citasagendadas);
+       $("#totalserviciosrealizados2").text(totalcitasrealizadas);
+       $("#totalserviciospendientes2").text(totalpendientes);
+       $("#totalserviciosnorealizados2").text(totalnorealizados);
+      
+        var totalproceso=resp.totalproceso;
+        var totalcancelados=resp.totalcancelados;
+        
+       $("#totalserviciosproceso2").text(totalproceso);
+       $("#totalservicioscancelados2").text(totalcancelados);
+
+  */
+
+
+  	  var citasagendadas=resp.totalcitasdia;
+       var totalcitasrealizadas=resp.totalcitasrealizadas;
+       var totalnorealizados=resp.totalnorealizados;
+       var totalpendientes=resp.totalpendientes;
+       $("#totalservicios2").text(citasagendadas);
+       $("#totalserviciosrealizados2").text(totalcitasrealizadas);
+       $("#totalserviciospendientes2").text(totalpendientes);
+       $("#totalserviciosnorealizados2").text(totalnorealizados);
+      
+        var totalproceso=resp.totalproceso;
+        var totalcancelados=resp.totalcancelados;
+        
+       $("#totalserviciosproceso2").text(totalproceso);
+       $("#totalservicioscancelados2").text(totalcancelados);
+
+
+	 var monthNames = ['Enero', 'Febrero', 'Marzo', 'Abrirl', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      calendarInline = app.calendar.create({
+        containerEl: '#demo-calendar',
+        weekHeader: true,
+        firstDay:0,
+        events:eventos,
+        renderToolbar: function () {
+          return `
+          <div class="toolbar calendar-custom-toolbar no-shadow">
+            <div class="toolbar-inner">
+              <div class="left">
+                <a href="#" class="link icon-only"><i class="icon icon-back ${app.theme === 'md' ? 'color-black' : ''}"></i></a>
+              </div>
+              <div class="center"></div>
+              <div class="right">
+                <a href="#" class="link icon-only"><i class="icon icon-forward ${app.theme === 'md' ? 'color-black' : ''}"></i></a>
+              </div>
+            </div>
+          </div>
+          `;
+        },
+        on: {
+          init: function (c) {
+            $('.calendar-custom-toolbar .center').text(monthNames[c.currentMonth] + ', ' + c.currentYear);
+            $('.calendar-custom-toolbar .left .link').on('click', function () {
+              calendarInline.prevMonth();
+            });
+            $('.calendar-custom-toolbar .right .link').on('click', function () {
+              calendarInline.nextMonth();
+            });
+
+          $(".calendar-day-today .calendar-day-number").addClass('diaactual');
+            $(".calendar-day-has-events .calendar-day-number").addClass('calendarevento');
+                 $(".calendar-day-event").css('display','none');
+
+          },
+
+          calendarChange:function (c) {
+          console.log(c.value);
+          var fechaac=new Date();
+          var mes=fechaac.getMonth()+1;
+          var dia=fechaac.getDate();
+          fechaactualdata=fechaac.getFullYear()+'-'+ mes+'-'+dia;
+         
+          var fecha=c.value;
+          var convertirfecha=new Date(fecha);
+          var mes=(convertirfecha.getMonth() + 1)<10?'0'+(convertirfecha.getMonth() + 1):(convertirfecha.getMonth() + 1);
+          var mesdata=convertirfecha.getMonth();
+
+          var dia=convertirfecha.getDate()<10?'0'+convertirfecha.getDate():convertirfecha.getDate();
+          var diadata=convertirfecha.getDate();
+
+          fecha1=convertirfecha.getFullYear()+'-'+ mes+'-'+dia;
+          localStorage.setItem('fechaconsulta',fecha1);
+          ConsultarFechaCitaEspe(fecha1);
+          // ConsultarFechaCita(fecha1);
+          // $("#v_especialista").html('');
+           
+          
+      
+          },
+          monthYearChangeStart: function (c) {
+            $('.calendar-custom-toolbar .center').text(monthNames[c.currentMonth] + ', ' + c.currentYear);
+          }
+        }
+      });
+   
+
+
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+    });
+
+   // return $render;
+  
+}
+
+function ConsultarFechaCitaEspe(fecha) {
+	 var estatuscarga=localStorage.getItem('estatusmostrar');
+
+   var iduser=localStorage.getItem('id_user');
+  var datos="idusuario="+iduser+"&fecha="+fecha+"&estatuscarga="+estatuscarga;
+   var pagina = "ObtenerCitasFechasCalendarioEspecialista.php";
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+        var citas=resp.citasdia;
+        var fechafiltro=resp.fechafiltro;
+        $(".divfechaactual").html(fechafiltro);
+
+       $(".tablerocitas").html(' ');
+       if (citas.length>0) {
+       
+        PintarTableroCitasEspecialista(citas);
+       }
+
+
+       var citasagendadas=resp.totalcitasdia;
+       var totalcitasrealizadas=resp.totalcitasrealizadas;
+       var totalnorealizados=resp.totalnorealizados;
+       var totalpendientes=resp.totalpendientes;
+       var totalproceso=resp.totalproceso;
+       var totalcancelados=resp.totalcancelados;
+      
+       $("#totalservicios2").text(citasagendadas);
+       $("#totalserviciosrealizados2").text(totalcitasrealizadas);
+       $("#totalserviciospendientes2").text(totalpendientes);
+       $("#totalserviciosnorealizados2").text(totalnorealizados);
+       $("#totalserviciosproceso2").text(totalproceso);
+
+       $("#totalservicioscancelados2").text(totalcancelados);
+         },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+    });
+
+}
+
+function ObtenerTotalesCitasEspecialista() {
+	 var iduser=localStorage.getItem('id_user');
+
+  var datos="idusuario="+iduser;
+
+   var pagina = "ObtenerTotalesEspecialista.php";
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+        var totalproductosdia=resp.totalproductosdia;
+        var totalcitasdia=resp.totalcitasdia;
+        var totalrealizadas=resp.totalcitasrealizadas;
+        var totalserviciospendientes=resp.totalpendientes;
+        var totalserviciosnorealizados=resp.totalnorealizados;
+        $("#totalservicios").text(totalcitasdia);
+        $("#totalserviciosrealizados").text(totalrealizadas);
+        $("#totalproductos").text(totalproductosdia);
+        $("#totalserviciospendientes").text(totalserviciospendientes);
+        $("#totalserviciosnorealizados").text(totalserviciosnorealizados);
+
+        var totalproceso=resp.totalproceso;
+        var totalcancelados=resp.totalcancelados;
+
+       $("#totalserviciosproceso").text(totalproceso);
+       $("#totalservicioscancelados").text(totalcancelados);
+
+         },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+    });
+}
+
+function FiltrarEstatusEspe(estatus) {
+	localStorage.setItem('estatusmostrar',estatus);
+    var fecha=localStorage.getItem('fechaconsulta');
+    ConsultarFechaCitaEspe(fecha);
 }

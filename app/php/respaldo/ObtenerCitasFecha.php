@@ -23,7 +23,7 @@ try
 	$sucursal->db=$db;
 	$idusuario=$_POST['idusuario'];
 	$fecha=$_POST['fecha'];
-
+	$estatuscarga=$_POST['estatuscarga'];
 	$sucursal->idusuario=$idusuario;
 	$obtenersucursal=$sucursal->AccesoSucursal();
 
@@ -31,8 +31,12 @@ try
 	$fechafiltro=date('Y-m-d',strtotime($fecha));
 
 	$lo->fecha=$fechafiltro;
-	$obtenercitas=$lo->ObtenerCitasFecha();
+	$lo->estatus=$estatuscarga;
+	$obtenercitas=$lo->ObtenerCitasFechaEstatus();
+$estatus=array('Pendiente','En proceso','Completado','Cancelada','Caducada');
 
+$horaactual=date('H:i');
+$fechaactual=date('Y-m-d');
 		if (count($obtenercitas)>0) {
 		for ($i=0; $i < count($obtenercitas); $i++) { 
 			
@@ -42,13 +46,100 @@ $fechachekin=date('H:i:s',strtotime($obtenercitas[$i]->fechacheckin));
 			$obtenercitas[$i]->fechacheckin=$fechachekin;
 			$obtenercitas[$i]->fechacheckout=$fechachekout;
 
+			$fechacita=date('Y-m-d',strtotime($obtenercitas[$i]->fechacita));
+
+			$horacita=date('H:i',strtotime($obtenercitas[$i]->horacita));
+
+			$horafinal=date('H:i',strtotime($obtenercitas[$i]->horafinal));
+
+		if ($obtenercitas[$i]->estatus==0 && $fechacita>=$fechaactual) {
+
+		 
+			
+				$est=0;
+
+				$obtenercitas[$i]->estatuscita=0;
+			}
+
+
+		if ($obtenercitas[$i]->estatus==1 && $obtenercitas[$i]->checkin==1 && $obtenercitas[$i]->checkout==0 ) {
+				$est=1;
+				$obtenercitas[$i]->estatuscita=1;
+			}
+			
+			
+    	if( $obtenercitas[$i]->estatus==4) {
+
+				$est=4;
+				$obtenercitas[$i]->estatuscita=4;
+			}
+
+
+
+			if ($obtenercitas[$i]->estatus==2 && $obtenercitas[$i]->checkin==1 && $obtenercitas[$i]->checkout==1 ) {
+				$est=2;
+				$obtenercitas[$i]->estatuscita=2;
+			}
+
+			if ($obtenercitas[$i]->estatus==3 && $obtenercitas[$i]->checkin==0 && $obtenercitas[$i]->checkout==0 ) {
+				$est=3;
+				$obtenercitas[$i]->estatuscita=3;
+			}
+
+
+			if ($obtenercitas[$i]->estatus==4) {
+
+				$est=4;
+				$obtenercitas[$i]->estatuscita=4;
+			}
+
+			$obtenercitas[$i]->textoestatus=$estatus[$est];
+
 	}
 }
+
+	$diatexto=$fechas->diasSemanaCorto[date('N', strtotime($fechafiltro))];
+
+	$fechaformato=$diatexto.' '.date('d',strtotime($fechafiltro)).' de '.$fechas->mesesEnEspañol[date('F',strtotime($fechafiltro))].' de '.date('Y', strtotime($fechafiltro));
+
+
+
+	$lo->idsucursal=$obtenersucursal[0]->idsucursales;
+	$lo->fecha=$fechafiltro;
+	$obtenercitas2=$lo->ObtenerCitasNocheckin();
+	//totalcitasrealizadas
+	$lo->fecha=$fechafiltro;
+
+
+	$obtenercitasrealizadas=$lo->ObtenerCitascheckin();
+
+	$lo->horaactual=date('H:i');
+
+	if ($lo->fecha>=date('Y-m-d')) {
+		$obtenerpendientes=$lo->ObtenerCitasPendientes();
+	}else{
+
+		$obtenerpendientes=[];
+	}
+	
+	$obtenernorealizados=$lo->ObtenerCitasNoRealizados();
+		
+	$obtenercancelados=$lo->ObtenerCitasCanceladas();
+	$obtenerenproceso=$lo->ObtenerCitasProceso();
 
 	//echo $mes;
 	
 	$respuesta['respuesta']=1;
 	$respuesta['citasdia']=$obtenercitas;
+	$respuesta['fechafiltro']=$fechaformato;
+
+
+	$respuesta['totalcitasdia']=count($obtenercitas2);
+	$respuesta['totalcitasrealizadas']=count($obtenercitasrealizadas);
+	$respuesta['totalpendientes']=count($obtenerpendientes);
+	$respuesta['totalnorealizados']=count($obtenernorealizados);
+	$respuesta['totalcancelados']=count($obtenercancelados);
+	$respuesta['totalproceso']=count($obtenerenproceso);
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);
 	echo $myJSON;

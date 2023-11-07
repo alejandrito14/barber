@@ -20,24 +20,24 @@ try
 	$mensaje->Version='v17.0';
 	//$mensaje->phoneid='136352302900365';
 	$mensaje->phoneid='162367660284534';
-	$mensaje->tophone='529611328099';
+	$mensaje->tophone='529612170864';
 	$texto='hola';
-	$mensaje->accestoken='EAAPR4S8LbikBOyPRbuPW5ZC7ZCVppCNIuqywit2ZBwZBV2kLLW2JcnxJtnWEGuKldiTnogxV43mHgAeZBhtrirbCVLFJ7xQIrXmbNBDKIBhcDpFsCuSMs5XBZBzU3iV27NhsN7kn01ufZBGmlImcWasgxwFXPoacPrtRWEp8ofkQLhDVgCDpUxAHwxFmgdsQhRSqXhlWSwxhaYI';
+	$mensaje->accestoken='EAAPR4S8LbikBO5OooXf3Uz8fFxvpf9r4zSKZBz5otYZAgNtYBwt4flObUw5YT0ZCXKDXO3BmUV3NfOWFZBsCErVHEor4ZBeoRDv5HcC0lMDujBFGYj9DXLmoYw1OzcbfUaMDjhXUt4p05I6ZArul74mHTNpXeDhg67YoCORxTlXjbLcPBP9ZCYs34cYZA7Jd';
 	$mensaje->texto="1402";
 	$mensaje->EnviarMensaje();
 	
 
 
-	
+	/*
 	$res = array('respuesta' =>1);
 
-	/*$respuesta['respuesta']=$sucursales;
-	$respuesta['imagenes']=$imagenes;*/
+	$respuesta['respuesta']=$sucursales;
+	$respuesta['imagenes']=$imagenes;
 	
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($res);
 	echo $myJSON;
-
+*/
 }catch(Exception $e){
 	//$db->rollback();
 	//echo "Error. ".$e;

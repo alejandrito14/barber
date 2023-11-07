@@ -1,5 +1,5 @@
 <?php 
- define('API_ACCESS_KEY','AAAAaWlau64:APA91bGYjpmrXrNETubVwPNOyUB0fYdUHIHlI98hM2CKm9cb-1G_gJsLFtMH1jM5cS2GNGTqk4zEru_pfxZUaOt0KmaAlWmnUovr3n1oZghjjueVMwEBah5oR-KdzgpJ-_CVzePMpJlu');
+ define('API_ACCESS_KEY','AAAAlF5dZIk:APA91bGcHuoOKdq0B-M3W5_mmIXEPoUdnVrX9_yMcGpbOnYCRh2zfBKYw1V6RRNrNcz9HBVdesRvxleq4Lj8lMMT2gPSxL277D3diKrpS9jO8CmkDI-kbRouygedlp889S7y09Hke3qF');
 
 class NotificacionPush 
 {
@@ -40,7 +40,7 @@ class NotificacionPush
         ];
 
         $headers = [
-            'Authorization: key=' . API_ACCESS_KEY,
+            'Authorization: key='.API_ACCESS_KEY,
             'Content-Type: application/json'
         ];
 

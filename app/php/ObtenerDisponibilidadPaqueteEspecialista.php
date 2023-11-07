@@ -10,7 +10,7 @@ require_once("clases/class.Fechas.php");
 require_once("clases/class.Funciones.php");
 require_once("clases/class.Paquetes.php");
 require_once("clases/class.Especialista.php");
-
+require_once("clases/class.Sucursal.php");
 try
 {
 	//declaramos los objetos de clase
@@ -22,16 +22,21 @@ try
 	$paquetes->db=$db;
 	$especialista=new Especialista();
 	$especialista->db=$db;
+	$sucursal=new Sucursal();
+	$sucursal->db=$db;
+
 	//$categorias = new Categorias();
 	$fechas = new Fechas();
 	//$categorias->db=$db;
 	$idsucursal=$_POST['idsucursal'];
+	$sucursal->idsucursales=$idsucursal;
+	$obtenersucursal=$sucursal->ObtenerSucursal();
 	$idusuarios=$_POST['id_user'];
 	$idpaquete=$_POST['idpaquete'];
 	$paquetes->idpaquete=$idpaquete;
 	$obtenerpaquete=$paquetes->ObtenerPaquete2();
-
-	$intervalo=$obtenerpaquete[0]->intervaloservicio;
+	$paqueteDuracion=$obtenerpaquete[0]->intervaloservicio;
+	$intervalo=$obtenersucursal[0]->intervalosucursal;
 	$especialista->idusuarios=$idusuarios;
 	$fecha=$_POST['fecha'];
 	$especialista->fecha=$fecha;
@@ -66,86 +71,71 @@ try
 	
 		$horaactual=date('H:i:s');
 		//var_dump($arrayintervalos);die();
-	for ($k=0; $k < count($arrayintervalos[0]); $k++) { 
-			
-			$value=$k+1;
-				if ($value<count($arrayintervalos[0])) {
-					
-					$horainicial=substr($arrayintervalos[0][$k],0,5);
+// ...
 
-					$horafinal=substr($arrayintervalos[0][$k+1],0,5);
+$intervaloSucursal = $intervalo; // Intervalo de tiempo de la sucursal en minutos
 
+// ...
 
-						$paso=1;
-		 			if (date('Y-m-d',strtotime($fecha))==date('Y-m-d')) {
+for ($k = 0; $k < count($arrayintervalos[0]); $k++) {
+    $value = $k + 1;
+    if ($value < count($arrayintervalos[0])) {
+        $horainicial = substr($arrayintervalos[0][$k], 0, 5);
+        $horafinal = substr($arrayintervalos[0][$k + 1], 0, 5);
 
-		 					if(date('H:i:s',strtotime($arrayintervalos[0][$k])) >= $horaactual)
-								{
-		 					$paso=1;
-		 				}else{
+        $paso = 1;
+        if (date('Y-m-d', strtotime($fecha)) == date('Y-m-d')) {
+            if (date('H:i:s', strtotime($arrayintervalos[0][$k])) >= $horaactual) {
+                $paso = 1;
+            } else {
+                $paso = 0;
+            }
+        }
+        if ($paso == 1) {
+            $especialista->horainicial = $horainicial;
+            $especialista->horafinal = $horafinal;
 
-		 					$paso=0;
-		 				}
- 
-		 			}
-		 			if ($paso==1) {
-					$especialista->horainicial=$horainicial;
-					$especialista->horafinal=$horafinal;
+            $buscarhoraausente = $especialista->BuscarHoraAusente();
 
-		 			$buscarhoraausente=$especialista->BuscarHoraAusente();
+            if (count($buscarhoraausente) == 0) {
+                // Calcular la duración del intervalo actual
+                $intervaloInicio = strtotime($horainicial);
+                $intervaloFin = strtotime($horafinal);
+                $duracionMinutos = $paqueteDuracion;
+                $espacioEntrePaquetes = $intervaloSucursal;
 
-		 			if (count($buscarhoraausente)==0) {
- 
-					$verificar=$especialista->EvaluarHorarioDisponible();
+                // Calcular el número de paquetes que caben en el intervalo
+                $numPaquetes = floor(($intervaloFin - $intervaloInicio) / ($duracionMinutos + $espacioEntrePaquetes));
 
-					/*$buscarsiestaapartada=$especialista->EvaluarHorarioApartado();*/
-					$especialista->dia=$numdia;
-					$buscarEspecialistaLibre=$especialista->EvaluarEspecialistas($intervalo);
+                if ($numPaquetes > 0) {
+                    $verificar = $especialista->EvaluarHorarioDisponible();
+                    $especialista->dia = $numdia;
+                    $buscarEspecialistaLibre = $especialista->EvaluarEspecialistas($intervalo);
 
-					
+                    $disponible = 1;
+                    if (count($verificar) > 0 || count($buscarEspecialistaLibre) == 0) {
+                        $disponible = 0;
+                    }
 
-					$disponible=1;
-				if (count($verificar)>0 || count($buscarEspecialistaLibre)==0)  {
-							$disponible=0;
-						
-					}
-					//echo $especialista->fecha.'  '.$especialista->horainicial.''.$especialista->horafinal.'-'.$disponible.'<br>';
+                    if ($disponible == 1) {
+                        $objeto = ['horainicial' => $horainicial, 'horafinal' => $horafinal, 'disponible' => 1];
 
-					if ($disponible==1) {
-							# code...
-						
+                        if (date('Y-m-d', strtotime($horariossucursal->fecha)) == date('Y-m-d')) {
+                            if (date('H:i:s', strtotime($horainicial)) >= $horaactual) {
+                                array_push($integrandointervalos, $objeto);
+                            }
+                        } else {
+                            array_push($integrandointervalos, $objeto);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
+// ...
 
-					$objeto=array('horainicial'=>$horainicial,'horafinal'=>$horafinal,'disponible'=>$disponible);
-
-
-					if (date('Y-m-d',strtotime($horariossucursal->fecha))==date('Y-m-d')) {
-
-
-
-					if(date('H:i:s',strtotime($horainicial)) >= $horaactual)
-						{
-
-						array_push($integrandointervalos, $objeto);
-
-						}
-
-					}else{
-
-						array_push($integrandointervalos, $objeto);
-
-					}
-
-				}
-
-				}
-
-					
-			}
-
-		}
-
-	}
 
 
 

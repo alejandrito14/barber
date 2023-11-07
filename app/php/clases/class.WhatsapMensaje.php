@@ -97,7 +97,7 @@ curl_setopt_array($curl, array(
     "to": "'.$this->tophone.'",
     "type": "template",
     "template": {
-        "name": "saludo",
+        "name": "hello_world",
         "language": {
             "code": "en_US"
         }
@@ -113,6 +113,55 @@ $response = curl_exec($curl);
 
 curl_close($curl);
 echo $response;
+
+}
+
+
+
+public function Envio2($value='')
+{
+ 
+$curlCommand = 'curl -i -X POST https://graph.facebook.com/'.$this->Version.'/'.$this->phoneid.'/messages ' .
+  '-H "Authorization: Bearer '.$this->accestoken .'' .
+  '-H "Content-Type: application/json" ' .
+  '-d \'{
+    "messaging_product": "whatsapp",
+    "to": "'.$this->tophone.'",
+    "type": "template",
+    "template": {
+        "name": "enviotoken",
+        "language": {
+            "code": "es_MX"
+        },
+        "components": [
+            {
+                "type": "body",
+                "parameters": [
+                    {
+                       "type": "text",
+                       "text": "'.$this->texto.'"
+                    }
+                ]
+            },
+            {
+              "type": "button",
+              "sub_type": "url",
+              "index": 0,
+              "parameters": [
+                {
+                  "type": "text",
+                  "text": "'.$this->texto.'"
+                }
+              ]
+            }
+          ]
+      }
+  }\'';
+
+$output = shell_exec($curlCommand);
+
+ var_dump($output);
+
 
 }
 

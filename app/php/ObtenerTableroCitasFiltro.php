@@ -51,7 +51,7 @@ try
 		}
 
 	$obtenertablero=$lo->ObtenerCitasUsuarioFiltro($fechafiltro);
-
+$estatus=array('Pendiente','En proceso','Completado','Cancelado','Caducado');
 	if (count($obtenertablero)>0) {
 		for ($i=0; $i < count($obtenertablero); $i++) { 
 			$fechacita=$obtenertablero[$i]->fechacita;
@@ -85,6 +85,44 @@ try
 			$obtenertablero[$i]->fechachekin=$fechachekin;
 			$obtenertablero[$i]->fechachekout=$fechachekout;
 
+
+if ($obtenertablero[$i]->estatus==0  ) {
+				$est=0;
+		$obtenertablero[$i]->estatuscita=0;
+			}
+			
+if ($obtenertablero[$i]->estatus==1 && $obtenertablero[$i]->checkin==1 && $obtenertablero[$i]->checkout==0 ) {
+				$est=1;
+				$obtenertablero[$i]->estatuscita=1;
+			}
+			
+			
+    	if( $obtenertablero[$i]->estatus==4) {
+
+				$est=4;
+				$obtenertablero[$i]->estatuscita=4;
+			}
+
+
+
+			if ($obtenertablero[$i]->estatus==2 && $obtenertablero[$i]->checkin==1 && $obtenertablero[$i]->checkout==1 ) {
+				$est=2;
+				$obtenertablero[$i]->estatuscita=2;
+			}
+
+			if ($obtenertablero[$i]->estatus==3 && $obtenertablero[$i]->checkin==0 && $obtenertablero[$i]->checkout==0 ) {
+				$est=3;
+				$obtenertablero[$i]->estatuscita=3;
+			}
+
+
+			if ($obtenertablero[$i]->estatus==4) {
+
+				$est=4;
+				$obtenertablero[$i]->estatuscita=4;
+			}
+
+			$obtenertablero[$i]->textoestatus=$estatus[$est];
 			
 
 		}

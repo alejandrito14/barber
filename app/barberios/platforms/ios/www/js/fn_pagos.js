@@ -2838,6 +2838,10 @@ function PintarpagosPagados(pagos) {
   if (pagos.length>0) {
     var html="";
    
+     var numero=pagos.length;
+
+  
+
     for (var i = 0; i <pagos.length; i++) {
 
       var claseestatus="";
@@ -2853,9 +2857,16 @@ function PintarpagosPagados(pagos) {
         claseestatus="notacancelado";
       }
 
+      var colorborde='#c7aa6a';
+
+           if (numero % i === 0) {
+           
+           colorborde='#9c9c9c';
+           }
+
       html+=`
-        <li class="col-100 medium-50" id="pago_`+pagos[i].idnotapago+`" style="margin-right: 2em;
-    margin-left: 2em;">
+        <li class="col-100" id="pago_`+pagos[i].idnotapago+`" style=" border: 1px solid `+colorborde+`;
+    border-radius: 10px; margin-right: 1em; margin-left: 1em;margin-bottom: 1em;padding: 1em;">
                     <div class="row">
                         <div class="col-70">
                             <p class="text-muted "  id="concepto_`+pagos[i].idnotapago+`">

@@ -7,7 +7,7 @@ var theme = 'md';
 if (document.location.search.indexOf('theme=') >= 0) {
   theme = document.location.search.split('theme=')[1].split('&')[0];
 }
-
+ 
 // Preloader
 setTimeout(function () {
     $('.loader-screen').hide();
@@ -93,9 +93,15 @@ var app = new Framework7({
        }
 });
 var intervalo=0;
+var intervalocitas=0;
+
 var pictureSource;   // picture source
  var destinationType; 
-var produccion = 1;
+var produccion =1;
+const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+localStorage.setItem('zonahoraria',userTimeZone);
+
 var idcategoriapadre=0;
 var codigoservicio="0";
 $(document).ready(function() {
@@ -138,7 +144,7 @@ $(document).ready(function() {
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.18';
+var version='1.0.28';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;
@@ -432,20 +438,24 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
      $(".btnsalir").attr('onclick','salir_app()');
      $(".btniracarrito").attr('onclick','IraCarrito()');
     $$(".page-content").addClass('marginauto');
-   
+    CargarMenu();
+    myStopFunction(intervalocitas);
+
     entrarinvitado().then(resultado => {
     
      
-    var invitado=  localStorage.getItem('invitado');
+    var invitado= localStorage.getItem('invitado');
      CargarDatos();
     if (invitado==1) {
 
       $(".menuoculto").css('display','none');
       $(".menuusuario").css('visibility','hidden');
       $(".btnsalir").css('display','');
+      $(".lblusuario").css('display','none');
 
       
     }else{
+      $(".lblusuario").attr('onclick','GoToPage("perfil")');
       ObtenerCitasProgramadas();
 
       var pregunta=localStorage.getItem('pregunta');
@@ -454,8 +464,11 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
            AbrirModalPreguntaSesion(); 
     
            }
-    }
 
+        CargarMenu();
+
+    }
+ 
         Visualizarmenu();
         GuardarTokenBase(0); 
     
@@ -494,6 +507,7 @@ $$(document).on('page:init', '.page[data-name="homeespecialista"]', function (e)
         $$(".page-content").addClass('marginauto');
         $(".panelizquierdo").attr('onclick','toggleMenu()');
         Visualizarmenu();
+        CargarMenu();
       CargarDatosEspecialista();
   var pregunta=localStorage.getItem('pregunta');
     if (pregunta==0) {
@@ -639,7 +653,7 @@ $$(document).on('page:init', '.page[data-name="login"]', function (e) {
 
   $$(".btninvitado").attr('onclick','entrarinvitado()');
    $(".versionapp").text(version);
-
+   ObtenerEdad();
     if (tipoletra!='') {
 
       $(".cambiarfuente").each(function(index) {
@@ -659,6 +673,8 @@ $$(document).on('page:init', '.page[data-name="login"]', function (e) {
       $("#v_clave").focus();
    
     }else{
+        $("#v_usuario").focus();
+
       //phoneFormatter('v_usuario');
     }
 
@@ -897,7 +913,7 @@ $$(document).on('page:init','.page[data-name="homeindex"]',function(e)
                     MostrarAnuncios(); 
                      myStopFunction(intervalo);
                   }, 4000); 
- 
+ $(".btnempezar").attr('onclick','Empezar()');
   /*setTimeout(function () {
 
       var id_user=localStorage.getItem('id_user');
@@ -957,11 +973,25 @@ if (session==1) {
 $$(document).on('page:init','.page[data-name="carrito"]',function(e)
 {
   localStorage.setItem('monedero',0);
-  CargarCarrito();
+   localStorage.setItem('montocupon',0);
+  localStorage.setItem('codigocupon','');
+  localStorage.setItem('idcupon','');
+
+
+   var p1 = new Promise(function(resolve, reject) {
+      resolve(ActualizarValoresCarrito());
+     
+    });
+
+    p1.then(function(value) {
+      CargarCarrito();
+    });
+ 
 
   $(".btnpagar").attr('onclick','IrAPago()');
   $(".btnagregarmas").attr('onclick','Agregarmasproducto()');
   $(".btnregresocarrito").attr('onclick','RegesoCarrito()');
+  $$(".btncupon").attr('onclick','AbrirModalCupones()');
 
   
    if (tipoletra!='') {
@@ -1089,6 +1119,7 @@ $$(document).on('page:init', '.page[data-name="homeadmin"]', function (e) {
         $(".btnsalir").attr('onclick','AbriModalSalir()');
         $(".btnscan2").attr('onclick','scanqr3()');
         $(".panelizquierdo").attr('onclick','toggleMenu()');
+        CargarMenu();
         Visualizarmenu();
         $$(".page-content").addClass('marginauto');
  
@@ -1104,14 +1135,23 @@ $$(document).on('page:init', '.page[data-name="homeadmin"]', function (e) {
 
 
 $$(document).on('page:init', '.page[data-name="servicios"]', function (e) {
-
+  myStopFunction(intervalo);
+  myStopFunction(control);
  CargarCalendario2();
-
+ $(".regresar").attr('onclick','GoToPage("homeadmin")');
+ $(".btnserviciosagendados").attr('onclick','FiltrarEstatus(100)');
+ $(".btnserviciosproceso").attr('onclick','FiltrarEstatus(1)');
+ $(".btnserviciospendientes").attr('onclick','FiltrarEstatus(0)');
+ $(".btnserviciosrealizados").attr('onclick','FiltrarEstatus(2)');
+ $(".btnservicioscancelados").attr('onclick','FiltrarEstatus(3)');
+ $(".btnserviciosnorealizados").attr('onclick','FiltrarEstatus(4)');
 });
 
 $$(document).on('page:init', '.page[data-name="productos"]', function (e) {
-
+ myStopFunction(intervalo);
+  myStopFunction(control);
  CargarCalendario3();
+ $(".regresar").attr('onclick','GoToPage("homeadmin")');
 
 });
 
@@ -1132,8 +1172,12 @@ $('input[name="demo-radio-start"]').change(function () {
 
 $$(document).on('page:init', '.page[data-name="datospersonales"]', function (e) {
 
-Cargardatospersonales();
+    Cargardatospersonales();
 
+    $("#txtsexoh").attr('onclick','SeleccionarhM("H")');
+    $("#txtsexom").attr('onclick','SeleccionarhM("M")');
+    $("#btnguardardatos").attr('onclick','Guardardatospersonales()');
+    $(".regreso").attr('onclick','GoToPage("perfil")');
 });
 $$(document).on('page:init', '.page[data-name="profile"]', function (e) {
 
@@ -1217,7 +1261,21 @@ $$(document).on('page:init', '.page[data-name="disponibilidadfechasucursal"]', f
 $$(document).on('page:init', '.page[data-name="validadoqrcita"]', function (e) {
   
   //inicio();
+    myStopFunction(intervalo);
+
   $(".regresarvalidado").attr('onclick','RegresarHomeEspecialista()');
+  ObtenerTiempoCita();
+  $(".btnfinalizar").attr('onclick','FinalizarCita()');
+  //colocarvalor(0,0,10,2);
+});
+
+
+$$(document).on('page:init', '.page[data-name="validadoqrcita2"]', function (e) {
+  
+  //inicio();
+    myStopFunction(intervalo);
+
+ $(".regresarvalidado").attr('onclick','Parar()');
   ObtenerTiempoCita();
   $(".btnfinalizar").attr('onclick','FinalizarCita()');
   //colocarvalor(0,0,10,2);
@@ -1233,7 +1291,7 @@ $$(document).on('page:init', '.page[data-name="configuracion"]', function (e) {
 $$(document).on('page:init', '.page[data-name="servicioslista"]', function (e) {
   
 //ObtenerListaFiltroMostrar();
-
+myStopFunction(control);
 PintarSubCategoriaProducto(categoriascache4);
 
 var invitado=  localStorage.getItem('invitado');
@@ -1298,7 +1356,7 @@ $$(document).on('page:init', '.page[data-name="subcategoriasdetalle"]', function
 });
 
 $$(document).on('page:init', '.page[data-name="citas"]', function (e) {
-
+  myStopFunction(intervalocitas);
    ObtenerTableroCitas(1);
  
  if (tipoletra!='') {
@@ -1322,9 +1380,8 @@ $$(document).on('page:init', '.page[data-name="escogermetodopago"]', function (e
  localStorage.setItem('campomonto',0);
  localStorage.setItem('constripe',0);
  localStorage.setItem('comisiontotal',0);
- localStorage.setItem('montocupon',0);
- localStorage.setItem('codigocupon','');
- localStorage.setItem('idcupon','');
+ localStorage.setItem('idtipodepago',0);
+
   $("#btnpagarresumen").attr('disabled',true);
   $$("#btnatras").attr('onclick','Atras()');
   $$("#btnatras").css('display','none');
@@ -1332,7 +1389,7 @@ $$(document).on('page:init', '.page[data-name="escogermetodopago"]', function (e
   Cargartipopago(0); 
  
  $$(".btnmonedero").attr('onclick','AbrirModalmonedero()');
- $$(".btncupon").attr('onclick','AbrirModalCupones()');
+// $$(".btncupon").attr('onclick','AbrirModalCupones()');
  
 
  $$("#requierefactura").attr('onchange','RequiereFactura()');
@@ -1438,7 +1495,7 @@ $$(document).on('page:init', '.page[data-name="monedero"]', function (e) {
          promesa.then(r => {
             var monedero=r.respuesta;
 
-            $("#colocarmonedero").html(monedero);
+            $("#colocarmonedero").html(formato_numero(monedero,2,'.',','));
 
             
           });
@@ -1449,10 +1506,33 @@ $$(document).on('page:init', '.page[data-name="monedero"]', function (e) {
 });
 
 
+
 $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
-    
-     
+    Cargardatospersonales();
+    $("#btndatospersonales").attr('onclick','GoToPage("datospersonales")');
+    $("#btneliminarcuenta").attr('onclick','EliminarCuenta()');
+    $(".regreso").attr('onclick','IrHome()');
+ 
+   // $("#txtsexoh").attr('onclick','SeleccionarhM("H")');
+   // $("#txtsexom").attr('onclick','SeleccionarhM("M")');
+   // $("#btnguardardatos").attr('onclick','Guardardatospersonales()');
 });
+
+
+$$(document).on('page:init', '.page[data-name="calendarioespecialista"]', function (e) {
+
+ CargarCalendarioespecialista();
+ $(".regresar").attr('onclick','GoToPage("homeespecialista")');
+ $(".btnserviciosagendados").attr('onclick','FiltrarEstatusEspe(100)');
+ $(".btnserviciosproceso").attr('onclick','FiltrarEstatusEspe(1)');
+ $(".btnserviciospendientes").attr('onclick','FiltrarEstatusEspe(0)');
+ $(".btnserviciosrealizados").attr('onclick','FiltrarEstatusEspe(2)');
+ $(".btnservicioscancelados").attr('onclick','FiltrarEstatusEspe(3)');
+ $(".btnserviciosnorealizados").attr('onclick','FiltrarEstatusEspe(4)');
+
+
+});
+
 
 
 /*$$(document).on('page:init', '.page[data-name="disponibilidadfechaadmin"]', function (e) {

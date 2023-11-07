@@ -23,6 +23,7 @@ class Especialista
 				usuarios.idusuarios,
 				usuarios.paterno,
 				usuarios.materno,
+				usuarios.sexo,
 				especialista.idespecialista,
 				especialista.idsucursal,
 				usuarios.orden,
@@ -30,10 +31,12 @@ class Especialista
 			FROM especialista
 			left JOIN sucursal ON especialista.idsucursal=sucursal.idsucursal
 			left join usuarios on especialista.idusuarios=usuarios.idusuarios
-			
-		 WHERE usuarios.estatus=1 AND especialista.bloqueo=0 and sucursal.idsucursal='$this->idsucursal'  ORDER BY usuarios.orden asc ";
 
-	
+
+			
+		 WHERE usuarios.estatus=1 AND especialista.bloqueo=0 and sucursal.idsucursal='$this->idsucursal' ORDER BY usuarios.orden asc ";
+
+		
 			$resp = $this->db->consulta($sql);
 			$cont = $this->db->num_rows($resp);
 
@@ -522,6 +525,36 @@ public function ObtenerHorariosEspecialistadia($numdia)
 				} 
 			}
 			return $array;
+	}
+
+
+	public function AccesoSucursalEspecialista()
+	{
+		$sql="SELECT
+			IFNULL(GROUP_CONCAT(especialista.idespecialista),0) as idespecialista
+			FROM
+			especialista
+			JOIN sucursal
+			ON especialista.idsucursal = sucursal.idsucursal WHERE especialista.idusuarios='$this->idusuario'  ORDER BY orden asc";
+			
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
 	}
 	
 	  

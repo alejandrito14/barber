@@ -502,6 +502,7 @@ function CargarCalendario2() {
             $('.calendar-custom-toolbar .center').text(monthNames[c.currentMonth] + ', ' + c.currentYear);
             $('.calendar-custom-toolbar .left .link').on('click', function () {
               calendarInline.prevMonth();
+              
             });
             $('.calendar-custom-toolbar .right .link').on('click', function () {
               calendarInline.nextMonth();

@@ -526,6 +526,36 @@ public function ObtenerHorariosEspecialistadia($numdia)
 			}
 			return $array;
 	}
+
+
+	public function AccesoSucursalEspecialista()
+	{
+		$sql="SELECT
+			IFNULL(GROUP_CONCAT(especialista.idespecialista),0) as idespecialista
+			FROM
+			especialista
+			JOIN sucursal
+			ON especialista.idsucursal = sucursal.idsucursal WHERE especialista.idusuarios='$this->idusuario'  ORDER BY orden asc";
+			
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
 	
 	  
 

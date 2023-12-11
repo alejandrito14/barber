@@ -9,6 +9,8 @@ require_once("clases/class.Cita.php");
 require_once("clases/class.Funciones.php");
 require_once("clases/class.Fechas.php");
 require_once("clases/class.Paquetes.php");
+require_once("clases/class.Calificacion.php");
+require_once("clases/class.Sucursal.php");
 
 try
 {
@@ -20,7 +22,10 @@ try
 	$fechas = new Fechas();
 	$paquetes = new Paquetes();
 	$paquetes->db = $db;
-
+	$calificacion=new Calificacion();
+	$calificacion->db=$db;
+	$sucursal=new Sucursal();
+	$sucursal->db=$db;
 	//Enviamos la conexion a la clase
 	$lo->db = $db;
 
@@ -30,12 +35,17 @@ try
 	$lo->idusuario=$idusuario;
 	$obtenerdetallecita=$lo->Obtenerdetallecita();
 	$obtenerdetallecita[0]->fecha=date('d-m-Y',strtotime($obtenerdetallecita[0]->fechacita));
+	$sucursal->idsucursales=$obtenerdetallecita[0]->idsucursal;
+
+	$obtenersucursal=$sucursal->ObtenerSucursal();
+
+	$horascancela=$obtenersucursal[0]->horascancelacion;
 
 	$obtenerdetallecita[0]->fechaformato=$fechas->fecha_texto5($obtenerdetallecita[0]->fechacita);
+	$calificacion->idcita=$idcita;
+	$obtener=$calificacion->ObtenerCalificacionCita();
 
-
-
-
+	$obtenerdetallecita[0]->llevacalificacion=count($obtener);
        $paquetes->idpaquete=$obtenerdetallecita[0]->idpaquete;
        $obtenerpaquete=$paquetes->ObtenerPaquete2();
             $obtenerdetallecita[0]->precioante=0;
@@ -44,6 +54,25 @@ try
                 $obtenerdetallecita[0]->precioante=$obtenerpaquete[0]->precioventa;
 
             }
+
+
+	$fechaHoraActual = time();
+
+	// Obtener la fecha y hora de la cita en formato de timestamp (debes ajustar esto según tus necesidades)
+	$fechahora=$obtenerdetallecita[0]->fechacita.' '.$obtenerdetallecita[0]->horainicial;
+	$fechaHoraCita = strtotime($fechahora); // Cambia esto por la fecha y hora de la cita
+
+	// Calcular la diferencia de tiempo en segundos
+	$diferenciaTiempo = $fechaHoraCita - $fechaHoraActual;
+
+	// Definir el límite de tiempo en segundos (1 hora = 3600 segundos)
+	 $limiteTiempo  = $horascancela * 60 * 60;
+;
+	 $obtenerdetallecita[0]->sepuedecancelar=0;
+	if ($diferenciaTiempo > $limiteTiempo) {
+	    // Puedes cancelar la cita
+	   $obtenerdetallecita[0]->sepuedecancelar=1;
+		} 
     
 
 	$respuesta['respuesta']=$obtenerdetallecita[0];

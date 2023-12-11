@@ -1,6 +1,22 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports = [
     {
+      "id": "com.lampa.startapp.startapp",
+      "file": "plugins/com.lampa.startapp/www/startApp.js",
+      "pluginId": "com.lampa.startapp",
+      "merges": [
+        "startApp"
+      ]
+    },
+    {
+      "id": "cordova-plugin-barcodescanner.BarcodeScanner",
+      "file": "plugins/cordova-plugin-barcodescanner/www/barcodescanner.js",
+      "pluginId": "cordova-plugin-barcodescanner",
+      "clobbers": [
+        "cordova.plugins.barcodeScanner"
+      ]
+    },
+    {
       "id": "cordova-plugin-call-number.CallNumber",
       "file": "plugins/cordova-plugin-call-number/www/CallNumber.js",
       "pluginId": "cordova-plugin-call-number",
@@ -41,11 +57,27 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
+      "id": "cordova-plugin-customfcmreceiver.CustomFCMReceiverPlugin",
+      "file": "plugins/cordova-plugin-customfcmreceiver/www/customfcmreceiver.js",
+      "pluginId": "cordova-plugin-customfcmreceiver",
+      "clobbers": [
+        "cordova.plugin.customfcmreceiver"
+      ]
+    },
+    {
       "id": "cordova-plugin-device.device",
       "file": "plugins/cordova-plugin-device/www/device.js",
       "pluginId": "cordova-plugin-device",
       "clobbers": [
         "device"
+      ]
+    },
+    {
+      "id": "cordova-plugin-dialogs.notification",
+      "file": "plugins/cordova-plugin-dialogs/www/notification.js",
+      "pluginId": "cordova-plugin-dialogs",
+      "merges": [
+        "navigator.notification"
       ]
     },
     {
@@ -238,6 +270,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
+      "id": "cordova-plugin-firebasex.FirebasePlugin",
+      "file": "plugins/cordova-plugin-firebasex/www/firebase.js",
+      "pluginId": "cordova-plugin-firebasex",
+      "clobbers": [
+        "FirebasePlugin"
+      ]
+    },
+    {
       "id": "cordova-plugin-geolocation.Coordinates",
       "file": "plugins/cordova-plugin-geolocation/www/Coordinates.js",
       "pluginId": "cordova-plugin-geolocation",
@@ -346,30 +386,22 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "window.plugins.socialsharing"
       ]
-    },
-    {
-      "id": "cordova-plugin-barcodescanner.BarcodeScanner",
-      "file": "plugins/cordova-plugin-barcodescanner/www/barcodescanner.js",
-      "pluginId": "cordova-plugin-barcodescanner",
-      "clobbers": [
-        "cordova.plugins.barcodeScanner"
-      ]
-    },
-    {
-      "id": "com.lampa.startapp.startapp",
-      "file": "plugins/com.lampa.startapp/www/startApp.js",
-      "pluginId": "com.lampa.startapp",
-      "merges": [
-        "startApp"
-      ]
     }
   ];
   module.exports.metadata = {
+    "com.lampa.startapp": "6.1.6",
+    "cordova-plugin-androidx-adapter": "1.1.3",
+    "cordova-plugin-compat": "1.2.0",
+    "cordova-plugin-barcodescanner": "0.7.4",
     "cordova-plugin-call-number": "1.0.1",
     "cordova-plugin-camera": "6.0.0",
+    "cordova-plugin-customfcmreceiver": "1.0.0",
     "cordova-plugin-device": "2.1.0",
+    "cordova-plugin-dialogs": "3.0.0-dev",
+    "cordova-plugin-enable-multidex": "0.2.0",
     "cordova-plugin-file": "6.0.2",
     "cordova-plugin-file-transfer": "1.7.1",
+    "cordova-plugin-firebasex": "16.2.0",
     "cordova-plugin-geolocation": "4.1.0",
     "cordova-plugin-inappbrowser": "5.0.0",
     "cordova-plugin-ios-camera-permissions": "1.2.0",
@@ -379,9 +411,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-wkwebview-file-xhr": "3.0.0",
     "es6-promise-plugin": "4.2.2",
     "cordova-plugin-x-socialsharing": "6.0.4",
-    "cordova-support-android-plugin": "2.0.4",
-    "cordova-plugin-compat": "1.2.0",
-    "cordova-plugin-barcodescanner": "0.7.4",
-    "com.lampa.startapp": "6.1.6"
+    "cordova-support-android-plugin": "2.0.4"
   };
 });

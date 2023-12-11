@@ -1456,6 +1456,96 @@ color: white!important;
     border-radius: 10px;
 }
 
+/* Estilos anteriores para el mensaje y la flecha */
+ .overlay {
+        top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    display: block;
+    position: absolute;
+
+}
+
+.mensaje-overlay {
+  position: absolute;
+   top: calc(65% - 20px);
+    left: calc(45% - 50px);
+    padding: 10px;
+       border-radius: 10px;
+    display: none;
+    cursor: pointer;
+    z-index: 4;
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #fff;
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.triangulo-curvo {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid rgba(255, 255, 255, 0.8); /* Color del triángulo y transparencia */
+    border-bottom-left-radius: 10px; /* Añade el borde curvo */
+    border-bottom-right-radius: 10px; /* Añade el borde curvo */
+    position: absolute;
+    top: -20px; /* Ajusta la posición del triángulo */
+    left: 40%; /* Ajusta la posición del triángulo */
+}
+
+.burbuja {
+    position: absolute;
+    top: -10px; /* Ajusta la posición vertical */
+    right: 15px; /* Ajusta la posición horizontal */
+    width: 100px; /* Ancho de la burbuja */
+    height: 40px; /* Altura de la burbuja */
+    background-color: rgba(255, 255, 255, 0.8); /* Color de fondo y transparencia */
+    border-radius: 20px; /* Controla la curvatura de los bordes */
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%); /* Forma del polígono */
+    z-index: -1; /* Colócalo detrás del texto */
+}
+
+.globo{
+  position: absolute;
+  font-size: 13px;
+  border-radius: var(--borde);
+  padding: var(--borde);
+  --borde: 1em;
+  font-family: sans-serif;
+  z-index: 1; 
+  background-color: white;
+  filter: drop-shadow(0px 0px 1px black) ;
+  width: 110px;
+}
+
+.globo::before{
+  content: '';
+  position: absolute; 
+  z-index: -1;
+  width: var(--colita);
+  height: var(--colita);
+}
+
+.globo.abajo-izquierda::before{
+  --colita: 20px;
+  left: 45px;
+  bottom: calc( var(--colita) / -1.5);
+  border-radius: 0 0 10em 0;
+  box-shadow: 
+    inset calc(var(--colita)/-3) calc(var(--colita)/4) 0 0 white;
+}
+
 /*.textoestilo3{
 
   font-size: 28px;

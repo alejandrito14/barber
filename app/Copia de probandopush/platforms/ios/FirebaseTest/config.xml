@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.inversa.app" version="13.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="CDVWebViewEngine">
+        <param name="ios-package" value="CDVWebViewEngine" />
+    </feature>
+    <feature name="LaunchScreen">
+        <param name="ios-package" value="CDVLaunchScreen" />
+    </feature>
+    <feature name="LocalStorage">
+        <param name="ios-package" value="CDVLocalStorage" />
+    </feature>
+    <feature name="Console">
+        <param name="ios-package" value="CDVLogger" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="HandleOpenUrl">
+        <param name="ios-package" value="CDVHandleOpenURL" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="IntentAndNavigationFilter">
+        <param name="ios-package" value="CDVIntentAndNavigationFilter" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="GestureHandler">
+        <param name="ios-package" value="CDVGestureHandler" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="CustomFCMReceiverPlugin">
+        <param name="ios-package" value="CustomFCMReceiverPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="FirebasePlugin">
+        <param name="ios-package" value="FirebasePlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Notification">
+        <param name="ios-package" value="CDVNotification" />
+    </feature>
+    <feature name="Diagnostic">
+        <param name="ios-package" value="Diagnostic" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_Location">
+        <param name="ios-package" value="Diagnostic_Location" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_Bluetooth">
+        <param name="ios-package" value="Diagnostic_Bluetooth" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_Wifi">
+        <param name="ios-package" value="Diagnostic_Wifi" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_Camera">
+        <param name="ios-package" value="Diagnostic_Camera" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_Notifications">
+        <param name="ios-package" value="Diagnostic_Notifications" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_Microphone">
+        <param name="ios-package" value="Diagnostic_Microphone" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_Contacts">
+        <param name="ios-package" value="Diagnostic_Contacts" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_Calendar">
+        <param name="ios-package" value="Diagnostic_Calendar" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_Reminders">
+        <param name="ios-package" value="Diagnostic_Reminders" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_Motion">
+        <param name="ios-package" value="Diagnostic_Motion" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="FacebookConnectPlugin">
+        <param name="ios-package" value="FacebookConnectPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <plugin name="FacebookConnectPlugin" value="FacebookConnectPlugin" />
+    <access origin="https://m.facebook.com" />
+    <access origin="https://graph.facebook.com" />
+    <access origin="https://api.facebook.com" />
+    <access origin="https://*.fbcdn.net" />
+    <access origin="https://*.akamaihd.net" />
+    <feature name="HelloCPlugin">
+        <param name="ios-package" value="HelloCPlugin" />
+    </feature>
+    <name>FirebaseTest</name>
+    <description>
+        Test project for cordova-plugin-firebasex
+    </description>
+    <author email="dave@workingedge.co.uk">
+       Dave Alden
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <resource-file src="res/ios/sound/blackberry.caf" />
+    <resource-file src="res/ios/sound/crystal.caf" />
+    <resource-file src="res/ios/sound/msn.caf" />
+    <resource-file src="res/ios/pn-actions.json" />
+    <preference name="AllowInlineMediaPlayback" value="false" />
+    <preference name="DisallowOverscroll" value="false" />
+    <preference name="EnableViewportScale" value="false" />
+    <preference name="MediaTypesRequiringUserActionForPlayback" value="none" />
+    <preference name="SuppressesIncrementalRendering" value="false" />
+    <preference name="SuppressesLongPressGesture" value="false" />
+    <preference name="Suppresses3DTouchGesture" value="false" />
+    <preference name="deployment-target" value="12.0" />
+</widget>

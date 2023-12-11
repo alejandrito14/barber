@@ -24,7 +24,7 @@ try
 	$lo->db = $db;
 
 
-	$obtenertipodepagos=$lo->ObttipodepagoActivos();
+	$obtenertipodepagos=$lo->ObttipodepagoActivosTPV2();
 
 
 

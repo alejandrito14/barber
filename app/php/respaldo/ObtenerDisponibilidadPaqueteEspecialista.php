@@ -99,9 +99,13 @@ try
 					$verificar=$especialista->EvaluarHorarioDisponible();
 
 					/*$buscarsiestaapartada=$especialista->EvaluarHorarioApartado();*/
+					$especialista->dia=$numdia;
+					$buscarEspecialistaLibre=$especialista->EvaluarEspecialistas($intervalo);
+
+					
 
 					$disponible=1;
-				if (count($verificar)>0)  {
+				if (count($verificar)>0 || count($buscarEspecialistaLibre)==0)  {
 							$disponible=0;
 						
 					}

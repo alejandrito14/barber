@@ -76,6 +76,8 @@ try
 	$materno=$cadena[5];
 	$fechagenerado=$cadena[6];
 
+
+
 	$cita->idcita=$idcita;
 	$obtenercita=$cita->ObtenerdetallecitaAdmin();
 
@@ -84,6 +86,15 @@ try
 	$obtenerespecialista=$especialista->ObtenerIdEspecialista();
 
 	$cita->idespecialista=$obtenerespecialista[0]->idespecialista;
+	$obtenerdetallecita=[];
+	$obtenercitasenproceso=$cita->ObtenerCitasEnproceso();
+	$validado=1;
+	if (count($obtenercitasenproceso)==0) {
+		# code...
+	
+
+
+
 	$obtenercita=$cita->ObtenerCitaEspecialista();
 	$fechacita=date('Y-m-d',strtotime($obtenercita[0]->fechacita));
 	$horainicial=date('H:i',strtotime($obtenercita[0]->horacita));
@@ -138,7 +149,7 @@ try
 			$cita->qrgenerado=$consultarqr[0]->idqrgenerado;
 			$cita->idusuarios=$idusuario;
 			$cita->idcita=$idcita;
-			$cita->idusuariockeckin=$iduser;
+			$cita->idusuariocheckin=$iduser;
 
 
 			$cita->ActualizarcitaQr();
@@ -186,6 +197,11 @@ try
 		$validado=0;
 	}
 
+}else{
+
+	$validado=3;
+}
+
 	
     $db->commit();
 
@@ -193,6 +209,7 @@ try
 	$respuesta['idusuario']=$idusuario;
 	$respuesta['cita']=$cita->idcita;
 	$respuesta['detallecita']=$obtenerdetallecita;
+	$respuesta['detallecitaenproceso']=$obtenercitasenproceso;
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);
 	echo $myJSON;

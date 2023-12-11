@@ -600,7 +600,7 @@ function PintarTableroCitas(respuesta,fechaactual) {
 
                  
                 html+=`
-                  <p  style="display: flex;" onclick="AbrirModalCitaAdmin(`+respuesta[i].idcita+`)">`;
+                  <p  style="display: flex;" >`;
                 html+=`<span class="`+claseestatus+`">`+respuesta[i].textoestatus+`</span>  `;
                 html+=`</p>`;
                   
@@ -1544,9 +1544,10 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
 							</div>
 							
 								`;
-
+								var minutos=0;
                             		if(respuesta.cancelacion==0 && respuesta.checkin==0 && respuesta.checkout==0 && respuesta.sepuedecancelar==1) {
-
+                            			minutos=respuesta.minutosantesdecancelar;
+                            			html+=`<p style="text-align: center;">Tienes `+minutos+`min. antes de la cita para cancelar</p>`;
 	                            	html+=`
 	                            		<div class="col-100">
 	                            			<button style="background: rgb(199, 170, 106); display: block;" type="button" class="button button-fill color-theme button-large button-raised btncontinuarcita cambiarfuente faustina" 
@@ -2160,32 +2161,32 @@ function CrearUsuarioInvitado() {
 
 	else{
 
-		var pagina = "CrearUsuarioInvitado.php";
+		/*var pagina = "CrearUsuarioInvitado.php";
 		$.ajax({
 		type: 'POST',
 		dataType: 'json',
 		url: urlphp+pagina,
 		async:false,
-		success: function(resp){
-				var idusuario=resp.id_user;
+		success: function(resp){*/
+				var idusuario=0;
 				localStorage.setItem("id_user",idusuario);
 				localStorage.setItem("idusuarioinvitado",idusuario);
 				localStorage.setItem('pregunta',1);
-    			localStorage.setItem('session',1);
+    			localStorage.setItem('session',0);
 				localStorage.setItem("nombre","Invitado");
 				localStorage.removeItem('carrito');
 				localStorage.setItem('invitado',1);
 				localStorage.setItem('idtipousuario',6);
 				//GoToPage("home");
 			
-			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			/*},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;
 				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
 				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
 								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
 					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
 			}
-		});
+		});*/
 
 	}
 

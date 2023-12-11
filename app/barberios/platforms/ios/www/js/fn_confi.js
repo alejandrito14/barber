@@ -390,7 +390,7 @@ inAppBrowserRef = cordova.InAppBrowser.open(url, target, options);
 
 
 function GuardarTokenBase(idcliente) {
-
+	
 	 var sistema=localStorage.getItem("SO");
 	 var tokenfirebase=localStorage.getItem('tokenfirebase');
 	

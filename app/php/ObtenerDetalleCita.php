@@ -10,6 +10,7 @@ require_once("clases/class.Funciones.php");
 require_once("clases/class.Fechas.php");
 require_once("clases/class.Paquetes.php");
 require_once("clases/class.Calificacion.php");
+require_once("clases/class.Sucursal.php");
 
 try
 {
@@ -23,7 +24,8 @@ try
 	$paquetes->db = $db;
 	$calificacion=new Calificacion();
 	$calificacion->db=$db;
-
+	$sucursal=new Sucursal();
+	$sucursal->db=$db;
 	//Enviamos la conexion a la clase
 	$lo->db = $db;
 
@@ -33,6 +35,11 @@ try
 	$lo->idusuario=$idusuario;
 	$obtenerdetallecita=$lo->Obtenerdetallecita();
 	$obtenerdetallecita[0]->fecha=date('d-m-Y',strtotime($obtenerdetallecita[0]->fechacita));
+	$sucursal->idsucursales=$obtenerdetallecita[0]->idsucursal;
+
+	$obtenersucursal=$sucursal->ObtenerSucursal();
+
+	$horascancela=$obtenersucursal[0]->horascancelacion;
 
 	$obtenerdetallecita[0]->fechaformato=$fechas->fecha_texto5($obtenerdetallecita[0]->fechacita);
 	$calificacion->idcita=$idcita;
@@ -54,19 +61,21 @@ try
 	// Obtener la fecha y hora de la cita en formato de timestamp (debes ajustar esto según tus necesidades)
 	$fechahora=$obtenerdetallecita[0]->fechacita.' '.$obtenerdetallecita[0]->horainicial;
 	$fechaHoraCita = strtotime($fechahora); // Cambia esto por la fecha y hora de la cita
+	$minutos=$horascancela*60;
 
 	// Calcular la diferencia de tiempo en segundos
 	$diferenciaTiempo = $fechaHoraCita - $fechaHoraActual;
 
 	// Definir el límite de tiempo en segundos (1 hora = 3600 segundos)
-	 $limiteTiempo = 3600;
+	 $limiteTiempo  = $horascancela * 60 * 60;
+
 	 $obtenerdetallecita[0]->sepuedecancelar=0;
 	if ($diferenciaTiempo > $limiteTiempo) {
 	    // Puedes cancelar la cita
 	   $obtenerdetallecita[0]->sepuedecancelar=1;
 		} 
     
-
+		$obtenerdetallecita[0]->minutosantesdecancelar=$minutos;
 	$respuesta['respuesta']=$obtenerdetallecita[0];
 	
 	//Retornamos en formato JSON 

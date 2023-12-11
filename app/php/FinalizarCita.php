@@ -8,6 +8,7 @@ require_once("clases/conexcion.php");
 require_once("clases/class.Cita.php");
 require_once("clases/class.Funciones.php");
 require_once("clases/class.Paquetes.php");
+require_once("clases/class.Notapago.php");
 
 try
 {
@@ -16,21 +17,35 @@ try
 	$db = new MySQL();
 	$cita = new Cita();
 	$f=new Funciones();
+	$notapago=new Notapago();
+	$notapago->db=$db;
 
 	$cita->db=$db;
 	$db->begin();
 
 	$idcita=$_POST['idcita'];
 	$iduser=$_POST['iduser'];
-	$cita->idcita=$idcita;
-	$cita->idusuariockeckout=$iduser;
-	$cita->GuardarFinalizar();
+	$notapago->idcita=$idcita;
+	$respu=$notapago->VerificarCitaPagada();
+
+	if (count($respu)==0) {
+		$conpago=1;
+		$cita->idcita=$idcita;
+		$cita->idusuariockeckout=$iduser;
+		$cita->GuardarFinalizar();
+		
+		}else{
+			$conpago=0;
+
+	}
+	
 
 
 	$db->commit();
 
 	
 	$respuesta['respuesta']=1;
+	$respuesta['conpago']=$conpago;
 
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);

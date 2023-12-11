@@ -65,7 +65,7 @@ var app = new Framework7({
     },
   },
 
-
+ 
 
     methods: {
         onBackKeyDown: function() {
@@ -96,8 +96,8 @@ var intervalo=0;
 var intervalocitas=0;
 
 var pictureSource;   // picture source
- var destinationType; 
-var produccion =1;
+var destinationType; 
+var produccion=1;
 const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 localStorage.setItem('zonahoraria',userTimeZone);
@@ -124,27 +124,26 @@ $(document).ready(function() {
 
     if( window.isphone ) {
        
-    document.addEventListener("deviceready", Cargar, false);
-
+     document.addEventListener("deviceready", Cargar, false);
      pictureSource=navigator.camera.PictureSourceType;
      destinationType=navigator.camera.DestinationType;
       mediaType = navigator.camera.MediaType;
       
     } else {
-
+      
       
         Cargar();
     }
   
     
-
+    
 
  });
 
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.30';
+var version='1.0.32';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;
@@ -193,8 +192,8 @@ function Cargar() {
     data:datos,
     async:false,
     success: function(resp){
-var puertosockect="";
-var carpetaapp="";
+    var puertosockect="";
+    var carpetaapp="";
       if (resp.vigente==1) {
         var servidor=resp.datosservidor.urlapp;
         var puertosocket=resp.datosservidor.puertosocket;
@@ -320,8 +319,10 @@ var carpetaapp="";
     });
 
     p1.then(function(value) {
+
+
      var tokenfirebase=localStorage.getItem('tokenfirebase');
-      
+       // alert(tokenfirebase);
     // ObtenerConfiVersion();     
     
    
@@ -459,7 +460,8 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
       ObtenerCitasProgramadas();
 
       var pregunta=localStorage.getItem('pregunta');
-    if (pregunta==0) {
+      var idusuarios=localStorage.getItem('id_user');
+    if (pregunta==0 && idusuarios>0) {
 
            AbrirModalPreguntaSesion(); 
     
@@ -510,7 +512,9 @@ $$(document).on('page:init', '.page[data-name="homeespecialista"]', function (e)
         CargarMenu();
       CargarDatosEspecialista();
   var pregunta=localStorage.getItem('pregunta');
-    if (pregunta==0) {
+         var idusuarios=localStorage.getItem('id_user');
+
+    if (pregunta==0 && idusuarios>0) {
 
     AbrirModalPreguntaSesion(); 
      /*app.dialog.confirm('','¿Desea mantener la sesión activa?', function () {
@@ -713,6 +717,10 @@ $$(document).on('page:init', '.page[data-name="detallesucursal"]', function (e) 
       PintarCantidadcarrito();
       $(".btniracarrito").attr('onclick','IraCarrito()');
       Visualizarmenu();
+
+      $("#mensajeAgenda").attr('onclick','ocultarMensaje()');
+
+
 
 });
 
@@ -917,7 +925,7 @@ $$(document).on('page:init','.page[data-name="homeindex"]',function(e)
                      
                       GuardarTokenBase(0);
                   }, 4000); 
- $(".btnempezar").attr('onclick','Empezar()');
+        $(".btnempezar").attr('onclick','Empezar()');
 
 
   /*setTimeout(function () {
@@ -1124,6 +1132,8 @@ $$(document).on('page:init', '.page[data-name="cambiocontra"]', function (e) {
 $$(document).on('page:init', '.page[data-name="homeadmin"]', function (e) {
         $(".btnsalir").attr('onclick','AbriModalSalir()');
         $(".btnscan2").attr('onclick','scanqr3()');
+        myStopFunction(intervalocitas);
+
         $(".panelizquierdo").attr('onclick','toggleMenu()');
         CargarMenu();
         Visualizarmenu();
@@ -1131,7 +1141,8 @@ $$(document).on('page:init', '.page[data-name="homeadmin"]', function (e) {
  
       CargarDatosAdmin();
      var pregunta=localStorage.getItem('pregunta');
-    if (pregunta==0) {
+    var idusuarios=localStorage.getItem('id_user');
+    if (pregunta==0 && idusuarios>0) {
 
            AbrirModalPreguntaSesion(); 
     

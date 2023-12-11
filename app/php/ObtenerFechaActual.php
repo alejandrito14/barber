@@ -20,6 +20,7 @@ try
  
 	$respuesta['respuesta']=1;
 	$respuesta['fechaactual']=$fechaformato;
+	$respuesta['fechafiltro']=$fechaactual;
 	/*$respuesta['fechadia']=$fechadia;
 	$respuesta['arrayfechasdias']=$arrayfechasdias;
 */

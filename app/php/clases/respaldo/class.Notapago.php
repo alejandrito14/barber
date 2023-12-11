@@ -98,7 +98,7 @@ class Notapago
 
 			)";
 
-
+			
 		 $resp=$this->db->consulta($sql);
 		 $this->idnotapago=$this->db->id_ultimo();
 

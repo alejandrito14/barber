@@ -1,0 +1,449 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {
+      "config.xml": {
+        "parents": {
+          "/*": [
+            {
+              "xml": "<feature name=\"CustomFCMReceiverPlugin\"><param name=\"ios-package\" value=\"CustomFCMReceiverPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"FirebasePlugin\"><param name=\"ios-package\" value=\"FirebasePlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Notification\"><param name=\"ios-package\" value=\"CDVNotification\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Diagnostic\"><param name=\"ios-package\" value=\"Diagnostic\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Diagnostic_Location\"><param name=\"ios-package\" value=\"Diagnostic_Location\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Diagnostic_Bluetooth\"><param name=\"ios-package\" value=\"Diagnostic_Bluetooth\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Diagnostic_Wifi\"><param name=\"ios-package\" value=\"Diagnostic_Wifi\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Diagnostic_Camera\"><param name=\"ios-package\" value=\"Diagnostic_Camera\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Diagnostic_Notifications\"><param name=\"ios-package\" value=\"Diagnostic_Notifications\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Diagnostic_Microphone\"><param name=\"ios-package\" value=\"Diagnostic_Microphone\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Diagnostic_Contacts\"><param name=\"ios-package\" value=\"Diagnostic_Contacts\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Diagnostic_Calendar\"><param name=\"ios-package\" value=\"Diagnostic_Calendar\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Diagnostic_Reminders\"><param name=\"ios-package\" value=\"Diagnostic_Reminders\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Diagnostic_Motion\"><param name=\"ios-package\" value=\"Diagnostic_Motion\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"FacebookConnectPlugin\"><param name=\"ios-package\" value=\"FacebookConnectPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<plugin name=\"FacebookConnectPlugin\" value=\"FacebookConnectPlugin\" />",
+              "count": 1
+            },
+            {
+              "xml": "<access origin=\"https://m.facebook.com\" />",
+              "count": 1
+            },
+            {
+              "xml": "<access origin=\"https://graph.facebook.com\" />",
+              "count": 1
+            },
+            {
+              "xml": "<access origin=\"https://api.facebook.com\" />",
+              "count": 1
+            },
+            {
+              "xml": "<access origin=\"https://*.fbcdn.net\" />",
+              "count": 1
+            },
+            {
+              "xml": "<access origin=\"https://*.akamaihd.net\" />",
+              "count": 1
+            }
+          ],
+          "/widget": [
+            {
+              "xml": "<feature name=\"HelloCPlugin\"><param name=\"ios-package\" value=\"HelloCPlugin\" /></feature>",
+              "count": 1
+            }
+          ]
+        }
+      },
+      "*/Entitlements-Debug.plist": {
+        "parents": {
+          "aps-environment": [
+            {
+              "xml": "<string>development</string>",
+              "count": 1
+            }
+          ]
+        }
+      },
+      "*/Entitlements-Release.plist": {
+        "parents": {
+          "aps-environment": [
+            {
+              "xml": "<string>production</string>",
+              "count": 1
+            }
+          ]
+        }
+      },
+      "*-Info.plist": {
+        "parents": {
+          "UIBackgroundModes": [
+            {
+              "xml": "<array><string>remote-notification</string></array>",
+              "count": 1
+            }
+          ],
+          "NSLocationWhenInUseUsageDescription": [
+            {
+              "xml": "<string>This app requires access to your location when the screen is on and the app is displayed.</string>",
+              "count": 1
+            }
+          ],
+          "NSLocationAlwaysAndWhenInUseUsageDescription": [
+            {
+              "xml": "<string>This app requires constant access to your location in order to track your position, even when the screen is off or the app is in the background.</string>",
+              "count": 1
+            }
+          ],
+          "NSLocationAlwaysUsageDescription": [
+            {
+              "xml": "<string>This app requires constant access to your location in order to track your position, even when the screen is off or the app is in the background.</string>",
+              "count": 1
+            }
+          ],
+          "NSBluetoothPeripheralUsageDescription": [
+            {
+              "xml": "<string>This app requires Bluetooth access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSBluetoothAlwaysUsageDescription": [
+            {
+              "xml": "<string>This app requires constant Bluetooth access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSCameraUsageDescription": [
+            {
+              "xml": "<string>This app requires camera access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSPhotoLibraryUsageDescription": [
+            {
+              "xml": "<string>This app requires photo library access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSMicrophoneUsageDescription": [
+            {
+              "xml": "<string>This app requires microphone access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSContactsUsageDescription": [
+            {
+              "xml": "<string>This app requires contacts access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSCalendarsUsageDescription": [
+            {
+              "xml": "<string>This app requires calendar access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSRemindersUsageDescription": [
+            {
+              "xml": "<string>This app requires reminders access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSMotionUsageDescription": [
+            {
+              "xml": "<string>This app requires motion detection access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "FacebookAppID": [
+            {
+              "xml": "<string>828119491855582</string>",
+              "count": 1
+            }
+          ],
+          "FacebookDisplayName": [
+            {
+              "xml": "<string>FirebaseX Test</string>",
+              "count": 1
+            }
+          ],
+          "FacebookUrlSchemeSuffix": [
+            {
+              "xml": "<string>FACEBOOK_URL_SCHEME_SUFFIX_PLACEHOLDER</string>",
+              "count": 1
+            }
+          ],
+          "FacebookAutoLogAppEventsEnabled_PLACEHOLDER": [
+            {
+              "xml": "<string>FACEBOOK_AUTO_LOG_APP_EVENTS_PLACEHOLDER</string>",
+              "count": 1
+            }
+          ],
+          "FacebookHybridAppEvents": [
+            {
+              "xml": "<string>false</string>",
+              "count": 1
+            }
+          ],
+          "FacebookAdvertiserIDCollectionEnabled_PLACEHOLDER": [
+            {
+              "xml": "<string>FACEBOOK_ADVERTISER_ID_COLLECTION_PLACEHOLDER</string>",
+              "count": 1
+            }
+          ],
+          "CFBundleURLTypes": [
+            {
+              "xml": "<array><dict><key>CFBundleURLSchemes</key><array><string>fb828119491855582FACEBOOK_URL_SCHEME_SUFFIX_PLACEHOLDER</string><string>OTHER_APP_SCHEMES_PLACEHOLDER</string></array></dict></array>",
+              "count": 1
+            }
+          ],
+          "NSAppTransportSecurity": [
+            {
+              "xml": "<dict><key>NSExceptionDomains</key><dict><key>facebook.com</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict><key>fbcdn.net</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict><key>akamaihd.net</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict></dict></dict>",
+              "count": 1
+            }
+          ],
+          "LSApplicationQueriesSchemes": [
+            {
+              "xml": "<array><string>fbapi</string><string>fb-messenger-api</string><string>fbauth2</string><string>fbshareextension</string></array>",
+              "count": 1
+            }
+          ]
+        }
+      }
+    }
+  },
+  "installed_plugins": {
+    "cordova-plugin-customfcmreceiver": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-firebasex": {
+      "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "false",
+      "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "false",
+      "FIREBASE_CRASHLYTICS_COLLECTION_ENABLED": "false",
+      "FIREBASE_FCM_AUTOINIT_ENABLED": "false",
+      "IOS_USE_PRECOMPILED_FIRESTORE_POD": "false",
+      "IOS_FCM_ENABLED": "true",
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-custom-config": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-dialogs": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-enable-multidex": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-androidx-adapter": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-hello-c": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova.plugins.diagnostic": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-facebook-connect": {
+      "APP_ID": "828119491855582",
+      "APP_NAME": "FirebaseX Test",
+      "FACEBOOK_URL_SCHEME_SUFFIX": " ",
+      "OTHER_APP_SCHEMES": " ",
+      "FACEBOOK_AUTO_LOG_APP_EVENTS": "true",
+      "FACEBOOK_HYBRID_APP_EVENTS": "false",
+      "FACEBOOK_ADVERTISER_ID_COLLECTION": "true",
+      "FACEBOOK_ANDROID_SDK_VERSION": "11.3.0",
+      "FACEBOOK_IOS_SDK_VERSION": "11.1.0",
+      "FACEBOOK_BROWSER_SDK_VERSION": "v11.0",
+      "PACKAGE_NAME": "com.inversa.app"
+    }
+  },
+  "dependent_plugins": {},
+  "modules": [
+    {
+      "id": "cordova-plugin-customfcmreceiver.CustomFCMReceiverPlugin",
+      "file": "plugins/cordova-plugin-customfcmreceiver/www/customfcmreceiver.js",
+      "pluginId": "cordova-plugin-customfcmreceiver",
+      "clobbers": [
+        "cordova.plugin.customfcmreceiver"
+      ]
+    },
+    {
+      "id": "cordova-plugin-firebasex.FirebasePlugin",
+      "file": "plugins/cordova-plugin-firebasex/www/firebase.js",
+      "pluginId": "cordova-plugin-firebasex",
+      "clobbers": [
+        "FirebasePlugin"
+      ]
+    },
+    {
+      "id": "cordova-plugin-dialogs.notification",
+      "file": "plugins/cordova-plugin-dialogs/www/notification.js",
+      "pluginId": "cordova-plugin-dialogs",
+      "merges": [
+        "navigator.notification"
+      ]
+    },
+    {
+      "id": "cordova-plugin-hello-c.helloc",
+      "file": "plugins/cordova-plugin-hello-c/www/helloc.js",
+      "pluginId": "cordova-plugin-hello-c",
+      "clobbers": [
+        "helloc"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Location",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.location.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.location"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Bluetooth",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.bluetooth.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.bluetooth"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Wifi",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.wifi.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.wifi"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Camera",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.camera.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.camera"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Notifications",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.notifications.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.notifications"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Microphone",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.microphone.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.microphone"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Contacts",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.contacts.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.contacts"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Calendar",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.calendar.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.calendar"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Reminders",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.reminders.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.reminders"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Motion",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.motion.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.motion"
+      ]
+    },
+    {
+      "id": "cordova-plugin-facebook-connect.FacebookConnectPlugin",
+      "file": "plugins/cordova-plugin-facebook-connect/www/facebook-native.js",
+      "pluginId": "cordova-plugin-facebook-connect",
+      "clobbers": [
+        "facebookConnectPlugin"
+      ]
+    }
+  ],
+  "plugin_metadata": {
+    "cordova-plugin-customfcmreceiver": "1.0.0",
+    "cordova-plugin-firebasex": "16.2.0",
+    "cordova-custom-config": "5.1.1",
+    "cordova-plugin-dialogs": "3.0.0-dev",
+    "cordova-plugin-enable-multidex": "0.2.0",
+    "cordova-plugin-androidx-adapter": "1.1.3",
+    "cordova-plugin-hello-c": "1.1.1",
+    "cordova.plugins.diagnostic": "7.1.4",
+    "cordova-plugin-facebook-connect": "3.2.0"
+  }
+}

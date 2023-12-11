@@ -189,6 +189,7 @@ function PintarDatosSucursal(respuesta,imagenes) {
 
 
 	imagen=urlimagenes+`sucursal/imagenes/`+codigoserv+respuesta.imagensecundaria;
+	imagenesgaleria.push(imagen);
 	$(".imagensucursal").attr('src',imagen);
 	$(".titulosucursal").text(respuesta.titulo);
 	$(".telefono").text(respuesta.celular);
@@ -221,9 +222,9 @@ function PintarDatosSucursal(respuesta,imagenes) {
 		
 		imagen=urlimagenes+`sucursal/imagenes/`+codigoserv+respuesta.botoncalendario;
 
-		var imagen=`<img src="`+imagen+`" alt="" style="width:80px;">`;
-			
-		$(".btnagenda").html(imagen);
+		//var imagen=`<img src="`+imagen+`" alt="" style="width:80px;">`;
+		$(".imgagenda").attr('src',imagen);
+		//$(".btnagenda").html(imagen);
 
 	}
 
@@ -270,7 +271,7 @@ function PintarDatosSucursal(respuesta,imagenes) {
 	//$(".btnwhapsaplink").attr('onclick',"AbrirWhapsap(\'"+respuesta.celular+"\')");
 
 
-		 imagenesgaleria.push(imagen);
+		 
 
 
 	$(".divvisualizarimagen").attr("onclick","AbrirImagen(0)");
@@ -1466,3 +1467,20 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:100%;
        dynamicSheet1.open();
 }
 
+function mostrarOverlay() {
+    var overlay = document.querySelector('.overlay');
+    var mensajeOverlay = document.querySelector('.mensaje-overlay');
+    overlay.style.display = 'block'; // Mostrar el overlay
+    mensajeOverlay.style.display = 'block'; // Mostrar el mensaje
+}
+
+// Función para ocultar el overlay y el mensaje
+function ocultarMensaje() {
+
+	$("#mensajeAgenda").css('display','none');
+	$(".overlay").css('display','none');
+    var overlay = document.querySelector('.overlay');
+    var mensajeOverlay = document.querySelector('.mensaje-overlay');
+    overlay.style.display = 'none'; // Ocultar el overlay
+    mensajeOverlay.style.display = 'none'; // Ocultar el mensaje
+}

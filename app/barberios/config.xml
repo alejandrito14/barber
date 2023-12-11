@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.inversa.app" version="1.0.29" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>DonPorfirio</name>
+<widget id="com.inversa.app" version="1.0.32" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Grupo Inversa</name>
     <description>
         Aplicacion de negocios
     </description>
@@ -9,12 +9,11 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-    <allow-navigation href="*" /> 
-    <access origin="whatsapp:*" launch-external="yes" />
-
+    <allow-navigation href="*" />
+    <access launch-external="yes" origin="whatsapp:*" />
     <allow-navigation href="https://*.stripe.network/*" />
     <allow-navigation href="https://*.stripe.com/*" />
-    <allow-navigation href="https://*.issoftware1.com.mx/*" />
+    <allow-navigation href="https://*.issoftware1.com.mx/*" /> 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -22,17 +21,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
-     <plugin name="cordova-plugin-firebasex" spec="https://github.com/dpa99c/cordova-plugin-firebase" >
-     <variable name="ANDROID_FIREBASE_ANALYTICS_VERSION" value="17.0.0" />
-
-        <variable name="IOS_STRIP_DEBUG" value="true" />
-        <variable name="FIREBASE_ANALYTICS_COLLECTION_ENABLED" value="false" />
-        <variable name="FIREBASE_PERFORMANCE_COLLECTION_ENABLED" value="false" />
-        <variable name="FIREBASE_CRASHLYTICS_COLLECTION_ENABLED" value="false" />
-        <variable name="SETUP_RECAPTCHA_VERIFICATION" value="true" />
-    </plugin>
-
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -40,22 +28,19 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <access launch-external="yes" origin="whatsapp:*" />
-
     <access launch-external="yes" origin="whatsapp://*" />
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+
+
+     <plugin name="cordova-plugin-firebasex" spec="https://github.com/dpa99c/cordova-plugin-firebase" >
+        <variable name="IOS_STRIP_DEBUG" value="true" />
+        <variable name="FIREBASE_ANALYTICS_COLLECTION_ENABLED" value="false" />
+        <variable name="FIREBASE_PERFORMANCE_COLLECTION_ENABLED" value="false" />
+        <variable name="FIREBASE_CRASHLYTICS_COLLECTION_ENABLED" value="false" />
+        <variable name="SETUP_RECAPTCHA_VERIFICATION" value="true" />
+    </plugin>
     <platform name="android">
         <resource-file src="google-services.json" target="app/google-services.json" />
-
-  <!--   <edit-config file="app/src/main/AndroidManifest.xml" target="/manifest/application/activity" mode="merge">
-  <activity android:exported="true" />
-</edit-config>
-<edit-config file="app/src/main/AndroidManifest.xml" target="/manifest/application/service" mode="merge">
-  <tools android:exported="true" />
-</edit-config> 
- -->
-  <!--   <resource-file src="google-services.json" target="app/google-services.json" />
-
- -->
         <preference name="android-compileSdkVersion" value="32" />
         <preference name="AndroidXEnabled" value="true" />
         <preference name="AndroidInsecureFileModeEnabled" value="true" />
@@ -104,9 +89,6 @@
         <config-file parent="CFBundleAllowMixedLocalizations" platform="ios" target="*-Info.plist">
             <true />
         </config-file>
-
-
-
         <preference name="scheme" value="app" />
         <preference name="hostname" value="localhost" />
         <preference name="StatusBarOverlaysWebView" value="true" />

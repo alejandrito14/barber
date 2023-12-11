@@ -374,8 +374,8 @@ try {
 
                 $cita->idsucursal=$obtenerapartada[0]->idsucursal;
                 $cita->idpaquete=$obtenerapartada[0]->idpaquete;
-                $cita->costo=$costototal;
-                $cita->idcortesia=0;
+                $cita->costo=$obtenercarrito[$i]->costototal;
+                $cita->idcortesia=$obtenerapartada[0]->idcortesia;
 
 
                 $cita->CitaCreada();

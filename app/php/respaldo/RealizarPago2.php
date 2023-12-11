@@ -63,8 +63,9 @@ $comisionnota=$_POST['comisionnota'];
 $tipocomisionpornota=$_POST['tipocomisionpornota'];
 $idtipodepago=$_POST['idtipodepago'];
 $codigocupon=$_POST['codigocupon'];
-$montocupon=$_POST['montocupon'];
-$idcupon=$_POST['idcupon']!=''?$_POST['idcupon']:0;
+$montocupon = trim($_POST['montocupon']) !== '' ? $_POST['montocupon'] : 0;
+$idcupon=$_POST['idcupon'];
+
 
 $variable="";
 
@@ -198,9 +199,9 @@ try {
               $notapago->idusuariodatofiscal=$idusuariosdatosfiscales;
          }
 
-           $notapago->codigocupon=$codigocupon;
-           $notapago->montocupon=$montocupon;
-           $notapago->idcupon=$idcupon;
+           $notapago->codigocupon=0;
+           $notapago->montocupon=0;
+           $notapago->idcupon=0;
            $notapago->descripcioncupon=$descripcioncupon;
           $notapago->CrearNotapago();
           $idnotapago=$notapago->idnotapago;
@@ -231,13 +232,14 @@ try {
         $obj->impuesto=$impuesto;
         $obj->total=$sumatotalapagar;
                 $obj->RegistrarIntentoPago();
-                $db->commit();
+               
 
             //////SOLO TEST
             //$idpedido = rand(1,1000);  //SOLOTEST
             //$descripcion = "Pedido ". $idpedido; //SOLOTEST
             //$monto =  rand(2000,20000); // SOLOTEST
             $idclientestripe = ObtenerIdClienteStripe($obj);
+             $db->commit();
             $output=array();
            
 
@@ -369,7 +371,7 @@ try {
                $notapago->db=$db;
                $carrito=new Carrito();
                $carrito->db=$db;
-               $usocupon     = new UsoCupon();
+               $usocupon= new UsoCupon();
                $usocupon->db = $db;
 
              
@@ -420,9 +422,9 @@ try {
                $notapago->tipo=$tipo;
                $notapago->idnotapago=$idnotapago;
                $notapago->monederoaplicado=$obtenercarrito[$i]->montomonedero;
-               $notapago->idcupon=$obtenercarrito[$i]->idcupon;
-               $notapago->codigocupon=$obtenercarrito[$i]->codigocupon;
-               $notapago->montocupon=$obtenercarrito[$i]->montocupon;
+               $notapago->idcupon=0;
+               $notapago->codigocupon=0;
+               $notapago->montocupon=0;
               $notapago->Creardescripcionpago();
                
                 $carrito->idcarrito=$obtenercarrito[$i]->idcarrito;

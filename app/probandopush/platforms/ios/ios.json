@@ -9,6 +9,26 @@
         "parents": {
           "/*": [
             {
+              "xml": "<feature name=\"startApp\"><param name=\"ios-package\" value=\"startApp\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"BarcodeScanner\"><param name=\"ios-package\" value=\"CDVBarcodeScanner\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"CallNumber\"><param name=\"ios-package\" value=\"CFCallNumber\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Camera\"><param name=\"ios-package\" value=\"CDVCamera\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<preference name=\"CameraUsesGeolocation\" value=\"false\" />",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"CustomFCMReceiverPlugin\"><param name=\"ios-package\" value=\"CustomFCMReceiverPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
@@ -45,7 +65,35 @@
               "count": 1
             },
             {
+              "xml": "<feature name=\"File\"><param name=\"ios-package\" value=\"CDVFile\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"FileTransfer\"><param name=\"ios-package\" value=\"CDVFileTransfer\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"FirebasePlugin\"><param name=\"ios-package\" value=\"FirebasePlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Geolocation\"><param name=\"ios-package\" value=\"CDVLocation\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVWKInAppBrowser\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Media\"><param name=\"ios-package\" value=\"CDVSound\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<preference name=\"KeepAVAudioSessionAlwaysActive\" value=\"NO\" />",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"CDVWKWebViewFileXhr\"><param name=\"ios-package\" value=\"CDVWKWebViewFileXhr\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
             {
@@ -90,58 +138,6 @@
             },
             {
               "xml": "<feature name=\"Diagnostic_Motion\"><param name=\"ios-package\" value=\"Diagnostic_Motion\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"CDVWKWebViewFileXhr\"><param name=\"ios-package\" value=\"CDVWKWebViewFileXhr\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Camera\"><param name=\"ios-package\" value=\"CDVCamera\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<preference name=\"CameraUsesGeolocation\" value=\"false\" />",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVWKInAppBrowser\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"File\"><param name=\"ios-package\" value=\"CDVFile\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"FileTransfer\"><param name=\"ios-package\" value=\"CDVFileTransfer\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Media\"><param name=\"ios-package\" value=\"CDVSound\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<preference name=\"KeepAVAudioSessionAlwaysActive\" value=\"NO\" />",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"BarcodeScanner\"><param name=\"ios-package\" value=\"CDVBarcodeScanner\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"startApp\"><param name=\"ios-package\" value=\"startApp\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Geolocation\"><param name=\"ios-package\" value=\"CDVLocation\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"CallNumber\"><param name=\"ios-package\" value=\"CFCallNumber\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>",
               "count": 1
             }
           ],
@@ -215,10 +211,58 @@
               "count": 1
             }
           ],
+          "NSCameraUsageDescription": [
+            {
+              "xml": "<string>This app needs camera access</string>",
+              "count": 1
+            },
+            {
+              "xml": "<string>This app requires camera access to function properly.</string>",
+              "count": 1
+            },
+            {
+              "xml": "<string>Grupo Inversa needs access to camera files to add a pictures and photo user profile </string>",
+              "count": 13
+            }
+          ],
+          "NSMicrophoneUsageDescription": [
+            {
+              "xml": "<string>This app needs microphone access</string>",
+              "count": 1
+            },
+            {
+              "xml": "<string>This app requires microphone access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSPhotoLibraryAddUsageDescription": [
+            {
+              "xml": "<string>This app needs write-access to photo library</string>",
+              "count": 1
+            }
+          ],
+          "NSPhotoLibraryUsageDescription": [
+            {
+              "xml": "<string>This app needs read/write-access photo library access</string>",
+              "count": 1
+            },
+            {
+              "xml": "<string>This app requires photo library access to function properly.</string>",
+              "count": 1
+            },
+            {
+              "xml": "<string>Grupo Inversa needs access to the phone's files to add a pictures and photo user profile\n          </string>",
+              "count": 13
+            }
+          ],
           "NSLocationWhenInUseUsageDescription": [
             {
               "xml": "<string>This app requires access to your location when the screen is on and the app is displayed.</string>",
               "count": 1
+            },
+            {
+              "xml": "<string>\n          Grupo Inversa needs access to your approximate location, to choose the zip code\n        </string>",
+              "count": 13
             }
           ],
           "NSLocationAlwaysAndWhenInUseUsageDescription": [
@@ -231,6 +275,10 @@
             {
               "xml": "<string>This app requires constant access to your location in order to track your position, even when the screen is off or the app is in the background.</string>",
               "count": 1
+            },
+            {
+              "xml": "<string> Grupo Inversa access to your approximate location, to choose the zip code</string>",
+              "count": 13
             }
           ],
           "NSBluetoothPeripheralUsageDescription": [
@@ -242,36 +290,6 @@
           "NSBluetoothAlwaysUsageDescription": [
             {
               "xml": "<string>This app requires constant Bluetooth access to function properly.</string>",
-              "count": 1
-            }
-          ],
-          "NSCameraUsageDescription": [
-            {
-              "xml": "<string>This app requires camera access to function properly.</string>",
-              "count": 1
-            },
-            {
-              "xml": "<string>This app needs camera access</string>",
-              "count": 1
-            }
-          ],
-          "NSPhotoLibraryUsageDescription": [
-            {
-              "xml": "<string>This app requires photo library access to function properly.</string>",
-              "count": 1
-            },
-            {
-              "xml": "<string>This app needs read/write-access photo library access</string>",
-              "count": 1
-            }
-          ],
-          "NSMicrophoneUsageDescription": [
-            {
-              "xml": "<string>This app requires microphone access to function properly.</string>",
-              "count": 1
-            },
-            {
-              "xml": "<string>This app needs microphone access</string>",
               "count": 1
             }
           ],
@@ -296,12 +314,6 @@
           "NSMotionUsageDescription": [
             {
               "xml": "<string>This app requires motion detection access to function properly.</string>",
-              "count": 1
-            }
-          ],
-          "NSPhotoLibraryAddUsageDescription": [
-            {
-              "xml": "<string>This app needs write-access to photo library</string>",
               "count": 1
             }
           ]
@@ -330,10 +342,19 @@
     }
   },
   "installed_plugins": {
-    "cordova-custom-config": {
+    "com.lampa.startapp": {
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova-plugin-androidx-adapter": {
+    "cordova-plugin-compat": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-barcodescanner": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-call-number": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-camera": {
       "PACKAGE_NAME": "com.inversa.app"
     },
     "cordova-plugin-customfcmreceiver": {
@@ -358,6 +379,12 @@
       "FACEBOOK_BROWSER_SDK_VERSION": "v11.0",
       "PACKAGE_NAME": "com.inversa.app"
     },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
     "cordova-plugin-firebasex": {
       "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "false",
       "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "false",
@@ -367,16 +394,14 @@
       "IOS_FCM_ENABLED": "true",
       "PACKAGE_NAME": "com.inversa.app"
     },
+    "cordova-plugin-geolocation": {
+      "GPS_REQUIRED": "true",
+      "PACKAGE_NAME": "com.inversa.app"
+    },
     "cordova-plugin-hello-c": {
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova.plugins.diagnostic": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-wkwebview-file-xhr": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-camera": {
+    "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "com.inversa.app"
     },
     "cordova-plugin-ios-camera-permissions": {
@@ -386,192 +411,42 @@
       "PHOTOLIBRARY_USAGE_DESCRIPTION": "This app needs read/write-access photo library access",
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova-plugin-inappbrowser": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-file": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-file-transfer": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
     "cordova-plugin-media": {
       "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO",
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova-plugin-compat": {
+    "cordova-plugin-wkwebview-file-xhr": {
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova-plugin-barcodescanner": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "com.lampa.startapp": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-geolocation": {
-      "GPS_REQUIRED": "true",
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-call-number": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-device": {
+    "cordova.plugins.diagnostic": {
       "PACKAGE_NAME": "com.inversa.app"
     }
   },
   "dependent_plugins": {},
   "modules": [
     {
-      "id": "cordova-plugin-customfcmreceiver.CustomFCMReceiverPlugin",
-      "file": "plugins/cordova-plugin-customfcmreceiver/www/customfcmreceiver.js",
-      "pluginId": "cordova-plugin-customfcmreceiver",
+      "id": "com.lampa.startapp.startapp",
+      "file": "plugins/com.lampa.startapp/www/startApp.js",
+      "pluginId": "com.lampa.startapp",
+      "merges": [
+        "startApp"
+      ]
+    },
+    {
+      "id": "cordova-plugin-barcodescanner.BarcodeScanner",
+      "file": "plugins/cordova-plugin-barcodescanner/www/barcodescanner.js",
+      "pluginId": "cordova-plugin-barcodescanner",
       "clobbers": [
-        "cordova.plugin.customfcmreceiver"
+        "cordova.plugins.barcodeScanner"
       ]
     },
     {
-      "id": "cordova-plugin-dialogs.notification",
-      "file": "plugins/cordova-plugin-dialogs/www/notification.js",
-      "pluginId": "cordova-plugin-dialogs",
-      "merges": [
-        "navigator.notification"
-      ]
-    },
-    {
-      "id": "cordova-plugin-facebook-connect.FacebookConnectPlugin",
-      "file": "plugins/cordova-plugin-facebook-connect/www/facebook-native.js",
-      "pluginId": "cordova-plugin-facebook-connect",
+      "id": "cordova-plugin-call-number.CallNumber",
+      "file": "plugins/cordova-plugin-call-number/www/CallNumber.js",
+      "pluginId": "cordova-plugin-call-number",
       "clobbers": [
-        "facebookConnectPlugin"
+        "call"
       ]
-    },
-    {
-      "id": "cordova-plugin-firebasex.FirebasePlugin",
-      "file": "plugins/cordova-plugin-firebasex/www/firebase.js",
-      "pluginId": "cordova-plugin-firebasex",
-      "clobbers": [
-        "FirebasePlugin"
-      ]
-    },
-    {
-      "id": "cordova-plugin-hello-c.helloc",
-      "file": "plugins/cordova-plugin-hello-c/www/helloc.js",
-      "pluginId": "cordova-plugin-hello-c",
-      "clobbers": [
-        "helloc"
-      ]
-    },
-    {
-      "id": "cordova.plugins.diagnostic.Diagnostic",
-      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.js",
-      "pluginId": "cordova.plugins.diagnostic",
-      "merges": [
-        "cordova.plugins.diagnostic"
-      ]
-    },
-    {
-      "id": "cordova.plugins.diagnostic.Diagnostic_Location",
-      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.location.js",
-      "pluginId": "cordova.plugins.diagnostic",
-      "merges": [
-        "cordova.plugins.diagnostic.location"
-      ]
-    },
-    {
-      "id": "cordova.plugins.diagnostic.Diagnostic_Bluetooth",
-      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.bluetooth.js",
-      "pluginId": "cordova.plugins.diagnostic",
-      "merges": [
-        "cordova.plugins.diagnostic.bluetooth"
-      ]
-    },
-    {
-      "id": "cordova.plugins.diagnostic.Diagnostic_Wifi",
-      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.wifi.js",
-      "pluginId": "cordova.plugins.diagnostic",
-      "merges": [
-        "cordova.plugins.diagnostic.wifi"
-      ]
-    },
-    {
-      "id": "cordova.plugins.diagnostic.Diagnostic_Camera",
-      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.camera.js",
-      "pluginId": "cordova.plugins.diagnostic",
-      "merges": [
-        "cordova.plugins.diagnostic.camera"
-      ]
-    },
-    {
-      "id": "cordova.plugins.diagnostic.Diagnostic_Notifications",
-      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.notifications.js",
-      "pluginId": "cordova.plugins.diagnostic",
-      "merges": [
-        "cordova.plugins.diagnostic.notifications"
-      ]
-    },
-    {
-      "id": "cordova.plugins.diagnostic.Diagnostic_Microphone",
-      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.microphone.js",
-      "pluginId": "cordova.plugins.diagnostic",
-      "merges": [
-        "cordova.plugins.diagnostic.microphone"
-      ]
-    },
-    {
-      "id": "cordova.plugins.diagnostic.Diagnostic_Contacts",
-      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.contacts.js",
-      "pluginId": "cordova.plugins.diagnostic",
-      "merges": [
-        "cordova.plugins.diagnostic.contacts"
-      ]
-    },
-    {
-      "id": "cordova.plugins.diagnostic.Diagnostic_Calendar",
-      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.calendar.js",
-      "pluginId": "cordova.plugins.diagnostic",
-      "merges": [
-        "cordova.plugins.diagnostic.calendar"
-      ]
-    },
-    {
-      "id": "cordova.plugins.diagnostic.Diagnostic_Reminders",
-      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.reminders.js",
-      "pluginId": "cordova.plugins.diagnostic",
-      "merges": [
-        "cordova.plugins.diagnostic.reminders"
-      ]
-    },
-    {
-      "id": "cordova.plugins.diagnostic.Diagnostic_Motion",
-      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.motion.js",
-      "pluginId": "cordova.plugins.diagnostic",
-      "merges": [
-        "cordova.plugins.diagnostic.motion"
-      ]
-    },
-    {
-      "id": "cordova-plugin-wkwebview-file-xhr.formdata-polyfill",
-      "file": "plugins/cordova-plugin-wkwebview-file-xhr/src/www/ios/formdata-polyfill.js",
-      "pluginId": "cordova-plugin-wkwebview-file-xhr",
-      "runs": true
-    },
-    {
-      "id": "cordova-plugin-wkwebview-file-xhr.xhr-polyfill",
-      "file": "plugins/cordova-plugin-wkwebview-file-xhr/src/www/ios/xhr-polyfill.js",
-      "pluginId": "cordova-plugin-wkwebview-file-xhr",
-      "runs": true
-    },
-    {
-      "id": "cordova-plugin-wkwebview-file-xhr.fetch-bootstrap",
-      "file": "plugins/cordova-plugin-wkwebview-file-xhr/src/www/ios/fetch-bootstrap.js",
-      "pluginId": "cordova-plugin-wkwebview-file-xhr",
-      "runs": true
-    },
-    {
-      "id": "cordova-plugin-wkwebview-file-xhr.fetch-polyfill",
-      "file": "plugins/cordova-plugin-wkwebview-file-xhr/src/www/ios/whatwg-fetch-2.0.3.js",
-      "pluginId": "cordova-plugin-wkwebview-file-xhr",
-      "runs": true
     },
     {
       "id": "cordova-plugin-camera.Camera",
@@ -606,11 +481,27 @@
       ]
     },
     {
-      "id": "cordova-plugin-inappbrowser.inappbrowser",
-      "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
-      "pluginId": "cordova-plugin-inappbrowser",
+      "id": "cordova-plugin-customfcmreceiver.CustomFCMReceiverPlugin",
+      "file": "plugins/cordova-plugin-customfcmreceiver/www/customfcmreceiver.js",
+      "pluginId": "cordova-plugin-customfcmreceiver",
       "clobbers": [
-        "cordova.InAppBrowser.open"
+        "cordova.plugin.customfcmreceiver"
+      ]
+    },
+    {
+      "id": "cordova-plugin-dialogs.notification",
+      "file": "plugins/cordova-plugin-dialogs/www/notification.js",
+      "pluginId": "cordova-plugin-dialogs",
+      "merges": [
+        "navigator.notification"
+      ]
+    },
+    {
+      "id": "cordova-plugin-facebook-connect.FacebookConnectPlugin",
+      "file": "plugins/cordova-plugin-facebook-connect/www/facebook-native.js",
+      "pluginId": "cordova-plugin-facebook-connect",
+      "clobbers": [
+        "facebookConnectPlugin"
       ]
     },
     {
@@ -803,35 +694,11 @@
       ]
     },
     {
-      "id": "cordova-plugin-media.MediaError",
-      "file": "plugins/cordova-plugin-media/www/MediaError.js",
-      "pluginId": "cordova-plugin-media",
+      "id": "cordova-plugin-firebasex.FirebasePlugin",
+      "file": "plugins/cordova-plugin-firebasex/www/firebase.js",
+      "pluginId": "cordova-plugin-firebasex",
       "clobbers": [
-        "window.MediaError"
-      ]
-    },
-    {
-      "id": "cordova-plugin-media.Media",
-      "file": "plugins/cordova-plugin-media/www/Media.js",
-      "pluginId": "cordova-plugin-media",
-      "clobbers": [
-        "window.Media"
-      ]
-    },
-    {
-      "id": "cordova-plugin-barcodescanner.BarcodeScanner",
-      "file": "plugins/cordova-plugin-barcodescanner/www/barcodescanner.js",
-      "pluginId": "cordova-plugin-barcodescanner",
-      "clobbers": [
-        "cordova.plugins.barcodeScanner"
-      ]
-    },
-    {
-      "id": "com.lampa.startapp.startapp",
-      "file": "plugins/com.lampa.startapp/www/startApp.js",
-      "pluginId": "com.lampa.startapp",
-      "merges": [
-        "startApp"
+        "FirebasePlugin"
       ]
     },
     {
@@ -867,44 +734,169 @@
       ]
     },
     {
-      "id": "cordova-plugin-call-number.CallNumber",
-      "file": "plugins/cordova-plugin-call-number/www/CallNumber.js",
-      "pluginId": "cordova-plugin-call-number",
+      "id": "cordova-plugin-hello-c.helloc",
+      "file": "plugins/cordova-plugin-hello-c/www/helloc.js",
+      "pluginId": "cordova-plugin-hello-c",
       "clobbers": [
-        "call"
+        "helloc"
       ]
     },
     {
-      "id": "cordova-plugin-device.device",
-      "file": "plugins/cordova-plugin-device/www/device.js",
-      "pluginId": "cordova-plugin-device",
+      "id": "cordova-plugin-inappbrowser.inappbrowser",
+      "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+      "pluginId": "cordova-plugin-inappbrowser",
       "clobbers": [
-        "device"
+        "cordova.InAppBrowser.open"
+      ]
+    },
+    {
+      "id": "cordova-plugin-media.MediaError",
+      "file": "plugins/cordova-plugin-media/www/MediaError.js",
+      "pluginId": "cordova-plugin-media",
+      "clobbers": [
+        "window.MediaError"
+      ]
+    },
+    {
+      "id": "cordova-plugin-media.Media",
+      "file": "plugins/cordova-plugin-media/www/Media.js",
+      "pluginId": "cordova-plugin-media",
+      "clobbers": [
+        "window.Media"
+      ]
+    },
+    {
+      "id": "cordova-plugin-wkwebview-file-xhr.formdata-polyfill",
+      "file": "plugins/cordova-plugin-wkwebview-file-xhr/src/www/ios/formdata-polyfill.js",
+      "pluginId": "cordova-plugin-wkwebview-file-xhr",
+      "runs": true
+    },
+    {
+      "id": "cordova-plugin-wkwebview-file-xhr.xhr-polyfill",
+      "file": "plugins/cordova-plugin-wkwebview-file-xhr/src/www/ios/xhr-polyfill.js",
+      "pluginId": "cordova-plugin-wkwebview-file-xhr",
+      "runs": true
+    },
+    {
+      "id": "cordova-plugin-wkwebview-file-xhr.fetch-bootstrap",
+      "file": "plugins/cordova-plugin-wkwebview-file-xhr/src/www/ios/fetch-bootstrap.js",
+      "pluginId": "cordova-plugin-wkwebview-file-xhr",
+      "runs": true
+    },
+    {
+      "id": "cordova-plugin-wkwebview-file-xhr.fetch-polyfill",
+      "file": "plugins/cordova-plugin-wkwebview-file-xhr/src/www/ios/whatwg-fetch-2.0.3.js",
+      "pluginId": "cordova-plugin-wkwebview-file-xhr",
+      "runs": true
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Location",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.location.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.location"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Bluetooth",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.bluetooth.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.bluetooth"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Wifi",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.wifi.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.wifi"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Camera",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.camera.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.camera"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Notifications",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.notifications.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.notifications"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Microphone",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.microphone.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.microphone"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Contacts",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.contacts.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.contacts"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Calendar",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.calendar.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.calendar"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Reminders",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.reminders.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.reminders"
+      ]
+    },
+    {
+      "id": "cordova.plugins.diagnostic.Diagnostic_Motion",
+      "file": "plugins/cordova.plugins.diagnostic/www/ios/diagnostic.motion.js",
+      "pluginId": "cordova.plugins.diagnostic",
+      "merges": [
+        "cordova.plugins.diagnostic.motion"
       ]
     }
   ],
   "plugin_metadata": {
-    "cordova-custom-config": "5.1.1",
-    "cordova-plugin-androidx-adapter": "1.1.3",
+    "com.lampa.startapp": "6.1.6",
+    "cordova-plugin-compat": "1.2.0",
+    "cordova-plugin-barcodescanner": "0.7.4",
+    "cordova-plugin-call-number": "1.0.1",
+    "cordova-plugin-camera": "7.0.0",
     "cordova-plugin-customfcmreceiver": "1.0.0",
     "cordova-plugin-dialogs": "3.0.0-dev",
     "cordova-plugin-enable-multidex": "0.2.0",
     "cordova-plugin-facebook-connect": "3.2.0",
-    "cordova-plugin-firebasex": "16.2.0",
-    "cordova-plugin-hello-c": "1.1.1",
-    "cordova.plugins.diagnostic": "7.1.4",
-    "cordova-plugin-wkwebview-file-xhr": "3.1.0",
-    "cordova-plugin-camera": "7.0.0",
-    "cordova-plugin-ios-camera-permissions": "1.2.0",
-    "cordova-plugin-inappbrowser": "6.0.0",
     "cordova-plugin-file": "8.0.1",
     "cordova-plugin-file-transfer": "2.0.0",
-    "cordova-plugin-media": "7.0.0",
-    "cordova-plugin-compat": "1.2.0",
-    "cordova-plugin-barcodescanner": "0.7.4",
-    "com.lampa.startapp": "6.1.6",
+    "cordova-plugin-firebasex": "16.2.0",
     "cordova-plugin-geolocation": "5.0.0",
-    "cordova-plugin-call-number": "1.0.1",
-    "cordova-plugin-device": "2.1.0"
+    "cordova-plugin-hello-c": "1.1.1",
+    "cordova-plugin-inappbrowser": "6.0.0",
+    "cordova-plugin-ios-camera-permissions": "1.2.0",
+    "cordova-plugin-media": "7.0.0",
+    "cordova-plugin-wkwebview-file-xhr": "3.1.0",
+    "cordova.plugins.diagnostic": "7.1.4"
   }
 }

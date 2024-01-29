@@ -55,7 +55,7 @@ $navegador = $f->navegador();
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/configuracion/imagentransparente.png"> 
-    <title>IS-ACADEMIA</title>
+    <title>IS-BARBER</title>
     <!-- Custom CSS -->
     <link href="assets/libs/flot/css/float-chart.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -116,12 +116,13 @@ $navegador = $f->navegador();
                     <!-- ============================================================== -->
                     <!-- Logo -->
                     <!-- ============================================================== -->
-                    <a class="navbar-brand" href="." style="background: #021836">
+                    <a class="navbar-brand" href="." style="background: black">
                         <!-- Logo icon -->
                         <b class="logo-icon p-l-10">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
                           <!--   <img src="" alt="homepage" class="light-logo" /> -->
+                           <img src="catalogos/configuracion/imagenes/<?php echo $_SESSION['codservicio'];?>/logoinversa.png" alt="homepage" class="light-logo" style="width: 80%;"/>
 
                         </b>
                         <!--End Logo icon -->
@@ -303,12 +304,12 @@ $navegador = $f->navegador();
             <!-- ============================================================== -->
             <!-- Left Sidebar - style you can find in sidebar.scss  -->
             <!-- ============================================================== -->
-            <aside class="left-sidebar" style="background: #021836;" data-sidebarbg="skin5">
+            <aside class="left-sidebar" style="background: black;" data-sidebarbg="skin5">
                 <!-- Sidebar scroll-->
                 <div class="scroll-sidebar">
                     <!-- Sidebar navigation-->
                     <nav class="sidebar-nav" >
-                        <ul id="sidebarnav" class="p-t-30" style="background: #021836;">
+                        <ul id="sidebarnav" class="p-t-30" style="background: black;">
                             <?php include("menu.php");?>
                         </ul>
                     </nav>
@@ -426,7 +427,7 @@ $navegador = $f->navegador();
         <!-- footer -->
         <!-- ============================================================== -->
         <footer class="footer text-center" style="color: #bdc3c8;">
-           Copyright &copy; 2022 Innovative Software Services (ISS). Todos los derechos reservados.
+           Copyright &copy; 2023 Innovative Software Services (ISS). Todos los derechos reservados.
 
 
        </footer>
@@ -1199,9 +1200,12 @@ $navegador = $f->navegador();
  <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js' type='text/javascript'></script>
  <script src="js/fn_categorias.js"></script>
  <script src="js/fn_categoriapaquete.js"></script>
+<script src="js/fn_citas.js"></script>
 
 <script src="js/fn_notificacion.js"></script>
 <script src="js/fn_politicasaceptacion.js"></script>
+
+<script src="js/fn_caja.js"></script>
 
 <script src="js/modal.js"></script>
 <script src="js/fn_matrices.js?<?php echo time(); ?>"></script>
@@ -1243,7 +1247,8 @@ $navegador = $f->navegador();
 <script src="js/fn_opcionpedido.js?<?php echo time(); ?>"></script>
 
 <script src="js/fn_cupones.js?<?php echo time(); ?>"></script>
-<script src="js/fn_notificaciones.js"></script>
+<script src="js/fn_notificaciones.js?<?php echo time(); ?>">
+</script>
 <script src="js/fn_seccion.js"></script>
 <script src="js/fn_anuncios.js"></script>
 <script src="js/fn_servicio.js"></script>
@@ -1256,6 +1261,7 @@ $navegador = $f->navegador();
 <script src="js/fn_tableroanuncios.js"></script>
 <script src="js/fn_membresia.js"></script>
 <script src="js/fn_categoriasservicios.js"></script>
+<script src="js/fn_especialista.js"></script>
 <script src="js/fn_asignarusuarioservicio.js"></script>
 <script src="js/fn_tutor.js"></script>
 <script src="js/fn_clasificacion.js"></script>
@@ -1270,6 +1276,7 @@ $navegador = $f->navegador();
 <script src="js/fn_encuesta.js?<?php echo time(); ?>"></script>
 <script src="js/fn_tipousuario.js?<?php echo time(); ?>"></script>
 <script src="js/fn_pagos.js?<?php echo time(); ?>"></script>
+<script src="js/fn_pagostarjeta.js?<?php echo time(); ?>"></script>
 <script src="js/fn_estadomuni.js?<?php echo time(); ?>"></script>
 <script src="js/fn_pagotarjeta.js?<?php echo time(); ?>"></script>
 <script src="js/fn_tipopartido.js?<?php echo time(); ?>"></script>

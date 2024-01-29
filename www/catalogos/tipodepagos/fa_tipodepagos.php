@@ -61,6 +61,13 @@ if(!isset($_GET['idtipodepago'])){
 	$constripe=0;
 	$habilitarcampomontofactura=0;
 	$chkparafactura=0;
+	$chktpv=0;
+	$chksinrevision=0;
+	$chkcatalogobancos=0;
+	$chkcampodigitos=0;
+	$chkopciontarjeta=0;
+	$chkbotonpagardirecto=0;
+	$chkapp=0;
 }else{
 	//El formulario funcionara para modificacion de un registro
 
@@ -91,8 +98,16 @@ if(!isset($_GET['idtipodepago'])){
 
 	$habilitarcampomontofactura=$result_tipodepagos_row['habilitarcampomontofactura'];
 	$habilitartiposervicio=$result_tipodepagos_row['habilitartiposervicio'];
-	
 
+
+$chktpv=$result_tipodepagos_row['habilitartpv'];
+$chksinrevision=$result_tipodepagos_row['habilitarsinrevision'];
+$chkcatalogobancos=$result_tipodepagos_row['habilitarcatalogobanco'];
+$chkcampodigitos=$result_tipodepagos_row['habilitarcampodigitos'];
+$chkopciontarjeta=$result_tipodepagos_row['habilitaropciontarjeta'];
+$chkbotonpagardirecto=$result_tipodepagos_row['habilitarpagar'];
+	
+$chkapp=$result_tipodepagos_row['habilitarapp'];
 	$che="";
 	$visualizarcuenta='none';
 	if ($confoto==1) {
@@ -122,6 +137,46 @@ if(!isset($_GET['idtipodepago'])){
 	if ($habilitarcampomontofactura==1) {
 		$che4="checked";
 	}
+
+	$che7="";
+	$che8="";
+	$che9="";
+	$che10="";
+	$che11="";
+	$che12="";
+	$$che13="";
+
+	if($chktpv==1){
+		$che7="checked";
+
+	}
+if($chksinrevision==1){
+			$che8="checked";
+
+}
+if($chkcatalogobancos==1){
+			$che9="checked";
+
+}
+if($chkcampodigitos==1){
+			$che10="checked";
+
+}
+if($chkopciontarjeta==1){
+			$che11="checked";
+
+}
+if($chkbotonpagardirecto==1){
+		$che12="checked";
+
+
+}
+
+if ($chkapp==1) {
+		$che13="checked";
+	# code...
+}
+
 
 	$col = "col-md-12";
 	$ver = "";
@@ -278,6 +333,47 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 								<input type="checkbox" class="" id="chkparafactura" name="chkparafactura"  title="" onchange="Habilitarparafactura()" value="<?php echo $chkparafactura; ?>"placeholder='' <?php echo $che5 ?>>
 							</div>
 
+							<!-- <div class="form-group">
+								<label>HABILITAR EN VALIDACIÓN:</label>
+								<input type="checkbox" class="" id="chkparaagendar" name="chkparaagendar"  title="" onchange="Habilitarparaagendar()" value="<?php echo $chkparaagendar; ?>"placeholder='' <?php echo $che5 ?>>
+							</div> -->
+
+							<div class="form-group">
+								<label>HABILITAR APP:</label>
+								<input type="checkbox" class="" id="chkapp" name="chkapp"  title="" onchange="Habilitarparaapp()" value="<?php echo $chkapp; ?>"placeholder='' <?php echo $che13 ?>>
+							</div>
+
+							<div class="form-group">
+								<label>HABILITAR TPV:</label>
+								<input type="checkbox" class="" id="chktpv" name="chktpv"  title="" onchange="Habilitarparatv()" value="<?php echo $chktpv; ?>"placeholder='' <?php echo $che7 ?>>
+							</div>
+
+							<div class="form-group">
+								<label>HABILITAR SIN REVISIÓN:</label>
+								<input type="checkbox" class="" id="chksinrevision" name="chksinrevision"  title="" onchange="Habilitarsinrevision()" value="<?php echo $chksinrevision; ?>"placeholder='' <?php echo $che8 ?>>
+							</div>
+
+
+								<div class="form-group">
+								<label>HABILITAR CATÁLOGO DE BANCOS:</label>
+								<input type="checkbox" class="" id="chkcatalogobancos" name="chkcatalogobancos"  title="" onchange="Habilitarcatalogobancos()" value="<?php echo $chkcatalogobancos; ?>"placeholder='' <?php echo $che9 ?>>
+							</div>
+
+								<div class="form-group">
+								<label>HABILITAR CAMPO DE INGRESO DE DÍGITOS:</label>
+								<input type="checkbox" class="" id="chkcampodigitos" name="chkcampodigitos"  title="" onchange="Habilitarcampodigitos()" value="<?php echo $chkcampodigitos; ?>"placeholder='' <?php echo $che10 ?>>
+							</div>
+
+								<div class="form-group">
+								<label>HABILITAR OPCIÓN TARJETA(crédito/débito):</label>
+								<input type="checkbox" class="" id="chkopciontarjeta" name="chkopciontarjeta"  title="" onchange="Habilitaropciontarjeta()" value="<?php echo $chkopciontarjeta; ?>"placeholder='' <?php echo $che11 ?>>
+							</div>
+
+									<div class="form-group">
+								<label>HABILITAR BOTÓN PAGAR DIRECTO:</label>
+								<input type="checkbox" class="" id="chkbotonpagardirecto" name="chkbotonpagardirecto"  title="" onchange="Habilitarbotonpagardirecto()" value="<?php echo $chkbotonpagardirecto; ?>"placeholder='' <?php echo $che12 ?>>
+							</div>
+
 							
 							
 						<div class="form-group m-t-20">
@@ -300,7 +396,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 			</div>
 
 
-			<div class="card" style="" id="divhorarios">
+			<div class="card" style="display: none;" id="divhorarios">
 				<div class="card-header" style="">
 
 				</div>
@@ -331,7 +427,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 								
 							</div>
 								
-							<div id="tiposervicios">
+							<div id="tiposervicios" style="display: none;">
 								<div class="form-group m-t-20">  
 		                        <input type="text" class="form-control" name="buscadortipo_" id="buscadortipo_" placeholder="Buscar" onkeyup="BuscarEnLista('#buscadortipo_','.pasucat_')" style="    margin-bottom: 1em;">
 		                        <div id="todostiposervicios" style="    overflow: scroll;height: 200px;"></div>

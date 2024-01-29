@@ -114,7 +114,6 @@ if(!isset($_GET['idcita']))
 	$idcita = $_GET['idcita'];
 	$cli->idcita=$idcita;
 	$obtenercita=$cli->ObtenerCita();
-	//var_dump($obtenercita);
 
 	$idsucursal=$obtenercita[0]->idsucursal;
 	$idpaquete=$obtenercita[0]->idpaquete;
@@ -129,6 +128,10 @@ if(!isset($_GET['idcita']))
 	$cortesia=$obtenercita[0]->nombrepaquetecortesia;
 	$horacita=$obtenercita[0]->horainicial.'-'.$obtenercita[0]->horafinal;
 $nombreespecialista=$obtenercita[0]->nombreespecialista;
+
+$idusuariocita=$obtenercita[0]->idusuarios;
+$estatuscita=$obtenercita[0]->estatuscita;
+
 
 }
 
@@ -155,10 +158,14 @@ $nombreespecialista=$obtenercita[0]->nombreespecialista;
 					<div style="clear: both;"></div>
 
 				
-
+					<?php if($estatuscita==0){?>
+						
+				
 
 				<button type="button" class="btn btn-success btnguardarreagenda" style="float: right;" title="" onclick="GuardarCancelacion('<?php echo $idcita ?>')">
 				<i class="mdi mdi mdi-content-save"></i>CANCELAR CITA	</button>
+
+					<?php } ?>
 
 				<button type="button" onClick="aparecermodulos('catalogos/dashboard/vi_dashboard.php?idmenumodulo=<?php echo $idmenumodulo;?>','main');" class="btn btn-primary" title="" style="margin-right: 10px;float: right;"><i class="mdi mdi-arrow-left-box"></i>DASHBOARD</button>
 				
@@ -293,8 +300,42 @@ $nombreespecialista=$obtenercita[0]->nombreespecialista;
 </div>
 
 
+<!-- El modal -->
+<div class="modal fade" id="modalcancelacion">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+      <!-- Encabezado del modal -->
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Contenido del modal -->
+      <div class="modal-body">
+       
+      		<div class="form-group m-t-20">
+												<label>MOTIVO DE CANCELACIÓN:</label>
+												<textarea id="v_motivocancelacion" name="v_motivocancelacion" title="MOTIVO DE CANCELACIÓN" class="form-control" style="height: 85px;"></textarea>
+											</div>
+      </div>
+      
+      <!-- Pie del modal -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-success btncancelar" onclick="CancelacionAdmin('<?php echo $idcita;?>','<?php echo $idusuariocita;?>')">Guardar</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
 <link rel="stylesheet" type="text/css" href="assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 <script src="assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
+
+
 <!-- <script  type="text/javascript" src="./js/mayusculas.js"></script> -->
 
 

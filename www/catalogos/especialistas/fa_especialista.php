@@ -73,9 +73,9 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 if(!isset($_GET['idusuarios']))
 {
 	$idusuario = 0;
-	$$v_idempresa = "";
-	
-	$v_sexo = "H" ;
+	$v_idempresa = "";
+	$color="#ffffff";
+	$v_sexo = "" ;
 	$v_no_usuario = "";
 	$v_f_nacimiento = "";
 	$v_no_tarjeta ="" ;
@@ -106,12 +106,12 @@ if(!isset($_GET['idusuarios']))
 	$v_referencia='';
 	$v_fis_correo="";
 	$v_celular="";
-	$titulo='NUEVO ESPECIALISTA';
+	$titulo='NUEVO BARBERO';
 	$v_idtipo=3;
 	$bloquearediciondedatos=0;
 			$rutaperfil="images/sinfoto.png";
 	//$validacion="onkeyup='ValidarCelular()'";
-
+			$orden=0;
 }else
 {
 	
@@ -130,7 +130,8 @@ if(!isset($_GET['idusuarios']))
 	$alias = $fu->imprimir_cadena_utf8($usuario_row['alias']);
 	$v_idempresa = $fu->imprimir_cadena_utf8($usuario_row['idempresas']);
 	$v_no_usuario = $fu->imprimir_cadena_utf8($usuario_row['no_usuario']);
-	$v_sexo = $fu->imprimir_cadena_utf8($usuario_row['sexo']);
+	$v_sexo = $usuario_row['sexo'];
+
 	$v_f_nacimiento = $fu->imprimir_cadena_utf8($usuario_row['f_nacimiento']);
 	$v_no_tarjeta =$fu->imprimir_cadena_utf8($usuario_row['no_tarjeta']);
 	$v_nombre = $fu->imprimir_cadena_utf8($usuario_row['nombre']);
@@ -138,7 +139,8 @@ if(!isset($_GET['idusuarios']))
 	$v_materno = $fu->imprimir_cadena_utf8($usuario_row['materno']);
 	$v_direccion = $fu->imprimir_cadena_utf8($usuario_row['direccion']);
 	$v_telefono =$fu->imprimir_cadena_utf8($usuario_row['telefono']);
-
+	$color=$usuario_row['color'];
+ $orden=$usuario_row['orden'];
 	$v_celular=$fu->imprimir_cadena_utf8($usuario_row['celular']);
 	$v_edad=$fu->imprimir_cadena_utf8($usuario_row['fechanacimiento']);
 	$opcionespago='';
@@ -146,7 +148,7 @@ if(!isset($_GET['idusuarios']))
 		$opcionespago=$usuario_row['opcionespagobloqueadas'];
 
 	}
-
+ 
 	$validartelefono=$fu->imprimir_cadena_utf8($usuario_row['validartelefono']);
 	$bloquearediciondedatos=$usuario_row['bloquearediciondatos'];
 	$mostraranuncios=$usuario_row['anunciovisto'];
@@ -226,7 +228,7 @@ if(!isset($_GET['idusuarios']))
 		$checkedhabilitar="checked";
 
 	}
-	$titulo='EDITAR ESPECIALISTA';
+	$titulo='EDITAR BARBERO';
 
 
 	
@@ -297,7 +299,7 @@ $su->lista_empresas = $lista_empresas;
 					$bt->icon = "mdi mdi-content-save";
 					
 					 $bt->funcion="
-					 var resp=MM_validateFormUsuario('v_celular','','R','v_alias','','R','nombre','','R','v_paterno','','R','v_materno','','R','v_usuario','','R','clave','','R','v_sexo','','R','v_fechanacimiento','','R'); if(resp==1){  GuardarusuarioEspecialista('form_usuario','catalogos/especialistas/vi_especialista.php','main','catalogos/especialistas/ga_especialistas.php',$idmenumodulo);}
+					   GuardarusuarioEspecialista('form_usuario','catalogos/especialistas/vi_especialista.php','main','catalogos/especialistas/ga_especialistas.php',$idmenumodulo);
 					 ";
 
 					$bt->estilos = "float: right;";
@@ -370,47 +372,82 @@ $su->lista_empresas = $lista_empresas;
 				<div class="col-md-6">
 
 					<div class="form-group ">
-						<label>*CELULAR:</label>
+						<label>*USUARIO/CEL:</label>
 						<input name="celular" id="v_celular" title="CELULAR" type="text" class="form-control" placeholder="CELULAR" value="<?php echo $v_celular; ?>" tabindex="99" <?php echo $validacion ?>>
+
+					<div id="validacioncelular" style="color: red"></div>
 					</div>
 
 
-					<!-- <div class="form-group m-t-20">
-					<label>*ALIAS:</label>
+					<div class="form-group m-t-20">
+					<label>ALIAS:</label>
 					<input type="text" name="alias" id="v_alias" class="form-control" title="Alias" value="<?php echo $fu->imprimir_cadena_utf8($alias); ?>" placeholder="ALIAS" tabindex="100" />
-				</div> -->
+
+
+				</div>
 
 					<div class="form-group ">
 						<label>*NOMBRE:</label>
 						<input name="nombre" id="nombre" title="NOMBRE" type="text" class="form-control" placeholder="NOMBRE"  required value="<?php echo $v_nombre; ?>" tabindex="101">
+
+						<div id="validacionnombre" style="color: red"></div>
 					</div>
 
 					
 					<div class="form-group ">
 						<label>*APELLIDO PATERNO:</label>
 						<input name="paterno" id="v_paterno" title="APELLIDO PATERNO" type="text" class="form-control" placeholder="APELLIDO PATERNO"  required value="<?php echo $v_paterno; ?>" tabindex="102">
+							<div id="validacionpaterno" style="color: red"></div>
 					</div>
 					
 					<div class="form-group ">
-						<label>*APELLIDO MATERNO:</label>
+						<label>APELLIDO MATERNO:</label>
 						<input name="materno" id="v_materno" title="APELLIDO MATERNO" type="text" class="form-control" placeholder="APELLIDO MATERNO"  required value="<?php echo $v_materno; ?>" tabindex="103">
 					</div>	
 
 						<div class=" form-group  ">
 							
-								<label>*GÉNERO:</label>
-								<select tabindex="104" name="v_sexo" id="v_sexo" title="sexo" class="form-control">
-									<option value="H" <?php if("H" == $v_sexo ){ echo "selected"; } ?>>HOMBRE</option>
-									<option value="M" <?php if("M" == $v_sexo ){ echo "selected"; } ?>>MUJER</option>
-								</select>
+								<label>*SEXO:</label>
+								
+
+									<div  class=" btn-group-toggle lisexo" data-toggle="buttons" >
+									<label class="btn btn_dorado txtsexoh  btns <?php if("H" == $v_sexo ){ echo "active"; } ?>" onclick="SeleccionarhM('H')" style="margin: 10px;">
+								    <input type="checkbox" id="catecheck1" class="catecheck1"  value="H" >Hombre
+								  </label>
+
+								  <label class="btn btn_dorado btns txtsexom <?php if("M" == $v_sexo ){ echo "active"; } ?>"  style="margin: 10px;" onclick="SeleccionarhM('M')">
+								    <input type="checkbox" id="catecheck2" class="catecheck1"  value="M" >Mujer
+								  </label>
+
+
+								</div>
+
+								<div id="validacionsexo" style="color: red"></div>
+
 							</div>	
 
 					<div class="">
 						<label>*FECHA DE NACIMIENTO:</label>
 					  <input name="v_fechanacimiento" id="v_fechanacimiento" title="FECHA DE NACIMIENTO" type="date" class="form-control" placeholder="FECHA DE NACIMIENTO" required="" value="<?php echo $v_edad;?>" tabindex="105">
+
+					   <div id="validacionnacimiento" style="color: red"></div>
 					</div>
+
+					<div class="form-group m-t-20" style="margin-top: 10px;">
+								<label>*COLOR:</label>
+								<input type="color" class="form-control" id="v_color" name="v_color" value="<?php echo $color; ?>" title="COLOR" placeholder="COLOR">
+
+								<div id="validacioncolor" style="color: red"></div>
+							</div>
 					
 
+								<div class="form-group m-t-20" style="margin-top: 10px;">
+								<label>ORDEN:</label>
+								<input type="number" class="form-control" id="v_orden" name="v_orden" value="<?php echo $orden; ?>" title="ORDEN" placeholder="ORDEN">
+
+								<div id="validacionorden" style="color: red"></div>
+							</div>
+					
 
 			
 				
@@ -444,7 +481,7 @@ $su->lista_empresas = $lista_empresas;
 								           
 								            <div class="form-group">
 
-								               <!--  <input type="file" class="form-control-file" name="image" id="image" onchange="SubirImagen()"> -->
+								                <input type="file" class="form-control-file" name="image" id="image" onchange="SubirImagen()">
 								            </div>
 								         
 								        </div>
@@ -542,23 +579,11 @@ $su->lista_empresas = $lista_empresas;
 
 				</div>
 
-					<div class="row">
-					
-					
-					</div>
-
+				<div class="card">
 					
 
-				
-
-					
-
-						
-
-
-				<!-- Datos de acceso --->
-
-				<div class="card" >
+					<div class="card-body">
+							<div class="card" style="    width: 100%;" >
 					<div class="card-header" style="margin-top: 1em;">
 						<h5>DATOS DE ACCESO</h5>
 					</div>
@@ -567,7 +592,7 @@ $su->lista_empresas = $lista_empresas;
 				<div class="row">
 
 					<div class="col-md-6">
-					<div class="form-group m-t-20" >
+					<div class="form-group m-t-20"  style="display: none;">
 						<label>*USUARIO:</label>
 						<input name="usuario" onBlur="validarUsuariousuario();" id="v_usuario" title="Usuario" type="text" class="form-control" placeholder="USUARIO"  required value="<?php echo $v_usuario; ?>" tabindex="107">
 					</div>
@@ -579,7 +604,7 @@ $su->lista_empresas = $lista_empresas;
 					<label>*CONTRASEÑA:</label>
 					<div class="input-group mb-3">
 
-						<input type="password" name="clave" id="clave" class="form-control" title="CONTRASEÑA" value="<?php echo $v_clave; ?>"placeholder="CONTRASEÑA" tabindex="108">
+						<input type="password" name="clave" id="clave" class="form-control" title="CONTRASEÑA" value="<?php echo $v_clave; ?>"placeholder="CONTRASEÑA" tabindex="108" onkeyup="CoincidirContra2('clave','clave2')">
 
 						<div class="input-group-append">
 							<button class="btn " type="button">
@@ -593,7 +618,7 @@ $su->lista_empresas = $lista_empresas;
 						<label>*CONFIRMAR CONTRASEÑA:</label>
 						<div class="input-group mb-3">
 
-							<input type="password" name="clave2" id="clave2" class="form-control" title="CONFIRMAR CONTRASEÑA" value="<?php echo $v_clave; ?>" placeholder="CONFIRMAR CONTRASEÑA" tabindex="109">
+							<input type="password" name="clave2" id="clave2" class="form-control" title="CONFIRMAR CONTRASEÑA" value="<?php echo $v_clave; ?>" placeholder="CONFIRMAR CONTRASEÑA" onkeyup="CoincidirContra2('clave','clave2')" tabindex="109">
 
 							<div class="input-group-append">
 								<button class="btn " type="button">
@@ -601,6 +626,8 @@ $su->lista_empresas = $lista_empresas;
 								</button>
 							</div>
 						</div>
+
+						<div id="spanrespuesta" style="color: red;"></div>
 
 					</div>
 					
@@ -615,12 +642,26 @@ $su->lista_empresas = $lista_empresas;
 					</div>
 				</div>
 			</div>
+		</div>
 
+					</div>
+				</div>
 
-			<div class="card" >
-			<div class="card-header" style="margin-top: 1em;">
-			<h5>HORARIOS</h5>
-			</div>
+					<div class="tab-pane">
+					
+						<div class="">
+				
+
+				<!-- Datos de acceso --->
+
+				<div class="card" style="width: 100%;">
+					<div class="card-body">
+						
+						<div class="">
+								<div class="card" style="width: 100%;" >
+									<div class="card-header" style="margin-top: 1em;">
+									<h5>HORARIOS</h5>
+									</div>
 				
 			<div class="card-body">
 				<div class="row">
@@ -636,6 +677,14 @@ $su->lista_empresas = $lista_empresas;
 			</div>
 		</div>
 
+
+						</div>
+					</div>
+				</div>
+			</div></div>
+
+
+		
 	</form>
 			<!-- <div class="card" id="divasociados">
 			<div class="card-header" style="margin-top: 1em;">
@@ -662,11 +711,6 @@ $su->lista_empresas = $lista_empresas;
 					
 					
 					
-					
-				
-					
-					
-					
 				</div>
 
 				
@@ -687,6 +731,7 @@ $su->lista_empresas = $lista_empresas;
 
 		</div>
 	</div>
+		</div>
 </form>
 
 <div id="myModalAsociados" class="modal fade" role="dialog">
@@ -866,9 +911,33 @@ $su->lista_empresas = $lista_empresas;
 
 										<label>HORA FIN:</label>
 										<div class="form-group mb-2" style="">
-											<input type="time" id="horaf_1" class="form-control horafindiaselec" tabindex="8">
+											<input type="time" id="horaf_1" class="form-control horafindiaselec" >
 										</div>
 									</div>
+
+
+
+									<div class="form-group">
+
+										<label>TIPO DE COMISIÓN:</label>
+										<div class="form-group mb-2" style="">
+			<select id="v_tipocomision" class="form-control">
+												<option disabled selected="" >SELECCIONAR TIPO DE COMISIÓN</option>
+												<option value="0">PORCENTAJE</option>
+
+													<option value="1">MONTO</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group">
+
+										<label>CANTIDAD DE LA COMISÓN:</label>
+										<div class="form-group mb-2" style="">
+											<input type="number" class="form-control" name="" id="v_cantidadcomision">
+										</div>
+									</div>
+
 							</form>
 						</div>
      
@@ -893,9 +962,31 @@ $su->lista_empresas = $lista_empresas;
 <!-- <script  type="text/javascript" src="./js/mayusculas.js"></script> -->
 
 <script>
+	var sexoseleccionado="";
  phoneFormatter2('v_telefono');
  phoneFormatter2('v_celular');
+  function SeleccionarhM(sexo) {
+		
+		setTimeout(() => {
+  
+  				$(".btns").removeClass('active');
+				
+			if(sexo=='M'){
+			$(".txtsexom").addClass('active');
+			}
+			if (sexo=='H') {
 
+			$(".txtsexoh").addClass('active');
+			
+			}
+	sexoseleccionado=sexo;
+
+
+
+}, "100");
+
+
+}
 
 /* var bloquearediciondedatos='<?php echo $bloquearediciondedatos?>';
 
@@ -910,12 +1001,16 @@ $su->lista_empresas = $lista_empresas;
 
 
 	<script type="text/javascript">
+
 	var idusuario='<?php echo $idusuario; ?>';
 	var asociados=[];
 	var asociadoseliminados=[];
 	ObtenerHorariosSucursal(idusuario);
+	var sexoseleccionado="";
+		var sexo='<?php echo $v_sexo; ?>';
 
 	if (idusuario>0){
+		
 		var opcionestipopago='<?php echo $opcionespago; ?>';
 		var opcionespago="";
 		if (opcionestipopago!='') {
@@ -942,6 +1037,8 @@ $su->lista_empresas = $lista_empresas;
 
  	//validartelefonocheck(validartelefono);
 	ObtenerTipos(idtipo);
+
+	SeleccionarhM(sexo);
 	//ObtenerAsociados(idusuario);
 	//ObtenerDependencia(idusuario);
 	}else{
@@ -978,3 +1075,150 @@ $su->lista_empresas = $lista_empresas;
 
 
 </script>
+
+
+	<script type="text/javascript">
+	 var confirmacion = "Las contraseñas si coinciden";
+  var longitud = "La contraseña debe estar formada entre 6-10 carácteres";
+  var negacion = "No coinciden las contraseñas";
+  var vacio = "La contraseña no puede estar vacía";
+
+
+function CoincidirContra2(contra1,contra2) {
+
+  var pass1 = $('#'+contra1);
+  var pass2 = $('#'+contra2);
+ 	console.log('entro1');
+    if (pass2.length>0 && pass1.length>0) {
+ 	console.log('entro2');
+
+       coincidePassword(contra1,contra2);
+    }
+ 
+
+}
+
+
+
+function coincidePassword(contra1,contra2){
+
+
+  var respuesta=$("#respuesta").html('<span id="spanrespuesta"></span>');
+
+  var span = $('#spanrespuesta');
+
+  coincide=0;
+  var valor1 = $('#'+contra1).val();
+  var valor2 = $('#'+contra2).val();
+  console.log(valor1+''+valor2);
+
+  if (valor1.length>0) {
+  //muestro el span
+    span.show().removeClass();
+    //condiciones dentro de la función
+    if(valor1 != valor2){
+    span.text(negacion).addClass('negacion'); 
+    }
+    if(valor1.length==0 || valor1==""){
+    span.text(vacio).addClass('negacion');  
+    }
+    if(valor1.length<6 || valor1.length>10){
+    span.text(longitud).addClass('negacion');
+    }
+    if(valor1.length!=0 && valor1==valor2 && valor1.length>=6){
+    $("#respuesta").html('<div class="check-list" style=""><span></span></div>');
+    }
+
+    if (valor1==valor2) {
+    	console.log('entro');
+    	coincide=1;
+    	 $("#spanrespuesta").html('<div class="check-list" style=""><span></span></div>');
+    }
+
+
+   }else{
+    
+
+    span.hide();
+   }
+  }
+
+
+ function coincidePassword2(contra1,contra2){
+
+
+  var respuesta=$("#respuesta").html('<span id="spanrespuesta"></span>');
+
+  var span = $('#spanrespuesta');
+
+
+  var valor1 = $('#'+contra1).val();
+  var valor2 = $('#'+contra2).val();
+
+  console.log(valor1)
+  if (valor1.length>0) {
+  //muestro el span
+    span.show().removeClass();
+    //condiciones dentro de la función
+    if(valor1 != valor2){
+    span.text(negacion).addClass('negacion'); 
+    } else
+    if(valor1.length==0 || valor1==""){
+    span.text(vacio).addClass('negacion');  
+    } else
+    if(valor1.length<6 || valor1.length>10){
+    span.text(longitud).addClass('negacion');
+    } else
+    if(valor1.length!=0 && valor1==valor2 && valor1.length>=6){
+    $("#respuesta").html('<div class="check-list" style=""><span></span></div>');
+    }
+    else{
+
+ span.hide();
+
+    }
+
+   }else{
+    
+
+    span.hide();
+   }
+  }
+
+
+
+
+
+ function SubirImagen() {
+	 	// body...
+	 						
+        var formData = new FormData();
+        var files = $('#image')[0].files[0];
+        formData.append('file',files);
+        $.ajax({
+            url: 'catalogos/especialistas/upload.php',
+            type: 'post',
+            data: formData,
+            contentType: false,
+            processData: false,
+             beforeSend: function() {
+      $("#d_foto").css('display','block');
+      $("#d_foto").html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Cargando...</div>');	
+
+		    },
+            success: function(response) {
+                if (response != 0) {
+                    $(".card-img-top").attr("src", response);
+                    $("#d_foto").css('display','none');
+                } else {
+                    alert('Formato de imagen incorrecto.');
+                }
+            }
+        });
+        return false;
+    }
+
+ 
+</script>
+
+

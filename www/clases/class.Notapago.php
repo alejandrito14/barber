@@ -29,11 +29,22 @@ class Notapago
 	public $monto;
 	public $idpago;
 	public $descripcionaceptacion;
+	public $tpv;
+	public $idcita;
+	public $tipopagoante;
+	public $idtipopagoante;
+	public $fechacompletado;
+
+	public $entregado;
+	public $fechaentrega;
+	public $idusuarioentrega;
+	public $observacionesentrega;
+	public $idnotapagodescripcion;
 
 	public function CrearNotapago()
 	{
-		/*$sql="INSERT INTO notapago( idusuario, subtotal, iva, total, comisiontotal, montomonedero, estatus, idtipopago, tipopago, confoto, datostarjeta,datostarjeta2,idpagostripe, folio) VALUES ('$this->idusuario', '$this->subtotal','$this->iva', '$this->total', '$this->comisiontotal','$this->montomonedero','$this->estatus','$this->idtipopago','$this->tipopago','$this->confoto','$this->datostarjeta','$this->datostarjeta2','$this->idpagostripe','$this->folio')";*/
-		$sql="INSERT INTO notapago( idusuario, subtotal, iva, total, comisiontotal, montomonedero, estatus, idtipopago, tipopago, confoto, datostarjeta,datostarjeta2,idpagostripe,folio,comisionpornota,comisionnota,tipocomisionpornota,requierefactura,razonsocial,rfc,direccion,nointerior,noexterior,colonia,municipio,estado,codigopostal,correo,pais,asentamiento,calle,formapago,metodopago,usocfdi,imagenconstancia,idusuariodatofiscal,confirmaciontermino,montocupon,codigocupon,idcupon,descripcioncupon) VALUES ('$this->idusuario', '$this->subtotal','$this->iva', '$this->total', '$this->comisiontotal','$this->montomonedero','$this->estatus','$this->idtipopago','$this->tipopago','$this->confoto','$this->datostarjeta','$this->datostarjeta2','$this->idpagostripe','$this->folio','$this->comisionpornota','$this->comisionnota','$this->tipocomisionpornota',
+		
+		$sql="INSERT INTO notapago( idusuario, subtotal, iva, total, comisiontotal, montomonedero, estatus, idtipopago, tipopago, confoto, datostarjeta,datostarjeta2,idpagostripe,folio,comisionpornota,comisionnota,tipocomisionpornota,requierefactura,razonsocial,rfc,direccion,nointerior,noexterior,colonia,municipio,estado,codigopostal,correo,pais,asentamiento,calle,formapago,metodopago,usocfdi,imagenconstancia,idusuariodatofiscal,confirmaciontermino,montocupon,codigocupon,idcupon,descripcioncupon,tpv) VALUES ('$this->idusuario', '$this->subtotal','$this->iva', '$this->total', '$this->comisiontotal','$this->montomonedero','$this->estatus','$this->idtipopago','$this->tipopago','$this->confoto','$this->datostarjeta','$this->datostarjeta2','$this->idpagostripe','$this->folio','$this->comisionpornota','$this->comisionnota','$this->tipocomisionpornota',
 			'$this->requierefactura',
 			'$this->razonsocial',
 			'$this->rfc',
@@ -57,9 +68,11 @@ class Notapago
 			'$this->montocupon',
 			'$this->codigocupon',
 			'$this->idcupon',
-			'$this->descripcioncupon'
+			'$this->descripcioncupon',
+			'$this->tpv'
 
 			)";
+			
 		 $resp=$this->db->consulta($sql);
 		 $this->idnotapago=$this->db->id_ultimo();
 
@@ -84,6 +97,21 @@ class Notapago
   
 	}
 
+
+	public function ActualizarNotaAIncompleto()
+	{
+		try {
+			$sql="UPDATE notapago SET 
+				  estatus =3 
+		WHERE idnotapago='$this->idnotapago'";
+				  
+			$resp=$this->db->consulta($sql);
+			
+		} catch (Exception $e) {
+			echo $e;
+		}
+		
+	}
 /*	public function Creardescripcionpago()
 	{
 		$sql="INSERT INTO notapago_descripcion( idnotapago, descripcion, cantidad, monto, idpago) VALUES ( '$this->idnotapago', '$this->descripcion', '$this->cantidad','$this->monto', '$this->idpago')";
@@ -110,7 +138,11 @@ class Notapago
 	public function Obtenernota()
 	{
 		$sql="
-			SELECT *FROM notapago WHERE idnotapago='$this->idnotapago'";
+			SELECT notapago.*,CONCAT(usuarios.nombre,' ',usuarios.paterno) as usuarioentrega ,CONCAT(u.nombre,' ',u.paterno) as usuariopedido FROM notapago
+			LEFT JOIN usuarios ON notapago.idusuarioentrega=usuarios.idusuarios
+			LEFT JOIN usuarios as u ON notapago.idusuario=u.idusuarios
+			 WHERE idnotapago='$this->idnotapago'";
+			
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 
@@ -188,7 +220,12 @@ class Notapago
 	public function ObtenerdescripcionNota()
 	{
 		$sql="
-			SELECT idnotapago,notapago_descripcion.descripcion as concepto,monto,DATE_FORMAT(fechacita,'%d-%m-%Y')as fecha,notapago_descripcion.cantidad,paquetes.foto,
+			SELECT idnotapago,notapago_descripcion.descripcion as concepto,monto,DATE_FORMAT(fechacita,'%d-%m-%Y')as fecha,
+				citas.horainicial,
+				citas.horafinal,
+				citas.horains,
+				citas.horafs,
+				notapago_descripcion.cantidad,paquetes.foto,
 				citas.idespecialista,
 				(SELECT  CONCAT(usuarios.nombre,' ',usuarios.paterno) FROM especialista INNER JOIN usuarios on usuarios.idusuarios=especialista.idusuarios where especialista.idespecialista=citas.idespecialista ) as usuarioespecialista,
 					paquetes.concortesia,
@@ -204,7 +241,9 @@ class Notapago
 			notapago_descripcion.monederoaplicado,	
 			citas.idcortesia,
 			cupones.tipodescuento,
-			cupones.descuento
+			cupones.descuento,
+			notapago_descripcion.idnotapago_descripcion
+
 			FROM notapago_descripcion
 			left join paquetes on paquetes.idpaquete=notapago_descripcion.idpaquete
 			left join paquetesucursal on paquetes.idpaquete=paquetesucursal.idpaquete
@@ -217,6 +256,8 @@ class Notapago
 			left join cupones on notapago_descripcion.idcupon=cupones.idcupon
 			
 		 WHERE idnotapago='$this->idnotapago'";
+
+
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 
@@ -299,7 +340,7 @@ class Notapago
 			usuarios.paterno,
 			usuarios.materno
 
-		 FROM notapago INNER JOIN usuarios ON notapago.idusuario=usuarios.idusuarios ";
+		 FROM notapago INNER JOIN usuarios ON notapago.idusuario=usuarios.idusuarios  ORDER by notapago.idnotapago DESC";
 		
 		$resp=$this->db->consulta($sql);
 		return $resp;
@@ -343,15 +384,16 @@ class Notapago
 
 		public function ListadoNotasProductos()
 		{
-			$sql = "SELECT *from (SELECT *,
+			$sql="SELECT * from notapago_descripcion WHERE  notapago_descripcion.tipo=0 and 
+			    	 estatus IN(0,1) and entregado=0 ORDER BY idnotapago DESC";
+			/*$sql = "SELECT *from (SELECT *,
 					(SELECT COUNT(*) from notapago_descripcion WHERE  notapago_descripcion.tipo=0  and notapago_descripcion.idnotapago=notapago.idnotapago)as productos
 				FROM
 					notapago
 
 			    	WHERE   
-			    	 estatus IN(1) ) as tabla1 WHERE productos>0 AND 
-			    	  DATE(fechareporte)='$this->fecha' ORDER BY idnotapago DESC";
-		
+			    	 estatus IN(0,1) ) as tabla1 WHERE productos>0 AND entregado=0 ORDER BY idnotapago DESC";
+*/		
 			$resp = $this->db->consulta($sql);
 			$cont = $this->db->num_rows($resp);
 
@@ -473,6 +515,334 @@ class Notapago
 		 $resp = $this->db->consulta($sql);
 		return $val;
 		
+	}
+
+
+	/*public function ActualizarConsecutivo()
+	{
+
+		 $sql="SELECT *FROM pagina_configuracion";
+		 $resp = $this->db->consulta($sql);
+		 $datos=$this->db->fetch_assoc($resp);
+
+
+		 $val=$datos['contadorfolio'];
+		 $valor=$val+1;
+
+		$sql="UPDATE pagina_configuracion SET contadorfolio='$valor'";
+
+
+		 $resp = $this->db->consulta($sql);
+		return $val;
+		
+	}*/
+	public function VerificarCitaPagada()
+	{
+		$sql="SELECT
+		notapago_descripcion.idnotapago_descripcion,
+		notapago_descripcion.idnotapago,
+		notapago_descripcion.idcita,
+		notapago.idusuario,
+		notapago.estatus,
+		notapago.tpv,
+		notapago.tipopago
+		FROM
+		notapago
+		JOIN notapago_descripcion
+		ON notapago.idnotapago = notapago_descripcion.idnotapago
+		WHERE notapago.estatus=0 and notapago_descripcion.idcita= '$this->idcita' GROUP BY idnotapago";
+		
+		$resp = $this->db->consulta($sql);
+			$cont = $this->db->num_rows($resp);
+
+
+			$array=array();
+			$contador=0;
+			if ($cont>0) {
+
+				while ($objeto=$this->db->fetch_object($resp)) {
+
+					$array[$contador]=$objeto;
+					$contador++;
+				} 
+			}
+			return $array;
+	}
+
+	public function ObtenerNotaPago()
+	{
+		$sql = "SELECT *FROM
+					notapago 	
+			   WHERE  
+			   notapago.idnotapago ='$this->idnotapago' ";
+
+			$resp = $this->db->consulta($sql);
+			$cont = $this->db->num_rows($resp);
+
+
+			$array=array();
+			$contador=0;
+			if ($cont>0) {
+
+				while ($objeto=$this->db->fetch_object($resp)) {
+
+					$array[$contador]=$objeto;
+					$contador++;
+				} 
+			}
+			return $array;
+	}
+
+
+
+	public function ActualizarNotapagoCompleto()
+	{
+		$sql="UPDATE notapago SET 
+			  subtotal = '$this->subtotal',
+			  iva = '$this->iva', 
+			  total = '$this->total', 
+			  comisiontotal = '$this->comisiontotal',
+			  montomonedero = '$this->montomonedero', 
+			  estatus = '$this->estatus',  
+			  idpagostripe = '$this->idpagostripe', 
+			  idtipopagoante='$this->idtipopagoante',
+			  tipopagoante='$this->tipopagoante',
+			  completado=1,
+			  idtipopago='$this->idtipopago',
+			  tipopago='$this->tipopago',
+			  fechacompletado='$this->fechacompletado'
+
+			  WHERE idnotapago='$this->idnotapago'";
+			  
+		$resp=$this->db->consulta($sql);
+
+  
+	}
+
+	public function ActualizarEstatus()
+	{
+		$sql="UPDATE notapago SET 
+			
+			  estatus = '$this->estatus'  
+			  WHERE idnotapago='$this->idnotapago'";
+			  
+		$resp=$this->db->consulta($sql);
+
+  
+	}
+
+	public function Pendientesporentregar()
+	{
+		$sql="SELECT *FROM (SELECT
+			notapago_descripcion.idnotapago_descripcion,
+			notapago_descripcion.descripcion,
+			notapago_descripcion.cantidad,
+			notapago_descripcion.monto,
+			notapago_descripcion.costounitario,
+			notapago_descripcion.entregado,
+			notapago_descripcion.fechaentregado,
+			notapago_descripcion.monederoaplicado,
+			notapago_descripcion.idnotapago,
+			notapago.estatus AS estatusnota,
+			notapago.idtipopago,
+			notapago_descripcion.idpaquete,
+			paquetes.servicio,
+			CONCAT(usuarios.nombre,' ',usuarios.paterno) as cliente,
+			notapago.folio
+			FROM
+			notapago
+			JOIN notapago_descripcion
+			ON notapago.idnotapago = notapago_descripcion.idnotapago 
+			JOIN paquetes
+			ON notapago_descripcion.idpaquete = paquetes.idpaquete 
+			left join usuarios on notapago.idusuario=usuarios.idusuarios
+			WHERE servicio=0 and notapago_descripcion.entregado=0) as tabla1 WHERE  estatusnota IN(0,1)";
+
+			
+
+			$resp = $this->db->consulta($sql);
+			$cont = $this->db->num_rows($resp);
+
+
+			$array=array();
+			$contador=0;
+			if ($cont>0) {
+
+				while ($objeto=$this->db->fetch_object($resp)) {
+
+					$array[$contador]=$objeto;
+					$contador++;
+				} 
+			}
+			return $array;
+	}
+	
+
+
+	public function ProductosEntregados()
+	{
+		$sql="SELECT *FROM (SELECT
+			notapago_descripcion.idnotapago_descripcion,
+			notapago_descripcion.descripcion,
+			notapago_descripcion.cantidad,
+			notapago_descripcion.monto,
+			notapago_descripcion.costounitario,
+			notapago_descripcion.entregado,
+			notapago_descripcion.fechaentregado,
+			notapago_descripcion.monederoaplicado,
+			notapago_descripcion.idnotapago,
+			notapago.estatus AS estatusnota,
+			notapago.idtipopago,
+			notapago_descripcion.idpaquete,
+			paquetes.servicio,
+			CONCAT(usuarios.nombre,' ',usuarios.paterno) as cliente,
+			notapago.folio
+			FROM
+			notapago
+			JOIN notapago_descripcion
+			ON notapago.idnotapago = notapago_descripcion.idnotapago 
+			JOIN paquetes
+			ON notapago_descripcion.idpaquete = paquetes.idpaquete
+			left join usuarios on notapago.idusuario=usuarios.idusuarios
+			 WHERE servicio=0 and notapago_descripcion.entregado=1) as tabla1 WHERE  estatusnota IN(1)";
+
+
+			
+			$resp = $this->db->consulta($sql);
+			$cont = $this->db->num_rows($resp);
+
+
+			$array=array();
+			$contador=0;
+			if ($cont>0) {
+
+				while ($objeto=$this->db->fetch_object($resp)) {
+
+					$array[$contador]=$objeto;
+					$contador++;
+				} 
+			}
+			return $array;
+	}
+
+	public function ActualizarNotaEntrega()
+	{
+		$sql="UPDATE notapago SET 
+			  fechaentrega = '$this->fechaentrega',
+			  entregado = '$this->entregado', 
+			  idusuarioentrega = '$this->idusuarioentrega',
+			    observacionesentrega='$this->observacionesentrega'
+			  WHERE idnotapago='$this->idnotapago'";
+			  
+		$resp=$this->db->consulta($sql);
+
+		
+	}
+
+
+	public function ActualizarNotadescripcionEntrega()
+	{
+		$sql="UPDATE notapago_descripcion SET 
+			  fechaentregado = '$this->fechaentrega',
+			  entregado = '$this->entregado'
+			  WHERE idnotapago_descripcion='$this->idnotapagodescripcion'";
+			  
+		$resp=$this->db->consulta($sql);
+
+		
+	}
+
+	public function ObtenerNotasPagoPendientes()
+	{
+		$sql="SELECT 
+			notapago.idnotapago,
+			notapago.idusuario,
+			notapago.fecha,
+			notapago.subtotal,
+			notapago.iva,
+			notapago.total,
+			notapago.comisiontotal,
+			notapago.montomonedero,
+			notapago.estatus,
+			notapago.idtipopago,
+			notapago.tipopago,
+			notapago.confoto,
+			notapago.datostarjeta,
+			notapago.idpagostripe,
+			notapago.folio,
+			notapago.descuento,
+			notapago.descuentomembresia,
+			notapago.datostarjeta2,
+			notapago.montovisual,
+			notapago.cambio,
+			usuarios.nombre,
+			usuarios.paterno,
+			usuarios.materno
+
+
+		 FROM notapago INNER JOIN usuarios ON notapago.idusuario=usuarios.idusuarios  
+
+		 WHERE notapago.estatus=0 AND notapago.idusuario='$this->idusuario' ORDER BY idnotapago DESC
+		 ";
+		
+			$resp = $this->db->consulta($sql);
+			$cont = $this->db->num_rows($resp);
+
+
+			$array=array();
+			$contador=0;
+			if ($cont>0) {
+
+				while ($objeto=$this->db->fetch_object($resp)) {
+
+					$array[$contador]=$objeto;
+					$contador++;
+				} 
+			}
+			return $array; 
+	}
+
+
+	public function VerificarCita()
+	{
+		$sql="SELECT
+		notapago_descripcion.idnotapago_descripcion,
+		notapago_descripcion.idnotapago,
+		notapago_descripcion.idcita,
+		notapago.idusuario,
+		notapago.estatus,
+		notapago.tpv,
+		notapago.tipopago
+		FROM
+		notapago
+		JOIN notapago_descripcion
+		ON notapago.idnotapago = notapago_descripcion.idnotapago
+		WHERE notapago.estatus IN(0,1) and notapago_descripcion.idcita= '$this->idcita' GROUP BY idnotapago";
+		
+		$resp = $this->db->consulta($sql);
+			$cont = $this->db->num_rows($resp);
+
+
+			$array=array();
+			$contador=0;
+			if ($cont>0) {
+
+				while ($objeto=$this->db->fetch_object($resp)) {
+
+					$array[$contador]=$objeto;
+					$contador++;
+				} 
+			}
+			return $array;
+	}
+
+	public function ActualizarNotacancelada()
+	{
+		$sql="UPDATE notapago SET 
+			  estatus = 2
+			  WHERE idnotapago='$this->idnotapago'";
+			  
+		$resp=$this->db->consulta($sql);
 	}
 	
 }

@@ -94,7 +94,7 @@ if(!isset($_GET['idpaquete'])){
 	$_SESSION['CarritoComplemento']=null;
 	$idcategorias=0;
 	$idtipopresentacion=0;
-	$titulo='NUEVO PAQUETE';
+	$titulo='NUEVO PRODUCTO';
 	$nuevo=0;
 	$numgrupopaquete=0;
 	$promocion=0;
@@ -106,6 +106,7 @@ if(!isset($_GET['idpaquete'])){
 	$considerar="";
 	$servicio=0;
 	$che4="";
+	$che6="";
 	$preciofijo="";
 	$activarcomentario=0;
 	$lunes=0;
@@ -122,6 +123,9 @@ if(!isset($_GET['idpaquete'])){
 	$iva=0;
 	$mensajev="";
 	$idcategoriapaquete=0;
+	$tarjeta=0;
+ $monederoregalo=0;
+	$convigencia=0;
 
 	$obtenerorden=$paquetes->ObtenerUltimoOrdenpaquete();
 	$roworden=$db->fetch_assoc($obtenerorden);
@@ -151,7 +155,7 @@ if(!isset($_GET['idpaquete'])){
 	$nombreproducto = $f->imprimir_cadena_utf8($result_presentacion_row['nombrepaquete']);
 	$descripcion = $f->imprimir_cadena_utf8($result_presentacion_row['descripcion']);
 	$descuento = "";
-	$titulo='EDITAR PAQUETE';
+	$titulo='EDITAR PRODUCTO';
 
 
 	
@@ -278,6 +282,13 @@ if(!isset($_GET['idpaquete'])){
 		$che4="checked";
 	}
 
+
+	$che6="";
+
+	if ($tarjeta==1) {
+		$che6="checked";
+	}
+
 	$che5="";
 	if ($repetitivo==1) {
 		$che5="checked";
@@ -369,10 +380,10 @@ if ($numgrupopaquete>0) {
 
 	$orden=$result_presentacion_row['orden']==''?0:$result_presentacion_row['orden'];
 	$activarcomentario=$result_presentacion_row['activarcomentario'];
-	$che6;
+	/*$che6;
 	if ($activarcomentario==1) {
 		$che6="checked";
-	}
+	}*/
 
 }
 
@@ -636,6 +647,43 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 						
 								
 							</div>
+
+
+							<div class="form-group m-t-20" style="">
+								TARJETA DE REGALO:
+							
+								<input type="checkbox" name="tarjetaregalo" id="tarjetaregalo" onchange="HabilitarTarjeta()" value="<?php echo $tarjeta?>" <?php echo $che6;?>>
+						
+								
+							</div>
+
+
+								<div class="form-group m-t-20" id="monederoregalo" style="display: none;">
+								MONEDERO DE REGALO $:
+							
+								<input type="number" name="txtmonederoregalo" class="form-control" id="txtmonederoregalo"  value="<?php echo $monederoregalo?>"/>
+						
+								
+							</div>
+
+							<div class="form-group m-t-20" id="divconvigencia" style="display: none;" >
+								CON VIGENCIA:
+							
+								<input type="checkbox" class="" name="convigencia" id="convigencia"  onchange="Habilitarvigencia()" value="<?php echo $convigencia?>"/>
+						
+							</div>
+
+
+								<div class="form-group m-t-20" id="divvigencia"  style="display: none;">
+								VIGENCIA:
+							
+								<input type="date" class="form-control" name="txtvigencia" id="txtvigencia"  value="<?php echo $vigencia?>"/>
+						
+								
+							</div>
+
+
+
 
 								<div class="form-group m-t-20" id="divtiempoestimado" style="display: none;">
 								TIEMPO ESTIMADO EN MINUTOS:
@@ -966,7 +1014,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 
 
 
-<div class="col-md-12" style="" id="divproducto">
+<div class="col-md-12"  id="divproducto" style="display: none;">
 	<div class="card">
 		<div class="card-header">
 

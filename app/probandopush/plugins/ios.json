@@ -7,10 +7,16 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-custom-config": {
+    "com.lampa.startapp": {
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova-plugin-androidx-adapter": {
+    "cordova-plugin-barcodescanner": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-call-number": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-camera": {
       "PACKAGE_NAME": "com.inversa.app"
     },
     "cordova-plugin-dialogs": {
@@ -32,6 +38,12 @@
       "FACEBOOK_BROWSER_SDK_VERSION": "v11.0",
       "PACKAGE_NAME": "com.inversa.app"
     },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
     "cordova-plugin-firebasex": {
       "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "false",
       "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "false",
@@ -41,16 +53,14 @@
       "IOS_FCM_ENABLED": "true",
       "PACKAGE_NAME": "com.inversa.app"
     },
+    "cordova-plugin-geolocation": {
+      "GPS_REQUIRED": "true",
+      "PACKAGE_NAME": "com.inversa.app"
+    },
     "cordova-plugin-hello-c": {
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova.plugins.diagnostic": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-wkwebview-file-xhr": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-camera": {
+    "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "com.inversa.app"
     },
     "cordova-plugin-ios-camera-permissions": {
@@ -60,41 +70,22 @@
       "PHOTOLIBRARY_USAGE_DESCRIPTION": "This app needs read/write-access photo library access",
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova-plugin-inappbrowser": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-file": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-file-transfer": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
     "cordova-plugin-media": {
       "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO",
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova-plugin-barcodescanner": {
+    "cordova-plugin-wkwebview-file-xhr": {
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "com.lampa.startapp": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-geolocation": {
-      "GPS_REQUIRED": "true",
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-call-number": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-device": {
+    "cordova.plugins.diagnostic": {
       "PACKAGE_NAME": "com.inversa.app"
     }
   },
   "dependent_plugins": {
-    "cordova-plugin-customfcmreceiver": {
+    "cordova-plugin-compat": {
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova-plugin-compat": {
+    "cordova-plugin-customfcmreceiver": {
       "PACKAGE_NAME": "com.inversa.app"
     }
   }

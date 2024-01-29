@@ -11,6 +11,7 @@ require_once("clases/class.Funciones.php");
 require_once("clases/class.Paquetes.php");
 require_once("clases/class.Especialista.php");
 require_once("clases/class.Cita.php");
+require_once("clases/class.HorarioEspecialista.php");
 
 try
 {
@@ -23,6 +24,8 @@ try
 	$especialista->db=$db;
 	$citas=new Cita();
 	$citas->db=$db;
+	$horarioespecialista=new HorarioEspecialista();
+	$horarioespecialista->db=$db;
 	//$categorias = new Categorias();
 	$fechas = new Fechas();
 	//$categorias->db=$db;
@@ -61,6 +64,19 @@ try
 			$citas->horainicial=$horaseleccionada[0];
 			$citas->horafinal=$horaseleccionada[1];
 
+			$horarioespecialista->dia=$fechas->numeroDiaSemana($fecha);
+			$horarioespecialista->horainicial=$horaseleccionada[0];
+			$horarioespecialista->horafinal=$horaseleccionada[1];
+			$horarioespecialista->idespecialista=$obtenerespecialistas[$i]->idespecialista;
+			$horarioespecialista->idsucursal=$idsucursal;
+
+			$verificarhorario=$horarioespecialista->VerificarHorario();
+			
+
+			if (count($verificarhorario)>0) {
+				# code...
+			
+
 			$verificar=$citas->VerificarFechaHorarioEspecialista();
 
 			//$verificarapartada=$citas->VerificarCitaApartada();
@@ -68,9 +84,11 @@ try
 			if (count($verificar)==0 ) {
 				
 				array_push($especialistasdisponibles, $obtenerespecialistas[$i]);
+				}
+
+
+
 			}
-
-
 
 		}
 	}

@@ -41,7 +41,7 @@ try
 
 	$respuesta['respuesta']=1;
 	$respuesta['fechaactual']=$obtenerfecha;
-
+	$respuesta['formatofecha']=$fecha;
 	echo json_encode($respuesta);
 
 

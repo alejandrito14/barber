@@ -77,7 +77,7 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 			
 					console.log($(this).attr('id'));
 					var id=$(this).attr('id').split('_')[1];
-					complementos.push(id);
+					//complementos.push(id);
  
 
 		});
@@ -90,11 +90,11 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 					var idespecialista=$(this).val();
 					var cantidad=$("#inputcantidad2_"+id).val();
 					
- 					var obj={
- 						idespecialista:idespecialista,
- 						costo:cantidad
- 					};
- 					especialistaspaquete.push(obj);
+ 					// var obj={
+ 					// 	idespecialista:idespecialista,
+ 					// 	costo:cantidad
+ 					// };
+ 					// especialistaspaquete.push(obj);
 		});
 
 
@@ -136,13 +136,13 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 
 			var idpaquetesv=$(this).attr('id');
 
-
+/*
 			if ($('#'+idpaquetesv).is(':checked')) {
 
 				var idpaquetesv=$(this).attr('id');
 				var dividir=idpaquetesv.split('_');
 				paquetesvinculados.push(dividir[1]);
-			}
+			}*/
 			
 		});
 
@@ -192,7 +192,6 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 				var cantidadcobrar=$("#cantidadcobrar").val();
 				var cantidadaconsiderar=$("#cantidadaconsiderar").val();
 				var servicio=$("#servicio").val();
-
 				var repetitivo=$("#repetitivo").val();
 				var lunes=$("#lunes").val();
 				var martes=$("#martes").val();
@@ -205,7 +204,6 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 
 				var horainicio=$("#horainicio").val();
 				var horafin=$("#horafin").val();
-
 				var orden=$("#v_orden").val();
 				var activarcomentario=$("#v_activarcomentario").val();
 				var siniva=$("#checkediva").val();
@@ -214,6 +212,10 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 				var tiempoestimado=$("#tiempoestimado").val();
 				var id = $('#id').val();
 				console.log(id);
+				var tarjetaregalo=$("#tarjetaregalo").val();
+				var txtvigencia=$("#txtvigencia").val();
+				var convigencia=$("#convigencia").val();
+				var txtmonederoregalo=$("#txtmonederoregalo").val();
 
 				var data = new FormData();
 
@@ -280,7 +282,10 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 		data.append('especialistaspaquete',JSON.stringify(especialistaspaquete));
 		data.append('v_sucursal',v_sucursal);
 		data.append('v_tiempoestimado',tiempoestimado);
-
+		data.append('txtmonederoregalo',txtmonederoregalo);
+		data.append('tarjetaregalo',tarjetaregalo);
+		data.append('txtvigencia',txtvigencia);
+		data.append('convigencia',convigencia);
 		$('#main').html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Subiendo Archivos...</div>')
 
 
@@ -307,7 +312,7 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 						if (msj == 1) {
 
 
-							if (id==0) {
+							/*if (id==0) {
 
 								if(confirm("¿Desea agregar otro producto?"))
 									{
@@ -322,12 +327,12 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 										aparecermodulos(URL, donde);
 
 									}
-							}else{
+							}else{*/
 
 								var URL = regresar + "?idmenumodulo=" + idmenu + "&ac=1&msj=Operacion realizada con exito";
 										aparecermodulos(URL, donde);
 								
-							}
+							//}
 
 							
 							} else {
@@ -1027,6 +1032,39 @@ function Habilitarservicio() {
 	}
 }
 
+
+function HabilitarTarjeta() {
+
+	if ($("#tarjetaregalo").is(':checked')) {
+
+		$("#tarjetaregalo").val(1);
+		$("#divconvigencia").css('display','block');
+		$("#monederoregalo").css('display','block');
+	}else{
+
+		$("#tarjetaregalo").val(0);
+
+		$("#txtmonederoregalo").css('display','none');
+		$("#divconvigencia").css('display','none');
+		$("#monederoregalo").css('display','none');
+
+	}
+}
+
+
+function Habilitarvigencia(argument) {
+	if ($("#convigencia").is(':checked')) {
+
+		$("#convigencia").val(1);
+		$("#divvigencia").css('display','block');
+
+	}else{
+
+		$("#convigencia").val(0);
+		$("#divvigencia").css('display','none');
+
+	}
+}
 
 function Habilitarcomentario() {
 	

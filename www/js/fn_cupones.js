@@ -429,3 +429,66 @@ function changeCouponState2(){
 	
 }
 
+var html="";
+function AgregarNuevaPromocion() {
+	var contador=$(".clasepromocion").length+1;
+	var promesa= ObtenerPaquetes();
+
+	promesa.then((respuesta) => {
+
+			var paquetes="";
+			if (respuesta.length>0) {
+				for (var i = 0; i <respuesta.length; i++) {
+					paquetes+=`
+					<option value="`+respuesta[i].idpaquete+`">`+respuesta[i].nombrepaquete+`</option>
+
+					`;
+
+
+				}
+			}
+
+			html+=`
+				<div class="col-md-12">
+				
+					<div class="form-control">
+						<select name="" id="`+contador+`">`+paquetes+`</select>
+					</div>
+
+				</div>
+
+				`;
+
+	});
+
+
+	
+
+
+
+}
+
+function ObtenerPaquetes() {
+	
+	    return new Promise(function(resolve, reject) {
+
+        $.ajax({
+        type: 'POST',
+        dataType: 'json',
+		url:'catalogos/paquetes/ObtenerPaquetes.php', //Url a donde la enviaremos
+        data:datos,
+        async:false,
+        success: function(resp){
+          resolve(resp);
+        },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+          var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                    //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                    console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+        }
+
+      });
+
+    });
+}

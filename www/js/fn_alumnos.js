@@ -417,12 +417,63 @@ function EliminarAsociado(posicion) {
 
 function  Guardarusuario(form_usuario,regreso,donde,archivoenvio,idmenumodulo)
 {
+
+		$("#validacioncelular").text('');
+		$("#validacionnombre").text('');
+		$("#validacionpaterno").text('');
+		$("#validacionnacimiento").text('');
+		$("#validacionsexo").text('');
+		$("#validacioncontra").text('');
+		$("#validacioncontra2").text('');
+
+		var celular=$("#v_celular").val();
+		var nombre=$("#nombre").val();
+		var v_paterno=$("#v_paterno").val();
+		var fechafecha=$("#v_fechanacimiento").val();
+		var validacioncontra=$("#clave").val();
+		var validacioncontra2=$("#clave2").val();
+
+		var bandera=1;
 	
 	if(confirm("\u00BFEstas seguro de querer realizar esta operaci\u00f3n?"))
 	{
+
+
+				if (celular=='') {
+				
+					bandera=0;
+				}
+				if (nombre=='') {
+					bandera=0;
+				}
+
+				if (v_paterno=='') {
+					bandera=0;
+				}
+
+				if (sexoseleccionado=='') {
+					bandera=0;
+				}
+				if (fechafecha=='') {
+					bandera=0;
+				}
+
+				if (validacioncontra=='') {
+					bandera=0;
+				}
+
+				if (validacioncontra2=='') {
+					bandera=0;
+				}
+
+				if (bandera==1) {
+				ValidarCelular().then(r => {
+					if (r.existe==0) {
+
 		var datos = ObtenerDatosFormulario(form_usuario);//obteniedo los datos del formulario
-		datos+="&asociados="+JSON.stringify(asociados);
-		datos+="&asociadoseliminados="+JSON.stringify(asociadoseliminados);
+		//datos+="&asociados="+JSON.stringify(asociados);
+		//datos+="&asociadoseliminados="+JSON.stringify(asociadoseliminados);
+		datos+="&v_sexo="+sexoseleccionado;
 		$('#abc').html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Cargando...</div>');
 	
 		setTimeout(function(){
@@ -442,16 +493,73 @@ function  Guardarusuario(form_usuario,regreso,donde,archivoenvio,idmenumodulo)
 					  success:function(msj){
 						   console.log("El resultado de msj es: "+msj);
 						  if ( msj == 1 ){
-							 
+							 sexoseleccionado="";
 							  aparecermodulos(regreso+"?ac=1&msj=Operacion realizada con exito&idmenumodulo="+idmenumodulo,donde);
 						  }
 						  else{
 							
 							 aparecermodulos(regreso+"?ac=0&msj=Error. "+msj,donde);
-						  }	
-					  }
-				  });				  					  
-		},1000);
+						 	 }	
+					 	 }
+				 	 });				  					  
+				
+
+					},1000);
+
+
+		
+
+					}else{
+
+					$("#validacioncelular").text('El celular ya se encuentra registrado');
+					//alert('Celular ya se encuentra registrado');
+
+				}
+
+			});
+
+		}else{
+					if (celular=='') {
+						bandera=0;
+						$("#validacioncelular").text('Celular requerido');
+						}
+						if (nombre=='') {
+							bandera=0;
+						$("#validacionnombre").text('Nombre requerido');
+
+						}
+
+						if (v_paterno=='') {
+							bandera=0;
+						$("#validacionpaterno").text('Apellido paterno requerido');
+	
+						}
+						if (fechafecha=='') {
+							bandera=0;
+						$("#validacionnacimiento").text('Fecha de nacimiento requerido');
+						}
+
+						if (sexoseleccionado=='') {
+							bandera=0;
+						$("#validacionsexo").text('Sexo requerido');
+
+						}
+
+						if (validacioncontra=='') {
+							bandera=0;
+						$("#validacioncontra").text('Contraseña requerida');
+
+						}
+
+						if (validacioncontra2=='') {
+							bandera=0;
+
+						$("#validacioncontra2").text('Confirmar contraseña requerida');
+
+						}
+
+
+		}
 	}
 }
 
@@ -639,4 +747,19 @@ function ObtenerDependencia(idusuario) {
 		}
 
 	});
+}
+var sexoseleccionado="";
+function SeleccionarhM(sexo) {
+	$(".sexoselec").removeClass('active');
+	if(sexo=='M'){
+	$(".btns1").addClass('active');
+	}
+	if (sexo=='H') {
+	$(".btns2").addClass('active');
+	
+	}
+	sexoseleccionado=sexo;
+
+		
+
 }

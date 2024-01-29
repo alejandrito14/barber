@@ -38,19 +38,21 @@ try
 	$us->nombre= trim($f->guardar_cadena_utf8($_POST['nombre']));
 	$us->paterno=trim($f->guardar_cadena_utf8($_POST['paterno']));
 	$us->materno=trim($f->guardar_cadena_utf8($_POST['materno']));
-	$us->celular=trim($_POST['celular']);
+	$us->celular=trim($_POST['v_celular']);
 	$us->telefono=trim($_POST['telefono']);
 	$us->email=trim($f->guardar_cadena_utf8($_POST['email']));
-	$us->usuario=trim($f->guardar_cadena_utf8($_POST['usuario']));
+	$us->usuario=trim($f->guardar_cadena_utf8($_POST['v_celular']));
 	$us->clave=trim($f->guardar_cadena_utf8($_POST['clave']));
 	$us->idempresas_sucursal = $_POST['sucursal'];
 	$us->tipo = $_POST['tipo_usuario'];
-	$us->alias=$_POST['alias'];
-	$us->sexo=$_POST['v_sexo'];
+	$us->alias=$_POST['v_alias'];
+	$us->sexo=$_POST['sexo'];
 	$us->fechanacimiento=$_POST['v_fechanacimiento'];
 	$us->estatus=$_POST['estatus'];
 	$tipo = $_POST['tipo'];
 	$us->tipo=$tipo;
+	$color=$_POST['v_color'];
+	$us->color=$color;
 	
 	$horarios=json_decode($_POST['horariosespecialista']);
 
@@ -117,6 +119,8 @@ if ($horarios[0]!='' && $horarios[0]!=null)
 			$especialista->dia=$horarios[$i]->diasemana;
 			$especialista->horainicial=$horarios[$i]->horainicio;
 			$especialista->horafinal=$horarios[$i]->horafinal;
+			$especialista->tipocomision=$horarios[$i]->tipocomision;
+			$especialista->cantidadcomi=$horarios[$i]->cantidadcomi;
 			$especialista->GuardarHorario();
 			# code...
 		}else{
@@ -131,6 +135,10 @@ if ($horarios[0]!='' && $horarios[0]!=null)
 			$especialista->dia=$horarios[$i]->diasemana;
 			$especialista->horainicial=$horarios[$i]->horainicio;
 			$especialista->horafinal=$horarios[$i]->horafinal;
+
+			$especialista->tipocomision=$horarios[$i]->tipocomision;
+			$especialista->cantidadcomi=$horarios[$i]->cantidadcomi;
+			
 			$especialista->GuardarHorario();
 
 			

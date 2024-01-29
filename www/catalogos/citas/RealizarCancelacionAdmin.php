@@ -56,6 +56,10 @@ try
 	$lo->idusuariocancela=$idusuariocancela;
 	$lo->CancelarCita();
 
+  $notapago->ActualizarNotacancelada();
+
+
+
 
 	$monto=$obtenercitanota[0]->monto-$obtenercitanota[0]->montocupon-$obtenercitanota[0]->monederoaplicado;
 	$idnotapago=$obtenercitanota[0]->idnotapago;
@@ -91,6 +95,7 @@ try
          $notapago->idusuariodatofiscal=0;
          $notapago->montocupon=0;
          $notapago->idcupon=0;
+         $notapago->tpv=1;
          $notapago->CrearNotapago();
          $idnotapagonueva=$notapago->idnotapago;
 
@@ -126,14 +131,16 @@ try
 		   $notapagocancelada->idnotapago= $idnotapagonueva;
            $notapagocancelada->GuardarNotaCancelada();
 
-
+    if ($obtenercitanota[0]->estatus==1) {
+             # code...
+           
      $usuarios=new Usuarios();
      $usuarios->db=$db;
      $montomonedero=$obtenercitanota[0]->monto-$obtenercitanota[0]->montocupon-$obtenercitanota[0]->monederoaplicado;
-    $usuarios->idusuarios = $idusuario;
-    $iduser=$idusuario;
-    $row_cliente = $usuarios->ObtenerUsuario();
-    $saldo_anterior = $row_cliente[0]->monedero;
+     $usuarios->idusuarios = $idusuario;
+     $iduser=$idusuario;
+     $row_cliente = $usuarios->ObtenerUsuario();
+     $saldo_anterior = $row_cliente[0]->monedero;
 
     if ($saldo_anterior=='') {
        $saldo_anterior=0;
@@ -150,6 +157,8 @@ try
     $sql_movimiento = "INSERT INTO monedero (idusuarios,monto,modalidad,tipo,saldo_ant,saldo_act,concepto,idnota) VALUES ('$iduser','$montomonedero','2','$tipo','$saldo_anterior','$nuevo_saldo','$concepto','$idnotapagonueva');";
   
      $db->consulta($sql_movimiento);
+
+   }
 
  	$db->commit();
 	

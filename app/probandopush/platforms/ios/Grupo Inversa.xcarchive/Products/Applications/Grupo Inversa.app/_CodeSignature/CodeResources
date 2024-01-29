@@ -6,15 +6,15 @@
 	<dict>
 		<key>AppIcon60x60@2x.png</key>
 		<data>
-		wgBa9HxhA9u1/vfePpggKbyiJgs=
+		Za2z8m15/FPewA35Si6jQOofyTc=
 		</data>
 		<key>AppIcon76x76@2x~ipad.png</key>
 		<data>
-		Zgbic0r+l7fTYHN8o4X9bChV0Zs=
+		4BMMr0f+qsRzeSVr1HWQMScq/IE=
 		</data>
 		<key>Assets.car</key>
 		<data>
-		rNvfCG7tPsEhUeUnW4mK3WW1XJU=
+		w05zchHLxp7m7jgjZXLRhpu3X9U=
 		</data>
 		<key>CDVLaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib/objects-13.0+.nib</key>
 		<data>
@@ -42,7 +42,7 @@
 		</data>
 		<key>Frameworks/AppAuth.framework/AppAuth</key>
 		<data>
-		S+jzXi4PKNgiy4swNEiVTlDIK4M=
+		gM83+NM6RHItIlVoBhQ1hFdUUtU=
 		</data>
 		<key>Frameworks/AppAuth.framework/Info.plist</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Frameworks/FBAEMKit.framework/FBAEMKit</key>
 		<data>
-		e8ymryKTUc3tTVCCH3QJkMkQAM4=
+		JLet3VNOtpsG6hlFIlqQheQfNTM=
 		</data>
 		<key>Frameworks/FBAEMKit.framework/Info.plist</key>
 		<data>
@@ -66,7 +66,7 @@
 		</data>
 		<key>Frameworks/FBLPromises.framework/FBLPromises</key>
 		<data>
-		WQmIj6NQb5zSFzD1rX8bVTQFcaA=
+		OcPKQJwosZC9qskIRTAx4zUzAyM=
 		</data>
 		<key>Frameworks/FBLPromises.framework/Info.plist</key>
 		<data>
@@ -78,7 +78,7 @@
 		</data>
 		<key>Frameworks/FBSDKCoreKit.framework/FBSDKCoreKit</key>
 		<data>
-		dPQYiz04P5CZLV78VvtH0g5Fl14=
+		oncYhFTuoiXsRlhIMnW0dfkvH60=
 		</data>
 		<key>Frameworks/FBSDKCoreKit.framework/FacebookSDKStrings.bundle/Info.plist</key>
 		<data>
@@ -490,7 +490,7 @@
 		</data>
 		<key>Frameworks/FBSDKCoreKit_Basics.framework/FBSDKCoreKit_Basics</key>
 		<data>
-		yKOc4SWXqZLFtX/BBXCRHNUUnUg=
+		brY+62Hd1RnoMYpbgpCmqiCWQW4=
 		</data>
 		<key>Frameworks/FBSDKCoreKit_Basics.framework/Info.plist</key>
 		<data>
@@ -502,7 +502,7 @@
 		</data>
 		<key>Frameworks/FBSDKLoginKit.framework/FBSDKLoginKit</key>
 		<data>
-		YnBPIbMHd4r26KCNbdF8emUMZ5o=
+		aq8j5BW10SjMlA/Z0zYNWN1fRwY=
 		</data>
 		<key>Frameworks/FBSDKLoginKit.framework/Info.plist</key>
 		<data>
@@ -514,7 +514,7 @@
 		</data>
 		<key>Frameworks/FBSDKShareKit.framework/FBSDKShareKit</key>
 		<data>
-		fqhWLzK5EU3BH9igX9FzdJCzHdk=
+		uwdAmFvh4RNdKx7xsWyskK5qm7o=
 		</data>
 		<key>Frameworks/FBSDKShareKit.framework/Info.plist</key>
 		<data>
@@ -526,7 +526,7 @@
 		</data>
 		<key>Frameworks/FirebaseABTesting.framework/FirebaseABTesting</key>
 		<data>
-		1YP849QfCJ8MfTzKoQ3+ijiMZsk=
+		Pm+SAgseyoyRSGk/5uScszFc3Cg=
 		</data>
 		<key>Frameworks/FirebaseABTesting.framework/Info.plist</key>
 		<data>
@@ -538,7 +538,7 @@
 		</data>
 		<key>Frameworks/FirebaseAppCheckInterop.framework/FirebaseAppCheckInterop</key>
 		<data>
-		3YSouuojiSlQQNESyg3A3Pye2kc=
+		gyoMBP1YdVf+AcBByJOohpF6nik=
 		</data>
 		<key>Frameworks/FirebaseAppCheckInterop.framework/Info.plist</key>
 		<data>
@@ -550,7 +550,7 @@
 		</data>
 		<key>Frameworks/FirebaseAuth.framework/FirebaseAuth</key>
 		<data>
-		STfTQnIwwo/mlJtIq7Z5a6CRTp8=
+		SDlTEXoVgHDkus9hcg3d6j3CE2o=
 		</data>
 		<key>Frameworks/FirebaseAuth.framework/Info.plist</key>
 		<data>
@@ -562,7 +562,7 @@
 		</data>
 		<key>Frameworks/FirebaseAuthInterop.framework/FirebaseAuthInterop</key>
 		<data>
-		yZN8886wMDi/jV3b67ZsrOdVWYk=
+		ukmEfvQ3EpxqbOZ3vbinMvggTP0=
 		</data>
 		<key>Frameworks/FirebaseAuthInterop.framework/Info.plist</key>
 		<data>
@@ -574,7 +574,7 @@
 		</data>
 		<key>Frameworks/FirebaseCore.framework/FirebaseCore</key>
 		<data>
-		iqWXO8U38BusnhmHAp/GvUODkwk=
+		TMVEumVCzaxoIwu5JwASNfAABrw=
 		</data>
 		<key>Frameworks/FirebaseCore.framework/Info.plist</key>
 		<data>
@@ -586,7 +586,7 @@
 		</data>
 		<key>Frameworks/FirebaseCoreExtension.framework/FirebaseCoreExtension</key>
 		<data>
-		viiVvml/0n9mi0X2U/l/mJgAoOQ=
+		jQUuxqE7bJ6dyvUT7J7RFhjTbJo=
 		</data>
 		<key>Frameworks/FirebaseCoreExtension.framework/Info.plist</key>
 		<data>
@@ -598,7 +598,7 @@
 		</data>
 		<key>Frameworks/FirebaseCoreInternal.framework/FirebaseCoreInternal</key>
 		<data>
-		gvHHJuPQAiiHA8Znpa2Vpx9QC64=
+		3TKIUDdI/rVRcxBMo97oRqyAsis=
 		</data>
 		<key>Frameworks/FirebaseCoreInternal.framework/Info.plist</key>
 		<data>
@@ -610,7 +610,7 @@
 		</data>
 		<key>Frameworks/FirebaseCrashlytics.framework/FirebaseCrashlytics</key>
 		<data>
-		YsF6Yrju4TnWjCWaQZUoLFXeHns=
+		KE73f3QU5pSv2OhtM5Rxf23TCsA=
 		</data>
 		<key>Frameworks/FirebaseCrashlytics.framework/Info.plist</key>
 		<data>
@@ -622,7 +622,7 @@
 		</data>
 		<key>Frameworks/FirebaseFirestore.framework/FirebaseFirestore</key>
 		<data>
-		NWmwP4Pp5E8x6LjepbdOsE8lvlU=
+		mDK9/99xwsivo6qwEHqqlgLPH84=
 		</data>
 		<key>Frameworks/FirebaseFirestore.framework/Info.plist</key>
 		<data>
@@ -634,7 +634,7 @@
 		</data>
 		<key>Frameworks/FirebaseFirestoreInternal.framework/FirebaseFirestoreInternal</key>
 		<data>
-		m7BwvWTue0ANE/Gh5bM4fJFwLl8=
+		vzM/tKxp0d6r9hp+SdeHTwnZ9NI=
 		</data>
 		<key>Frameworks/FirebaseFirestoreInternal.framework/Info.plist</key>
 		<data>
@@ -646,7 +646,7 @@
 		</data>
 		<key>Frameworks/FirebaseFunctions.framework/FirebaseFunctions</key>
 		<data>
-		ykETWql/xBMvHBSz68WK2jhGQyA=
+		o7T42Xf89q8BcDsIwWvoRIQKJm0=
 		</data>
 		<key>Frameworks/FirebaseFunctions.framework/Info.plist</key>
 		<data>
@@ -658,7 +658,7 @@
 		</data>
 		<key>Frameworks/FirebaseInAppMessaging.framework/FirebaseInAppMessaging</key>
 		<data>
-		OLkscCxuYUUAiT4pFeN45Fb8Exo=
+		qOb/uUoVe2rwhQ6G1c8ZKm+mYlI=
 		</data>
 		<key>Frameworks/FirebaseInAppMessaging.framework/InAppMessagingDisplayResources.bundle/FIRInAppMessageDisplayStoryboard.storyboardc/Info.plist</key>
 		<data>
@@ -718,7 +718,7 @@
 		</data>
 		<key>Frameworks/FirebaseInstallations.framework/FirebaseInstallations</key>
 		<data>
-		OKEYzcsWJYmZq25+tsWDV6NO9FY=
+		UbQIh+DuTySlz08dYEGcKbwInUA=
 		</data>
 		<key>Frameworks/FirebaseInstallations.framework/Info.plist</key>
 		<data>
@@ -730,7 +730,7 @@
 		</data>
 		<key>Frameworks/FirebaseMessaging.framework/FirebaseMessaging</key>
 		<data>
-		KI+0ywMZ2WJMHO3G4UQZgQWUEYQ=
+		bSK0zOAt6wgDKLYX7T7Bzyivj9Q=
 		</data>
 		<key>Frameworks/FirebaseMessaging.framework/Info.plist</key>
 		<data>
@@ -742,7 +742,7 @@
 		</data>
 		<key>Frameworks/FirebaseMessagingInterop.framework/FirebaseMessagingInterop</key>
 		<data>
-		0zuGfgb3L+UXCMfT/TuvBiivbHI=
+		g+ryAXW/TmYnaubL4JyIN6fpVkA=
 		</data>
 		<key>Frameworks/FirebaseMessagingInterop.framework/Info.plist</key>
 		<data>
@@ -754,7 +754,7 @@
 		</data>
 		<key>Frameworks/FirebasePerformance.framework/FirebasePerformance</key>
 		<data>
-		RChFb1LGHHDNJHjmoZQp3r6yrx8=
+		PVYJt+6BVVRGilHPZfsEwG4PsxU=
 		</data>
 		<key>Frameworks/FirebasePerformance.framework/Info.plist</key>
 		<data>
@@ -766,7 +766,7 @@
 		</data>
 		<key>Frameworks/FirebaseRemoteConfig.framework/FirebaseRemoteConfig</key>
 		<data>
-		sj5Q+YWMkY1AwI+chxBsiOUDUlI=
+		wrNalVH9VQVVdldcMY09GK6X8x4=
 		</data>
 		<key>Frameworks/FirebaseRemoteConfig.framework/Info.plist</key>
 		<data>
@@ -778,7 +778,7 @@
 		</data>
 		<key>Frameworks/FirebaseSessions.framework/FirebaseSessions</key>
 		<data>
-		owopBPceHWhdeGyXsJKAgwfoFQE=
+		whpFl2AjeR1CZw9UfhUsWMx2Q0A=
 		</data>
 		<key>Frameworks/FirebaseSessions.framework/Info.plist</key>
 		<data>
@@ -790,7 +790,7 @@
 		</data>
 		<key>Frameworks/FirebaseSharedSwift.framework/FirebaseSharedSwift</key>
 		<data>
-		rOEsEyCyz/fFBLI3tNN/ANewkeA=
+		5qS97bpcye6SRUOB/edGWZv91yc=
 		</data>
 		<key>Frameworks/FirebaseSharedSwift.framework/Info.plist</key>
 		<data>
@@ -802,7 +802,7 @@
 		</data>
 		<key>Frameworks/GTMAppAuth.framework/GTMAppAuth</key>
 		<data>
-		UzLWjQieQoZe0aQUOH7H434NkyM=
+		Ed2/wtAEUNTczRFrssylNlKs/qY=
 		</data>
 		<key>Frameworks/GTMAppAuth.framework/Info.plist</key>
 		<data>
@@ -814,7 +814,7 @@
 		</data>
 		<key>Frameworks/GTMSessionFetcher.framework/GTMSessionFetcher</key>
 		<data>
-		wHyeEqXcT2l1O4cVxz7fURv+BIk=
+		LqZzDq+38COWNjfybHJigat94DE=
 		</data>
 		<key>Frameworks/GTMSessionFetcher.framework/Info.plist</key>
 		<data>
@@ -826,7 +826,7 @@
 		</data>
 		<key>Frameworks/GoogleDataTransport.framework/GoogleDataTransport</key>
 		<data>
-		2FmU1929DWdZ0a15Jt3HPd/wLD4=
+		EQkqAvktTJmPvrjBe5C4DK0WjyE=
 		</data>
 		<key>Frameworks/GoogleDataTransport.framework/Info.plist</key>
 		<data>
@@ -838,7 +838,7 @@
 		</data>
 		<key>Frameworks/GoogleSignIn.framework/GoogleSignIn</key>
 		<data>
-		cjT0YLIg1tiFaMdQTjMAs1PgoZ4=
+		MLInCrEoRMFMsRRvs1W0nw7k+Ec=
 		</data>
 		<key>Frameworks/GoogleSignIn.framework/GoogleSignIn.bundle/Info.plist</key>
 		<data>
@@ -1212,7 +1212,7 @@
 		</data>
 		<key>Frameworks/GoogleUtilities.framework/GoogleUtilities</key>
 		<data>
-		pK6VK4tNqqtS4rvrdKK4sFrxm2k=
+		DT74oEUxpoaBnytAN/7anHE4v1o=
 		</data>
 		<key>Frameworks/GoogleUtilities.framework/Info.plist</key>
 		<data>
@@ -1228,7 +1228,7 @@
 		</data>
 		<key>Frameworks/Promises.framework/Promises</key>
 		<data>
-		QdACmOZlcvp6oUSVt0odMQUB/tI=
+		0QYwVvIxbQfPReLXXh9qy3C7Bdg=
 		</data>
 		<key>Frameworks/Promises.framework/_CodeSignature/CodeResources</key>
 		<data>
@@ -1240,7 +1240,7 @@
 		</data>
 		<key>Frameworks/RecaptchaInterop.framework/RecaptchaInterop</key>
 		<data>
-		QVkDWMLkAjJHsw4rnRwi5ctCbcQ=
+		a78+h1qdY8A009XC4STN0YyTaPA=
 		</data>
 		<key>Frameworks/RecaptchaInterop.framework/_CodeSignature/CodeResources</key>
 		<data>
@@ -1256,7 +1256,7 @@
 		</data>
 		<key>Frameworks/absl.framework/absl</key>
 		<data>
-		2pQEHtDRItfhZwAKFsBOYqABtfU=
+		lm+5BtzaSq2Ij+B6/NoGKiHenRc=
 		</data>
 		<key>Frameworks/grpc.framework/Info.plist</key>
 		<data>
@@ -1268,7 +1268,7 @@
 		</data>
 		<key>Frameworks/grpc.framework/grpc</key>
 		<data>
-		QqPvUniRoBatf4FEOKHlq0MqshY=
+		w8VbPkSCiaHeKRewKllbl2oZe0Q=
 		</data>
 		<key>Frameworks/grpcpp.framework/Info.plist</key>
 		<data>
@@ -1288,7 +1288,7 @@
 		</data>
 		<key>Frameworks/grpcpp.framework/grpcpp</key>
 		<data>
-		Lfuo2WQUeOqyUU2aCqzhN+H5rj8=
+		QwAzSLY0ny55ew+0ceidvh0AcP4=
 		</data>
 		<key>Frameworks/leveldb.framework/Info.plist</key>
 		<data>
@@ -1300,91 +1300,91 @@
 		</data>
 		<key>Frameworks/leveldb.framework/leveldb</key>
 		<data>
-		ELOuqeDk34HfZZJzsh0R/wJuxnY=
+		4BAlYiZBYDk9ESUELCP5pRsvzbY=
 		</data>
 		<key>Frameworks/libswiftAVFoundation.dylib</key>
 		<data>
-		DEBAFwwLqT7/5Kme2UzhDakNxz4=
+		4aJ2BOteJQ7psSy9HDQ7wnoh2w8=
 		</data>
 		<key>Frameworks/libswiftAccelerate.dylib</key>
 		<data>
-		ot9xEZxgwv/Xeh4jjgNZTTr5Uhk=
+		L0DEjSJYvodFkM7qJGcwGIYBjCg=
 		</data>
 		<key>Frameworks/libswiftCore.dylib</key>
 		<data>
-		Bt3YUReIDjTuMkQA/s4OJOSMS0g=
+		jRqlowFcJDggAyh302NC0bAa4Iw=
 		</data>
 		<key>Frameworks/libswiftCoreAudio.dylib</key>
 		<data>
-		CO+mW69gOdVPgjidBSehWEgJz6Y=
+		vw3d/HyUR8AmYr8+Rpv3RbPWdyw=
 		</data>
 		<key>Frameworks/libswiftCoreData.dylib</key>
 		<data>
-		eRJVOG3uLDaOtvPPCGkM7QlAfiQ=
+		hSO39rryirD7SOhRmUq02ldTzzQ=
 		</data>
 		<key>Frameworks/libswiftCoreFoundation.dylib</key>
 		<data>
-		u5tLVLDluU9rSbRF+qDqNLx8EJs=
+		G+SbOCD2ppcMoA4ydWEkUREgDMM=
 		</data>
 		<key>Frameworks/libswiftCoreGraphics.dylib</key>
 		<data>
-		Mr82ga30ge4b6nBjqJnSVqf7F3c=
+		rHI8GqJQ+FsRa7m0Pj2nm7JVjtU=
 		</data>
 		<key>Frameworks/libswiftCoreImage.dylib</key>
 		<data>
-		mkYP37P5nmAuOx4mzBK1I744r6I=
+		zLMpC7ZBjmn9ZA+hj0lyr0rMp9k=
 		</data>
 		<key>Frameworks/libswiftCoreLocation.dylib</key>
 		<data>
-		Uq5P+XpZ9RZXaG/sJ/f9D6J8ILw=
+		Ks5tyJ0oMdbT97eo+kTI/eGZFNU=
 		</data>
 		<key>Frameworks/libswiftCoreMedia.dylib</key>
 		<data>
-		bMeYUTatHJ1a+wrNvMYGaFP4qXw=
+		jvsSLslXqjHdjMIKU+Pnd+XtJ7U=
 		</data>
 		<key>Frameworks/libswiftDarwin.dylib</key>
 		<data>
-		h1ktV1UH6SrZYGz7bKb7dXGRM7Q=
+		hnLUwnGewt+zy0N7B7CvHjWCCqk=
 		</data>
 		<key>Frameworks/libswiftDispatch.dylib</key>
 		<data>
-		6xDlvi5GSFoR36Ybn58JvBQTzpA=
+		zBg2nnsNZd1SGSRcNqakB5DPkOo=
 		</data>
 		<key>Frameworks/libswiftFoundation.dylib</key>
 		<data>
-		UVhw+SsquMZHDXtYfJyk1pl6NP8=
+		p1gh5J7R1kKwIAVuwIaASRSVHl8=
 		</data>
 		<key>Frameworks/libswiftMetal.dylib</key>
 		<data>
-		ReixQiVjSNnHo5UiBOWdprXojxc=
+		a5f2ZN3i2RUDljPfSMnzBdpfGnw=
 		</data>
 		<key>Frameworks/libswiftObjectiveC.dylib</key>
 		<data>
-		B3/f0LFfJwbGivawYl70Re1XnEI=
+		Wwh6841Z6VfGG0FqvyVDdJqqQQA=
 		</data>
 		<key>Frameworks/libswiftPhotos.dylib</key>
 		<data>
-		/+FsPZ3D6Wxy4WtkbWXJoO4UKmo=
+		cQuo47G24yl8qHF65aQ7ONbk2Z4=
 		</data>
 		<key>Frameworks/libswiftQuartzCore.dylib</key>
 		<data>
-		yE1goi9bDDJBqXDc9t1vtS7DzvU=
+		xJ6ptZEEXWcPMkyooAAZwGBkMyQ=
 		</data>
 		<key>Frameworks/libswiftUIKit.dylib</key>
 		<data>
-		Avek5CXNKWAo30T08BA7BtE/3Cc=
+		gl4dbVFBfrS+eAgMBqSsC41tO3w=
 		</data>
 		<key>Frameworks/libswift_Concurrency.dylib</key>
 		<data>
-		T9d4lnHyuzEnUz0D3fOxDdGKCD4=
+		/BxYxtRcF9/5109irTH35bUgahE=
 		</data>
 		<key>Frameworks/libswiftos.dylib</key>
 		<data>
-		1PPos8d7gG36bipV5LO+S4IIrTw=
+		OZQ9EdHwv3yXZ1B4/dOIaLvjnXo=
 		</data>
 		<key>Frameworks/libswiftsimd.dylib</key>
 		<data>
-		4RAFPyysXnj/JAC7NUZ8xqPbFuk=
+		D93Imk4yBt+p0o1BTFnrX5bVLBA=
 		</data>
 		<key>Frameworks/nanopb.framework/Info.plist</key>
 		<data>
@@ -1396,7 +1396,7 @@
 		</data>
 		<key>Frameworks/nanopb.framework/nanopb</key>
 		<data>
-		HpOzACVmMkIFQ6Dy8UpCbSkE/ks=
+		wpGMFhWavfze+LoGvwuo75HT/GA=
 		</data>
 		<key>Frameworks/openssl_grpc.framework/Info.plist</key>
 		<data>
@@ -1408,7 +1408,7 @@
 		</data>
 		<key>Frameworks/openssl_grpc.framework/openssl_grpc</key>
 		<data>
-		kvClkvgL0l+iObU/Uno1iMa/PqU=
+		zRBU7CwAsW6uEo4RmVw1rBKQmMY=
 		</data>
 		<key>GoogleService-Info.plist</key>
 		<data>
@@ -1416,7 +1416,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		gbtCBXmVIdlgQZeIi6Ap3O+aevs=
+		Hqy8Q+Api85fMNB+dl4Oqd6lHOY=
 		</data>
 		<key>MainViewController.nib</key>
 		<data>
@@ -1440,7 +1440,7 @@
 		</data>
 		<key>config.xml</key>
 		<data>
-		nu///EfJWvBTITCyMVko3a4RgOY=
+		SEyYZHkbb/CRXLJQ2X2tkNKXvvQ=
 		</data>
 		<key>crystal.caf</key>
 		<data>
@@ -1468,7 +1468,7 @@
 		</data>
 		<key>www/cordova_plugins.js</key>
 		<data>
-		elM7ABGe/V33TWE1EsOfy3MR/K4=
+		1z1BGl7dNclWEtAuGPOvKHsWo1s=
 		</data>
 		<key>www/css/app.css</key>
 		<data>
@@ -2192,11 +2192,11 @@
 		</data>
 		<key>www/index.html</key>
 		<data>
-		dgf7m5Pgyt/pygs7THdQgv77uq8=
+		D4hkl1YlarjV1/X2MM6DSRVV/Vw=
 		</data>
 		<key>www/js/app.js</key>
 		<data>
-		R/lHd/HDFdnfA/mn6pnOM468FkY=
+		V4Gq6KwxaucKspmaV8SDCW9qj7M=
 		</data>
 		<key>www/js/config.js</key>
 		<data>
@@ -2248,7 +2248,7 @@
 		</data>
 		<key>www/js/fn_disponibilidad.js</key>
 		<data>
-		8E931rRibg0DvImGe2YCQcTfuO4=
+		HLIpogJolC/DUBTTLx5RrYjiuJI=
 		</data>
 		<key>www/js/fn_disponibilidadadmin.js</key>
 		<data>
@@ -2272,23 +2272,23 @@
 		</data>
 		<key>www/js/fn_home.js</key>
 		<data>
-		RdBnjWSB2N/0SQWBCeCYW0a7pxY=
+		vPI0CL8kD/bQAOZHjgcnfwEHFsU=
 		</data>
 		<key>www/js/fn_homeadmin.js</key>
 		<data>
-		CvAClP51vwmDF1XdfIwazpa6TzA=
+		4orsCcnWhGHqU8faUfPxVraYQOA=
 		</data>
 		<key>www/js/fn_homeespecialista.js</key>
 		<data>
-		oL9E4RhCQPi/d+ccStNLqmDKu5g=
+		CjLGMZROQp8Y0KB/RkawZxxx3kE=
 		</data>
 		<key>www/js/fn_imagencita.js</key>
 		<data>
-		zUICPY44ALfrdUtZERMGq8WyCmM=
+		PojODqEG+RcyfX+78URt0Ki0690=
 		</data>
 		<key>www/js/fn_imagencitacomentario.js</key>
 		<data>
-		+jXWi33AOrEapHeMYOrtmIK9Vdc=
+		z/a8ixYG40TbH3lD+fJdmg7WfDo=
 		</data>
 		<key>www/js/fn_landing.js</key>
 		<data>
@@ -2348,7 +2348,7 @@
 		</data>
 		<key>www/js/index.js</key>
 		<data>
-		yAhDqVq6xp25t2Qlnm7zRCY3Ut8=
+		5psB4+AaG2fVwwzKFR+DUaLOiYk=
 		</data>
 		<key>www/js/jquery-2.1.3.min.js</key>
 		<data>
@@ -2356,7 +2356,7 @@
 		</data>
 		<key>www/js/login.js</key>
 		<data>
-		xFt3AX8rspDUJTihZZDNpBeaCik=
+		IXRFgpVn2KW5zhdEyrlxHT0g9x0=
 		</data>
 		<key>www/js/mapa.js</key>
 		<data>
@@ -2544,7 +2544,7 @@
 		</data>
 		<key>www/pages/detallesucursal.html</key>
 		<data>
-		BWEv890bsNhRQs28gRwQJAhuJww=
+		mvVqcjh5A5hJf0NK5t+GTLVu+S0=
 		</data>
 		<key>www/pages/dialog.html</key>
 		<data>
@@ -3052,11 +3052,11 @@
 		</data>
 		<key>www/pages/validadoqrcita.html</key>
 		<data>
-		DLMWcb0rtvhvbtYJ0LzeDOdImnk=
+		/Goix8RoSdLluFvMTG8/BYs0C6I=
 		</data>
 		<key>www/pages/validadoqrcita2.html</key>
 		<data>
-		+3uaXCWWJUWYqDLZzObIm2z2TUA=
+		1K9vc9o0VLOcXr9LtQ1tpINk4FQ=
 		</data>
 		<key>www/pages/verificacion.html</key>
 		<data>
@@ -3105,10 +3105,6 @@
 		<key>www/plugins/cordova-plugin-customfcmreceiver/www/customfcmreceiver.js</key>
 		<data>
 		HwZxMGvoUAwD3JhwwJQjdM7hSno=
-		</data>
-		<key>www/plugins/cordova-plugin-device/www/device.js</key>
-		<data>
-		cNhFOKAP2X2rVmuujDxkQbGnVXg=
 		</data>
 		<key>www/plugins/cordova-plugin-dialogs/www/notification.js</key>
 		<data>
@@ -3317,21 +3313,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Id0ONkc2ui29Lqd0gfRO/AsW7ypmLxHx13irLXe6VdU=
+			hhJuce+um3NTJ5VUBbuTq0R7SAXTygzN3lD03Ol4imY=
 			</data>
 		</dict>
 		<key>AppIcon76x76@2x~ipad.png</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			c+HUz8SVQS7qHBMe7/+lyZ6PdWyOlgo0rTCeQRTyaK8=
+			1yjGWyaXDc4/T5n/9SN6ShO/az1qVAUyWaILppCS/lA=
 			</data>
 		</dict>
 		<key>Assets.car</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			A4aP79cSl4bh0jV2hNPiEf7HwZjFJge86KxKaEsUOoA=
+			Yp5E71S26FosjR3pnYf69vCnMWHtArrTdmUpmHoSCR4=
 			</data>
 		</dict>
 		<key>CDVLaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib/objects-13.0+.nib</key>
@@ -3380,7 +3376,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			dCBZBNnirodkXRhmm+Q58xJNSLEfOTtArS8jWwxmK4Y=
+			dNDijYGHf8cyLczXHRWW1H3eoPY91RdI03Bo0Sbvw7Q=
 			</data>
 		</dict>
 		<key>Frameworks/AppAuth.framework/Info.plist</key>
@@ -3401,7 +3397,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ASw84cndQUCS8Rdh+PG8e0MUhZ0R59u+HXeQ3M+K3HU=
+			6wrKjw4EhepIum/z0zItG+KD+J/Nzw0LkQK/mUXGJvM=
 			</data>
 		</dict>
 		<key>Frameworks/FBAEMKit.framework/Info.plist</key>
@@ -3422,7 +3418,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			BIWWTuiJ8SfBkgofsr5MnB8gv2JXxkpx7Vwd0mHrRWQ=
+			W+a1fxXFXjkLv+l0PxJzMv9El48ANoMimHJa7Xefyks=
 			</data>
 		</dict>
 		<key>Frameworks/FBLPromises.framework/Info.plist</key>
@@ -3443,7 +3439,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			l1eKgA7aN9UnqwE8Y/vCNRO7d74EcVVmghEFUyssfjg=
+			YxFk8w3q9Kggqur0tJU2P1h2GisLWiovmUPKZ9MtsIw=
 			</data>
 		</dict>
 		<key>Frameworks/FBSDKCoreKit.framework/FacebookSDKStrings.bundle/Info.plist</key>
@@ -3867,7 +3863,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			uWO3jIhGe2oLzNf7zagcTzeyE2mLmr6CHooxRQS+aFE=
+			4zxxT579+t7U7YmdoxBAz1svzF7XSmoBVEKJYsBZDeE=
 			</data>
 		</dict>
 		<key>Frameworks/FBSDKCoreKit_Basics.framework/Info.plist</key>
@@ -3888,7 +3884,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			3uG2ni7Vmc4GALnWbBdMnpqd/jWODYbuatGWtBMN0V8=
+			4wXFTEbrQ0GmvqjL/JUfZmskGOpjfLKfSK3FSULfb0w=
 			</data>
 		</dict>
 		<key>Frameworks/FBSDKLoginKit.framework/Info.plist</key>
@@ -3909,7 +3905,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			1fuopfc52d10q8nWS1TAqiMiN/oG/lY9nRVQkkJPYuc=
+			h7zWtpQLFfVfuwuuGXnmHBM3rQd+tDRElI6jOf/GqIE=
 			</data>
 		</dict>
 		<key>Frameworks/FBSDKShareKit.framework/Info.plist</key>
@@ -3930,7 +3926,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			5rU7CyUCj3CNABCin1lqHAnW0txrPph1MBRUjSOF+3k=
+			RutjD5Wim9uuI/DuEOAwK2m/auLwqe5ZXOrJXBLIUPI=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseABTesting.framework/Info.plist</key>
@@ -3951,7 +3947,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			xrFf7zqv1+P/cVf2LGCqxyxZX7C+Be3hgkY/j3jkT4E=
+			DgofS4FBRIGDuLvOs/a2Nhr+VSr1nGJI8gHzBgjtvgI=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseAppCheckInterop.framework/Info.plist</key>
@@ -3972,7 +3968,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			myI5tV7aPrZ3ukfiX0Rm8a8us3hsO+MFXhIL89udP8s=
+			Xzb822K9f0qT/8R4dsX1s4iIJ61bcf/ZCPSq/TIh9Hk=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseAuth.framework/Info.plist</key>
@@ -3993,7 +3989,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			cddz4YqjOLZ8KET13XUxNGH2mLfG4WzSu1jK/0NLEao=
+			BoO+64VpP7LRVsi7UO3EOwAERyoR6GCDTJ7+PpS9vnA=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseAuthInterop.framework/Info.plist</key>
@@ -4014,7 +4010,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Cuw4XBxs64t/UstzIGWFQVsf2FAh9RbHr+gQEtmyxnQ=
+			R2HDxmMBpFK1l1aYRrnromqy/R9yQM+kLSXBh0aFzTM=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseCore.framework/Info.plist</key>
@@ -4035,7 +4031,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			GX3IohyyfucFi3NP269Gy7dDfOj1Ji9W9mYYFwb8sdY=
+			FW96hc4pb2DQfCnHxYsgiS/Ei/TBBKXVvcEVyLobbAA=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseCoreExtension.framework/Info.plist</key>
@@ -4056,7 +4052,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			wWvct4+acFgfPlFuZxX9qvbLtBZJpzKxGx9sPXCEWmY=
+			8ARZ58QMfBTbSnMLzLxYUfwhxEQPH7EEgwt9XWWCfYU=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseCoreInternal.framework/Info.plist</key>
@@ -4077,7 +4073,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			rcE0BiO9+d23Tyif4vS7DCWwlaJZ2NfUfSYLrWlaChQ=
+			XUEuZytmFb/7pbOQaX3nWMDTz/prQpmLcTIyZCx9QZM=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseCrashlytics.framework/Info.plist</key>
@@ -4098,7 +4094,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			uj9Nj4ydM2f/H+UFBS4dD1Kpin5FOjXhRDcqXwU6xyM=
+			6b1WIc4swWx5Eg6YM9BdNOQt3xAduW4cHtdZ+0FWmjs=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseFirestore.framework/Info.plist</key>
@@ -4119,7 +4115,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			CCbsODug08RE0o17ifAU5nqHtOomZZmw1wvvAvN0tfY=
+			5Fi5g5VL8pZO4tqt6vfVvHhr6BEkUfE3hJGOcfsP3Fk=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseFirestoreInternal.framework/Info.plist</key>
@@ -4140,7 +4136,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			xfuo58FX8p75bbZUYqcmMN1z3YKhgE+bX6gd4TqMVSw=
+			pUH1AMMcUVbCbNG8I8IhN5Rd6NKeWVDVYsDIsbT+wlk=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseFunctions.framework/Info.plist</key>
@@ -4161,7 +4157,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			2N8/utZOQ6LF70psDwwhwUhz1fAfe4KrDvRTg2bjNQA=
+			byyQHzJxw7OWFSicLm3Bpc/+j6nKCQX7QWSte0DvRLQ=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseInAppMessaging.framework/InAppMessagingDisplayResources.bundle/FIRInAppMessageDisplayStoryboard.storyboardc/Info.plist</key>
@@ -4266,7 +4262,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			2mVJbbvEMC8ZpYLJQEPPsAw59n8vi8Uivnb4HR9ZgHI=
+			qDutwwnOizdTiWBjUMtLibPY7y1Qvvl3PfGzCkjkGPs=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseInstallations.framework/Info.plist</key>
@@ -4287,7 +4283,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Mzl/D0jMyZP36DkoIpUeql4NhdwbGJ5mto515iaCPeU=
+			fUw69LFrbnaILwrZ51Ztw5hw8h3z7IaPpqb6pr7Ly64=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseMessaging.framework/Info.plist</key>
@@ -4308,7 +4304,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			QSOFh6gqOICIBp1avldlEl6ZansPiu3fCAnI+Og3qCQ=
+			Q0Qa7rNueO0wHK82H4ZK12GDxbaS/++Ywgyrg397tNI=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseMessagingInterop.framework/Info.plist</key>
@@ -4329,7 +4325,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			RRgVDosOrPrekKpb9JpweIq5ciwVsi3aJsEfkwik74I=
+			La/eqxlwixG4RNN52ei9j9dT5f/gCTUV58tfxLT1ZX8=
 			</data>
 		</dict>
 		<key>Frameworks/FirebasePerformance.framework/Info.plist</key>
@@ -4350,7 +4346,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			smS4pTRlx7re+HcvvoJ0Jd77eWvPhIw6mTicaahK3e0=
+			ARKo4S+0KkoayFZQZCCcoZn9I6MaaslHzXc9N+nbMyQ=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseRemoteConfig.framework/Info.plist</key>
@@ -4371,7 +4367,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			KNdRtB7421GQg++PocZustQkeyqHmcOEkXO+EbjuP7E=
+			J8h1qSlOo55+eLC/YSmKmp4vrYkqtilE3gExU3mTtrA=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseSessions.framework/Info.plist</key>
@@ -4392,7 +4388,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			EqVI+ZCG5Us08cZmg2NkosPzMuZMjxy3Tk1PzKdg/I8=
+			RrCzL6LXKK8aWDAi3SIlB+kLG44D+eCt6z7tmjnj2hI=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseSharedSwift.framework/Info.plist</key>
@@ -4413,7 +4409,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			WEx6SXSeZITyXFa2j/LO6BUvxiuSsz3oKMANIt3UaWI=
+			46S39S+n7tFeidKSjf2FUPyV70/srRX6q+ec5uwW84c=
 			</data>
 		</dict>
 		<key>Frameworks/GTMAppAuth.framework/Info.plist</key>
@@ -4434,7 +4430,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			6pVw1algolsSBfugFkg/SZ92+1jL27Y9eduOPu4usB8=
+			CoHuNg9mwoDtEfJRh5P0LH/qdc6Z00F0yToGlqyT0+4=
 			</data>
 		</dict>
 		<key>Frameworks/GTMSessionFetcher.framework/Info.plist</key>
@@ -4455,7 +4451,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			DonGoE2fyXmwVwFmll94EA4hhl+Yb6CRrLPI3eubqec=
+			D4Qku9A0e9pLh1iOcgoprOO7GV6GJqYySIAQyztxFeI=
 			</data>
 		</dict>
 		<key>Frameworks/GoogleDataTransport.framework/Info.plist</key>
@@ -4476,7 +4472,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			R5DoZl4l4F/duxkqFJTjP27CGmoz1oQfvJrwr9Cl3GY=
+			fA7cjXayeyiondGHKc8TuVS1XT9NZzVYGwcafrkQgbY=
 			</data>
 		</dict>
 		<key>Frameworks/GoogleSignIn.framework/GoogleSignIn.bundle/Info.plist</key>
@@ -4874,7 +4870,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			TI9jQ3Ke9mDq/T2loVPAb6xEvkSSTpXr3q88dXPMCiI=
+			00gFCIBqxYr3pc/ypjXqe21bKHgX2DA+SZamyQ44mfI=
 			</data>
 		</dict>
 		<key>Frameworks/GoogleUtilities.framework/Info.plist</key>
@@ -4902,7 +4898,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Ks7EGP7rmo8zdwD3YryjpGFTisCpGgQcht3tbPZSxUg=
+			YxbnfxzmmA5SklAqZia4VZ0Rnygl9Z8DvYr+UrAXMPg=
 			</data>
 		</dict>
 		<key>Frameworks/Promises.framework/_CodeSignature/CodeResources</key>
@@ -4923,7 +4919,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			h0pFmV4xa2VhExHOQjp0acxMN7awXnNJo/GkV9FIFmk=
+			comRpYgTdmPnhXgtxXaI13nE/y31dbOMb5TRYcGwFcY=
 			</data>
 		</dict>
 		<key>Frameworks/RecaptchaInterop.framework/_CodeSignature/CodeResources</key>
@@ -4951,7 +4947,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			RMU/4gRh5NVscYYAZoUdYLNRgFCc1BArrsCXt/RaoNw=
+			TBpiI/UJ41GgmAx7JmkKRNeLHE1EQZ/tPTf9W2hFLno=
 			</data>
 		</dict>
 		<key>Frameworks/grpc.framework/Info.plist</key>
@@ -4972,7 +4968,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			bwUofC6E/PAF8UbYkUXLSB6VHxwa6sfnMrRcaQe49kA=
+			SqRVOihl/qAE3GxI/8jOTinIbRESKbETzyvwDTa0whg=
 			</data>
 		</dict>
 		<key>Frameworks/grpcpp.framework/Info.plist</key>
@@ -5007,7 +5003,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			acT+pau/gY8uB1G82BMiqSQRn82hM5tcj+HRhfA6HfU=
+			CUB2ltYMTJuU9LvVvuzm53kLSFV6h/SoMmNmSLXi1Qc=
 			</data>
 		</dict>
 		<key>Frameworks/leveldb.framework/Info.plist</key>
@@ -5028,154 +5024,154 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			IfdAhWAoGBfKliDB7zBeYq4ZZhRHHmrLYM3f9c26aMU=
+			SngVJVlEQF08tLLi83ij/H7s8tYKF1QsFQuHRJXTWcc=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftAVFoundation.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			zmOt1D3ISrAae1exJuOfN9fIC1I4D2tbXueWodg4NRY=
+			E1XVlOczqtuw196jES3FmJdyxjDHNvAkDwX+x7dXAlk=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftAccelerate.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			VjA8s+C196TMjyKCbgukPF9UFfWJm6USFlseXuv0rFA=
+			QbeQR8HeuNRwRAz8YzXfINVK4+81ZnPtDbSYZlyfmqA=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftCore.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			mnl8hhtZmIdcVyiRiIIq9tOAycvmPafcgCvuk6T/Kvw=
+			tCslIbeOkOQqB0i3hZ/7Bws0oiEL5e9fssIVDyR+X3g=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftCoreAudio.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			ClHIBY7t/6iIgAYMTMgPfGI2ip0BbpOnJsU3v9Wa6Ho=
+			Kyrr+2QI37JW6yfD890vy+6eU0VLxM1nQwnCk1g5EEQ=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftCoreData.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			cBdjqd1MQDDi9yRAsOi/oqwyZmpFXc1ppViCwMHvPZk=
+			GK8jNOFsoEIYWJmtKIqJOf/MnaMI922qflOuVgCtU9M=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftCoreFoundation.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			vup9ZTysPZ40XfYQetpg/2QyoETACB3Y/GFvuG3yxHM=
+			sLcwoD2sHVDbwbm0D5FPGAVDogQpPYjl3ZCu5oRY/A8=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftCoreGraphics.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			nQqO1wjDivLWPz1W40OvakhITJjNJSaA7nm8atenfMs=
+			b8Y+9qVBQ4ppQGyIEIUxe046CVPLInavokA2IuZNW18=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftCoreImage.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			r3ck8Z1QE2ntWcQG0U39ZSNzop/UN9O1MrzKB1rIim8=
+			9IG2QH0a+RPz5+YkvQprLUnz9Z1S90p18vQpeRjkGvw=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftCoreLocation.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			9LhieJFqyx0Xznyt7s86xxMKBCA0Rmfm4NrQy8qRQ1s=
+			zStpcjfa+MWFGGxhu6l9y/pJT0305La4vuyoY+L/Yao=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftCoreMedia.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			a5AqakNdb3sh0SYNJbySt4yp/FLb/4v9/ur27M9epVQ=
+			h+dziC0QH9DiVhyphf47v+XV1bIKgcLEiLFZN21pHLA=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftDarwin.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			hFSKKuPTWP3TuPIu+HEL6U0/FQla8//ZmgDZdmNdZsk=
+			5TzC0T4hmEkFStuVC4v6uFbxSHUg0qn0r14vgvIyRc8=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftDispatch.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Vk/j1AqkIw4LmmuBbr4jRvDxy9cDaD/7UokD2s3oIjk=
+			Hgr2S71/vntPnc9P0V0OqxrDiBduTBJ5tGOmHJL2qfo=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftFoundation.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			0y620sSWTBxGeSUJ77Vakut31BieMUsdSLrxOL0WA80=
+			4o2/XKmm/Dn3+isf3eEUMffkq4Wcfk4CJXaQAbwjFV0=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftMetal.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			4rgs222y9zDYOIWFjs92RTKCtQfYdcLRqF/IMJc3EZQ=
+			kkwblHBO8hAO20acD9slGmG8oOMNlAyFJ+1Dh50PTrM=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftObjectiveC.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			VT6tTrm6/+k+zVSW+fdKjJckLGvFypPqzqQsdQWQXCU=
+			OAbFNmBobu18qy/Lqkj6d8decLU3cU2gqdXb9rSoGJ0=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftPhotos.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			b6yxfENVwfdsEqnhZ3HoaIVNV6D4Bhq/lGvnibVEk4w=
+			cNlJK7WiTpNjiYU0v/motc6EAwx+Hrrjg3z2Rd7WhFE=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftQuartzCore.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			i8SJ9QKlyNZW+rfXE0aw9J1y05+AKhOKMKqVWq4bMLY=
+			E9xYI+zv6X5OSU3MSBOlg1qU7JqQjKnt8IdcqZoJ6qY=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftUIKit.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			fv53UvJZWU3miC7kNY4jBs8cU49sOh/ZDOmWkoYyR0g=
+			hxjSNoSVfxT7VImamYzhYmnrbWPucxzRbJKrchJt4eA=
 			</data>
 		</dict>
 		<key>Frameworks/libswift_Concurrency.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			RFOi003wmBP8OfylDFj+y1zF7T2+zYmObylgeDiv5CQ=
+			JUcQO4PzDomBddAplFB+vpXHjcFXVSU/Af/bQ2cajAY=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftos.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			cI9OsHi/03cQkfTClWGYfK/nV/vB01HKGnMEdBjuvKA=
+			C1hGGn7S+G+az3ZJJVJKMJ6uz5Luef+lgd2kMKRTkD0=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftsimd.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			HDEoLK4B13ChWGyDrtQR/kVmgmd56S10xd/xAbgXUsk=
+			47QokKT0evvg3lBN50/hJB41JYDe2wQZ+Hd/IwCllWQ=
 			</data>
 		</dict>
 		<key>Frameworks/nanopb.framework/Info.plist</key>
@@ -5196,7 +5192,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ZRkBuGULL+Ozk8tMRQh/Uh+4ZW7s5kl58OeLBnvhl9I=
+			f8V58dZ9q0U+5yk4Hc/Xmlu84jDGBjT9GWIT1fENKsg=
 			</data>
 		</dict>
 		<key>Frameworks/openssl_grpc.framework/Info.plist</key>
@@ -5217,7 +5213,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			DqX8+p7UUUwOTpO9DAo0L/HwqUd9+vSa9NqolFDAqiA=
+			MB9SP7zdfldItcz85+Q14jBWGHci/qiSEItUl2DmHrs=
 			</data>
 		</dict>
 		<key>GoogleService-Info.plist</key>
@@ -5259,7 +5255,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			CVBp2umAbR5iIivFW5DSk1Du4rO5dzQnWU1ve4WDjlw=
+			jAjidpKbxtreyC4YT5C0VqQBwSw6uluwHPONRr5UwbI=
 			</data>
 		</dict>
 		<key>crystal.caf</key>
@@ -5308,7 +5304,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Dml75ORwemX2dNVxHj2jLzG+Yq3fk/H1FRDKKiBnrYw=
+			vi+xHzpTcUY0nQs/50c9DNQYmRpcl+FLX/1TGeTmqMI=
 			</data>
 		</dict>
 		<key>www/css/app.css</key>
@@ -6575,14 +6571,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Hts7bfK4l9+tzmsZha1ZhZoihWacpB3P/Rnxbapb534=
+			ZsGuKoaNH9i01/qdYUCfFMmowYUXa9ey/sl7WWi8syE=
 			</data>
 		</dict>
 		<key>www/js/app.js</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			eIzABPTFC66u3U7KjCungcrJOmHUKM4KDaJDABTqi7c=
+			9TrI1eOlk/zoA3ih6/nppuMHfvrMBLgb3hFkOx/kvKY=
 			</data>
 		</dict>
 		<key>www/js/config.js</key>
@@ -6673,7 +6669,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			9a6VB5UUpWxav+wgkRPiWp2rRYzcdXYQqqZBg77TCXA=
+			4BXISpsfDoh50a4mCDGQbJs1u8A5HSPRkmGFz6tchWk=
 			</data>
 		</dict>
 		<key>www/js/fn_disponibilidadadmin.js</key>
@@ -6715,35 +6711,35 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			p3Bjis0aelcbWe/uxTLRVaErpw1gUGrJZ5BcfuIKwVg=
+			LDOT2alnxp60ZKe9hfwDtmZazyJ5EIa4DFoN7jlK7kU=
 			</data>
 		</dict>
 		<key>www/js/fn_homeadmin.js</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			iak02/QoGv4X/dBh5Ed8fJ5wTjzA4agvrBlqmFfUOCQ=
+			tndPgv1I+y4uykIE9omVNz9GXLn7Hh6ERNm2AmTXWfg=
 			</data>
 		</dict>
 		<key>www/js/fn_homeespecialista.js</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			ZDJIKMZKA/04tMRvDNt/iq/feuYC9bdFY/YvVln9PS8=
+			9rRlkD7RDwVgSYkZUNwUjtVCZ6DCuzC+DFRHLNN0H9o=
 			</data>
 		</dict>
 		<key>www/js/fn_imagencita.js</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			hx0f2vanui5BRcNtoOnN26cZA5jZbfPdmMiIlaMMA50=
+			4fjGb3NCcqgPJXjr/x86BJPXsMTw+BS4ABiAQwxgu/8=
 			</data>
 		</dict>
 		<key>www/js/fn_imagencitacomentario.js</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			MkW3LqC4uG4jI7dEcyAm+82Q7TCUYY45mFooyVu4y9s=
+			/7nHpLjM53bEoxg/TrmDVsTdRJf+yjUdW+eHcTn2jW8=
 			</data>
 		</dict>
 		<key>www/js/fn_landing.js</key>
@@ -6848,7 +6844,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			NdNqlXhIy7GMtx+lA5hudyFYaBMeiioFg7TB2F4qjkw=
+			neebELdbvyLdb2b+k55Kp2ZYqAH2XxIeFKpTEVETiTM=
 			</data>
 		</dict>
 		<key>www/js/jquery-2.1.3.min.js</key>
@@ -6862,7 +6858,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			iY/Mq5e7CvoBc061Bvp5bANcMl7gfXuRaBnFyjKIGGc=
+			9hXcCG4A1JIx7BPwJoX8uZsazGNBCG6PUNrp0DP9dOE=
 			</data>
 		</dict>
 		<key>www/js/mapa.js</key>
@@ -7191,7 +7187,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			su2DHv2p7us1J6ildvGgnTDsjz9yTt9y0+Dt/Jgb2Ak=
+			Vx9h3clJDvbr5qPcqC1xC20UUdMnx4H7qEzP61z27A8=
 			</data>
 		</dict>
 		<key>www/pages/dialog.html</key>
@@ -8080,14 +8076,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			bL8QWlNnEt8QU/nPMAHl2d4qOO5EOT/Eh1UwYMk6YF8=
+			lxPGRFHuRAMFnyQ7s/wRKhT+7NXb9qi6tUJaOK8YyIg=
 			</data>
 		</dict>
 		<key>www/pages/validadoqrcita2.html</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			jfodIJxjPJg+4tDvnkJ4NWJsdx/e96jmkgxQuoZ5QGs=
+			8Ry610kAgjLJvmdVLvaoG/ycH4unEcpQFkg0w+VZmkg=
 			</data>
 		</dict>
 		<key>www/pages/verificacion.html</key>
@@ -8172,13 +8168,6 @@
 			<key>hash2</key>
 			<data>
 			vtLMKpNbuamsxJ24xfqfosMteUDuERfDr416CBfAzns=
-			</data>
-		</dict>
-		<key>www/plugins/cordova-plugin-device/www/device.js</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			VYM1/YaTIg809xWE5ACp1K2CXanbdYxiBt7ecFqkU9E=
 			</data>
 		</dict>
 		<key>www/plugins/cordova-plugin-dialogs/www/notification.js</key>

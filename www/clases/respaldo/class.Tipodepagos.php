@@ -15,9 +15,13 @@ class Tipodepagos
 	public $habilitarstripe;
 	public $clavepublica;
 	public $claveprivada;
+	public $porcentajecomision;
+	public $montotransaccion;
+	public $porcentajeimpuesto;
 	public $cuenta;
 	public $habilitarcampomonto;
-
+	public $habilitarcampomontofactura;
+	public $tipodeservicio;
 	
 	//Funcion para obtener todos los tipodepago activos
 	public function ObttipodepagoActivos()
@@ -64,9 +68,10 @@ class Tipodepagos
 	
 	public function Guardartipodepagos()
 	{
-		$query="INSERT INTO tipodepago (tipo,estatus,habilitarfoto,constripe,claveprivada,clavepublica,cuenta,habilitarcampomonto) 
-		VALUES ('$this->tipo','$this->estatus','$this->habilitarfoto','$this->habilitarstripe','$this->claveprivada','$this->clavepublica','$this->cuenta','$this->habilitarcampomonto')";
-		
+		$query="INSERT INTO tipodepago (tipo,estatus,habilitarfoto,constripe,claveprivada,clavepublica,comisionporcentaje,comisionmonto,impuesto,cuenta,habilitarcampomonto,habilitarcampomontofactura) 
+		VALUES ('$this->tipo','$this->estatus','$this->habilitarfoto','$this->habilitarstripe','$this->claveprivada','$this->clavepublica','$this->porcentajecomision','$this->montotransaccion','$this->porcentajeimpuesto','$this->cuenta','$this->habilitarcampomonto','$this->habilitarcampomontofactura')";
+				
+
 		$resp=$this->db->consulta($query);
 		$this->idtipodepago = $this->db->id_ultimo();
 		
@@ -82,8 +87,12 @@ class Tipodepagos
 		constripe='$this->habilitarstripe',
 		clavepublica='$this->clavepublica',
 		claveprivada='$this->claveprivada',
+		comisionporcentaje='$this->porcentajecomision',
+		comisionmonto='$this->montotransaccion',
+		impuesto='$this->porcentajeimpuesto',
 		cuenta='$this->cuenta',
-		habilitarcampomonto='$this->habilitarcampomonto'
+		habilitarcampomonto='$this->habilitarcampomonto',
+		habilitarcampomontofactura='$this->habilitarcampomontofactura'
 		WHERE idtipodepago=$this->idtipodepago";
 
 		$resp=$this->db->consulta($query);
@@ -101,9 +110,133 @@ class Tipodepagos
 	}
 
 	
+	public function ObtTipopagosSucursal()
+	{
+		$sql = "SELECT *from sucursaltipodepago WHERE idsucursal=".$this->idsucursal."";
 
+		$resp = $this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
+
+public function ObtenerTipodepago2()
+	{
+		$query="SELECT * FROM tipodepago WHERE idtipodepago=".$this->idtipodepago."";
+		
+		$resp = $this->db->consulta($query);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
 
 	
+	public function ObttipodepagoActivosWeb()
+	{
+		$sql = "SELECT * FROM tipodepago WHERE estatus = 1 AND habilitarweb=1";
+		$resp = $this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
+
+
+ public function EliminarRelacionCategoria()
+ 	{
+
+ 		$sql = "DELETE FROM categorias_tipodepago WHERE idtipodepago = '$this->idtipodepago'";
+ 		
+		$resp = $this->db->consulta($sql);
+		
+ 	}	
+
+ 	public function GuardarRelacionCategoria()
+ 	{
+ 	 $sql="INSERT INTO categorias_tipodepago(idcategorias, idtipodepago) VALUES 
+ 	 	('$this->tipodeservicio', '$this->idtipodepago')";
+
+
+ 		$resp = $this->db->consulta($sql);
+
+ 	}
+
+ 	public function ObtenerCategoriasTipopago()
+ 	{
+ 		$sql = "SELECT * FROM categorias_tipodepago WHERE  idtipodepago='$this->idtipodepago'";
+		$resp = $this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		return $array;
+ 	}
+
+
+
+	public function ObttipodepagoActivosTPV()
+	{
+		$sql = "SELECT * FROM tipodepago WHERE estatus = 1 AND  habilitarenagendar=1 ";
+
+		$resp = $this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
+
+
 
 }
 

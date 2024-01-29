@@ -36,8 +36,8 @@ try
 
 	$sucursal->idusuario=$idusuario;
 	$obtenersucursal=$sucursal->AccesoSucursal();
-
-	$lo->idsucursal=$obtenersucursal[0]->idsucursales;
+	
+	$lo->idsucursal=$se->obtenerSesion('idsucursalsesion');
 	 $primerdia= date('Y-m-d', mktime(0,0,0, $mes, 1, $anio));
 
      $day = date("d", mktime(0,0,0, $mes+1, 0, $anio));
@@ -56,7 +56,7 @@ try
 		$dia_semana = date("w", strtotime($fechaconsulta)); 
 
 		$lo->fecha=$fechaconsulta;
-		$existenfechas=$lo->ObtenerCitasFecha();
+		$existenfechas=$lo->ObtenerCitasNocheckin();
 		
 			if (count($existenfechas)>0) {
 				

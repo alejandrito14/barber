@@ -807,5 +807,9 @@ function Primerdia_mes_fecha($fecha) {
 
 	}
 
+	function numeroDiaSemana($fecha) {
+		    $numero_dia = date('w', strtotime($fecha));
+		    return $numero_dia;
+		}
   }
 ?>

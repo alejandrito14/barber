@@ -23,7 +23,7 @@ class HorariosSucursal
 			FROM horariossucursal
 		WHERE idsucursal='$this->idsucursal' AND dia=$numdia
 		";
-	
+		
 		  $resp = $this->db->consulta($sql);
 		  $cont = $this->db->num_rows($resp);
 

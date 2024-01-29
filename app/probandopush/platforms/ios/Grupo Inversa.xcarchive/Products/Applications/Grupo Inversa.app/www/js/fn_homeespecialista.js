@@ -27,6 +27,8 @@ function CargarDatosEspecialista() {
     $(".btnserviciosrealizados").attr('onclick','MostrarServiciosEspe(2)');
     $(".btnserviciosnorealizados").attr('onclick','MostrarServiciosEspe(4)');
     $(".btnservicioscancelados").attr('onclick','MostrarServiciosEspe(3)');
+    myStopFunction(identificadorDeTemporizador);
+  myStopFunction(intervalocitas);
 
 
 	intervalocitas=setInterval("ObtenerTotalesCitasEspecialista()",2000);	      
@@ -552,6 +554,7 @@ var html=`  <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100
     margin-right: 2em;
     margin-left: 2em;
     margin-bottom: 100px;
+    width: 100%;
 ">
         <div class="">
             <div class="listadoimagenescita" style="width:100%;">
@@ -1850,4 +1853,43 @@ function Guardarcomentario(argument) {
             alerta('','Falta por subir una imagen');
         }
     }
+}
+
+function ObtenerDetallecitaInfo() {
+  var idcita=localStorage.getItem('idcita');
+  var datos="idcita="+idcita;
+  var pagina="ObtenerDetalleCitaAdmin.php";
+
+  $.ajax({ 
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    success: function(res){
+     var respuesta=res.respuesta;
+     var concepto=respuesta.concepto;
+     var costo= respuesta.costo;
+     var titulo= respuesta.titulo;
+     var cantidad= respuesta.cantidad;
+     var nombreespecialista= respuesta.nombreespecialista;
+     var cliente= respuesta.nombre+' '+respuesta.paterno;
+     var fechaformato = respuesta.fechaformato+' '+respuesta.horainicial+'-'+respuesta.horafinal;
+     $(".textservicio").text(concepto);
+     $(".textcosto").text(costo);
+     $(".textnegocio").text(titulo);
+     $(".textbarbero").text(nombreespecialista);
+     $(".textcliente").text(cliente);
+     $(".textfecha").text(fechaformato);
+
+
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+    });
+
+
 }

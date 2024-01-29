@@ -17,6 +17,11 @@ class Especialista
 	public $horainicial;
 	public $horafinal;
 	public $estatus;
+	public $fecha;
+	public $fechas;
+	public $tipocomision;
+	public $cantidadcomi;
+
 	public function ObtenerEspecialistaSucursal()
 	{
 		$sql="SELECT *FROM especialista
@@ -87,8 +92,7 @@ class Especialista
 
 	public function GuardarHorario()
 	{
-		$query="INSERT INTO horarioespecialista(dia, horainicial, horafinal, idespecialista, estatus, idsucursal) VALUES ( '$this->dia', '$this->horainicial', '$this->horafinal','$this->idespecialista','$this->estatus','$this->idsucursal')";
-
+		$query="INSERT INTO horarioespecialista(dia, horainicial, horafinal, idespecialista, estatus, idsucursal,tipocomision,montocomision) VALUES ( '$this->dia', '$this->horainicial', '$this->horafinal','$this->idespecialista','$this->estatus','$this->idsucursal','$this->tipocomision','$this->cantidadcomi')";
 		$resp=$this->db->consulta($query);
 
 	}
@@ -172,13 +176,14 @@ class Especialista
 	}
 
 
-	public function EvaluarEspecialistas($intervalo)
+	public function EvaluarEspecialistas($intervalo,$paqueteDuracion)
 	{
 		$especialistasdisponibles=array();
-			$sql="SELECT *FROM paquetes_especialista
-			left join especialista on especialista.idespecialista=paquetes_especialista.idespecialista
+			$sql="SELECT *FROM  especialista 
 			left join usuarios on especialista.idusuarios=usuarios.idusuarios
-			 WHERE usuarios.estatus=1 and paquetes_especialista.idpaquete='$this->idpaquete'";
+			 WHERE usuarios.estatus=1 and especialista.idsucursal='$this->idsucursal'";
+
+
 			$resp = $this->db->consulta($sql);
 			$cont = $this->db->num_rows($resp);
 
@@ -191,6 +196,7 @@ class Especialista
 					$this->idespecialista=$objeto->idespecialista;
 
 					$sql2="SELECT *FROM horarioespecialista WHERE idespecialista='$objeto->idespecialista' AND dia ='$this->dia'";
+
 					$resp2 = $this->db->consulta($sql2);
 					$cont2 = $this->db->num_rows($resp2);
 
@@ -206,19 +212,20 @@ class Especialista
 
 						//var_dump($intervalosespecialista);die();
 
-
+					
 					for ($i=0; $i <count($intervalosespecialista) ; $i++) { 
 								
 					$horainiciale=substr($intervalosespecialista[$i],0,5);
 
 					$horafinale=substr($intervalosespecialista[$i+1],0,5);
 
-
+					$nuevaHora = date('H:i', strtotime($horainiciale . ' +'.$paqueteDuracion.' minutes'));
+					$horafinale=$nuevaHora;
 						//verificar si de todos los horarios se encuentra disponible en el horario del intervalo
 					/*echo $this->horainicial.' '.$this->horafinal.'<br>';
 
 					echo $horainiciale.' '.$horafinale;die();*/
-
+						//echo $horafinale.'=='.$this->horafinal;die();
 						if ($horainiciale==$this->horainicial && $horafinale==$this->horafinal) {
 
 							
@@ -308,8 +315,10 @@ class Especialista
 
 
 	
-	public function ObtenerEspecialistas()
+	public function ObtenerEspecialistas($idespecialistasele)
 	{
+
+
 		$sql = "SELECT 
 				usuarios.nombre,
 				usuarios.idusuarios,
@@ -324,9 +333,211 @@ class Especialista
 			left JOIN sucursal ON especialista.idsucursal=sucursal.idsucursal
 			left join usuarios on especialista.idusuarios=usuarios.idusuarios
 
+		 WHERE usuarios.estatus=1 AND especialista.bloqueo=0 and sucursal.idsucursal='$this->idsucursal' ORDER BY usuarios.orden asc ";
+
+	
+			$resp = $this->db->consulta($sql);
+			$cont = $this->db->num_rows($resp);
+
+
+			$array=array();
+			$contador=0;
+			if ($cont>0) {
+
+				while ($objeto=$this->db->fetch_object($resp)) {
+
+					$array[$contador]=$objeto;
+					$contador++;
+				} 
+			}
+			return $array;
+	}
+
+
+
+	public function ValidarIntervaloDisponibleConEspecialistas($fecha,$idpaquete,$intervalo,$intervaloavalidar)
+	{
+
+		$sql="SELECT *FROM  citas 
+			 WHERE citas.estatus=0 and citas.idsucursal='$this->idsucursal' AND fechacita ='$fecha'  AND '$intervaloavalidar' BETWEEN citas.horainicial AND citas.horafinal ";
+
+			$resp = $this->db->consulta($sql);
+			$cont = $this->db->num_rows($resp);
+
+
+			$array=array();
+			$contador=0;
+			 $pasa=1;
+			if ($cont>0) {
+
+				while ($objeto=$this->db->fetch_object($resp)) {
+				
+					$citahorainicial=$objeto->horainicial;
+					$citahorafinal=$objeto->horafinal;
+					 $intervalos=$this->fechas->intervaloHora($citahorainicial,$citahorafinal,$intervalo);
+					
+					 $totalespecialista=$this->TotalEspecialista();
+
+					 
+					 $pasa=1;
+					 for ($i=0; $i <count($intervalos) ; $i++) { 
+					 	$encontrado=0;
+
+					 
+
+								 	if (substr($intervalos[$i],0,5)==$intervaloavalidar) {
+
+								 		$encontrado=1;
+								 	
+
+								 	}
+								 
+								 
+					 	if ($encontrado==1) {
+					 		
+
+					 					$totalespecita=	$this->ValidarIntervalo($fecha,$intervaloavalidar);
+
+					 				if ($totalespecita==$totalespecialista) {
+					 					$pasa=0;
+					 				
+					 				}
+					 				break;
+
+					 	}
+
+					
+					 }
+
+
+				}
+			}
+
+			return $pasa;
+
+		
+	}
+
+	public function ValidarIntervalo($fecha,$intervaloavalidar)
+	{
+					$sql="
+					 		SELECT COUNT(DISTINCT especialista.idespecialista) AS total_especialistas
+								FROM citas
+								LEFT JOIN especialista ON citas.idespecialista = especialista.idespecialista
+								WHERE citas.estatus = 0
+								  AND citas.idsucursal = '$this->idsucursal'
+								  AND citas.fechacita = '$fecha'
+								  AND '$intervaloavalidar' BETWEEN citas.horainicial AND citas.horafinal;
+					 		";
+					
+					 			$resp = $this->db->consulta($sql);
+									$cont = $this->db->num_rows($resp);
+
+
+									$array=array();
+									$contador=0;
+									if ($cont>0) {
+
+										while ($objeto=$this->db->fetch_object($resp)) {
+													$array[$contador]=$objeto;
+													$contador++;
+										}
+									}
+
+									return $array[0]->total_especialistas;
+	}
+
+
+
+	public function TotalEspecialista()
+	{
+		$sql="SELECT  count(*) as total FROM  especialista 
+			left join usuarios on especialista.idusuarios=usuarios.idusuarios
+			 WHERE usuarios.estatus=1 and especialista.idsucursal='$this->idsucursal'";
+
+			$resp = $this->db->consulta($sql);
+			$cont = $this->db->num_rows($resp);
+
+			$array=array();
+			$contador=0;
+			if ($cont>0) {
+
+				while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array[0]->total;
+	  
+	}
+
+	
+	public function ObtenerEspecialista()
+	{
+		$sql = "SELECT 
+				usuarios.nombre,
+				usuarios.idusuarios,
+				usuarios.paterno,
+				usuarios.materno,
+				usuarios.sexo,
+				especialista.idsucursal,
+				especialista.idespecialista,
+				usuarios.foto,
+				usuarios.orden,
+				sucursal.idsucursal,
+				especialista.descripcionespecialista
+			FROM especialista
+			left JOIN sucursal ON especialista.idsucursal=sucursal.idsucursal
+			left join usuarios on especialista.idusuarios=usuarios.idusuarios
+		
+		 WHERE especialista.idespecialista IN ($this->idespecialista) ";
+		
+			$resp = $this->db->consulta($sql);
+			$cont = $this->db->num_rows($resp);
+
+
+			$array=array();
+			$contador=0;
+			if ($cont>0) {
+
+				while ($objeto=$this->db->fetch_object($resp)) {
+
+					$array[$contador]=$objeto;
+					$contador++;
+				} 
+			}
+			return $array;
+	}
+
+
+
+	public function ObtenerEspecialistasT()
+	{
+		$sql = "SELECT 
+				usuarios.nombre,
+				usuarios.idusuarios,
+				usuarios.paterno,
+				usuarios.materno,
+				usuarios.sexo,
+				especialista.idespecialista,
+				especialista.idsucursal,
+				usuarios.orden,
+				usuarios.color,
+				usuarios.foto,
+					(SELECT COUNT(idcita) AS conteo 
+					FROM citas 
+					WHERE citas.fechacita = '$this->fecha' 
+					AND horainicial = '' 
+					AND horains != '' and idespecialista=especialista.idespecialista) as conteo
+			FROM especialista
+			left JOIN sucursal ON especialista.idsucursal=sucursal.idsucursal
+			left join usuarios on especialista.idusuarios=usuarios.idusuarios
+
 
 			
-		 WHERE usuarios.estatus=1 AND especialista.bloqueo=0 and sucursal.idsucursal='$this->idsucursal' ORDER BY usuarios.orden asc ";
+		 WHERE usuarios.estatus=1 AND especialista.bloqueo=0 AND sucursal.idsucursal='$this->idsucursal' ORDER BY usuarios.orden asc ";
 
 		
 			$resp = $this->db->consulta($sql);
@@ -344,6 +555,39 @@ class Especialista
 				} 
 			}
 			return $array;
+	}
+
+
+
+	public function Disponibilidad4()
+	{
+		$sql="SELECT TABLA1.*,paquetes.nombrepaquete,paquetes.intervaloservicio from (SELECT citas.*,CONCAT(usuarios.nombre)as nombrecliente
+			FROM citas
+		
+		left join usuarios ON usuarios.idusuarios=citas.idusuarios
+
+		WHERE fechacita='$this->fecha' AND idespecialista='$this->idespecialista' AND citas.estatus IN(0,1,2,4)
+
+		  )AS TABLA1
+		LEFT JOIN paquetes ON TABLA1.idpaquete=paquetes.idpaquete
+		where
+		 '$this->horainicial' >= TABLA1.horainicial  AND '$this->horafinal'<=TABLA1.horafinal";
+			
+		  $resp = $this->db->consulta($sql);
+		  $cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		return $array;
 	}
 
 

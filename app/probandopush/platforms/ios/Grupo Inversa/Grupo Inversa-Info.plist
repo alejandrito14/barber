@@ -17,93 +17,61 @@
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>13.0.0</string>
+    <string>1.0.33</string>
     <key>CFBundleSignature</key>
     <string>????</string>
-    <key>CFBundleVersion</key>
-    <string>13.0.0</string>
-    <key>LSRequiresIPhoneOS</key>
-    <true/>
-    <key>NSMainNibFile</key>
-    <string/>
-    <key>NSMainNibFile~ipad</key>
-    <string/>
-    <key>UILaunchStoryboardName</key>
-    <string>CDVLaunchScreen</string>
-    <key>UIRequiresFullScreen</key>
-    <true/>
-    <key>UISupportedInterfaceOrientations</key>
-    <array>
-      <string>UIInterfaceOrientationPortrait</string>
-      <string>UIInterfaceOrientationLandscapeLeft</string>
-      <string>UIInterfaceOrientationLandscapeRight</string>
-    </array>
-    <key>UISupportedInterfaceOrientations~ipad</key>
-    <array>
-      <string>UIInterfaceOrientationPortrait</string>
-      <string>UIInterfaceOrientationLandscapeLeft</string>
-      <string>UIInterfaceOrientationPortraitUpsideDown</string>
-      <string>UIInterfaceOrientationLandscapeRight</string>
-    </array>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-      <key>NSExceptionDomains</key>
-      <dict>
-        <key>stripe.network</key>
-        <dict>
-          <key>NSIncludesSubdomains</key>
-          <true/>
-        </dict>
-        <key>stripe.com</key>
-        <dict>
-          <key>NSIncludesSubdomains</key>
-          <true/>
-        </dict>
-        <key>issoftware1.com.mx</key>
-        <dict>
-          <key>NSIncludesSubdomains</key>
-          <true/>
-        </dict>
-        <key>m.facebook.com</key>
-        <dict/>
-        <key>graph.facebook.com</key>
-        <dict/>
-        <key>api.facebook.com</key>
-        <dict/>
-        <key>fbcdn.net</key>
-        <dict>
-          <key>NSIncludesSubdomains</key>
-          <true/>
-        </dict>
-        <key>akamaihd.net</key>
-        <dict>
-          <key>NSIncludesSubdomains</key>
-          <true/>
-        </dict>
-      </dict>
-      <key>NSAllowsArbitraryLoads</key>
-      <true/>
-    </dict>
-    <key>FacebookAppID</key>
-    <string>828119491855582</string>
-    <key>FacebookDisplayName</key>
-    <string>FirebaseX Test</string>
-    <key>FacebookAutoLogAppEventsEnabled</key>
-    <true/>
-    <key>FacebookHybridAppEvents</key>
-    <string>false</string>
-    <key>FacebookAdvertiserIDCollectionEnabled</key>
-    <true/>
     <key>CFBundleURLTypes</key>
     <array>
       <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
         <key>CFBundleURLSchemes</key>
         <array>
           <string>fb828119491855582</string>
           <string>com.googleusercontent.apps.637238338697-qoc8hggk42ojtded6toegrjrbtpvtoas</string>
         </array>
-        <key>CFBundleTypeRole</key>
-        <string>Editor</string>
+      </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>fb828119491855582</string>
+        </array>
+      </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>fb828119491855582</string>
+        </array>
+      </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>fb828119491855582</string>
+        </array>
+      </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>fb828119491855582</string>
+        </array>
+      </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>fb828119491855582</string>
+        </array>
+      </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>fb828119491855582</string>
+        </array>
+      </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>fb828119491855582</string>
+        </array>
       </dict>
       <dict>
         <key>CFBundleURLSchemes</key>
@@ -167,45 +135,124 @@
         </array>
       </dict>
     </array>
+    <key>CFBundleVersion</key>
+    <string>1.0.33</string>
+    <key>FacebookAdvertiserIDCollectionEnabled</key>
+    <true/>
+    <key>FacebookAppID</key>
+    <string>828119491855582</string>
+    <key>FacebookAutoLogAppEventsEnabled</key>
+    <true/>
+    <key>FacebookDisplayName</key>
+    <string>FirebaseX Test</string>
+    <key>FacebookHybridAppEvents</key>
+    <string>false</string>
+    <key>FirebaseMessagingAutoInitEnabled</key>
+    <false/>
     <key>LSApplicationQueriesSchemes</key>
     <array>
       <string>fbapi</string>
+      <string>whatsapp</string>
       <string>fb-messenger-api</string>
       <string>fbauth2</string>
       <string>fbshareextension</string>
     </array>
-    <key>UIBackgroundModes</key>
-    <array>
-      <string>remote-notification</string>
-    </array>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>This app requires access to your location when the screen is on and the app is displayed.</string>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+      <key>NSExceptionDomains</key>
+      <dict>
+        <key>stripe.network</key>
+        <dict>
+          <key>NSIncludesSubdomains</key>
+          <true/>
+        </dict>
+        <key>stripe.com</key>
+        <dict>
+          <key>NSIncludesSubdomains</key>
+          <true/>
+        </dict>
+        <key>issoftware1.com.mx</key>
+        <dict>
+          <key>NSIncludesSubdomains</key>
+          <true/>
+        </dict>
+        <key>m.facebook.com</key>
+        <dict/>
+        <key>graph.facebook.com</key>
+        <dict/>
+        <key>api.facebook.com</key>
+        <dict/>
+        <key>fbcdn.net</key>
+        <dict>
+          <key>NSIncludesSubdomains</key>
+          <true/>
+        </dict>
+        <key>akamaihd.net</key>
+        <dict>
+          <key>NSIncludesSubdomains</key>
+          <true/>
+        </dict>
+      </dict>
+      <key>NSAllowsArbitraryLoads</key>
+      <true/>
+    </dict>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>This app requires constant Bluetooth access to function properly.</string>
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>This app requires Bluetooth access to function properly.</string>
+    <key>NSCalendarsUsageDescription</key>
+    <string>This app requires calendar access to function properly.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Grupo Inversa needs access to camera files to add a pictures and photo user profile </string>
+    <key>NSContactsUsageDescription</key>
+    <string>This app requires contacts access to function properly.</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>This app requires constant access to your location in order to track your position, even when the screen is off or the app is in the background.</string>
     <key>NSLocationAlwaysUsageDescription</key>
-    <string>This app requires constant access to your location in order to track your position, even when the screen is off or the app is in the background.</string>
-    <key>NSBluetoothPeripheralUsageDescription</key>
-    <string>This app requires Bluetooth access to function properly.</string>
-    <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>This app requires constant Bluetooth access to function properly.</string>
-    <key>NSCameraUsageDescription</key>
-    <string>This app needs camera access</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>This app needs read/write-access photo library access</string>
+    <string> Grupo Inversa access to your approximate location, to choose the zip code</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>
+          Grupo Inversa needs access to your approximate location, to choose the zip code
+        </string>
+    <key>NSMainNibFile</key>
+    <string/>
+    <key>NSMainNibFile~ipad</key>
+    <string/>
     <key>NSMicrophoneUsageDescription</key>
-    <string>This app needs microphone access</string>
-    <key>NSContactsUsageDescription</key>
-    <string>This app requires contacts access to function properly.</string>
-    <key>NSCalendarsUsageDescription</key>
-    <string>This app requires calendar access to function properly.</string>
-    <key>NSRemindersUsageDescription</key>
-    <string>This app requires reminders access to function properly.</string>
+    <string>This app requires microphone access to function properly.</string>
     <key>NSMotionUsageDescription</key>
     <string>This app requires motion detection access to function properly.</string>
-    <key>FirebaseMessagingAutoInitEnabled</key>
-    <false/>
     <key>NSPhotoLibraryAddUsageDescription</key>
     <string>This app needs write-access to photo library</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Grupo Inversa needs access to the phone's files to add a pictures and photo user profile
+          </string>
+    <key>NSRemindersUsageDescription</key>
+    <string>This app requires reminders access to function properly.</string>
+    <key>UIBackgroundModes</key>
+    <array>
+      <string>fetch</string>
+      <string>remote-notification</string>
+    </array>
+    <key>UILaunchStoryboardName</key>
+    <string>CDVLaunchScreen</string>
+    <key>UIRequiresFullScreen</key>
+    <true/>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+      <string>UIInterfaceOrientationPortrait</string>
+      <string>UIInterfaceOrientationLandscapeLeft</string>
+      <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+    <key>UISupportedInterfaceOrientations~ipad</key>
+    <array>
+      <string>UIInterfaceOrientationPortrait</string>
+      <string>UIInterfaceOrientationLandscapeLeft</string>
+      <string>UIInterfaceOrientationPortraitUpsideDown</string>
+      <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
     
     
     

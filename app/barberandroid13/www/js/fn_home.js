@@ -1723,7 +1723,6 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
           		$(".divimgqr").css('display','');
           		GenerarQrCita(respuesta.idcita);
           	}
-           	ObtenerImagenescitaCliente();
 
 			 $(".cambiarfuente2").css('display','none');
             if (tipoletra!='') {
@@ -1736,6 +1735,8 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
           },
           opened: function (sheet) {
             console.log('Sheet opened');
+           	ObtenerImagenescitaCliente();
+
           },
           close:function (sheet) {
           	// BorrarIntervalo();

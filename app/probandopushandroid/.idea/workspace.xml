@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidGradleBuildConfiguration">
+    <option name="COMMAND_LINE_OPTIONS" value="--stacktrace --debug" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1c07a4aa-6b5f-41b3-ab2a-d8ccac47c1a4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/10b55a21ec287c70c90f10e5aeff12e8" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/10b55a21ec287c70c90f10e5aeff12e8" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/16b5ec300b51716e809cec927885e616" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/16b5ec300b51716e809cec927885e616" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/1c1002209a4793bbede371bcae29202d" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/1c1002209a4793bbede371bcae29202d" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/2d5fe0403f51434d8507c85c6eb2072f" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/2d5fe0403f51434d8507c85c6eb2072f" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/399ae342ab2a16b0e7f8715927b23a44" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/399ae342ab2a16b0e7f8715927b23a44" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/4721936abb9e02736c60ae7535d20ece" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/4721936abb9e02736c60ae7535d20ece" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/7a52a8fca8b45d25cd586a97518d59e1" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/7a52a8fca8b45d25cd586a97518d59e1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/7a9cd953bade7f1341b377f4154f16f9" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/7a9cd953bade7f1341b377f4154f16f9" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/7ed2ccb453480ae5eb7b40740428d44b" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/7ed2ccb453480ae5eb7b40740428d44b" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/a86766c38ee5207bcf6af6c66f01ce6b" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/a86766c38ee5207bcf6af6c66f01ce6b" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/ada09e76072c254746c1b89a9f5f8d89" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/ada09e76072c254746c1b89a9f5f8d89" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/ae0c0a693716ffe07b517bf84d42b76e" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/ae0c0a693716ffe07b517bf84d42b76e" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/d688f1edcc12cabc13247d75cd3a44d3" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/d688f1edcc12cabc13247d75cd3a44d3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/dfcc8a55917b94b649efd842bc986a9b" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/dfcc8a55917b94b649efd842bc986a9b" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/e3a9a0f148779db5c4e81dc1d1b86a94" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/e3a9a0f148779db5c4e81dc1d1b86a94" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/e801f9a201cac75fe43cd55f4a3b19d9" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/e801f9a201cac75fe43cd55f4a3b19d9" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/f8b4609957ca4382a724dd002395ad24" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/f8b4609957ca4382a724dd002395ad24" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/fe8cc3d6bcac02ad4deb202fda3ebd62" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/fe8cc3d6bcac02ad4deb202fda3ebd62" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.phpintel/index" beforeDir="false" afterPath="$PROJECT_DIR$/../../.phpintel/index" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../probandopush/platforms/ios/Grupo Inversa.xcworkspace/xcuserdata/iss02.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/../probandopush/platforms/ios/Grupo Inversa.xcworkspace/xcuserdata/iss02.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../db/barber.mwb" beforeDir="false" afterPath="$PROJECT_DIR$/../../db/barber.mwb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../db/barber.mwb.bak" beforeDir="false" afterPath="$PROJECT_DIR$/../../db/barber.mwb.bak" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/administrador/tipousuario/fa_tipousuario.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/administrador/tipousuario/fa_tipousuario.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/categoriapaquete/li_categoriaspaquete.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/categoriapaquete/li_categoriaspaquete.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/categorias/fa_categorias.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/categorias/fa_categorias.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/categorias/vi_categorias.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/categorias/vi_categorias.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/citas/ObtenerDisponibilidadPaqueteEspecialista.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/citas/ObtenerDisponibilidadPaqueteEspecialista.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/citas/ObtenerFechasSucursal.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/citas/ObtenerFechasSucursal.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/citas/agendarcita.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/citas/agendarcita.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/clientes/fa_cliente.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/clientes/fa_cliente.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/clientes/ga_clientes.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/clientes/ga_clientes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/clientes/vi_clientes.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/clientes/vi_clientes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/cupones/fa_cupones.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/cupones/fa_cupones.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/dashboard/ObtenerDetalleCitaAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/dashboard/ObtenerDetalleCitaAdmin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/dashboard/ObtenerDetallePago.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/dashboard/ObtenerDetallePago.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/dashboard/ObtenerFechaActual.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/dashboard/ObtenerFechaActual.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/dashboard/respaldo/CargarCitasActuales.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/dashboard/respaldo/CargarCitasActuales.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/dashboard/respaldo/ObtenerDetalleCitaAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/dashboard/respaldo/ObtenerDetalleCitaAdmin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/dashboard/respaldo/ObtenerDetallePago.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/dashboard/respaldo/ObtenerDetallePago.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/dashboard/respaldo/vi_dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/dashboard/respaldo/vi_dashboard.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/dashboard/vi_dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/dashboard/vi_dashboard.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/empresa/fa_empresas.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/empresa/fa_empresas.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/especialistas/fa_especialista.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/especialistas/fa_especialista.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/especialistas/ga_especialistas.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/especialistas/ga_especialistas.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/especialistas/vi_especialista.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/especialistas/vi_especialista.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/notaspago/respaldo/vi_notaspago.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/notaspago/respaldo/vi_notaspago.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/notaspago/vi_notaspago.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/notaspago/vi_notaspago.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/notificaciones/ga_notificaciones.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/notificaciones/ga_notificaciones.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/paquetes/fa_paquetes.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/paquetes/fa_paquetes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/paquetes/respaldo/fa_paquetes.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/paquetes/respaldo/fa_paquetes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/paquetes/respaldo/ga_paquetes.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/paquetes/respaldo/ga_paquetes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/paquetes/respaldo/li_paquetes.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/paquetes/respaldo/li_paquetes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/paquetes/vi_paquetes.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/paquetes/vi_paquetes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/tipodepagos/fa_tipodepagos.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/tipodepagos/fa_tipodepagos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/tipodepagos/ga_tipodepagos.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/tipodepagos/ga_tipodepagos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/tipodepagos/respaldo/fa_tipodepagos.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/tipodepagos/respaldo/fa_tipodepagos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/catalogos/tipodepagos/respaldo/ga_tipodepagos.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/catalogos/tipodepagos/respaldo/ga_tipodepagos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/class.CategoriaPaquete.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/class.CategoriaPaquete.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/class.Categorias.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/class.Categorias.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/class.Categoriaspaquete.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/class.Categoriaspaquete.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/class.Cita.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/class.Cita.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/class.Especialista.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/class.Especialista.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/class.Notapago.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/class.Notapago.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/class.NotificacionPush.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/class.NotificacionPush.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/class.Paquetes.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/class.Paquetes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/class.Sucursal.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/class.Sucursal.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/class.Tipodepagos.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/class.Tipodepagos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/class.Usuarios.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/class.Usuarios.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/respaldo/class.Categorias.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/respaldo/class.Categorias.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/respaldo/class.Cita.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/respaldo/class.Cita.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/respaldo/class.Dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/respaldo/class.Dashboard.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/respaldo/class.Especialista.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/respaldo/class.Especialista.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/respaldo/class.Notapago.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/respaldo/class.Notapago.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/respaldo/class.Paquetes.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/respaldo/class.Paquetes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/respaldo/class.Tipodepagos.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/respaldo/class.Tipodepagos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/clases/respaldo/class.Usuarios.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/clases/respaldo/class.Usuarios.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/dist/css/modal.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/dist/css/modal.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/dist/css/mystyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/dist/css/mystyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/dist/css/respaldo/mystyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/dist/css/respaldo/mystyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/js/fn_Funciones.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/js/fn_Funciones.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/js/fn_alumnos.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/js/fn_alumnos.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/js/fn_categoriapaquete.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/js/fn_categoriapaquete.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/js/fn_cupones.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/js/fn_cupones.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/js/fn_dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/js/fn_dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/js/fn_especialista.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/js/fn_especialista.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/js/fn_notaspago.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/js/fn_notaspago.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/js/fn_pagos.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/js/fn_pagos.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/js/fn_paquetes.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/js/fn_paquetes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/js/fn_tipodepago.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/js/fn_tipodepago.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/js/respaldo/fn_dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/js/respaldo/fn_dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/js/respaldo/fn_notaspago.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/js/respaldo/fn_notaspago.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/js/respaldo/fn_pagotarjeta.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/js/respaldo/fn_pagotarjeta.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/respaldo/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/respaldo/index.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2ZPVVZqdX3wMrkUxgbHIWUKBDyQ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/iss02/Documents/www/is-barber/app/probandopushandroid&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1c07a4aa-6b5f-41b3-ab2a-d8ccac47c1a4" name="Changes" comment="" />
+      <created>1702323727722</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1702323727722</updated>
+    </task>
+    <servers />
+  </component>
+</project>

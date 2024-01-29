@@ -263,12 +263,12 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 								<textarea id="v_descripcion" class="form-control" name="v_descripcion" title="DESCRIPCIÓN" style="height: 85px;" tabindex="110"><?php echo $descripcion; ?></textarea>
 							</div>
 
-							<div class="form-group m-t-20">
+							<div class="form-group m-t-20" style="display: none;">
 								<label>TEL&Eacute;FONO:</label>
 								<input type="text" class="form-control" id="v_telefono" name="v_telefono" value="<?php echo $telefono; ?>" title="TELEFONO"   tabindex="111" placeholder='TELEFONO'>
 							</div>
 
-							<div class="form-group m-t-20">
+							<div class="form-group m-t-20" style="display: none;">
 								<label>EMAIL:</label>
 								<input type="email" class="form-control" id="v_email" name="v_email" value="<?php echo $email; ?>" title="Email" placeholder='EMAIL' tabindex="112">
 							</div>

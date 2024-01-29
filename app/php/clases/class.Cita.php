@@ -13,7 +13,7 @@ class Cita
 	public $idusuarios;
 	public $horainicial;
 	public $horafinal;
-
+	public $valortiempo;
 	public $idcitaapartado;
 
 	public $idsucursal;
@@ -1352,6 +1352,8 @@ class Cita
 			citas.fechacita,
 			citas.estatus,
 			citas.idsucursal,
+			citas.horains,
+			citas.horafs,
 			sucursal.titulo,
 			sucursal.descripcion,
 			sucursal.imagen,

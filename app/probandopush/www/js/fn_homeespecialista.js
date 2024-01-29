@@ -554,6 +554,7 @@ var html=`  <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100
     margin-right: 2em;
     margin-left: 2em;
     margin-bottom: 100px;
+    width: 100%;
 ">
         <div class="">
             <div class="listadoimagenescita" style="width:100%;">

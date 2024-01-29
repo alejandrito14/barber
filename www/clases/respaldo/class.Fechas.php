@@ -8,7 +8,22 @@
 	  public $mesesAnho = array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
 	  public $mesesAnho3 = array('Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic');
 	  public $mesessms = array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
-	
+
+	   public  $mesesEnEspañol = array(
+        'January' => 'Ene.',
+        'February' => 'Feb.',
+        'March' => 'Mar.',
+        'April' => 'Abr.',
+        'May' => 'May.',
+        'June' => 'Jun.',
+        'July' => 'Jul.',
+        'August' => 'Ago.',
+        'September' => 'Sep.',
+        'October' => 'Oct.',
+        'November' => 'Nov.',
+        'December' => 'Dic.'
+    	);	
+	 public $diasSemanaCorto = array('Dom.','Lun.','Mar.','Mie.','Jue.','Vie.','Sáb.');
 	public function Fechas()
 	{
 		date_default_timezone_set("america/mexico_city");
@@ -596,6 +611,12 @@
 	     
 	      return date('Y-m-d', mktime(0,0,0, $month, 1, $year));
 	  } 
+
+
+	  function numeroDiaSemana($fecha) {
+		    $numero_dia = date('w', strtotime($fecha));
+		    return $numero_dia;
+		}
   
 
   }

@@ -25,6 +25,7 @@ $bt = new Botones_permisos();
 
 $query="SELECT usuarios.idusuarios, 
 	usuarios.idperfiles, 
+	usuarios.alias, 
 	usuarios.nombre, 
 	usuarios.paterno, 
 	usuarios.materno, 
@@ -35,9 +36,12 @@ $query="SELECT usuarios.idusuarios,
 	usuarios.clave, 
 	usuarios.estatus,
 	usuarios.tipo,
+	tipousuario.nombretipo,
 	IF(usuarios.estatus,'ACTIVADO','DESACTIVADO')AS est,
 	perfiles.perfil
-FROM perfiles INNER JOIN usuarios ON perfiles.idperfiles = usuarios.idperfiles";
+FROM perfiles INNER JOIN usuarios ON perfiles.idperfiles = usuarios.idperfiles
+inner join tipousuario ON usuarios.tipo=tipousuario.idtipousuario
+";
 
 
 $resp=$db->consulta($query);
@@ -46,6 +50,7 @@ $total=$db->num_rows($resp);
 
 $tipo_usuario = array('ADMIN','EMPLEADO','CLIENTE');
 
+$idmenumodulo = $_GET['idmenumodulo'];
 
 
 
@@ -86,7 +91,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 			//SCRIPT PARA CONSTRUIR UN BOTON
 			$bt->titulo = "NUEVO";
 			$bt->icon = "mdi-plus-circle";
-			$bt->funcion = "aparecermodulos('administrador/fa_usuarios.php','main');";
+			$bt->funcion = "aparecermodulos('administrador/fa_usuarios.php?idmenumodulo=$idmenumodulo','main');";
 			$bt->estilos = "float: right;";
 			$bt->permiso = $permisos;
 			$bt->tipo = 5;
@@ -107,8 +112,8 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 						<th>NOMBRE</th>
 						<th>USUARIO</th> 
  						<th>CELULAR</th>
-						<th>EMAIL</th>
-						<th>ESTATUS</th>
+<!-- 						<th>EMAIL</th>
+ -->						<th>ESTATUS</th>
 
 						<th style="width: 248px;">ACCI&Oacute;N</th>
 					</tr>
@@ -125,7 +130,22 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 						{
 				 	?>
 				   			<tr> 
-								<td><?php echo $fu->imprimir_cadena_utf8($tipo_usuario[$rows['tipo']]); ?></td>
+								<td><?php echo $fu->imprimir_cadena_utf8($rows['nombretipo']); ?></td>
+										<!-- <td width="30"><?php
+						$fotoperfil=	$result_row['foto'];
+								if($fotoperfil==""){
+														$rutaperfil="images/sinfoto.png";
+													}
+													else{
+									
+														$rutaperfil="app/".$_SESSION['carpetaapp']."/php/upload/perfil/$fotoperfil";
+													}
+							 ?>
+							 <img src="<?php echo $rutaperfil; ?>" style="height: 30px;width: 30px;">
+
+							 </td> -->
+
+
 								<td><?php echo $fu->imprimir_cadena_utf8($rows['perfil']); ?></td> 
 								<td><?php echo $fu->imprimir_cadena_utf8($rows['alias']); ?></td> 
 								<td><?php echo mb_strtoupper($fu->imprimir_cadena_utf8($rows['nombre']." ".$rows['paterno']." ".$rows['materno'])); ?></td>
@@ -133,7 +153,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 								
 								<td><?php echo $fu->imprimir_cadena_utf8($rows['celular']); ?></td>
 								
-								<td><?php echo $fu->imprimir_cadena_utf8($rows['email']); ?></td>
+								<!-- <td><?php echo $fu->imprimir_cadena_utf8($rows['email']); ?></td> -->
                     			<td><?php echo $fu->imprimir_cadena_utf8($rows['est']); ?></td> 
 								<td style="text-align: center;">
 									<!--<a href="#" onClick="aparecermodulos('administrador/fa_usuarios.php?id=<?php echo $rows['idusuarios'];?>','main')" title="EDITAR"><i class="mdi mdi-table-edit"></i></a>-->
@@ -171,7 +191,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 
 												$bt->armar_boton();
 											?>
-												<button onclick="AsignarEmpresas(<?php echo $rows['idusuarios'] ?>);" class="btn btn-primary"><i class="mdi mdi-clipboard-check" title="ASIGNAR EMPRESAS"></i></button>
+						<!-- <button onclick="AsignarEmpresas(<?php echo $rows['idusuarios'] ?>);" class="btn btn-primary"><i class="mdi mdi-clipboard-check" title="ASIGNAR EMPRESAS"></i></button> -->
 
 									<?php
 

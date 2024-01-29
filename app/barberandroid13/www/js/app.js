@@ -143,7 +143,7 @@ $(document).ready(function() {
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.32';
+var version='1.0.33';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;
@@ -1280,6 +1280,7 @@ $$(document).on('page:init', '.page[data-name="validadoqrcita"]', function (e) {
 
   $(".regresarvalidado").attr('onclick','RegresarHomeEspecialista()');
   ObtenerTiempoCita();
+    ObtenerDetallecitaInfo();
   $(".btnfinalizar").attr('onclick','FinalizarCita()');
   //colocarvalor(0,0,10,2);
 });
@@ -1292,6 +1293,7 @@ $$(document).on('page:init', '.page[data-name="validadoqrcita2"]', function (e) 
 
  $(".regresarvalidado").attr('onclick','Parar()');
   ObtenerTiempoCita();
+    ObtenerDetallecitaInfo();
   $(".btnfinalizar").attr('onclick','FinalizarCita()');
   //colocarvalor(0,0,10,2);
 });

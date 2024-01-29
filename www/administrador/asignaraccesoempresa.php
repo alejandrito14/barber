@@ -40,7 +40,7 @@ try
 	$arrayempresa=array();
 	do {
 
-		$empresa=array('idsucursales'=>$empresas_row['idsucursales'],'sucursal'=>$empresas_row['sucursal']);
+		$empresa=array('idsucursal'=>$empresas_row['idsucursal'],'sucursal'=>$empresas_row['titulo']);
 
 		array_push($arrayempresa, $empresa);
 		
@@ -54,7 +54,7 @@ try
 
 		do {
 
-		$empresa2=array('idsucursales'=>$empresaasignada_rows['idsucursales']);
+		$empresa2=array('idsucursal'=>$empresaasignada_rows['idsucursales']);
 
 		array_push($arrayempresa2, $empresa2);
 		
@@ -62,14 +62,14 @@ try
 
 
 	$html="";
-	$resul=0;
-
+	
+	
 		for ($i=0; $i <count($arrayempresa); $i++) { 
-			$valor=$arrayempresa[$i]['idsucursales'];
-
+			$valor=$arrayempresa[$i]['idsucursal'];
+				$resul=0;
 				for ($j=0; $j <count($arrayempresa2); $j++) { 
 					
-					$valor2=$arrayempresa2[$j]['idsucursales'];
+					$valor2=$arrayempresa2[$j]['idsucursal'];
 					
 				if ($valor==$valor2) {
 					$resul=1;
@@ -78,7 +78,7 @@ try
 
 				if ($resul==1) {
 				$html.='<div class="form-check">
-							  <input class="form-check-input position-static accesoempresa" type="checkbox"  id="id_'.$arrayempresa[$i]['idsucursales'].'" value="'.$arrayempresa[$i]['idsucursales'].'" aria-label="" checked>
+							  <input class="form-check-input position-static accesoempresa" type="checkbox"  id="id_'.$arrayempresa[$i]['idsucursal'].'" value="'.$arrayempresa[$i]['idsucursal'].'" aria-label="" checked>
 							    <label class="form-check-label" for="gridCheck">
 						       '.$arrayempresa[$i]['sucursal'].'
 						      </label>
@@ -89,7 +89,7 @@ try
 				}else{
 
 					$html.='<div class="form-check">
-							  <input class="form-check-input position-static accesoempresa" type="checkbox" id="id_'.$arrayempresa[$i]['idsucursales'].'" value="'.$arrayempresa[$i]['idsucursales'].'" aria-label="">
+							  <input class="form-check-input position-static accesoempresa" type="checkbox" id="id_'.$arrayempresa[$i]['idsucursal'].'" value="'.$arrayempresa[$i]['idsucursal'].'" aria-label="">
 							    <label class="form-check-label" for="gridCheck">
 						       '.$arrayempresa[$i]['sucursal'].'
 						      </label>
@@ -101,7 +101,7 @@ try
 
 		$htmlt='';
 
-		if (count($arrayempresa)==count($arrayempresa2)) {
+		if (count($arrayempresa)==count($arrayempresa2) && count($arrayempres2)>0) {
 			
 			$htmlt='<div class="form-check">
 							  <input class="form-check-input position-static " type="checkbox"  id="id_0" value="0" aria-label="" onchange="SeleccionarTodosAsignados()" checked>

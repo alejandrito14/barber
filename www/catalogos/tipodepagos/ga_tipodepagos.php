@@ -52,6 +52,14 @@ try
 	$tipodepagos->habilitarparafactura=$_POST['chkparafactura'];
 	$tipodepagos->habilitartipodeservicio=$_POST['v_tiposervicio'];
 
+	$tipodepagos->habilitartpv=$_POST['chktpv'];
+	$tipodepagos->habilitarsinrevision=$_POST['chksinrevision'];
+	$tipodepagos->habilitarcatalogobanco=$_POST['chkcatalogobancos'];
+	$tipodepagos->habilitarcampodigitos=$_POST['chkcampodigitos'];
+	$tipodepagos->habilitaropciontarjeta=$_POST['chkopciontarjeta'];
+	$tipodepagos->habilitarpagar=$_POST['chkbotonpagardirecto'];
+	$tipodepagos->habilitarapp=$_POST['chkapp'];
+
 $idtiposervicio="";
 	if ($_POST['idtiposervicio']!='') {
 		# code...
@@ -74,7 +82,7 @@ $idtiposervicio="";
 
 
 
-	if ($v_tiposervicio==1) {
+	/*if ($v_tiposervicio==1) {
 		if($tipodepagos->idtipodepago > 0)
 		{
 			$tipodepagos->EliminarRelacionCategoria();
@@ -98,10 +106,10 @@ $idtiposervicio="";
 			$tipodepagos->EliminarRelacionCategoria();
 		}
 		
-	}
+	}*/
 				
 	$db->commit();
-	echo "1|".$tipodepagos->idtipodepagos;
+	echo "1|".$tipodepagos->idtipodepago;
 	
 }catch(Exception $e)
 {

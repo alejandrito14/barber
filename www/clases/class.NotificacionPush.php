@@ -1,5 +1,5 @@
 <?php 
- define('API_ACCESS_KEY','AAAAXK-GUvQ:APA91bGkGKIKJtDPriKumepreO21ycvwkmuNdsE_89VgbggDoBHaBlCb-2HA4i4rRD_9PFcS19cg9qPL7IP0F8rbbEVW9Ca9ooSfApT3T24u8yUSchyT1hoh4XMC88hlP7xJUR5mZGF0');
+define('API_ACCESS_KEY', 'AAAAWde0tiY:APA91bFKb9kYErB8MoXTyEiUNfYNi4VpPLBKte6PXkYjke0ygYMmGdhYj22i_0nkji4erMtBGfkHzGfde47o1IVRTvte4Fg7RISglYexXfE3H2zcYWksrwwAOCEU6gcaLCGqNmv_DgWr');
 
 class NotificacionPush 
 {
@@ -17,9 +17,10 @@ class NotificacionPush
     public $idnotificacioncliente;
     public $banderatuto;
 
-	public function EnviarNotificacion($listatokens,$titulo,$mensaje)
-	{
-    $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+public function EnviarNotificacion($listatokens,$titulo,$mensaje)
+    {
+
+        $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
     
 
         $tokenList=$listatokens;
@@ -30,7 +31,7 @@ class NotificacionPush
             'icon' =>'myIcon', 
             'sound' => 'mySound'
         ];
-        $extraNotificationData = ["notification_foreground" => "true", "navigation" => $this->navpage, "idcliente" => $this->idcliente,"valor"=>$this->valor,'banderatuto'=>$this->banderatuto];
+        $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
 
         $fcmNotification = [
             'registration_ids' => $tokenList, //multple token array
@@ -55,9 +56,10 @@ class NotificacionPush
         $result = curl_exec($ch);
         curl_close($ch);
 
+
        // echo $result;
-	
-	}
+    
+    }
 
     public function AgregarNotifcacionaUsuarios($idusuario,$texto,$ruta,$valor,$estatus)
     {

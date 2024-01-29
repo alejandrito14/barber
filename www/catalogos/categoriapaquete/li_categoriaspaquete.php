@@ -136,7 +136,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 						//SCRIPT PARA CONSTRUIR UN BOTON
 						$bt->titulo = "";
 						$bt->icon = "mdi-delete-empty";
-						$bt->funcion = "BorrarCategoria('".$resultado_empresas_row['idcategoriapaquete']."','idcategorias','categorias','n','catalogos/categoriasproducto/vi_categoriasproductos.php','main','$idmenumodulo')";
+						$bt->funcion = "BorrarCategoriaP('".$resultado_empresas_row['idcategoriapaquete']."','idcategorias','categorias','n','catalogos/categoriasproducto/vi_categoriasproductos.php','main','$idmenumodulo')";
 
 						$bt->estilos = "";
 						$bt->permiso = $permisos;

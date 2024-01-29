@@ -41,7 +41,9 @@ try
 	$acceso->EliminarAsignacion();
 
 
-
+	if (count($empresas)>0 && $empresas[0]!='') {
+		# code...
+	
 	for ($i=0; $i <count($empresas); $i++) { 
 		
 			$acceso->idsucursales=$empresas[$i];
@@ -49,6 +51,7 @@ try
 
 
 	}
+}
 
 	
 	$db->commit();

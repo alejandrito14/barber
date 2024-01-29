@@ -176,4 +176,48 @@ border-radius: 5px;
 {
 	cursor:pointer;
 }
+
+
+
+.estatuscitapendiente{
+
+    background: #f7bb44;
+    color: white;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.estatuscitaproceso{
+
+    background: #38a2f7;
+    color: white;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.estatuscitafinalizada{
+
+    background: #2b952a;
+    color: white;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.estatuscitacancelada{
+
+    background: red;
+    color: white;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+
+.estatuscitavencida{
+
+    background: gray;
+    color: white;
+    padding: 5px;
+    border-radius: 10px;
+}
+
 		

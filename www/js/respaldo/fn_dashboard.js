@@ -6,7 +6,8 @@ var fechaseleccionada="";
 var horainicialsele="";
 var idespecialistaseleccionado=0;
 var horarioseleccionado="";
-
+var sucursalelegida=1;
+var clienteseleccionado=0;
 var horafinalsele="";
 $(document).ready(function() {
     aparecermodulos('catalogos/dashboard/vi_dashboard.php','main');
@@ -265,19 +266,22 @@ function PintarCalendario2() {
 
           
             fechaconsulta=fecha;
-			//ObtenerHorariosDia(3);
+			
 		$(".divintervaloshorarios").css('display','block');
 		$(".fc-header-title").html('<h2>'+fechaformato(fecha)+'</h2>');
 		if (NtabName=='citas') {
-			  ObtenerFechaEspe(fecha);
+			 // ObtenerFechaEspe(fecha);
+
+			  ObtenerTotalCitas();
 
 			}else{
 				ObtenerFechasProductos(fecha);
 
 				// ObtenerProductosFechasCalendario(anio,mes);
 			}
-
+			ObtenerHorariosDia(3);
 			PintarFechaSeleccionada(fecha);
+			Visualizarintervalos();
 
         }, 
         eventClick: function (calEvent, jsEvent, view) {
@@ -301,7 +305,7 @@ function PintarCalendario2() {
 	 ObtenerCitasFechasCalendario(anio,mes);
 	}
 	 $("#txttitle").css('display','none');
-	$(".fc-header-title").html('<h2>'+fechaformato(fecha)+'</h2>');
+	//$(".fc-header-title").html('<h2>'+fechaformato(fecha)+'</h2>');
 	//PintarFechaActual();
 
  $('.fc-button-prev').click(function(){
@@ -309,7 +313,7 @@ function PintarCalendario2() {
           var moment = $('#picker2').fullCalendar('getDate');
       
           var cadenafecha=moment.format().split('-');
-        console.log(cadenafecha);
+        //console.log(cadenafecha);
        	   var anio=cadenafecha[0];
            var mes=cadenafecha[1];
            var dia=cadenafecha[2];
@@ -331,16 +335,14 @@ function PintarCalendario2() {
 			// Actualizamos el mes en las partes de la fecha
 
 
-          
+     var fecha=anio+'-'+mesStr+'-'+dia;
+     var mes=cadenafecha[1];
+				if (NtabName=='citas') {
 
-            var fecha=anio+'-'+mesStr+'-'+dia;
-             var mes=cadenafecha[1];
-	if (NtabName=='citas') {
-
-	 	 ObtenerCitasFechasCalendario(anio,mes);
-	 	}else{
-	 	 ObtenerProductosFechasCalendario(anio,mes);
-	 	}
+				 	 ObtenerCitasFechasCalendario(anio,mes);
+				 	}else{
+				 	 ObtenerProductosFechasCalendario(anio,mes);
+				 	}
 		//$(".fc-header-title").html('<h2>'+fechaformato(fecha)+'</h2>');
 
 	   $("#txttitle").css('display','none');
@@ -353,7 +355,7 @@ function PintarCalendario2() {
       	   var anio=cadenafecha[0];
            var mes=cadenafecha[1];
            var dia=cadenafecha[2];
-          	console.log(mes);
+          	//console.log(mes);
             var mes = parseInt(cadenafecha[1], 10);
             if (mes<12) {
 			// Restamos uno al mes (considerando que los meses van de 1 a 12)
@@ -373,7 +375,7 @@ function PintarCalendario2() {
 
 
             var fecha=anio+'-'+mesStr+'-'+dia;
-            console.log(fecha);
+            //console.log(fecha);
              var mes=cadenafecha[1];
 	   	 if (NtabName=='citas') {
 
@@ -385,6 +387,8 @@ function PintarCalendario2() {
 
 	     $("#txttitle").css('display','none');
 	     $(".horarios").css('display','none');
+
+	    
   });
 
 
@@ -400,11 +404,15 @@ function PintarCalendario2() {
   //$(".fc-header-left .fc-corner-right").css('display','none');
   $(".fc-button-today").css('display','none');
 
+ 	$(".divintervaloshorarios").css('display','block');
 
+ ObtenerHorariosDia(3);
+ PintarFechaSeleccionada(fechaconsulta);
 
 }
 
 function ObtenerCitasFechasCalendario(anio,mes) {
+
 	var datos="anio="+anio+"&mes="+mes;
 	$.ajax({
 					url: 'catalogos/dashboard/ObtenerCitasFechasCalendario.php', //Url a donde la enviaremos
@@ -433,16 +441,17 @@ function ObtenerCitasFechasCalendario(anio,mes) {
 
 									  var fechadiv=$(this).data('date');
 
-											console.log(respuesta[i]);
+											//console.log(respuesta[i]);
 									  	if (respuesta[i].fecha == fechadiv) {
-									  		  console.log(elemento);
+									  		  //console.log(elemento);
+									  		
 
 									  		var html="";
 									  		 html=`
 											<span class="badge colornegro" style="float: right;font-size: 14px;">`+respuesta[i].cantidadcitas+`</span>
 									  		`
 									  		;
-									  		console.log(html);
+									  		//console.log(html);
 									  		//$(elemento).children().eq(0).css({'cssText': 'background: gray;border-radius: 30px;color: white; cursor:pointer;margin: auto;width:20%;padding-right: 1em;padding-left:1em;justify-content:center;display:flex;'});
 											$(elemento).children().eq(0).prepend(html);
 									  		
@@ -596,11 +605,11 @@ function PintarHorarioDisponible() {
 }
 
 function PintarDia(msj) {
-	$("#fechaactualdiv").html('');
-	$("#intervalos").html('');
-	$("#zonasdiv").html('');
-	$("#espacios").html('');
-	 fechaconsulta=msj.fecha;
+				$("#fechaactualdiv").html('');
+				$("#intervalos").html('');
+				$("#zonasdiv").html('');
+				$("#espacios").html('');
+	 					fechaconsulta=msj.fecha;
 						var respuesta=msj.respuesta;
 						var fechaformato=msj.fechaactual;
 						var intervaloconf=msj.intervaloconf;
@@ -612,18 +621,21 @@ function PintarDia(msj) {
 						var zonas=msj.zonas;
 						var htmlintervalo="";
 						for (var i = 0; i<intervalos.length; i++) {
-							 htmlintervalo=`<div class="col-md-12" style="height:`+pxintervalo+`px;margin-top: 1px;text-align:center; display: flex;justify-content: center; align-items: center;">`+intervalos[i]+`</div>`;
+							 htmlintervalo=`<div class="col-md-12" style="height:`+pxintervalo+`px;margin-top: 1px;text-align:center; display: flex;justify-content: center; align-items: center;">`+intervalos[i].slice(0, -3)+` hrs.</div>`;
 							 $("#intervalos").append(htmlintervalo);
 						}
 
 						var htmlzonas="";
 						var htmlespacio="";
 						for (var i = 0; i <zonas.length; i++) {
-							htmlzonas=` <div style="padding-top: 1em;width: 100px;height: 50px;font-weight:bold;text-align:center;">`+zonas[i].nombre+`</div>`;
+							colorzona=zonas[i].color!=null?zonas[i].color:'gray';
+							htmlzonas=` <div style="padding-top: 1em;width: 100px;height: 50px;font-weight:bold;text-align:center;background:`+colorzona+`;color:white;cursor:pointer;"  onclick="AgendarSinHorario(0,'`+fechaconsulta+`',`+zonas[i].idespecialista+`)">
+							<span style="padding: 4px;background: black;border-radius: 4px;">`+zonas[i].nombre+` `+zonas[i].conteo+`</span>
+							</div>`;
 
 							$("#zonasdiv").append(htmlzonas);
 
-							htmlespacio=`<div id="espacio_`+zonas[i].idzona+`" style="width: 100px;text-align:center;"></div>`;
+							htmlespacio=`<div id="espacio_`+zonas[i].idespecialista+`" style="width: 100px;text-align:center;" ></div>`;
 
 							$("#espacios").append(htmlespacio);
 
@@ -632,54 +644,114 @@ function PintarDia(msj) {
 							var htmlintervalos="";
 								var servicioante="";
 								for (var j = 0; j<intervalos.length; j++) {
+									var horainicial=intervalos[j].horainicialntervalo;
+									var horafinal=intervalos[j].horafinalintervalo; 
+
+									//console.log('horainicial'+horainicial);
+
 									var pxintervalo=msj.pxintervalo;
 									var servicio=intervalos[j].servicio;
-									var titulo="Disponible";
-									var colorfondo="background:#59c158;";
-									var borderradiustop="border-right: 1px solid white;";
+									var titulo=zonas[i].nombre;
+
+									var color="";
+									var colorfondo="background:white;color:#eaebf1;";
+									var borderradiustop="border-right: 1px solid #eaebf1;";
 									var borderradiusbootom=" ";
 									var servicioac="";
-									marginbottom="margin-bottom: 1px;";
-									margintop="margin-top: 1px;";
+									marginbottom="margin-bottom: 1px;border-bottom: 1px solid #dadce8;";
+									margintop="margin-top: 1px;border-top: 1px solid #dadce8;";
 									alineacion="";
 									var funcion="";
-									if (intervalos[j].disponible==0) {
-										funcion="DetalleServicioDash("+servicio[0].idservicio+")";
-										console.log(funcion);
-									 //borderradiusbootom=" border-bottom: 1px solid white;";
 
-										colorfondo="background:"+zonas[i].color;
-										servicioac=servicio[0].idservicio;
+									if (intervalos[j].disponible==0) {
+										//console.log(funcion);
+
+									 //borderradiusbootom=" border-bottom: 1px solid white;";
+									    color="#eaebf1";
+										colorfondo="background:"+color+";";
+										
 										titulo="";
-										 marginbottom="border-bottom: 1px solid "+zonas[i].color+";";
-										 margintop="border-top: 1px solid "+zonas[i].color+";";
+										 marginbottom="border-bottom: 1px solid "+color+";";
+										 margintop="margin-top: 1px;border-top: 1px solid  "+color+";";
+										 icono='';
+										 if (servicio.length>0) {
+										 	 nombrecliente=servicio[0].nombrecliente;
+										 	servicioac=servicio[0].idcita;
+										 	intervalotiempo=servicio[0].intervaloservicio;
+										 	pagado=servicio[0].pagado;
+										 	tpv=servicio[0].tpv;
+										 	if (pagado==1) {
+
+										 		icono=`<span class="" style="font-size:10px;margin-top:2px;background:#59c158;padding: 2px;
+    border-radius: 5px;">Pagado</span>`;
+										 		
+										 	}else{
+										 		icono=`<span class="" style="font-size:10px;margin-top:2px;background:#ebc418;padding: 2px;
+    border-radius: 5px;">No pagado</span>`;
+
+
+										 	}
+									funcion="DetalleServicioDash("+servicio[0].idcita+")";
+
+									if (tpv==1) {
+										color="black";
+										colorfondo="background:black;";
+										letra="color:white";
+								}else{
+
+
+									color="gray";
+									colorfondo="background:gray;";
+									letra="color:black";
+								}
+
+									
+
+									marginbottom="border-bottom: 1px solid "+color+";";
+										 margintop="border-top: 1px solid  "+color+";";
+
 											if (servicioante!=servicioac) {
 
 													if (servicio.length) {
-													
-													titulo=servicio[0].horainicial+` - `+servicio[0].horafinal;
-													titulo+=`<br>`+servicio[0].titulo;
-													servicioante=servicio[0].idservicio;
+													titulo+=`<div style="text-align: center;`+letra+`;">`;
+													titulo+=`<span style="">`+servicio[0].horainicial+` - `+servicio[0].horafinal+` hrs.</span>`;
+													titulo+=`<br><span style="width:100%;font-size:14px;font-weight:bold;">`+nombrecliente+`</span> `;
+													titulo+=`<br>`+servicio[0].nombrepaquete+`(`+intervalotiempo+`min.)`;
+													servicioante=servicio[0].idcita;
+													titulo+=`<br><span style="width:100%;"></span> `+icono;
+				
+													titulo+=`</div>`;
 
 													}
 											}else{
-												pxintervalo=pxintervalo+2;
+												pxintervalo=pxintervalo+1;
 											
 											borderradiustop="";	
-											borderradiusbootom=" border-right: 1px solid white;";
+											borderradiusbootom=" border-right: 1px solid #dadce8;";
 											
 											}
 
+										}else{
+
+										titulo=`<div style="color:white;display: flex;line-height: 2.4;justify-content: end;"><span class="mdi mdi-close-circle" style="font-size:15px;"></span></div>`;
+										funcion="";
+
+										}
+
 									}else{
+
 									alineacion="align-items: center;";
-									borderradiustop="border-right: 1px solid white;";
+									borderradiustop="border-right: 1px solid #dadce8;";
 									//borderradiusbootom=" border-bottom: 1px solid white;";
 									servicioante="";
+
+									funcion="IrAgendarcita('"+horainicial+"','"+fechaconsulta+"',"+zonas[i].idespecialista+")";
+
 									}
 								
 								
-									htmlintervalos=`<div style="height:`+pxintervalo+`px;`+colorfondo+`;`+margintop+marginbottom+`font-size:10px; display: flex;justify-content: center;color:white;font-weight:bold;`+alineacion+borderradiustop+borderradiusbootom+`" onclick="`+funcion+`">`+titulo+`</div>`;
-								$("#espacio_"+zonas[i].idzona).append(htmlintervalos);
+									htmlintervalos=`<div style="height:`+pxintervalo+`px;`+colorfondo+`;`+margintop+marginbottom+`font-size:10px; display: flex;justify-content: center;font-weight:bold;`+alineacion+borderradiustop+borderradiusbootom+`" onclick="`+funcion+`">`+titulo+`</div>`;
+								$("#espacio_"+zonas[i].idespecialista).append(htmlintervalos);
 
 								}
 
@@ -692,8 +764,109 @@ function PintarDia(msj) {
 						
 					}
 
-function ObtenerHorariosFecha(fecha) {
+					function AgendarSinHorario(horainicial,fechaconsulta,idespecialista) {
+						/*$("#modalelegircliente").modal();
+							$(".btnnuevocliente").attr('onclick','OcultarModal();AgregarNuevo2("'+horainicial+'","'+fechaconsulta+'",'+idespecialista+')');
+							$("#btncontinuarcliente").attr('onclick','EnviarPuntoVenta("'+horainicial+'","'+fechaconsulta+'",'+idespecialista+')');
+							ObtenerClientesFiltro();*/
+						ObtenerCitasSinHorario(fechaconsulta,idespecialista);
 
+						$("#modallistado").modal();
+
+						$("#btnnuevacita").attr('onclick','NuevaAgendaSinHorario("'+horainicial+'","'+fechaconsulta+'",'+idespecialista+')');
+					}
+
+					function ObtenerCitasSinHorario(fechaconsulta,idespecialista) {
+						
+					var datos="fecha="+fechaconsulta+"&idespecialista="+idespecialista;
+					$.ajax({
+					url: 'catalogos/dashboard/ObtenerCitasFechaEspecificaSinHorario.php', //Url a donde la enviaremos
+					type: 'POST', //Metodo que usaremos
+					dataType:'json',
+					data:datos,
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#divcomplementos").html(error);
+					},	
+						success: function (msj) {
+						 	var respuesta=msj.citasdia;
+							PintarCitasSinHorario(respuesta);
+
+							}
+						});
+
+					}
+					function PintarCitasSinHorario(respuesta) {
+							var html="";
+						if (respuesta.length>0) {
+							for (var i = 0; i < respuesta.length; i++) {
+								var intervalotiempo=respuesta[i].intervaloservicio;
+								var claseestatus=respuesta[i].claseestatus;
+								html+=`
+
+									<div class="row " style="padding:10px;color:white;margin-bottom: 10px;margin-right: 10px;margin-left: 10px;background:`+claseestatus+`" onclick="DetallecitaModal(`+respuesta[i].idcita+`)">
+
+										<span class="col-md-12">
+										<span style="font-size:14px;font-weight:bold;">`+respuesta[i].horains+`-`+respuesta[i].horafs+`hrs.</span>
+										</span>
+										<span class="col-md-12">
+
+										<span style="font-size:14px;font-weight:bold;">`+respuesta[i].nombreusuario+`</span>
+										</span>
+										<span class="col-md-12">`+respuesta[i].nombrepaquete+`(`+intervalotiempo+`min.)</span>
+										<span class="col-md-12">`+respuesta[i].textoestatus+`</span>
+
+									</div>
+								`;
+							}
+						}
+
+						$("#divcitassinhorario").html(html);
+					}
+
+					function DetallecitaModal(idcita) {
+						$("#modallistado").modal('hide');
+						DetalleServicioDash(idcita);
+					}
+
+					function NuevaAgendaSinHorario(horainicial,fechaconsulta,idespecialista) {
+							$("#modallistado").modal('hide');
+
+							$("#modalelegircliente").modal();
+							$(".btnnuevocliente").attr('onclick','OcultarModal();AgregarNuevo2("'+horainicial+'","'+fechaconsulta+'",'+idespecialista+')');
+							$("#btncontinuarcliente").attr('onclick','EnviarPuntoVenta("'+horainicial+'","'+fechaconsulta+'",'+idespecialista+')');
+							ObtenerClientesFiltro();
+						//$("#btnnuevacita").attr('onclick','AbrirAgendacita('+horainicial+','+fechaconsulta+','+idespecialista+')');
+					}
+
+					function AbrirAgendacita(horainicial,fechaconsulta,idespecialista) {
+						// body...
+						$("#modallistado").modal('hide');
+
+						IrAgendarcita(horainicial,fechaconsulta,idespecialista);
+					}
+
+					function IrAgendarcita(horainicial,fechaconsulta,idespecialista) {
+						
+				/*		var regresar='catalogos/pagos/vi_cobrar.php?horainicial='+horainicial+"&fechaconsulta="+fechaconsulta;
+	    	var donde='main';
+
+						aparecermodulos(regresar+"&idmenumodulo="+idmenumodulo+"&msj=",donde);
+					*/
+					//AbrirModalClienteListado()
+							
+							$("#modalelegircliente").modal();
+							$(".btnnuevocliente").attr('onclick','OcultarModal();AgregarNuevo2("'+horainicial+'","'+fechaconsulta+'",'+idespecialista+')');
+							$("#btncontinuarcliente").attr('onclick','EnviarPuntoVenta("'+horainicial+'","'+fechaconsulta+'",'+idespecialista+')');
+							ObtenerClientesFiltro();
+					}
+
+
+function ObtenerHorariosFecha(fecha) {
+ 
 	var datos="fecha="+fecha;
 	$.ajax({
 					url: 'catalogos/dashboard/ObtenerHorariosFecha.php', //Url a donde la enviaremos
@@ -869,9 +1042,9 @@ function BuscarFecha() {
 }
 
 
-function DetalleServicioDash(idservicio) {
-	
-	$("#modalServicios").modal();
+function DetalleServicioDash(idcita) {
+	AbrirModalCitaAdmin(idcita);
+	/*$("#modalServicios").modal();
 	var datos="idservicio="+idservicio;
 		$.ajax({
 					url: 'catalogos/servicios/ObtenerAlumnosServicio.php', //Url a donde la enviaremos
@@ -890,7 +1063,7 @@ function DetalleServicioDash(idservicio) {
 						
 				     	PintarAlumnosServicios2(respuesta);
 					}
-				});
+				});*/
 }
 
 
@@ -924,6 +1097,7 @@ function ObtenerFechaActual() {
 					url: 'catalogos/dashboard/ObtenerFechaActual.php', //Url a donde la enviaremos
 					type: 'POST', //Metodo que usaremos
 					dataType:'json',
+					async:false,
 					error: function (XMLHttpRequest, textStatus, errorThrown) {
 						var error;
 						console.log(XMLHttpRequest);
@@ -934,7 +1108,9 @@ function ObtenerFechaActual() {
 					success: function (msj) {
 						var respuesta=msj.fechaactual;
 						$(".fechaactual").text(respuesta);
+						var formatofecha=msj.formatofecha;
 
+						fechaconsulta=formatofecha;
 					}
 				});
 }
@@ -973,7 +1149,17 @@ function PintarFechaActual() {
 
 function PintarFechaSeleccionada(fecha) {
 
-	
+	var fechaactual=new Date();
+
+	// Obtener año, mes y día
+let año = fechaactual.getFullYear();
+let mes = ('0' + (fechaactual.getMonth() + 1)).slice(-2); // Sumar 1 al mes ya que en JavaScript los meses van de 0 a 11
+let dia = ('0' + fechaactual.getDate()).slice(-2);
+
+// Formatear la fecha como 'Y-m-d'
+let fechaFormateada = año + '-' + mes + '-' + dia;
+
+
 	$(".fc-day").each(function( index ) {
 									 // console.log( index + ": " + $(this).data('date') );
 		  var fechadiv=$(this).data('date');
@@ -991,6 +1177,25 @@ function PintarFechaSeleccionada(fecha) {
 		  		
 		  		$(elemento).children().eq(0).addClass('seleccionadofecha');
 		  		return 0;		
+		  }
+
+	
+
+		});
+
+
+
+	$(".fc-day").each(function( index ) {
+									 // console.log( index + ": " + $(this).data('date') );
+		  var fechadiv=$(this).data('date');
+		  var elemento=$(this);
+
+
+		  if (fechaFormateada==fechadiv) {
+
+		  	$(elemento).children().eq(0).addClass('seleccionadofechaactual');
+
+		  	return 0;
 		  }
 
 		});
@@ -1070,10 +1275,13 @@ function CargarCitasActuales() {
 }
 
 function ObtenerTotalCitas() {
+
+		var datos="fecha="+fechaconsulta;
 		$.ajax({
-					url: 'catalogos/dashboard/CargarCitasActuales.php', //Url a donde la enviaremos
+					url: 'catalogos/dashboard/ObtenerTotalesAdmin.php', //Url a donde la enviaremos
 					type: 'POST', //Metodo que usaremos
 					dataType:'json',
+					data:datos,
 					error: function (XMLHttpRequest, textStatus, errorThrown) {
 						var error;
 						console.log(XMLHttpRequest);
@@ -1082,14 +1290,33 @@ function ObtenerTotalCitas() {
 						$("#divcomplementos").html(error);
 					},	
 					success: function (msj) {
+						//console.log(msj);
 						var citas=msj.respuesta;
-						var total=citas.length;
-						var realizadas=msj.realizadas;
-						$("#citasregistros").text(total);
-						 var notas=msj.notas;
-						$("#productosregistros").text(notas.length);
+						var totalproductosdia=msj.totalproductosdia;
+						var total=msj.totalcitasdia;
+						var realizadas=msj.totalcitasrealizadas;
+						var pendientes=msj.totalpendientes;
+						var totalcancelados=msj.totalcancelados;
+						var totalproceso=msj.totalproceso;
+						var totalcaducados=msj.totalnorealizados;
+						$("#citasagendadas").text(total);
+						$("#citasproceso").text(totalproceso);
+						$("#citasrealizadas").text(realizadas);
 
-						$("#citasregistrosrealizadas").text(realizadas.length);
+						 var notas=msj.notas;
+						$("#citaspendientes").text(pendientes);
+						$("#citascanceladas").text(totalcancelados);
+						$("#citascaducados").text(totalcaducados);
+						$("#productosregistros").text(totalproductosdia);
+						ObtenerHorariosDia(3);
+
+						/*citasagendadas
+						citasproceso
+						citasrealizadas
+						citaspendientes
+						citascanceladas
+						citascaducados*/
+
 					}
 				});
 }
@@ -1244,7 +1471,8 @@ function AbrirModalCitaAdmin(idcita) {
 		success: function(datos){
 			localStorage.setItem('idcita',idcita);
 			var respuesta=datos.respuesta;
-				ObtenerDetalleCitaAdmin(respuesta);	
+			var imagenes=datos.imagenes;
+				ObtenerDetalleCitaAdmin(respuesta,imagenes);	
 
 			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;
@@ -1257,12 +1485,17 @@ function AbrirModalCitaAdmin(idcita) {
 	
 }
 
-function ObtenerDetalleCitaAdmin(respuesta) {
+function ObtenerDetalleCitaAdmin(respuesta,imagenes) {
 	var imagen=`catalogos/sucursal/imagenes/`+respuesta.imagen;
 
 	var html2="";
 
-	
+				if (respuesta.horains!='' && respuesta.horains!=null) {
+
+					respuesta.horainicial=respuesta.horains;
+					respuesta.horafinal=respuesta.horafs;
+
+				}
 
 var html=` <div class="" style="">
             
@@ -1280,18 +1513,22 @@ var html=` <div class="" style="">
 			<div class="row">
 			<div class="col-md-12" style="margin-top:1em;">
                 <div class="card margin-bottom">
-                    <div class="card-header">
-                        <div class="row">
+                    <div class="card-header" style="    border-radius: 10px;
+    margin: 10px;">
+                        <div class="row" style="    margin: 5px;">
                             
                             <div class="col-50">
-                                <h3 class="no-margin-bottom text-color-theme">`+respuesta.titulo+`</h3>
-                            	<p class="no-margin-bottom text-color-theme">`+respuesta.descripcion+`</p>
 
-                            	<p class="no-margin-bottom text-color-theme">`+respuesta.fechaformato+`</p>
-                            	<p class="no-margin-bottom text-color-theme">`+respuesta.horainicial+`-`+respuesta.horafinal+`Hrs.</p>
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:26px;">Cliente: `+respuesta.nombre+` `+respuesta.paterno+`</h3>
 
-                            	<p class="no-margin-bottom text-color-theme">Cliente: `+respuesta.nombre+` `+respuesta.paterno+`</p>`;
-                            	html+=` <p class="no-margin-bottom text-color-theme">`+respuesta.concepto+`</p>`;
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:24px;font-weight: normal;">`+respuesta.fechaformato+`</h3>
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:24px;">`+respuesta.horainicial+`-`+respuesta.horafinal+`Hrs.</h3>`;
+                             html+=` <h3 class="no-margin-bottom text-color-theme" style="font-size:22px;font-weight: normal;">`+respuesta.concepto+`</h3>
+
+                             <h3 class="no-margin-bottom text-color-theme" style="font-size:20px;">`+respuesta.titulo+`</h3>
+                            	<p class="no-margin-bottom text-color-theme" style="font-size:20px;">`+respuesta.descripcion+`</p>`;
+
+                            
                           if (respuesta.concortesia==1  ) {
 
 
@@ -1354,10 +1591,7 @@ var html=` <div class="" style="">
 
                             <div class="col-50">
                                 <div class="avatar">
-                                    <img src="`+imagen+`" alt="" style="
-margin-top: 1.4em;    width: 100%;
-    border-radius: 10px;
-">
+                                    <img src="`+imagen+`" alt="" style="margin-top: 1.4em;    width: 100%;border-radius: 10px;">
                                 </div>
                             </div>
                         </div>
@@ -1379,7 +1613,7 @@ margin-top: 1.4em;    width: 100%;
 		   							 			</div>
 
 
-<div class="row" style="    margin-right: 2em;
+				<div class="row" style="    margin-right: 2em;
     margin-left: 2em;margin-top:1em;">
 					<div class="col-100">
 
@@ -1390,29 +1624,50 @@ margin-top: 1.4em;    width: 100%;
 
 						</div>
 
-						<div class="col-100" onclick="scanqr()" >
-						
+		
 
-						</div>
+					</div>`;
 
-					</div>
+					if (imagenes.length>0) {
+							html+=`<div class="row" style=" ">
+												<div class="col-md-12">
+													<p style="font-size: 16px;font-weight: bold;margin-left: 15px;">Galeria de imágenes</p>
+												</div>
+												<div class="col-md-12">
+												`;
 
-					<div class="row" style=" ">
-						<div class="col-md-12">
-						<p style="font-size: 16px;font-weight: bold;">Galeria de imágenes</p>
-						</div>
-						<div class="col-md-12">
-						
-						</div>
 
-					</div>
+												for (var i = 0; i <imagenes.length; i++) {
+														
+
+														html+=`
+														<div class="" style="width: 100%;background: white;border-radius: 30%;height: 150px;padding-top: 1em;margin-bottom: 1em;">
+																	<div class="">
+													      <a>
+													      <div style="border-radius: 10px 10px 0px 0px;background-size: cover;">
+													   		  <img src="`+imagenes[i].ruta+`" style="width: 30%;height: 100px;">
+													      </div>
+													      </a>
+										        	</div>
+										     	 </div>		`;
+
+												}
+
+												html+=`
+												
+												</div>
+
+											</div>`;
+					}
+
+					
 			
 
-
-			</div>
 							   							  	
-           												 </div>
-							   							  	</div>
+           		html+=`
+           					</div>
+           		 </div>
+							   		</div>
 		   							 	 
 		   							 			`;
 
@@ -1449,16 +1704,63 @@ margin-top: 1.4em;    width: 100%;
 		$("#modaldetallecita").modal();
 		$(".btnreagendarcita").css('display','block');
 		$(".btncancelarcita").css('display','block');
+		$(".btnagregarproducto").css('display','block');
 
-		                if(respuesta.checkin==1) {
-						$(".btnreagendarcita").css('display','none');
-		                }
+		    if(respuesta.checkin==1) {
+				$(".btnreagendarcita").css('display','none');
 
-		                if(respuesta.checkin==1) {
-						$(".btncancelarcita").css('display','none');
-		                }
+		     }
+
+		  if(respuesta.checkin==1) {
+				$(".btncancelarcita").css('display','none');
+		      }
 		$(".btnreagendarcita").attr('onclick','ReagendarCita('+respuesta.idcita+')');
 		$(".btncancelarcita").attr('onclick','CancelarCita('+respuesta.idcita+')');
+		$(".btnagregarproducto").attr('onclick','AgregarProductoCita('+respuesta.idusuarios+')');
+
+					if (respuesta.pagada==1) {
+					$(".btnpagarcita").css('display','none');
+
+					}else{
+					
+					$(".btnpagarcita").css('display','block');
+
+					$(".btnpagarcita").attr('onclick','PagarNotaCita('+respuesta.idnotapago+',2)');
+
+
+					}
+
+
+}
+
+function AgregarCita() {
+		var regresar='catalogos/citas/agendarcita.php';
+	    var donde='main';
+
+		aparecermodulos(regresar+"&idmenumodulo="+idmenumodulo+"&msj=",donde);
+
+}
+
+function AgregarProductoCita(clienteseleccionado) {
+	$("#modaldetallecita").modal('hide');
+	var horainicial=1;
+	var datos='clienteseleccionado='+clienteseleccionado+"&horainicial="+horainicial;
+	var regresar='catalogos/pagos/vi_cobrar.php?'+datos;
+	var donde='main';
+	aparecermodulos(regresar+"&idmenumodulo="+idmenumodulo+"&msj=",donde);
+	
+}
+
+function EnviarPuntoVenta(horainicial,fecha,idespecialista) {
+
+	
+		$("#modalelegircliente").modal('hide');
+		//$(".btnseleccionarcliente").attr('onclick','CrearSesionUsuario('+idcliente+')');
+		var datos='clienteseleccionado='+clienteseleccionado+'&horainicial='+horainicial+"&fecha="+fecha+"&idespecialistaselect="+idespecialista;
+		var regresar='catalogos/pagos/vi_cobrar.php?'+datos;
+	    var donde='main';
+		aparecermodulos(regresar+"&idmenumodulo="+idmenumodulo+"&msj=",donde);
+	
 
 }
 
@@ -1475,6 +1777,14 @@ function CancelarCita(idcita) {
 	
 	var donde='main';
 	var regresar='catalogos/citas/cancelarcita.php?idcita='+idcita;
+	aparecermodulos(regresar+"&idmenumodulo="+idmenumodulo+"&msj=",donde);
+}
+
+function PagarNotaCita(idnota,accion) {
+	$("#modaldetallecita").modal('hide');
+	
+	var donde='main';
+	var regresar='catalogos/citas/pagarnotacita.php?idnotapago='+idnota+"&accion="+accion;
 	aparecermodulos(regresar+"&idmenumodulo="+idmenumodulo+"&msj=",donde);
 }
 
@@ -1614,7 +1924,7 @@ function Detallepago(idnotapago) {
 		success: function(resp){
 			var resultado=resp.respuesta[0];
      		 var subtotalnota=resp.subtotalnota;
-
+     		 var idtipopago=resultado.idtipopago;
      		 var subtotalcupon=resp.subtotalcupon;
 
 			$(".lblsubtotal").text(formato_numero(subtotalnota,2,'.',','));
@@ -1683,7 +1993,25 @@ function Detallepago(idnotapago) {
 				
 
 			}
+
+			$("#usuariopedido").text(resultado.usuariopedido);
+
+			if (resultado.entregado==1) {
+
+				$("#detallesdeentrega").css('display','block');
+				$("#fechaentrega").text(resultado.fechaentrega);
+				$("#observaciones").text(resultado.observacionesentrega);
+				$("#usuarioentrega").text(resultado.usuarioentrega);
+
+
+				
+
+			}
 			var pagos=resp.pagos;
+
+
+			ObtenerTipodepagosCompletar(idtipopago);
+
 
 			Pintarpagosdetalle2(pagos);
 			 $("#visualizardescuentos").css('display','none');
@@ -1887,7 +2215,7 @@ function PintarDetalleHtml() {
 							</div>
 
 								
-							<div class="requierefactura">
+							<div class="requierefactura" style="display:none;">
 								<div class="row">
 									<div class="col-md-12">
 										<label for="">REQUIERE FACTURA:</label>
@@ -1921,7 +2249,21 @@ function PintarDetalleHtml() {
 								</div>
 							</div> -->
 
+									<div class="row">
+          					<div class="col-md-12">
+					          <label>
+					       		PEDIDO DE:
+					            
+					          	 </span>
+					         	 <span id="usuariopedido">
+					        	</label>
+
+				       		 </div>
+				        </div>
+
 							</div>
+
+					
 	
 
     </div>
@@ -2076,7 +2418,7 @@ function Pintarpagosdetalle2(listado) {
 	 ObtenerFechasCalendario(anio,mes);
 	 $("#recargar").attr('onclick','ObtenerFechasCalendario('+anio+','+mes+')');
 	 $("#txttitle").css('display','none');
-	$(".fc-header-title").html('<h2>'+fechaformato(fecha)+'</h2>');
+	//$(".fc-header-title").html('<h2>'+fechaformato(fecha)+'</h2>');
 	//PintarFechaActual();
 
  $('.fc-button-prev').click(function(){
@@ -2214,11 +2556,11 @@ function ObtenerFechasCalendario(anio,mes) {
 		});
 	
 }
-function PintarHoraSeleccionada(fecha) {
+function PintarHoraSeleccionada(fecha,horaselect) {
 
 fechaseleccionada=fecha;
 
-	var datos="fecha="+fecha+"&idsucursal="+idsucursal+"&idpaquete="+idpaquete;
+	var datos="fecha="+fecha+"&idsucursal="+idsucursal+"&idpaquete="+idpaquete+"&horaselect="+horaselect;
 
 	var pagina="ObtenerDisponibilidadPaqueteEspecialista.php";
 		$.ajax({
@@ -2226,6 +2568,7 @@ fechaseleccionada=fecha;
 		dataType: 'json',
 		url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
 		data:datos,
+		async:false,
 		success: function(msj){
 			horarioseleccionado=0;
 			
@@ -2250,7 +2593,7 @@ function PintarIntervalos(respuesta) {
 			for (var i = 0; i < respuesta.length; i++) {
 					
 				html+=`
-								<label class="btn btn_dorado btncategointervalo1 horariossele" id="catebtn_`+i+`" style="margin: 10px;">
+								<label class="btn btn_dorado btncategointervalo1 horariossele" data-hora="`+respuesta[i].horainicial+`" data-horafinal="`+respuesta[i].horafinal+`" id="catebtn_`+i+`" style="margin: 10px;">
 								    <input type="checkbox" id="cate_15" class="catecheck" onchange="SeleccionarHorario('`+respuesta[i].horainicial+`','`+respuesta[i].horafinal+`','`+i+`')" value="0" >`+respuesta[i].horainicial+`
 								  </label>
 				`;
@@ -2261,7 +2604,7 @@ function PintarIntervalos(respuesta) {
 }
 
 function SeleccionarHorario(horainicial,horafinal,i) {
-	
+	 
 	 $(".horariossele").removeClass('active');
 
   $("#catebtn_"+i).add('active');
@@ -2277,11 +2620,29 @@ idespecialistaseleccionado="";
   VerificarSiLlevavalor();
 }
 
-function ObtenerListadoEspecialista() {
+
+function SeleccionarHorario3(horainicial,horafinal,i,idespecialista) {
+	 
+	 $(".horariossele").removeClass('active');
+
+  $("#catebtn_"+i).add('active');
+  horainicialsele=horainicial;
+  horafinalsele=horafinal;
+  horarioseleccionado=horainicialsele+'_'+horafinalsele;
+//horaseleccionada=arrayhorarios[posicion];
+
+   //HabilitarBoton2();
+//aqui
+idespecialistaseleccionado=idespecialista;
+  ObtenerListadoEspecialista(idespecialista);
+  VerificarSiLlevavalor();
+}
+
+function ObtenerListadoEspecialista(idespecialistasele) {
 	
 
     var horario=horainicialsele+'_'+horafinalsele;
-    var datos='idsucursal='+idsucursal+"&idpaquete="+idpaquete+"&horaseleccionada="+horario+"&fecha="+fechaseleccionada;
+    var datos='idsucursal='+idsucursal+"&idpaquete="+idpaquete+"&horaseleccionada="+horario+"&fecha="+fechaseleccionada+"&idespecialistasele="+idespecialistasele;
     var pagina = "ObtenerEspecialistaPaqueteSucursal.php";
     $.ajax({
     type: 'POST',
@@ -2371,6 +2732,7 @@ function VerificarSiLlevavalor() {
 function GuardarReagenda(idcita) {
 	
     var datos='horarioseleccionado='+horarioseleccionado+'&fechaseleccionada='+fechaseleccionada+'&idespecialistaseleccionado='+idespecialistaseleccionado+'&idcita='+idcita;
+    	datos+='&idcortesiaseleccionado='+idcortesiaseleccionado+"&valorseleccionado="+valorseleccionado;
     var pagina = "GuardarReagenda.php";
    if(confirm("\u00BFDesea realizar esta operaci\u00f3n?"))
 	{
@@ -2387,7 +2749,8 @@ function GuardarReagenda(idcita) {
 			    if (resp.respuesta==1) {
 
 			    	var mensaje="Operación realizada con éxito";
-			    	aparecermodulos('catalogos/citas/reagendarcita.php?idcita='+idcita+"&ac=1&msj="+mensaje,'main');
+			    	aparecermodulos('catalogos/dashboard/vi_dashboard.php?ac=1&msj='+mensaje,'main');
+
 				}
 
 			    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
@@ -2406,7 +2769,9 @@ function GuardarReagenda(idcita) {
 function GuardarCancelacion(idcita) {
 	  var datos='idcita='+idcita;
     var pagina = "RealizarCancelacionAdmin.php";
-   if(confirm("\u00BFDesea realizar esta operaci\u00f3n?"))
+
+    AbrirModalCancelacion(idcita);
+  /* if(confirm("\u00BFDesea realizar esta operaci\u00f3n?"))
 	{
 	$('#main').html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Procesando...</div>')
 				
@@ -2434,7 +2799,46 @@ function GuardarCancelacion(idcita) {
 			    });
     	},1000);
 
-    }
+    }*/
+}
+
+
+function AbrirModalCancelacion(idcita) {
+	$("#modalcancelacion").modal();
+}
+
+function CancelacionAdmin(idcita,idusuario) {
+
+    var pagina = "RealizarCancelacionAdmin.php";
+    var motivocancela=$("#v_motivocancelacion").val();
+    var datos="motivocancela="+motivocancela+"&idcita="+idcita+"&idusuarios="+idusuario;
+		$("#modalcancelacion").modal('hide');
+
+	    $.ajax({
+			    type: 'POST',
+			    dataType: 'json',
+				url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+			    async:false,
+			    data:datos,
+			    success: function(resp){
+				$(".modal-backdrop").hide();
+			    if (resp.respuesta==1) {
+			    	var montoamonedero=resp.montoamonedero;
+			    	var mensaje="Operación realizada con éxito";
+			    	if (montoamonedero>0 && montoamonedero!=null) {
+			    		mensaje+="<br>El monto de $"+montoamonedero+" se agregó al monedero";
+			    		}
+			    	aparecermodulos('catalogos/dashboard/vi_dashboard.php?idcita='+idcita+"&ac=1&msj="+mensaje,'main');
+				}
+
+			    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			      var error;
+			        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+			        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+			                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			          }
+			    });
 }
 
 function ListadoCitasRealizadas() {
@@ -2530,4 +2934,235 @@ var html="";
 function CerrarCitasRealizadas() {
 	$("#mostrarcitasrealizadas").css('display','none');
 
+}
+
+
+function ObtenerHorariosDia(operacion){
+
+	var datos="operacion="+operacion+"&fecha="+fechaconsulta;
+		$.ajax({
+					url: 'catalogos/dashboard/ObtenerHorariosFechaDia.php', //Url a donde la enviaremos
+					type: 'POST', //Metodo que usaremos
+					dataType:'json',
+					data:datos,
+					async:false,
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#divcomplementos").html(error);
+					},	
+					success: function (msj) {
+						PintarDia(msj);
+				}
+			});
+
+}
+
+function ObtenerSucursalesDashBoard() {
+	
+	$.ajax({
+		url:'catalogos/pagos/Obtenersucursales.php', //Url a donde la enviaremos
+	  type:'POST', //Metodo que usaremos
+	 dataType:'json',
+	  error:function(XMLHttpRequest, textStatus, errorThrown){
+			var error;
+			console.log(XMLHttpRequest);
+			if (XMLHttpRequest.status === 404)  error="Pagina no existe"+XMLHttpRequest.status;// display some page not found error 
+		 	if (XMLHttpRequest.status === 500) error="Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			$('#abc').html('<div class="alert_error">'+error+'</div>');	
+			//aparecermodulos("catalogos/vi_ligas.php?ac=0&msj=Error. "+error,'main');
+		},
+	  success:function(msj){
+	  	var respuesta=msj.respuesta;
+		
+	  			PintarSucursalesDasboard(respuesta);
+			}
+	});
+}
+
+function PintarSucursalesDasboard(resp) {
+	var html="";
+	if (resp.length>0) {
+		//CrearSesionSucursal(resp[0].idsucursal);
+		for (var i = 0; i <resp.length; i++) {
+			
+			//html+=`<option value="`+resp[i].idsucursal+`">`+resp[i].titulo+`</option>`;
+			html+=`
+			<div class="col-xl-3 col-md-4">
+				<label class="btn btn_dorado catesucursal " onclick="GuardarSucursalFiltro(`+resp[i].idsucursal+`)" id="catebtn_`+resp[i].idsucursal+`" style="margin-right: 10px;width:100%;
+    height: 36px;">`+resp[i].titulo+`
+				<input type="checkbox" style="display: none;" id="cates_`+resp[i].idsucursal+`" class="catecheck"  value="0">
+			 </label>
+			</div>
+
+			`;
+
+		}
+	}
+	$(".v_sucursal").html(html);
+}
+
+function VisualizarListado() {
+	$(".divintervaloshorarios").css('display','none');
+	$(".divlistadoentrega").css('display','block');
+	ObtenerListadoPendienteporentregar();
+	ObtenerListadoentregados();
+}
+function Visualizarintervalos(){
+	$(".divintervaloshorarios").css('display','block');
+	$(".divlistadoentrega").css('display','none');
+}
+function ObtenerListadoPendienteporentregar() {
+	var datos="fechaconsulta="+fechaconsulta;
+	
+	$.ajax({
+		url:'catalogos/dashboard/ObtenerListadoPendienteporentregar.php', //Url a donde la enviaremos
+	  type:'POST', //Metodo que usaremos
+	 dataType:'json',
+	 data:datos,
+	  error:function(XMLHttpRequest, textStatus, errorThrown){
+			var error;
+			console.log(XMLHttpRequest);
+			if (XMLHttpRequest.status === 404)  error="Pagina no existe"+XMLHttpRequest.status;// display some page not found error 
+		 	if (XMLHttpRequest.status === 500) error="Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			$('#abc').html('<div class="alert_error">'+error+'</div>');	
+			//aparecermodulos("catalogos/vi_ligas.php?ac=0&msj=Error. "+error,'main');
+		},
+	  success:function(msj){
+	  	var respuesta=msj.porentregar;
+	  	PintarDatospendientes(respuesta);
+		
+	  			
+			}
+	});
+}
+
+function PintarDatospendientes(respuesta) {
+	var html="";
+	if (respuesta.length>0) {
+		for (var i = 0; i < respuesta.length; i++) {
+				entregado="<span style='font-size:20px;color:red;' class='mdi mdi-close-circle'></span> ";
+
+			if (respuesta[i].entregado==1) {
+				entregado="<span style='font-size:20px;color:green;' class='mdi mdi-checkbox-marked-circle'></span>";
+			}
+			pagado="<span style='font-size:20px;color:red;' class='mdi mdi-close-circle'></span> ";
+			if (respuesta[i].estatusnota==1) {
+					pagado="<span style='font-size:20px;color:green;' class='mdi mdi-checkbox-marked-circle'></span>";
+			}
+
+				html+=`
+
+				<tr>
+      <td style="width: 20%;">`+respuesta[i].cliente+`</td>
+      <td style="width: 20%;">`+respuesta[i].folio+`</td>
+
+      <td style="width: 30%;">`+respuesta[i].descripcion+`</td>
+        <td style="width: 10%;text-align:center;">`+respuesta[i].cantidad+`
+      	 </td>
+      <td style="width: 20%;text-align:center;">`+pagado+`</td>
+          <td style="width: 20%;text-align:center;">`+entregado+`</td>
+
+      <td style="width: 20%;">`;
+      if (respuesta[i].estatusnota==0) {
+    html+=`  <button type="button" onclick="PagarNotaCita(`+respuesta[i].idnotapago+`,1)" class="btn btn-primary" style="" title="Detalle">
+					<i class="mdi mdi-email-outline"></i>
+						</button>`;
+
+		}
+
+		 if (respuesta[i].estatusnota==1) {
+    
+    	html+=`  <button type="button" onclick="PagarNotaCita(`+respuesta[i].idnotapago+`,3)" class="btn btn-primary" style="" title="Detalle">
+					<i class="mdi mdi-email-outline"></i>
+						</button>`;
+
+		}
+
+
+    html+=`  </td>	
+    </tr>
+
+				`;
+		}
+	}
+
+	$("#tblproductospendientes").html(html);
+
+	 
+}
+
+function ObtenerListadoentregados() {
+		var datos="fechaconsulta="+fechaconsulta;
+
+	$.ajax({
+		url:'catalogos/dashboard/ObtenerListadoentregados.php', //Url a donde la enviaremos
+	  type:'POST', //Metodo que usaremos
+	 dataType:'json',
+	 data:datos,
+	 async:false,
+	  error:function(XMLHttpRequest, textStatus, errorThrown){
+			var error;
+			console.log(XMLHttpRequest);
+			if (XMLHttpRequest.status === 404)  error="Pagina no existe"+XMLHttpRequest.status;// display some page not found error 
+		 	if (XMLHttpRequest.status === 500) error="Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			$('#abc').html('<div class="alert_error">'+error+'</div>');	
+			//aparecermodulos("catalogos/vi_ligas.php?ac=0&msj=Error. "+error,'main');
+		},
+	  success:function(msj){
+	  	var respuesta=msj.entregados;
+		
+	  			PintarDatosEntregados(respuesta);
+			}
+	});
+}
+
+function PintarDatosEntregados(respuesta) {
+	var html="";
+	if (respuesta.length>0) {
+		for (var i = 0; i < respuesta.length; i++) {
+			entregado="<span style='font-size:20px;color:red;' class='mdi mdi-close-circle'></span> ";
+
+			if (respuesta[i].entregado==1) {
+				entregado="<span style='font-size:20px;color:green;' class='mdi mdi-checkbox-marked-circle'></span>";
+			}
+			pagado="<span style='font-size:20px;color:red;' class='mdi mdi-close-circle'></span> ";
+			if (respuesta[i].estatusnota==1) {
+					pagado="<span style='font-size:20px;color:green;' class='mdi mdi-checkbox-marked-circle'></span>";
+			}
+
+				html+=`
+
+	 <tr>
+      <td style="width: 20%;">`+respuesta[i].cliente+`</td>
+      <td style="width: 20%;">`+respuesta[i].folio+`</td>
+
+      <td style="width: 20%;">`+respuesta[i].descripcion+`</td>
+        <td style="width: 5%;">`+respuesta[i].cantidad+`
+      	 </td>
+      <td style="width: 20%;text-align:center;">`+pagado+`</td>
+          <td style="width: 20%;text-align:center;">`+entregado+`</td>
+
+      <td style="width: 20%;">
+
+      			<button type="button" onclick="PagarNotaCita(`+respuesta[i].idnotapago+`,4)" class="btn btn-primary" style="" title="Detalle">
+								<i class="mdi mdi-dropbox"></i>
+				</button>
+
+		      </td>	
+		    </tr>
+
+				`;
+		}
+	}
+
+	$("#tblproductosentregados").html(html);
+
+	 
+}
+
+function OcultarModal() {
+	$("#modalelegircliente").modal('hide');
 }

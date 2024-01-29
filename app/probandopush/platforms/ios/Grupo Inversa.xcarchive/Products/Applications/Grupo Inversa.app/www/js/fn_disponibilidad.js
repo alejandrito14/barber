@@ -579,7 +579,7 @@ function PintarIntervalos3(respuesta) {
 
     html+=`<div class="">`;
     for (var i = 0; i <respuesta.length; i++) { 
-      html+=`<a class=" button button-fill button-small button-round horariossele sinseleccionarhora" style="" onclick="SeleccionarHorario4(this)" id="horario_`+i+`">`+respuesta[i].horainicial+`</a>`;
+      html+=`<a class=" button button-small button-round horariossele sinseleccionarhora" style="" onclick="SeleccionarHorario4(this)" id="horario_`+i+`">`+respuesta[i].horainicial+`</a>`;
     }
 
     html+=`</div>`;

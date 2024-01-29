@@ -185,7 +185,19 @@ input[type=number] { -moz-appearance:textfield; }
 }
 
 .seleccionadofecha{
-   background: red!important;
+   background: #b8b09b!important;
+   /*border-radius: 30px;*/
+   color: white; 
+   cursor:pointer;margin: auto;
+   /*width:20%;*/
+ /*  padding-right: 1em;*/
+   padding-left:1em;
+   justify-content:center;
+   /*display:flex;*/
+}
+
+.seleccionadofechaactual{
+   background: #c7aa6a;
    /*border-radius: 30px;*/
    color: white; 
    cursor:pointer;margin: auto;
@@ -266,3 +278,118 @@ input[type=number] { -moz-appearance:textfield; }
     color: #9c9c9c;
      cursor: pointer;
   }
+  .disponible{
+    background:#c7aa6a!important;
+  }
+
+  .seleccionadofecha2{
+   background: #9c9c9c!important;
+   /*border-radius: 30px;*/
+   color: white; 
+   cursor:pointer;margin: auto;
+   /*width:20%;*/
+ /*  padding-right: 1em;*/
+   padding-left:1em;
+   justify-content:center;
+   /*display:flex;*/
+}
+
+.btn_dorado{
+    background-color:#c7aa6a;
+    border: 1px solid #FFFFFF;
+    color:#ffffff;
+}
+.activo{
+  background: #9c9c9c!important;
+}
+.titulomodalcita{
+  font-size: 20px!important;
+
+}
+
+
+
+.estatuscitapendiente2{
+
+    background: #f7bb44;
+    color: white;
+   
+}
+
+.estatuscitaproceso2{
+
+    background: #38a2f7;
+    color: white;
+   
+   /* border-radius: 10px;*/
+}
+
+.estatuscitafinalizada2{
+
+    background: #2b952a;
+    color: white;
+   
+}
+
+.estatuscitacancelada2{
+
+    background: red;
+    color: white;
+   
+}
+
+
+.estatuscitavencida2{
+
+    background: gray;
+    color: white;
+   
+}
+.estatuscitarealizado2{
+  background: #2b952a;
+  color: white;
+}
+
+.preciopaqueteestilo2{
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    /* margin: auto; */
+    /* width: 80px; */
+    background: black;
+    /* margin: auto; */
+    /* width: 100px; */
+    /* margin-bottom: 10px; */
+    /* margin-bottom: 10em; */
+    border-radius: 10px;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.btncancelarcita{
+      color: #fff;
+    background-color: red;
+    border-color: red;
+}
+
+
+.notaaceptado1{
+    background:#59c158;
+   
+    color: white!important;
+}
+.notapendiente1{
+    background:#ebc418;
+    
+    color: white!important;
+}
+
+.notacancelado1{
+    background:red;
+   
+    color: white!important;
+}
+

@@ -8,7 +8,7 @@ class AccesoEmpresa
 	//Funcion que nos regresa todos los registros de la tabla empresas
 	public function obtenerTodasSucursales()
 	{
-		$sql = "SELECT * FROM sucursales";
+		$sql = "SELECT * FROM sucursal";
 		$resp = $this->db->consulta($sql);
 		return $resp;
 	}

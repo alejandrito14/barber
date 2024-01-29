@@ -71,7 +71,7 @@ class Menu extends Funciones
 						
 					
 					$menu.='<li class="sidebar-item clasemenu" id="modulo_'.$this->conver_especial(str_replace(' ','_',$rows['modulo'])).'"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i style="color:white;" class="'.$rows['iconomodulo'].'" style="font-size:12px;"></i><span style="font-size:12px!important;" class="hide-menu">'.$rows['modulo'].'</span></a>';
-					$menu.='<ul aria-expanded="false" class="collapse  first-level" style="background:#021836;">';
+					$menu.='<ul aria-expanded="false" class="collapse  first-level" style="background:black;">';
 
 					/*$menu.='<li class="sidebar-item"></li>';*/
 					$contador=0;

@@ -55,7 +55,7 @@
     ]
   },
   "devDependencies": {
-    "cordova-android": "^12.0.1",
+    "cordova-android": "^12.0.0",
     "cordova-ios": "^7.0.1",
     "cordova-plugin-dialogs": "github:dpa99c/cordova-plugin-dialogs",
     "cordova-plugin-facebook-connect": "^3.2.0",

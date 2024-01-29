@@ -330,31 +330,22 @@ $estatuspago = array('NO PAGADO','PAGADO');
 
 
 <script type="text/javascript">
-	 $('#tbl_pagos').DataTable( {		
-	 
- "order": [[ 2, "desc" ]],
-		 	"pageLength": 100,
-			"oLanguage": {
-						"sLengthMenu": "Mostrar _MENU_ ",
-						"sZeroRecords": "NO EXISTEN NOTAS DE PAGO EN LA BASE DE DATOS.",
-						"sInfo": "Mostrar _START_ a _END_ de _TOTAL_ Registros",
-						"sInfoEmpty": "desde 0 a 0 de 0 records",
-						"sInfoFiltered": "(filtered desde _MAX_ total Registros)",
-						"sSearch": "Buscar",
-						"oPaginate": {
-									 "sFirst":    "Inicio",
-									 "sPrevious": "Anterior",
-									 "sNext":     "Siguiente",
-									 "sLast":     "Ultimo"
-									 }
-						},
-		   "sPaginationType": "full_numbers", 
-		 	"paging":   true,
-		 	"ordering": true,
-        	"info":     false
 
+$('#tbl_pagos').DataTable({
+    "order": [[0, 'desc']],
+    "ordering": false, // Esto deshabilitará la ordenación por parte de DataTables
+    "pageLength": 100,
+    "oLanguage": {
+        // Tu configuración de idioma
+    },
+    "sPaginationType": "full_numbers",
+    "paging": true,
+    "info": false,
+    "columnDefs": [
+        { "type": "num", "targets": 0 } // 
+    ]
+});
 
-		} );
 
 
 	  $('#exportarBtn').click(function() {

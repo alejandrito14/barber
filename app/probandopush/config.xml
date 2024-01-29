@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.inversa.app" version="13.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.inversa.app" version="1.0.33" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Grupo Inversa</name>
     <description>
-        Test project for cordova-plugin-firebasex
+        
     </description>
     <author email="dave@workingedge.co.uk">
        Dave Alden
@@ -90,6 +90,24 @@
         <resource-file src="res/ios/sound/crystal.caf" />
         <resource-file src="res/ios/sound/msn.caf" />
         <resource-file src="res/ios/pn-actions.json" />
+
+         <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+        <config-file parent="NSCameraUsageDescription" platform="ios" target="*-Info.plist">
+            <string>Grupo Inversa needs access to camera files to add a pictures and photo user profile </string>
+        </config-file>
+        <config-file parent="NSPhotoLibraryUsageDescription" platform="ios" target="*-Info.plist">
+            <string>Grupo Inversa needs access to the phone's files to add a pictures and photo user profile
+          </string>
+        </config-file>
+        <config-file parent="NSLocationWhenInUseUsageDescription" platform="ios" target="*-Info.plist">
+            <string>
+          Grupo Inversa needs access to your approximate location, to choose the zip code
+        </string>
+        </config-file>
+        <config-file parent="NSLocationAlwaysUsageDescription" platform="ios" target="*-Info.plist">
+            <string> Grupo Inversa access to your approximate location, to choose the zip code</string>
+        </config-file>
     </platform>
 </widget>
 

@@ -297,7 +297,7 @@ if (isset($_SESSION['permisos_acciones_erp'])) {
 						    	<div class="form-check cli_"  id="cli_<?php echo $a_cliente['idcliente'];?>_<?php echo $a_cliente['idcliente'];?>">
 						    	    <?php 	
 						    			$valor="";
-                                        $nombre=mb_strtoupper($f->imprimir_cadena_utf8($a_cliente['nombre']." ".$a_cliente['paterno']." ".$a_cliente['materno']));
+            $nombre=mb_strtoupper($f->imprimir_cadena_utf8($a_cliente['nombre']." ".$a_cliente['paterno']." ".$a_cliente['materno']));
 						    		?>
 									  <input  type="checkbox" value="" class="form-check-input chkcliente_<?php echo $idcupon;?>" id="inputcli_<?php echo $a_cliente['idusuarios']?>_<?php echo $idcupon;?>" <?php echo $valor; ?>>
 									  <label class="form-check-label" for="flexCheckDefault"><?php echo $nombre; ?></label>
@@ -370,10 +370,39 @@ if (isset($_SESSION['permisos_acciones_erp'])) {
                     <div class="invalid-feedback">Ingrese una listado (números separados por coma) Ejemplo: 5, 10, 15  </div>
                 </div>
             </div>
-            <div class="col-md-6" style="float: left;margin-bottom: 0.5em;">
+            <div class="col-md-6" style="float: left;margin-bottom: 0.5em;display: none;">
                 <label> APLICA PARA PAQUETE EN PROMOCIÓN:</label>
                 <input type="checkbox" id="v_aplicarsobrepromo"  name="v_aplicarsobrepromo"  value="<?php ?>" title="SOBRE PROMOCIÓN">
             </div>
+        </div>
+
+
+             <div class="col-md-12" style="float: left;margin-top: 1em;">
+            <label class="col-md-12 card-header" style="padding-left: 0.45rem;margin-bottom: 1em;">OPCIONES POR PAQUETE:</label>
+            </div>
+
+             <div class="col-md-12" style="float: left;margin-top: 1em;">
+                <button class="btn btn-primary" onclick="AgregarNuevaPromocion()">AGREGAR NUEVO</button>
+
+
+            </div>
+
+            <div class="col-md-12" style="float: left;margin-top: 1em;">
+                <div class="promociones"></div>
+
+
+            </div>
+
+
+
+
+             <div class="col-md-12" style="float: left;margin-bottom: 1em;">
+              
+
+            </div>
+
+
+
 
             <div class="col-md-12" style="float: left;margin-bottom: 1em;">
             <label class="col-md-12 card-header" style="padding-left: 0.45rem;">LIMITE DE USOS:</label>

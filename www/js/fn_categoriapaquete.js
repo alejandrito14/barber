@@ -99,11 +99,11 @@ function GuardarCategoriaspaquete(form,regresar,donde,idmenumodulo)
 	 }
 }
 
-function BorrarCategoria(idcategoria,campo,tabla,valor,regresar,donde,idmenumodulo) {
+function BorrarCategoriaP(idcategoria,campo,tabla,valor,regresar,donde,idmenumodulo) {
 	
 var datos='idcategoria='+idcategoria;
 	$.ajax({
-		url:'catalogos/categoriaspaquete/borrarCategoria.php', //Url a donde la enviaremos
+		url:'catalogos/categoriapaquete/borrarCategoria.php', //Url a donde la enviaremos
 	  type:'POST', //Metodo que usaremos
 	  data: datos, //Le pasamos el objeto que creamos con los archivos
 	  error:function(XMLHttpRequest, textStatus, errorThrown){

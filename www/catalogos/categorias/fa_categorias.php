@@ -53,7 +53,7 @@ if(!isset($_GET['idcategoria'])){
 
 	$col = "col-md-12";
 	$ver = "display:none;";
-	$titulo='NUEVA CATEGORIA DE SUCURSAL';
+	$titulo='NUEVO TIPO DE NEGOCIO';
 	$obtenerorden=$emp->ObtenerUltimoOrdencategoria();
 	$roworden=$db->fetch_assoc($obtenerorden);
 	$num=$db->num_rows($obtenerorden);
@@ -97,7 +97,7 @@ if(!isset($_GET['idcategoria'])){
 
 	$col = "col-md-12";
 	$ver = "";
-		$titulo='EDITAR CATEGORIA DE SUCURSAL';
+		$titulo='EDITAR TIPO DE NEGOCIO';
 
 }
 

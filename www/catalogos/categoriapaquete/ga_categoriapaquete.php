@@ -27,7 +27,7 @@ try
 	$emp = new Categoriaspaquete();
 	$f = new Funciones();
 	$md = new MovimientoBitacora();
-	
+	$idsucursal=$se->obtenerSesion('idsucursalsesion');
 	//enviamos la conexión a las clases que lo requieren
 	$emp->db=$db;
 	$md->db = $db;	
@@ -41,7 +41,7 @@ try
 	$emp->empresa = trim($f->guardar_cadena_utf8($_POST['v_empresa']));
 	$emp->orden = trim($f->guardar_cadena_utf8($_POST['v_orden']));
 	$emp->estatus = trim($f->guardar_cadena_utf8($_POST['v_estatus']));
-
+	$emp->idsucursal=$idsucursal;
 
 	$ruta="imagenescategoria/".$_SESSION['codservicio'].'/';
 

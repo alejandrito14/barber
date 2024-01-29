@@ -103,7 +103,7 @@ $estatuspago = array('NO PAGADO','PAGADO');
 				$bt->title="NUEVO PAGO";
 				
 
-				$bt->armar_boton();
+				//$bt->armar_boton();
 			
 			?>
 			
@@ -120,7 +120,7 @@ $estatuspago = array('NO PAGADO','PAGADO');
 				<div class="row" style="margin-bottom:1em;">
 				<div class="col-md-9"></div>
 					<div class="col-md-3">
-							<button id="exportarBtn" class="btn btn-success" style="margin-left: 70px;">Exportar a Excel</button>
+							<button id="exportarBtn" class="btn btn-success" style="margin-left: 70px;display: none;">Exportar a Excel</button>
 					</div>
 			</div>
 		
@@ -330,31 +330,9 @@ $estatuspago = array('NO PAGADO','PAGADO');
 
 
 <script type="text/javascript">
-	 $('#tbl_pagos').DataTable( {		
-	 
- "order": [[ 2, "desc" ]],
-		 	"pageLength": 100,
-			"oLanguage": {
-						"sLengthMenu": "Mostrar _MENU_ ",
-						"sZeroRecords": "NO EXISTEN NOTAS DE PAGO EN LA BASE DE DATOS.",
-						"sInfo": "Mostrar _START_ a _END_ de _TOTAL_ Registros",
-						"sInfoEmpty": "desde 0 a 0 de 0 records",
-						"sInfoFiltered": "(filtered desde _MAX_ total Registros)",
-						"sSearch": "Buscar",
-						"oPaginate": {
-									 "sFirst":    "Inicio",
-									 "sPrevious": "Anterior",
-									 "sNext":     "Siguiente",
-									 "sLast":     "Ultimo"
-									 }
-						},
-		   "sPaginationType": "full_numbers", 
-		 	"paging":   true,
-		 	"ordering": true,
-        	"info":     false
 
 
-		} );
+
 
 
 	  $('#exportarBtn').click(function() {

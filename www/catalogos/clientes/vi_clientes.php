@@ -113,7 +113,7 @@ var oTable = $('#zero_config').dataTable( {
 		$bt->icon = "mdi-plus-circle";
 		$bt->funcion = "
 	
-			 aparecermodulos('catalogos/especialistas/fa_cliente.php?idmenumodulo=$idmenumodulo','main');
+			 aparecermodulos('catalogos/clientes/fa_cliente.php?idmenumodulo=$idmenumodulo','main');
 			 ";
 		$bt->estilos = "float: right; margin-right: 10px;";
 		$bt->permiso = $permisos;
@@ -130,24 +130,23 @@ var oTable = $('#zero_config').dataTable( {
 	</div>
   	<div class="card-body">
 		<div class="table-responsive">
-				<table id="zero_config" class="table table-bordered table-hover" cellpadding="0" cellspacing="0">
+				<table id="tblclientes"  class="table table-bordered table-hover" cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
 						<th>ID</th>
 
  						<th>TIPO</th>
- 					 <th>FOTO</th>
- 	 				<th>ALIAS</th>
+<!--  					 <th>FOTO</th> -->
+  	 				 <th>ALIAS</th>
 
 						<th width="72">NOMBRE</th>
-						<th width="72">USUARIO</th>
+						<th width="72">USUARIO/CEL</th>
 
 					<!--	<th>NIVEL</th> -->
 						<!--<th>NO TARJETA</th>-->
-						<th width="88">CELULAR</th>
-						<th>CORREO</th>
-						<th>ASOCIADOS</th>
-						<th>ASOCIADO DE</th>
+				<!-- 		<th width="88">CELULAR</th> -->
+<!-- 						<th>CORREO</th>
+ -->					
 <!-- 						<th width="97">LOCALIDAD</th>
  --> 
 						<th>ESTATUS</th>
@@ -174,24 +173,24 @@ var oTable = $('#zero_config').dataTable( {
 							<td width="30"><?php echo utf8_encode($result_row['idusuarios']); ?></td>
 						  
 							<td width="30"><?php echo utf8_encode($result_row['nombretipo']); ?></td>
-							<td width="30"><?php
+							<!-- <td width="30"> -->
+							<!-- 	<?php
 
 						$fotoperfil=	$result_row['foto'];
 								if($fotoperfil=="" || $fotoperfil=='null'){
 														$rutaperfil="images/sinfoto.png";
 													}
 													else{
-														//$rutaine="catalogos/paquetes/imagenespaquete/".$_SESSION['codservicio']."/$foto";
-
+													
 														$rutaperfil="app/".$_SESSION['carpetaapp']."/php/upload/perfil/$fotoperfil";
 													}
 
-							 ?>
+							 ?> -->
 							 	
-							 <img src="<?php echo $rutaperfil; ?>" style="height: 30px;width: 30px;">
+							<!--  <img src="<?php echo $rutaperfil; ?>" style="height: 30px;width: 30px;">
 
-							 </td>
-							<td width="30"><?php echo utf8_encode($result_row['alias']); ?></td>
+							 </td> -->
+					 	<td width="30"><?php echo utf8_encode($result_row['alias']); ?></td> 
 						  
 						  	<td><?php
 
@@ -201,26 +200,15 @@ var oTable = $('#zero_config').dataTable( {
 						  	<!--<td><?php echo $nivel; ?></td>-->
 						  		<td width="30"><?php echo utf8_encode($result_row['usuario']); ?></td>
 
-						  	<td>
+						  <!-- 	<td>
 						  		<a href="tel://<?php echo utf8_encode($result_row['celular']); ?>"><?php echo utf8_encode($result_row['celular']); ?>
 						  			
 						  		</a>
-						  	</td>
-						  		<td width="30"><?php echo utf8_encode($result_row['email']); ?></td>
+						  	</td> -->
+						  <!-- 		<td width="30"><?php echo utf8_encode($result_row['email']); ?></td> -->
 
-						  		<td>
-						  		
-
-						  		</td>
-						  		<td>
-
-						  			<?php 
-						  		
-
-						  			 ?>
-						  			
-
-						  		</td>
+						  
+						  
 						  
 						 	<td width="30"><?php echo utf8_encode($estatus[$result_row['estatus']]); ?></td>
 							
@@ -233,7 +221,7 @@ var oTable = $('#zero_config').dataTable( {
 													//SCRIPT PARA CONSTRUIR UN BOTON
 													$bt->titulo = "";
 													$bt->icon = "mdi-table-edit";
-													$bt->funcion = "aparecermodulos('catalogos/especialistas/fa_cliente.php?idmenumodulo=$idmenumodulo&idusuarios=".$result_row['idusuarios']."','main')";
+													$bt->funcion = "aparecermodulos('catalogos/clientes/fa_cliente.php?idmenumodulo=$idmenumodulo&idusuarios=".$result_row['idusuarios']."','main')";
 													$bt->estilos = "";
 													$bt->permiso = $permisos;
 													$bt->tipo = 2;
@@ -250,7 +238,7 @@ var oTable = $('#zero_config').dataTable( {
 													$bt->tipo = 2;
 													$bt->title="DETALLE";
 													$bt->class='btn btn_colorgray';
-													$bt->armar_boton();
+												//	$bt->armar_boton();
 											
 
 
@@ -262,7 +250,7 @@ var oTable = $('#zero_config').dataTable( {
 													$bt->tipo = 3;
 													$bt->title="BORRAR";
 
-													$bt->armar_boton();
+												//	$bt->armar_boton();
 												   					
 												
 								
@@ -486,3 +474,25 @@ var oTable = $('#zero_config').dataTable( {
 	//Buscar_empleado(<?php echo $idmenumodulo; ?>);
 </script>
 
+	<script type="text/javascript" charset="utf-8">
+				var oTable = $('#tblclientes').dataTable( {		
+					
+					  "oLanguage": {
+									"sLengthMenu": "Mostrar _MENU_ Registros por pagina",
+									"sZeroRecords": "Nada Encontrado - Disculpa",
+									"sInfo": "Mostrar _START_ a _END_ de _TOTAL_ Registros",
+									"sInfoEmpty": "desde 0 a 0 de 0 records",
+									"sInfoFiltered": "(filtered desde _MAX_ total Registros)",
+									"sSearch": "Buscar",
+									"oPaginate": {
+												 "sFirst":    "Inicio",
+												 "sPrevious": "Anterior",
+												 "sNext":     "Siguiente",
+												 "sLast":     "Ultimo"
+												 }
+                                    },
+			           "sPaginationType": "full_numbers",
+						 	"ordering": true,
+
+				} );
+				</script>

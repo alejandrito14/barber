@@ -23,7 +23,7 @@
         'November' => 'Nov.',
         'December' => 'Dic.'
     	);	
-	
+	 public $diasSemanaCorto = array('Dom.','Lun.','Mar.','Mie.','Jue.','Vie.','Sáb.');
 	public function Fechas()
 	{
 		date_default_timezone_set("america/mexico_city");
@@ -611,6 +611,12 @@
 	     
 	      return date('Y-m-d', mktime(0,0,0, $month, 1, $year));
 	  } 
+
+
+	  function numeroDiaSemana($fecha) {
+		    $numero_dia = date('w', strtotime($fecha));
+		    return $numero_dia;
+		}
   
 
   }

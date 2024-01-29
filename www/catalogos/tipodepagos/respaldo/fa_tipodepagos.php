@@ -60,7 +60,7 @@ if(!isset($_GET['idtipodepago'])){
 	$confoto=0;
 	$constripe=0;
 	$habilitarcampomontofactura=0;
-
+	$chkparafactura=0;
 }else{
 	//El formulario funcionara para modificacion de un registro
 
@@ -85,11 +85,13 @@ if(!isset($_GET['idtipodepago'])){
 	$porcentajecomision = $f->imprimir_cadena_utf8($result_tipodepagos_row['comisionporcentaje']);
 	$montotransaccion = $f->imprimir_cadena_utf8($result_tipodepagos_row['comisionmonto']);
 	$porcentajeimpuesto = $f->imprimir_cadena_utf8($result_tipodepagos_row['impuesto']);
-
+	$chkparafactura=$result_tipodepagos_row['factura'];
 
 	$habilitarcampo=$f->imprimir_cadena_utf8($result_tipodepagos_row['habilitarcampomonto']);
 
 	$habilitarcampomontofactura=$result_tipodepagos_row['habilitarcampomontofactura'];
+	$habilitartiposervicio=$result_tipodepagos_row['habilitartiposervicio'];
+	
 
 	$che="";
 	$visualizarcuenta='none';
@@ -109,6 +111,10 @@ if(!isset($_GET['idtipodepago'])){
 
 	if ($habilitarcampo==1) {
 		$che3="checked";
+	}
+	$che5="";
+	if ($chkparafactura==1) {
+		$che5="checked";
 	}
 
 	$che4="";
@@ -267,7 +273,10 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 								<input type="text" class="form-control" id="porcentajeimpuesto" name="porcentajeimpuesto" value="<?php echo $porcentajeimpuesto; ?>" title="PORCENTAJE IMPUESTO" placeholder='PORCENTAJE DE IMPUESTO'>
 							</div>
 
-
+								<div class="form-group">
+								<label>HABILITAR TIPO DE PAGO PARA FACTURA:</label>
+								<input type="checkbox" class="" id="chkparafactura" name="chkparafactura"  title="" onchange="Habilitarparafactura()" value="<?php echo $chkparafactura; ?>"placeholder='' <?php echo $che5 ?>>
+							</div>
 
 							
 							
@@ -289,6 +298,61 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 				</div>
 			</div>
 			</div>
+
+
+			<div class="card" style="display: none;" id="divhorarios">
+				<div class="card-header" style="">
+
+				</div>
+				<div class="card-body">
+						<div style="margin-top: 3em;margin-left: 1em;">
+
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-check" style="margin-bottom: 1em;">
+                    
+					<input type="checkbox" class="form-check-input " name="v_tiposervicio" id="v_tiposervicio" value="0" onchange="Desplegartiposerviciotipo()" style="top: -0.3em;">
+					<label class="form-check-label">POR TIPO SERVICIO</label>
+			</div>
+								
+									
+								</div>
+								<div class="col-md-3">
+										
+									</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="divtiposervicio" style="display: none;">
+							<div class="row">
+								<div class="col-md-12">
+									<!-- <button class="btn btn-primary" type="button" style=" float: right;   margin-top: -1em;" onclick="AgregarTipopago()">NUEVO TIPO DE SERVICIO</button> -->
+								</div>
+								
+							</div>
+								
+							<div id="tiposervicios" style="display: none;">
+								<div class="form-group m-t-20">  
+		                        <input type="text" class="form-control" name="buscadortipo_" id="buscadortipo_" placeholder="Buscar" onkeyup="BuscarEnLista('#buscadortipo_','.pasucat_')" style="    margin-bottom: 1em;">
+		                        <div id="todostiposervicios" style="    overflow: scroll;height: 200px;"></div>
+		                    </div>
+
+
+
+
+
+							</div>
+						</div>
+
+								</div>
+							</div>
+						
+
+
+					</div>
+				</div>
+			</div>
+
 		</div>
 
 
@@ -305,6 +369,27 @@ input[type=number]::-webkit-outer-spin-button {
 
 input[type=number] { -moz-appearance:textfield; }
 </style>
+
+<script>
+	var idtipodepago='<?php echo $idtipodepago ?>';
+	var habilitartiposervicio='<?php echo $habilitartiposervicio ?>';
+
+	
+
+	if (idtipodepago>0) {
+
+		if (habilitartiposervicio==1) {
+			$(".divtiposervicio").css('display','block');
+			$("#v_tiposervicio").val(habilitartiposervicio);
+			$("#v_tiposervicio").attr('checked',true);
+			CargarTipoServicios2();
+		}
+
+		ObtenerCategoriasTipo(idtipodepago);
+	}
+
+
+</script>
 
 <?php
 

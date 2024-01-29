@@ -86,7 +86,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 
 <div class="card">
   <div class="card-body">
-    <h5 class="card-title" style="float: left;">LISTADO DE CATEGORÍAS</h5>
+    <h5 class="card-title" style="float: left;">LISTADO DE TIPOS DE NEGOCIO</h5>
     
     <div style="float:right;">
       <button type="button" onClick="abrir_filtro('modal-filtros');" class="btn btn-primary" style="float: right;display: none;"><i class="mdi mdi-account-search"></i>  BUSCAR</button>      
@@ -94,7 +94,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
       <?php
       
         //SCRIPT PARA CONSTRUIR UN BOTON
-        $bt->titulo = "NUEVA CATEGORIA";
+        $bt->titulo = "NUEVO TIPO DE NEGOCIO";
         $bt->icon = "mdi-plus-circle";
         $bt->funcion = "aparecermodulos('catalogos/categorias/fa_categorias.php?idmenumodulo=$idmenumodulo','main');";
         $bt->estilos = "float: right; margin-right:10px;";

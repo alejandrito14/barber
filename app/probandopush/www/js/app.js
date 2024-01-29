@@ -99,13 +99,12 @@ var pictureSource;   // picture source
 var destinationType; 
 var produccion=1;
 const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-alert(produccion);
+
 localStorage.setItem('zonahoraria',userTimeZone);
 
 var idcategoriapadre=0;
 var codigoservicio="0";
 $(document).ready(function() {
-alert('pro'+produccion);
 
     if (produccion == 0) {
       codigoservicio='125';
@@ -144,7 +143,7 @@ alert('pro'+produccion);
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.32';
+var version='1.0.33';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;
@@ -311,7 +310,7 @@ function Cargar() {
    
 
 
-      if( window.isphone ) {
+     // if( window.isphone ) {
  
 
     var p1 = new Promise(function(resolve, reject) {
@@ -334,7 +333,7 @@ function Cargar() {
 
 
     
-    }
+   // }
 
       var sesion=localStorage.getItem('session');
       var iduser=localStorage.getItem('id_user'); 
@@ -447,7 +446,6 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
 
     entrarinvitado().then(resultado => {
     
-       alert('a4');
 
     var invitado= localStorage.getItem('invitado');
      CargarDatos();

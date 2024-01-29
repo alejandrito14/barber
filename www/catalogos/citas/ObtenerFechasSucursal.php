@@ -72,12 +72,12 @@ try
      $nodisponible=[];
 
      $primerdiaresta=date("d-m-Y",strtotime($fecha_actual."- 1 days")); 
-
-      for($i=strtotime($primerdiames); $i<=strtotime($primerdiaresta); $i+=86400){
+     //fechas anteriores
+      /*for($i=strtotime($primerdiames); $i<=strtotime($primerdiaresta); $i+=86400){
       	  $fechaconsulta=date("Y-m-d", $i);
 
       array_push($nodisponible,$fechaconsulta);
-      }
+      }*/
 
 
  
@@ -215,7 +215,7 @@ try
 			}, $arrayfechasdisponibles)));
 
 
-			$fechaformato=$fechas->mesesEnEspañol[date('F',strtotime($primerdia))].' '.date('Y', strtotime($primerdia));
+			$fechaformato=$fechas->mesesEnEspañol[date('F',strtotime($primerdiames))].' '.date('Y', strtotime($primerdiames));
 	//echo $mes;
 	
 	$respuesta['respuesta']=1;

@@ -43,7 +43,7 @@ class Paquetes
 	public $idcategoriapaquete;
 	public $idsucursal;
 	public $tiempoestimado;
-
+	
 
 	public function obtenerFiltro()
 	{
@@ -670,6 +670,460 @@ class Paquetes
 }
 
 
+  public function ObtenerPaquete2() {
+        $query = "
+			SELECT
+			paquetes.idpaquete,
+			paquetes.nombrepaquete,
+			paquetes.descripcion,
+			paquetes.foto,
+			paquetes.estatus,
+			categoriapaquete.idcategoriapaquete,
+			paquetesucursal.idsucursal,
+			paquetes.promocion,
+			paquetes.aplicardirecto,
+			paquetes.definirfecha,
+			paquetes.repetitivo,
+			paquetes.fechainicial,
+			paquetes.fechafinal,
+			paquetes.lunes,
+			paquetes.martes,
+			paquetes.miercoles,
+			paquetes.jueves,
+			paquetes.viernes,
+			paquetes.sabado,
+			paquetes.domingo,
+			paquetes.preciofijo,
+			paquetes.cantidad,
+			paquetes.considerar,
+			preciopaquete.precio as precioventa,
+			paquetes.horainicialpromo,
+			paquetes.horafinalpromo,
+			paquetes.intervaloservicio,
+			paquetes.servicio
+
+			FROM
+			paquetes
+			JOIN categoriapaquete
+			ON paquetes.idcategoriapaquete = categoriapaquete.idcategoriapaquete
+			JOIN paquetesucursal
+			ON paquetes.idpaquete = paquetesucursal.idpaquete
+			JOIN preciopaquete
+			ON paquetes.idpaquete = preciopaquete.idpaquete
+			JOIN precio
+			ON precio.idprecio = preciopaquete.idprecio WHERE
+
+		 paquetes.idpaquete=" . $this->idpaquete . " GROUP BY idpaquete";
+		
+        $resp = $this->db->consulta($query);
+        $cont = $this->db->num_rows($resp);
+
+        $array    = array();
+        $contador = 0;
+        if ($cont > 0) {
+
+            while ($objeto = $this->db->fetch_object($resp)) {
+
+                $array[$contador] = $objeto;
+                $contador++;
+            }
+        }
+        return $array;
+
+    }
+
+
+    public function ObtenerPaquetesIntervalos() {
+       $sql = "
+			SELECT *FROM (SELECT
+			paquetes.idpaquete,
+			paquetes.nombrepaquete,
+			paquetes.descripcion,
+			paquetes.foto,
+			paquetes.estatus,
+			paquetesucursal.idsucursal,
+			paquetes.promocion,
+			preciopaquete.precio as precioventa,
+			precio.principal,
+			paquetes.orden,
+			paquetes.servicio,
+			paquetes.intervaloservicio
+			FROM
+			paquetes
+			JOIN paquetesucursal
+			ON paquetes.idpaquete = paquetesucursal.idpaquete
+			JOIN preciopaquete
+			ON paquetes.idpaquete = preciopaquete.idpaquete
+			JOIN precio
+			ON precio.idprecio = preciopaquete.idprecio
+			WHERE
+			paquetesucursal.idsucursal IN('$this->idsucursal') and precio.principal=1 and 	paquetes.estatus=1 AND paquetes.servicio=1
+				GROUP BY paquetes.intervaloservicio) AS TABLA ";
+
+		
+        $resp = $this->db->consulta($sql);
+        $cont = $this->db->num_rows($resp);
+
+        $array    = array();
+        $contador = 0;
+        if ($cont > 0) {
+
+            while ($objeto = $this->db->fetch_object($resp)) {
+
+                $array[$contador] = $objeto;
+                $contador++;
+            }
+        }
+        return $array;
+    }
+
+
+
+     public function PaquetesCategoriaSuLimite($inicio,$cantidad)
+    {
+    	  $sql = "
+			SELECT *FROM (SELECT
+			paquetes.idpaquete,
+			paquetes.nombrepaquete,
+			paquetes.descripcion,
+			paquetes.idcategoriapaquete as iddepende,
+			paquetes.foto,
+			paquetes.estatus,
+			paquetesucursal.idsucursal,
+			paquetes.promocion,
+			preciopaquete.precio as precioventa,
+			precio.principal,
+			paquetes.orden,
+			paquetes.servicio,
+			IFNULL(paquetes.preciofijo,0) AS preciofijo,
+			(SELECT COUNT(*)  FROM paquetefavorito WHERE idpaquete=paquetes.idpaquete AND idusuarios='$this->idusuario')as favorito
+
+			FROM
+			paquetes
+			JOIN paquetesucursal
+			ON paquetes.idpaquete = paquetesucursal.idpaquete
+			JOIN preciopaquete
+			ON paquetes.idpaquete = preciopaquete.idpaquete
+			JOIN precio
+			ON precio.idprecio = preciopaquete.idprecio
+			WHERE
+			paquetesucursal.idsucursal=" . $this->idsucursal . "  and precio.principal=1 and 	paquetes.estatus=1 AND paquetes.idcategoriapaquete='$this->idcategoriapaquete' and paquetes.escortesia=0 ORDER BY paquetes.orden DESC
+				) AS TABLA ORDER BY TABLA.orden,TABLA.favorito LIMIT $inicio,$cantidad
+
+		";
+		
+        $resp = $this->db->consulta($sql);
+        $cont = $this->db->num_rows($resp);
+
+        $array    = array();
+        $contador = 0;
+        if ($cont > 0) {
+
+            while ($objeto = $this->db->fetch_object($resp)) {
+
+            	
+
+                $array[$contador] = $objeto;
+                $contador++;
+            }
+        }
+        return $array;
+    }
+
+
+    public function ObtenerPaquetesF($valor)
+	{
+	$query = "SELECT
+	paquetes.idpaquete,
+	paquetes.nombrepaquete,
+	paquetes.descripcion,
+	paquetes.foto,
+	paquetes.estatus,
+	categoriapaquete.idcategoriapaquete,
+	categoriapaquete.nombre AS titulo,
+	paquetes.promocion,
+	preciopaquete.precio as precioventa,
+	paquetes.orden,
+	paquetes.fechainicial,
+	paquetes.fechafinal,
+	paquetes.aplicardirecto,
+	paquetes.cantidad,
+	paquetes.considerar,
+	paquetes.definirfecha,
+	paquetes.lunes,
+	paquetes.martes,
+	paquetes.miercoles,
+	paquetes.jueves,
+	paquetes.viernes,
+	paquetes.sabado,
+	paquetes.domingo,
+	paquetes.repetitivo,
+	paquetes.preciofijo,
+	paquetes.horainicialpromo,
+	paquetes.horafinalpromo,
+	paquetes.servicio
+FROM
+	paquetes
+	LEFT JOIN categoriapaquete ON paquetes.idcategoriapaquete = categoriapaquete.idcategoriapaquete 
+	
+	JOIN paquetesucursal
+			ON paquetes.idpaquete = paquetesucursal.idpaquete
+			JOIN preciopaquete
+			ON paquetes.idpaquete = preciopaquete.idpaquete
+			JOIN precio
+			ON precio.idprecio = preciopaquete.idprecio
+			
+			WHERE  1=1 and nombrepaquete like '%".$valor."%'
+				and servicio=0
+
+			";
+			
+		$resp = $this->db->consulta($query);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
+
+public function ObtenerDatosPaquete()
+	{
+	$query = "SELECT
+			paquetes.idpaquete,
+			paquetes.nombrepaquete,
+			paquetes.descripcion,
+			paquetes.foto,
+			paquetes.estatus,
+			paquetes.promocion,
+				preciopaquete.precio as precioventa,
+
+			paquetes.orden,
+			paquetes.fechainicial,
+			paquetes.fechafinal,
+			paquetes.aplicardirecto,
+			paquetes.cantidad,
+			paquetes.considerar,
+			paquetes.definirfecha,
+			paquetes.lunes,
+			paquetes.martes,
+			paquetes.miercoles,
+			paquetes.jueves,
+			paquetes.viernes,
+			paquetes.sabado,
+			paquetes.domingo,
+			paquetes.repetitivo,
+			paquetes.preciofijo,
+			paquetes.horainicialpromo,
+			paquetes.horafinalpromo
+			FROM
+			paquetes
+			JOIN paquetesucursal
+			ON paquetes.idpaquete = paquetesucursal.idpaquete
+			JOIN preciopaquete
+			ON paquetes.idpaquete = preciopaquete.idpaquete
+			JOIN precio
+			ON precio.idprecio = preciopaquete.idprecio
+			
+			
+			WHERE paquetes.idpaquete='$this->idpaquete'
+
+
+			";
+		
+		$resp = $this->db->consulta($query);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
+
+
+
+  public function ObtenerPaqueteServicio() {
+        $query = "
+			SELECT
+			paquetes.idpaquete,
+			paquetes.nombrepaquete,
+			paquetes.descripcion,
+			paquetes.foto,
+			paquetes.estatus,
+			categoriapaquete.idcategoriapaquete,
+			paquetesucursal.idsucursal,
+			paquetes.promocion,
+			paquetes.aplicardirecto,
+			paquetes.definirfecha,
+			paquetes.repetitivo,
+			paquetes.fechainicial,
+			paquetes.fechafinal,
+			paquetes.lunes,
+			paquetes.martes,
+			paquetes.miercoles,
+			paquetes.jueves,
+			paquetes.viernes,
+			paquetes.sabado,
+			paquetes.domingo,
+			paquetes.preciofijo,
+			paquetes.cantidad,
+			paquetes.considerar,
+			preciopaquete.precio as precioventa,
+			paquetes.horainicialpromo,
+			paquetes.horafinalpromo,
+			paquetes.intervaloservicio,
+			paquetes.servicio
+
+			FROM
+			paquetes
+			JOIN categoriapaquete
+			ON paquetes.idcategoriapaquete = categoriapaquete.idcategoriapaquete
+			JOIN paquetesucursal
+			ON paquetes.idpaquete = paquetesucursal.idpaquete
+			JOIN preciopaquete
+			ON paquetes.idpaquete = preciopaquete.idpaquete
+			JOIN precio
+			ON precio.idprecio = preciopaquete.idprecio WHERE paquetes.estatus=1 GROUP BY idpaquete";
+		
+        $resp = $this->db->consulta($query);
+        $cont = $this->db->num_rows($resp);
+
+        $array    = array();
+        $contador = 0;
+        if ($cont > 0) {
+
+            while ($objeto = $this->db->fetch_object($resp)) {
+
+                $array[$contador] = $objeto;
+                $contador++;
+            }
+        }
+        return $array;
+
+    }
+
+
+
+
+  public function ObtenerPaquetes() {
+        $query = "
+			SELECT
+			paquetes.idpaquete,
+			paquetes.nombrepaquete,
+			paquetes.descripcion,
+			paquetes.foto,
+			paquetes.estatus,
+			categoriapaquete.idcategoriapaquete,
+			paquetesucursal.idsucursal,
+			paquetes.promocion,
+			paquetes.aplicardirecto,
+			paquetes.definirfecha,
+			paquetes.repetitivo,
+			paquetes.fechainicial,
+			paquetes.fechafinal,
+			paquetes.lunes,
+			paquetes.martes,
+			paquetes.miercoles,
+			paquetes.jueves,
+			paquetes.viernes,
+			paquetes.sabado,
+			paquetes.domingo,
+			paquetes.preciofijo,
+			paquetes.cantidad,
+			paquetes.considerar,
+			preciopaquete.precio as precioventa,
+			paquetes.horainicialpromo,
+			paquetes.horafinalpromo,
+			paquetes.intervaloservicio,
+			paquetes.servicio
+
+			FROM
+			paquetes
+			JOIN categoriapaquete
+			ON paquetes.idcategoriapaquete = categoriapaquete.idcategoriapaquete
+			JOIN paquetesucursal
+			ON paquetes.idpaquete = paquetesucursal.idpaquete
+			JOIN preciopaquete
+			ON paquetes.idpaquete = preciopaquete.idpaquete
+			JOIN precio
+			ON precio.idprecio = preciopaquete.idprecio WHERE paquetes.estatus=1 GROUP BY idpaquete";
+		
+        $resp = $this->db->consulta($query);
+        $cont = $this->db->num_rows($resp);
+
+        $array    = array();
+        $contador = 0;
+        if ($cont > 0) {
+
+            while ($objeto = $this->db->fetch_object($resp)) {
+
+                $array[$contador] = $objeto;
+                $contador++;
+            }
+        }
+        return $array;
+
+    }
+
+     public function ObtenerCortesias()
+    {
+    	$sql="SELECT *FROM cortesia
+    	left JOIN paquetes ON paquetes.idpaquete=cortesia.idpaquetecortesia
+    	 WHERE cortesia.idpaquete='$this->idpaquete' ";
+    	
+        $resp = $this->db->consulta($sql);
+        $cont = $this->db->num_rows($resp);
+
+        $array    = array();
+        $contador = 0;
+        if ($cont > 0) {
+
+            while ($objeto = $this->db->fetch_object($resp)) {
+
+                $array[$contador] = $objeto;
+                $contador++;
+            }
+        }
+        return $array;
+    }
+
+
+    public function ObtenerPaqueteCortesia()
+	{
+		$query="SELECT *FROM paquetes WHERE idpaquete=".$this->idpaquete."";
+
+		 $resp = $this->db->consulta($query);
+        $cont = $this->db->num_rows($resp);
+
+        $array    = array();
+        $contador = 0;
+        if ($cont > 0) {
+
+            while ($objeto = $this->db->fetch_object($resp)) {
+
+                $array[$contador] = $objeto;
+                $contador++;
+            }
+        }
+        return $array;
+
+	}
 
 	
 }

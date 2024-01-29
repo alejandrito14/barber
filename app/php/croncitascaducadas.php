@@ -33,10 +33,12 @@ try
 		
 		for ($i=0; $i <count($obtenercitas) ; $i++) { 
 		
-			$horainicial=$obtenercitas[0]->horacita;
-			$horafinal=date('H:i',strtotime($obtenercitas[0]->horafinal));
+			$horainicial=$obtenercitas[$i]->horacita;
+			$horafinal=date('H:i',strtotime($obtenercitas[$i]->horafinal));
 			
-			if ($horafinal<=$horaactual) {
+			$horafs=date('H:i',strtotime($obtenercitas[$i]->horafs));
+
+			if ($horafinal<=$horaactual || $horafs<=$horaactual) {
 				
 				$cita->idcita=$obtenercitas[$i]->idcita;
 				$cita->estatus=4;

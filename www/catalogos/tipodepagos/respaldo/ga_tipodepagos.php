@@ -74,7 +74,7 @@ $idtiposervicio="";
 
 
 
-	if ($v_tiposervicio==1) {
+	/*if ($v_tiposervicio==1) {
 		if($tipodepagos->idtipodepago > 0)
 		{
 			$tipodepagos->EliminarRelacionCategoria();
@@ -91,7 +91,14 @@ $idtiposervicio="";
 		}
 	}
 
-	}
+	}else{
+
+		$existe=$tipodepagos->ObtenerCategoriasTipopago();
+		if (count($existe)>0) {
+			$tipodepagos->EliminarRelacionCategoria();
+		}
+		
+	}*/
 				
 	$db->commit();
 	echo "1|".$tipodepagos->idtipodepagos;

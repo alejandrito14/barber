@@ -79,7 +79,18 @@ try
 	$emp->iva=$_POST['iva'];
 	$emp->mensajev=$_POST['mensajev'];
 	$emp->idcategoriapaquete=$_POST['idcategoriapaquete'];
+
+	
 	$v_sucursal=$_POST['v_sucursal'];
+
+
+
+
+	$emp->tarjetaregalo=$_POST['tarjetaregalo'];
+	$emp->montomonedero=$_POST['txtmonederoregalo'];
+	$emp->convigencia=$_POST['convigencia'];
+	$emp->txtvigencia=$_POST['txtvigencia'];
+	
 
 	$especialistaspaquete='';
 

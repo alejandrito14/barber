@@ -38,12 +38,12 @@ try
 	$us->idperfiles = $_POST['idperfiles'];
 	$us->idpuesto = $_POST['idpuesto'];
 	$us->nombre= trim($f->guardar_cadena_utf8($_POST['nombre']));
-	$us->paterno=trim($f->guardar_cadena_utf8($_POST['paterno']));
+	$us->paterno=trim($f->guardar_cadena_utf8($_POST['v_paterno']));
 	$us->materno=trim($f->guardar_cadena_utf8($_POST['materno']));
 	$us->celular=trim($_POST['celular']);
 	$us->telefono=trim($_POST['telefono']);
 	$us->email=trim($f->guardar_cadena_utf8($_POST['email']));
-	$us->usuario=trim($f->guardar_cadena_utf8($_POST['usuario']));
+	$us->usuario=trim($f->guardar_cadena_utf8($_POST['celular']));
 	$us->clave=trim($f->guardar_cadena_utf8($_POST['clave']));
 	$us->idempresas_sucursal = $_POST['sucursal'];
 	$us->tipo = $_POST['tipo_usuario'];
@@ -64,12 +64,12 @@ try
 	$us->id_usuario=$_POST['v_id'];
 	$us->idperfiles=$_POST['idperfiles'];
 	$us->nombre=trim($f->guardar_cadena_utf8($_POST['nombre']));
-	$us->paterno=trim($f->guardar_cadena_utf8($_POST['paterno']));
+	$us->paterno=trim($f->guardar_cadena_utf8($_POST['v_paterno']));
 	$us->materno=trim($f->guardar_cadena_utf8($_POST['materno']));
 	$us->celular=trim($_POST['celular']);
 	$us->telefono=trim($_POST['telefono']);
 	$us->email=trim($f->guardar_cadena_utf8($_POST['email']));
-	$us->usuario=trim($f->guardar_cadena_utf8($_POST['usuario']));
+	$us->usuario=trim($f->guardar_cadena_utf8($_POST['celular']));
 	$us->clave=trim($f->guardar_cadena_utf8($_POST['clave']));
 	$us->estatus=$_POST['estatus'];
 	$us->idempresas_sucursal = $_POST['sucursal'];
@@ -78,15 +78,15 @@ try
 	$us->sexo=$_POST['v_sexo'];
 	$us->fechanacimiento=$_POST['v_fechanacimiento'];
 	
-	$tipo = $_POST['tipo'];
+	$tipo = $_POST['tipo_usuario'];
 
-
+	$us->tipo=$tipo;
 	//Validamos que sea superUsuario
-	if($tipo == 0){
+	/*if($tipo == 0){
 		$us->tipo = 0;
 	}else{
 		$us->tipo = 1;
-	}
+	}*/
 	
 		
 	//guardando

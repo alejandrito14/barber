@@ -42,14 +42,14 @@ try
 
 
 	if (count($obtenerespecialistas)>0) {
-		for ($i=0; $i < count($obtenerespecialistas); $i++) { 
+		for ($i=0; $i < count($obtenerespecialistas); $i++) { $obtenerespecialistas[$i]->costo=$costopaquete;
 			
-			if ($obtenerespecialistas[$i]->costo=='') {
-
-				$obtenerespecialistas[$i]->costo=$costopaquete;
+			/*if ($obtenerespecialistas[$i]->costo=='') {
 
 				
-			}
+
+				
+			}*/
 
 			if ($obtenerespecialistas[$i]->preciofijo!='') {
 				$obtenerespecialistas[$i]->costo=$obtenerespecialistas[$i]->preciofijo;

@@ -965,14 +965,14 @@ function PintarMultinoasociados(respuesta) {
 function HabilitarDeshabilitarCheck() {
 	if($("#v_tclientes").is(':checked'))
 	{
-		$(".chkcliente_").each(function(index) {
+		//$(".chkcliente_").each(function(index) {
 		   $(this).prop('checked',true);
-		});
+		//});
 		
 	}else{
-		$(".chkcliente_").each(function(index) {
+		//$(".chkcliente_").each(function(index) {
 		   $(this).prop('checked',false);
-		});
+		//});
 	}
 }
 function ValidaChecked(idcliente) {

@@ -55,7 +55,7 @@ try
 	$lo->motivocancelacion=$motivocancelacion;
 	$lo->idusuariocancela=$idusuario;
 	$lo->CancelarCita();
-
+    
 
 	$monto=$obtenercitanota[0]->monto-$obtenercitanota[0]->montocupon-$obtenercitanota[0]->monederoaplicado;
 	$idnotapago=$obtenercitanota[0]->idnotapago;

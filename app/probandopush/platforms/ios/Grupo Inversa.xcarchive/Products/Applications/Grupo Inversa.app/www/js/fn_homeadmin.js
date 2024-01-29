@@ -32,6 +32,8 @@ function CargarDatosAdmin() {
     $(".btnserviciosrealizados").attr('onclick','MostrarServicios(2)');
     $(".btnserviciosnorealizados").attr('onclick','MostrarServicios(4)');
     $(".btnservicioscancelados").attr('onclick','MostrarServicios(3)');
+myStopFunction(identificadorDeTemporizador);
+  myStopFunction(intervalocitas);
 
 
      ObtenerTotales();

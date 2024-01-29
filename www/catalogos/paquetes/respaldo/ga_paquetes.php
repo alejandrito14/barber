@@ -49,7 +49,7 @@ try
 	$emp->estatus = trim($f->guardar_cadena_utf8($_POST['v_estatus']));
 	$emp->precioventa=trim($_POST['precioventa']);
 	$emp->idcategoria=$_POST['idcategoria'];
-
+	$emp->tiempoestimado=$_POST['v_tiempoestimado'];
 
 	$emp->conpromo=$_POST['conpromo'];
 	$emp->confecha=$_POST['confecha'];

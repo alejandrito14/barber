@@ -291,8 +291,7 @@ if ($todosusuarios==0) {
 		
 
 			$db->commit();
-			
-			var_dump($arraytokens);die();
+		
 			if (count($arraytokens)>0) {
 			$texto='';
 			for ($i=0; $i <count($arraytokens) ; $i++) { 
@@ -304,7 +303,7 @@ if ($todosusuarios==0) {
 			
 			 $notificacionpush->idcliente=$idusuario;
 			 $notificacionpush->valor='';
-			 $notificacionpush->navpage=$arraytokens[$i]['ruta'];
+			 $notificacionpush->navpage='';
 			 $array=array();
 			 $texto="";
 			 $titulonotificacion=$arraytokens[$i]['mensaje'];
@@ -316,9 +315,10 @@ if ($todosusuarios==0) {
 			}
 		}
 
-				
-	echo "1|".$notificacion->idnotificacion;
-	
+				$respuesta['tokens']=$arraytokens;
+				$respuesta['respuesta']=1;
+//	echo "1|".$notificacion->idnotificacion;
+				echo json_encode($respuesta);
 }catch(Exception $e)
 {
 	$db->rollback();

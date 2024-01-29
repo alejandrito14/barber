@@ -20,6 +20,7 @@ require_once("../../clases/class.Cita.php");
 require_once("../../clases/class.Funciones.php");
 require_once("../../clases/class.Fechas.php");
 require_once("../../clases/class.Especialista.php");
+require_once("../../clases/class.Notapago.php");
 
 try
 {
@@ -31,6 +32,8 @@ try
 	$fechas = new Fechas();
 	$especialista=new Especialista();
 	$especialista->db=$db;
+	$notapago=new Notapago();
+	$notapago->db=$db;
 	//Enviamos la conexion a la clase
 	$lo->db = $db;
 
@@ -39,16 +42,36 @@ try
 	$lo->idcita=$idcita;
 	$lo->idusuario=$idusuario;
 	$especialista->idusuarios=$idusuario;
-	
+	$notapago->idcita=$idcita;
 
 	$obtenerdetallecita=$lo->ObtenerdetallecitaAdmin();
 	$obtenerdetallecita[0]->fecha=date('d-m-Y',strtotime($obtenerdetallecita[0]->fechacita));
 
 	$obtenerdetallecita[0]->fechaformato=$fechas->fecha_texto5($obtenerdetallecita[0]->fechacita);
 
+	$obtenerdetallecita[0]->fechacheckin=date('d/m/Y H:i:s',strtotime($obtenerdetallecita[0]->fechacheckin));
+	$obtenerdetallecita[0]->fechacheckout=date('d/m/Y H:i:s',strtotime($obtenerdetallecita[0]->finalizacita));
+
+
+
 	$codigo=$se->obtenerSesion('codservicio');
     $obtener[0]->imagen=$codigo.'/'.$obtener[0]->imagen;
 
+   $pagada= $notapago->VerificarCitaPagada();
+
+   $sipago=0;
+   if (count($pagada)==0) {
+   	$sipago=1;
+
+   }
+
+   $obtenerdetallecita[0]->idnotapago=0;
+
+   if ($sipago==0) {
+    $obtenerdetallecita[0]->idnotapago=$pagada[0]->idnotapago;
+   }
+
+	$obtenerdetallecita[0]->pagada=$sipago;
 
 	$respuesta['respuesta']=$obtenerdetallecita[0];
 	

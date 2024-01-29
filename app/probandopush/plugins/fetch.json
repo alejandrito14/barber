@@ -19,14 +19,6 @@
       "IOS_FCM_ENABLED": "true"
     }
   },
-  "cordova-custom-config": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-custom-config@^5.1.0"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-dialogs": {
     "source": {
       "type": "registry",
@@ -39,14 +31,6 @@
     "source": {
       "type": "registry",
       "id": "cordova-plugin-enable-multidex@^0.2.0"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-androidx-adapter": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-androidx-adapter@^1.1.1"
     },
     "is_top_level": true,
     "variables": {}
@@ -181,14 +165,6 @@
     "source": {
       "type": "registry",
       "id": "cordova-plugin-call-number"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-device": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-device"
     },
     "is_top_level": true,
     "variables": {}

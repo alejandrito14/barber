@@ -168,7 +168,7 @@ try
 
     }
     
-
+    $resultado[0]->fechaentrega=date('d/m/Y H:i:s',strtotime($resultado[0]->fechaentrega));
     $respuesta['respuesta'] = $resultado;
     $respuesta['pagos']=$obtenerpagosstripe;
     $respuesta['descuentos']=$descuentos;

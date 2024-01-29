@@ -75,7 +75,7 @@ if(!isset($_GET['idusuarios']))
 	$idusuario = 0;
 	$$v_idempresa = "";
 	
-	$v_sexo = "H" ;
+	$v_sexo = "" ;
 	$v_no_usuario = "";
 	$v_f_nacimiento = "";
 	$v_no_tarjeta ="" ;
@@ -106,7 +106,7 @@ if(!isset($_GET['idusuarios']))
 	$v_referencia='';
 	$v_fis_correo="";
 	$v_celular="";
-	$titulo='NUEVO USUARIO';
+	$titulo='NUEVO CLIENTE';
 	$v_idtipo=3;
 	$bloquearediciondedatos=0;
 			$rutaperfil="images/sinfoto.png";
@@ -226,7 +226,7 @@ if(!isset($_GET['idusuarios']))
 		$checkedhabilitar="checked";
 
 	}
-	$titulo='EDITAR USUARIO';
+	$titulo='EDITAR CLIENTE';
 
 
 	
@@ -278,7 +278,7 @@ $su->lista_empresas = $lista_empresas;
 <form name="form_usuario" id="form_usuario">
 	<input id="v_id" name="v_id" type="hidden" value="<?php echo $idusuario; ?>">
 
-	<div class="card">
+	<div class="card divheader">
 		<div class="card-body">
 			<h4 class="card-title m-b-0" style="float: left;"><?php echo $titulo; ?></h4>
 
@@ -297,7 +297,7 @@ $su->lista_empresas = $lista_empresas;
 					$bt->icon = "mdi mdi-content-save";
 					
 					 $bt->funcion="
-					 var resp=MM_validateFormUsuario('v_celular','','R','v_alias','','R','nombre','','R','v_paterno','','R','v_materno','','R','email','','RisEmail','v_usuario','','R','clave','','R','v_sexo','','R','v_fechanacimiento','','R'); if(resp==1){  Guardarusuario('form_usuario','catalogos/alumnos/vi_alumnos.php','main','catalogos/alumnos/ga_clientes.php',$idmenumodulo);}
+					  Guardarusuario('form_usuario','catalogos/clientes/vi_clientes.php','main','catalogos/clientes/ga_clientes.php',$idmenumodulo)
 					 ";
 
 					$bt->estilos = "float: right;";
@@ -314,7 +314,7 @@ $su->lista_empresas = $lista_empresas;
 			
 					$bt->armar_boton();
 				?>
-				<button type="button" onClick="aparecermodulos('catalogos/alumnos/vi_alumnos.php?idmenumodulo=<?php echo $idmenumodulo;?>','main');" class="btn btn-primary" title="LISTADO DE JUGADORES" style="margin-right: 10px;float: right;"><i class="mdi mdi-arrow-left-box"></i>VER LISTADO</button>
+				<button type="button" onClick="aparecermodulos('catalogos/clientes/vi_clientes.php?idmenumodulo=<?php echo $idmenumodulo;?>','main');" class="btn btn-primary btnlistado" title="LISTADO DE JUGADORES" style="margin-right: 10px;float: right;"><i class="mdi mdi-arrow-left-box"></i>VER LISTADO</button>
 				
 				<input type="hidden" id="v_idusuario" name="v_idusuario" value="<?php echo $idusuario; ?>" />
 			</div>
@@ -324,8 +324,8 @@ $su->lista_empresas = $lista_empresas;
 
 
 
-	<div class="card">
-		<div class="card-body" style="padding: 15px">
+	<div class="card ">
+		<div class="card-body bodycard" style="padding: 15px;padding-bottom: 0px;">
 			<!-- Nav tabs -->
 			<!-- <ul class="nav nav-tabs" role="tablist">
 				<li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"></span> <span class="hidden-xs-down">DATOS GENERALES</span></a> </li>
@@ -338,10 +338,10 @@ $su->lista_empresas = $lista_empresas;
 			</ul> -->
 			<!-- Tab panes -->
 
-			<div class="tab-content tabcontent-border" style=" padding-top: 15px;">
+			<div class="tab-content tabcontent-border datosconfi" style=" padding-top: 15px;">
 			
-				<div class="card" id="home" role="tabpanel">
-					<div class="card-header" style="margin-top: 1em;">
+				<div class="card divdatosconfiguracion" id="home" role="tabpanel" style="margin-bottom: 0em;">
+					<div class="card-header headercard" style="margin-top: 1em;">
 					<h5>DATOS DE CONFIGURACIÓN </h5>
 				</div>
 
@@ -350,7 +350,7 @@ $su->lista_empresas = $lista_empresas;
 				<div class="col-md-6">
 					<div class="form-group">
 						<label for="">*TIPO DE USUARIO:</label>
-						<select name="tipo" id="v_tipo" class="v_tipo form-control" onchange="CambioTipoUsuario()">
+						<select name="tipo" id="v_tipo" class="v_tipo form-control" onchange="CambioTipoUsuario()" disabled>
 							
 						</select>
 					</div>
@@ -360,8 +360,8 @@ $su->lista_empresas = $lista_empresas;
 		</div>
 			
 
-		<div class="card" >
-					<div class="card-header" style="margin-top: 1em;">
+		<div class="card"  style="margin-bottom: 0;">
+					<div class="card-header headercard" style="margin-top: 1em;">
 					<h5>DATOS GENERALES </h5>
 				</div>
 				
@@ -371,47 +371,64 @@ $su->lista_empresas = $lista_empresas;
 
 					<div class="form-group ">
 						<label>*CELULAR:</label>
-						<input name="celular" id="v_celular" title="CELULAR" type="text" class="form-control" placeholder="CELULAR" value="<?php echo $v_celular; ?>" tabindex="99" <?php echo $validacion ?>>
+						<input name="celular" id="v_celular" title="CELULAR" type="text" class="form-control" placeholder="CELULAR" value="<?php echo $v_celular; ?>" onkeyup="ValidarCelularInput()" tabindex="99" <?php echo $validacion ?>>
+						<div id="validacioncelular" style="color: red"></div>
 					</div>
 
 
-					<div class="form-group m-t-20">
-					<label>*ALIAS:</label>
+					<div class="form-group m-t-20 divalias"  >
+					<label>ALIAS:</label>
 					<input type="text" name="alias" id="v_alias" class="form-control" title="Alias" value="<?php echo $fu->imprimir_cadena_utf8($alias); ?>" placeholder="ALIAS" tabindex="100" />
 				</div>
 
 					<div class="form-group ">
 						<label>*NOMBRE:</label>
 						<input name="nombre" id="nombre" title="NOMBRE" type="text" class="form-control" placeholder="NOMBRE"  required value="<?php echo $v_nombre; ?>" tabindex="101">
+							<div id="validacionnombre" style="color: red"></div>
 					</div>
 
 					
 					<div class="form-group ">
 						<label>*APELLIDO PATERNO:</label>
 						<input name="paterno" id="v_paterno" title="APELLIDO PATERNO" type="text" class="form-control" placeholder="APELLIDO PATERNO"  required value="<?php echo $v_paterno; ?>" tabindex="102">
+						<div id="validacionpaterno" style="color: red"></div>
 					</div>
 					
 					<div class="form-group ">
-						<label>*APELLIDO MATERNO:</label>
+						<label>APELLIDO MATERNO:</label>
 						<input name="materno" id="v_materno" title="APELLIDO MATERNO" type="text" class="form-control" placeholder="APELLIDO MATERNO"  required value="<?php echo $v_materno; ?>" tabindex="103">
 					</div>	
 
-						<div class=" form-group  ">
-							
-								<label>*GÉNERO:</label>
-								<select tabindex="104" name="v_sexo" id="v_sexo" title="sexo" class="form-control">
-									<option value="H" <?php if("H" == $v_sexo ){ echo "selected"; } ?>>HOMBRE</option>
-									<option value="M" <?php if("M" == $v_sexo ){ echo "selected"; } ?>>MUJER</option>
-								</select>
-							</div>	
+					
 
-					<div class="">
+					<div class="divfecha">
 						<label>*FECHA DE NACIMIENTO:</label>
 					  <input name="v_fechanacimiento" id="v_fechanacimiento" title="FECHA DE NACIMIENTO" type="date" class="form-control" placeholder="FECHA DE NACIMIENTO" required="" value="<?php echo $v_edad;?>" tabindex="105">
+					  <div id="validacionnacimiento" style="color: red"></div>
 					</div>
 					
 
+						<div class=" form-group  " style="    margin-top: 1em; margin-bottom: 0px;">
+							
+								<label>*SEXO:</label>
+								<div class=" btn-group-toggle lisexo" data-toggle="buttons" >
+									<label class="btn btn_dorado  sexoselec  btns txtsexoh <?php if("H" == $v_sexo ){ echo "active"; } ?>"  style="margin: 10px;" onchange="SeleccionarhM('H')">
+								    <input type="checkbox" id="catecheck1" class="catecheck1"  value="H" >Hombre
+								  </label>
 
+								  <label class="btn btn_dorado  sexoselec btns txtsexom <?php if("M" == $v_sexo ){ echo "active"; } ?>"  style="margin: 10px;" onchange="SeleccionarhM('M')">
+								    <input type="checkbox" id="catecheck2" class="catecheck1"  value="M" >Mujer
+								  </label>
+
+
+								</div>
+
+								<div id="validacionsexo" style="color: red"></div>
+								<!-- <select tabindex="104" name="v_sexo" id="v_sexo" title="sexo" class="form-control">
+									<option value="H" <?php if("H" == $v_sexo ){ echo "selected"; } ?>>HOMBRE</option>
+									<option value="M" <?php if("M" == $v_sexo ){ echo "selected"; } ?>>MUJER</option>
+								</select> -->
+							</div>	
 			
 				
 					
@@ -420,14 +437,14 @@ $su->lista_empresas = $lista_empresas;
 						<input name="v_telefono" id="v_telefono" title="TELÉFONO" type="text" class="form-control" placeholder="TELÉFONO"  required value="<?php echo $v_telefono; ?>">
 					</div>
 
-					<div class="form-group m-t-20">
+					<div class="form-group m-t-20" style="display: none;">
 					<label>*EMAIL:</label>
 					<input type="text" name="email" id="email" class="form-control" title="Email" value="<?php echo $v_email; ?>" placeholder="EMAIL" tabindex="106" />
 					</div>
 				</div>
 
 
-					<div class="col-md-6">
+					<div class="col-md-6 divfotoperfil" style="display: none;">
 						<div class="form-group ">
 						<label>FOTO DE PERFIL:</label>
 					 	<div>
@@ -558,16 +575,16 @@ $su->lista_empresas = $lista_empresas;
 
 				<!-- Datos de acceso --->
 
-				<div class="card" >
-					<div class="card-header" style="margin-top: 1em;">
+				<div class="card " >
+					<div class="card-header " style="margin-top: 1em;display: none;">
 						<h5>DATOS DE ACCESO</h5>
 					</div>
 				
-			<div class="card-body">
+			<div class="card-body" style="padding-top: 0;">
 				<div class="row">
 
-					<div class="col-md-6">
-					<div class="form-group m-t-20" >
+					<div class="col-md-6" style="padding-left: 30px;">
+					<div class="form-group m-t-20"   style="display: none;">
 						<label>*USUARIO:</label>
 						<input name="usuario" onBlur="validarUsuariousuario();" id="v_usuario" title="Usuario" type="text" class="form-control" placeholder="USUARIO"  required value="<?php echo $v_usuario; ?>" tabindex="107">
 					</div>
@@ -575,11 +592,11 @@ $su->lista_empresas = $lista_empresas;
 					
 				
 
-					<div class="form-group m-t-20">
+					<div class="form-group m-t-20 divcontra1" >
 					<label>*CONTRASEÑA:</label>
 					<div class="input-group mb-3">
 
-						<input type="password" name="clave" id="clave" class="form-control" title="CONTRASEÑA" value="<?php echo $v_clave; ?>"placeholder="CONTRASEÑA" tabindex="108">
+						<input type="password" name="clave" id="clave" class="form-control" title="CONTRASEÑA" value="<?php echo $v_clave; ?>"placeholder="CONTRASEÑA" tabindex="108" onkeyup="CoincidirContra2('clave','clave2')" autocomplete="off">
 
 						<div class="input-group-append">
 							<button class="btn " type="button">
@@ -587,13 +604,15 @@ $su->lista_empresas = $lista_empresas;
 							</button>
 						</div>
 					</div>
+					<div id="validacioncontra" style="color: red"></div>
+
 					</div>
 
-					<div class="form-group m-t-20">
+					<div class="form-group m-t-20 divcontra2">
 						<label>*CONFIRMAR CONTRASEÑA:</label>
 						<div class="input-group mb-3">
 
-							<input type="password" name="clave2" id="clave2" class="form-control" title="CONFIRMAR CONTRASEÑA" value="<?php echo $v_clave; ?>" placeholder="CONFIRMAR CONTRASEÑA" tabindex="109">
+							<input type="password" name="clave2" id="clave2" class="form-control" title="CONFIRMAR CONTRASEÑA" value="<?php echo $v_clave; ?>" placeholder="CONFIRMAR CONTRASEÑA" tabindex="109" onkeyup="CoincidirContra2('clave','clave2')" autocomplete="off">
 
 							<div class="input-group-append">
 								<button class="btn " type="button">
@@ -602,9 +621,15 @@ $su->lista_empresas = $lista_empresas;
 							</div>
 						</div>
 
+							<div id="validacioncontra2" style="color: red"></div>
+
+							<span id="spanrespuesta" class="spanrespuesta1"  style="display: none;color:red"></span>
+
 					</div>
+
+				
 					
-					<div class="form-group m-t-20">
+					<div class="form-group m-t-20 divstatus"  style="margin-top: 1em;">
 						<label>ESTATUS:</label>
 						<select name="estatus" tabindex="110" id="v_estatus" title="Estatus" class="form-control"  >
 							<option value="0" <?php if($v_estatus == 0) { echo "selected"; } ?> >DESACTIVO</option>
@@ -616,8 +641,8 @@ $su->lista_empresas = $lista_empresas;
 				</div>
 			</div>
 	</form>
-			<div class="card" id="divasociados">
-			<div class="card-header" style="margin-top: 1em;">
+			<div class="card" id="divasociados" style="display: none;">
+			<div class="card-header" style="margin-top: 1em;display: none;">
 						<h5>DATOS DE ASOCIADOS</h5>
 					</div>
 				<div class="card-body">
@@ -719,7 +744,7 @@ $su->lista_empresas = $lista_empresas;
   
 					<div class="form-group ">
 						<label>*CELULAR:</label>
-						<input name="celular" id="v_celularaso" title="CELULAR" type="text" class="form-control" placeholder="CELULAR" value="" tabindex="112">
+						<input name="celular" id="v_celularaso" title="CELULAR" type="text" class="form-control" placeholder="CELULAR" value="" tabindex="112"  >
 						<span id="spancelular" style="color:red;"></span>
 					</div>
 
@@ -741,12 +766,12 @@ $su->lista_empresas = $lista_empresas;
 					
 					<div class="form-group ">
 						<label>*APELLIDO MATERNO:</label>
-						<input name="materno" id="v_maternoaso" title="APELLIDO MATERNO" type="text" class="form-control" placeholder="APELLIDO MATERNO"  required value="" tabindex="116">
+						<input name="materno" id="v_maternoaso" title="APELLIDO MATERNO" type="text" class="form-control" placeholder="APELLIDO MATERNO"   value="" tabindex="116">
 					<span id="spanmaterno" style="color:red;"></span>
 
 					</div>	
 
-						<div class=" form-group  ">
+						<div class=" form-group  " style="margin-bottom: 0px;">
 							
 								<label>*GÉNERO:</label>
 								<select tabindex="117" name="v_sexo" id="v_sexoaso" title="sexo" class="form-control">
@@ -834,6 +859,9 @@ $su->lista_empresas = $lista_empresas;
  phoneFormatter2('v_celular');
 
 
+			
+
+
 /* var bloquearediciondedatos='<?php echo $bloquearediciondedatos?>';
 
  validarbloquearediciondatos(bloquearediciondedatos);
@@ -850,8 +878,11 @@ $su->lista_empresas = $lista_empresas;
 	var idusuario='<?php echo $idusuario; ?>';
 	var asociados=[];
 	var asociadoseliminados=[];
+	$("#v_celular").focus();
 
 	if (idusuario>0){
+
+
 		var opcionestipopago='<?php echo $opcionespago; ?>';
 		var opcionespago="";
 		if (opcionestipopago!='') {
@@ -888,13 +919,120 @@ $su->lista_empresas = $lista_empresas;
 	 $("#avanzado").css('display','none');
 	 $("#opcionesavanzadas").css('display','none');
 
-	}
+	 $("#v_celular").attr('onkeyup','ValidarCelularInput();CoincidirContra2("clave","clave2")');
+
+}
 	</script>
 
 
 
 	<script type="text/javascript">
-	
+	 var confirmacion = "Las contraseñas si coinciden";
+  var longitud = "La contraseña debe estar formada entre 6-10 carácteres";
+  var negacion = "No coinciden las contraseñas";
+  var vacio = "La contraseña no puede estar vacía";
+
+
+function CoincidirContra2(contra1,contra2) {
+
+  var pass1 = $('#'+contra1);
+  var pass2 = $('#'+contra2);
+ 	console.log('entro1');
+    if (pass2.length>0 && pass1.length>0) {
+ 	console.log('entro2');
+
+       coincidePassword(contra1,contra2);
+    }
+ 
+
+}
+
+
+
+function coincidePassword(contra1,contra2){
+
+
+  var respuesta=$("#respuesta").html('<span id="spanrespuesta"></span>');
+
+  var span = $('#spanrespuesta');
+
+
+  var valor1 = $('#'+contra1).val();
+  var valor2 = $('#'+contra2).val();
+  console.log(valor1+''+valor2);
+
+  if (valor1.length>0) {
+  //muestro el span
+    span.show().removeClass();
+    //condiciones dentro de la función
+    if(valor1 != valor2){
+    span.text(negacion).addClass('negacion'); 
+    }
+    if(valor1.length==0 || valor1==""){
+    span.text(vacio).addClass('negacion');  
+    }
+    if(valor1.length<6 ){
+    	
+    span.text(longitud).addClass('negacion');
+    }
+    if(valor1.length!=0 && valor1==valor2 && valor1.length>=6){
+    $("#respuesta").html('<div class="check-list" style=""><span></span></div>');
+    }
+
+    if (valor1==valor2) {
+    	console.log('entro');
+    	 $("#spanrespuesta").html('<div class="check-list" style=""><span></span></div>');
+    }
+
+
+   }else{
+    
+
+    span.hide();
+   }
+  }
+
+
+ function coincidePassword2(contra1,contra2){
+
+
+  var respuesta=$("#respuesta").html('<span id="spanrespuesta"></span>');
+
+  var span = $('#spanrespuesta');
+
+
+  var valor1 = $('#'+contra1).val();
+  var valor2 = $('#'+contra2).val();
+
+  console.log(valor1)
+  if (valor1.length>0) {
+  //muestro el span
+    span.show().removeClass();
+    //condiciones dentro de la función
+    if(valor1 != valor2){
+    span.text(negacion).addClass('negacion'); 
+    } else
+    if(valor1.length==0 || valor1==""){
+    span.text(vacio).addClass('negacion');  
+    } else
+    if(valor1.length<6 || valor1.length>10){
+    span.text(longitud).addClass('negacion');
+    } else
+    if(valor1.length!=0 && valor1==valor2 && valor1.length>=6){
+    $("#respuesta").html('<div class="check-list" style=""><span></span></div>');
+    }
+    else{
+
+ span.hide();
+
+    }
+
+   }else{
+    
+
+    span.hide();
+   }
+  }
 </script>
 
 
@@ -913,5 +1051,23 @@ $su->lista_empresas = $lista_empresas;
             todayHighlight: true
         });
 
+  function SeleccionarhM(sexo) {
+
+  			setTimeout(() => {
+
+				$(".btns").removeClass('active');
+
+					if(sexo=='M'){
+					$(".txtsexom").addClass('active');
+					}
+					if (sexo=='H') {
+					$(".txtsexoh").addClass('active');
+	
+					}
+				sexoseleccionado=sexo;
+
+	}, "100");
+
+}
 
 </script>

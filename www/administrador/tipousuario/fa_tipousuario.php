@@ -178,7 +178,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 								<input type="text" class="form-control" id="v_tipousuario" name="v_tipousuario" value="<?php echo $tipousuario; ?>" title="tipousuario" placeholder='tipousuario'>
 							</div>
 							<div class="col-md-12">
-							<div class="form-group">
+							<div class="form-group" style="display: none;">
 								<div class="form-check"> 
 								<input type="checkbox" class="form-check-input " id="v_mostrar" name="v_mostrar">
 								<label style="margin-top:0.2em;" class="form-check-label">MOSTRAR EN APP</label>
@@ -189,7 +189,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 							</div>
 
 							<div class="col-md-12">
-							<div class="form-group">
+							<div class="form-group" style="display: none;">
 								<div class="form-check"> 
 								<input type="checkbox" class="form-check-input " id="v_sistema" name="v_sistema">
 								<label style="margin-top:0.2em;" class="form-check-label">USUARIO DEL SISTEMA</label>

@@ -206,3 +206,77 @@ function PintarCategoriasTipopago(respuesta) {
 		}
 	}
 }
+
+
+function Habilitarparatv() {
+	if($("#chktpv").is(':checked')){
+		$("#chktpv").val(1);
+
+	}else{
+		$("#chktpv").val(0);
+
+	}
+}
+function Habilitarsinrevision() {
+	if($("#chksinrevision").is(':checked')){
+		$("#chksinrevision").val(1);
+
+	}else{
+		$("#chksinrevision").val(0);
+
+	}
+}
+
+function Habilitarcatalogobancos() {
+	if($("#chkcatalogobancos").is(':checked')){
+		$("#chkcatalogobancos").val(1);
+
+	}else{
+		$("#chkcatalogobancos").val(0);
+
+	}
+}
+
+function Habilitarcampodigitos() {
+	if($("#chkcampodigitos").is(':checked')){
+		$("#chkcampodigitos").val(1);
+
+	}else{
+		$("#chkcampodigitos").val(0);
+
+	}
+}
+
+
+function Habilitaropciontarjeta() {
+	if($("#chkopciontarjeta").is(':checked')){
+		$("#chkopciontarjeta").val(1);
+
+	}else{
+		$("#chkopciontarjeta").val(0);
+
+	}
+}
+
+
+function Habilitarbotonpagardirecto() {
+	if($("#chkbotonpagardirecto").is(':checked')){
+		$("#chkbotonpagardirecto").val(1);
+
+	}else{
+		$("#chkbotonpagardirecto").val(0);
+
+	}
+}
+
+
+function Habilitarparaapp() {
+	if($("#chkapp").is(':checked')){
+		$("#chkapp").val(1);
+
+	}else{
+		$("#chkapp").val(0);
+
+	}
+}
+

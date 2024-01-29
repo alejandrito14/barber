@@ -4,6 +4,16 @@ function RedondearaDos(num) {
     return +(Math.round(num + "e+2")  + "e-2");
 }
 
+function NumberConvertToDecimal (number) {
+    if (number == 0) {
+       return '0.00'; 
+    }
+    number = parseFloat(number);
+    number = number.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1");
+    number = number.split('.').join('*').split('*').join('.');
+    return number;
+}
+
 function formato_numero(numero, decimales, separador_decimal, separador_miles){ // v2007-08-06
     numero=parseFloat(numero);
     if(isNaN(numero)){
@@ -102,15 +112,56 @@ function isValidDate (value) {
 }
 
 function fechaformato(fecha) {
-  var monthNamesShort= ["","Ene.", "Feb.", "Mar.", "Abr.", "May.", "Jun.", "Jul.", "Ago.","Sep.", "Oct.", "Nov.", "Dic."];
 
-  var f=new Date(fecha);
-  var mes =f.getMonth()+1;
-  var anio=f.getFullYear();
+ var monthNamesShort = ["", "Ene.", "Feb.", "Mar.", "Abr.", "May.", "Jun.", "Jul.", "Ago.", "Sep.", "Oct.", "Nov.", "Dic."];
 
-  //console.log(monthNamesShort[mes]+' '+anio);
-  return monthNamesShort[mes]+' '+anio;
+  var parts = fecha.split("-"); // Dividir la fecha por guiones
+  var anio = parts[0];
+  var mes = parseInt(parts[1], 10); // Parsear el mes a un número entero
+
+  return monthNamesShort[mes] + ' ' + anio;
 }
+
+
+
+ function coincidePassword(contra1,contra2){
+
+
+  var respuesta=$("#respuesta").html('<span id="spanrespuesta"></span>');
+
+  var span = $('#spanrespuesta');
+
+
+  var valor1 = $('#'+contra1).val();
+  var valor2 = $('#'+contra2).val();
+
+
+  if (valor1.length>0) {
+  //muestro el span
+    span.show().removeClass();
+    //condiciones dentro de la función
+    if(valor1 != valor2){
+    span.text(negacion).addClass('negacion'); 
+    }
+    if(valor1.length==0 || valor1==""){
+    span.text(vacio).addClass('negacion');  
+    }
+    if(valor1.length<6 || valor1.length>10){
+    span.text(longitud).addClass('negacion');
+    }
+    if(valor1.length!=0 && valor1==valor2 && valor1.length>=6){
+    $("#respuesta").html('<div class="check-list" style=""><span></span></div>');
+    }
+
+
+   }else{
+    
+
+    span.hide();
+   }
+  }
+
+
 
  /* 
   function BuscarEnLista(idbuscador,clista) {

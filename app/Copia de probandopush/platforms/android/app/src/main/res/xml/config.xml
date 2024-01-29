@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.inversa.app" version="13.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="CustomFCMReceiverPlugin">
+        <param name="android-package" value="cordova.plugin.customfcmreceiver.CustomFCMReceiverPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+    <feature name="FacebookConnectPlugin">
+        <param name="android-package" value="org.apache.cordova.facebook.ConnectPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <access origin="https://m.facebook.com" />
+    <access origin="https://graph.facebook.com" />
+    <access origin="https://api.facebook.com" />
+    <access origin="https://*.fbcdn.net" />
+    <access origin="https://*.akamaihd.net" />
+    <feature name="FirebasePlugin">
+        <param name="android-package" value="org.apache.cordova.firebase.FirebasePlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="HelloCPlugin">
+        <param name="android-package" value="com.example.HelloCPlugin" />
+    </feature>
+    <feature name="Diagnostic">
+        <param name="android-package" value="cordova.plugins.Diagnostic" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_Location">
+        <param name="android-package" value="cordova.plugins.Diagnostic_Location" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_Bluetooth">
+        <param name="android-package" value="cordova.plugins.Diagnostic_Bluetooth" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_Wifi">
+        <param name="android-package" value="cordova.plugins.Diagnostic_Wifi" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_Camera">
+        <param name="android-package" value="cordova.plugins.Diagnostic_Camera" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_Notifications">
+        <param name="android-package" value="cordova.plugins.Diagnostic_Notifications" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_NFC">
+        <param name="android-package" value="cordova.plugins.Diagnostic_NFC" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_External_Storage">
+        <param name="android-package" value="cordova.plugins.Diagnostic_External_Storage" />
+        <param name="onload" value="true" />
+    </feature>
+    <name>FirebaseTest</name>
+    <description>
+        Test project for cordova-plugin-firebasex
+    </description>
+    <author email="dave@workingedge.co.uk">
+       Dave Alden
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <resource-file src="res/android/build-extras.gradle" target="app/build-extras.gradle" />
+    <resource-file src="res/android/gradle.properties" target="gradle.properties" />
+    <resource-file src="res/android/raw/blackberry.mp3" target="app/src/main/res/raw/blackberry.mp3" />
+    <resource-file src="res/android/raw/msn.mp3" target="app/src/main/res/raw/msn.mp3" />
+    <resource-file src="res/android/raw/crystal.mp3" target="app/src/main/res/raw/crystal.mp3" />
+    <resource-file src="res/android/drawable-mdpi/bell.png" target="app/src/main/res/drawable-mdpi/notification_icon.png" />
+    <resource-file src="res/android/drawable-hdpi/bell.png" target="app/src/main/res/drawable-hdpi/notification_icon.png" />
+    <resource-file src="res/android/drawable-xhdpi/bell.png" target="app/src/main/res/drawable-xhdpi/notification_icon.png" />
+    <resource-file src="res/android/drawable-xxhdpi/bell.png" target="app/src/main/res/drawable-xxhdpi/notification_icon.png" />
+    <resource-file src="res/android/drawable-xxxhdpi/bell.png" target="app/src/main/res/drawable-xxxhdpi/notification_icon.png" />
+    <resource-file src="res/android/drawable-xxxhdpi/bell_large.png" target="app/src/main/res/drawable-xxxhdpi/notification_icon_large.png" />
+    <resource-file src="res/android/drawable-mdpi/coffee.png" target="app/src/main/res/drawable-mdpi/coffee.png" />
+    <resource-file src="res/android/drawable-hdpi/coffee.png" target="app/src/main/res/drawable-hdpi/coffee.png" />
+    <resource-file src="res/android/drawable-xhdpi/coffee.png" target="app/src/main/res/drawable-xhdpi/coffee.png" />
+    <resource-file src="res/android/drawable-xxhdpi/coffee.png" target="app/src/main/res/drawable-xxhdpi/coffee.png" />
+    <resource-file src="res/android/drawable-xxxhdpi/coffee.png" target="app/src/main/res/drawable-xxxhdpi/coffee.png" />
+    <resource-file src="res/android/drawable-xxxhdpi/coffee_large.png" target="app/src/main/res/drawable-xxxhdpi/coffee_large.png" />
+    <resource-file src="res/android/drawable-mdpi/thumbs_up.png" target="app/src/main/res/drawable-mdpi/thumbs_up.png" />
+    <resource-file src="res/android/drawable-hdpi/thumbs_up.png" target="app/src/main/res/drawable-hdpi/thumbs_up.png" />
+    <resource-file src="res/android/drawable-xhdpi/thumbs_up.png" target="app/src/main/res/drawable-xhdpi/thumbs_up.png" />
+    <resource-file src="res/android/drawable-xxhdpi/thumbs_up.png" target="app/src/main/res/drawable-xxhdpi/thumbs_up.png" />
+    <resource-file src="res/android/drawable-xxxhdpi/thumbs_up.png" target="app/src/main/res/drawable-xxxhdpi/thumbs_up.png" />
+    <resource-file src="res/android/drawable-xxxhdpi/thumbs_up_large.png" target="app/src/main/res/drawable-xxxhdpi/thumbs_up_large.png" />
+    <custom-config-file parent="./application" target="AndroidManifest.xml">
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/notification_icon" />
+    </custom-config-file>
+    <config-file parent="/resources" target="app/src/main/res/values/colors.xml">
+        <color name="background">#000000</color>
+    </config-file>
+    <config-file parent="/*" target="AndroidManifest.xml">
+        <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    </config-file>
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="android-minSdkVersion" value="22" />
+    <preference name="AndroidXEnabled" value="true" />
+    <preference name="android-targetSdkVersion" value="33" />
+</widget>

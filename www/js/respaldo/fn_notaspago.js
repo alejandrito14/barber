@@ -10,6 +10,9 @@ var campomonto=0;
 var constripe=0;
 var comisionmonto=0;
 var comisionporcentaje=0;
+var comisionpornota=0;
+var idbancoseleccionado=0;
+var idopciontarjetaseleccionado=0;
 var impuesto=0;
 var comision=0;
 var comisiontotal=0;
@@ -35,6 +38,12 @@ var montovisual=0;
 var cambiomonto=0;
 var confoto=0;
 var impuestotal=0;
+
+var idusuariosdatosfiscales=0;
+var confoto=0;
+var rutacomprobante=[];
+var comentarioimagenes=[];
+
 var pagos=[];
 function VerdatelleNotapago(idnotapago,idusuario,idmenumodulo) {
 	var datos="idnotapago="+idnotapago+"&idusuario="+idusuario+"&idmenumodulo="+idmenumodulo;
@@ -262,6 +271,7 @@ function HabilitarBotonPago() {
  $(".divmetodopago").css('display','block');
  $(".divpagar").css('display','block');
  $(".divresumenpago").css('display','block');
+ $(".divcomision").css('display','none');
 
 CargarPagosElegidos();
 ObtenerDescuentosRelacionadosNotas();
@@ -497,17 +507,32 @@ function PintarDescuentosMembresiaNotas(respuesta) {
 
 }
 
+
 function CalcularTotales() {
 	var suma=0;
 	pagos=[];
 	
+//if (NtabName=='pagos') {
 	if (pagosarealizar.length>0) {
 
 		for (var i = 0; i <pagosarealizar.length; i++) {
+			console.log(pagosarealizar[i]);
 			suma=parseFloat(suma)+parseFloat(pagosarealizar[i].monto);
 		}
 	
 	}
+//}
+//if (NtabName=='punto-venta') {
+
+	if (arraycarrito.length>0) {
+
+		for (var i = 0; i <arraycarrito.length; i++) {
+
+			suma=parseFloat(suma)+parseFloat(arraycarrito[i].costototal);
+		}
+	
+	}
+//}
 
 	var montodescuento=0;
 	for (var i = 0; i < descuentosaplicados.length; i++) {
@@ -524,17 +549,18 @@ function CalcularTotales() {
 	$("#descuentomembresia").html(formato_numero(montodescuentomembresia,2,'.',','));
 
 	// total=parseFloat(suma)-parseFloat(monedero)-parseFloat(montodescuento)+parseFloat(montodescuentomembresia);
-
+	console.log(suma);
 	var resta=parseFloat(suma)-parseFloat(monedero)-parseFloat(montodescuento)-parseFloat(montodescuentomembresia);
     var sumaconcomision=resta;
 	subtotalsincomision=resta;
 	console.log(resta);
 
 
-	$(".lbltotal").html(formato_numero(resta,2,'.',','));
+	$(".lbltotal").html(formato_numero(suma,2,'.',','));
+	$("#total").html(formato_numero(resta,2,'.',','));
 
 
-     // if (localStorage.getItem('comisionporcentaje')!=0 ){
+      if (comisionporcentaje!=0 ){
        // comisionporcentaje=localStorage.getItem('comisionporcentaje');
         comimonto=parseFloat(comisionporcentaje)/100;
         
@@ -544,7 +570,7 @@ function CalcularTotales() {
       
        // localStorage.setItem('comision',comision);
 
-     // }
+     }
 
 
      // if (localStorage.getItem('impuesto')!=0 ){
@@ -560,6 +586,33 @@ function CalcularTotales() {
      // }
         $(".divcomision").css('display','none');
 
+        if (comisionpornota!=0){
+
+          comisionpornota=comisionpornota;
+        }
+        		comisionnota=0;
+
+         if (comisionpornota>0 && comisionpornota!='') {
+
+              if (tipocomisionpornota==1) {//monto
+                comimonto1=comisionpornota;
+                comision=parseFloat(comision)+parseFloat(comisionpornota);
+              
+              }
+
+              if (tipocomisionpornota==2) {
+              
+                comimonto1=parseFloat(comisionpornota)/100;
+                comimonto1=parseFloat(comimonto1)*parseFloat(sumaconcomision);
+            
+                comision=parseFloat(comision)+parseFloat(comimonto1);
+              }
+
+             
+              comisionnota=comimonto1;
+                
+            }
+
 
       if (comision!=0 || comisionmonto!=0 ) {
 
@@ -573,7 +626,9 @@ function CalcularTotales() {
     //localStorage.setItem('subtotalsincomision',resta.toFixed(2));
 	  //localStorage.setItem('sumatotalapagar',sumaconcomision.toFixed(2));
 	$(".lblresumen").text(formato_numero(resta,2,'.',','));
-    $(".lbltotal").text(formato_numero(sumaconcomision,2,'.',','));
+   // $(".lbltotal").text(formato_numero(sumaconcomision,2,'.',','));
+   	$("#total").html(formato_numero(sumaconcomision,2,'.',','));
+
     $("#monedero").text(formato_numero(monedero,2,'.',','));	
     var suma=sumaconcomision;
 
@@ -585,9 +640,13 @@ function CalcularTotales() {
 }
 
 
-function CargarOpcionesTipopago(){
-	var idtipopago=$("#tipopago").val();
+
+
+function CargarOpcionesTipopago(idtipopago){
+	//var idtipopago=$("#tipopago").val();
+	$(".btntipodepago").removeClass('active');
 	var datos="idtipopago="+idtipopago;
+	$("#catebtntipodepago_"+idtipopago).addClass('active');
 	var pagina="Cargartipopago.php";
     $(".divtransferencia").css('display','none');
     $("#divagregartarjeta").css('display','none');
@@ -595,8 +654,13 @@ function CargarOpcionesTipopago(){
     $("#btnpagarresumen").prop('disabled',true);
     $("#btnatras").attr('onclick','Atras()');
   	$("#btnatras").css('display','none');
+  	$("#cambio").text('0.00');
+  	$("#campomonto").css('display','none');
   	comisionporcentaje=0;
 	comisionmonto=0;
+	comisionpornota=0;
+	cambiomonto=0;
+
 	impuesto=0;
 	clavepublica="";
 	claveprivada="";
@@ -612,8 +676,13 @@ function CargarOpcionesTipopago(){
       async:false,
       success: function(respuesta){
       var resultado=respuesta.respuesta;
-     
-     	HabilitarOpcionespago(resultado.idtipodepago,resultado.habilitarfoto,resultado.constripe,resultado.habilitarcampomonto,resultado.habilitarcampomontofactura);
+      	idtipodepago=idtipopago;
+
+      comisionpornota=resultado.comisionpornota;
+      tipocomisionpornota=resultado.tipocomisionpornota;
+      habilitarpagar=resultado.habilitarpagar;
+     	$("#txtdigitostarjeta").val('');
+     	HabilitarOpcionespago(resultado.idtipodepago,resultado.habilitarfoto,resultado.constripe,resultado.habilitarcampomonto,resultado.habilitarcampomontofactura,resultado.habilitarcatalogobanco,resultado.habilitarcampodigitos,resultado.habilitaropciontarjeta);
     if (resultado.habilitarfoto==1) {
     	confoto=1;
      		$(".divtransferencia").css('display','block');
@@ -647,7 +716,7 @@ function CargarOpcionesTipopago(){
       <div class="subdivisiones" style="margin-top: 1.5em" ><span style="margin-top: .5em;margin-left: .5em;">Comprobante</span></div>
 
            <div class=""  >
-                  <div>
+                  <div style="justify-content: center;">
                       <button type="button"  onclick="AbrirModalFotoComprobante()" class="btn btn-success botonesaccion botonesredondeado estiloboton" style="margin-top: 1em;background:#4cd964;margin-bottom:1em;width:100%;"> SUBIR comprobante</button>
                              <div class="check-list" style="    display: none;
                                           margin-right: 10em;
@@ -659,7 +728,7 @@ function CargarOpcionesTipopago(){
                       <div class="block m-0"> 
                        <div class="list media-list sortable" id="" style="">           
 
-                      <div id="lista-imagenescomprobante">
+                      <div id="lista-imagenescomprobante" style="margin-bottom: 1em;">
                           
                       </div>
                   </div> 
@@ -695,15 +764,25 @@ function CargarOpcionesTipopago(){
   	      }
         
   	      comisionporcentaje=resultado.comisionporcentaje;
+  	      if (comisionporcentaje!=0) {
+  	      	 $(".divcomision").css('display','block');
+
+  	      }
   	      comisionmonto=resultado.comisionmonto;
   	      impuesto=resultado.impuesto;
   	      clavepublica=resultado.clavepublica;
   	      claveprivada=resultado.claveprivada;
-        	ObtenerTarjetasStripe();
+        	ObtenerTarjetasStripe(false,idtipopago);
+
         	$(".btnnuevatarjeta").attr('onclick','NuevaTarjetaStripe()');
         	$(".divnueva").css('display','block');
             HabilitarBotonPagar();
             CalcularTotales();
+        }
+
+        if (habilitarpagar==1) {
+        	$("#btnpagarresumen").attr('disabled',false);
+        	
         }
         CalcularTotales();
 
@@ -720,7 +799,165 @@ function CargarOpcionesTipopago(){
 }
 
 
-function HabilitarOpcionespago(idtipodepago,foto,stripe,habilitarcampo,habilitarcampomontofactura) {
+
+function CargarOpcionesTipopago2(idtipopago){
+	//var idtipopago=$("#tipopago").val();
+	$(".btntipodepago").removeClass('active');
+	var datos="idtipopago="+idtipopago;
+	$("#catebtntipodepago_"+idtipopago).addClass('active');
+	var pagina="Cargartipopago.php";
+    $(".divtransferencia").css('display','none');
+    $("#divagregartarjeta").css('display','none');
+    $("#divlistadotarjetas").css('display','none');
+    $("#btnpagarresumen").prop('disabled',true);
+    $("#btnatras").attr('onclick','Atras()');
+  	$("#btnatras").css('display','none');
+  	$("#cambio").text('0.00');
+  	$("#campomonto").css('display','none');
+  	comisionporcentaje=0;
+	comisionmonto=0;
+	comisionpornota=0;
+	cambiomonto=0;
+
+	impuesto=0;
+	clavepublica="";
+	claveprivada="";
+		confoto=0;
+	$("#btnpagarresumen").attr('disabled',true);
+  if (idtipopago>0) {
+  
+      $.ajax({
+      type: 'POST',
+      dataType: 'json',
+	  url:'catalogos/pagos/Cargartipopago.php', //Url a donde la enviaremos
+      data:datos,
+      async:false,
+      success: function(respuesta){
+      var resultado=respuesta.respuesta;
+      	idtipodepago=idtipopago;
+
+      comisionpornota=resultado.comisionpornota;
+      tipocomisionpornota=resultado.tipocomisionpornota;
+      habilitarpagar=resultado.habilitarpagar;
+     	$("#txtdigitostarjeta").val('');
+     	HabilitarOpcionespago(resultado.idtipodepago,resultado.habilitarfoto,resultado.constripe,resultado.habilitarcampomonto,resultado.habilitarcampomontofactura,resultado.habilitarcatalogobanco,resultado.habilitarcampodigitos,resultado.habilitaropciontarjeta);
+    if (resultado.habilitarfoto==1) {
+    	confoto=1;
+     		$(".divtransferencia").css('display','block');
+     		var html="";
+     	 var datosdecuenta=resultado.cuenta.split('|');
+
+              var html1="";
+              for (var j = 0; j <datosdecuenta.length; j++) {
+                    html1+='<p style="text-align:center;">'+datosdecuenta[j]+'</p>';
+              }
+
+
+              html+=` <li class="cuentas" id="cuenta_`+resultado.idtipodepago+`" style="" >
+              <div class="">
+                <div class="">
+                 
+                  <div class="" style="   text-align: justify;-webkit-line-clamp: 200;" >
+
+                    <div style="    padding-left: 1em;padding-right: 1em;padding-top: .2em;padding-bottom: .2em;background: #dfdfdf;border-radius: 10px;font-size:16px;">
+                  `+
+                  html1
+                  +`
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>`;
+
+            html+=`
+            	<div id="habilitarfoto" style="display: block;">
+      <div class="subdivisiones" style="margin-top: 1.5em" ><span style="margin-top: .5em;margin-left: .5em;">Comprobante</span></div>
+
+           <div class=""  >
+                  <div style="justify-content: center;">
+                      <button type="button"  onclick="AbrirModalFotoComprobante()" class="btn btn-success botonesaccion botonesredondeado estiloboton" style="margin-top: 1em;background:#4cd964;margin-bottom:1em;width:100%;"> SUBIR comprobante</button>
+                             <div class="check-list" style="    display: none;
+                                          margin-right: 10em;
+                                           top: -.2em;    width: 100%;margin-bottom: 1em;
+                                          position: absolute;
+                                             right: -6em;"><span></span></div>
+                  </ul>
+
+                      <div class="block m-0"> 
+                       <div class="list media-list sortable" id="" style="">           
+
+                      <div id="lista-imagenescomprobante" style="margin-bottom: 1em;">
+                          
+                      </div>
+                  </div> 
+
+                  </div>   
+                  
+                </div>
+
+              </div>
+
+            `;
+            $(".informacioncuenta").html(html);
+        }
+
+
+        if (resultado.habilitarcampo==1) {
+
+        	campomonto=resultado.habilitarcampo;
+
+        }
+
+        if (resultado.constripe==1) {
+
+        	
+  	     if (resultado.comisionporcentaje=='') {
+  	        resultado.comisionporcentaje=0;
+  	      }
+  	      if (resultado.comisionmonto=='') {
+  	        resultado.comisionmonto=0;
+  	      }
+  	      if (resultado.impuesto=='') {
+  	        resultado.impuesto=0;
+  	      }
+        
+  	      comisionporcentaje=resultado.comisionporcentaje;
+  	      if (comisionporcentaje!=0) {
+  	      	 $(".divcomision").css('display','block');
+
+  	      }
+  	      comisionmonto=resultado.comisionmonto;
+  	      impuesto=resultado.impuesto;
+  	      clavepublica=resultado.clavepublica;
+  	      claveprivada=resultado.claveprivada;
+        	ObtenerTarjetasStripe(false,idtipopago);
+
+        	$(".btnnuevatarjeta").attr('onclick','NuevaTarjetaStripe()');
+        	$(".divnueva").css('display','block');
+            HabilitarBotonPagar();
+            CalcularTotales();
+        }
+
+        if (habilitarpagar==1) {
+        	$("#btnpagarresumen").attr('disabled',false);
+        	
+        }
+
+
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+          if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+          if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                  //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                  console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+
+    });
+  }
+}
+
+
+function HabilitarOpcionespago(idtipodepago,foto,stripe,habilitarcampo,habilitarcampomontofactura,habilitarcatalogobanco,habilitardigitos,habilitaropciontarjeta) {
 
 
      anterior=localStorage.getItem('idtipodepago');
@@ -742,7 +979,11 @@ function HabilitarOpcionespago(idtipodepago,foto,stripe,habilitarcampo,habilitar
 /*  idtipodepago=localStorage.getItem('idtipodepago');
 */    if (idtipodepago>0) {
 
-  
+      $(".divdigitos").css('display','none');
+      $(".divbancos").css('display','none');
+      $(".divopcionestarjeta").css('display','none');
+
+
       $("#habilitarfoto").css('display','none');
       $(".cuentas").css('display','none');
 
@@ -811,8 +1052,23 @@ function HabilitarOpcionespago(idtipodepago,foto,stripe,habilitarcampo,habilitar
     }
 
 
+    if (habilitarcatalogobanco==1) {
+    	ObtenerBancos();
+        $(".divbancos").css('display','block');
+
+    }
+    
+    if (habilitardigitos==1) {
+
+    	$(".divdigitos").css('display','block');
+    }
+    if (habilitaropciontarjeta==1) {
+    	$(".divopcionestarjeta").css('display','block');
+    }
+
     $(".opcionestipodepago").attr('checked',false);
     $("#tipodepago_"+idtipodepago).prop('checked',true);
+  
   }else{
 
      $("#datosdecuenta").css('display','none');
@@ -841,6 +1097,7 @@ function HabilitarOpcionespago(idtipodepago,foto,stripe,habilitarcampo,habilitar
   //Recalcular4();
 
 }
+
 
 function AbrirModalFotoComprobante() {
 	$("#d_foto").css('display','none');
@@ -1140,9 +1397,23 @@ function Buscarposcion(posicion) {
 }
 
 function AbrirModalMonedero() {
-	$("#modalmonedero").modal();
+$("#modalmonedero").modal();
 	$("#monederoausar").attr('onkeyup','ValidarMontoMonedero()');
 	ObtenerMonederoUsuario();
+
+	//if (NtabName=='punto-venta') {
+		$("#tbllistarseleccionado").html('');
+		CargarProductosSeleccionados('tbllistarseleccionado');
+	//}
+
+	//if (NtabName=='pagos') {
+
+		//CargarPagosElegidosSeleccionados('tbllistarseleccionado');
+		//$(".btnguardarmonedero").attr('onclick','GuardarMonedero2()');
+
+	//}
+	$(".btnguardarmonedero").attr('onclick','GuardarMonedero()');
+
 }
 
 
@@ -1213,6 +1484,9 @@ function GuardarMonedero() {
 }
 
 function RealizarpagoCliente() {
+
+	 const myPromise = new Promise((resolve, reject) => {
+        CrearModalEspera(() => {
    var respuesta=0;
    var mensaje='';
    var pedido='';
@@ -1220,7 +1494,7 @@ function RealizarpagoCliente() {
    var pagina = "RealizarPago.php";
    var iduser=idparticipante;
    //var constripe=constripe;
-   var idtipodepago=$("#tipopago").val();
+   //var idtipodepago=$("#tipopago").val();
    var descuentocupon="";
    var codigocupon="";
    var sumatotalapagar=total;
@@ -1251,21 +1525,32 @@ function RealizarpagoCliente() {
       }
      var rutacomprobante=resultimagencomprobante;
      var comentarioimagenes=arraycomentarios;
-     console.log('confoto= '+confoto);
+     var digitostarjeta=$("#txtdigitostarjeta").val();
       if (confoto==1) {
 
         if (rutacomprobante.length==0) {
           bandera=0;
         }
       }
-   var datos='pagos='+JSON.stringify(pagosarealizar)+"&id_user="+iduser+"&constripe="+constripe+"&idtipodepago="+idtipodepago+"&descuentocupon="+descuentocupon+"&codigocupon="+codigocupon+"&descuentosaplicados="+JSON.stringify(descuentosaplicados)+"&sumatotalapagar="+sumatotalapagar+"&comision="+comision+"&comisionmonto="+comisionmonto+"&comisiontotal="+comisiontotal+"&impuestototal="+impuestotal+"&subtotalsincomision="+subtotalsincomision+"&impuesto="+impuesto+"&descuentosmembresia="+JSON.stringify(descuentosmembresia)+'&datostarjeta='+datostarjeta+'&datostarjeta2='+datostarjeta2+"&monedero="+monedero;
-      datos+='&confoto='+confoto+"&rutacomprobante="+rutacomprobante+"&comentarioimagenes="+comentarioimagenes+"&campomonto="+campomonto+"&montovisual="+montovisual+"&cambiomonto="+cambiomonto;
-    pagina = urlphp+pagina;
+    var requierefactura=$("#requierefactura").is(':checked')?1:0;
+
+   var datos='arraypaquetes='+JSON.stringify(arraycarrito);
+	   datos+="&id_user="+iduser+"&constripe="+constripe+"&idtipodepago="+idtipodepago+"&descuentocupon="+descuentocupon+"&codigocupon="+codigocupon+"&descuentosaplicados="+JSON.stringify(descuentosaplicados)+"&sumatotalapagar="+sumatotalapagar+"&comision="+comision+"&comisionmonto="+comisionmonto+"&comisiontotal="+comisiontotal+"&impuestototal="+impuestotal+"&subtotalsincomision="+subtotalsincomision+"&impuesto="+impuesto+"&descuentosmembresia="+JSON.stringify(descuentosmembresia);
+      datos+='&comisionpornota='+comisionpornota+"&comisionnota="+comisionnota+"&tipocomisionpornota="+tipocomisionpornota;
+      datos+='&requierefactura='+requierefactura+"&monedero="+monedero;
+      datos+='&idusuariosdatosfiscales='+idusuariosdatosfiscales;
+  	  datos+='&confoto='+confoto+"&rutacomprobante="+rutacomprobante+"&comentarioimagenes="+comentarioimagenes+"&campomonto="+campomonto+"&montovisual="+montovisual+"&cambiomonto="+cambiomonto;
+  	  datos+='&idbancoseleccionado='+idbancoseleccionado;
+  	  datos+='&idopciontarjetaseleccionado='+idopciontarjetaseleccionado;
+  	  datos+='&digitostarjeta='+digitostarjeta;
+  	  datos+='&datostarjeta2='+datostarjeta2+'&datostarjeta='+datostarjeta;
+   
     if (bandera==1) {
          
-          CrearModalEspera();
+         // CrearModalEspera();
     var promise = $.ajax({
-      url: pagina,
+     url:'catalogos/pagos/'+pagina, //Url a donde la enviaremos
+
       type: 'post',
       dataType: 'json',
       data:datos,
@@ -1367,22 +1652,25 @@ function RealizarpagoCliente() {
                                         $(".butonok").css('display','block');
                                         $(".butoerror").css('display','none');
                       localStorage.setItem('membresiaelegida','');
-
+                      
+                      $(".butonok").attr('onclick','IrADashboard()');
                     // alerta('',mensaje);
 
                       //PagoRealizado(mensaje,output.paymentIntent,notapago);
+                       //SeleccionarClientePagos(iduser);
 
                     }
 
                     LimpiarVariables();
                     $(".divresumenpago").css('display','none');
-                    ObtenerPagosCliente();
+                    ObtenerClientePagos(0);
                       }else{
 
                     
                       setTimeout(function(){
                          
-                          // SeleccionarClientePagos(0);
+                         SeleccionarClientePagos(iduser);
+
                          $(".mensajeproceso").css('display','none');
                           $(".mensajeerror").css('display','none');
                           $(".mensajeexito").css('display','block');
@@ -1395,7 +1683,9 @@ function RealizarpagoCliente() {
                           $(".butonok").css('display','block');
                           $(".butoerror").css('display','none');
                           LimpiarVariables();
-                           ObtenerPagosCliente();
+                       	ObtenerClientePagos(0);
+                       	 $(".butonok").attr('onclick','IrADashboard()');
+
                           $(".divresumenpago").css('display','none');
 
                       }, 1000);
@@ -1413,8 +1703,7 @@ function RealizarpagoCliente() {
                           $(".mensajeexito").css('display','none');
                           $(".butonok").css('display','none');
                           $(".butoerror").css('display','block');
-
-                alerta('',mensaje);
+                		  alerta('',mensaje);
                }
 
                 
@@ -1435,11 +1724,608 @@ function RealizarpagoCliente() {
 
           }
         
-        
+           resolve("Modal cerrado después de realizar el cargo");
+            });
+
+        });
 
 }
 
-function CrearModalEspera() {
+function RealizarpagoCompletado(idnotapago,accion) {
+			
+				$("#modalentrega").modal();
+
+			if (accion==1 ) {
+
+				$(".btnpagarentregar").attr("onclick","PagarEntregar("+idnotapago+")");
+			}
+
+			if (accion==2) {
+
+				$(".btnpagarentregar").attr("onclick","PagarEntregarNotas("+idnotapago+")");
+
+			}
+
+			if (accion==3) {
+
+				$(".btnpagarentregar").attr("onclick","Entregar("+idnotapago+")");
+			}	
+
+		
+		}
+
+
+function PagarEntregar(idnotapago) {
+	$("#modalentrega").modal('hide');
+	const myPromise = new Promise((resolve, reject) => {
+        CrearModalEspera(() => {
+   var respuesta=0;
+   var mensaje='';
+   var pedido='';
+   var informacion='';
+   var pagina = "RealizarPagocompletado.php";
+   var iduser=idparticipante;
+   //var constripe=constripe;
+   //var idtipodepago=$("#tipopago").val();
+   var descuentocupon="";
+   var codigocupon="";
+   var sumatotalapagar=total;
+  /* var comision=comision;
+   var comisiontotal=comisiontotal;
+   var comisionmonto=comisionmonto;
+   var impuestototal=impuestototal;
+   var subtotalsincomision=subtotalsincomision;
+   var impuesto=impuesto;
+   var monedero=monedero;*/
+   var opcion=0;
+   var idopcion=0;
+   //var confoto=confoto;
+   var bandera=1;
+   var montovisual=$("#montovisual").val();
+     $(".opccard").each(function(){
+              if($(this).is(':checked')){
+
+                opcion=1;
+                idopcion=$(this).attr('id');
+              }
+          });
+    var datostarjeta="";
+    var datostarjeta2="";
+     if (opcion==1) {
+        datostarjeta=$("#datostarjeta_"+idopcion).html();
+        datostarjeta2=$("#datostarjetaspan_"+idopcion).text();
+      }
+     var rutacomprobante=resultimagencomprobante;
+     var comentarioimagenes=arraycomentarios;
+     var digitostarjeta=$("#txtdigitostarjeta").val();
+      if (confoto==1) {
+
+        if (rutacomprobante.length==0) {
+          bandera=0;
+        }
+      }
+    var requierefactura=$("#requierefactura").is(':checked')?1:0;
+    var observaciones=$("#v_observaciones").val();
+   var datos='idnotapago='+idnotapago;
+	  datos+="&id_user="+0+"&constripe="+constripe+"&idtipodepago="+idtipodepago+"&descuentocupon="+descuentocupon+"&codigocupon="+codigocupon+"&sumatotalapagar="+0+"&comision="+comision+"&comisionmonto="+comisionmonto+"&comisiontotal="+comisiontotal+"&impuestototal="+impuestotal+"&subtotalsincomision="+subtotalsincomision+"&impuesto="+impuesto+"&descuentosmembresia="+JSON.stringify(descuentosmembresia);
+      datos+='&comisionpornota='+comisionpornota+"&comisionnota="+comisionnota+"&tipocomisionpornota="+tipocomisionpornota;
+      datos+='&requierefactura='+requierefactura+"&monedero="+monedero;
+      datos+='&idusuariosdatosfiscales='+idusuariosdatosfiscales;
+  	  datos+='&confoto='+confoto+"&rutacomprobante="+rutacomprobante+"&comentarioimagenes="+comentarioimagenes+"&campomonto="+campomonto+"&montovisual="+montovisual+"&cambiomonto="+cambiomonto;
+  	  datos+='&idbancoseleccionado='+idbancoseleccionado;
+  	  datos+='&idopciontarjetaseleccionado='+idopciontarjetaseleccionado;
+  	  datos+='&observaciones='+observaciones;
+  	  datos+='&digitostarjeta='+digitostarjeta;
+  	  datos+='&datostarjeta2='+datostarjeta2+'&datostarjeta='+datostarjeta;
+   
+    if (bandera==1) {
+         
+         // CrearModalEspera();
+    var promise = $.ajax({
+     url:'catalogos/pagos/'+pagina, //Url a donde la enviaremos
+
+      type: 'post',
+      dataType: 'json',
+      data:datos,
+      async:false,
+    success: function(data) {
+        informacion=data;
+        respuesta=data.respuesta;
+        mensaje=data.mensaje;
+        pedido=data.idnotapago;
+
+      
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+                        var error;
+                        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+                        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                                                 //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                         app.dialog.alert('Error leyendo fichero jsonP '+error,'Error');
+                     $(".check-list").css('display','none');
+                     $("#aparecerimagen").css('display','none');
+                    }
+                                       
+
+          });
+
+
+
+         promise.then(function(){
+
+
+
+             if (respuesta==1) {
+
+                
+
+                     // console.log(informacion);                   
+
+                      var stripe=constripe;
+                      if(stripe==1){
+
+                       // RealizarPago(pedido);
+
+                        var output=informacion.output;
+                        //var idpedido=informacion.idnota;
+
+                       //  data = datos;
+                      var stripe = Stripe(output.publicKey);
+                      // Setup Stripe elements to collect payment method details
+                      //setupElements(data.publicKey);
+                      // Setup event handlers
+                      //setupAuthenticationView(data.clientSecret, data.paymentMethod);
+                      //setupNewPaymentMethodView(data.clientSecret);
+                      //hideEl(".sr-select-pm");
+
+                    if (output.error && output.error === "authentication_required") {
+                     var mensaje = "La tarjeta requiere autenticación (3DSecure)";
+                                       $(".mensajeproceso").css('display','none');
+                                        $(".mensajeerror").css('display','block');
+                                        $(".mensajeerror").text(mensaje);
+                                        $(".mensajeexito").css('display','none');
+                                        $(".butonok").css('display','none');
+                                        $(".butoerror").css('display','block');
+                    // PagoNorealizado(mensaje,output.paymentIntent,notapago);
+                         // alerta('',mensaje);
+
+                    }
+                    else if (output.error==1) {
+                  
+                      var mensaje = "Opps, La tarjeta fue bloqueada, ha excedido los "+output.intentos+" intentos";
+                    //  PagoNorealizado(mensaje,output.paymentIntent,notapago);
+                     // alerta('',mensaje);
+                                        $(".mensajeproceso").css('display','none');
+                                        $(".mensajeerror").css('display','block');
+                                        $(".mensajeerror").text(mensaje);
+                                        $(".mensajeexito").css('display','none');
+                                        $(".butonok").css('display','none');
+                                        $(".butoerror").css('display','block');
+                    }
+                     else if (output.error) {
+                      var mensaje = "La tarjeta fue declinada";
+                    // PagoNorealizado(mensaje,output.paymentIntent,notapago);
+                      //alerta('',mensaje);
+                                        $(".mensajeproceso").css('display','none');
+                                        $(".mensajeerror").css('display','block');
+                                        $(".mensajeerror").text(mensaje);
+                                        $(".mensajeexito").css('display','none');
+                                        $(".butonok").css('display','none');
+                                        $(".butoerror").css('display','block');
+
+                     } else if (output.succeeded) {
+                      // Card was successfully charged off-session
+                      // No recovery flow needed
+                      paymentIntentSucceeded(stripe,output.clientSecret, ".sr-select-pm");
+                      var mensaje = "El pago se ha completado con éxito";
+                                        $(".mensajeproceso").css('display','none');
+                                        $(".mensajeerror").css('display','none');
+                                        $(".mensajeexito").css('display','block');
+                                        $(".mensajeexito").text(mensaje);
+
+                                        $(".butonok").css('display','block');
+                                        $(".butoerror").css('display','none');
+                       			$(".butonok").attr('onclick','IrADashboard()');
+
+                    // alerta('',mensaje);
+
+                      //PagoRealizado(mensaje,output.paymentIntent,notapago);
+                      // SeleccionarClientePagos(iduser);
+
+                    }
+
+                    LimpiarVariables();
+                    $(".divresumenpago").css('display','none');
+                    //ObtenerClientePagos(0);
+                      }else{
+
+                    
+                      setTimeout(function(){
+                         
+                         //SeleccionarClientePagos(iduser);
+
+                         $(".mensajeproceso").css('display','none');
+                          $(".mensajeerror").css('display','none');
+                          $(".mensajeexito").css('display','block');
+                          var mensaje = "El pago se ha completado con éxito";
+                          $(".mensajeexito").text(mensaje);
+
+                          $(".mensajeproceso").css('display','none');
+                          $(".mensajeexito").css('display','block');
+
+                          $(".butonok").css('display','block');
+                          $(".butoerror").css('display','none');
+                         // LimpiarVariables();
+                       	//ObtenerClientePagos(0);
+                       	$(".butonok").attr('onclick','IrADashboard()');
+
+                          $(".divresumenpago").css('display','none');
+
+                      }, 1000);
+                         
+
+                      }
+       
+
+
+               }else{
+
+
+                          $(".mensajeproceso").css('display','none');
+                          $(".mensajeerror").css('display','block');
+                          $(".mensajeexito").css('display','none');
+                          $(".butonok").css('display','none');
+                          $(".butoerror").css('display','block');
+                		  alerta('',mensaje);
+               }
+
+                
+        
+
+          });
+
+          }else{
+
+          		if (confoto==1) {
+              if (bandera==0) {
+
+                    if (rutacomprobante.length==0) {
+                        alerta('','Falta por subir comprobante');
+                      }
+              }
+          	}
+
+          }
+        
+           resolve("Modal cerrado después de realizar el cargo");
+            });
+
+        });
+				
+}
+
+function PagarEntregarNotas(idnotapago) {
+	$("#modalentrega").modal('hide');
+	const myPromise = new Promise((resolve, reject) => {
+        CrearModalEspera(() => {
+   var respuesta=0;
+   var mensaje='';
+   var pedido='';
+   var informacion='';
+   var pagina = "RealizarPagocompletadoNotas.php";
+   var iduser=idparticipante;
+   //var constripe=constripe;
+   //var idtipodepago=$("#tipopago").val();
+   var descuentocupon="";
+   var codigocupon="";
+   var sumatotalapagar=total;
+  /* var comision=comision;
+   var comisiontotal=comisiontotal;
+   var comisionmonto=comisionmonto;
+   var impuestototal=impuestototal;
+   var subtotalsincomision=subtotalsincomision;
+   var impuesto=impuesto;
+   var monedero=monedero;*/
+   var opcion=0;
+   var idopcion=0;
+   //var confoto=confoto;
+   var bandera=1;
+   var montovisual=$("#montovisual").val();
+     $(".opccard").each(function(){
+              if($(this).is(':checked')){
+
+                opcion=1;
+                idopcion=$(this).attr('id');
+              }
+          });
+    var datostarjeta="";
+    var datostarjeta2="";
+     if (opcion==1) {
+        datostarjeta=$("#datostarjeta_"+idopcion).html();
+        datostarjeta2=$("#datostarjetaspan_"+idopcion).text();
+      }
+     var rutacomprobante=resultimagencomprobante;
+     var comentarioimagenes=arraycomentarios;
+     var digitostarjeta=$("#txtdigitostarjeta").val();
+      if (confoto==1) {
+
+        if (rutacomprobante.length==0) {
+          bandera=0;
+        }
+      }
+      idnotapago=[];
+       $(".inputpagos").each(function( index ) {
+
+                if($(this).is(':checked'))
+                {
+                  var valor=$(this).attr('id');
+                  var dividirid=valor.split('_');
+
+                  idnotapago.push(dividirid[1]);
+
+
+                }
+
+             });
+
+
+    var requierefactura=$("#requierefactura").is(':checked')?1:0;
+    var observaciones=$("#v_observaciones").val();
+   var datos='idnotapago='+idnotapago;
+	  datos+="&id_user="+0+"&constripe="+constripe+"&idtipodepago="+idtipodepago+"&descuentocupon="+descuentocupon+"&codigocupon="+codigocupon+"&sumatotalapagar="+0+"&comision="+comision+"&comisionmonto="+comisionmonto+"&comisiontotal="+comisiontotal+"&impuestototal="+impuestotal+"&subtotalsincomision="+subtotalsincomision+"&impuesto="+impuesto+"&descuentosmembresia="+JSON.stringify(descuentosmembresia);
+      datos+='&comisionpornota='+comisionpornota+"&comisionnota="+comisionnota+"&tipocomisionpornota="+tipocomisionpornota;
+      datos+='&requierefactura='+requierefactura+"&monedero="+monedero;
+      datos+='&idusuariosdatosfiscales='+idusuariosdatosfiscales;
+  	  datos+='&confoto='+confoto+"&rutacomprobante="+rutacomprobante+"&comentarioimagenes="+comentarioimagenes+"&campomonto="+campomonto+"&montovisual="+montovisual+"&cambiomonto="+cambiomonto;
+  	  datos+='&idbancoseleccionado='+idbancoseleccionado;
+  	  datos+='&idopciontarjetaseleccionado='+idopciontarjetaseleccionado;
+  	  datos+='&observaciones='+observaciones;
+  	  datos+='&digitostarjeta='+digitostarjeta;
+  	  datos+='&datostarjeta2='+datostarjeta2+'&datostarjeta='+datostarjeta;
+   
+    if (bandera==1) {
+         
+         // CrearModalEspera();
+    var promise = $.ajax({
+     url:'catalogos/pagos/'+pagina, //Url a donde la enviaremos
+
+      type: 'post',
+      dataType: 'json',
+      data:datos,
+      async:false,
+    success: function(data) {
+        informacion=data;
+        respuesta=data.respuesta;
+        mensaje=data.mensaje;
+        pedido=data.idnotapago;
+
+      
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+                        var error;
+                        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+                        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                                                 //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                         app.dialog.alert('Error leyendo fichero jsonP '+error,'Error');
+                     $(".check-list").css('display','none');
+                     $("#aparecerimagen").css('display','none');
+                    }
+                                       
+
+          });
+
+
+
+         promise.then(function(){
+
+
+
+             if (respuesta==1) {
+
+                
+
+                     // console.log(informacion);                   
+
+                      var stripe=constripe;
+                      if(stripe==1){
+
+                       // RealizarPago(pedido);
+
+                        var output=informacion.output;
+                        //var idpedido=informacion.idnota;
+
+                       //  data = datos;
+                      var stripe = Stripe(output.publicKey);
+                      // Setup Stripe elements to collect payment method details
+                      //setupElements(data.publicKey);
+                      // Setup event handlers
+                      //setupAuthenticationView(data.clientSecret, data.paymentMethod);
+                      //setupNewPaymentMethodView(data.clientSecret);
+                      //hideEl(".sr-select-pm");
+
+                    if (output.error && output.error === "authentication_required") {
+                     var mensaje = "La tarjeta requiere autenticación (3DSecure)";
+                                       $(".mensajeproceso").css('display','none');
+                                        $(".mensajeerror").css('display','block');
+                                        $(".mensajeerror").text(mensaje);
+                                        $(".mensajeexito").css('display','none');
+                                        $(".butonok").css('display','none');
+                                        $(".butoerror").css('display','block');
+                    // PagoNorealizado(mensaje,output.paymentIntent,notapago);
+                         // alerta('',mensaje);
+
+                    }
+                    else if (output.error==1) {
+                  
+                      var mensaje = "Opps, La tarjeta fue bloqueada, ha excedido los "+output.intentos+" intentos";
+                    //  PagoNorealizado(mensaje,output.paymentIntent,notapago);
+                     // alerta('',mensaje);
+                                        $(".mensajeproceso").css('display','none');
+                                        $(".mensajeerror").css('display','block');
+                                        $(".mensajeerror").text(mensaje);
+                                        $(".mensajeexito").css('display','none');
+                                        $(".butonok").css('display','none');
+                                        $(".butoerror").css('display','block');
+                    }
+                     else if (output.error) {
+                      var mensaje = "La tarjeta fue declinada";
+                    // PagoNorealizado(mensaje,output.paymentIntent,notapago);
+                      //alerta('',mensaje);
+                                        $(".mensajeproceso").css('display','none');
+                                        $(".mensajeerror").css('display','block');
+                                        $(".mensajeerror").text(mensaje);
+                                        $(".mensajeexito").css('display','none');
+                                        $(".butonok").css('display','none');
+                                        $(".butoerror").css('display','block');
+
+                     } else if (output.succeeded) {
+                      // Card was successfully charged off-session
+                      // No recovery flow needed
+                      paymentIntentSucceeded(stripe,output.clientSecret, ".sr-select-pm");
+                      var mensaje = "El pago se ha completado con éxito";
+                                        $(".mensajeproceso").css('display','none');
+                                        $(".mensajeerror").css('display','none');
+                                        $(".mensajeexito").css('display','block');
+                                        $(".mensajeexito").text(mensaje);
+
+                                        $(".butonok").css('display','block');
+                                        $(".butoerror").css('display','none');
+                       			$(".butonok").attr('onclick','IrADashboard()');
+
+                    // alerta('',mensaje);
+
+                      //PagoRealizado(mensaje,output.paymentIntent,notapago);
+                      // SeleccionarClientePagos(iduser);
+
+                    }
+
+                    LimpiarVariables();
+                    $(".divresumenpago").css('display','none');
+                    //ObtenerClientePagos(0);
+                      }else{
+
+                    
+                      setTimeout(function(){
+                         
+                         //SeleccionarClientePagos(iduser);
+
+                         $(".mensajeproceso").css('display','none');
+                          $(".mensajeerror").css('display','none');
+                          $(".mensajeexito").css('display','block');
+                          var mensaje = "El pago se ha completado con éxito";
+                          $(".mensajeexito").text(mensaje);
+
+                          $(".mensajeproceso").css('display','none');
+                          $(".mensajeexito").css('display','block');
+
+                          $(".butonok").css('display','block');
+                          $(".butoerror").css('display','none');
+                         // LimpiarVariables();
+                       	//ObtenerClientePagos(0);
+                       	$(".butonok").attr('onclick','IrADashboard()');
+
+                          $(".divresumenpago").css('display','none');
+
+                      }, 1000);
+                         
+
+                      }
+       
+
+
+               }else{
+
+
+                          $(".mensajeproceso").css('display','none');
+                          $(".mensajeerror").css('display','block');
+                          $(".mensajeexito").css('display','none');
+                          $(".butonok").css('display','none');
+                          $(".butoerror").css('display','block');
+                		  alerta('',mensaje);
+               }
+
+                
+        
+
+          });
+
+          }else{
+
+          		if (confoto==1) {
+              if (bandera==0) {
+
+                    if (rutacomprobante.length==0) {
+                        alerta('','Falta por subir comprobante');
+                      }
+              }
+          	}
+
+          }
+        
+           resolve("Modal cerrado después de realizar el cargo");
+            });
+
+        });
+}
+
+function EntregarProducto(idnotapago) {
+	$("#modalentrega").modal();
+
+	$(".btnpagarentregar").attr("onclick","Entregar("+idnotapago+")");
+
+}
+function Entregar(idnotapago) {
+
+	$("#modalentrega").modal('hide');
+	var observaciones=$("#v_observaciones").val();
+	const myPromise = new Promise((resolve, reject) => {
+        CrearModalEspera(() => {
+	var datos="idnotapago="+idnotapago+"&observaciones="+observaciones;
+	  $.ajax({
+      type: 'POST',
+      data:datos,
+      dataType: 'json',
+	  url:'catalogos/pagos/EntregaProducto.php', //Url a donde la enviaremos
+      async:false,
+      success: function(resp){
+      	
+           				  $(".mensajeproceso").css('display','none');
+                          $(".mensajeerror").css('display','none');
+                          $(".mensajeexito").css('display','block');
+                          var mensaje = "Entrega completa";
+                          $(".mensajeexito").text(mensaje);
+
+                          $(".mensajeproceso").css('display','none');
+                          $(".mensajeexito").css('display','block');
+
+                          $(".butonok").css('display','block');
+                          $(".butoerror").css('display','none');
+                         // LimpiarVariables();
+                       	//ObtenerClientePagos(0);
+                       	$(".butonok").attr('onclick','IrADashboard()');
+
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+          if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+          if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                  //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                  console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+            }
+           
+           		 });
+
+
+	  	       resolve("Modal cerrado después de realizar el cargo");
+
+	  	       });
+        });
+}
+
+		function IrADashboard(argument) {
+			CerrarEspera();
+   			aparecermodulos('catalogos/dashboard/vi_dashboard.php','main');
+		}
+
+
+function CrearModalEspera(callback) {
   
 
   var html=`
@@ -1467,14 +2353,11 @@ function CrearModalEspera() {
                   </div>
                   <div id="" class="mensajeerror" style="font-size:20px;font-weight:bold;display:none;" >Error en la conexción,vuelva a intentar.</div>
                   <div id="" class="mensajeexito" style="font-size:20px;font-weight:bold;display:none;" >Se realizó correctamente</div>
+                  <div style="display: flex; justify-content: center; align-items: center;">
+       				   <span class="btn btn-success butonok" onclick="CerrarEspera()" style="display:none;width: 200px;">OK</span>
 
-
-
-                <span class="btn btn-success butonok" onclick="VerPagos()" style="display:none;">OK</span>
-
-                <span class="btn btn_rojo butoerror" onclick="CerrarEspera()" style="display:none;">OK</span>
-
-
+                		<span class="btn btn_rojo butoerror" onclick="CerrarEspera()" style="display:none;width: 200px;">OK</span>
+                 </div>
                   <div style="color:red;font-size:20px;"></div>
 
                      
@@ -1490,8 +2373,13 @@ function CrearModalEspera() {
               `;
       
 
- 	$("#modalespera").modal();
+ 	$("#modalespera").modal({backdrop: 'static', keyboard: false});
  	$("#divespera").html(html);
+
+ 	 setTimeout(() => {
+        // Ejecuta RealizarCargo() dentro del timeout
+        callback();
+    }, 2000); 
 
 }
 
@@ -1620,8 +2508,14 @@ suma=0;
  
  $(".listadopagoselegidos").css('display','none');
  $("#tipopago").val(0);
- CargarOpcionesTipopago();
- CalcularTotales();
+
+  ObtenerPaquetesCarrito();
+ $("#metodopagodiv").css('display','none');
+ $("#tablaventa").css('display','none');
+ 
+
+  CargarOpcionesTipopago();
+  CalcularTotales();
 
 }
 
@@ -1702,7 +2596,7 @@ function DetalleNota(idnotapago) {
       	var imagenescomprobante=resp.imagenescomprobante;
       	PintardetalleNotapago(respuesta[0]);
       	PintarPagos(pagos);
-
+		$("#uldescuentos").html('');
       	if (descuentos.length>0) {
 
       	PintarDescuentosDetalleNota(descuentos);
@@ -1816,11 +2710,12 @@ function PintarDescuentosDetalleNota(respuesta) {
 	if (respuesta.length>0) {
 		
 		for (var i = 0; i < respuesta.length; i++) {
+			
 			html+=` <li class="list-group-item  align-items-center" style="background: #46b2e2;">
 			   <div class="row">
 			   <div class="col-md-10">
-			   		<p id="">  Descuento `+respuesta[i].titulo+`</p>
-                    <p class="" style=" float: right;">$<span class="lbldescuento">`+formato_numero(respuesta[i].montoadescontar,2,'.',',')+`</span></p>
+			   		<p id="">  Descuento `+respuesta[i][0].titulo+`</p>
+                    <p class="" style=" float: right;">$<span class="lbldescuento">`+formato_numero(respuesta[i][0].montoadescontar,2,'.',',')+`</span></p>
 
                    </div>
                    <div class="col-md-2">
@@ -1846,8 +2741,8 @@ function PintarDescuentosDetalleMembresiaNota(respuesta) {
 			html+=` <li class="list-group-item  align-items-center" style="background: #46b2e2;">
 			   <div class="row">
 			   <div class="col-md-10">
-			   		<p id="">  Descuento `+respuesta[i].titulo+`</p>
-                    <p class="" style=" float: right;">$<span class="lbldescuento">`+formato_numero(respuesta[i].montoadescontar,2,'.',',')+`</span></p>
+			   		<p id="">  Descuento `+respuesta[i][0].titulo+`</p>
+                    <p class="" style=" float: right;">$<span class="lbldescuento">`+formato_numero(respuesta[i][0].montoadescontar,2,'.',',')+`</span></p>
 
                    </div>
                    <div class="col-md-2">
@@ -1947,4 +2842,576 @@ function SeleccionarTodos() {
 		$(".seleccionar").prop('checked',false);
 	}
 	HabilitarBotonPago();
+}
+
+function ObtenerBancos() {
+	
+    var pagina = "catalogos/pagos/Obtenerbancos.php";
+      $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      url: pagina,
+      async:false,
+      success: function(res){
+      
+          PintarBancos(res.respuesta);
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+          if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+          if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                  //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                  console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+            }
+      });
+
+}
+
+function PintarBancos(respuesta) {
+	var html="";
+	if (respuesta.length>0) {
+		for (var i = 0; i <respuesta.length; i++) {
+			html+=`<label class="btn btn_colorgray2 btnbancos" id="catebtnbanco_`+respuesta[i].idbancos+`">
+			<input type="checkbox" id="cate_13" class="catechecktipo" onchange="SeleccionarBanco(`+respuesta[i].idbancos+`)" value="0"> 
+				`+respuesta[i].nombrecorto+`</label>`;
+		}
+	}
+
+	$(".libancos").html(html);
+}
+
+function SeleccionarBanco(idbanco) {
+	idbancoseleccionado=idbanco;
+	$(".btnbancos").removeClass('active');
+	$("#catebtnbanco_"+idbanco).addClass('active');
+	VerficarFormulariocompleto();
+}
+
+function SeleccionarOpciontarjeta(idopciontarjeta) {
+	idopciontarjetaseleccionado=idopciontarjeta;
+	$(".btntipo").removeClass('active');
+	$("#catetipo_"+idopciontarjeta).addClass('active');
+	VerficarFormulariocompleto();
+}
+
+function VerficarFormulariocompleto(){
+	 var pasa=1;
+	if (idbancoseleccionado==0) {
+		pasa=0;
+	}
+	if (idopciontarjetaseleccionado==0) {
+		pasa=0;
+	}
+
+	var digitos=$("#txtdigitostarjeta").val();
+	if (digitos.length==0 && digitos.length<4) {
+		pasa=0;
+	}
+
+	if (pasa==1) {
+		$("#btnpagarresumen").attr('disabled',false);
+	}else{
+
+		$("#btnpagarresumen").attr('disabled',true);
+	
+	}
+}
+
+
+
+
+function Pagar() {
+	$("#modaldetalleope").modal('hide');
+
+	/*if (NtabName=='punto-venta') {
+
+		RealizarpagoClientePunto();
+	}*/
+
+   	//if (NtabName=='pagos') {
+		RealizarpagoCliente();
+   	//}
+}
+
+
+
+function CargarProductosSeleccionados(tbllistarseleccionado) {
+	
+	 var pagina="ObtenerCarrito.php";
+	$.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    success: function(datos){
+
+    	var carrito=datos.carrito;
+    	monederousuario=datos.monedero;
+    	elementoscarrito=carrito;
+    
+	if (elementoscarrito.length>0) {
+	var html="";
+	if (elementoscarrito.length>0) {
+		for (var i = 0; i <elementoscarrito.length; i++) {
+
+		var nuevoElemento = elementoscarrito[i];
+
+		
+      // if (!existeElementoEnCarrito(nuevoElemento)) {
+
+		html+=`
+			<tr>
+	     
+	      <td style="width: 20%;">`+elementoscarrito[i].nombrepaquete+`</td>
+	       
+	      <td style="width: 20%;">`+elementoscarrito[i].cantidad+` x $`+formato_numero(elementoscarrito[i].costounitario,2,'.',',')+`</td>`;
+	      var total=elementoscarrito[i].costototal;
+	      html+=`<td>$`+total+`</td>
+		      <td style="width: 20%;">
+
+		      <input type="number" class="monederousado monederousadoproducto" id="monederocarrito_`+elementoscarrito[i].idcarrito+`" value="`+elementoscarrito[i].monederousado+`" onkeyup="Monederousado(this)" onblur="Monederousado(this)" />
+										
+
+		      </td>	
+		    </tr>
+
+			 	`;
+		// }
+
+		}
+	}
+
+	$("#"+tbllistarseleccionado).append(html);
+
+
+		cargadoscarrito=elementoscarrito;
+	}
+
+
+	},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+      var error;
+        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+          }
+    });
+}
+
+
+function existeElementoEnCarrito(nuevoElemento) {
+        
+       
+for (var i = 0; i < cargadoscarrito.length; i++) {
+            
+           
+if (cargadoscarrito[i].idcarrito === nuevoElemento.idcarrito) {
+                return true; // El elemento ya existe en el carrito
+            }
+        }
+        return false; // El elemento no existe en el carrito
+    }
+
+
+
+var carritomonedero=[];
+var montousadototal=0;
+function Monederousado(objeto) {
+	console.log(objeto);
+	var monederoval=objeto.value;
+     const monederoElement = document.getElementById('monederodispo'); // Suponiendo que tengas un elemento HTML para mostrar el saldo del monedero
+	$("#mensajerespuesta").text('');
+
+		  // Obtiene el valor ingresado en el campo de entrada
+  //const inputElement = document.getElementById('monederocarrito_'+idcarrito);
+  var montoUsado = parseFloat(monederoval);
+
+  montousadototal=0;
+  $(".monederousado").each(function(index, elemento) {
+ 	if ($(this).val()!='') {
+ 		montousadototal+=parseFloat($(this).val());
+		}
+	});
+
+ if (montousadototal<=monederousuario) {
+
+ 		if (montoUsado=='') {montoUsado=0;}
+
+	  // Verifica que el valor ingresado sea un número válido
+	  if (!isNaN(montoUsado) && montoUsado!='' || montoUsado==0) {
+	    // Verifica si hay suficiente saldo en el monedero
+	    if (montoUsado <= monederousuario) {
+	      // Resta el monto usado al monedero
+
+	   
+	      // Actualiza la visualización del monedero
+	      
+	     monederomostrar=parseFloat(monederousuario)-parseFloat(montousadototal);
+ 		 monederoElement.textContent = monederomostrar.toFixed(2);
+ 		 $("#monederoausar").text(parseFloat(montousadototal));
+
+
+	    } else {
+
+	    	console.log('aqui1');
+		  $("#mensajerespuesta").text('saldo insuficiente en el monedero');
+
+	    }
+	  }
+	}else{
+
+	 	   //alert("No tienes suficiente saldo en el monedero.");
+		 montousadototal=0;
+  	 	  const myPromise = new Promise((resolve, reject) => {
+			 
+			     $("#mensajerespuesta").text('saldo insuficiente en el monedero');
+  	 	  		 objeto.value='';
+	   			 resolve("foo");
+			 
+			});
+
+  	 	  myPromise.then((value) => {
+   			
+   			 $(".monederousado").each(function(index, elemento) {
+		 		if ($(this).val()!='') {
+
+		 			montousadototal+=parseFloat($(this).val());
+		
+		 		}
+		 	console.log(montousadototal);
+			});
+	 	
+  	 	      monederomostrar=parseFloat(monederousuario)-parseFloat(montousadototal);
+ 			  monederoElement.textContent = monederomostrar.toFixed(2);
+
+  });
+
+  	 	   
+	
+	
+	}
+}
+
+
+
+var cargarpagos=[];
+function CargarPagosElegidosSeleccionados(tbllistarseleccionado) {
+	var html=``;
+	console.log(arraypagoscheck);
+	if (arraypagoscheck.length>0) {
+		
+		for (var i = 0; i < arraypagoscheck.length; i++) {
+	
+			var nuevoElemento = arraypagoscheck[i];
+
+		
+      // if (!existeElementopago(nuevoElemento)) {
+
+
+
+			var objetoEncontrado = arraypagos.find(function(objeto) {
+					  return objeto.idpago === arraypagoscheck[i];
+					});
+
+			var monederoobjeto=0.00;
+
+			if (pagosguardados.length>0) {
+				var objetoEncontrado2 = pagosguardados.find(function(objeto) {
+					  return objeto.idpago == arraypagoscheck[i];
+					});
+				if (objetoEncontrado2!=null) {
+
+					monederoobjeto=objetoEncontrado2.valormonedero;
+
+				}
+
+			}
+
+				if (objetoEncontrado!=null) {
+						html+=`
+		 			<tr>
+     
+			      	<td style="width: 20%;">`+objetoEncontrado.concepto+`</td>
+			       
+			      	<td style="width: 20%;">$`+formato_numero(objetoEncontrado.monto,2,'.',',')+`</td>`;
+			      	var total=objetoEncontrado.monto;
+			      	html+=`<td>$`+formato_numero(total,2,'.',',')+`</td>
+				      <td style="width: 20%;">`;
+
+				      if (objetoEncontrado.habilitarmonedero==1) {
+				    html+=`<input type="number" value="`+monederoobjeto+`" class="monederousado monederousadopago" id="monederopago_`+objetoEncontrado.idpago+`" onkeyup="Monederousado(this)" onblur="Monederousado(this)" />`;
+							}
+
+				    html+=`  </td>	
+				    </tr>
+
+		 				`;
+
+				}
+
+			//}
+		}
+
+		$("#"+tbllistarseleccionado).append(html);
+		cargarpagos=arraypagoscheck;
+	}
+}
+
+
+function existeElementopago(nuevoElemento) {
+        
+       
+for (var i = 0; i < cargarpagos.length; i++) {
+            
+           
+if (cargarpagos[i] === nuevoElemento) {
+                return true; // El elemento ya existe en el carrito
+            }
+        }
+        return false; // El elemento no existe en el carrito
+    }
+
+function Monederousado2(idpago) {
+
+  var monedero=$("#monederopago_"+idpago).val();
+  const monederoElement = document.getElementById('monederodispo'); // Suponiendo que tengas un elemento HTML para mostrar el saldo del monedero
+  $("#mensajerespuesta").text('');
+
+		  // Obtiene el valor ingresado en el campo de entrada
+  const inputElement = document.getElementById('monederopago_'+idpago);
+  var montoUsado = parseFloat(inputElement.value);
+
+  montousadototal=0;
+  $(".monederousado").each(function(index, elemento) {
+ 	if ($(this).val()!='') {
+ 		montousadototal+=parseFloat($(this).val());
+		}
+	});
+
+
+
+ 		if(montoUsado =='' || isNaN(montoUsado)) { montoUsado=0;}
+
+
+ if (montousadototal<=monederousuario) {
+
+
+	  // Verifica que el valor ingresado sea un número válido
+	  if(!isNaN(montoUsado) && montoUsado!='' || montoUsado==0) {
+	    // Verifica si hay suficiente saldo en el monedero
+	    if(montoUsado <= monederousuario) {
+	      // Resta el monto usado al monedero
+
+	      // Actualiza la visualización del monedero
+	      
+	     monederomostrar=parseFloat(monederousuario)-parseFloat(montousadototal);
+ 		 monederoElement.textContent = monederomostrar.toFixed(2);
+ 		 $("#monederoausar").text(parseFloat(montousadototal));
+
+
+	    }else {
+
+		  $("#mensajerespuesta").text('saldo insuficiente en el monedero');
+
+	    }
+	  }
+
+
+	}else{
+
+	 	   //alert("No tienes suficiente saldo en el monedero.");
+		 montousadototal=0;
+  	 	  const myPromise = new Promise((resolve, reject) => {
+			 
+			     $("#mensajerespuesta").text('saldo insuficiente en el monedero');
+  	 	  		$("#monederopago_"+idpago).val('');
+	   			 resolve("foo");
+			 
+			});
+
+  	 	  myPromise.then((value) => {
+   			
+   			 $(".monederousado").each(function(index, elemento) {
+		 		if ($(this).val()!='') {
+
+		 			montousadototal+=parseFloat($(this).val());
+		
+		 		}
+			});
+	 	
+  	 	      monederomostrar=parseFloat(monederousuario)-parseFloat(montousadototal);
+ 			  monederoElement.textContent = monederomostrar.toFixed(2);
+
+ 		 });
+
+	
+	}
+}
+
+function actualizarMonedero() {
+  // Actualiza la visualización del monedero en la interfaz de usuario
+  const monederoElement = document.getElementById('monederodispo'); // Suponiendo que tengas un elemento HTML para mostrar el saldo del monedero
+  monederoElement.textContent = monederousuario.toFixed(2);
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+function ObtenerMonederoUsuario() {
+	var idusuario=idparticipante;
+	var datos="idusuario="+idusuario;
+	 var pagina = "ObtenerUsuario.php";
+      $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      url: urlphp+pagina,
+      data:datos,
+      async:false,
+      success: function(datos){
+      	var monedero1=datos.monedero;
+
+      		if (monedero1>0) {
+         		 monederodisponible=monedero1;
+         		 monederousuario=monedero1;
+      		}
+      	$(".monederodisponible").text(formato_numero(monedero1,2,'.',','));
+           
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+          if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+          if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                  //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                  console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+            }
+      });
+
+}
+
+function ValidarMontoMonedero() {
+	var valoringresado=$("#monederoausar").val();
+	//console.log(valoringresado+'<='+total);
+	//console.log(valoringresado+'<='+monederodisponible);
+		$("#monederodispo").text('$'+monederodisponible);
+		console.log('valoringresado'+valoringresado);
+		console.log('monederodisponible'+monederodisponible);
+
+		if (parseFloat(valoringresado)<=parseFloat(monederodisponible)) {
+			if (parseFloat(valoringresado)<=parseFloat(total)) {
+
+				var pintarmonedero=monederodisponible-valoringresado;
+				$("#monederodispo").text('$'+pintarmonedero);
+		}else{
+
+			$("#monederoausar").val('');
+
+		}
+	}else{
+		$("#monederoausar").val('');
+	}
+}
+function GuardarMonedero() {
+
+	var productos=[];
+	 pagosguardados=[];
+	 $(".monederousadoproducto").each(function(index, elemento) {
+		 		if ($(this).val()!='' && $(this).val()!=0) {
+		 			var valormonedero=$(this).val();
+		 			var idelemento=$(this).attr('id');
+		 			var idcarrito=idelemento.split('_')[1];
+
+		 			var objeto={
+		 				idcarrito:idcarrito,
+		 				valormonedero:valormonedero
+		 			};
+
+		 			productos.push(objeto);
+		 		}
+		 
+			});
+
+
+	  $(".monederousadopago").each(function(index, elemento) {
+		 		if ($(this).val()!='' && $(this).val()!=0) {
+		 			var valormonedero=$(this).val();
+		 			var idelemento=$(this).attr('id');
+		 			var idpago=idelemento.split('_')[1];
+
+		 			var objeto={
+		 				idpago:idpago,
+		 				valormonedero:valormonedero
+		 			};
+
+		 			pagosguardados.push(objeto);
+		 		}
+		 
+			});
+
+	
+
+	  var datos="productos="+JSON.stringify(productos)+"&pagos="+JSON.stringify(pagosguardados);
+	  var pagina = "GuardarMonedero.php";
+      $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      url:'catalogos/pagos/'+pagina, //Url a donde la enviaremos
+      async:false,
+      data:datos,
+      success: function(msj){
+			
+
+			var monederousado=msj.monederousado;
+			monedero=monederousado;
+			var totaldisponible=msj.totaldisponible;
+			$("#modalmonedero").modal('hide');
+			$("#monederodisponible").text(totaldisponible);
+
+			CalcularTotales();
+
+      	 },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+          if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+          if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                  //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                  console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+            }
+      });
+
+	/*var valoringresado=$("#monederoausar").val();
+	if (valoringresado>0) {
+		if (valoringresado<=monederodisponible) {
+
+		 if (valoringresado<=total) {
+
+
+			monedero=valoringresado;
+			$("#modalmonedero").modal('hide');
+			CalcularTotales();
+
+			var mostrarmone=monederodisponible-valoringresado;
+			$("#monederodisponible").text(mostrarmone);
+			}else{
+
+			alert('El valor es mayor');
+
+			}
+		}else{
+		alert('El valor es mayor');
+
+		}
+	}else{
+
+		if (valoringresado<=0) {
+			monedero=0;
+
+			$("#modalmonedero").modal('hide');
+			CalcularTotales();
+		}
+	}*/
 }

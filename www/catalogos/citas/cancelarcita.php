@@ -158,14 +158,14 @@ $estatuscita=$obtenercita[0]->estatuscita;
 					<div style="clear: both;"></div>
 
 				
-					<?php if($estatuscita==0){?>
+					
 						
 				
 
-				<button type="button" class="btn btn-success btnguardarreagenda" style="float: right;" title="" onclick="GuardarCancelacion('<?php echo $idcita ?>')">
-				<i class="mdi mdi mdi-content-save"></i>CANCELAR CITA	</button>
+				<button type="button" class="btn btncancelarcita btnguardarreagenda" style="float: right;" title="" onclick="GuardarCancelacion('<?php echo $idcita ?>')">
+				<i class="mdi mdi mdi-content-save"></i>CANCELAR</button>
 
-					<?php } ?>
+					
 
 				<button type="button" onClick="aparecermodulos('catalogos/dashboard/vi_dashboard.php?idmenumodulo=<?php echo $idmenumodulo;?>','main');" class="btn btn-primary" title="" style="margin-right: 10px;float: right;"><i class="mdi mdi-arrow-left-box"></i>DASHBOARD</button>
 				
@@ -192,9 +192,9 @@ $estatuscita=$obtenercita[0]->estatuscita;
 			<!-- Tab panes -->
 
 			<div class="tab-content tabcontent-border" style=" ">
-			
-				<div class="card" id="home" role="tabpanel">
-					<div class="card-header" style="margin-top: 1em;">
+			<div class="card" id="home" role="tabpanel">
+				
+			<div class="card-header" style="margin-top: 1em;">
 						<h5>DETALLE DE LA CITA </h5>
 				</div>
 
@@ -202,32 +202,48 @@ $estatuscita=$obtenercita[0]->estatuscita;
 				<div class="row">
 				<div class="col-md-6">
 						<div class="row">
+
+
+
+							<div class="card margin-bottom">
+                    <div class="card-header" style="    border-radius: 10px;
+    margin: 10px;">
+                        <div class="row" style="    margin: 5px;">
                             
-                            <div class="col-50" style="    margin-left: 20px;">
-                                <h3 class="no-margin-bottom text-color-theme"><?php echo $titulo; ?></h3>
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;"><?php echo $descripcion ?></p>
+                            <div class="col-50">
 
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;"><?php echo $fechacita; ?></p>
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;"><?php echo $horacita; ?>Hrs.</p>
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:26px;">Cliente: <?php echo $cliente; ?></h3>
 
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;">Cliente: <?php echo $cliente; ?></p> 
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;">Barbero: <?php echo $nombreespecialista; ?></p> 
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:24px;font-weight: normal;"><?php echo $fechacita; ?></h3>
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:24px;"><?php echo $horacita; ?>Hrs.</h3> <h3 class="no-margin-bottom text-color-theme" style="font-size:22px;font-weight: normal;"><?php echo $nombrepaquete ?></h3>
 
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;"><?php echo $nombrepaquete ?></p>
+                             <h3 class="no-margin-bottom text-color-theme" style="font-size:20px;"><?php echo $titulo; ?></h3>
+                            	<p class="no-margin-bottom text-color-theme" style="font-size:20px;"><?php echo $descripcion ?></p>
 
-
-
-
-                         <div class="icon-text-container" style="margin-top: 10px;">
-
-                           <p style="margin:0;font-size: 14px">Cortesía: <span class="texto"><?php echo $cortesia; ?></span></p>
 
                            </div>
-								                               
-						</p>
 
+                            <div class="col-50">
+                                <div class="avatar">
+                                    <img src="catalogos/sucursal/imagenes/imagenprincipal.jpg" alt="" style="margin-top: 1.4em;    width: 100%;border-radius: 10px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content card-content-padding">
+                        <p class="text-muted margin-bottom">
+                           
+                        </p>
+                        <div class="row">
+                          
+                            
+                            
+                        </div>
+                    </div>
+                </div>
 
-           </div>
+                            
+                            </div>
 
           <div class="col-50">
           <div class="avatar">

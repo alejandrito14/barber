@@ -38,7 +38,7 @@ try
 	$sucursal->idusuario=$idusuario;
 	$obtenersucursal=$sucursal->AccesoSucursal();
 
-	$lo->idsucursal=$obtenersucursal[0]->idsucursales;
+	$lo->idsucursal=$se->obtenerSesion('idsucursalsesion');
 	
 
 	 $primerdia= date('Y-m-d', mktime(0,0,0, $mes, 1, $anio));

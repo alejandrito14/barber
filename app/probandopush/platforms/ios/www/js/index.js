@@ -340,10 +340,11 @@ var getID = function(){
 var getToken = function(showAlert){
     FirebasePlugin.getToken(function(token){
         log("Got FCM token: " + token, showAlert)
-            localStorage.setItem('tokenfirebase',token);
+        alert(token);
+        localStorage.setItem('tokenfirebase',token);
 
     }, function(error) {
-        logError("Failed to get FCM token", error, true);
+       // logError("Failed to get FCM token", error, true);
     });
 };
 

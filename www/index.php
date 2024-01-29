@@ -122,6 +122,7 @@ $navegador = $f->navegador();
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
                           <!--   <img src="" alt="homepage" class="light-logo" /> -->
+                           <img src="catalogos/configuracion/imagenes/<?php echo $_SESSION['codservicio'];?>/logoinversa.png" alt="homepage" class="light-logo" style="width: 80%;"/>
 
                         </b>
                         <!--End Logo icon -->
@@ -156,11 +157,10 @@ $navegador = $f->navegador();
                     <!-- ============================================================== -->
                     <!-- toggle and nav items -->
                     <!-- ============================================================== -->
-                    <ul class="navbar-nav float-left mr-auto">
+                    <ul class="navbar-nav float-left mr-auto" style="width: 90%;">
 
-
-
-
+                      <div id="datossucursal" style="    margin: 0;
+    font-size: 10px!important;color: #fefefe;top: 22px;width: 90%;"></div>
 
                        <!--<li class="nav-item d-none d-md-block"><a class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(0)" data-sidebartype="mini-sidebar"><i class="mdi mdi-menu font-24"></i></a></li>-->
                        <!-- ============================================================== -->
@@ -199,7 +199,10 @@ $navegador = $f->navegador();
                          <span class="nombreetiqueta" style="font-size: 12px!important;color: #fefefe;
                          top: 23px;padding-top: 1em;">¡BIENVENIDO! <?php echo $f->imprimir_cadena_utf8(mb_strtoupper($_SESSION['se_Empleado'])); ?></span>
                          <p style="font-size: 9px!important;color: #fefefe;
-                         top: 22px;">CODIGO SERVICIO: <?php echo $_SESSION['codservicio']; ?></p>
+                         top: 22px;margin: 0;">CODIGO SERVICIO: <?php echo $_SESSION['codservicio']; ?></p>
+
+                        <!--  <span id="datossucursal" style="margin: 0;font-size: 10px!important;color: #fefefe;
+                         top: 22px;"></span> -->
                      </form>
 
                      <!-- ============================================================== -->
@@ -1199,9 +1202,12 @@ $navegador = $f->navegador();
  <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js' type='text/javascript'></script>
  <script src="js/fn_categorias.js"></script>
  <script src="js/fn_categoriapaquete.js"></script>
+<script src="js/fn_citas.js"></script>
 
 <script src="js/fn_notificacion.js"></script>
 <script src="js/fn_politicasaceptacion.js"></script>
+
+<script src="js/fn_caja.js"></script>
 
 <script src="js/modal.js"></script>
 <script src="js/fn_matrices.js?<?php echo time(); ?>"></script>
@@ -1259,6 +1265,9 @@ $navegador = $f->navegador();
 <script src="js/fn_categoriasservicios.js"></script>
 <script src="js/fn_especialista.js"></script>
 <script src="js/fn_asignarusuarioservicio.js"></script>
+
+<script src="js/fn_agendarcitamenu.js"></script>
+
 <script src="js/fn_tutor.js"></script>
 <script src="js/fn_clasificacion.js"></script>
 <script src="js/fn_llaves.js"></script>
@@ -1272,6 +1281,7 @@ $navegador = $f->navegador();
 <script src="js/fn_encuesta.js?<?php echo time(); ?>"></script>
 <script src="js/fn_tipousuario.js?<?php echo time(); ?>"></script>
 <script src="js/fn_pagos.js?<?php echo time(); ?>"></script>
+<script src="js/fn_pagostarjeta.js?<?php echo time(); ?>"></script>
 <script src="js/fn_estadomuni.js?<?php echo time(); ?>"></script>
 <script src="js/fn_pagotarjeta.js?<?php echo time(); ?>"></script>
 <script src="js/fn_tipopartido.js?<?php echo time(); ?>"></script>
@@ -1281,9 +1291,12 @@ $navegador = $f->navegador();
 <script src="js/fn_tipojuego.js?<?php echo time(); ?>"></script>
   <script src="https://js.stripe.com/v3/"></script>
 <script src="js/fn_empresas.js?<?php echo time(); ?>"></script>
+<script src="js/fn_comisiones.js"></script>
+<script src="js/fn_tarjetaregalo.js"></script>
+
  <!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     -->
-    <script type="text/javascript" src="js/mark-your-calendar.js"></script>
+<script type="text/javascript" src="js/mark-your-calendar.js"></script>
 <script src="js/fn_dashboard.js?<?php echo time(); ?>"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzK22hMENl-zhFKyDd5TW7aO5cWHJGQ1Q"></script>
 

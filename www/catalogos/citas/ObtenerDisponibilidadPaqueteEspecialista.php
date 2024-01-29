@@ -3,14 +3,18 @@ header("Content-Type: application/json; charset=UTF-8");
 header('Access-Control-Allow-Origin: *');
 
 //Importamos las clases que vamos a utilizar
-require_once("../../clases/conexcion.php");
+require_once("../../clases/conexcion.php"); 
 require_once("../../clases/class.HorariosSucursal.php");
 //require_once("clases/class.Categorias.php");
 require_once("../../clases/class.Fechas.php");
 require_once("../../clases/class.Funciones.php");
 require_once("../../clases/class.Paquetes.php");
 require_once("../../clases/class.Especialista.php");
+require_once("../../clases/class.Sucursal.php");
 
+require_once("../../clases/class.Sesion.php");
+//creamos nuestra sesion.
+$se = new Sesion();
 try
 {
 	//declaramos los objetos de clase
@@ -22,21 +26,31 @@ try
 	$paquetes->db=$db;
 	$especialista=new Especialista();
 	$especialista->db=$db;
+
 	//$categorias = new Categorias();
 	$fechas = new Fechas();
+	$especialista->fechas=$fechas;
+	$sucursal=new Sucursal();
+	$sucursal->db=$db;
+	$idsucursal=$se->obtenerSesion('idsucursalseleccionada');
+	$sucursal->idsucursales=$idsucursal;
+	$obtenersucursal=$sucursal->ObtenerSucursal();
 	//$categorias->db=$db;
-	$idsucursal=$_POST['idsucursal'];
+	//$idsucursal=$_POST['idsucursal'];
 	$idusuarios=$_POST['id_user'];
 	$idpaquete=$_POST['idpaquete'];
 	$paquetes->idpaquete=$idpaquete;
 	$obtenerpaquete=$paquetes->ObtenerPaquete2();
+ 
+	$paqueteDuracion=$obtenerpaquete[0]->intervaloservicio;
+	$intervalo=$obtenersucursal[0]->intervalosucursal;
 
-	$intervalo=$obtenerpaquete[0]->intervaloservicio;
 	$especialista->idusuarios=$idusuarios;
 	$fecha=$_POST['fecha'];
 	$especialista->fecha=$fecha;
 	$especialista->idsucursal=$idsucursal;
 	$dia=$fechas->dia_semana($fecha);
+
 	$idespecialista=$_POST['idespecialista'];
 	$especialista->idespecialista=$idespecialista;
 	$numdia=$dia['numdia'];
@@ -74,21 +88,28 @@ try
 					$horainicial=substr($arrayintervalos[0][$k],0,5);
 
 					$horafinal=substr($arrayintervalos[0][$k+1],0,5);
-
+					$nuevaHora = date('H:i', strtotime($horainicial . ' +'.$paqueteDuracion.' minutes'));
+					$horafinal=$nuevaHora;
 
 						$paso=1;
-		 			if (date('Y-m-d',strtotime($fecha))==date('Y-m-d')) {
+		 			/*if (date('Y-m-d',strtotime($fecha))==date('Y-m-d')) {
 
 		 					if(date('H:i:s',strtotime($arrayintervalos[0][$k])) >= $horaactual)
 								{
+
 		 					$paso=1;
 		 				}else{
 
 		 					$paso=0;
 		 				}
  
-		 			}
+		 			}*/
 		 			if ($paso==1) {
+
+		 				$respuestavalida=$especialista->ValidarIntervaloDisponibleConEspecialistas($fecha,$idpaquete,$intervalo,$horainicial);
+
+		 			if ($respuestavalida==1) {
+
 					$especialista->horainicial=$horainicial;
 					$especialista->horafinal=$horafinal;
 
@@ -100,7 +121,7 @@ try
 
 					/*$buscarsiestaapartada=$especialista->EvaluarHorarioApartado();*/
 					$especialista->dia=$numdia;
-					$buscarEspecialistaLibre=$especialista->EvaluarEspecialistas($intervalo);
+					$buscarEspecialistaLibre=$especialista->EvaluarEspecialistas($intervalo,$paqueteDuracion);
 
 					
 
@@ -139,7 +160,7 @@ try
 				}
 
 				}
-
+			}
 					
 			}
 

@@ -38,6 +38,8 @@ class Usuarios
 	public $sexo;
 	public $fechanacimiento;
 	public $idservicio;
+	public $idsucursal;
+	public $color;
 	
 	//Funcion para obtener todos los usuarios activos
 	public function ObtUsuariosActivos()
@@ -54,8 +56,8 @@ class Usuarios
 	public function GuardarUsuario()
 
 	{
-		$query="INSERT INTO usuarios(idperfiles,nombre,paterno,materno,usuario,clave,celular,telefono,email,estatus,tipo,alias,sexo,fechanacimiento)VALUES($this->idperfiles,'$this->nombre','$this->paterno','$this->materno','$this->usuario','$this->clave','$this->celular','$this->telefono','$this->email',$this->estatus,'$this->tipo','$this->alias','$this->sexo','$this->fechanacimiento')";
-
+		$query="INSERT INTO usuarios(idperfiles,nombre,paterno,materno,usuario,clave,celular,telefono,email,estatus,tipo,alias,sexo,fechanacimiento,color)VALUES($this->idperfiles,'$this->nombre','$this->paterno','$this->materno','$this->usuario','$this->clave','$this->celular','$this->telefono','$this->email',$this->estatus,'$this->tipo','$this->alias','$this->sexo','$this->fechanacimiento','$this->color')";
+		
 		$resp=$this->db->consulta($query);
 	    $this->id_usuario=$this->db->id_ultimo();
 
@@ -76,7 +78,8 @@ class Usuarios
 			tipo=$this->tipo,
 			alias='$this->alias',
 			sexo='$this->sexo',
-			fechanacimiento='$this->fechanacimiento'
+			fechanacimiento='$this->fechanacimiento',
+			color='$this->color'
 		 	WHERE idusuarios=$this->id_usuario";
 		
 		$resp=$this->db->consulta($query);
@@ -248,7 +251,7 @@ class Usuarios
 
 	public function lista_Usuarios($tipo)
 	{
-		$sql = "SELECT * FROM usuarios INNER JOIN tipousuario ON usuarios.tipo=tipousuario.idtipousuario WHERE tipo IN($tipo)";
+		$sql = "SELECT usuarios.*,tipousuario.nombretipo FROM usuarios INNER JOIN tipousuario ON usuarios.tipo=tipousuario.idtipousuario WHERE tipo IN($tipo)";
 		
 		$resp = $this->db->consulta($sql);
 		return $resp;
@@ -834,6 +837,170 @@ class Usuarios
 		
 		$resp = $this->db->consulta($sql);
 		return $resp;
+	}
+
+	public function ObtTodosUsuariosFiltro($valor)
+	{
+		$sql = "SELECT * FROM usuarios WHERE tipo = '$valor'";
+		
+		$resp = $this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
+
+
+		public function ListadoUsuariostipo($tipo)
+	{
+		$sql = "SELECT
+				usuarios.idusuarios,
+				usuarios.tipo FROM
+					usuarios
+ 				INNER JOIN tipousuario ON usuarios.tipo=tipousuario.idtipousuario WHERE tipo IN($tipo)";
+		
+		$resp = $this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto->idusuarios;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
+
+
+	
+	public function ObtenerTodosUsuarios()
+	{
+		$sql = "SELECT idusuarios as idusuarios FROM usuarios WHERE estatus = 1";
+		$resp = $this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto->idusuarios;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
+
+	public function verificarusuariosucursal()
+	{
+		$sql = "SELECT * FROM especialista WHERE idusuarios = '$this->id_usuario' AND idsucursal='$this->idsucursal'";
+		
+		$resp = $this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
+
+
+	public function EliminarHorarios()
+	{
+		$sql = "SELECT * FROM especialista WHERE idusuarios = '$this->id_usuario' ";
+		
+		$resp = $this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$idespecialista=$objeto->idespecialista;
+				
+				$sql2="SELECT *FROM horarioespecialista WHERE idespecialista='$idespecialista'";
+
+				$resp2 = $this->db->consulta($sql2);
+				$cont2 = $this->db->num_rows($resp2);
+
+				if ($cont2>0) {
+
+			while ($objeto2=$this->db->fetch_object($resp2)) {
+
+
+					$sql3="DELETE FROM horarioespecialista WHERE idespecialista='$idespecialista' ";
+
+					$resp3 = $this->db->consulta($sql3);
+
+
+				}
+
+			}
+
+
+			} 
+		}
+		return 1;
+	}
+
+
+
+
+	public function ObtenerUsuarioCelular()
+	{
+		
+		$sql="SELECT *FROM usuarios WHERE celular='$this->celular'";
+		
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+
+	}
+
+	public function ObtUsuariosActivosOrdenadas()
+	{
+		
 	}
 
 }

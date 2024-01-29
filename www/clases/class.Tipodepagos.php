@@ -23,6 +23,13 @@ class Tipodepagos
 	public $habilitarcampomontofactura;
 	public $tipodeservicio;
 	
+	public $habilitartpv;
+	public $habilitarsinrevision;
+	public $habilitarcatalogobanco;
+	public $habilitarcampodigitos;
+	public $habilitaropciontarjeta;
+	public $habilitarpagar;
+	public $habilitarapp;
 	//Funcion para obtener todos los tipodepago activos
 	public function ObttipodepagoActivos()
 	{
@@ -68,9 +75,10 @@ class Tipodepagos
 	
 	public function Guardartipodepagos()
 	{
-		$query="INSERT INTO tipodepago (tipo,estatus,habilitarfoto,constripe,claveprivada,clavepublica,comisionporcentaje,comisionmonto,impuesto,cuenta,habilitarcampomonto,habilitarcampomontofactura) 
-		VALUES ('$this->tipo','$this->estatus','$this->habilitarfoto','$this->habilitarstripe','$this->claveprivada','$this->clavepublica','$this->porcentajecomision','$this->montotransaccion','$this->porcentajeimpuesto','$this->cuenta','$this->habilitarcampomonto','$this->habilitarcampomontofactura')";
-				
+		$query="INSERT INTO tipodepago (tipo,estatus,habilitarfoto,constripe,claveprivada,clavepublica,comisionporcentaje,comisionmonto,impuesto,cuenta,habilitarcampomonto,habilitarcampomontofactura,habilitarapp,habilitartpv,habilitarsinrevision,habilitarcatalogobanco,habilitarcampodigitos,habilitaropciontarjeta,habilitarpagar) 
+		VALUES ('$this->tipo','$this->estatus','$this->habilitarfoto','$this->habilitarstripe','$this->claveprivada','$this->clavepublica','$this->porcentajecomision','$this->montotransaccion','$this->porcentajeimpuesto','$this->cuenta','$this->habilitarcampomonto','$this->habilitarcampomontofactura','$this->habilitarapp','$this->habilitartpv','$this->habilitarsinrevision','$this->habilitarcatalogobanco','$this->habilitarcampodigitos','$this->habilitaropciontarjeta','$this->habilitarpagar')";
+	
+
 
 		$resp=$this->db->consulta($query);
 		$this->idtipodepago = $this->db->id_ultimo();
@@ -92,9 +100,16 @@ class Tipodepagos
 		impuesto='$this->porcentajeimpuesto',
 		cuenta='$this->cuenta',
 		habilitarcampomonto='$this->habilitarcampomonto',
-		habilitarcampomontofactura='$this->habilitarcampomontofactura'
+		habilitarcampomontofactura='$this->habilitarcampomontofactura',
+		habilitarapp='$this->habilitarapp',
+		habilitartpv='$this->habilitartpv',
+		habilitarsinrevision='$this->habilitarsinrevision',
+		habilitarcatalogobanco='$this->habilitarcatalogobanco',
+		habilitarcampodigitos='$this->habilitarcampodigitos',
+		habilitaropciontarjeta='$this->habilitaropciontarjeta',
+		habilitarpagar='$this->habilitarpagar'
 		WHERE idtipodepago=$this->idtipodepago";
-
+		
 		$resp=$this->db->consulta($query);
 	}
 	
@@ -212,6 +227,51 @@ public function ObtenerTipodepago2()
 		}
 		return $array;
  	}
+
+
+
+	public function ObttipodepagoActivosTPV()
+	{
+		$sql = "SELECT * FROM tipodepago WHERE estatus = 1 AND  habilitarenagendar=1 ";
+
+		$resp = $this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
+
+
+	public function ObttipodepagoActivosTPV2()
+	{
+		$sql = "SELECT * FROM tipodepago WHERE estatus = 1 AND habilitartpv=1";
+		$resp = $this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
+
 
 
 }

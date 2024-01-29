@@ -403,5 +403,49 @@ class Sucursal
 
 		
 	}
+
+	public function ObtenerListaSucursal()
+	{
+		$query="SELECT * FROM sucursal WHERE estatus=1";
+				
+		$resp = $this->db->consulta($query);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
+
+	
+	public function ObtenerSucursal()
+	{
+		$sql="SELECT *FROM sucursal WHERE idsucursal=".$this->idsucursales."";
+
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
 }
 ?>

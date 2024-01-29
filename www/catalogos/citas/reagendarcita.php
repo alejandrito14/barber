@@ -127,8 +127,19 @@ if(!isset($_GET['idcita']))
 	$nombrepaquete=$obtenercita[0]->concepto;
 	
 	$cortesia=$obtenercita[0]->nombrepaquetecortesia;
+
 	$horacita=$obtenercita[0]->horainicial.'-'.$obtenercita[0]->horafinal;
-$nombreespecialista=$obtenercita[0]->nombreespecialista;
+	$nombreespecialista=$obtenercita[0]->nombreespecialista;
+	$idcortesia=$obtenercita[0]->idcortesia;
+
+ $fechac=$obtenercita[0]->fechacita;
+ 	$horaselect=$obtenercita[0]->horainicial;
+	$horaInicial = strtotime($obtenercita[0]->horainicial); // Hora 
+	$horaFinal = strtotime($obtenercita[0]->horafinal);   // Hora 
+ $diferenciaSegundos = $horaFinal - $horaInicial;
+ $diferenciaMinutos = $diferenciaSegundos / 60;
+
+ $idespecialista=$obtenercita[0]->idespecialista;
 
 }
 
@@ -195,41 +206,50 @@ $nombreespecialista=$obtenercita[0]->nombreespecialista;
 				<div class="row">
 				<div class="col-md-6">
 						<div class="row">
+
+
+
+							<div class="card ">
+                    <div class="card-header" style="    border-radius: 10px;
+    margin: 10px;">
+                        <div class="row" style="    margin: 5px;">
                             
-                            <div class="col-50" style="    margin-left: 20px;">
-                                <h3 class="no-margin-bottom text-color-theme"><?php echo $titulo; ?></h3>
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;"><?php echo $descripcion ?></p>
+                            <div class="col-50">
 
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;"><?php echo $fechacita; ?></p>
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;"><?php echo $horacita; ?>Hrs.</p>
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:26px;">Cliente: <?php echo $cliente; ?></h3>
 
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;">Cliente: <?php echo $cliente; ?></p> 
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;">Barbero: <?php echo $nombreespecialista; ?></p> 
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:24px;font-weight: normal;"><?php echo $fechacita; ?></h3>
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:24px;"><?php echo $horacita; ?>Hrs.</h3> <h3 class="no-margin-bottom text-color-theme" style="font-size:22px;font-weight: normal;"><?php echo $nombrepaquete ?></h3>
 
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;"><?php echo $nombrepaquete ?></p>
+                             <h3 class="no-margin-bottom text-color-theme" style="font-size:20px;"><?php echo $titulo; ?></h3>
+                            	<p class="no-margin-bottom text-color-theme" style="font-size:20px;"><?php echo $descripcion ?></p>
 
-
-
-
-                         <div class="icon-text-container" style="margin-top: 10px;">
-
-                           <p style="margin:0;font-size: 14px">Cortesía: <span class="texto"><?php echo $cortesia; ?></span></p>
 
                            </div>
-								                               
-						</p>
 
-
-           </div>
-
-          <div class="col-50">
-          <div class="avatar">
-         <img src="catalogos/sucursal/imagenes/imagenprincipal.jpg" alt="" style="
-margin-top: 1.4em;    width: 100%;
-    border-radius: 10px;
-">
+                            <div class="col-50">
+                                <div class="avatar">
+                                    <img src="catalogos/sucursal/imagenes/imagenprincipal.jpg" alt="" style="margin-top: 1.4em;    width: 100%;border-radius: 10px;">
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="card-content card-content-padding">
+                        <p class="text-muted margin-bottom">
+                           
+                        </p>
+                        <div class="row">
+                          
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+                            
+                            </div>
+
+          
                         </div>
 					</div>
 				</div>
@@ -316,6 +336,48 @@ margin-top: 1.4em;    width: 100%;
 			</div>
 		</div>
 	</div>
+
+
+	 <div class="card" id="home" role="tabpanel">
+     <div class="card-header" style="margin-top: 1em;    margin-bottom: 1em;">
+      <h5><span id="colorcarserviciotiempo"></span>¿DESEA CAMBIAR EL TIEMPO DE SERVICIO? </h5>
+    </div>
+
+     <div class="row">
+      <div class="col-md-4">
+
+      </div>
+    <div class="col-md-4">
+
+     <div class="divtiempo btn-group-toggle" id="divtiempo"></div>
+
+
+    </div>
+
+        <div class="col-md-4">
+        </div>
+      </div>
+
+   </div>
+
+
+
+
+    <div class="card" id="home" role="tabpanel">
+     <div class="card-header" style="margin-top: 1em;    margin-bottom: 1em;">
+      <h5>SELECCIONAR CORTESÍA</h5>
+    </div>
+
+
+
+    
+   <div class="divcortesia row" id="divcortesia" style="display: flex;
+    justify-content: center;"></div>
+
+
+    </div>
+
+
 </div>
 
 					<!---AGREGUE PAIS,ESTADO,MUNICIPIO,LOCALIDAD--->
@@ -661,7 +723,194 @@ display: flex;
 	<script type="text/javascript">
 		idsucursal='<?php echo $idsucursal; ?>';
 		idpaquete='<?php echo $idpaquete; ?>';
-		PintarCalendario3();
+		idpaqueteseleccionado=idpaquete;
+		fechaagenda='<?php echo $fechac; ?>';
+		idcortesiaseleccionado='<?php echo $idcortesia; ?>';
+		diferencia='<?php echo $diferenciaMinutos ?>';
+		valorseleccionado=diferencia;
+
+		horaselect='<?php echo $horaselect; ?>';
+		idespecialista='<?php echo $idespecialista; ?>';
+
+		var promiseA = new Promise((resolutionFunc, rejectionFunc) => {
+		  		fechaconsulta=fechaagenda;
+						resolutionFunc(1);
+		});
+// En este punto, "promiseA" ya está resuelto.
+promiseA.then((val) => {
+			PintarCalendario3();
+			PintarHoraSeleccionada(fechaconsulta,horaselect);
+		
+   PintarFechaSeleccionada2(fechaconsulta);
+});
+
+promiseA.then((val)=>{
+
+	setTimeout(() => {
+		var index=0;
+	  $(".btncategointervalo1").each(function() {
+
+             var valordata=$(this).attr('data-hora');
+             if (horaselect == valordata) {
+                var id=$(this).attr('id');
+                var valordata2=$(this).attr('data-horafinal');
+
+                   SeleccionarHorario3(valordata,valordata2,index,idespecialista);
+                   $("#"+id).addClass('active');
+                 
+                 
+                  return 0;
+               }
+             index++;
+                        
+            });
+
+	}, "1000");
+
+	setTimeout(() => {
+
+		SeleccionarEspecialista(idespecialista);
+		}, "1000");
+
+});
+
+	
+
+
+	//	idcortesiaseleccionado=0;
+		ObtenerTiempo(diferencia);
+		ObtenerCortesias(idcortesiaseleccionado);
+
+
+function ObtenerTiempo(diferencia) {
+  
+    var pagina = "ObtenerTiempo.php";
+    $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+    async:false,
+    success: function(resp){
+      var resultado=resp.resultado;
+      if (resultado.length>0) {
+
+         PintarTiempo(resultado,diferencia);
+         
+
+       }
+
+
+       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+      var error;
+        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display 
+                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+          }
+    });
+
+
+}
+function PintarTiempo(resultado,diferencia) {
+  console.log(resultado);
+  var html="";
+  if (resultado.length>0) {
+    for (var i = 0; i < resultado.length; i++) {
+						activado="";
+    	if (resultado[i].valor==diferencia) {
+    		activado="active";
+    	}
+      html+=`
+        <label class="btn btn_dorado divtiempoc `+activado+`" id="tiempobtn_`+resultado[i].valor+`" style="margin-right: 10px;    width:100%;height: 36px;
+    text-transform: lowercase!important;">`+resultado[i].valor+`min.
+        <input type="checkbox" id="cates_1" class="catecheck" onchange="SeleccionarTiempo(`+resultado[i].valor+`,'min')" value="0">
+       </label>
+
+      `;
+
+    }
+  }
+
+  $(".divtiempo").html(html);
+}
+
+
+function SeleccionarTiempo(valor,min) {
+  $(".divtiempoc").removeClass('active');
+  valorseleccionado=valor;
+  $("#tiempobtn_"+valor).addClass('active');
+ 	
+}
+
+function ObtenerCortesias(idcortesiaseleccionado) {
+   var datos="idpaquete="+idpaqueteseleccionado;
+    var pagina = "VerificarCortesia.php";
+    $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+    async:false,
+    data:datos,
+    success: function(resp){
+      var cortesias=resp.cortesias;
+      if (cortesias.length>0) {
+
+         PintarCortesias(cortesias,idcortesiaseleccionado)
+         
+
+       }
+
+
+       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+      var error;
+        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display 
+                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+          }
+    });
+}
+
+function PintarCortesias(respuesta,idcortesiaseleccionado) {
+  var html="";
+  if (respuesta.length>0) {
+   var foto="";
+  
+
+    for (var i = 0; i <respuesta.length; i++) {
+      
+       var foto = respuesta[i].ruta;
+       var activo="";
+       if (idcortesiaseleccionado==respuesta[i].idcortesia) {
+       	activo="activo";
+       }
+
+      html+=`
+        <div class="tarjeta cambiarfuente faustina mx-2" id="tarjetac_`+respuesta[i].idcortesia+`" onclick="SeleccionarCortesia(`+respuesta[i].idcortesia+`,'`+respuesta[i].nombrepaquete+`')" style="width: 30%;">
+          <div class="card demo-card-header-pic" style="border-radius: 10px;">
+           <div class="card-header align-items-flex-end" style="background-image: url(`+foto+`); border-radius: 10px 10px 0px 0px; width: auto; height: 100px; background-repeat: round;">
+            </div>
+            <div class="card-body divcortesias `+activo+`" id="divcortesias_`+respuesta[i].idcortesia+`" style="background: #c7aa6a; border-radius: 0px 0px 10px 10px;">
+              <p style="margin: 0; text-align: center; color: white;">`+respuesta[i].nombrepaquete+`</p>
+                                </div>
+                 </div>
+              </div>
+
+      `;
+    }
+  }
+
+  $(".divcortesia").html(html);
+}
+
+
+function SeleccionarCortesia(idcortesia,nombrecortesia) {
+
+  $(".divcortesias").removeClass('activo');
+  $("#divcortesias_"+idcortesia).addClass('activo');
+ 
+
+  idcortesiaseleccionado=idcortesia;
+
+}
 	
 	</script>
 

@@ -39,6 +39,7 @@ try
     $pub_key=$obtenertipopago[0]->clavepublica;
     $obj->skey=$skey;
          	$access_token = $skey;
+         	var_dump($obtenertipopago);die();
 
  switch ($fname) {
 	  case 'setupIntent':
@@ -57,9 +58,8 @@ try
 
           case 'getCardList':
            
-
+         
             $idclientestripe = ObtenerIdClienteMercadopago($obj,$access_token); 
-          	
           
             if ($idclientestripe != null) {
                $obtenerlistado=ObtenerListadoTarjeta($idclientestripe,$access_token);
@@ -73,7 +73,7 @@ try
         break;
 
 
-        case 'SaveTarjet'
+        case 'SaveTarjet':
 
         	$numerotarjeta=$_POST['numerotarjeta'];
         	$mesexpiracion=$_POST['mesexpiracion'];
@@ -105,7 +105,7 @@ catch(Exception $e){
 
 function ObtenerIdClienteMercadopago($obj,$access_token)
 {
-
+	
     $dbresult = $obj->ObtenerIDCustomer();
     $a_result=$obj->db->fetch_assoc($dbresult);
     $row_resultado=$obj->db->num_rows($dbresult);
@@ -115,45 +115,72 @@ function ObtenerIdClienteMercadopago($obj,$access_token)
 
     }
 
+    var_dump($idclientestripe);die();
 
     if($idclientestripe == '')
     {
         $dbresult = $obj->ObtenerDatosCliente();
         $a_result=$obj->db->fetch_assoc($dbresult);
-        $nombrecliente = $a_result['nombre'] . " " . $a_result['paterno'];
+        $nombrecliente = $a_result['nombre'];
+        $apellido=$a_result['paterno'];
        $correo=$a_result['email'];
-     	
-		$url = "https://api.mercadopago.com/v1/customers";
-
-		$data = array(
-		    "email" => 'alelike11@gmail.com',
-		    "first_name"=>$a_result['nombre'],
-		     "last_name"=>$a_result['paterno'].' '.$a_result['materno'],
-		);
+     	$celular=$a_result['celular'];
 		
-		$options = array(
-		    CURLOPT_URL => $url,
-		    CURLOPT_HTTPHEADER => array(
-		        "Authorization: Bearer " . $access_token,
-		        "Content-Type: application/json"
-		    ),
-		    CURLOPT_POST => true,
-		    CURLOPT_POSTFIELDS => json_encode($data),
-		    CURLOPT_RETURNTRANSFER => true
-		);
+// Datos del cliente
+	$customerData = [
+    "email" => "test_user_@testuser.com",
+    "first_name" => $nombrecliente,
+    "last_name" => $apellido,
+    "phone" => [
+        "area_code" => "52",
+        "number" => $celular
+    ],
+    "identification" => [
+        "type" => "CPF",
+        "number" => "12345678900"
+    ],
+    "address" => [
+        "zip_code" => "29060",
+        "street_name" => "Rua Exemplo",
+        "street_number" => 123,
+    ],
+    "description" => "Description del user",
+    "date_registered" => "2023-10-20T11:37:30.000-04:00",
+    "default_address" => "Home",
+    "default_card" => "None"
+];
 
-		$curl = curl_init();
-		curl_setopt_array($curl, $options);
-		$response = curl_exec($curl);
-		curl_close($curl);
+// Codifica los datos del cliente como JSON
+	$customerDataJson = json_encode($customerData);
+
+// Token de acceso
+	$accessToken = "TEST-5596718914645501-040820-a172f29e2150b6e3fdcabca92bdbfae5-264544172";
+
+// URL de la API de Mercado Pago para agregar clientes
+	$url = "https://api.mercadopago.com/v1/customers";
+
+	// Configuración de la solicitud cURL
+	$ch = curl_init($url);
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $customerDataJson);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, [
+	    'Content-Type: application/json',
+	    'Authorization: Bearer ' . $accessToken
+	]);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+	// Ejecuta la solicitud cURL
+	$response = curl_exec($ch);
+
+
 
 // Manejar la respuesta
 		if ($response) {
 		    $customer = json_decode($response);
 		  
 		    $obj->customerid=$customer->id;
-		        $obj->GuardarIdCustomer();
-		        $idclientestripe = $customer->id;
+		    $obj->GuardarIdCustomer();
+		    $idclientestripe = $customer->id;
 		} else {
 		    echo "Error al crear el cliente";
 		}

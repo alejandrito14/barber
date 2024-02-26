@@ -621,15 +621,16 @@ function PintarDia(msj) {
 						var zonas=msj.zonas;
 						var htmlintervalo="";
 						for (var i = 0; i<intervalos.length; i++) {
-							 htmlintervalo=`<div class="col-md-12" style="height:`+pxintervalo+`px;margin-top: 1px;text-align:center; display: flex;justify-content: center; align-items: center;">`+intervalos[i].slice(0, -3)+` hrs.</div>`;
+							 htmlintervalo=`<div class="col-md-12" style="height:`+pxintervalo+`px;margin-top: 1px;text-align:center; display: flex;justify-content: right; align-items: start;border-top:1px solid #a09f9a;">`+intervalos[i].slice(0, -3)+` hrs.</div>`;
 							 $("#intervalos").append(htmlintervalo);
 						}
 
 						var htmlzonas="";
 						var htmlespacio="";
 						for (var i = 0; i <zonas.length; i++) {
+							//onclick="AgendarSinHorario(0,'`+fechaconsulta+`',`+zonas[i].idespecialista+`)"
 							colorzona=zonas[i].color!=null?zonas[i].color:'gray';
-							htmlzonas=` <div style="padding-top: 1em;width: 100px;height: 50px;font-weight:bold;text-align:center;background:`+colorzona+`;color:white;cursor:pointer;"  onclick="AgendarSinHorario(0,'`+fechaconsulta+`',`+zonas[i].idespecialista+`)">
+							htmlzonas=` <div style="padding-top: 1em;width: 100px;height: 50px;font-weight:bold;text-align:center;background:`+colorzona+`;color:white;cursor:pointer;"  >
 							<span style="padding: 4px;background: black;border-radius: 4px;">`+zonas[i].nombre+` `+zonas[i].conteo+`</span>
 							</div>`;
 
@@ -670,7 +671,7 @@ function PintarDia(msj) {
 									    color="#eaebf1";
 										colorfondo="background:"+color+";";
 										
-										titulo="";
+										 titulo="";
 										 marginbottom="border-bottom: 1px solid "+color+";";
 										 margintop="margin-top: 1px;border-top: 1px solid  "+color+";";
 										 icono='';
@@ -682,41 +683,43 @@ function PintarDia(msj) {
 										 	tpv=servicio[0].tpv;
 										 	if (pagado==1) {
 
-										 		icono=`<span class="" style="font-size:10px;margin-top:2px;background:#59c158;padding: 2px;
-    border-radius: 5px;">Pagado</span>`;
+										 	icono=`<span class="" style="font-size:10px;margin-top:2px;background:#59c158;padding: 2px;border-radius: 5px;">Pagado</span>`;
 										 		
 										 	}else{
-										 		icono=`<span class="" style="font-size:10px;margin-top:2px;background:#ebc418;padding: 2px;
-    border-radius: 5px;">No pagado</span>`;
+										 	icono=`<span class="" style="font-size:10px;margin-top:2px;background:#ebc418;padding: 2px;border-radius: 5px;">No pagado</span>`;
 
 
 										 	}
 									funcion="DetalleServicioDash("+servicio[0].idcita+")";
-
+									var app="";
 									if (tpv==1) {
 										color="black";
 										colorfondo="background:black;";
 										letra="color:white";
-								}else{
+										app="";
+									}else{
 
 
-									color="gray";
-									colorfondo="background:gray;";
-									letra="color:black";
-								}
+										color="black";
+										colorfondo="background:black;";
+										letra="color:white";
+										
+										app=`<span style="color: white;display: flex;justify-content: center;margin-top: 2px;
+    									background: #c7aa6a;padding: 2px;border-radius: 5px;width: 30px;float: right;margin-right: 2px;">app</span>`;
+									}
 
 									
 
 									marginbottom="border-bottom: 1px solid "+color+";";
-										 margintop="border-top: 1px solid  "+color+";";
+									margintop="border-top: 1px solid  "+color+";";
 
 											if (servicioante!=servicioac) {
 
 													if (servicio.length) {
 													titulo+=`<div style="text-align: center;`+letra+`;">`;
-													titulo+=`<span style="">`+servicio[0].horainicial+` - `+servicio[0].horafinal+` hrs.</span>`;
-													titulo+=`<br><span style="width:100%;font-size:14px;font-weight:bold;">`+nombrecliente+`</span> `;
-													titulo+=`<br>`+servicio[0].nombrepaquete+`(`+intervalotiempo+`min.)`;
+													titulo+=`<span style="margin-top:10px;"></span>`+app;
+													titulo+=`<br><span style="width:100%;font-size:14px;font-weight:bold;justify-content: center;display: flex;">`+nombrecliente+`</span> `;
+													titulo+=`<span>`+servicio[0].nombrepaquete+`(`+intervalotiempo+`min.)</span>`;
 													servicioante=servicio[0].idcita;
 													titulo+=`<br><span style="width:100%;"></span> `+icono;
 				
@@ -750,7 +753,7 @@ function PintarDia(msj) {
 									}
 								
 								
-									htmlintervalos=`<div style="height:`+pxintervalo+`px;`+colorfondo+`;`+margintop+marginbottom+`font-size:10px; display: flex;justify-content: center;font-weight:bold;`+alineacion+borderradiustop+borderradiusbootom+`" onclick="`+funcion+`">`+titulo+`</div>`;
+									htmlintervalos=`<div style="height:`+pxintervalo+`px;`+colorfondo+`;`+margintop+marginbottom+`font-size:10px; justify-content: center;font-weight:bold;`+alineacion+borderradiustop+borderradiusbootom+`" onclick="`+funcion+`">`+titulo+`</div>`;
 								$("#espacio_"+zonas[i].idespecialista).append(htmlintervalos);
 
 								}
@@ -1539,7 +1542,22 @@ var html=` <div class="" style="">
 
                          <div class="icon-text-container" style="margin-top: 10px;">
 
-                           <p style="margin:0;">Cortesía: <span class="texto">`+respuesta.nombrepaquetecortesia+`</span></p>
+                           <p style="margin:0;font-size:20px;"">Cortesía: <span class="texto">`+respuesta.nombrepaquetecortesia+`</span>
+							<button class="btn btn-info" onclick="CambiarCortesia(`+respuesta.idcita+`,`+respuesta.idpaquete+`)">Cambiar</button>
+                           </p>
+
+                           </div>`;
+
+                      }else{
+                      	   html+=`
+
+
+                         <div class="icon-text-container" style="margin-top: 10px;">
+
+                           <p style="margin:0;font-size:20px;"">Cortesía: <span class="texto">Ninguno</span> 
+                           							<button class="btn btn-info" onclick="CambiarCortesia(`+respuesta.idcita+`,`+respuesta.idpaquete+`)">Cambiar</button>
+		
+                           </p>
 
                            </div>`;
 
@@ -3165,4 +3183,49 @@ function PintarDatosEntregados(respuesta) {
 
 function OcultarModal() {
 	$("#modalelegircliente").modal('hide');
+}
+
+function CambiarCortesia(idcita,idpaquete) {
+	$("#modaldetallecita").modal('hide');
+
+
+	 $('#modal-forms2').on('shown.bs.modal', function () { 
+ 
+	   		$("#picker4").fullCalendar('render');
+			$("#step2").css('display','none');
+			//ConsultarFechasCalendarioA();
+			});
+
+	 		
+  				
+	var pagina = "escogercortesia.php";
+  
+	var datos="idpaquete="+idpaquete+"&idcita="+idcita;
+	$.ajax({
+		type: 'POST',
+		url:'catalogos/citas/'+pagina, //Url a donde la enviaremos
+		async:false,
+		data:datos,
+		success: function(resp){
+
+			$("#contenedor-modal-forms2").html(resp);
+
+			$("#step2").css('display','block');
+			//var button=`<button class="btn btn-success" onclick="GuardarCliente('form_usuario','catalogos/clientes/vi_clientes.php','main','catalogos/clientes/ga_clientes.php',0)">GUARDAR</button>`;
+			$("#footer-modal-forms2").css('display','none');
+			$("#titulo-modal-forms2").text('Servicios');
+			$("#titulo-modal-forms2").addClass('titulomodalcita');
+			$("#modal-footer").css('display','none');
+			$("#modal-forms2").modal();
+		
+	
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
 }

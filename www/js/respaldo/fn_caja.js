@@ -8,14 +8,20 @@ function VerificarCajaAbierta() {
         var resultado=resp.caja;
 
         if (resultado.length>0) {
+            ObtenerTipodepagos();
+            ObtenerCategoriasPrincipales()
+
             $("#fechahoraapertura").text(resultado[0].fechainicio);
             $("#divseleccionar").css('display','');
+            $(".eleccion").css('display','');
 
         }else{
-
+            
             $("#divfechahoraapertura").css('display','none');
 
-           var html=`<div class="col-md-6">
+           var html=`<div class="card">
+
+           <div class="card-body">
             <h2 class="page-header" style="
     margin-left: 10px;">Apertura de Caja</h2>
         <form id="aperturaCajaForm" class="form-horizontal" role="form">
@@ -24,7 +30,7 @@ function VerificarCajaAbierta() {
             <div class="form-group">
                 <label for="saldoInicial" class="col-md-4 control-label">Saldo Inicial:</label>
                 <div class="col-sm-10">
-                    <input type="number" class="form-control" id="saldoInicial" name="saldoInicial" step="0.01" required>
+                    <input type="number" style="width:200px;" class="form-control" id="saldoInicial" name="saldoInicial" step="0.01"  required>
                 
                
                                                                     </div>
@@ -32,7 +38,7 @@ function VerificarCajaAbierta() {
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" class="btn btn-primary" onclick="AbrirCaja()">Abrir Caja</button>
+                    <button type="button" class="btn btn-primary" onclick="AbrirCaja()" style="width: 200px;">Abrir Caja</button>
                 
                
                                                                 </div>
@@ -41,9 +47,30 @@ function VerificarCajaAbierta() {
 
         </form>
 
-        </div>`;
+        </div>
+        </div>
+
+        `;
 
          $("#divapertura").html(html);
+         $(".eleccion").css('display','none');
+
+      //  $("#saldoInicial").attr('onkeyup','CambiarFormato(this)');
+
+        /*  $("#saldoInicial").on({
+              "focus": function(event) {
+                $(event.target).select();
+              },
+              "keyup": function(event) {
+                $(event.target).val(function(index, value) {
+                  return value.replace(/\D/g, "")
+                    .replace(/([0-9])([0-9]{2})$/, '$1.$2')
+                    .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
+                });
+              }
+            });*/
+
+
         }
 
 	},error: function(XMLHttpRequest, textStatus, errorThrown){ 
@@ -56,6 +83,12 @@ function VerificarCajaAbierta() {
     });
 }
 
+function CambiarFormato(objeto) {
+    var valor=$("#saldoInicial").val();
+
+    var convertir=NumberConvertToDecimal(valor);
+    $("#saldoInicial").val(convertir);
+}
 function AbrirCaja() {
 
     var pagina="AbrirCaja.php";
@@ -73,6 +106,7 @@ function AbrirCaja() {
         $("#divapertura").css('display','none');
         console.log(datos);
         $("#divseleccionar").css('display','');
+        $(".eleccion").css('display','');
 
     },error: function(XMLHttpRequest, textStatus, errorThrown){ 
       var error;

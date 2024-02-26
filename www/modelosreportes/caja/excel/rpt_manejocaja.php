@@ -97,7 +97,7 @@ $estatusapagado=array('NO PAGADO','PAGADO','PENDIENTE POR VALIDAR');
 			notapago
 			JOIN manejocajanota
 			ON notapago.idnotapago = manejocajanota.idnotapago
-			WHERE idmanejocaja='$idmanejocaja'
+			WHERE idmanejocaja='$idmanejocaja' AND notapago.estatus=1
 			) as tabla GROUP BY tipopago 
 			UNION 
 
@@ -111,7 +111,7 @@ $estatusapagado=array('NO PAGADO','PAGADO','PENDIENTE POR VALIDAR');
 			FROM
 			notapago
 			JOIN manejocajanota
-			ON notapago.idnotapago = manejocajanota.idnotapago WHERE idmanejocaja='$idmanejocaja') as tabla 
+			ON notapago.idnotapago = manejocajanota.idnotapago WHERE idmanejocaja='$idmanejocaja' AND notapago.estatus=1) as tabla 
 		";
 
 

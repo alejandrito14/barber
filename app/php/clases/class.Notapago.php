@@ -68,6 +68,7 @@ class Notapago
 	public $idcupon;
 	public $monederoaplicado;
 	public $descripcioncupon;
+	public $costounitario;
 
 	public function CrearNotapago()
 	{
@@ -245,7 +246,8 @@ class Notapago
 			notapago_descripcion.monederoaplicado,	
 			citas.idcortesia,
 			cupones.tipodescuento,
-			cupones.descuento
+			cupones.descuento,
+			notapago_descripcion.idnotapago_descripcion
 
 			FROM notapago_descripcion 
 			left join paquetes on paquetes.idpaquete=notapago_descripcion.idpaquete
@@ -513,6 +515,45 @@ class Notapago
 			}
 			return $array;
 	}
+
+
+	public function Obtenerdescripcion()
+	{
+		$sql="
+			SELECT *FROM notapago_descripcion
+			 WHERE idnotapago_descripcion='$this->idnotapagodescripcion' ";
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+		
+	}
+
+
+
+	public function GuardarNuevoMonto()
+	{
+		$sql="UPDATE notapago_descripcion 
+		SET costounitario='$this->costounitario',
+		monto='$this->costototal',
+		cantidad='$this->cantidad'
+		WHERE idnotapago_descripcion='$this->idnotapagodescripcion'";
+		
+		$resp=$this->db->consulta($sql);
+	}
+
 
 }
  ?>

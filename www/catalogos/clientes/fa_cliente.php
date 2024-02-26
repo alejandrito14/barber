@@ -868,6 +868,26 @@ $su->lista_empresas = $lista_empresas;
  var mostraranuncios='<?php echo $mostraranuncios;?>';
  anunciovisto(mostraranuncios);
 */
+
+ function SeleccionarhM1(sexo) {
+
+  			setTimeout(() => {
+
+				$(".btns").removeClass('active');
+
+					if(sexo=='M'){
+					$(".txtsexom").addClass('active');
+					}
+					if (sexo=='H') {
+					$(".txtsexoh").addClass('active');
+	
+					}
+				 sexoseleccionado=sexo;
+
+
+	}, "1000");
+
+}
 </script>
 
 
@@ -875,6 +895,7 @@ $su->lista_empresas = $lista_empresas;
 
 
 	<script type="text/javascript">
+		var sexoseleccionado='<?php echo $v_sexo; ?>';
 	var idusuario='<?php echo $idusuario; ?>';
 	var asociados=[];
 	var asociadoseliminados=[];
@@ -888,6 +909,11 @@ $su->lista_empresas = $lista_empresas;
 		if (opcionestipopago!='') {
 		 opcionespago=JSON.stringify(<?php echo $opcionespago; ?>);
 
+		}
+	
+		if (sexoseleccionado!='') {
+
+			SeleccionarhM1(sexoseleccionado);
 		}
 
 		var validartelefono='<?php echo $validartelefono; ?>';
@@ -909,8 +935,8 @@ $su->lista_empresas = $lista_empresas;
 
  	//validartelefonocheck(validartelefono);
 	ObtenerTipos(idtipo);
-	ObtenerAsociados(idusuario);
-	ObtenerDependencia(idusuario);
+	//ObtenerAsociados(idusuario);
+	//ObtenerDependencia(idusuario);
 
 	}else{
 
@@ -1051,23 +1077,68 @@ function coincidePassword(contra1,contra2){
             todayHighlight: true
         });
 
-  function SeleccionarhM(sexo) {
+ 
 
-  			setTimeout(() => {
 
-				$(".btns").removeClass('active');
+function ValidarCelularInput() {
 
-					if(sexo=='M'){
-					$(".txtsexom").addClass('active');
-					}
-					if (sexo=='H') {
-					$(".txtsexoh").addClass('active');
-	
-					}
-				sexoseleccionado=sexo;
 
-	}, "100");
+	 ValidarCelular2().then(r => {
+		  		$("#validacioncelular").text('');
 
+		  	if (r.existe==0) {
+		  		$("#validacioncelular").text('');
+
+		  
+		  	    var celu=$("#v_celular").val().replace(/[()-\s]/g,'');		  	  
+		
+		  	    if (idusuario==0) {
+		  	    		$("#clave").val(celu);
+		  					 	$("#clave2").val(celu);
+
+		  	    }
+		  	
+		  	}else{
+		  	
+		  		$("#validacioncelular").text('El celular ya se encuentra registrado');
+
+		  	}
+
+		  });
 }
+
+
+function ValidarCelular2() {
+	return new Promise(function(resolve, reject) {
+
+		var celular=$("#v_celular").val();
+		var id=$("#v_id").val();
+		var datos="celular="+celular+"&idusuario="+id;
+
+		if (celular.length>5) {
+		$.ajax({
+	 url:'catalogos/clientes/ValidarCelularIdUsuario.php', //Url a donde la enviaremos
+	 type:'POST', //Metodo que usaremos
+	 dataType:'json',
+	 data:datos,
+	  error:function(XMLHttpRequest, textStatus, errorThrown){
+			var error;
+			console.log(XMLHttpRequest);
+			if (XMLHttpRequest.status === 404)  error="Pagina no existe"+XMLHttpRequest.status;// display some page not found error 
+			if (XMLHttpRequest.status === 500) error="Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			$('#abc').html('<div class="alert_error">'+error+'</div>');	
+			//aparecermodulos("catalogos/vi_ligas.php?ac=0&msj=Error. "+error,'main');
+		},
+	  success:function(msj){
+		  resolve(msj);
+
+			 			
+			}
+		});
+	}
+
+		});
+	}
+
 
 </script>

@@ -86,3 +86,46 @@ function GuardarTarjetaregalo(form,regresar,donde,idmenumodulo)
 		},1000);
 	 }
 }
+
+function AbrirModalQr(idtarjetausuario) {
+		
+		var datos="idtarjetausuario="+idtarjetausuario;
+	 	$.ajax({
+				url:'catalogos/tarjetasregalo/generarqr.php', //Url a donde la enviaremos
+				type:'POST', //Metodo que usaremos
+				dataType:'json',
+				data:datos,
+				error:function(XMLHttpRequest, textStatus, errorThrown){
+					  var error;
+					  console.log(XMLHttpRequest);
+					  if (XMLHttpRequest.status === 404)  error="Pagina no existe"+XMLHttpRequest.status;// display some page not found error 
+					  if (XMLHttpRequest.status === 500) error="Error del Servidor"+XMLHttpRequest.status; // display some server error 
+					  $("#empresasasignadas").html(error); 
+				  },
+				success:function(msj){
+					var respuesta=msj.ruta;
+					var rutaimagenqr=msj.imgqr;
+					$("#modaltarjeta").modal();
+	
+					$("#txtimagenruta").attr('src',rutaimagenqr);
+						//VisualizarCodigoqr(respuesta,rutaimagenqr);
+					 $("#linkInput").val(respuesta);
+						
+				  	}
+		});
+}
+function VisualizarCodigoqr(respuesta,rutaimagen) {
+
+}
+
+  function copiarAlPortapapeles() {
+    /* Selecciona el contenido del input */
+    var inputElement = document.getElementById('linkInput');
+    inputElement.select();
+    
+    /* Copia el contenido al portapapeles */
+    document.execCommand('copy');
+    
+    /* Deselecciona el input para evitar confusiones visuales */
+    window.getSelection().removeAllRanges();
+  }

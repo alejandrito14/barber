@@ -480,6 +480,80 @@ $funcionboton="RealizarpagoCompletado(".$idnotapago.",".$accion.")";
 </div>
 
 
+<div class="modal fade" id="modalprecio2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titulo-alerta" style="text-align: center;"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="contenedor-modal-alerta" style="overflow: auto; text-align: center;">
+                  <div style="display: flex;justify-content: center;">
+                    <div class="form-group">
+                      <label>NUEVO PRECIO UNITARIO:</label>
+                        <input type="number" name="txtprecio" id="txtprecio" class="form-control">
+                    </div>
+                  </div>
+
+
+
+                </div>
+
+                 <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+        <button type="button" class="btn btn-primary" id="btnmodificar" >MODIFICAR</button>
+    </div>
+
+            </div>
+        </div>
+    </div>
+
+ <div class="modal fade" id="modalverificacion2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titulo-alerta" style="text-align: center;"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="contenedor-modal-alerta" style="overflow: auto; text-align: center;">
+                  <div style="display: flex;justify-content: center;">
+                    <div class="form-group">
+                      <label>USUARIO:</label>
+                        <input type="text" name="txtusuario" id="txtusuario" class="form-control">
+                    </div>
+                  </div>
+
+                  <div style="display: flex;justify-content: center;">
+                    <div class="form-group">
+                      <label>CONTRASEÑA:</label>
+                        <input type="password" name="txtcontra" id="txtcontra" class="form-control">
+                    </div>
+                  </div>
+
+
+                  <div style="display: flex;justify-content: center;">
+                    <div class="form-group">
+                      <div id="respuesta" style="color: red;"></div>
+                      
+                    </div>
+                  </div>
+
+
+
+                </div>
+
+                 <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+        <button type="button" class="btn btn-success" id="btnguardarprecio" >GUARDAR</button>
+    </div>
+
+            </div>
+        </div>
+    </div>
 <!-- El modal -->
 <div class="modal fade" id="modalentrega">
   <div class="modal-dialog">
@@ -595,7 +669,7 @@ $funcionboton="RealizarpagoCompletado(".$idnotapago.",".$accion.")";
            
           var datos="idnotapago="+idnotapago;
           $.ajax({
-          url: 'catalogos/citas/ObtenerNotasPendientes.php', //Url a donde la enviaremos
+          url: 'catalogos/citas/ObtenerNotasPendientes.php', //Url a donde la enviaremos 
           type: 'POST', //Metodo que usaremos
           dataType:'json',
           data:datos,
@@ -730,7 +804,26 @@ $funcionboton="RealizarpagoCompletado(".$idnotapago.",".$accion.")";
                    html+= `</div>
                  
                       <div class="col-md-6">
+                     
+                      <div class="row">
+                      <div class="col-md-12">
                      <p class="text-muted " style="font-size:20px;margin:0px;">$`+formato_numero(detalle[j].monto,2,'.',',')+`</p>
+
+                     </div>
+
+                     <div class="col-md-12">
+                     
+                      <button type="button" onclick="ModificarPrecioNota(`+detalle[j].idnotapago_descripcion+`)" class="btn btn_colorgray" style="" title="MODIFICAR PRECIO">
+                        <i class="mdi mdi-table-edit"></i>
+                      </button>
+                     </div>
+
+
+
+                     </div>
+
+
+
                        
                       </div>
 
@@ -1149,6 +1242,82 @@ $funcionboton="RealizarpagoCompletado(".$idnotapago.",".$accion.")";
   `;
 
   $("#divdetallenota2").html(html);
+}
+
+function ModificarPrecioNota(idnotadescripcion) {
+
+
+    $("#modalprecio2").modal();
+  $("#txtprecio").val('');
+  $("#btnmodificar").attr('onclick','ModificarPrecioModalNota('+idnotadescripcion+')')
+ /* var datos="idnotadescripcion="+idnotadescripcion;
+  var pagina="ModificarPrecioNota.php";
+   $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: 'catalogos/pagos/'+pagina, //Url a donde la enviaremos
+            data:datos,
+            success: function(response) {
+                // Manejar la respuesta del backend
+            },
+            error: function(xhr, status, error) {
+                console.error('Error en la solicitud AJAX:', status, error);
+                // Manejar el error
+            }
+        });*/
+}
+
+function ModificarPrecioModalNota(idnotadescripcion) {
+  
+  var valor=$("#txtprecio").val();
+  var datos="idnotadescripcion="+idnotadescripcion+"&precio="+valor;
+
+
+  AbrirModalValidacion2(idnotadescripcion,valor);
+  phoneFormatter2('txtusuario');
+}
+
+function AbrirModalValidacion2(idnotadescripcion,valor) {
+  $("#modalprecio2").modal('hide');
+  $("#modalverificacion2").modal();
+  $("#respuesta").text('');
+  $("#btnguardarprecio").attr('onclick','GuardarModificarNota('+idnotadescripcion+','+valor+')');
+}
+function GuardarModificarNota(idnotadescripcion,valor) {
+  
+
+  var txtcontra=$("#txtcontra").val();
+  var txtusuario=$("#txtusuario").val();
+  var datos="idnotadescripcion="+idnotadescripcion+"&precio="+valor+"&usuario="+txtusuario+"&contra="+txtcontra;
+
+  $.ajax({
+   url:'catalogos/pagos/GuardarModificarNota.php', //Url a donde la enviaremos
+   type:'POST', //Metodo que usaremos
+   dataType:'json',
+   data:datos,
+    error:function(XMLHttpRequest, textStatus, errorThrown){
+      var error;
+      console.log(XMLHttpRequest);
+      if (XMLHttpRequest.status === 404)  error="Pagina no existe"+XMLHttpRequest.status;// display some page not found error 
+      if (XMLHttpRequest.status === 500) error="Error del Servidor"+XMLHttpRequest.status; // display some server error 
+      $('#abc').html('<div class="alert_error">'+error+'</div>'); 
+      //aparecermodulos("catalogos/vi_ligas.php?ac=0&msj=Error. "+error,'main');
+    },
+    success:function(msj){
+          $("#txtcontra").val('');
+          $("#txtusuario").val('');
+          if (msj.respuesta==1) {
+            $("#modalverificacion2").modal('hide');
+            AbrirNotificacion('Se guardó los cambios correctamente','mdi mdi-checkbox-marked-circle');
+          ObtenerNotasPendientes(idnotapago);
+          }else{
+
+
+            $("#respuesta").text('Usuario o contraseña incorrecta');
+          }
+          
+      }
+  });
 }
 
 			</script>

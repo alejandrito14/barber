@@ -82,7 +82,6 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 <table class="table table-striped table-bordered" id="Paquetes" cellpadding="0" cellspacing="0" style="overflow: auto">
 	<thead>
 		<tr style="text-align: center">
-			<th width="50">IDPAQUETE</th>
 			<th width="50">NOMBRE</th> 
 			<th  width="70">DESCRIPCION</th>
 			<th width="45">PRECIO</th>
@@ -115,8 +114,6 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 				{
 			?>
 			<tr>
-				<td style="text-align: center;"><?php echo $resultado_empresas_row['idpaquete']; ?></td>
-				
 			  
 				<td style="text-align: center;"><?php echo $f->imprimir_cadena_utf8($resultado_empresas_row['nombrepaquete']); ?></td>
 				
@@ -275,6 +272,8 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 <script type="text/javascript">
 	 $('#Paquetes').DataTable( {		
 		 	"pageLength": 100,
+		 	"order": [[3, "asc"]],  // Ordenar por la tercera columna en orden ascendente
+
 			"oLanguage": {
 						"sLengthMenu": "Mostrar _MENU_ ",
 						"sZeroRecords": "NO EXISTEN PAQUETES EN LA BASE DE DATOS.",

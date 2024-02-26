@@ -35,6 +35,10 @@ try
 	$caja->montoinicial=$_POST['saldoinicial'];
 	$caja->estatus=1;
 
+	if ($caja->montoinicial=='') {
+		$caja->montoinicial=0;
+	}
+
 	$obtenercaja=$caja->AbrirCaja();
 
 	$se->crearSesion('idManejoCaja',$caja->idmanejocaja);

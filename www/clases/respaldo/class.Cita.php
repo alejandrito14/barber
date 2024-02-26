@@ -146,7 +146,7 @@ class Cita
 
 			$sql="INSERT INTO citaapartado( horainicial, horafinal, idsucursal, idpaquete, idespecialista, fecha, estatus, idusuario,horains,horafs) VALUES ('$this->horainicial', '$this->horafinal',
 				 '$this->idsucursal', '$this->idpaquete','$this->idespecialista','$this->fecha','$this->estatus','$this->idusuario','$this->horainicials','$this->horafinals')";
-	
+		
 		$resp=$this->db->consulta($sql);
 		$this->idcitaapartado=$this->db->id_ultimo();
 		} catch (Exception $e) {
@@ -460,7 +460,7 @@ class Cita
 		left join usuarios ON usuarios.idusuarios=citas.idusuarios
 		left join cortesia 
 			ON citas.idcortesia=cortesia.idcortesia
-		left join paquetes as paquetecortesia on paquetecortesia.idpaquete=cortesia.idpaquetecortesia
+		left join paquetes as paquetecortesia on paquetecortesia.idpaquete=citas.idcortesia
 		
 		 WHERE 	 idcita='$this->idcita'";
 		
@@ -591,7 +591,8 @@ class Cita
 			CONCAT(esp.nombre,' ',esp.paterno) AS nombreespecialista,
 			paquetes.nombrepaquete,
 			notapago.folio,
-			notapago.idnotapago
+			notapago.idnotapago,
+			citas.idsucursal
 
 		FROM citas
 		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal
@@ -601,8 +602,8 @@ class Cita
 		left join paquetes on citas.idpaquete=paquetes.idpaquete
 		left join notapago_descripcion on citas.idcita=notapago_descripcion.idcita
 		left JOIN notapago on notapago_descripcion.idnotapago=notapago.idnotapago
-		 WHERE 	 fechacita='$this->fecha'   GROUP BY idcita ORDER BY idsucursal,fechacita,horainicial";
-		 
+		 WHERE 	 fechacita='$this->fecha' 	AND citas.estatus!=3  AND citas.idsucursal='$this->idsucursal' GROUP BY idcita ORDER BY idsucursal,fechacita,horainicial"; 
+		
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 
@@ -1394,6 +1395,19 @@ class Cita
 		}
 		
 		return $array;
+	}
+
+	public function CambiarCortesia()
+	{
+		 $sql = "UPDATE citas 
+        SET
+        idcortesia='$this->idcortesia'
+        WHERE idcita = '$this->idcita'
+
+        ";
+
+      
+        $this->db->consulta($sql);
 	}
 
 

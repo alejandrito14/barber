@@ -32,7 +32,8 @@ try
 	$especialista->fechas=$fechas;
 	$sucursal=new Sucursal();
 	$sucursal->db=$db;
-	$idsucursal=$se->obtenerSesion('idsucursalseleccionada');
+	$idsucursal=$se->obtenerSesion('idsucursalsesion');
+	//var_dump($idsucursal);die();
 	$sucursal->idsucursales=$idsucursal;
 	$obtenersucursal=$sucursal->ObtenerSucursal();
 	//$categorias->db=$db;
@@ -44,7 +45,7 @@ try
  
 	$paqueteDuracion=$obtenerpaquete[0]->intervaloservicio;
 	$intervalo=$obtenersucursal[0]->intervalosucursal;
-
+	
 	$especialista->idusuarios=$idusuarios;
 	$fecha=$_POST['fecha'];
 	$especialista->fecha=$fecha;
@@ -77,7 +78,7 @@ try
 	$integrandointervalos=[];
 	$especialista->idsucursal=$idsucursal;
 	$especialista->idpaquete=$idpaquete;
-	
+	//var_dump($paqueteDuracion);die();
 		$horaactual=date('H:i:s');
 		//var_dump($arrayintervalos);die();
 	for ($k=0; $k < count($arrayintervalos[0]); $k++) { 
@@ -123,7 +124,7 @@ try
 					$especialista->dia=$numdia;
 					$buscarEspecialistaLibre=$especialista->EvaluarEspecialistas($intervalo,$paqueteDuracion);
 
-					
+				
 
 					$disponible=1;
 				if (count($verificar)>0 || count($buscarEspecialistaLibre)==0)  {

@@ -66,7 +66,7 @@ try {
 				$Notapago->idnotapago=$obtenernotas[$i]->idnotapago;
 
 				 $obtenerpagosstripe=$Notapago->ObtenerdescripcionNota();
-
+ 
 				 for ($j=0; $j < count($obtenerpagosstripe); $j++) { 
 			        $obtenerpagosstripe[$j]->foto=$codigo.'/'.$obtenerpagosstripe[$j]->foto;
 			       $fechaformato1="";

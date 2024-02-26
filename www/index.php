@@ -827,6 +827,36 @@ $navegador = $f->navegador();
         </div>
     </div>
     
+
+    <div class="modal fade" id="modaltarjeta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="titulodirecciones"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body " >
+
+                <div class="" style="display: flex;justify-content: center;">
+                  <img src="" style="width: 30%;" id="txtimagenruta">
+                </div>
+<div class="" style="display: flex;justify-content: center;">
+                  <div class="container mt-5">
+              <div class="input-group mb-3">
+                <input id="linkInput" type="text" class="form-control" value="https://tu-enlace.com" readonly>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" onclick="copiarAlPortapapeles()">Copiar</button>
+                </div>
+              </div>
+            </div>
+        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     
     <!--  MODAL PARA REPORTE  -->
 
@@ -1293,6 +1323,7 @@ $navegador = $f->navegador();
 <script src="js/fn_empresas.js?<?php echo time(); ?>"></script>
 <script src="js/fn_comisiones.js"></script>
 <script src="js/fn_tarjetaregalo.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
 
  <!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     -->

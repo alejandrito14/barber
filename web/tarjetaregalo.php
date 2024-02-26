@@ -1,3 +1,57 @@
+<?php 
+require_once("clases/class.Funciones.php");
+require_once("clases/class.Sesion.php");
+require_once("clases/class.Tarjetaregalo.php");
+require_once("clases/conexcion.php");
+require_once("clases/class.PagConfig.php");
+
+$se = new Sesion();
+$tarjetaregalo=new Tarjetaregalo();
+    $fun=new Funciones();
+    $codigo=$_GET['codigo'];
+    $codigode= $fun->decrypt($codigo,'ISSINVERSA');
+
+   $codigosend=explode('|',$codigode);
+
+   $codigoservicio=$codigosend[0];
+   $idtarjetaregalousuario=$codigosend[2];
+
+
+   $con2 = mysqli_connect("is-software.net","issoftwa_prueba","prueba","issoftwa_admin");    
+    $consulta = "SELECT * FROM servicios_clientes WHERE idservicios_clientes = '$codigoservicio'";
+    $servicio =  $con2->query($consulta); 
+    $servicio_row =  mysqli_fetch_assoc($servicio);  
+    $servicio_num=mysqli_num_rows($servicio);
+
+
+        $se->crearSesion('db_cliente',$servicio_row['db']);
+                    $se->crearSesion('idcliente',$servicio_row['idcliente']);
+                    $se->crearSesion('vigencia_cliente',$servicio_row['vigencia']);
+                    $se->crearSesion('dbusuario_cliente',$servicio_row['db_usuario']);
+                    $se->crearSesion('dbclave_cliente',$servicio_row['db_clave']);
+                    $se->crearSesion('ip_cliente',$servicio_row['db_ip']);
+                    
+
+                    
+
+                    $conexcion= new MySQL();
+                    $tarjetaregalo->db=$conexcion;
+
+                    $tarjetaregalo->idtarjetaregalo=$idtarjetaregalousuario;
+                   $obtenertarjeta= $tarjetaregalo->ObtenerTarjetaregalo();
+              
+                   $rutaimagen='../www/catalogos/tarjetasregalo/qrgenerado/'.$codigoservicio.'/'.$obtenertarjeta[0]->imagenqr;
+
+
+                   $confi=new PagConfig();
+                   $confi->db=$conexcion;
+                   $obtenerconfi=$confi->ObtenerInformacionConfiguracion();
+                    $urlios=$obtenerconfi['iosmarket'];
+                    $urlandroid=$obtenerconfi['androidmarket'];
+       
+
+ ?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -52,12 +106,13 @@
               <div class=" col-md-6">
                <div class="row">
                 
-                  <div class="row">
-                   <h2 class="section-heading text-uppercase" style="margin-left: 20px;">TARJETA DE REGALO</h2>
+                  <div class="row" style="    display: flex;
+    justify-content: center;">
+                   <h2 class="section-heading text-uppercase" style="margin-left: 20px;" style="" id="titulotarjeta"><?php echo $obtenertarjeta[0]->nombrepaquete; ?></h2>
                   </div>
                   <div class="row">
 
-                  <h3 class=" text-muted" style="margin-left: 20px;">Lorem ipsum dolor sit amet consectetur.</h3>
+                  <h3 class=" text-muted" style="margin-left: 20px;" id="descripciontarjeta"><?php echo $obtenertarjeta[0]->descripcion; ?></h3>
                  </div>
                  </div>
               
@@ -66,8 +121,25 @@
                   <div class="row">
 
                      <div class="" >
+
+
+
                       
-                       <button class="btn btn-primary btn-xl text-uppercase " id="submitButton" onclick="ModalRegistro()" style="margin-left: 20px;" type="button">ACEPTAR REGALO</button>
+                       <ul class="lista" style="    margin-left: 20px;">
+                            <li class="lista1">
+                                <a class="btn1" href="<?php echo $urlios; ?>">
+                                <i class="fab fa-apple"></i> <span>Descargar <span>App Store</span></span></a></li>
+                            <li class="lista1">
+                                <a class="item-2 btn2" 
+                                href="<?php echo $urlandroid; ?>">
+                                    <i class="fab fa-google-play"></i> <span>Descargar <span>Google Play</span></span>
+                                </a>
+                            </li>
+                        </ul>
+
+
+
+
                      </div>
                    
                  
@@ -86,7 +158,7 @@
               <div class=" col-md-6">
                <div style="width: 100%;display: flex;
     justify-content: center;" >
-                 <img src="assets/img/caja.png" style="width: 80%">
+                 <img src="<?php echo  $rutaimagen; ?>" style="width: 80%">
                </div>
               
 
@@ -399,7 +471,7 @@
             </div>
         </section>
         <!-- Footer-->
-        <footer class="footer py-4">
+        <footer class="footer py-4" style="display: none;">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-4 text-lg-start">Copyright &copy; Your Website 2024</div>
@@ -645,5 +717,54 @@
  
              }
         </script>
+
+        <style type="text/css">
+            
+            .btn1{
+                    background: #c7aa6a;
+            border-color: #c7aa6a;
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 400;
+            padding-top: 10px;
+            padding-bottom: 10px;
+
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 15px;
+            color: white;
+            text-decoration: none;
+            }
+            .lista{
+                    margin: 41px 0 0;
+    padding: 0;
+    list-style-type: none;
+            }
+            .lista1{
+
+            display: inline-block;
+             margin-right: 8px;
+
+            }
+
+
+               .btn2{
+                   
+            border-color: #9b2cfa;
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 400;
+            padding-top: 10px;
+            padding-bottom: 10px;
+
+                padding: 10px;
+            border-radius: 10px;
+            font-size: 15px;
+            color: black;
+            text-decoration: none;
+            }
+        </style>
     </body>
 </html>

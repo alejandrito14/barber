@@ -119,7 +119,16 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 				
 				<td style="text-align: center;"><?php echo $f->imprimir_cadena_utf8($resultado_empresas_row['descripcion']);?></td>
 				<td>
-					$<?php echo $resultado_empresas_row['precioventa'] ?>
+
+					<?php
+					if ($resultado_empresas_row['precioventa'] !=0 && $resultado_empresas_row['precioventa']!=null) {
+						 echo 
+					'$'.$resultado_empresas_row['precioventa']; 
+					}
+					
+
+
+					?>
 				</td>
 				<td style="text-align: center;">
 

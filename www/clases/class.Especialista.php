@@ -92,7 +92,8 @@ class Especialista
 
 	public function GuardarHorario()
 	{
-		$query="INSERT INTO horarioespecialista(dia, horainicial, horafinal, idespecialista, estatus, idsucursal,tipocomision,montocomision) VALUES ( '$this->dia', '$this->horainicial', '$this->horafinal','$this->idespecialista','$this->estatus','$this->idsucursal','$this->tipocomision','$this->cantidadcomi')";
+		$query="INSERT INTO horarioespecialista(dia, horainicial, horafinal, idespecialista, estatus, idsucursal) VALUES ( '$this->dia', '$this->horainicial', '$this->horafinal','$this->idespecialista','$this->estatus','$this->idsucursal')";
+		
 		$resp=$this->db->consulta($query);
 
 	}

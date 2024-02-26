@@ -45,7 +45,7 @@ try
 	$emp->fechavigencia=$_POST['fechavigencia'];
 	$emp->estatus = trim($f->guardar_cadena_utf8($_POST['v_estatus']));
 
-
+	$emp->idsucursal=$se->obtenerSesion('idsucursalsesion');
 	
 
 	

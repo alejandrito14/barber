@@ -333,11 +333,9 @@ class Especialista
 			left JOIN sucursal ON especialista.idsucursal=sucursal.idsucursal
 			left join usuarios on especialista.idusuarios=usuarios.idusuarios
 
-
-			
 		 WHERE usuarios.estatus=1 AND especialista.bloqueo=0 and sucursal.idsucursal='$this->idsucursal' ORDER BY usuarios.orden asc ";
 
-		
+	
 			$resp = $this->db->consulta($sql);
 			$cont = $this->db->num_rows($resp);
 
@@ -527,14 +525,19 @@ class Especialista
 				especialista.idsucursal,
 				usuarios.orden,
 				usuarios.color,
-				usuarios.foto
+				usuarios.foto,
+					(SELECT COUNT(idcita) AS conteo 
+					FROM citas 
+					WHERE citas.fechacita = '$this->fecha' 
+					AND horainicial = '' 
+					AND horains != '' and idespecialista=especialista.idespecialista) as conteo
 			FROM especialista
 			left JOIN sucursal ON especialista.idsucursal=sucursal.idsucursal
 			left join usuarios on especialista.idusuarios=usuarios.idusuarios
 
 
 			
-		 WHERE usuarios.estatus=1 AND especialista.bloqueo=0  ORDER BY usuarios.orden asc ";
+		 WHERE usuarios.estatus=1 AND especialista.bloqueo=0 AND sucursal.idsucursal='$this->idsucursal' ORDER BY usuarios.orden asc ";
 
 		
 			$resp = $this->db->consulta($sql);

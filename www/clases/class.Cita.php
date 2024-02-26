@@ -460,7 +460,7 @@ class Cita
 		left join usuarios ON usuarios.idusuarios=citas.idusuarios
 		left join cortesia 
 			ON citas.idcortesia=cortesia.idcortesia
-		left join paquetes as paquetecortesia on paquetecortesia.idpaquete=cortesia.idpaquetecortesia
+		left join paquetes as paquetecortesia on paquetecortesia.idpaquete=citas.idcortesia
 		
 		 WHERE 	 idcita='$this->idcita'";
 		
@@ -980,8 +980,9 @@ class Cita
 	{
 		
 		$sql="
-		SELECT c.*,citas.idsucursal FROM notapago_descripcion as c
+		SELECT c.*,citas.idsucursal,notapago.estatus as estatusnota FROM notapago_descripcion as c
 		LEFT JOIN citas on c.idcita=citas.idcita
+		inner join notapago on c.idnotapago=notapago.idnotapago
 		 WHERE c.idcita='$this->idcita'
 
 		";
@@ -1395,6 +1396,37 @@ class Cita
 		}
 		
 		return $array;
+	}
+
+	public function CambiarCortesia()
+	{
+		 $sql = "UPDATE citas 
+        SET
+        idcortesia='$this->idcortesia'
+        WHERE idcita = '$this->idcita'
+
+        ";
+
+      
+        $this->db->consulta($sql);
+	}
+
+	public function ActualizarCitaTemp($value='')
+	{
+		
+		 $sql = "UPDATE citas 
+        SET estatus = 0,
+        horacita='$this->horainicial',
+        horainicial='$this->horainicial',
+        horafinal='$this->horafinal',
+        idespecialista='$this->idespecialista',
+        fechacita='$this->fechacita',
+        costo='$this->costo',
+        idpaquete='$this->idpaquete'
+        WHERE idcita = '$this->idcita'
+
+        ";
+        $this->db->consulta($sql);
 	}
 
 

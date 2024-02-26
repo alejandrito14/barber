@@ -50,7 +50,8 @@ class Paquetes
 
 	public $txtvigencia;
 
-	
+	public $idcortesia;
+	public $txtcosto;
 	
 	public $arraysub;
 	public function obtenerFiltro()
@@ -89,11 +90,11 @@ class Paquetes
 			LEFT JOIN categoriapaquete
 			ON paquetes.idcategoriapaquete = categoriapaquete.idcategoriapaquete 
 			
-			JOIN preciopaquete
+			LEFT JOIN preciopaquete
 			ON paquetes.idpaquete = preciopaquete.idpaquete 
-			JOIN precio
-			ON precio.idprecio = preciopaquete.idprecio
-			WHERE  precio.principal=1
+			LEFT JOIN precio
+			ON precio.idprecio = preciopaquete.idprecio AND   precio.principal=1
+			
 
 
 			";
@@ -108,7 +109,7 @@ class Paquetes
 
 
 //$this->db->real_escape_string(
-		$query = "INSERT INTO paquetes (nombrepaquete,descripcion,estatus,idcategorias,promocion,definirfecha,fechainicial,fechafinal,cantidad,considerar,aplicardirecto,servicio,repetitivo,lunes,martes,miercoles,jueves,viernes,sabado,domingo,preciofijo,horainicialpromo,horafinalpromo,orden,activarcomentario,mensaje,siniva,iva,idcategoriapaquete,intervaloservicio,tarjetaregalo,montomonedero,confechavigencia,fechavigencia) VALUES ('".$this->db->real_escape_string($this->nombre)."','".$this->db->real_escape_string($this->descripcion)."','$this->estatus','0','$this->conpromo','$this->confecha','$this->fechainicial','$this->fechafinal','$this->cantidadcobrar','$this->cantidadaconsiderar','$this->directo','$this->servicio',$this->repetitivo,$this->lunes,$this->martes,$this->miercoles,$this->jueves,$this->viernes,$this->sabado,$this->domingo,$this->preciofijo,'$this->horainicio','$this->horafin','$this->orden','$this->activarcomentario','$this->mensajev','$this->siniva','$this->iva','$this->idcategoriapaquete','$this->tiempoestimado','$this->tarjetaregalo','$this->montomonedero','$this->convigencia','$this->txtvigencia')";
+		$query = "INSERT INTO paquetes (nombrepaquete,descripcion,estatus,idcategorias,promocion,definirfecha,fechainicial,fechafinal,cantidad,considerar,aplicardirecto,servicio,repetitivo,lunes,martes,miercoles,jueves,viernes,sabado,domingo,preciofijo,horainicialpromo,horafinalpromo,orden,activarcomentario,mensaje,siniva,iva,idcategoriapaquete,intervaloservicio,tarjetaregalo,montomonedero,confechavigencia,fechavigencia,costo) VALUES ('".$this->db->real_escape_string($this->nombre)."','".$this->db->real_escape_string($this->descripcion)."','$this->estatus','0','$this->conpromo','$this->confecha','$this->fechainicial','$this->fechafinal','$this->cantidadcobrar','$this->cantidadaconsiderar','$this->directo','$this->servicio',$this->repetitivo,$this->lunes,$this->martes,$this->miercoles,$this->jueves,$this->viernes,$this->sabado,$this->domingo,$this->preciofijo,'$this->horainicio','$this->horafin','$this->orden','$this->activarcomentario','$this->mensajev','$this->siniva','$this->iva','$this->idcategoriapaquete','$this->tiempoestimado','$this->tarjetaregalo','$this->montomonedero','$this->convigencia','$this->txtvigencia','$this->txtcosto')";
 
 		$this->db->consulta($query);
 		$this->idpaquete = $this->db->id_ultimo();
@@ -150,8 +151,9 @@ class Paquetes
 			intervaloservicio='$this->tiempoestimado',
 			tarjetaregalo='$this->tarjetaregalo',
 			montomonedero='$this->montomonedero',
-			convigencia='$this->convigencia',
-			fechavigencia='$this->txtvigencia'
+			confechavigencia='$this->convigencia',
+			fechavigencia='$this->txtvigencia',
+			costo='$this->txtcosto'
 			WHERE idpaquete = '$this->idpaquete' ";
 
 			
@@ -1094,6 +1096,65 @@ public function ObtenerDatosPaquete()
 
     }
 
+    public function ObtenerPaquetesCortesia($value='')
+    {
+    	$query = "
+			
+			SELECT
+			paquetes.idpaquete,
+			paquetes.nombrepaquete,
+			paquetes.descripcion,
+			paquetes.foto,
+			paquetes.estatus,
+			categoriapaquete.idcategoriapaquete,
+			paquetesucursal.idsucursal,
+			paquetes.promocion,
+			paquetes.aplicardirecto,
+			paquetes.definirfecha,
+			paquetes.repetitivo,
+			paquetes.fechainicial,
+			paquetes.fechafinal,
+			paquetes.lunes,
+			paquetes.martes,
+			paquetes.miercoles,
+			paquetes.jueves,
+			paquetes.viernes,
+			paquetes.sabado,
+			paquetes.domingo,
+			paquetes.preciofijo,
+			paquetes.cantidad,
+			paquetes.considerar,
+			paquetes.horainicialpromo,
+			paquetes.horafinalpromo,
+			paquetes.intervaloservicio,
+			paquetes.servicio
+
+			FROM
+			paquetes
+			LEFT JOIN categoriapaquete
+			ON paquetes.idcategoriapaquete = categoriapaquete.idcategoriapaquete 
+			LEFT JOIN paquetesucursal
+			ON paquetes.idpaquete=paquetesucursal.idpaquete
+
+			WHERE paquetes.estatus=1 AND escortesia=1 AND paquetesucursal.idsucursal='$this->idsucursal'";
+
+		
+        $resp = $this->db->consulta($query);
+        $cont = $this->db->num_rows($resp);
+
+        $array    = array();
+        $contador = 0;
+        if ($cont > 0) {
+
+            while ($objeto = $this->db->fetch_object($resp)) {
+
+                $array[$contador] = $objeto;
+                $contador++;
+            }
+        }
+        return $array;
+    }
+
      public function ObtenerCortesias()
     {
     	$sql="SELECT *FROM cortesia
@@ -1217,6 +1278,47 @@ public function ObtenerDatosPaquete()
 	}
 
 
+	public function GuardarCortesia()
+	{
+		$sql="INSERT INTO cortesia( idpaquete, idpaquetecortesia) VALUES ('$this->idpaquete', '$this->idcortesia')";
+
+		$resp = $this->db->consulta($sql);
+
+
+	}
+
+
+	public function ObtenerCortesiaPaquete()
+	{
+		$sql="SELECT *FROM cortesia 
+		WHERE idpaquete=$this->idpaquete";
+
+		 $resp = $this->db->consulta($sql);
+        $cont = $this->db->num_rows($resp);
+
+        $array    = array();
+        $contador = 0;
+        if ($cont > 0) {
+
+            while ($objeto = $this->db->fetch_object($resp)) {
+
+            	
+
+                $array[$contador] = $objeto;
+                $contador++;
+            }
+        }
+        return $array;
+
+	}
+
+	public function EliminarCortesias()
+	{
+		$sql="DELETE FROM cortesia 
+		WHERE idpaquete=$this->idpaquete";
+
+		 $resp = $this->db->consulta($sql);
+	}
 
 	
 }

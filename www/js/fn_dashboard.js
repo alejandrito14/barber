@@ -628,8 +628,9 @@ function PintarDia(msj) {
 						var htmlzonas="";
 						var htmlespacio="";
 						for (var i = 0; i <zonas.length; i++) {
+							//onclick="AgendarSinHorario(0,'`+fechaconsulta+`',`+zonas[i].idespecialista+`)"
 							colorzona=zonas[i].color!=null?zonas[i].color:'gray';
-							htmlzonas=` <div style="padding-top: 1em;width: 100px;height: 50px;font-weight:bold;text-align:center;background:`+colorzona+`;color:white;cursor:pointer;"  onclick="AgendarSinHorario(0,'`+fechaconsulta+`',`+zonas[i].idespecialista+`)">
+							htmlzonas=` <div style="padding-top: 1em;width: 100px;height: 50px;font-weight:bold;text-align:center;background:`+colorzona+`;color:white;cursor:pointer;"  >
 							<span style="padding: 4px;background: black;border-radius: 4px;">`+zonas[i].nombre+` `+zonas[i].conteo+`</span>
 							</div>`;
 
@@ -1541,7 +1542,22 @@ var html=` <div class="" style="">
 
                          <div class="icon-text-container" style="margin-top: 10px;">
 
-                           <p style="margin:0;">Cortesía: <span class="texto">`+respuesta.nombrepaquetecortesia+`</span></p>
+                           <p style="margin:0;font-size:20px;"">Cortesía: <span class="texto">`+respuesta.nombrepaquetecortesia+`</span>
+							<button class="btn btn-info" onclick="CambiarCortesia(`+respuesta.idcita+`,`+respuesta.idpaquete+`)">Cambiar</button>
+                           </p>
+
+                           </div>`;
+
+                      }else{
+                      	   html+=`
+
+
+                         <div class="icon-text-container" style="margin-top: 10px;">
+
+                           <p style="margin:0;font-size:20px;"">Cortesía: <span class="texto">Ninguno</span> 
+                           							<button class="btn btn-info" onclick="CambiarCortesia(`+respuesta.idcita+`,`+respuesta.idpaquete+`)">Cambiar</button>
+		
+                           </p>
 
                            </div>`;
 
@@ -1722,6 +1738,7 @@ var html=` <div class="" style="">
 
 					if (respuesta.pagada==1) {
 					$(".btnpagarcita").css('display','none');
+					$(".btnmodificar").css('display','none');
 
 					}else{
 					
@@ -1729,7 +1746,9 @@ var html=` <div class="" style="">
 
 					$(".btnpagarcita").attr('onclick','PagarNotaCita('+respuesta.idnotapago+',2)');
 
-
+					$(".btnmodificar").attr('onclick','ModificarNotaCita('+respuesta.idnotapago+',4)');
+					$(".btnmodificar").css('display','block');
+					
 					}
 
 
@@ -1787,6 +1806,15 @@ function PagarNotaCita(idnota,accion) {
 	
 	var donde='main';
 	var regresar='catalogos/citas/pagarnotacita.php?idnotapago='+idnota+"&accion="+accion;
+	aparecermodulos(regresar+"&idmenumodulo="+idmenumodulo+"&msj=",donde);
+}
+
+
+function ModificarNotaCita(idnota,accion) {
+	$("#modaldetallecita").modal('hide');
+	
+	var donde='main';
+	var regresar='catalogos/citas/modificarnotacita.php?idnotapago='+idnota+"&accion="+accion;
 	aparecermodulos(regresar+"&idmenumodulo="+idmenumodulo+"&msj=",donde);
 }
 
@@ -3167,4 +3195,49 @@ function PintarDatosEntregados(respuesta) {
 
 function OcultarModal() {
 	$("#modalelegircliente").modal('hide');
+}
+
+function CambiarCortesia(idcita,idpaquete) {
+	$("#modaldetallecita").modal('hide');
+
+
+	 $('#modal-forms2').on('shown.bs.modal', function () { 
+ 
+	   		$("#picker4").fullCalendar('render');
+			$("#step2").css('display','none');
+			//ConsultarFechasCalendarioA();
+			});
+
+	 		
+  				
+	var pagina = "escogercortesia.php";
+  
+	var datos="idpaquete="+idpaquete+"&idcita="+idcita;
+	$.ajax({
+		type: 'POST',
+		url:'catalogos/citas/'+pagina, //Url a donde la enviaremos
+		async:false,
+		data:datos,
+		success: function(resp){
+
+			$("#contenedor-modal-forms2").html(resp);
+
+			$("#step2").css('display','block');
+			//var button=`<button class="btn btn-success" onclick="GuardarCliente('form_usuario','catalogos/clientes/vi_clientes.php','main','catalogos/clientes/ga_clientes.php',0)">GUARDAR</button>`;
+			$("#footer-modal-forms2").css('display','none');
+			$("#titulo-modal-forms2").text('Servicios');
+			$("#titulo-modal-forms2").addClass('titulomodalcita');
+			$("#modal-footer").css('display','none');
+			$("#modal-forms2").modal();
+		
+	
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
 }

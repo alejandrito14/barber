@@ -617,6 +617,21 @@
 		    $numero_dia = date('w', strtotime($fecha));
 		    return $numero_dia;
 		}
+
+
+		function diferencia($hora_inicio,$hora_fin)
+		{
+			
+			// Convertir las horas a marcas de tiempo Unix
+$marca_tiempo_inicio = strtotime($hora_inicio);
+$marca_tiempo_fin = strtotime($hora_fin);
+
+// Calcular la diferencia en minutos
+$diferencia_minutos = ($marca_tiempo_fin - $marca_tiempo_inicio) / 60;
+
+	return $diferencia_minutos;
+
+		}
   
 
   }

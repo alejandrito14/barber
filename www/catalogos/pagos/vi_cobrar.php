@@ -56,7 +56,7 @@ $pagos->lista_empresas = $lista_empresas;
 
 $idsucursalseleccionada=$se->obtenerSesion('idsucursalsesion');
 
-
+ 
 
 $obtenerpais2=$pais->ObtenerPaices();
 $rows_pais2=$db->fetch_assoc($obtenerpais2);
@@ -157,6 +157,12 @@ $estatuspago = array('NO PAGADO','PAGADO');
     padding-bottom: 0;">
 			<p style=" margin-left: 10px">FECHA Y HORA DE APERTURA:<p>
 				<p style=" margin-left: 10px;font-size: 20px;"><span id="fechahoraapertura"></span></p>
+
+				<form style="margin-top: 1em;
+    margin-right: 85px;" class="form-inline" >
+          	<button type="button" class="btn  btn-success btn-lg btn-block" style="background: red;border: 1px solid red;width: 250px;" id="btncerrar" onclick="AbrirModalCerrarCaja()">Cerrar caja</button>
+          </form>
+
 		</div>
 	</div>
  
@@ -167,10 +173,7 @@ $estatuspago = array('NO PAGADO','PAGADO');
 			<div class="card-body">
 
 				 <div class="col">
-          	<form style="margin-top: 1em;
-    margin-right: 85px;" class="form-inline" >
-          	<button type="button" class="btn  btn-success btn-lg btn-block" style="background: red;border: 1px solid red;width: 250px;" id="btncerrar" onclick="AbrirModalCerrarCaja()">Cerrar caja</button>
-          </form>
+          	
           </div>
           
 
@@ -1219,6 +1222,86 @@ $estatuspago = array('NO PAGADO','PAGADO');
 </div>
 
 
+<div class="modal fade" id="modalprecio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titulo-alerta" style="text-align: center;"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="contenedor-modal-alerta" style="overflow: auto; text-align: center;">
+                	<div style="display: flex;justify-content: center;">
+	                	<div class="form-group">
+	                		<label>NUEVO PRECIO:</label>
+	                			<input type="number" name="txtprecio" id="txtprecio" class="form-control">
+	                	</div>
+	                </div>
+
+
+
+                </div>
+
+                 <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+        <button type="button" class="btn btn-primary" id="btnmodificar" >MODIFICAR</button>
+    </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    
+
+
+    <div class="modal fade" id="modalverificacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titulo-alerta" style="text-align: center;"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="contenedor-modal-alerta" style="overflow: auto; text-align: center;">
+                	<div style="display: flex;justify-content: center;">
+	                	<div class="form-group">
+	                		<label>USUARIO:</label>
+	                			<input type="text" name="txtusuario" id="txtusuario" class="form-control">
+	                	</div>
+	                </div>
+
+	                <div style="display: flex;justify-content: center;">
+	                	<div class="form-group">
+	                		<label>CONTRASEÑA:</label>
+	                			<input type="password" name="txtcontra" id="txtcontra" class="form-control">
+	                	</div>
+	                </div>
+
+
+	                <div style="display: flex;justify-content: center;">
+	                	<div class="form-group">
+	                		<div id="respuesta" style="color: red;"></div>
+	                		
+	                	</div>
+	                </div>
+
+
+
+                </div>
+
+                 <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+        <button type="button" class="btn btn-success" id="btnguardarprecio" >GUARDAR</button>
+    </div>
+
+            </div>
+        </div>
+    </div>
+
+
 <div class="modal" id="modalimagencomprobante1" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -1723,7 +1806,12 @@ idespecialistaselect='<?php echo $idespecialistaselec;?>';
 
 
 if (clienteseleccionado>0) {
+
 	CrearSesionUsuario(clienteseleccionado);
+
+}else{
+
+	$(".eleccion").css('display','none');
 
 }
 
@@ -2042,7 +2130,26 @@ function PintarElementos(arraycarrito) {
 		 	html+=`
 		 			<tr>
      
-      <td style="width: 20%;">`+arraycarrito[i].nombrepaquete+`</td>
+      <td style="width: 20%;">
+      	<span style="font-weight:bold;">`+arraycarrito[i].nombrepaquete+`
+      	</span>`;
+
+      if (arraycarrito[i].fecha) {
+      	html+=`
+      	<p style="margin:0;">Fecha/Hora: `+arraycarrito[i].fechaformato+`</p>
+
+      	`;
+      }
+
+      
+
+      if (arraycarrito[i].usuarioespecialista) {
+      	html+=`
+      	<p style="margin:0;">Barbero: `+arraycarrito[i].usuarioespecialista+`</p>`;
+      }
+
+
+    html+=  `</td>
         <td style="width: 5%;">
       	 <div class="container" style="    width: 150px;">
 				    <div class="row">
@@ -2074,8 +2181,13 @@ function PintarElementos(arraycarrito) {
       <td style="width: 20%;">
 
       <button type="button" onclick="BorrarPaqueteArray(`+arraycarrito[i].idcarrito+`)" class="btn btn_rojo" style="" title="BORRAR">
-								<i class="mdi mdi-delete-empty"></i>
-						</button>
+			<i class="mdi mdi-delete-empty"></i>
+	</button>
+
+	<button type="button" onclick="ModificarPrecio(`+arraycarrito[i].idcarrito+`)" class="btn btn_colorgray" style="" title="MODIFICAR PRECIO">
+		<i class="mdi mdi-table-edit"></i>
+	</button>
+
 
       </td>	
     </tr>

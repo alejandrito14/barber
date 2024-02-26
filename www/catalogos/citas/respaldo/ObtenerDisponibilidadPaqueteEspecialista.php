@@ -32,11 +32,11 @@ try
 	$especialista->fechas=$fechas;
 	$sucursal=new Sucursal();
 	$sucursal->db=$db;
-	$idsucursal=$se->obtenerSesion('idsucursalsesion');
+	$idsucursal=$se->obtenerSesion('idsucursalseleccionada');
 	$sucursal->idsucursales=$idsucursal;
 	$obtenersucursal=$sucursal->ObtenerSucursal();
 	//$categorias->db=$db;
-	$idsucursal=$_POST['idsucursal'];
+	//$idsucursal=$_POST['idsucursal'];
 	$idusuarios=$_POST['id_user'];
 	$idpaquete=$_POST['idpaquete'];
 	$paquetes->idpaquete=$idpaquete;
@@ -50,6 +50,7 @@ try
 	$especialista->fecha=$fecha;
 	$especialista->idsucursal=$idsucursal;
 	$dia=$fechas->dia_semana($fecha);
+
 	$idespecialista=$_POST['idespecialista'];
 	$especialista->idespecialista=$idespecialista;
 	$numdia=$dia['numdia'];

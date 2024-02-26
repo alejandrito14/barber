@@ -18,6 +18,7 @@ if(!isset($_SESSION['se_SAS']))
 require_once("../../clases/conexcion.php");
 require_once("../../clases/class.Caja.php");
 require_once("../../clases/class.Funciones.php");
+require_once("../../clases/class.Fechas.php");
 
 try
 {
@@ -25,6 +26,7 @@ try
 	$db = new MySQL();
 	$caja = new Caja();
 	$f = new Funciones();
+	$fechas=new Fechas();
 	
 	//enviamos la conexión a las clases que lo requieren
 	$caja->db=$db;
@@ -39,7 +41,15 @@ try
 		$se->crearSesion('idManejoCaja',$obtenercaja[0]->idmanejocaja);
 
 		$fecha=date('d/m/Y H:i:s',strtotime($obtenercaja[0]->fechainicio));
-		$obtenercaja[0]->fechainicio=$fecha;
+		//$obtenercaja[0]->fechainicio=$fecha;
+
+		$fecha=date('d/m/Y H:i:s',strtotime($obtenercaja[0]->fechainicio));
+
+
+		$fechaobtener=date('Y-m-d',strtotime($obtenercaja[0]->fechainicio));
+		$horaobtener=date('H:i:s',strtotime($obtenercaja[0]->fechainicio));
+
+		$obtenercaja[0]->fechainicio=$fechas->fecha_texto5($fechaobtener). ' '.$horaobtener;
 	}
 	//Recbimos parametros
 	$respuesta['respuesta']=1;

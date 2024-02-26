@@ -79,7 +79,11 @@ try
 	$emp->iva=$_POST['iva'];
 	$emp->mensajev=$_POST['mensajev'];
 	$emp->idcategoriapaquete=$_POST['idcategoriapaquete'];
+	$emp->txtcosto=$_POST['txtcosto'];
 
+	if ($emp->txtcosto=='') {
+		$emp->txtcosto=0;
+	}
 	
 	$v_sucursal=$_POST['v_sucursal'];
 
@@ -356,12 +360,14 @@ if ($complementos[0]!='') {
 
 	//$emp->ActualizarPrecioProducto();
 
-		foreach ($_FILES as $key) 
-		{
-		if($key['error'] == UPLOAD_ERR_OK ){//Verificamos si se subio correctamente
+		
+
+		if (isset($_FILES["archivo"])) {
+
+		//if($_FILES['error'] == UPLOAD_ERR_OK ){//Verificamos si se subio correctamente
 
 			$nombre = str_replace(' ','_',date('Y-m-d H:i:s').'-'.$emp->idpaquete.".jpg");//Obtenemos el nombre del archivo
-			$temporal = $key['tmp_name']; //Obtenemos el nombre del archivo temporal
+			$temporal = $_FILES["archivo"]['tmp_name']; //Obtenemos el nombre del archivo temporal
 			$tamano= ($key['size'] / 1000)."Kb"; //Obtenemos el tamaño en KB
 
 			//obtenemos el nombre del archivo anterior para ser eliminado si existe
@@ -381,8 +387,59 @@ if ($complementos[0]!='') {
 
 			$sql = "UPDATE paquetes SET foto = '$nombre' WHERE idpaquete ='".$emp->idpaquete."'";   
 			$db->consulta($sql);	 
+		//}
+	}
+
+
+
+		/*foreach ($_FILES as $key) 
+		{*/
+
+		if (isset($_FILES["archivo2"])) {
+
+		//if($_FILES['error'] == UPLOAD_ERR_OK ){//Verificamos si se subio correctamente
+
+			$nombre = str_replace(' ','_',date('Y-m-d H:i:s').'-'.$emp->idpaquete."-2.jpg");//Obtenemos el nombre del archivo
+			$temporal = $_FILES["archivo2"]['tmp_name']; //Obtenemos el nombre del archivo temporal
+			//$tamano= ($key['size'] / 1000)."Kb"; //Obtenemos el tamaño en KB
+
+			//obtenemos el nombre del archivo anterior para ser eliminado si existe
+
+			$sql = "SELECT foto2 FROM paquetes WHERE idpaquete='".$emp->idpaquete."'";
+			$result_borrar = $db->consulta($sql);
+			$result_borrar_row = $db->fetch_assoc($result_borrar);
+			$nombreborrar = $result_borrar_row['foto2'];		  
+
+			if($nombreborrar != "")
+			{
+				unlink($ruta.$nombreborrar); 
+			}
+
+
+			move_uploaded_file($temporal, $ruta.$nombre); //Movemos el archivo temporal a la ruta especificada
+
+			$sql = "UPDATE paquetes SET foto2 = '$nombre' WHERE idpaquete ='".$emp->idpaquete."'";   
+			$db->consulta($sql);	 
+		//}
+	 }
+	//}
+
+
+	$cortesias=explode(',', $_POST['cortesias']);
+		$tienecortesia=$emp->ObtenerCortesiaPaquete();
+
+		if (count($tienecortesia)>0) {
+			$emp->EliminarCortesias();
+		}
+
+	if ($cortesias[0]!='') {
+		
+		for ($i=0; $i < count($cortesias); $i++) { 
+			$emp->idcortesia=$cortesias[$i];
+			$emp->GuardarCortesia();
 		}
 	}
+
 	
 
 	$db->commit();

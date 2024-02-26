@@ -1795,7 +1795,7 @@ function CrearSesionUsuario(idcliente) {
 	  success:function(msj){
 			
 	  	SeleccionarClientePagos(idcliente);
-		
+		$(".eleccion").css('display','block');	
 			}
 	});
 }
@@ -2105,7 +2105,7 @@ function CrearSesionSucursal(idsucursal) {
 	  success:function(msj){
 			openTab('punto-venta');
 			$(".btncita").css('display','block');	
-		$(".eleccion").css('display','block');		
+			
 			ObtenerPaquetesCarrito();
 			 			
 			}
@@ -2559,5 +2559,65 @@ function PintarCategorias(respuesta) {
             $(".categoriasprincipales").append(html);
 		}
 	}
+}
+
+function ModificarPrecio(idcarrito) {
+	
+	$("#modalprecio").modal();
+	$("#txtprecio").val('');
+	$("#btnmodificar").attr('onclick','ModificarPrecioCarrito('+idcarrito+')')
+}
+
+function ModificarPrecioCarrito(idcarrito) {
+	var valor=$("#txtprecio").val();
+	var datos="idcarrito="+idcarrito+"&precio="+valor;
+
+
+	AbrirModalValidacion(idcarrito,valor);
+	phoneFormatter2('txtusuario');
+
+}
+
+function AbrirModalValidacion(idcarrito,valor) {
+	$("#modalprecio").modal('hide');
+	$("#modalverificacion").modal();
+	$("#respuesta").text('');
+	$("#btnguardarprecio").attr('onclick','GuardarModificar('+idcarrito+','+valor+')');
+}
+
+function GuardarModificar(idcarrito,valor) {
+	var txtcontra=$("#txtcontra").val();
+	var txtusuario=$("#txtusuario").val();
+	var datos="idcarrito="+idcarrito+"&precio="+valor+"&usuario="+txtusuario+"&contra="+txtcontra;
+
+	$.ajax({
+	 url:'catalogos/pagos/GuardarModificarPrecioCarrito.php', //Url a donde la enviaremos
+	 type:'POST', //Metodo que usaremos
+	 dataType:'json',
+	 data:datos,
+	  error:function(XMLHttpRequest, textStatus, errorThrown){
+			var error;
+			console.log(XMLHttpRequest);
+			if (XMLHttpRequest.status === 404)  error="Pagina no existe"+XMLHttpRequest.status;// display some page not found error 
+		 	if (XMLHttpRequest.status === 500) error="Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			$('#abc').html('<div class="alert_error">'+error+'</div>');	
+			//aparecermodulos("catalogos/vi_ligas.php?ac=0&msj=Error. "+error,'main');
+		},
+	  success:function(msj){
+	  			$("#txtcontra").val('');
+				$("#txtusuario").val('');
+	  			if (msj.respuesta==1) {
+	  				$("#modalverificacion").modal('hide');
+	  				AbrirNotificacion('Se guardó los cambios correctamente','mdi mdi-checkbox-marked-circle');
+	  				ObtenerPaquetesCarrito();
+	  			}else{
+
+
+	  				$("#respuesta").text('Usuario o contraseña incorrecta');
+	  			}
+	  			
+			}
+	});
+
 }
 

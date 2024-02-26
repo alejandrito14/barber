@@ -77,10 +77,12 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 			
 					console.log($(this).attr('id'));
 					var id=$(this).attr('id').split('_')[1];
-					complementos.push(id);
+					//complementos.push(id);
  
 
 		});
+
+
 
 		var especialistaspaquete=[];
 			$(".especialistapaquete").each(function(index) {
@@ -90,11 +92,11 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 					var idespecialista=$(this).val();
 					var cantidad=$("#inputcantidad2_"+id).val();
 					
- 					var obj={
- 						idespecialista:idespecialista,
- 						costo:cantidad
- 					};
- 					especialistaspaquete.push(obj);
+ 					// var obj={
+ 					// 	idespecialista:idespecialista,
+ 					// 	costo:cantidad
+ 					// };
+ 					// especialistaspaquete.push(obj);
 		});
 
 
@@ -129,6 +131,18 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 			subtotalinsumo.push($(this).val());
 		});
 
+		var cortesias=[];
+		$(".chkpaquete_p").each(function(index) {
+
+			if ($(this).is(':checked')) {
+				var elemento=$(this).attr('id');
+				var idcortesia=elemento.split('_')[1];
+				cortesias.push(idcortesia);
+			}
+
+			
+		});
+
 		var paquetesvinculados=[];
 
 
@@ -136,13 +150,13 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 
 			var idpaquetesv=$(this).attr('id');
 
-
+/*
 			if ($('#'+idpaquetesv).is(':checked')) {
 
 				var idpaquetesv=$(this).attr('id');
 				var dividir=idpaquetesv.split('_');
 				paquetesvinculados.push(dividir[1]);
-			}
+			}*/
 			
 		});
 
@@ -192,7 +206,6 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 				var cantidadcobrar=$("#cantidadcobrar").val();
 				var cantidadaconsiderar=$("#cantidadaconsiderar").val();
 				var servicio=$("#servicio").val();
-
 				var repetitivo=$("#repetitivo").val();
 				var lunes=$("#lunes").val();
 				var martes=$("#martes").val();
@@ -205,7 +218,6 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 
 				var horainicio=$("#horainicio").val();
 				var horafin=$("#horafin").val();
-
 				var orden=$("#v_orden").val();
 				var activarcomentario=$("#v_activarcomentario").val();
 				var siniva=$("#checkediva").val();
@@ -214,6 +226,10 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 				var tiempoestimado=$("#tiempoestimado").val();
 				var id = $('#id').val();
 				console.log(id);
+				var tarjetaregalo=$("#tarjetaregalo").val();
+				var txtvigencia=$("#txtvigencia").val();
+				var convigencia=$("#convigencia").val();
+				var txtmonederoregalo=$("#txtmonederoregalo").val();
 
 				var data = new FormData();
 
@@ -225,7 +241,19 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 		//objeto de FormData con el metodo "append" le pasamos calve/valor, usamos el indice "i" para
 		//que no se repita, si no lo usamos solo tendra el valor de la ultima iteracion
 		for (i = 0; i < archivo.length; i++) {
-			data.append('archivo' + i, archivo[i]);
+			data.append('archivo', archivo[i]);
+		}
+
+
+		var archivos = document.getElementById("image2"); //Damos el valor del input tipo file
+		var archivo = archivos.files; //Obtenemos el valor del input (los arcchivos) en modo de arreglo
+		console.log(archivo);
+
+		//Como no sabemos cuantos archivos subira el usuario, iteramos la variable y al
+		//objeto de FormData con el metodo "append" le pasamos calve/valor, usamos el indice "i" para
+		//que no se repita, si no lo usamos solo tendra el valor de la ultima iteracion
+		for (i = 0; i < archivo.length; i++) {
+			data.append('archivo2', archivo[i]);
 		}
 
 		//datos generales
@@ -236,7 +264,7 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 		data.append('v_estatus', v_estatus);
 		data.append('VALIDACION', VALIDACION);
 		data.append('precioventa',precioventa);
-
+		data.append('cortesias',cortesias);
 		data.append('id', id);
 		data.append('idproductos',idproductos);
 		data.append('cantidades',cantidadinsumo);
@@ -280,7 +308,10 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 		data.append('especialistaspaquete',JSON.stringify(especialistaspaquete));
 		data.append('v_sucursal',v_sucursal);
 		data.append('v_tiempoestimado',tiempoestimado);
-
+		data.append('txtmonederoregalo',txtmonederoregalo);
+		data.append('tarjetaregalo',tarjetaregalo);
+		data.append('txtvigencia',txtvigencia);
+		data.append('convigencia',convigencia);
 		$('#main').html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Subiendo Archivos...</div>')
 
 
@@ -307,7 +338,7 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 						if (msj == 1) {
 
 
-							if (id==0) {
+							/*if (id==0) {
 
 								if(confirm("¿Desea agregar otro producto?"))
 									{
@@ -322,12 +353,12 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 										aparecermodulos(URL, donde);
 
 									}
-							}else{
+							}else{*/
 
 								var URL = regresar + "?idmenumodulo=" + idmenu + "&ac=1&msj=Operacion realizada con exito";
 										aparecermodulos(URL, donde);
 								
-							}
+							//}
 
 							
 							} else {
@@ -1011,7 +1042,7 @@ function Habilitarservicio() {
 
 
 		$("#servicio").val(1);
-		$("#divespecialistas").css('display','block');
+		//$("#divespecialistas").css('display','block');
 		$("#divpromociones").css('display','none');
 		$("#divproducto").css('display','none');
 		$("#divtiempoestimado").css('display','block');
@@ -1019,7 +1050,7 @@ function Habilitarservicio() {
 	}else{
 
 		$("#servicio").val(0);
-		$("#divespecialistas").css('display','none');
+		//$("#divespecialistas").css('display','none');
 		$("#divpromociones").css('display','block');
 		$("#divproducto").css('display','block');
 		$("#divtiempoestimado").css('display','none');
@@ -1027,6 +1058,39 @@ function Habilitarservicio() {
 	}
 }
 
+
+function HabilitarTarjeta() {
+
+	if ($("#tarjetaregalo").is(':checked')) {
+
+		$("#tarjetaregalo").val(1);
+		$("#divconvigencia").css('display','block');
+		$("#monederoregalo").css('display','block');
+	}else{
+
+		$("#tarjetaregalo").val(0);
+
+		$("#txtmonederoregalo").css('display','none');
+		$("#divconvigencia").css('display','none');
+		$("#monederoregalo").css('display','none');
+
+	}
+}
+
+
+function Habilitarvigencia(argument) {
+	if ($("#convigencia").is(':checked')) {
+
+		$("#convigencia").val(1);
+		$("#divvigencia").css('display','block');
+
+	}else{
+
+		$("#convigencia").val(0);
+		$("#divvigencia").css('display','none');
+
+	}
+}
 
 function Habilitarcomentario() {
 	
@@ -1870,9 +1934,131 @@ function ObtenerSelectorCategorias(idca) {
 		
      		}
 
+     expandirTodos($('#category-list'));
+
+
       },
       error: function() {
         console.log('Error al obtener las categorías');
       }
     });
+}
+
+function expandirTodos($elemento) {
+	console.log('a');
+  $elemento.find('ul.sub-category-list').show(); // Mostrar todas las sublistas
+  
+  $elemento.find('li').each(function() {
+    var $subCategoryList = $(this).find('ul.sub-category-list');
+    
+    if ($subCategoryList.length > 0) {
+      expandirTodos($(this)); // Llamada recursiva para expandir las sublistas internas
+    }
+  });
+}
+
+function HabilitarCortesia() {
+	
+	if($("#cortesia").is(':checked')){
+
+		$("#cortesia").val(1);
+		$("#divcortesias").css('display','none');
+		//$("#promociondiv").css('display','block');
+		//$("#vincularpaquete").css('display','block');
+	}else{
+
+		$("#cortesia").val(0);
+		$("#divcortesias").css('display','block');
+
+	}
+}
+
+function ObtenerPaquetesCortesias() {
+	
+			$.ajax({
+					url: 'catalogos/paquetes/ObtenerPaquetesCortesias.php', //Url a donde la enviaremos
+					type: 'POST', //Metodo que usaremos
+					dataType:'json',
+					async:false,
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#complementosagregados").html(error);
+					},	
+					success: function (msj) {
+						var respuesta=msj.respuesta;
+						console.log(respuesta);
+					if (respuesta.length>0) {
+
+						PintarPaquetesCortesias(respuesta);
+					}
+				}
+		});
+}
+function PintarPaquetesCortesias(respuesta) {
+	var html="";
+	if (respuesta.length>0) {
+		html+=`
+			<div class="form-check pasuc_" id="pasuc_x_0">
+						  <input type="checkbox" value="" class="form-check-input chkpaquete_p0" id="inputpaq_0" onchange="SeleccionarTodosCortesia()">
+									    <label class="form-check-label" for="flexCheckDefault">
+									    Seleccionar todos</label>
+									</div>
+		`;
+		for (var i = 0; i < respuesta.length; i++) {
+			html+=`
+			<div class="form-check pasuc_" id="pasuc_x_`+respuesta[i].idpaquete+`">
+						  <input type="checkbox" value="" class="form-check-input chkpaquete_p" id="inputpaq_`+respuesta[i].idpaquete+`">
+									    <label class="form-check-label" for="flexCheckDefault">
+									    `+respuesta[i].nombrepaquete+`</label>
+									</div>
+
+			`;
+		}
+
+		$(".listadocortesias").html(html);
+	}
+
+
+}
+
+function SeleccionarTodosCortesia() {
+	if ($("#inputpaq_0").is(':checked')) {
+		$(".chkpaquete_p").attr('checked',true);
+	}else{
+		$(".chkpaquete_p").attr('checked',false);
+
+	}
+}
+
+function ObtenerCortesiasPaquete(idpaquete) {
+		var datos="idpaquete="+idpaquete;
+		$.ajax({
+					url: 'catalogos/paquetes/ObtenerCortesiasPaquete.php', //Url a donde la enviaremos
+					type: 'POST', //Metodo que usaremos
+					dataType:'json',
+					async:false,
+					data:datos,
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						var error;
+						console.log(XMLHttpRequest);
+						if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+						if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+						$("#complementosagregados").html(error);
+					},	
+					success: function (msj) {
+						var respuesta=msj.respuesta;
+						console.log(respuesta);
+						if (respuesta.length>0) {
+
+							for (var i = 0; i < respuesta.length; i++) {
+								$("#inputpaq_"+respuesta[i].idpaquetecortesia).attr('checked',true);
+
+							}
+						}
+					
+				}
+		});
 }

@@ -36,6 +36,7 @@ require_once("../../clases/class.Servicios.php");
 require_once("../../clases/class.Cupones.php");
 require_once("../../clases/class.Datosfiscales.php");
 require_once("../../clases/class.Caja.php");
+require_once("../../clases/class.Tarjetaregalo.php");
 
 include 'stripe-php-7.93.0/init.php';
 $folio = "";
@@ -381,6 +382,8 @@ try {
                //$lo->db=$db;
                //$membresia= new Membresia();
                //$membresia->db=$db;
+               $tarjetaregalo=new Tarjetaregalo();
+               $tarjetaregalo->db=$db;
                $cita=new Cita();
                $cita->db=$db;
                $notapago=new Notapago();
@@ -430,8 +433,14 @@ try {
                 $tipo=1;
 
             }
-                
+             if ($obtenercarrito[$i]->tarjetaregalo==1) {
+               $tipo=2;
+             }
+          
 
+
+                
+              $notapago->idcarrito=$obtenercarrito[$i]->idcarrito;
               $notapago->descripcion=$obtenercarrito[$i]->nombrepaquete;
               $notapago->cantidad=$obtenercarrito[$i]->cantidad;
               $notapago->monto=$obtenercarrito[$i]->costototal;
@@ -444,17 +453,42 @@ try {
                $notapago->idcupon=0;
                $notapago->codigocupon=0;
                $notapago->montocupon=0;
-              $notapago->Creardescripcionpago();
+               $notapago->Creardescripcionpago();
                
-                $carrito->idcarrito=$obtenercarrito[$i]->idcarrito;
+               $carrito->idcarrito=$obtenercarrito[$i]->idcarrito;
 
-                $obtenercarrito[$i]->idnotapagodescripcion=$notapago->idnotapagodescripcion;
+               $obtenercarrito[$i]->idnotapagodescripcion=$notapago->idnotapagodescripcion;
 
+               
+
+
+         if ($obtenercarrito[$i]->tarjetaregalo==1) {
+
+
+            for ($j=0; $j <$obtenercarrito[$i]->cantidad ; $j++) { 
+             
+
+              $iduser=$se->obtenerSesion('usuariopago');
+
+            $tarjetaregalo->idusuario=$iduser;
+            $tarjetaregalo->estatus=0;
+            $tarjetaregalo->idpaquete=$obtenercarrito[$i]->idpaquete;
+            $tarjetaregalo->vigencia=$obtenercarrito[$i]->fechavigencia;
+
+            $tarjetaregalo->idusuariorecibe=0;
+            $tarjetaregalo->fechaaceptada="";
+            $tarjetaregalo->monto=$obtenercarrito[$i]->montoregalo;
+            $tarjetaregalo->idnotapagodescripcion=$obtenercarrito[$i]->idnotapagodescripcion;
+            $tarjetaregalo->GuardarTarjetaregalousuario();
+              
+              }
+        
+             }
                 $carrito->estatus=2;
                 $carrito->ActualizarEstatusCarrito();
 
                 $sumacarrito=$sumacarrito+$obtenercarrito[$i]->costototal;
-               }
+          }
         
 
 

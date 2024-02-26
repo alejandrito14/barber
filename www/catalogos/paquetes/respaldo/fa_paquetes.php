@@ -79,7 +79,8 @@ if(!isset($_GET['idpaquete'])){
 	$descripcion = "";
 	$descuento = "";
 	$ruta="images/sinfoto.png";
-	
+	$ruta2="images/sinfoto.png";
+
 	$estatus=1;
 	$categoria =0;
 	$empresa= "";
@@ -94,7 +95,7 @@ if(!isset($_GET['idpaquete'])){
 	$_SESSION['CarritoComplemento']=null;
 	$idcategorias=0;
 	$idtipopresentacion=0;
-	$titulo='NUEVO PAQUETE';
+	$titulo='NUEVO PRODUCTO';
 	$nuevo=0;
 	$numgrupopaquete=0;
 	$promocion=0;
@@ -106,6 +107,7 @@ if(!isset($_GET['idpaquete'])){
 	$considerar="";
 	$servicio=0;
 	$che4="";
+	$che6="";
 	$preciofijo="";
 	$activarcomentario=0;
 	$lunes=0;
@@ -122,6 +124,11 @@ if(!isset($_GET['idpaquete'])){
 	$iva=0;
 	$mensajev="";
 	$idcategoriapaquete=0;
+	$tarjeta=0;
+ $monederoregalo=0;
+	$convigencia=0;
+	$fechavigencia="";
+
 
 	$obtenerorden=$paquetes->ObtenerUltimoOrdenpaquete();
 	$roworden=$db->fetch_assoc($obtenerorden);
@@ -151,12 +158,13 @@ if(!isset($_GET['idpaquete'])){
 	$nombreproducto = $f->imprimir_cadena_utf8($result_presentacion_row['nombrepaquete']);
 	$descripcion = $f->imprimir_cadena_utf8($result_presentacion_row['descripcion']);
 	$descuento = "";
-	$titulo='EDITAR PAQUETE';
+	$titulo='EDITAR PRODUCTO';
 
 
 	
 	
 	$foto = $f->imprimir_cadena_utf8($result_presentacion_row['foto']);
+	$foto2=$result_presentacion_row['foto2'];
 	$estatus = $f->imprimir_cadena_utf8($result_presentacion_row['estatus']);
 	$idcategoriapaquete = $f->imprimir_cadena_utf8($result_presentacion_row['idcategoriapaquete']);
 
@@ -192,10 +200,22 @@ if(!isset($_GET['idpaquete'])){
 
 	$siniva=$result_presentacion_row['siniva'];
 
+
+	$tarjeta=$result_presentacion_row['tarjetaregalo'];
+	$monederoregalo=$result_presentacion_row['montomonedero'];
+	$convigencia=$result_presentacion_row['confechavigencia'];
+ $fechavigencia=$result_presentacion_row['fechavigencia'];
+ $cortesia=$result_presentacion_row['escortesia'];
+
+ $concortesia=$result_presentacion_row['concortesia'];
+
 	$iva=$result_presentacion_row['iva'];
 	$paquetes->idpaquete=$idpaquete;
 	$paquetesucursal=$paquetes->ObtenerSucursalPaquete();
 	$idsucursal=$paquetesucursal[0]->idsucursal;
+
+
+
 
 	$checkediva="";
 	if ($siniva==1) {
@@ -252,6 +272,10 @@ if(!isset($_GET['idpaquete'])){
 		$chetodos="checked";
 	}
 
+	if ($cortesia==1) {
+		$checortesia="checked";
+	}
+
 
 	$che="";
 	$che2="";
@@ -278,9 +302,21 @@ if(!isset($_GET['idpaquete'])){
 		$che4="checked";
 	}
 
+
+	$che6="";
+
+	if ($tarjeta==1) {
+		$che6="checked";
+	}
+
 	$che5="";
 	if ($repetitivo==1) {
 		$che5="checked";
+	}
+	$che7="";
+	if ($convigencia==1) {
+		$che7="checked";
+		# code...
 	}
 
 	unset($_SESSION['CarritoProducto']);
@@ -358,6 +394,15 @@ if ($numgrupopaquete>0) {
 		$ruta="catalogos/paquetes/imagenespaquete/".$_SESSION['codservicio']."/$foto";
 	}
 
+
+	if($foto2==""){
+		$ruta2="images/sinfoto.png";
+	}
+	else{
+		$ruta2="catalogos/paquetes/imagenespaquete/".$_SESSION['codservicio']."/$foto2";
+	}
+
+
 	$col = "col-md-12";
 	$ver = "";
 	$disabled ="disabled";
@@ -369,10 +414,10 @@ if ($numgrupopaquete>0) {
 
 	$orden=$result_presentacion_row['orden']==''?0:$result_presentacion_row['orden'];
 	$activarcomentario=$result_presentacion_row['activarcomentario'];
-	$che6;
+	/*$che6;
 	if ($activarcomentario==1) {
 		$che6="checked";
-	}
+	}*/
 
 }
 
@@ -510,8 +555,11 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 
 							<div class="row">
 								<div class="col-md-6" >
+									<div class="row">
+										
 
-									<form method="post" action="#" enctype="multipart/form-data">
+								
+												
 								    <div class="card" style="width: 18rem;margin: auto;margin-top: 3em;">
 								        <img class="card-img-top" src="">
 								        <div id="d_foto" style="text-align:center; ">
@@ -529,18 +577,35 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 								          <!--   <input type="button" class="btn btn-primary upload" value="Subir"> -->
 								        </div>
 								    </div>
-								</form>
-								<p style="text-align: center;">Dimensiones de la imagen Ancho:1280px Alto:852px</p>
-									<!-- <div class="" style="text-align: center;">
-										<div id="d_foto" style="text-align:center; margin-top: 10px; margin-bottom: 20px;">
-											<img src="<?php echo $ruta; ?>" width="150" height="150" alt="" style="border: 1px #777 solid"/> 
-										</div>
-										<p style="text-align:center;">&nbsp;&nbsp;Dimensiones de la imagen Ancho: 200 px Alto: 200px</p>
-										<div class="spacer"></div>
-										<input type="file" id="v_imagen" name="v_imagen" accept="image/*">
-									</div>	
- -->
+								
+								<div style="text-align: center;width: 100%;">Dimensiones de la imagen Ancho:1280px Alto:852px</div>
+							
+ 								</div>
 
+ 								<div class="row">
+ 							
+								    <div class="card" style="width: 18rem;margin: auto;margin-top: 3em;">
+								        <img class="card-img-top2" src="">
+								        <div id="d_foto2" style="text-align:center; ">
+											<img src="<?php echo $ruta2; ?>" class="card-img-top2" alt="" style="border: 1px #777 solid"/> 
+										</div>
+								        <div class="card-body">
+								            <h5 class="card-title"></h5>
+								           
+								            <div class="form-group">
+
+								            	
+								               
+								                <input type="file" class="form-control-file" name="image2" id="image2" onchange="SubirImagen2()">
+								            </div>
+								          <!--   <input type="button" class="btn btn-primary upload" value="Subir"> -->
+								        </div>
+								    </div>
+								
+								<div style="text-align: center;width: 100%;">Dimensiones de la imagen Ancho:1280px Alto:852px</div>
+
+							</div>
+ 						
 								</div>
 								<div class="col-md-5" style="float: left;">
 
@@ -636,6 +701,51 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 						
 								
 							</div>
+
+
+							<div class="form-group m-t-20" style="">
+								TARJETA DE REGALO:
+							
+								<input type="checkbox" name="tarjetaregalo" id="tarjetaregalo" onchange="HabilitarTarjeta()" value="<?php echo $tarjeta?>" <?php echo $che6;?>>
+						
+								
+							</div>
+
+							<div class="form-group m-t-20" style="">
+								PRODUCTO CORTESÍA:
+							
+								<input type="checkbox" name="cortesia" id="cortesia" onchange="HabilitarCortesia()" value="<?php echo $cortesia?>" <?php echo $checortesia;?>>
+						
+								
+							</div>
+
+
+								<div class="form-group m-t-20" id="monederoregalo" style="display: none;">
+								MONEDERO DE REGALO $:
+							
+								<input type="number" name="txtmonederoregalo" class="form-control" id="txtmonederoregalo"  value="<?php echo $monederoregalo?>"/>
+						
+								
+							</div>
+
+							<div class="form-group m-t-20" id="divconvigencia" style="display: none;" >
+								CON VIGENCIA:
+							
+								<input type="checkbox" class="" name="convigencia" id="convigencia"  onchange="Habilitarvigencia()" value="<?php echo $convigencia?>"  <?php echo $che7;?>/>
+						
+							</div>
+
+
+								<div class="form-group m-t-20" id="divvigencia"  style="display: none;">
+								VIGENCIA:
+							
+								<input type="date" class="form-control" name="txtvigencia" id="txtvigencia"  value="<?php echo $fechavigencia?>"/>
+						
+								
+							</div>
+
+
+
 
 								<div class="form-group m-t-20" id="divtiempoestimado" style="display: none;">
 								TIEMPO ESTIMADO EN MINUTOS:
@@ -938,6 +1048,26 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 			</div>
 		</div>
 
+		<div class="col-md-12" id="divcortesias" style="">
+	<div class="card">
+			<div class="card-header">
+
+
+				<label style="font-size: 16px;">CORTESÍAS</label>
+
+		</div>
+	
+			<div class="card-body">
+				<div class="col-sm-12 col-md-12" style="">
+					
+
+					<div class="listadocortesias" style="margin-top: 1em;"></div>
+
+				</div>
+			</div>
+</div>
+</div>
+
 		<div class="col-md-12" id="vincularpaquete" style="display: none;">
 		<div class="card">
 			<div class="card-header">
@@ -966,7 +1096,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 
 
 
-<div class="col-md-12" style="" id="divproducto">
+<div class="col-md-12"  id="divproducto" style="display: none;">
 	<div class="card">
 		<div class="card-header">
 
@@ -1122,14 +1252,15 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 
 <div class="col-md-12" id="divespecialistas" style="display: none;">
 	<div class="card">
-		<div class="card-body">
-
-			<div class="card-header">
+		<div class="card-header">
 
 
 				<label style="font-size: 16px;">ESPECIALISTAS</label>
 
 		</div>
+		<div class="card-body">
+
+			
 
 		</div>
 			<div class="card-body">
@@ -1142,6 +1273,9 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 			</div>
 </div>
 </div>
+
+
+
 
 
 <div class="col-md-12" style="display: none;">
@@ -1562,6 +1696,12 @@ if(isset($_SESSION['permisos_acciones_erp'])){
     margin-bottom: 5px;
     cursor: pointer;
   }
+
+  .card-img-top2{
+  width: 100%;
+  border-top-left-radius: calc(0px - 0px);
+  border-top-right-radius: calc(0px - 0px); }
+
 </style>
 <!-- <script  type="text/javascript" src="./js/mayusculas.js"></script>
 -->
@@ -1608,6 +1748,37 @@ if(isset($_SESSION['permisos_acciones_erp'])){
         });
         return false;
     }
+
+
+
+    function SubirImagen2() {
+	 	// body...
+	 
+        var formData = new FormData();
+        var files = $('#image2')[0].files[0];
+        formData.append('file',files);
+        $.ajax({
+            url: 'catalogos/paquetes/upload2.php',
+            type: 'post',
+            data: formData,
+            contentType: false,
+            processData: false,
+             beforeSend: function() {
+      $("#d_foto2").css('display','block');
+      $("#d_foto2").html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Cargando...</div>');	
+
+		    },
+            success: function(response) {
+                if (response != 0) {
+                    $(".card-img-top2").attr("src", response);
+                    $("#d_foto2").css('display','none');
+                } else {
+                    alert('Formato de imagen incorrecto.');
+                }
+            }
+        });
+        return false;
+    }
 </script>
 
 <script>
@@ -1626,6 +1797,11 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 	var idcategoriapaquete='<?php echo $idcategoriapaquete; ?>';
 
 ObtenerSelectorCategorias(idcategoriapaquete);
+
+ObtenerPaquetesCortesias();
+
+// Llamar a la función para expandir todos los elementos li
+
 AlmacenarCategoria(idcategoriapaquete);
 	if (idpaquete>0) {
 
@@ -1682,15 +1858,36 @@ AlmacenarCategoria(idcategoriapaquete);
 
 			var idpaquete='<?php echo $idpaquete;?>'
 			var servicio='<?php echo $servicio; ?>';
-
+			var convigencia='<?php echo $convigencia; ?>';
+			var tarjeta='<?php echo $tarjeta; ?>';
+			var escortesia='<?php echo $escortesia; ?>';
 		//	ObtenerProductoPaquete(idproducto);
 			if (servicio==1) {
 				Habilitarservicio();
 			}
 
+
+				if (tarjeta==1) {
+					HabilitarTarjeta();
+			}
+
+			if (convigencia==1) {
+
+				Habilitarvigencia()
+			}
+
+			if (escortesia==0) {
+
+				ObtenerCortesiasPaquete(idpaquete);
+
+			}
+
+
+
+
 			var idsucursal='<?php echo $idsucursal; ?>';
 			$("#v_sucursal").val(idsucursal);
-				ObtenerEspecialistaPaquete();
+				//ObtenerEspecialistaPaquete();
 
 
 		</script>

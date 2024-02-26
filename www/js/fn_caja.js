@@ -13,7 +13,7 @@ function VerificarCajaAbierta() {
 
             $("#fechahoraapertura").text(resultado[0].fechainicio);
             $("#divseleccionar").css('display','');
-            $(".eleccion").css('display','');
+            //$(".eleccion").css('display','');
 
         }else{
             

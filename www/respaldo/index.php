@@ -157,11 +157,10 @@ $navegador = $f->navegador();
                     <!-- ============================================================== -->
                     <!-- toggle and nav items -->
                     <!-- ============================================================== -->
-                    <ul class="navbar-nav float-left mr-auto">
+                    <ul class="navbar-nav float-left mr-auto" style="width: 90%;">
 
-
-
-
+                      <div id="datossucursal" style="    margin: 0;
+    font-size: 10px!important;color: #fefefe;top: 22px;width: 90%;"></div>
 
                        <!--<li class="nav-item d-none d-md-block"><a class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(0)" data-sidebartype="mini-sidebar"><i class="mdi mdi-menu font-24"></i></a></li>-->
                        <!-- ============================================================== -->
@@ -200,7 +199,10 @@ $navegador = $f->navegador();
                          <span class="nombreetiqueta" style="font-size: 12px!important;color: #fefefe;
                          top: 23px;padding-top: 1em;">¡BIENVENIDO! <?php echo $f->imprimir_cadena_utf8(mb_strtoupper($_SESSION['se_Empleado'])); ?></span>
                          <p style="font-size: 9px!important;color: #fefefe;
-                         top: 22px;">CODIGO SERVICIO: <?php echo $_SESSION['codservicio']; ?></p>
+                         top: 22px;margin: 0;">CODIGO SERVICIO: <?php echo $_SESSION['codservicio']; ?></p>
+
+                        <!--  <span id="datossucursal" style="margin: 0;font-size: 10px!important;color: #fefefe;
+                         top: 22px;"></span> -->
                      </form>
 
                      <!-- ============================================================== -->

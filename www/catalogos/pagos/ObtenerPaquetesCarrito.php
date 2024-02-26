@@ -20,6 +20,7 @@ require_once("../../clases/class.Notapago.php");
 
 require_once("../../clases/class.Paquetes.php");
 require_once("../../clases/class.Carrito.php");
+require_once("../../clases/class.Fechas.php");
 
 try
 {
@@ -31,11 +32,21 @@ try
     $paquetes->db=$db;
     $carrito=new Carrito();
     $carrito->db=$db;
+    $fechas=new Fechas();
+    $fechas->db=$db;
     $idusuario=$se->obtenerSesion('usuariopago');
     $idsucursal=$se->obtenerSesion('idsucursalseleccionada');
     $carrito->idsucursal=$idsucursal;
     $carrito->idusuarios=$idusuario;
     $obtenercarrito=$carrito->ObtenerCarrito();
+
+    for ($i=0; $i < count($obtenercarrito); $i++) { 
+       
+            $fechacita=date('Y-m-d',strtotime($obtenercarrito[$i]->fecha));
+            
+            $obtenercarrito[$i]->fechaformato=$fechas->fecha_texto5($fechacita).' '.$obtenercarrito[$i]->horainicial.'Hrs.';
+
+        }
 
     $respuesta['carrito']=$obtenercarrito;
     $respuesta['respuesta']=1;

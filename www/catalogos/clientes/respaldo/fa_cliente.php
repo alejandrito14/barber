@@ -371,7 +371,7 @@ $su->lista_empresas = $lista_empresas;
 
 					<div class="form-group ">
 						<label>*CELULAR:</label>
-						<input name="celular" id="v_celular" title="CELULAR" type="text" class="form-control" placeholder="CELULAR" value="<?php echo $v_celular; ?>" tabindex="99" <?php echo $validacion ?>>
+						<input name="celular" id="v_celular" title="CELULAR" type="text" class="form-control" placeholder="CELULAR" value="<?php echo $v_celular; ?>" onkeyup="ValidarCelularInput()" tabindex="99" <?php echo $validacion ?>>
 						<div id="validacioncelular" style="color: red"></div>
 					</div>
 
@@ -401,7 +401,7 @@ $su->lista_empresas = $lista_empresas;
 
 					
 
-					<div class="">
+					<div class="divfecha">
 						<label>*FECHA DE NACIMIENTO:</label>
 					  <input name="v_fechanacimiento" id="v_fechanacimiento" title="FECHA DE NACIMIENTO" type="date" class="form-control" placeholder="FECHA DE NACIMIENTO" required="" value="<?php echo $v_edad;?>" tabindex="105">
 					  <div id="validacionnacimiento" style="color: red"></div>
@@ -592,7 +592,7 @@ $su->lista_empresas = $lista_empresas;
 					
 				
 
-					<div class="form-group m-t-20">
+					<div class="form-group m-t-20 divcontra1" >
 					<label>*CONTRASEÑA:</label>
 					<div class="input-group mb-3">
 
@@ -608,7 +608,7 @@ $su->lista_empresas = $lista_empresas;
 
 					</div>
 
-					<div class="form-group m-t-20">
+					<div class="form-group m-t-20 divcontra2">
 						<label>*CONFIRMAR CONTRASEÑA:</label>
 						<div class="input-group mb-3">
 
@@ -623,9 +623,11 @@ $su->lista_empresas = $lista_empresas;
 
 							<div id="validacioncontra2" style="color: red"></div>
 
+							<span id="spanrespuesta" class="spanrespuesta1"  style="display: none;color:red"></span>
+
 					</div>
 
-					<span id="spanrespuesta" style="color:red "></span>
+				
 					
 					<div class="form-group m-t-20 divstatus"  style="margin-top: 1em;">
 						<label>ESTATUS:</label>
@@ -876,8 +878,11 @@ $su->lista_empresas = $lista_empresas;
 	var idusuario='<?php echo $idusuario; ?>';
 	var asociados=[];
 	var asociadoseliminados=[];
+	$("#v_celular").focus();
 
 	if (idusuario>0){
+
+
 		var opcionestipopago='<?php echo $opcionespago; ?>';
 		var opcionespago="";
 		if (opcionestipopago!='') {
@@ -913,7 +918,10 @@ $su->lista_empresas = $lista_empresas;
 	// ObtenerEstados(0);
 	 $("#avanzado").css('display','none');
 	 $("#opcionesavanzadas").css('display','none');
-	$("#v_celular").attr('onkeyup','ValidarCelularInput();CoincidirContra2("clave","clave2")');
+
+	 $("#v_celular").attr('onkeyup','ValidarCelularInput();CoincidirContra2("clave","clave2")');
+
+}
 	</script>
 
 

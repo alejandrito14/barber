@@ -257,6 +257,22 @@ class Usuarios
 		return $resp;
 	}
 
+
+public function lista_Usuarios2($tipo,$filtro)
+	{
+		$sql = "SELECT usuarios.*,tipousuario.nombretipo FROM usuarios INNER JOIN tipousuario ON usuarios.tipo=tipousuario.idtipousuario WHERE tipo IN($tipo)";
+
+		if ($filtro!='') {
+			
+			$sql.=" ORDER BY 	usuarios.estatus desc,
+				usuarios.nombre asc";
+		}
+		
+		$resp = $this->db->consulta($sql);
+		return $resp;
+	}
+
+
 	public function ObtenerInformacionusuario()
 	{
 		$sql = "SELECT * FROM usuarios WHERE idusuarios='$this->id_usuario'";

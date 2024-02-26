@@ -614,9 +614,9 @@ if(isset($_GET['ac']))
                             </div> -->
                         </div>
 
-  <div class="modal" id="modaldetallecita" tabindex="-1" role="dialog">
+  <div class="modal" id="modaldetallecita" tabindex="-1" role="dialog" >
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
+    <div class="modal-content" style="width: 600px!important;">
       <div class="modal-header">
         <h5 class="modal-title">DETALLE CITA</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -629,6 +629,8 @@ if(isset($_GET['ac']))
       </div>
       <div class="modal-footer">
 <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> -->
+
+<button type="button" id="btnmodificar" class="btn btn-warning btnmodificar" style="float: right;" title="">MODIFICAR NOTA</button>   
 
 <button type="button" id="btnreagendarcita" class="btn btn-warning btnreagendarcita" style="float: right;" title="">Reagendar</button>   
 

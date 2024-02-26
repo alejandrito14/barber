@@ -452,6 +452,10 @@ $wizardStep = $_SESSION['wizard_step'];
    var horarioseleccionado="";
    var valorseleccionado="";
    var horaselecte='<?php echo $horaselecte; ?>';
+    var fechaselecte2='<?php echo $fechaselecte; ?>';
+
+   var idespecialista='<?php echo $idespecialistaselect; ?>';
+
    var horainicials="";
    var horafinals="";
    var categoriassub=[];
@@ -600,7 +604,7 @@ $wizardStep = $_SESSION['wizard_step'];
                 var id=$(this).attr('id');
                 var valordata2=$(this).attr('data-horafinal');
 
-                 
+
                    SeleccionarHorario1(valordata,valordata2,index);
                    $("#"+id).addClass('active');
                  
@@ -631,7 +635,7 @@ $wizardStep = $_SESSION['wizard_step'];
          $("#btstep4").css('display','none');
 
 
-          var idespecialista='<?php echo $idespecialistaselect; ?>';
+         
            ObtenerListadoEspecialista2();
           
            if (horaselecte!=undefined && horaselecte!='' && horaselecte!=0) {
@@ -1658,7 +1662,7 @@ var arraypaqueteseleccionadocreado=[];
 function PintarProductosSeleccionadosStep2() {
     var html = "";
     var i,j;
-
+    var cargodatos=0;
     arraypaqueteseleccionadocreado=[];
        $(".listadopaquetes").html('');
        console.log(arraypaqueteseleccionado);
@@ -1717,10 +1721,35 @@ function PintarProductosSeleccionadosStep2() {
 
                 html=`
             	<div class="row p-2 bg-white border rounded" id="divcpaqueitem_`+arraypaqueteseleccionado[i].idpaquete+`_`+i+`_`+j+`" >
-                <div class="col-md-3 mt-1"><img class="img-fluid img-responsive  rounded product-image" style="border-radius:10px;" src="${foto}"></div>
+                <div class="col-md-3 mt-1">
+                <div class="row">
+                <div class="col-md-12">
+                <img class="img-fluid img-responsive  rounded product-image" style="border-radius:10px;" src="${foto}">
+                </div>
+                <div class="col-md-12">
+
+                  <div style="justify-content: center; display: flex;">
+
+                  <span class="mdi mdi-check-circle" id="divsucces_`+arraypaqueteseleccionado[i].idpaquete+`_`+i+`_`+j+`" style="display:none;font-size: 40px;color: #5ab75d;">
+                  </span>
+
+                    <span class="mdi mdi-close-circle" id="diverror_`+arraypaqueteseleccionado[i].idpaquete+`_`+i+`_`+j+`" style="display:none;font-size: 40px;color: red;">
+                    </span>
+
+                     </div>
+
+                  </div>
+                </div>
+
+                </div>
                 <div class="col-md-6 mt-1">
                     <h5>`+arraypaqueteseleccionado[i].nombrepaquete+`</h5>
-                   <h4 class="mr-1">$${arraypaqueteseleccionado[i].precioventa}</h4>
+                   <h4 class="mr-1">`;
+
+                 html+=`<span> $${arraypaqueteseleccionado[i].precioventa}</span>`;
+
+
+                  html+=` </h4>
                     <div class="d-flex flex-row">
                         <div class="ratings mr-2" style="display:none;">
                         <i class="fa fa-star"></i>
@@ -1831,10 +1860,22 @@ function PintarProductosSeleccionadosStep2() {
             configureAndActivateCarousel(`date-carousel_${arraypaqueteseleccionado[i].idpaquete}_${i}_${j}`, dates);
                   
            
+              if(contador==0 && cargodatos==0){
+                 
+               if(horaselecte!='' && fechaselecte2!='' ){
 
-            contador++;
+                 
 
-        		}
+                  var llave=arraypaqueteseleccionado[i].idpaquete+'_'+i+'_'+j;
+
+                  cargodatos=1;
+                    Cargardatos(fechaselecte2,horaselecte,idespecialista,llave);
+                  }
+               }
+
+                contador++;
+
+        	     	}
 
 
                }
@@ -1844,10 +1885,38 @@ function PintarProductosSeleccionadosStep2() {
                 // (sin el bucle interno)
                   html=`
             	<div class="row p-2 bg-white border rounded" id="divcpaqueitem_`+arraypaqueteseleccionado[i].idpaquete+`_`+i+`_0" >
-                <div class="col-md-3 mt-1"><img class="img-fluid img-responsive  rounded product-image" style="border-radius:10px;" src="${foto}"></div>
+                <div class="col-md-3 mt-1">
+                  <div class="row">
+                  <div class="col-md-12">
+                  <img class="img-fluid img-responsive  rounded product-image" style="border-radius:10px;" src="${foto}">
+                </div>
+                <div class="col-md-12">
+                  <div style="justify-content: center; display: flex;">
+                  <span class="mdi mdi-check-circle" id="divsucces_`+arraypaqueteseleccionado[i].idpaquete+`_`+i+`_0" style="font-size: 40px;color: #5ab75d;display:none;">
+                  </span>
+
+                  <span class="mdi mdi-close-circle" id="diverror_`+arraypaqueteseleccionado[i].idpaquete+`_`+i+`_0" style="display:none;font-size: 40px;color: red;">
+                  </span>
+
+                 
+                </div>
+
+                </div>
+                  </div>
+
+                </div>
                 <div class="col-md-5 mt-1">
                     <h5>`+arraypaqueteseleccionado[i].nombrepaquete+`</h5>
-                   <h4 class="mr-1">$${arraypaqueteseleccionado[i].precioventa}</h4>
+                   <h4 class="mr-1">`;
+                
+                   if (arraypaqueteseleccionado[i].servicio==0) {
+
+                   	html+=`<span>${arraypaqueteseleccionado[i].cantidad}</span>x`;
+                   }
+                 html+=`<span>$${arraypaqueteseleccionado[i].precioventa}</span>`;
+
+
+                  html+=` </h4>
                     <div class="d-flex flex-row">
                         <div class="ratings mr-2" style="display:none;">
                         <i class="fa fa-star"></i>
@@ -1907,6 +1976,109 @@ function PintarProductosSeleccionadosStep2() {
     }
     console.log('creando nuevo');
     console.log(arraypaqueteseleccionadocreado);
+
+
+    
+
+    
+
+}
+
+function Cargardatos(fechaselecte2,horaselecte,idespecialista,llave) {
+  console.log('cargando datos..'+llave);
+ 
+ // Obtener la referencia a la tabla
+var contenedor = document.querySelector('.date-carousel_' + llave + '_wrapper');
+// Obtener la tabla dentro del div contenedor
+var tabla = contenedor.querySelector('.rescalendar_controls');
+// Obtener todas las celdas de datos en la tabla
+var input = tabla.querySelector('.refDate');
+// Cambiar el valor del input
+input.value = convertirFormatoFechadiamesanio(fechaselecte2);
+cellDate=convertirFormatoFechadiamesanio(fechaselecte2);
+
+
+
+
+const promiseA = new Promise((resolutionFunc, rejectionFunc) => {
+
+  resolutionFunc(ObtenerHorariosStep2(cellDate,llave));
+});
+// En este punto, "promiseA" ya está resuelto.
+promiseA.then((val) => {
+  console.log($(".horariossele_"+llave));
+  var dividir=horaselecte.split('_');
+  setTimeout(() => {
+ 
+      var i=0;
+      $(".horariossele_"+llave).each(function( index) {
+      
+
+      if ($(this).data('hora')==dividir[0]) {
+
+         var id=$(this).attr('id');
+         var valordata2=$(this).attr('data-horafinal');
+         
+
+        SeleccionarHorario1(dividir[0],valordata2,0,llave);
+
+        $(this).addClass('active');
+
+        return 0;
+      }
+      i++;
+
+  });
+
+}, "1000");
+
+
+  setTimeout(() => {
+
+      $(".especialistalista_"+llave).each(function( index) {
+
+        var id=$(this).attr('id');
+        var dividir=id.split('_')[1];
+
+        if (dividir==idespecialista) {
+            var elementoPadre = document.getElementById(id);
+
+        // Obtener el elemento dos hijos abajo
+           var elementoDeseado = elementoPadre.querySelector('div > div').innerText;
+           SeleccionarEspecialista(idespecialista,elementoDeseado,llave);
+
+            $(this).addClass('active');
+
+        }
+
+
+
+      })
+    
+        
+
+
+    }, "1000");
+
+
+  setTimeout(() => {
+
+    var dividir=llave.split('_');
+
+  ConfirmarStep2(dividir[0],dividir[1],dividir[2]);
+ 
+
+ }, "1000");
+
+  
+
+});
+
+
+
+
+
+
 
 }
 
@@ -2011,7 +2183,7 @@ if ($(`#carrusel_horarios_${cellpaquete}`).hasClass('slick-initialized')) {
 }
 
 	 $(`#carrusel_horarios_${cellpaquete}`).slick({
-        infinite: true,
+        infinite: false,
         slidesToShow: 3,
         slidesToScroll: 1,
             prevArrow: '<button type="button" class="btn " style="    float: left;margin-top: 10px;    margin-right: 15px;"><</button>',
@@ -2078,6 +2250,31 @@ function convertirFormatoFecha(fechaOriginal) {
 
     return fechaString;
 }
+function convertirFormatoFechadiamesanio(fechaOriginal) {
+    // Dividir la fecha en día, mes y año
+    var partesFecha = fechaOriginal.split('/');
+    var dia = partesFecha[0];
+    var mes = partesFecha[1];
+    var año = partesFecha[2];
+
+    // Crear un objeto Date con el nuevo formato
+    var fechaFormateada = new Date(`${año}-${mes}-${dia}`);
+
+    // Obtener la fecha en formato "día/mes/año"
+    var diaFormateado = fechaFormateada.getDate();
+    var mesFormateado = fechaFormateada.getMonth() + 1; // Se suma 1 porque los meses en JavaScript van de 0 a 11
+    var añoFormateado = fechaFormateada.getFullYear();
+
+    // Agregar ceros a la izquierda si es necesario
+    diaFormateado = diaFormateado < 10 ? '0' + diaFormateado : diaFormateado;
+    mesFormateado = mesFormateado < 10 ? '0' + mesFormateado : mesFormateado;
+
+    // Obtener la fecha en formato "día/mes/año"
+    var fechaString = `${diaFormateado}/${mesFormateado}/${añoFormateado}`;
+
+    return fechaString;
+}
+
 
 function ConfirmarStep2(idpaquete,i,j) {
 	
@@ -2117,6 +2314,8 @@ function ConfirmarStep2(idpaquete,i,j) {
 			break;
 		}
 	}
+
+  Validacionpaquetes();
 }
 
 function EditarPaquete(idpaquete,i,j) {
@@ -2126,8 +2325,12 @@ function EditarPaquete(idpaquete,i,j) {
 		$("#parrafofecha_"+cellpaquete).css('display','none');
 		$("#parrafohora_"+cellpaquete).css('display','none');
 		$("#parrafobarbero_"+cellpaquete).css('display','none');
+
+
+    $("#divsucces_"+idpaquete+"_"+i+"_"+j).css('display','none');
+    $("#diverror_"+idpaquete+"_"+i+"_"+j).css('display','none');
 	
-$("#info_"+idpaquete+"_"+i+"_"+j).css('display','block');
+  $("#info_"+idpaquete+"_"+i+"_"+j).css('display','block');
 
 $("#btneditar"+idpaquete+`_`+i+`_`+j).css('display','none');
 }
@@ -2695,6 +2898,9 @@ function PintarDetalleEspecialistas(especialistas,cellpaquete) {
        for (var i = 0; i <especialistas.length; i++) {
 
         var nombrecom=especialistas[i].nombre+` `+especialistas[i].paterno;
+
+     var ocupado= BuscarSiyaEstaOcupado(especialistas[i].idespecialista);
+
         html = `
             <a class="list-group-item list-group-item-action especialistalista_${cellpaquete}" id="especialista_${especialistas[i].idespecialista}_${cellpaquete}" onclick="SeleccionarEspecialista(${especialistas[i].idespecialista},'${nombrecom}','${cellpaquete}')" style="background: #c7aa6a; color: white; margin-bottom: 1em;margin-top: 1em;width: 90px;height: 120px;float: left;    margin-left: 2px;">
                 <div class="text-center">
@@ -2718,6 +2924,18 @@ function PintarDetalleEspecialistas(especialistas,cellpaquete) {
 		});
       }
 
+
+}
+
+function BuscarSiyaEstaOcupado(idespecialista) {
+    var bandero=0;
+    for (var i = 0; i < arraypaqueteseleccionadocreado.length; i++) {
+      
+      if (arraypaqueteseleccionadocreado[i].idespecialista==idespecialista) {
+        bandero=1;
+        return bandero;
+      }
+    }
 
 }
 
@@ -3102,7 +3320,7 @@ function GuardarCitaP() {
         console.log($('.detallepago').offset().top);
         clienteseleccionado=0;
         horainicialselect=0;
-        fechaselecte=0;
+        fechaselecte2=0;
         idespecialistaselect=0;
         valorseleccionado=0;
         idcortesiaseleccionado=0;
@@ -3268,20 +3486,102 @@ function incrementpaquetemodal(idpaquete) {
 
 }
 
+function Validacionpaquetes() {
+  
+   faltadato=0;
+  
+  for (var i = 0; i < arraypaqueteseleccionadocreado.length; i++) {
+       bandera=1;
+      if (arraypaqueteseleccionadocreado[i].hora=='') {
+
+        faltadato++;
+        bandera=0;
+      }
+
+       if (arraypaqueteseleccionadocreado[i].barbero=='') {
+
+        faltadato++;
+          bandera=0;
+
+      }
+
+       if (arraypaqueteseleccionadocreado[i].idespecialista=='') {
+        faltadato++;
+         bandera=0;
+      }
+
+       if (arraypaqueteseleccionadocreado[i].fecha=='') {
+         faltadato++;
+         bandera=0;
+      }
+
+      $("#diverror_"+arraypaqueteseleccionadocreado[i].key).css('display','none');
+      $("#divsucces_"+arraypaqueteseleccionadocreado[i].key).css('display','none');
+
+      if (bandera==0) {
+
+        $("#diverror_"+arraypaqueteseleccionadocreado[i].key).css('display','block');
+
+      }else{
+        
+        $("#divsucces_"+arraypaqueteseleccionadocreado[i].key).css('display','block');
+        
+      }
+
+  }
+
+}
 
 
 function AgregarCarrito() {
-  var paquetescarrito=[];
-  /*var cantidad=$(".quantity_").val();
+
+   faltadato=0;
   
-                
-          var id=idpaqueteseleccionado;
-          var objeto={
-            idpaquete:id,
-            cantidad:cantidad
-          };
-          paquetescarrito.push(objeto);
-     */
+  for (var i = 0; i < arraypaqueteseleccionadocreado.length; i++) {
+
+    if(arraypaqueteseleccionadocreado[i].servicio==1){
+
+
+       bandera=1;
+      if (arraypaqueteseleccionadocreado[i].hora=='') {
+
+        faltadato++;
+        bandera=0;
+      }
+
+       if (arraypaqueteseleccionadocreado[i].barbero=='') {
+
+        faltadato++;
+          bandera=0;
+
+      }
+
+       if (arraypaqueteseleccionadocreado[i].idespecialista=='') {
+        faltadato++;
+         bandera=0;
+      }
+
+       if (arraypaqueteseleccionadocreado[i].fecha=='') {
+         faltadato++;
+         bandera=0;
+      }
+
+      if (bandera==0) {
+
+        $("#diverror_"+arraypaqueteseleccionadocreado[i].key).css('display','block');
+
+      }else{
+        
+        $("#divsucces_"+arraypaqueteseleccionadocreado[i].key).css('display','block');
+        
+      }
+    }
+
+  }
+
+  if (faltadato==0) {
+  var paquetescarrito=[];
+ 
     var datos="paquetes="+JSON.stringify(arraypaqueteseleccionadocreado);
    $.ajax({
     type: 'POST',
@@ -3310,7 +3610,11 @@ function AgregarCarrito() {
           }
     });
 
+ }else{
 
+
+  Validacionpaquetes();
+ }
 
 
 }

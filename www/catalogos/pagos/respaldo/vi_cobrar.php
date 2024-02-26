@@ -157,6 +157,12 @@ $estatuspago = array('NO PAGADO','PAGADO');
     padding-bottom: 0;">
 			<p style=" margin-left: 10px">FECHA Y HORA DE APERTURA:<p>
 				<p style=" margin-left: 10px;font-size: 20px;"><span id="fechahoraapertura"></span></p>
+
+				<form style="margin-top: 1em;
+    margin-right: 85px;" class="form-inline" >
+          	<button type="button" class="btn  btn-success btn-lg btn-block" style="background: red;border: 1px solid red;width: 250px;" id="btncerrar" onclick="AbrirModalCerrarCaja()">Cerrar caja</button>
+          </form>
+
 		</div>
 	</div>
  
@@ -165,6 +171,11 @@ $estatuspago = array('NO PAGADO','PAGADO');
 	<div class="col-md-6" style="">
 		<div class="card">
 			<div class="card-body">
+
+				 <div class="col">
+          	
+          </div>
+          
 
 					<label for="" style="padding-left: 10px;">SELECCIONAR CLIENTE:</label>
 
@@ -181,12 +192,7 @@ $estatuspago = array('NO PAGADO','PAGADO');
              
           </div>
 
-          <div class="col">
-          	<form style="margin-top: 1em;
-    margin-right: 85px;" class="form-inline" >
-          	<button type="button" class="btn  btn-success btn-lg btn-block" style="background: red;border: 1px solid red;width: 250px;" id="btncerrar" onclick="AbrirModalCerrarCaja()">Cerrar caja</button>
-          </form>
-          </div>
+         
 
 
 
@@ -2039,7 +2045,26 @@ function PintarElementos(arraycarrito) {
 		 	html+=`
 		 			<tr>
      
-      <td style="width: 20%;">`+arraycarrito[i].nombrepaquete+`</td>
+      <td style="width: 20%;">
+      	<span style="font-weight:bold;">`+arraycarrito[i].nombrepaquete+`
+      	</span>`;
+
+      if (arraycarrito[i].fecha) {
+      	html+=`
+      	<p style="margin:0;">Fecha/Hora: `+arraycarrito[i].fechaformato+`</p>
+
+      	`;
+      }
+
+      
+
+      if (arraycarrito[i].usuarioespecialista) {
+      	html+=`
+      	<p style="margin:0;">Barbero: `+arraycarrito[i].usuarioespecialista+`</p>`;
+      }
+
+
+    html+=  `</td>
         <td style="width: 5%;">
       	 <div class="container" style="    width: 150px;">
 				    <div class="row">

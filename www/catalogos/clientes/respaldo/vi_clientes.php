@@ -250,7 +250,7 @@ var oTable = $('#zero_config').dataTable( {
 													$bt->tipo = 3;
 													$bt->title="BORRAR";
 
-													$bt->armar_boton();
+												//	$bt->armar_boton();
 												   					
 												
 								

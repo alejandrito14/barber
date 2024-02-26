@@ -40,6 +40,7 @@ class Notapago
 	public $idusuarioentrega;
 	public $observacionesentrega;
 	public $idnotapagodescripcion;
+	public $idcarrito;
 
 	public function CrearNotapago()
 	{
@@ -123,10 +124,10 @@ class Notapago
 	public function Creardescripcionpago()
 	{
 		try {
-			$sql="INSERT INTO notapago_descripcion(idnotapago, descripcion, cantidad, monto, idpaquete,idcita,tipo,costounitario,monederoaplicado,idcupon,codigocupon,montocupon) VALUES ( '$this->idnotapago', '$this->descripcion', '$this->cantidad','$this->monto', '$this->idpaquete','$this->idcita','$this->tipo','$this->costounitario','$this->monederoaplicado','$this->idcupon','$this->codigocupon','$this->montocupon')";
+			$sql="INSERT INTO notapago_descripcion(idnotapago, descripcion, cantidad, monto, idpaquete,idcita,tipo,costounitario,monederoaplicado,idcupon,codigocupon,montocupon,idcarrito) VALUES ( '$this->idnotapago', '$this->descripcion', '$this->cantidad','$this->monto', '$this->idpaquete','$this->idcita','$this->tipo','$this->costounitario','$this->monederoaplicado','$this->idcupon','$this->codigocupon','$this->montocupon','$this->idcarrito')";
 		
 		$resp=$this->db->consulta($sql);
-		$this->idnotapagodescripcion=$this->db->id_ultimo();
+		//$this->idnotapagodescripcion=$this->db->id_ultimo();
 			
 		} catch (Exception $e) {
 			echo $e;
@@ -220,16 +221,24 @@ class Notapago
 	public function ObtenerdescripcionNota()
 	{
 		$sql="
-			SELECT idnotapago,notapago_descripcion.descripcion as concepto,monto,DATE_FORMAT(fechacita,'%d-%m-%Y')as fecha,
+			SELECT idnotapago,
+			
+			notapago_descripcion.descripcion as concepto,monto,DATE_FORMAT(fechacita,'%d-%m-%Y')as fecha,
+			citas.idespecialista,
+			citas.fechacita,
 				citas.horainicial,
 				citas.horafinal,
 				citas.horains,
+				paquetesucursal.idsucursal,
 				citas.horafs,
-				notapago_descripcion.cantidad,paquetes.foto,
+				notapago_descripcion.cantidad,
+				notapago_descripcion.costounitario,
+				paquetes.foto,
 				citas.idespecialista,
 				(SELECT  CONCAT(usuarios.nombre,' ',usuarios.paterno) FROM especialista INNER JOIN usuarios on usuarios.idusuarios=especialista.idusuarios where especialista.idespecialista=citas.idespecialista ) as usuarioespecialista,
 					paquetes.concortesia,
 					paquetes.servicio,
+					paquetes.intervaloservicio as intervaloservicio,
 					sucursal.titulo,
 					paquetecortesia.nombrepaquete as nombrepaquetecortesia,
 					citas.horainicial,
@@ -242,10 +251,15 @@ class Notapago
 			citas.idcortesia,
 			cupones.tipodescuento,
 			cupones.descuento,
-			notapago_descripcion.idnotapago_descripcion
-
+			notapago_descripcion.idnotapago_descripcion,
+			categoriapaquete.idcategoriapaquete,
+			citas.idcita,
+			categoriapaquete.nombre AS titulo
 			FROM notapago_descripcion
 			left join paquetes on paquetes.idpaquete=notapago_descripcion.idpaquete
+
+			LEFT JOIN categoriapaquete ON paquetes.idcategoriapaquete = categoriapaquete.idcategoriapaquete 
+
 			left join paquetesucursal on paquetes.idpaquete=paquetesucursal.idpaquete
 			left join sucursal on paquetesucursal.idsucursal=sucursal.idsucursal
 
@@ -255,7 +269,7 @@ class Notapago
 			left join paquetes as paquetecortesia on paquetecortesia.idpaquete=cortesia.idpaquetecortesia
 			left join cupones on notapago_descripcion.idcupon=cupones.idcupon
 			
-		 WHERE idnotapago='$this->idnotapago'";
+			 WHERE idnotapago='$this->idnotapago'";
 
 
 		$resp=$this->db->consulta($sql);
@@ -817,7 +831,7 @@ class Notapago
 		notapago
 		JOIN notapago_descripcion
 		ON notapago.idnotapago = notapago_descripcion.idnotapago
-		WHERE notapago.estatus=1 and notapago_descripcion.idcita= '$this->idcita' GROUP BY idnotapago";
+		WHERE notapago.estatus IN(0,1) and notapago_descripcion.idcita= '$this->idcita' GROUP BY idnotapago";
 		
 		$resp = $this->db->consulta($sql);
 			$cont = $this->db->num_rows($resp);
@@ -843,6 +857,25 @@ class Notapago
 			  WHERE idnotapago='$this->idnotapago'";
 			  
 		$resp=$this->db->consulta($sql);
+	}
+
+	public function ActualizarNotadescripcion()
+	{
+		$sql="UPDATE notapago_descripcion SET descripcion = '$this->descripcion', 
+			cantidad = '$this->cantidad', 
+			monto = '$this->monto', 
+			idpaquete = '$this->idpaquete',
+			costounitario = '$this->costounitario', 
+			idcupon = '0', 
+			montocupon = '0.00',
+			codigocupon = '', 
+			monederoaplicado = '0.00'
+			WHERE idnotapago_descripcion = '$this->idnotapagodescripcion'";
+
+			
+		$resp=$this->db->consulta($sql);
+
+
 	}
 	
 }

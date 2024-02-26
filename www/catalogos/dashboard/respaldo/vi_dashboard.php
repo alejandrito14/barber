@@ -146,8 +146,8 @@ if(isset($_GET['ac']))
 
 <div class="row">
 
-  <div class="col-xl-3 col-md-4">
-                   <div class="card colornegro text-white mb-4" style="background: #375d97">
+  <div class="col-xl-3 col-md-2">
+              <div class="card colornegro text-white mb-4" style="background: #375d97;">
                       <div class="card-body" style="    font-size: 16px;">SERVICIOS AGENDADOS</div>
                      <div class="card-footer ">
                        <a class="small text-white stretched-link" style="width: 100%;cursor: pointer;">
@@ -176,7 +176,7 @@ if(isset($_GET['ac']))
       </div>
 
 
-      <div class="col-xl-3 col-md-4">
+      <div class="col-xl-3 col-md-2">
                    <div class="card colornegro text-white mb-4 estatuscitaproceso2" >
                       <div class="card-body" style="    font-size: 16px;">SERVICIOS EN PROCESO</div>
                      <div class="card-footer ">
@@ -205,7 +205,7 @@ if(isset($_GET['ac']))
        </div>
       </div>
 
-      <div class="col-xl-3 col-md-4">
+      <div class="col-xl-3 col-md-2">
                    <div class="card colornegro text-white mb-4 estatuscitarealizado2">
                       <div class="card-body" style="    font-size: 16px;">SERVICIOS REALIZADOS</div>
                      <div class="card-footer ">
@@ -235,7 +235,7 @@ if(isset($_GET['ac']))
       </div>
 
 
-       <div class="col-xl-3 col-md-4">
+       <div class="col-xl-3 col-md-2">
                    <div class="card colornegro text-white mb-4 estatuscitapendiente2">
                       <div class="card-body" style="    font-size: 16px;">SERVICIOS PENDIENTES</div>
                      <div class="card-footer ">
@@ -265,9 +265,9 @@ if(isset($_GET['ac']))
       </div>
 
 
-      <div class="col-xl-3 col-md-4">
+      <div class="col-xl-3 col-md-2">
                    <div class="card colornegro text-white mb-4 estatuscitacancelada2">
-                      <div class="card-body" style="    font-size: 16px;">SERVICIOS CANCELADOS</div>
+                      <div class="card-body" style="font-size: 16px;padding: 1.19rem;">SERVICIOS CANCELADOS</div>
                      <div class="card-footer ">
                        <a class="small text-white stretched-link"  style="width: 100%;cursor: pointer;">
                        <h3>
@@ -295,7 +295,7 @@ if(isset($_GET['ac']))
       </div>
 
 
-      <div class="col-xl-3 col-md-4">
+      <div class="col-xl-3 col-md-2">
                    <div class="card colornegro text-white mb-4">
                       <div class="card-body" style="    font-size: 16px;">SERVICIOS CADUCADOS</div>
                      <div class="card-footer ">
@@ -442,9 +442,30 @@ if(isset($_GET['ac']))
 </div>
 
   <div class="divlistadoentrega" style="display: block;">
-          <div class="row " id="" style="margin-bottom: 1em;">
-           <div class="col-md-6">
-            <h4 style="text-align: center;">PRODUCTOS PENDIENTES POR ENTREGAR</h4>
+
+    <div class="">
+      
+      <div class="divtabs" style="">
+          <div style="width: 100%">
+            <label for="">Filtrar por:</label>
+          </div>
+
+   <div class="tabs" style="width: 100%; ">
+     <button class="tab boton1 active" id="pendientest-tab" style="width: 50%;    " onclick="openTab2('pendientes')"> PRODUCTOS PENDIENTES POR ENTREGAR</button> 
+     <button class="tab boton1" id="entregadost-tab" style="width: 50%;float: right;" onclick="openTab2('entregados')">PRODUCTOS ENTREGADOS</button>
+
+     <!--  <button class="btn  btn-primary ">Agendar cita</button> -->
+   </div>
+
+
+
+</div>
+    </div>
+
+          <div class="row " id="" style="margin-bottom: 1em;width: 100%;">
+
+           <div class="col-md-12 listab" id="pendientes-tab" style="">
+            <h4 style="text-align: center;margin-top:20px;">PRODUCTOS PENDIENTES POR ENTREGAR</h4>
             <table id="tblpendientes" cellpadding="0" cellspacing="0" class="table table-striped table-responsive">
             <thead>
              <tr>
@@ -467,8 +488,8 @@ if(isset($_GET['ac']))
 
            </div>
 
-           <div class="col-md-6">
-            <h4 style="text-align: center;">PRODUCTOS ENTREGADOS</h4>
+           <div class="col-md-12 listab" id="entregados-tab" style="display: none;">
+            <h4 style="text-align: center;margin-top:20px;">PRODUCTOS ENTREGADOS</h4>
             <table id="tblentregados" cellpadding="0" cellspacing="0" class="table table-striped table-responsive">
             <thead>
              <tr>
@@ -1335,6 +1356,18 @@ function ActualizarPantalla(idsucursal) {
 
         }
   });
+
+}
+
+//listab
+//pendientes-tab
+
+function openTab2(tab) {
+ 
+ $(".listab").css('display','none');
+ $("#"+tab+"-tab").css('display','block');
+ $(".tab").removeClass('active');
+ $("#"+tab+"t-tab").addClass('active');
 
 }
 </script>

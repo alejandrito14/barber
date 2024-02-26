@@ -579,6 +579,7 @@ $funcionboton="RealizarpagoCompletado(".$idnotapago.",".$accion.")";
           $(".litipodepago").css('display','none');
           $("#titulometodopago").css('display','none');
           $("#btnpagarresumen").attr('disabled',false);
+          $("#divtotalnota").css('display','none');
 
         }else{
 

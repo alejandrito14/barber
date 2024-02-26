@@ -49,8 +49,8 @@
 }
 
 .rescalendar_day_cells td.today{
-	background: red;
-	color: #fff;
+	border:1px solid #3c8dbb; 
+	
 }
 
 .rescalendar_day_cells td.middleDay{

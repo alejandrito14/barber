@@ -13,7 +13,7 @@ class ClienteMercadoPago
 	  public function ObtenerIDCustomer()
 	{
 		$Query="SELECT customerid_mercadopago FROM customermercadopago WHERE idusuarios = '$this->idusuarios' and skeymercado='$this->skey'";
-		
+		echo $Query;die();
 		$resp=$this->db->consulta($Query);		
 		return $resp;
 	}

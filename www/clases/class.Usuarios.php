@@ -1014,9 +1014,59 @@ public function lista_Usuarios2($tipo,$filtro)
 
 	}
 
-	public function ObtUsuariosActivosOrdenadas()
+	/*public function ObtUsuariosActivosOrdenadas()
 	{
 		
+	}*/
+
+
+	public function ValidarUsuarioModificar()
+	{
+		$sql="SELECT *FROM usuarios WHERE 
+		usuario='$this->usuario' and clave='$this->clave'
+		";
+
+		
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+
+	public function ValidarUsuarioCelular()
+	{
+		$sql="SELECT *FROM usuarios WHERE 
+		idusuarios='$this->id_usuario' and celular='$this->celular'
+		";
+
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
 	}
 
 }

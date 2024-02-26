@@ -432,7 +432,7 @@ function  Guardarusuario(form_usuario,regreso,donde,archivoenvio,idmenumodulo)
 		var fechafecha=$("#v_fechanacimiento").val();
 		var validacioncontra=$("#clave").val();
 		var validacioncontra2=$("#clave2").val();
-
+		var v_id=$("#v_id").val();
 		var bandera=1;
 	
 	if(confirm("\u00BFEstas seguro de querer realizar esta operaci\u00f3n?"))
@@ -466,10 +466,21 @@ function  Guardarusuario(form_usuario,regreso,donde,archivoenvio,idmenumodulo)
 					bandera=0;
 				}
 
-				if (bandera==1) {
+				noexiste=0;
+
+					if (v_id==0) {
 				ValidarCelular().then(r => {
 					if (r.existe==0) {
+						noexiste=0;
+						}else{
 
+							noexiste=1;
+						}
+					})
+				}
+
+
+		if (bandera==1 && noexiste==0) {
 		var datos = ObtenerDatosFormulario(form_usuario);//obteniedo los datos del formulario
 		//datos+="&asociados="+JSON.stringify(asociados);
 		//datos+="&asociadoseliminados="+JSON.stringify(asociadoseliminados);
@@ -511,14 +522,16 @@ function  Guardarusuario(form_usuario,regreso,donde,archivoenvio,idmenumodulo)
 
 					}else{
 
-					$("#validacioncelular").text('El celular ya se encuentra registrado');
+						if (noexiste==1) {
+						
+						$("#validacioncelular").text('El celular ya se encuentra registrado');
+
+
+						}
+
 					//alert('Celular ya se encuentra registrado');
 
-				}
-
-			});
-
-		}else{
+			
 					if (celular=='') {
 						bandera=0;
 						$("#validacioncelular").text('Celular requerido');

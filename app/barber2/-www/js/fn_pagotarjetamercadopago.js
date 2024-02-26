@@ -460,7 +460,7 @@ function NuevaTarjetaMercadopago(){
     color: white!important;
     background: #c7aa6a!important;
     display:none;
-    margin-top: 1em;" onclick="GuardarTarjetaMercado()">Guardar Tarjeta</a>
+    margin-top: 1em;" onclick="PagarConMercadoPago()">Guardar Tarjeta</a>
 
 
          </div> 
@@ -557,6 +557,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
  
 }
 
-function GuardarTarjetaMercado() {
+function PagarConMercadoPago() {
     
+
 }

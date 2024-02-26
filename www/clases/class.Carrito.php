@@ -46,6 +46,9 @@ class Carrito
 			paquetes.foto,
 			paquetes.concortesia,
 			paquetes.servicio,
+			paquetes.tarjetaregalo,
+			paquetes.fechavigencia,
+			paquetes.montomonedero as montoregalo,
 			carrito.cantidad,
 			carrito.costounitario,
 			carrito.costototal,
@@ -364,6 +367,18 @@ class Carrito
 	{
 			$sql="UPDATE carrito 
 		SET montomonedero='$this->monederousado'
+		WHERE idcarrito='$this->idcarrito'";
+		
+		$resp=$this->db->consulta($sql);
+	}
+
+
+	public function GuardarNuevoMonto()
+	{
+		$sql="UPDATE carrito 
+		SET costounitario='$this->costounitario',
+		costototal='$this->costototal',
+		cantidad='$this->cantidad'
 		WHERE idcarrito='$this->idcarrito'";
 		
 		$resp=$this->db->consulta($sql);

@@ -44,6 +44,7 @@ $Tarjetaregalo->db = $db;
 
 $Tarjetaregalo->tipo_usuario = $tipousaurio;
 $Tarjetaregalo->lista_empresas = $lista_empresas;
+$Tarjetaregalo->idsucursal=$se->obtenerSesion('idsucursalsesion');
 
 $l_Tarjetaregalo = $Tarjetaregalo->ObtenerTodosTarjetaregalo();
 $l_Tarjetaregalo_row = $db->fetch_assoc($l_Tarjetaregalo);
@@ -81,7 +82,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 
 
 
-$estatus=array('DESACTIVADO','ACTIVADO');
+$estatus=array('PENDIENTE','APLICADO','CADUCADO');
 
 ?>
 
@@ -160,8 +161,8 @@ $estatus=array('DESACTIVADO','ACTIVADO');
         <thead>
           <tr>
              
-            <th style="text-align: center;">NOMBRE</th> 
-           
+            <th style="text-align: center;">NOMBRE DEL PAQUETE</th> 
+            <th style="text-align: center;">USUARIO</th>
 
             <th style="text-align: center;">ESTATUS</th>
 
@@ -187,9 +188,9 @@ $estatus=array('DESACTIVADO','ACTIVADO');
               
             
               
-              <td style="text-align: center;"><?php echo $f->imprimir_cadena_utf8($l_Tarjetaregalo_row['nombretarjeta']);?></td>
+              <td style="text-align: center;"><?php echo $f->imprimir_cadena_utf8($l_Tarjetaregalo_row['nombrepaquete']);?></td>
 
-            
+             <td style="text-align: center;"><?php echo $l_Tarjetaregalo_row['nombreusuario'].' '.$l_Tarjetaregalo_row['paterno'];?></td>
             
               <td style="text-align: center;"><?php echo $estatus[$l_Tarjetaregalo_row['estatus']];?></td>
 
@@ -198,17 +199,20 @@ $estatus=array('DESACTIVADO','ACTIVADO');
                   <?php
                           //SCRIPT PARA CONSTRUIR UN BOTON
                   $bt->titulo = "";
-                  $bt->icon = "mdi-table-edit";
-                  $bt->funcion = "aparecermodulos('catalogos/tarjetaregalo/fa_tarjetaregalo.php?idmenumodulo=$idmenumodulo&idtarjetaregalo=".$l_Tarjetaregalo_row['idtarjetaregalo']."','main')";
+                  $bt->icon = "mdi-qrcode";
+                  $bt->funcion = "AbrirModalQr('".$l_Tarjetaregalo_row['idtarjetaregalousuario']."')";
                   $bt->estilos = "";
                   $bt->permiso = $permisos;
                   $bt->tipo = 2;
-                  $bt->title="EDITAR";
+                  $bt->title="GENERAR QR";
                   $bt->class='btn btn_colorgray';
                   $bt->armar_boton();
 
 
                   ?>
+
+
+                  
 
                   <?php
                   //SCRIPT PARA CONSTRUIR UN BOTON
@@ -220,7 +224,7 @@ $estatus=array('DESACTIVADO','ACTIVADO');
                   $bt->tipo = 3;
                   $bt->title="BORRAR";
 
-                  $bt->armar_boton();
+                  //$bt->armar_boton();
                 ?>
           
 

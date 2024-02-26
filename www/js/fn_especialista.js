@@ -104,7 +104,7 @@ function ObtenerHorariosSucursal(idusuarios) {
 										html+=`
 												<div class="col-md-12 horariosatencionsucursal" data-sucursal="`+respuesta[i].idsucursal+`" id="contador_`+j+`">
 												<div class="row">
-												 <div class="col-md-2">
+												 <div class="col-md-4">
 													<label>DIA</label>	
 
 													<select class="form-control diasemana" id="diasemana_`+j+`" >
@@ -119,7 +119,7 @@ function ObtenerHorariosSucursal(idusuarios) {
 
 													</select>
 													</div>
-													<div class="col-md-2">
+													<div class="col-md-3">
 													<label>HORA INICIO:</label>
 														<div class="form-group mb-2" style="">
 															<input type="time" id="horai_`+j+`" class="form-control horainiciodia" value="`+horainicio+`">
@@ -128,7 +128,7 @@ function ObtenerHorariosSucursal(idusuarios) {
 													</div>
 
 												
-													<div class="col-md-2">
+													<div class="col-md-3">
 
 														<label>HORA FIN:</label>
 														<div class="form-group mb-2" style="">
@@ -136,28 +136,7 @@ function ObtenerHorariosSucursal(idusuarios) {
 														</div>
 													</div>
 
-													<div class="col-md-2">
 
-														<label>TIPO COMISIÓN:</label>
-														<div class="form-group mb-2" style="">
-															<select class="form-control tipocomision" id="tipocomision_`+j+`">
-														<option value="t"  ${tipocomision === "" ? "selected" : ""}>SELECCIONAR DIA</option>
-														<option value="0"  ${tipocomision === "0" ? "selected" : ""}>PORCENTAJE</option>
-														<option value="0"  ${tipocomision === "1" ? "selected" : ""}>MONTO</option>
-
-															</select>
-														</div>
-													</div>
-
-
-														<div class="col-md-3">
-
-														<label>CANT. DE LA COMISIÓN:</label>
-														<div class="form-group mb-2" style="">
-														<input type="text" id="cantidadcomi_`+j+`" class="form-control cantidadcomi" value="`+v_cantidadcomision+`"> 
-	
-														</div>
-													</div>
 													<div class="col-md-1">
 														<button type="button" style="margin-top: 2em;" onclick="EliminarOpcionHorarioEspecialista(`+j+`)" class="btn btn_rojo"><i class="mdi mdi-delete-empty"></i></button>
 													</div>
@@ -179,6 +158,29 @@ function ObtenerHorariosSucursal(idusuarios) {
 				  });
 
 	}
+
+										/*				<div class="col-md-2" style="display:none">
+
+														<label>TIPO COMISIÓN:</label>
+														<div class="form-group mb-2" style="">
+															<select class="form-control tipocomision" id="tipocomision_`+j+`">
+														<option value="t"  ${tipocomision === "" ? "selected" : ""}>SELECCIONAR DIA</option>
+														<option value="0"  ${tipocomision === "0" ? "selected" : ""}>PORCENTAJE</option>
+														<option value="0"  ${tipocomision === "1" ? "selected" : ""}>MONTO</option>
+
+															</select>
+														</div>
+													</div>
+
+
+														<div class="col-md-3" style="display:none">
+
+															<label>CANT. DE LA COMISIÓN:</label>
+															<div class="form-group mb-2" style="">
+															<input type="text" id="cantidadcomi_`+j+`" class="form-control cantidadcomi" value="`+v_cantidadcomision+`"> 
+	
+														</div>
+													</div>*/
 
 	function EliminarOpcionHorarioEspecialista(idhorarioespecialista) {
 		
@@ -383,11 +385,15 @@ function GuardarusuarioEspecialista(form_usuario,regreso,donde,archivoenvio,idme
 		var validacioncontra=$("#clave").val();
 		var validacioncontra2=$("#clave2").val();
 		var color=$("#v_color").val();
-		var bandera=1;	
+		var bandera=1;
+		var v_id=$("#v_id").val();
+
+
+
 
 
 		if(confirm("\u00BFEstas seguro de querer realizar esta operaci\u00f3n?"))
-	{
+			{
 
 				if (celular=='') {
 				
@@ -419,7 +425,21 @@ function GuardarusuarioEspecialista(form_usuario,regreso,donde,archivoenvio,idme
 				if (color=='') {
 					bandera=0;
 				}
-				if (bandera==1) {
+
+				noexiste=0;
+
+					if (v_id==0) {
+				ValidarCelular().then(r => {
+					if (r.existe==0) {
+						noexiste=0;
+						}else{
+
+							noexiste=1;
+						}
+					})
+				}	
+
+		if (bandera==1 && noexiste==0) {
 	
 		var horariosespecialista=[];
 		$(".horariosatencionsucursal").each(function(index) {
@@ -466,7 +486,7 @@ function GuardarusuarioEspecialista(form_usuario,regreso,donde,archivoenvio,idme
 
 
 		datos.append('horariosespecialista',JSON.stringify(horariosespecialista));
-	 datos.append('sexo',sexoseleccionado);
+	    datos.append('sexo',sexoseleccionado);
 		datos.append('v_celular',v_celular);
 		datos.append('v_alias',v_alias);
 		datos.append('nombre',nombre);
@@ -524,6 +544,12 @@ function GuardarusuarioEspecialista(form_usuario,regreso,donde,archivoenvio,idme
 			},1000);
 		
 		}else{
+
+			if (noexiste==1) {
+						
+			$("#validacioncelular").text('El celular ya se encuentra registrado');
+			}
+
 					if (celular=='') {
 						bandera=0;
 						$("#validacioncelular").text('Celular requerido');

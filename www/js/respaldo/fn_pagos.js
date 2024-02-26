@@ -1795,7 +1795,7 @@ function CrearSesionUsuario(idcliente) {
 	  success:function(msj){
 			
 	  	SeleccionarClientePagos(idcliente);
-		
+		$(".eleccion").css('display','block');	
 			}
 	});
 }
@@ -2105,7 +2105,7 @@ function CrearSesionSucursal(idsucursal) {
 	  success:function(msj){
 			openTab('punto-venta');
 			$(".btncita").css('display','block');	
-		$(".eleccion").css('display','block');		
+			
 			ObtenerPaquetesCarrito();
 			 			
 			}
@@ -2132,7 +2132,9 @@ function AgregarNuevo(valor) {
 			$(".divheader").css('display','none');
 			var button=`<button class="btn btn-success" onclick="GuardarCliente('form_usuario','catalogos/clientes/vi_clientes.php','main','catalogos/clientes/ga_clientes.php',0,'`+valor+`')">GUARDAR</button>`;
 			$("#footer-modal-forms2").css('display','block');
-			
+
+			$("#modal-footer").css('display','block');
+	
 			$("#footer-modal-forms2").html(button);
 			$("#modal-forms2").modal();
 			$(".datosconfi").css('display','block');
@@ -2177,6 +2179,7 @@ idespecialista) {
 			$(".divheader").css('display','none');
 			var button=`<button class="btn btn-success" onclick="GuardarCliente2('form_usuario','catalogos/clientes/vi_clientes.php','main','catalogos/clientes/ga_clientes.php',0,'`+horainicial+`','`+fechaconsulta+`','`+idespecialista+`')">GUARDAR</button>`;
 			$("#footer-modal-forms2").html(button);
+			$("#footer-modal-forms2").css('display','block');
 			$("#modal-forms2").modal();
 			$(".datosconfi").css('display','block');
 			$("#v_celular").attr('onkeyup','ValidarCelularInput();');
@@ -2184,6 +2187,7 @@ idespecialista) {
 			$("#spanrespuesta").text('');
 			$("#clave").val('');
 			$("#clave2").val('');
+			$("#modal-footer").css('display','block');
 
 			$(".datosconfi").css('padding-top','0px');
 			$(".headercard").css('margin-top','0px');
@@ -2193,9 +2197,8 @@ idespecialista) {
 			//mostrarPassword('clave2','icon2');
 			$(".divcontra1").css('display','none');
 			$(".divcontra2").css('display','none');
-
+			$(".divfecha").css('display','none');
 			$("#spanrespuesta").css('display','none');
-
 			//$("#v_celular").attr('onkeyup','ValidarCelularInput();CoincidirContra2("clave","clave2")');
 			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
 				var error;
@@ -2265,7 +2268,7 @@ function AbrirModalAgendar(idcategoriapaquete) {
 
 	 		
   				
-	var pagina = "agendarcitawizard.php";
+	var pagina = "agendarcitamenu.php";
   
 	var datos="idsucursal="+idsucursalseleccionada+"&idcategoriapaquete="+idcategoriapaquete+"&fechaselecte="+fechaselecte+"&horainicialselect="+horainicialselect+"&idespecialistaselect="+idespecialistaselect;
 	$.ajax({

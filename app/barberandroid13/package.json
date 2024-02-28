@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "com.lampa.startapp": "github:lampaa/com.lampa.startapp",
-    "cordova-android": "^12.0.0",
+    "cordova-android": "^12.0.1",
     "cordova-ios": "^7.0.1",
     "cordova-plugin-call-number": "^1.0.1",
     "cordova-plugin-camera": "^7.0.0",

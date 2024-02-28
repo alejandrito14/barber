@@ -308,7 +308,7 @@ function PintarTarjetas(tarjetas,setlastcard=false) {
 
               <div class="toggle" style="margin-right: 10px;">
               <label>
-                <input type="checkbox" name="tarjetatopay" class="`+checkclass+`" id="`+ checkclass + i +`"  onchange="CheckCardSelection(this,'`+ checkclass +`','`+ tarjetas[i].id +`');" `+checked+` />
+                <input type="checkbox" name="tarjetatopay" class="`+checkclass+`" id="`+ checkclass + i +`"  onchange="CheckCardSelection(this,'`+ checkclass +`','`+ tarjetas[i].id +`');"  />
                 <span class="toggle-icon"></span>
                 </label>
                </div>

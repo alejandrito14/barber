@@ -399,7 +399,7 @@ function GuardarTokenBase(idcliente) {
 	
 	 var datos="sistema="+sistema+"&tokenfirebase="+tokenfirebase+"&idusuario="+idcliente+"&uuid="+uuid;
 	 var pagina = "GuardarTokenBase.php";
-	 
+	 	 	
 		$.ajax({
 		type: 'POST',
 		dataType: 'json',

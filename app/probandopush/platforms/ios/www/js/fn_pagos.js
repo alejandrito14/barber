@@ -1038,7 +1038,7 @@ function AbrirModalcupon() {
 
 }
 
-function AplicarCupon() {
+/*function AplicarCupon() {
 	var cupon=$("#txtcupon").val();
 
 	var datos="cupon="+cupon;
@@ -1063,7 +1063,7 @@ function AplicarCupon() {
 
   });
 
-}
+}*/
 
 function HabilitarOpcionespago(idtipodepago,foto,stripe,habilitarcampo,habilitarcampomontofactura) {
 

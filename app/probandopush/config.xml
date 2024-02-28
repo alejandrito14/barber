@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.inversa.app" version="1.0.33" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Grupo Inversa</name>
+<widget id="com.inversa.app" version="1.0.34" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Don Porfirio Barber Shop</name>
     <description>
         
     </description>
@@ -94,7 +94,7 @@
          <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <config-file parent="NSCameraUsageDescription" platform="ios" target="*-Info.plist">
-            <string>Grupo Inversa needs access to camera files to add a pictures and photo user profile </string>
+            <string>Don Porfirio needs access to camera files to add a pictures and photo user profile </string>
         </config-file>
         <config-file parent="NSPhotoLibraryUsageDescription" platform="ios" target="*-Info.plist">
             <string>Grupo Inversa needs access to the phone's files to add a pictures and photo user profile
@@ -102,7 +102,7 @@
         </config-file>
         <config-file parent="NSLocationWhenInUseUsageDescription" platform="ios" target="*-Info.plist">
             <string>
-          Grupo Inversa needs access to your approximate location, to choose the zip code
+         Don Porfirio needs access to your approximate location, to choose the zip code
         </string>
         </config-file>
         <config-file parent="NSLocationAlwaysUsageDescription" platform="ios" target="*-Info.plist">

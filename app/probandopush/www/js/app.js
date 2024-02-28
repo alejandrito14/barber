@@ -110,7 +110,9 @@ $(document).ready(function() {
       codigoservicio='125';
 
     }else{
+
       codigoservicio='127';
+     
     }
 
 
@@ -143,7 +145,7 @@ $(document).ready(function() {
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.33';
+var version='1.0.34';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;
@@ -223,6 +225,7 @@ function Cargar() {
     urlimagendefaultservicio=rutaserver+"/is-barber/images/sin-servicio.jpg"
 
 }else{
+
     codigoserv=codigoservicio+"/";
     urlphp = rutaserver+"/IS-BARBER/app/"+carpetaapp+"/php/";
     urlimagenes = rutaserver+"/IS-BARBER/catalogos/"; 
@@ -1001,6 +1004,12 @@ $$(document).on('page:init','.page[data-name="carrito"]',function(e)
 
     p1.then(function(value) {
       CargarCarrito();
+
+    });
+
+    p1.then(function () {
+      
+      ObtenerCuponesAutomaticos();
     });
  
 

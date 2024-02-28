@@ -5,6 +5,176 @@
   },
   "config_munge": {
     "files": {
+      "*-Info.plist": {
+        "parents": {
+          "NSCameraUsageDescription": [
+            {
+              "xml": "<string>Grupo Inversa needs access to camera files to add a pictures and photo user profile </string>",
+              "count": 5
+            },
+            {
+              "xml": "<string>This app needs camera access</string>",
+              "count": 1
+            },
+            {
+              "xml": "<string>This app requires camera access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSPhotoLibraryUsageDescription": [
+            {
+              "xml": "<string>Grupo Inversa needs access to the phone's files to add a pictures and photo user profile\n          </string>",
+              "count": 5
+            },
+            {
+              "xml": "<string>This app needs read/write-access photo library access</string>",
+              "count": 1
+            },
+            {
+              "xml": "<string>This app requires photo library access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSLocationWhenInUseUsageDescription": [
+            {
+              "xml": "<string>\n          Grupo Inversa needs access to your approximate location, to choose the zip code\n        </string>",
+              "count": 5
+            },
+            {
+              "xml": "<string>This app requires access to your location when the screen is on and the app is displayed.</string>",
+              "count": 1
+            }
+          ],
+          "NSLocationAlwaysUsageDescription": [
+            {
+              "xml": "<string> Grupo Inversa access to your approximate location, to choose the zip code</string>",
+              "count": 5
+            },
+            {
+              "xml": "<string>This app requires constant access to your location in order to track your position, even when the screen is off or the app is in the background.</string>",
+              "count": 1
+            }
+          ],
+          "FacebookAppID": [
+            {
+              "xml": "<string>828119491855582</string>",
+              "count": 1
+            }
+          ],
+          "FacebookDisplayName": [
+            {
+              "xml": "<string>FirebaseX Test</string>",
+              "count": 1
+            }
+          ],
+          "FacebookUrlSchemeSuffix": [
+            {
+              "xml": "<string>FACEBOOK_URL_SCHEME_SUFFIX_PLACEHOLDER</string>",
+              "count": 1
+            }
+          ],
+          "FacebookAutoLogAppEventsEnabled_PLACEHOLDER": [
+            {
+              "xml": "<string>FACEBOOK_AUTO_LOG_APP_EVENTS_PLACEHOLDER</string>",
+              "count": 1
+            }
+          ],
+          "FacebookHybridAppEvents": [
+            {
+              "xml": "<string>false</string>",
+              "count": 1
+            }
+          ],
+          "FacebookAdvertiserIDCollectionEnabled_PLACEHOLDER": [
+            {
+              "xml": "<string>FACEBOOK_ADVERTISER_ID_COLLECTION_PLACEHOLDER</string>",
+              "count": 1
+            }
+          ],
+          "CFBundleURLTypes": [
+            {
+              "xml": "<array><dict><key>CFBundleURLSchemes</key><array><string>fb828119491855582FACEBOOK_URL_SCHEME_SUFFIX_PLACEHOLDER</string><string>OTHER_APP_SCHEMES_PLACEHOLDER</string></array></dict></array>",
+              "count": 1
+            }
+          ],
+          "NSAppTransportSecurity": [
+            {
+              "xml": "<dict><key>NSExceptionDomains</key><dict><key>facebook.com</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict><key>fbcdn.net</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict><key>akamaihd.net</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict></dict></dict>",
+              "count": 1
+            }
+          ],
+          "LSApplicationQueriesSchemes": [
+            {
+              "xml": "<array><string>fbapi</string><string>fb-messenger-api</string><string>fbauth2</string><string>fbshareextension</string></array>",
+              "count": 1
+            }
+          ],
+          "UIBackgroundModes": [
+            {
+              "xml": "<array><string>remote-notification</string></array>",
+              "count": 1
+            }
+          ],
+          "NSMicrophoneUsageDescription": [
+            {
+              "xml": "<string>This app needs microphone access</string>",
+              "count": 1
+            },
+            {
+              "xml": "<string>This app requires microphone access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSPhotoLibraryAddUsageDescription": [
+            {
+              "xml": "<string>This app needs write-access to photo library</string>",
+              "count": 1
+            }
+          ],
+          "NSLocationAlwaysAndWhenInUseUsageDescription": [
+            {
+              "xml": "<string>This app requires constant access to your location in order to track your position, even when the screen is off or the app is in the background.</string>",
+              "count": 1
+            }
+          ],
+          "NSBluetoothPeripheralUsageDescription": [
+            {
+              "xml": "<string>This app requires Bluetooth access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSBluetoothAlwaysUsageDescription": [
+            {
+              "xml": "<string>This app requires constant Bluetooth access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSContactsUsageDescription": [
+            {
+              "xml": "<string>This app requires contacts access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSCalendarsUsageDescription": [
+            {
+              "xml": "<string>This app requires calendar access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSRemindersUsageDescription": [
+            {
+              "xml": "<string>This app requires reminders access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSMotionUsageDescription": [
+            {
+              "xml": "<string>This app requires motion detection access to function properly.</string>",
+              "count": 1
+            }
+          ]
+        }
+      },
       "config.xml": {
         "parents": {
           "/*": [
@@ -144,176 +314,6 @@
           "/widget": [
             {
               "xml": "<feature name=\"HelloCPlugin\"><param name=\"ios-package\" value=\"HelloCPlugin\" /></feature>",
-              "count": 1
-            }
-          ]
-        }
-      },
-      "*-Info.plist": {
-        "parents": {
-          "FacebookAppID": [
-            {
-              "xml": "<string>828119491855582</string>",
-              "count": 1
-            }
-          ],
-          "FacebookDisplayName": [
-            {
-              "xml": "<string>FirebaseX Test</string>",
-              "count": 1
-            }
-          ],
-          "FacebookUrlSchemeSuffix": [
-            {
-              "xml": "<string>FACEBOOK_URL_SCHEME_SUFFIX_PLACEHOLDER</string>",
-              "count": 1
-            }
-          ],
-          "FacebookAutoLogAppEventsEnabled_PLACEHOLDER": [
-            {
-              "xml": "<string>FACEBOOK_AUTO_LOG_APP_EVENTS_PLACEHOLDER</string>",
-              "count": 1
-            }
-          ],
-          "FacebookHybridAppEvents": [
-            {
-              "xml": "<string>false</string>",
-              "count": 1
-            }
-          ],
-          "FacebookAdvertiserIDCollectionEnabled_PLACEHOLDER": [
-            {
-              "xml": "<string>FACEBOOK_ADVERTISER_ID_COLLECTION_PLACEHOLDER</string>",
-              "count": 1
-            }
-          ],
-          "CFBundleURLTypes": [
-            {
-              "xml": "<array><dict><key>CFBundleURLSchemes</key><array><string>fb828119491855582FACEBOOK_URL_SCHEME_SUFFIX_PLACEHOLDER</string><string>OTHER_APP_SCHEMES_PLACEHOLDER</string></array></dict></array>",
-              "count": 1
-            }
-          ],
-          "NSAppTransportSecurity": [
-            {
-              "xml": "<dict><key>NSExceptionDomains</key><dict><key>facebook.com</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict><key>fbcdn.net</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict><key>akamaihd.net</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict></dict></dict>",
-              "count": 1
-            }
-          ],
-          "LSApplicationQueriesSchemes": [
-            {
-              "xml": "<array><string>fbapi</string><string>fb-messenger-api</string><string>fbauth2</string><string>fbshareextension</string></array>",
-              "count": 1
-            }
-          ],
-          "UIBackgroundModes": [
-            {
-              "xml": "<array><string>remote-notification</string></array>",
-              "count": 1
-            }
-          ],
-          "NSCameraUsageDescription": [
-            {
-              "xml": "<string>This app needs camera access</string>",
-              "count": 1
-            },
-            {
-              "xml": "<string>This app requires camera access to function properly.</string>",
-              "count": 1
-            },
-            {
-              "xml": "<string>Grupo Inversa needs access to camera files to add a pictures and photo user profile </string>",
-              "count": 13
-            }
-          ],
-          "NSMicrophoneUsageDescription": [
-            {
-              "xml": "<string>This app needs microphone access</string>",
-              "count": 1
-            },
-            {
-              "xml": "<string>This app requires microphone access to function properly.</string>",
-              "count": 1
-            }
-          ],
-          "NSPhotoLibraryAddUsageDescription": [
-            {
-              "xml": "<string>This app needs write-access to photo library</string>",
-              "count": 1
-            }
-          ],
-          "NSPhotoLibraryUsageDescription": [
-            {
-              "xml": "<string>This app needs read/write-access photo library access</string>",
-              "count": 1
-            },
-            {
-              "xml": "<string>This app requires photo library access to function properly.</string>",
-              "count": 1
-            },
-            {
-              "xml": "<string>Grupo Inversa needs access to the phone's files to add a pictures and photo user profile\n          </string>",
-              "count": 13
-            }
-          ],
-          "NSLocationWhenInUseUsageDescription": [
-            {
-              "xml": "<string>This app requires access to your location when the screen is on and the app is displayed.</string>",
-              "count": 1
-            },
-            {
-              "xml": "<string>\n          Grupo Inversa needs access to your approximate location, to choose the zip code\n        </string>",
-              "count": 13
-            }
-          ],
-          "NSLocationAlwaysAndWhenInUseUsageDescription": [
-            {
-              "xml": "<string>This app requires constant access to your location in order to track your position, even when the screen is off or the app is in the background.</string>",
-              "count": 1
-            }
-          ],
-          "NSLocationAlwaysUsageDescription": [
-            {
-              "xml": "<string>This app requires constant access to your location in order to track your position, even when the screen is off or the app is in the background.</string>",
-              "count": 1
-            },
-            {
-              "xml": "<string> Grupo Inversa access to your approximate location, to choose the zip code</string>",
-              "count": 13
-            }
-          ],
-          "NSBluetoothPeripheralUsageDescription": [
-            {
-              "xml": "<string>This app requires Bluetooth access to function properly.</string>",
-              "count": 1
-            }
-          ],
-          "NSBluetoothAlwaysUsageDescription": [
-            {
-              "xml": "<string>This app requires constant Bluetooth access to function properly.</string>",
-              "count": 1
-            }
-          ],
-          "NSContactsUsageDescription": [
-            {
-              "xml": "<string>This app requires contacts access to function properly.</string>",
-              "count": 1
-            }
-          ],
-          "NSCalendarsUsageDescription": [
-            {
-              "xml": "<string>This app requires calendar access to function properly.</string>",
-              "count": 1
-            }
-          ],
-          "NSRemindersUsageDescription": [
-            {
-              "xml": "<string>This app requires reminders access to function properly.</string>",
-              "count": 1
-            }
-          ],
-          "NSMotionUsageDescription": [
-            {
-              "xml": "<string>This app requires motion detection access to function properly.</string>",
               "count": 1
             }
           ]

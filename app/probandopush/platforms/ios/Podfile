@@ -2,8 +2,8 @@
 source 'https://cdn.cocoapods.org/'
 platform :ios, '12.0'
 use_frameworks!
-target 'Grupo Inversa' do
-	project 'Grupo Inversa.xcodeproj'
+target 'Don Porfirio Barber Shop' do
+	project 'Don Porfirio Barber Shop.xcodeproj'
 	pod 'FBSDKCoreKit', '11.1.0'
 	pod 'FBSDKLoginKit', '11.1.0'
 	pod 'FBSDKShareKit', '11.1.0'
@@ -20,16 +20,3 @@ target 'Grupo Inversa' do
 	pod 'GoogleSignIn', '6.2.4'
 	pod 'GoogleTagManager', '7.4.3'
 end
-
-post_install do |installer|
-    installer.pods_project.targets.each do |target|
-        target.build_configurations.each do |config|
-            config.build_settings['DEBUG_INFORMATION_FORMAT'] = 'dwarf'
-            config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
-            if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
-                config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
-            end
-        end
-    end
-end
-                

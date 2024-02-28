@@ -765,7 +765,8 @@ function salir_app()
 	var id = localStorage.getItem("id_user");
     $(".lblusuario").css('display','none');
 	localStorage.setItem('session',0);
-
+	abierto=1;
+	toggleMenu();
 	localStorage.setItem('pregunta',0);
 	localStorage.removeItem('datosextras');
 	localStorage.removeItem("nombre");
@@ -774,7 +775,7 @@ function salir_app()
 	localStorage.removeItem('tipoUsuario');
 	localStorage.setItem('idtipousuario',6);
 	Visualizarmenu();
-
+ 
 	localStorage.removeItem('correo');
 	localStorage.setItem("foto", '');
 	localStorage.removeItem("idopcionespedido");
@@ -787,7 +788,11 @@ function salir_app()
 	myStopFunction(identificadorDeTemporizador);
 	myStopFunction(intervalocitas);
 	myStopFunction(intervalo);
+
 	GoToPage("/");
+
+
+	
 /*
 
 var contador=0;

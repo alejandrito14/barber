@@ -1518,7 +1518,7 @@ color: white!important;
 
 .globo{
   position: absolute;
-  font-size: 13px;
+  font-size: 15px;
   border-radius: var(--borde);
   padding: var(--borde);
   --borde: 1em;

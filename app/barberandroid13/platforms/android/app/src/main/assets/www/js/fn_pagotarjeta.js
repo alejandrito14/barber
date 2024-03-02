@@ -45,8 +45,18 @@ function ObtenerTarjetasStripe(setlastcard=false) {
         data: datos,
         async: false,
         success: function (datos) {
-            PintarTarjetas(datos,setlastcard);
-            HabilitarBotonPagar();
+           // PintarTarjetas(datos,setlastcard);
+
+               PintarTarjetas(datos,setlastcard);
+
+                                    
+
+              setTimeout(() => {
+                HabilitarBotonPagar();
+
+              }, "1000");
+
+
         }, error: function (XMLHttpRequest, textStatus, errorThrown) {
             var error;
             if (XMLHttpRequest.status === 404) error = "Pagina no existe " + pagina + " " + XMLHttpRequest.status;// display some page not found error 
@@ -241,12 +251,27 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
                 $(".cambiarfuente").addClass(tipoletra);
               }
 
+               /*var script = document.createElement("script");
+                   script.type = "text/javascript";
+                   script.src = "https://js.stripe.com/v3/";
+                   script.async = true;
+
+                document.body.appendChild(script);*/
+                //alert('aq');
+                var clavepublica=localStorage.getItem('clavepublica');
+
+                 var stripe = Stripe(clavepublica);
+
+
           },
           opened: function (sheet) {
              //HideDiv("btnnextpage");
               //SetLastCard(null);
               var displayError = document.getElementById("card-errors");
               displayError.textContent = "";
+              //alert('tarjeta');
+
+              
               LoadSetupIntent();
 
               
@@ -354,6 +379,9 @@ function PintarTarjetas(tarjetas,setlastcard=false) {
  
 
     $("#listadotarjetas").html(html);
+
+    //HabilitarBotonPagar();
+
 }
 
 function LoadSetupIntent(){
@@ -364,7 +392,7 @@ function LoadSetupIntent(){
     if($('#' + "checkclassnombre").is(":checked")){
       $("#"+ "checkclassnombre").prop('checked', false);
     }
-    app.dialog.preloader();
+    //app.dialog.preloader();
     //var displayError = document.getElementById("card-errors");
     //displayError.textContent = "";
    // HideDiv("divlistadotarjetas");
@@ -375,9 +403,14 @@ function LoadSetupIntent(){
 
   //  var pkey = "pk_test_51JNNdFJrU4M0Qnc879SI1I0o7BIpTnoMgioMaKYGDbOjTLCcfl8Rx8TLTlqPbBEifMXrRGqREEOBjCXY6RQo83Uw00M5z8GOPe"
     var pkey = clavepublica;
- 
+   // alert(pkey);
     var stripe = Stripe(pkey);
+
+    // const myPromise1 = new Promise((resolve, reject) => {
+  // alert('stripe '+JSON.stringify(stripe));
     var elements = stripe.elements({
+       mode: 'setup',
+       currency: 'mxn',
         fonts: [
           {
             cssSrc: 'https://fonts.googleapis.com/css?family=Source+Code+Pro',
@@ -461,7 +494,7 @@ function LoadSetupIntent(){
       classes: elementClasses,
     });
     cardCvc.mount('#v_card-cvc');
-
+    //alerta('cargando elementos');
 
   cardNumber.on('change', function(event) {
     checkFormFields(cardNumber,cardExpiry,cardCvc);
@@ -474,9 +507,12 @@ function LoadSetupIntent(){
     checkFormFields(cardNumber,cardExpiry,cardCvc);
   }, 1000); // Espera 1 segundo antes de verificar
   });
+ /* resolve(1);
+});*/
 
 
-
+//alerta('intento set');
+//myPromise1.then(function(result) {
     /////SetupIntent/////
     var fname = "setupIntent";
     var pagina = "ObtenerDatosStripe.php";
@@ -547,6 +583,8 @@ function LoadSetupIntent(){
             console.log("Error leyendo fichero jsonP " + d_json + pagina + " " + error, "ERROR");
         }
     });
+
+  //});
 }
 
 function setupComplete(stripe, clientSecret) {

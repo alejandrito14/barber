@@ -9,15 +9,7 @@
         "parents": {
           "/*": [
             {
-              "xml": "<feature name=\"startApp\"><param name=\"android-package\" value=\"com.lampa.startapp.startApp\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"CallNumber\"><param name=\"android-package\" value=\"mx.ferreyra.callnumber.CFCallNumber\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
               "count": 1
             },
             {
@@ -26,18 +18,6 @@
             },
             {
               "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"File\"><param name=\"android-package\" value=\"org.apache.cordova.file.FileUtils\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<allow-navigation href=\"cdvfile:*\" />",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"FileTransfer\"><param name=\"android-package\" value=\"org.apache.cordova.filetransfer.FileTransfer\" /></feature>",
               "count": 1
             },
             {
@@ -53,15 +33,35 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"Media\"><param name=\"android-package\" value=\"org.apache.cordova.media.AudioHandler\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
             {
               "xml": "<feature name=\"BarcodeScanner\"><param name=\"android-package\" value=\"com.phonegap.plugins.barcodescanner.BarcodeScanner\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"File\"><param name=\"android-package\" value=\"org.apache.cordova.file.FileUtils\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<allow-navigation href=\"cdvfile:*\" />",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"FileTransfer\"><param name=\"android-package\" value=\"org.apache.cordova.filetransfer.FileTransfer\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"startApp\"><param name=\"android-package\" value=\"com.lampa.startapp.startApp\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Media\"><param name=\"android-package\" value=\"org.apache.cordova.media.AudioHandler\" /></feature>",
               "count": 1
             }
           ]
@@ -76,18 +76,6 @@
             },
             {
               "xml": "<uses-feature android:name=\"android.hardware.telephony\" android:required=\"false\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:maxSdkVersion=\"32\" android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.READ_MEDIA_IMAGES\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.READ_MEDIA_VIDEO\" />",
               "count": 1
             },
             {
@@ -115,6 +103,18 @@
               "count": 1
             },
             {
+              "xml": "<uses-permission android:maxSdkVersion=\"32\" android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.READ_MEDIA_IMAGES\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.READ_MEDIA_VIDEO\" />",
+              "count": 1
+            },
+            {
               "xml": "<uses-permission android:name=\"android.permission.RECORD_AUDIO\" />",
               "count": 1
             },
@@ -124,10 +124,6 @@
             }
           ],
           "application": [
-            {
-              "xml": "<provider android:authorities=\"${applicationId}.cordova.plugin.camera.provider\" android:exported=\"false\" android:grantUriPermissions=\"true\" android:name=\"org.apache.cordova.camera.FileProvider\"><meta-data android:name=\"android.support.FILE_PROVIDER_PATHS\" android:resource=\"@xml/camera_provider_paths\" /></provider>",
-              "count": 1
-            },
             {
               "xml": "<service android:enabled=\"true\" android:exported=\"false\" android:name=\"com.google.android.gms.measurement.AppMeasurementService\" />",
               "count": 1
@@ -167,23 +163,9 @@
             {
               "xml": "<meta-data android:name=\"firebase_messaging_auto_init_enabled\" android:value=\"true\" />",
               "count": 1
-            }
-          ],
-          "queries": [
-            {
-              "xml": "<intent><action android:name=\"android.media.action.IMAGE_CAPTURE\" /></intent>",
-              "count": 1
             },
             {
-              "xml": "<intent><action android:name=\"android.intent.action.GET_CONTENT\" /></intent>",
-              "count": 1
-            },
-            {
-              "xml": "<intent><action android:name=\"android.intent.action.PICK\" /></intent>",
-              "count": 1
-            },
-            {
-              "xml": "<intent><action android:name=\"com.android.camera.action.CROP\" /><data android:mimeType=\"image/*\" android:scheme=\"content\" /></intent>",
+              "xml": "<provider android:authorities=\"${applicationId}.cordova.plugin.camera.provider\" android:exported=\"false\" android:grantUriPermissions=\"true\" android:name=\"org.apache.cordova.camera.FileProvider\"><meta-data android:name=\"android.support.FILE_PROVIDER_PATHS\" android:resource=\"@xml/camera_provider_paths\" /></provider>",
               "count": 1
             }
           ],
@@ -210,23 +192,37 @@
               "xml": "<uses-feature android:name=\"android.hardware.camera\" android:required=\"true\" />",
               "count": 1
             }
+          ],
+          "queries": [
+            {
+              "xml": "<intent><action android:name=\"android.media.action.IMAGE_CAPTURE\" /></intent>",
+              "count": 1
+            },
+            {
+              "xml": "<intent><action android:name=\"android.intent.action.GET_CONTENT\" /></intent>",
+              "count": 1
+            },
+            {
+              "xml": "<intent><action android:name=\"android.intent.action.PICK\" /></intent>",
+              "count": 1
+            },
+            {
+              "xml": "<intent><action android:name=\"com.android.camera.action.CROP\" /><data android:mimeType=\"image/*\" android:scheme=\"content\" /></intent>",
+              "count": 1
+            }
           ]
         }
       }
     }
   },
   "installed_plugins": {
-    "com.lampa.startapp": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
     "cordova-custom-config": {
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova-plugin-call-number": {
+    "cordova-plugin-androidx-adapter": {
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova-plugin-camera": {
-      "ANDROIDX_CORE_VERSION": "1.6.+",
+    "cordova-plugin-call-number": {
       "PACKAGE_NAME": "com.inversa.app"
     },
     "cordova-plugin-customfcmreceiver": {
@@ -236,13 +232,6 @@
       "PACKAGE_NAME": "com.inversa.app"
     },
     "cordova-plugin-enable-multidex": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-file": {
-      "ANDROIDX_WEBKIT_VERSION": "1.4.0",
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-file-transfer": {
       "PACKAGE_NAME": "com.inversa.app"
     },
     "cordova-plugin-firebasex": {
@@ -278,16 +267,7 @@
     "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "com.inversa.app"
     },
-    "cordova-plugin-ios-camera-permissions": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-media": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
     "cordova-plugin-splashscreen": {
-      "PACKAGE_NAME": "com.inversa.app"
-    },
-    "cordova-plugin-wkwebview-file-xhr": {
       "PACKAGE_NAME": "com.inversa.app"
     },
     "cordova-support-android-plugin": {
@@ -296,56 +276,39 @@
     "phonegap-plugin-barcodescanner-android12": {
       "ANDROID_SUPPORT_V4_VERSION": "27.+",
       "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-ios-camera-permissions": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-wkwebview-file-xhr": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-file": {
+      "ANDROIDX_WEBKIT_VERSION": "1.4.0",
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "com.lampa.startapp": {
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-camera": {
+      "ANDROIDX_CORE_VERSION": "1.6.+",
+      "PACKAGE_NAME": "com.inversa.app"
+    },
+    "cordova-plugin-media": {
+      "PACKAGE_NAME": "com.inversa.app"
     }
   },
   "dependent_plugins": {},
   "modules": [
-    {
-      "id": "com.lampa.startapp.startapp",
-      "file": "plugins/com.lampa.startapp/www/startApp.js",
-      "pluginId": "com.lampa.startapp",
-      "merges": [
-        "startApp"
-      ]
-    },
     {
       "id": "cordova-plugin-call-number.CallNumber",
       "file": "plugins/cordova-plugin-call-number/www/CallNumber.js",
       "pluginId": "cordova-plugin-call-number",
       "clobbers": [
         "call"
-      ]
-    },
-    {
-      "id": "cordova-plugin-camera.Camera",
-      "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
-      "pluginId": "cordova-plugin-camera",
-      "clobbers": [
-        "Camera"
-      ]
-    },
-    {
-      "id": "cordova-plugin-camera.CameraPopoverOptions",
-      "file": "plugins/cordova-plugin-camera/www/CameraPopoverOptions.js",
-      "pluginId": "cordova-plugin-camera",
-      "clobbers": [
-        "CameraPopoverOptions"
-      ]
-    },
-    {
-      "id": "cordova-plugin-camera.camera",
-      "file": "plugins/cordova-plugin-camera/www/Camera.js",
-      "pluginId": "cordova-plugin-camera",
-      "clobbers": [
-        "navigator.camera"
-      ]
-    },
-    {
-      "id": "cordova-plugin-camera.CameraPopoverHandle",
-      "file": "plugins/cordova-plugin-camera/www/CameraPopoverHandle.js",
-      "pluginId": "cordova-plugin-camera",
-      "clobbers": [
-        "CameraPopoverHandle"
       ]
     },
     {
@@ -362,6 +325,52 @@
       "pluginId": "cordova-plugin-device",
       "clobbers": [
         "device"
+      ]
+    },
+    {
+      "id": "cordova-plugin-firebasex.FirebasePlugin",
+      "file": "plugins/cordova-plugin-firebasex/www/firebase.js",
+      "pluginId": "cordova-plugin-firebasex",
+      "clobbers": [
+        "FirebasePlugin"
+      ]
+    },
+    {
+      "id": "cordova-plugin-geolocation.geolocation",
+      "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
+      "pluginId": "cordova-plugin-geolocation",
+      "clobbers": [
+        "navigator.geolocation"
+      ]
+    },
+    {
+      "id": "cordova-plugin-geolocation.PositionError",
+      "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+      "pluginId": "cordova-plugin-geolocation",
+      "runs": true
+    },
+    {
+      "id": "cordova-plugin-inappbrowser.inappbrowser",
+      "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+      "pluginId": "cordova-plugin-inappbrowser",
+      "clobbers": [
+        "cordova.InAppBrowser.open"
+      ]
+    },
+    {
+      "id": "cordova-plugin-splashscreen.SplashScreen",
+      "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+      "pluginId": "cordova-plugin-splashscreen",
+      "clobbers": [
+        "navigator.splashscreen"
+      ]
+    },
+    {
+      "id": "phonegap-plugin-barcodescanner-android12.BarcodeScanner",
+      "file": "plugins/phonegap-plugin-barcodescanner-android12/www/barcodescanner.js",
+      "pluginId": "phonegap-plugin-barcodescanner-android12",
+      "clobbers": [
+        "cordova.plugins.barcodeScanner"
       ]
     },
     {
@@ -562,33 +571,43 @@
       ]
     },
     {
-      "id": "cordova-plugin-firebasex.FirebasePlugin",
-      "file": "plugins/cordova-plugin-firebasex/www/firebase.js",
-      "pluginId": "cordova-plugin-firebasex",
-      "clobbers": [
-        "FirebasePlugin"
+      "id": "com.lampa.startapp.startapp",
+      "file": "plugins/com.lampa.startapp/www/startApp.js",
+      "pluginId": "com.lampa.startapp",
+      "merges": [
+        "startApp"
       ]
     },
     {
-      "id": "cordova-plugin-geolocation.geolocation",
-      "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
-      "pluginId": "cordova-plugin-geolocation",
+      "id": "cordova-plugin-camera.Camera",
+      "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
+      "pluginId": "cordova-plugin-camera",
       "clobbers": [
-        "navigator.geolocation"
+        "Camera"
       ]
     },
     {
-      "id": "cordova-plugin-geolocation.PositionError",
-      "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
-      "pluginId": "cordova-plugin-geolocation",
-      "runs": true
+      "id": "cordova-plugin-camera.CameraPopoverOptions",
+      "file": "plugins/cordova-plugin-camera/www/CameraPopoverOptions.js",
+      "pluginId": "cordova-plugin-camera",
+      "clobbers": [
+        "CameraPopoverOptions"
+      ]
     },
     {
-      "id": "cordova-plugin-inappbrowser.inappbrowser",
-      "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
-      "pluginId": "cordova-plugin-inappbrowser",
+      "id": "cordova-plugin-camera.camera",
+      "file": "plugins/cordova-plugin-camera/www/Camera.js",
+      "pluginId": "cordova-plugin-camera",
       "clobbers": [
-        "cordova.InAppBrowser.open"
+        "navigator.camera"
+      ]
+    },
+    {
+      "id": "cordova-plugin-camera.CameraPopoverHandle",
+      "file": "plugins/cordova-plugin-camera/www/CameraPopoverHandle.js",
+      "pluginId": "cordova-plugin-camera",
+      "clobbers": [
+        "CameraPopoverHandle"
       ]
     },
     {
@@ -606,42 +625,27 @@
       "clobbers": [
         "window.Media"
       ]
-    },
-    {
-      "id": "cordova-plugin-splashscreen.SplashScreen",
-      "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
-      "pluginId": "cordova-plugin-splashscreen",
-      "clobbers": [
-        "navigator.splashscreen"
-      ]
-    },
-    {
-      "id": "phonegap-plugin-barcodescanner-android12.BarcodeScanner",
-      "file": "plugins/phonegap-plugin-barcodescanner-android12/www/barcodescanner.js",
-      "pluginId": "phonegap-plugin-barcodescanner-android12",
-      "clobbers": [
-        "cordova.plugins.barcodeScanner"
-      ]
     }
   ],
   "plugin_metadata": {
-    "com.lampa.startapp": "6.1.6",
     "cordova-custom-config": "5.1.1",
+    "cordova-plugin-androidx-adapter": "1.1.3",
     "cordova-plugin-call-number": "1.0.1",
-    "cordova-plugin-camera": "7.0.0",
     "cordova-plugin-customfcmreceiver": "1.0.0",
     "cordova-plugin-device": "2.1.0",
     "cordova-plugin-enable-multidex": "0.2.0",
-    "cordova-plugin-file": "8.0.0",
-    "cordova-plugin-file-transfer": "2.0.0",
     "cordova-plugin-firebasex": "16.1.0",
     "cordova-plugin-geolocation": "4.1.0",
     "cordova-plugin-inappbrowser": "5.0.0",
-    "cordova-plugin-ios-camera-permissions": "1.2.0",
-    "cordova-plugin-media": "7.0.0",
     "cordova-plugin-splashscreen": "5.0.4",
-    "cordova-plugin-wkwebview-file-xhr": "3.1.0",
     "cordova-support-android-plugin": "2.0.4",
-    "phonegap-plugin-barcodescanner-android12": "8.1.2"
+    "phonegap-plugin-barcodescanner-android12": "8.1.2",
+    "cordova-plugin-ios-camera-permissions": "1.2.0",
+    "cordova-plugin-wkwebview-file-xhr": "3.1.0",
+    "cordova-plugin-file": "8.0.0",
+    "cordova-plugin-file-transfer": "2.0.0",
+    "com.lampa.startapp": "6.1.6",
+    "cordova-plugin-camera": "7.0.0",
+    "cordova-plugin-media": "7.0.0"
   }
 }

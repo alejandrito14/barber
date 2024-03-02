@@ -205,6 +205,7 @@ function PintarDatosSucursal(respuesta,imagenes) {
 		lat=coordenadas[0];
 		long=coordenadas[1];
 		$(".btnubicacion").attr('onclick','AbrirModalMap('+lat+','+long+')');
+		//$(".btnubicacion").attr('onclick','abrirGoogleMaps('+lat+','+long+')');
 
 		
 	}
@@ -1447,7 +1448,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:100%;
       swipeToClose: true,
         backdrop: true,
         // Events
-        on: {
+        on: { 
           open: function (sheet) {
           		ObtenerMapa(long,lat);
              if (tipoletra!='') {
@@ -1483,4 +1484,39 @@ function ocultarMensaje() {
     var mensajeOverlay = document.querySelector('.mensaje-overlay');
     overlay.style.display = 'none'; // Ocultar el overlay
     mensajeOverlay.style.display = 'none'; // Ocultar el mensaje
+}
+
+function ObtenerTipoSub() {
+	var idsub=localStorage.getItem('idcategoria')
+	var datos='idsub='+idsub;
+		var pagina = "ObtenerCategoria.php";
+		$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		async:false,
+		data:datos,
+		success: function(dato){
+			var subcategoria=dato.respuesta[0];
+				
+				var resp=subcategoria.detiposervicio;
+				
+				if (resp==1) {
+					$(".titulosub").text('Escoge un servicio');
+				}else{
+					$(".titulosub").text('Escoge un producto');
+
+				}
+			
+
+
+		},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			var error;
+				if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+								console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+					}
+		});
+
 }

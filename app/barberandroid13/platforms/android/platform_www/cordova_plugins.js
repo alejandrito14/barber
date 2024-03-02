@@ -1,51 +1,11 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports = [
     {
-      "id": "com.lampa.startapp.startapp",
-      "file": "plugins/com.lampa.startapp/www/startApp.js",
-      "pluginId": "com.lampa.startapp",
-      "merges": [
-        "startApp"
-      ]
-    },
-    {
       "id": "cordova-plugin-call-number.CallNumber",
       "file": "plugins/cordova-plugin-call-number/www/CallNumber.js",
       "pluginId": "cordova-plugin-call-number",
       "clobbers": [
         "call"
-      ]
-    },
-    {
-      "id": "cordova-plugin-camera.Camera",
-      "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
-      "pluginId": "cordova-plugin-camera",
-      "clobbers": [
-        "Camera"
-      ]
-    },
-    {
-      "id": "cordova-plugin-camera.CameraPopoverOptions",
-      "file": "plugins/cordova-plugin-camera/www/CameraPopoverOptions.js",
-      "pluginId": "cordova-plugin-camera",
-      "clobbers": [
-        "CameraPopoverOptions"
-      ]
-    },
-    {
-      "id": "cordova-plugin-camera.camera",
-      "file": "plugins/cordova-plugin-camera/www/Camera.js",
-      "pluginId": "cordova-plugin-camera",
-      "clobbers": [
-        "navigator.camera"
-      ]
-    },
-    {
-      "id": "cordova-plugin-camera.CameraPopoverHandle",
-      "file": "plugins/cordova-plugin-camera/www/CameraPopoverHandle.js",
-      "pluginId": "cordova-plugin-camera",
-      "clobbers": [
-        "CameraPopoverHandle"
       ]
     },
     {
@@ -62,6 +22,52 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "pluginId": "cordova-plugin-device",
       "clobbers": [
         "device"
+      ]
+    },
+    {
+      "id": "cordova-plugin-firebasex.FirebasePlugin",
+      "file": "plugins/cordova-plugin-firebasex/www/firebase.js",
+      "pluginId": "cordova-plugin-firebasex",
+      "clobbers": [
+        "FirebasePlugin"
+      ]
+    },
+    {
+      "id": "cordova-plugin-geolocation.geolocation",
+      "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
+      "pluginId": "cordova-plugin-geolocation",
+      "clobbers": [
+        "navigator.geolocation"
+      ]
+    },
+    {
+      "id": "cordova-plugin-geolocation.PositionError",
+      "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+      "pluginId": "cordova-plugin-geolocation",
+      "runs": true
+    },
+    {
+      "id": "cordova-plugin-inappbrowser.inappbrowser",
+      "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+      "pluginId": "cordova-plugin-inappbrowser",
+      "clobbers": [
+        "cordova.InAppBrowser.open"
+      ]
+    },
+    {
+      "id": "cordova-plugin-splashscreen.SplashScreen",
+      "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+      "pluginId": "cordova-plugin-splashscreen",
+      "clobbers": [
+        "navigator.splashscreen"
+      ]
+    },
+    {
+      "id": "phonegap-plugin-barcodescanner-android12.BarcodeScanner",
+      "file": "plugins/phonegap-plugin-barcodescanner-android12/www/barcodescanner.js",
+      "pluginId": "phonegap-plugin-barcodescanner-android12",
+      "clobbers": [
+        "cordova.plugins.barcodeScanner"
       ]
     },
     {
@@ -262,33 +268,43 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "cordova-plugin-firebasex.FirebasePlugin",
-      "file": "plugins/cordova-plugin-firebasex/www/firebase.js",
-      "pluginId": "cordova-plugin-firebasex",
-      "clobbers": [
-        "FirebasePlugin"
+      "id": "com.lampa.startapp.startapp",
+      "file": "plugins/com.lampa.startapp/www/startApp.js",
+      "pluginId": "com.lampa.startapp",
+      "merges": [
+        "startApp"
       ]
     },
     {
-      "id": "cordova-plugin-geolocation.geolocation",
-      "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
-      "pluginId": "cordova-plugin-geolocation",
+      "id": "cordova-plugin-camera.Camera",
+      "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
+      "pluginId": "cordova-plugin-camera",
       "clobbers": [
-        "navigator.geolocation"
+        "Camera"
       ]
     },
     {
-      "id": "cordova-plugin-geolocation.PositionError",
-      "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
-      "pluginId": "cordova-plugin-geolocation",
-      "runs": true
+      "id": "cordova-plugin-camera.CameraPopoverOptions",
+      "file": "plugins/cordova-plugin-camera/www/CameraPopoverOptions.js",
+      "pluginId": "cordova-plugin-camera",
+      "clobbers": [
+        "CameraPopoverOptions"
+      ]
     },
     {
-      "id": "cordova-plugin-inappbrowser.inappbrowser",
-      "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
-      "pluginId": "cordova-plugin-inappbrowser",
+      "id": "cordova-plugin-camera.camera",
+      "file": "plugins/cordova-plugin-camera/www/Camera.js",
+      "pluginId": "cordova-plugin-camera",
       "clobbers": [
-        "cordova.InAppBrowser.open"
+        "navigator.camera"
+      ]
+    },
+    {
+      "id": "cordova-plugin-camera.CameraPopoverHandle",
+      "file": "plugins/cordova-plugin-camera/www/CameraPopoverHandle.js",
+      "pluginId": "cordova-plugin-camera",
+      "clobbers": [
+        "CameraPopoverHandle"
       ]
     },
     {
@@ -306,42 +322,27 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "window.Media"
       ]
-    },
-    {
-      "id": "cordova-plugin-splashscreen.SplashScreen",
-      "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
-      "pluginId": "cordova-plugin-splashscreen",
-      "clobbers": [
-        "navigator.splashscreen"
-      ]
-    },
-    {
-      "id": "phonegap-plugin-barcodescanner-android12.BarcodeScanner",
-      "file": "plugins/phonegap-plugin-barcodescanner-android12/www/barcodescanner.js",
-      "pluginId": "phonegap-plugin-barcodescanner-android12",
-      "clobbers": [
-        "cordova.plugins.barcodeScanner"
-      ]
     }
   ];
   module.exports.metadata = {
-    "com.lampa.startapp": "6.1.6",
     "cordova-custom-config": "5.1.1",
+    "cordova-plugin-androidx-adapter": "1.1.3",
     "cordova-plugin-call-number": "1.0.1",
-    "cordova-plugin-camera": "7.0.0",
     "cordova-plugin-customfcmreceiver": "1.0.0",
     "cordova-plugin-device": "2.1.0",
     "cordova-plugin-enable-multidex": "0.2.0",
-    "cordova-plugin-file": "8.0.0",
-    "cordova-plugin-file-transfer": "2.0.0",
     "cordova-plugin-firebasex": "16.1.0",
     "cordova-plugin-geolocation": "4.1.0",
     "cordova-plugin-inappbrowser": "5.0.0",
-    "cordova-plugin-ios-camera-permissions": "1.2.0",
-    "cordova-plugin-media": "7.0.0",
     "cordova-plugin-splashscreen": "5.0.4",
-    "cordova-plugin-wkwebview-file-xhr": "3.1.0",
     "cordova-support-android-plugin": "2.0.4",
-    "phonegap-plugin-barcodescanner-android12": "8.1.2"
+    "phonegap-plugin-barcodescanner-android12": "8.1.2",
+    "cordova-plugin-ios-camera-permissions": "1.2.0",
+    "cordova-plugin-wkwebview-file-xhr": "3.1.0",
+    "cordova-plugin-file": "8.0.0",
+    "cordova-plugin-file-transfer": "2.0.0",
+    "com.lampa.startapp": "6.1.6",
+    "cordova-plugin-camera": "7.0.0",
+    "cordova-plugin-media": "7.0.0"
   };
 });

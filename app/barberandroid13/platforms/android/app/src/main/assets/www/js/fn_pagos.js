@@ -1481,7 +1481,7 @@ function CargarOpcionesTipopago(idtipopago) {
           $(".btnnuevatarjeta").css('display','block');
           $(".btnnuevatarjeta").attr('onclick','NuevaTarjetaStripe()');
 
-            HabilitarBotonPagar();
+           // HabilitarBotonPagar();
            
         }
 
@@ -2790,11 +2790,12 @@ function HabilitarBotonPagar() {
       $(".opccard").each(function( index ) {
         if ($(this).is(':checked')) {
         seleccion=1; 
+
         }
       });
-      $$("#btnpagarresumen").prop('disabled',true);
+      $$("#btnpagarnota").css('display','none');
       if (seleccion==1) {
-          $$("#btnpagarresumen").prop('disabled',false);
+          $$("#btnpagarnota").css('display','block');
       }
 }
 

@@ -63,6 +63,8 @@ function ColocarMapa() {
         lat:parseFloat(latitud),
         lng:parseFloat(longitud)
       };
+      app.preloader.show();
+
       var mapOptions = {
               // How zoomed in you want the map to start at (always required)
               zoom: 14,
@@ -96,7 +98,7 @@ function ColocarMapa() {
       fontWeight: "bold"
     }*/
   });
-
+app.preloader.hide();
 
              // geocoder = new google.maps.Geocoder();
 

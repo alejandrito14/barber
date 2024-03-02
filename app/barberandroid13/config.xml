@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.inversa.app" version="1.0.34" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.inversa.app" version="1.0.35" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
 
-    <name>Don Porfirio</name>
+    <name>Don Porfirio Barber Shop</name>
     <description>
         Aplicacion de negocios
     </description>
@@ -56,7 +56,7 @@
         <preference name="android-minSdkVersion" value="22" />
         <preference name="AndroidInsecureFileModeEnabled" value="true" />
         <preference name="loadUrlTimeoutValue" value="700000" />
-        
+        <preference name="android-targetSdkVersion" value="33" />
 
 
   <!--   <edit-config file="app/src/main/AndroidManifest.xml" target="/manifest/application/activity" mode="merge">

@@ -1,13 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.inversa.app" version="1.0.34" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <feature name="startApp">
-        <param name="android-package" value="com.lampa.startapp.startApp" />
-    </feature>
+<widget id="com.inversa.app" version="1.0.35" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <feature name="CallNumber">
         <param name="android-package" value="mx.ferreyra.callnumber.CFCallNumber" />
-    </feature>
-    <feature name="Camera">
-        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
     </feature>
     <feature name="CustomFCMReceiverPlugin">
         <param name="android-package" value="cordova.plugin.customfcmreceiver.CustomFCMReceiverPlugin" />
@@ -15,14 +9,6 @@
     </feature>
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
-    </feature>
-    <feature name="File">
-        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
-        <param name="onload" value="true" />
-    </feature>
-    <allow-navigation href="cdvfile:*" />
-    <feature name="FileTransfer">
-        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
     </feature>
     <feature name="FirebasePlugin">
         <param name="android-package" value="org.apache.cordova.firebase.FirebasePlugin" />
@@ -34,9 +20,6 @@
     <feature name="InAppBrowser">
         <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
-    <feature name="Media">
-        <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
-    </feature>
     <feature name="SplashScreen">
         <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
         <param name="onload" value="true" />
@@ -44,7 +27,24 @@
     <feature name="BarcodeScanner">
         <param name="android-package" value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
     </feature>
-    <name>Don Porfirio</name>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <allow-navigation href="cdvfile:*" />
+    <feature name="FileTransfer">
+        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
+    </feature>
+    <feature name="startApp">
+        <param name="android-package" value="com.lampa.startapp.startApp" />
+    </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="Media">
+        <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
+    </feature>
+    <name>Don Porfirio Barber Shop</name>
     <description>
         Aplicacion de negocios
     </description>

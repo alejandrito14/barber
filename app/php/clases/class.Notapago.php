@@ -554,6 +554,15 @@ class Notapago
 		$resp=$this->db->consulta($sql);
 	}
 
+	public function ActualizarNotacancelada()
+	{
+		$sql="UPDATE notapago SET 
+			  estatus = 2
+			  WHERE idnotapago='$this->idnotapago'";
+			 
+		$resp=$this->db->consulta($sql);
+	}
+
 
 }
  ?>

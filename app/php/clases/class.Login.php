@@ -62,7 +62,7 @@ class Login
 	public function validar_celular()
 	   {
 	   	$sql = "SELECT * FROM usuarios us WHERE us.celular = '$this->usuario' AND us.clave = '$this->password'   AND estatus=1"; 
-	
+		
 		$result = $this->db->consulta($sql);
 		return $result;
 	   }

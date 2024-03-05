@@ -18,7 +18,11 @@ class WhatsapMensaje
 
 	public function EnviarMensaje()
 	{
-		
+	/*	curl -i -X POST \
+  https://graph.facebook.com/v18.0/210109905527925/messages \
+  -H 'Authorization: Bearer EAAFJOpHSczABOZBgP0LJHOrlj84ZBvuP11f0UCDHaSm6McADjuHEJTz88bxSNJfi2GzsRcYlmA3FOWG4v0jIlJpdwqZCZAg5KMu2GL5JE2PCoZC6amKZCdTtGApCmT2ZCjZBOgo8H74uwZADoZAhiv3d2JivcPZCmujlJcr6venFtlsebWe3n867aR0wXl4yVBZByzIymoley6HPGmQUL34IBwZDZD' \
+  -H 'Content-Type: application/json' \
+  -d '{ "messaging_product": "whatsapp", "to": "529612170864", "type": "template", "template": { "name": "hello_world", "language": { "code": "en_US" } } }'*/
 
 		$curl = curl_init();
 

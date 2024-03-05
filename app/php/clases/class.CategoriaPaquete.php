@@ -100,7 +100,7 @@ class CategoriaPaquete
 			SELECT *
 			FROM categoriapaquete WHERE idcategoriapaquete='$this->idcategoriapaquete'
 		";
-
+		
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 

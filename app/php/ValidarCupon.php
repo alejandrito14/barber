@@ -51,7 +51,7 @@ try
 	
 			$fechainicial=date('Y-m-d',strtotime($cupones[0]->fechainicial));
 			$fechafinal=date('Y-m-d',strtotime($cupones[0]->fechafinal));
-		
+			
 		if ($fechaactual>=$fechainicial && $fechaactual<=$fechafinal) {
 
 				$horainicial=date('H:i',strtotime($cupones[0]->horainicial));

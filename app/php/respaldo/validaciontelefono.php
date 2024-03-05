@@ -13,6 +13,8 @@ require_once("clases/class.phpmailer.php");
 require_once("clases/emails/class.Emails.php");*/
 require_once "clases/class.AltiriaSMS.php";
 
+require_once "clases/class.WhatsapMensaje.php";
+
 try
 {
 
@@ -20,7 +22,8 @@ try
     $db = new MySQL();
     $lo = new Usuarios();
     $f  = new Funciones();
-
+    $mensaje=new WhatsapMensaje();
+    $mensaje->db=$db;
     //Enviamos la conexion a la clase
     $lo->db = $db;
 
@@ -31,6 +34,13 @@ try
     $uuid    = $_POST['uuid'];
     $inputleido=$_POST['inputleido'];
     $idusuarios=$_POST['iduser'];
+   
+
+    $eleccionusuario==1;
+
+    if(isset($_POST['eleccionusuario'])) {
+        $eleccionusuario=$_POST['eleccionusuario'];
+        }
     //$lo->usuario=$email;
     //$lo->idusuarios=$idusuarios;
     $lo->celular = $celular;
@@ -80,7 +90,7 @@ try
 
     $resp = $db->consulta($sql);
 
-    if ($completado == 0) {
+    if ($completado == 0 && $eleccionusuario==1) {
         $sMessage = "¡Hola! Tu code " . $f->nombreapp . " es: " . $lo->codigosms;
         $sms      = new AltiriaSMS();
         $sms->setLogin('jozama@hotmail.com');
@@ -89,9 +99,23 @@ try
         $response     = $sms->sendSMS($sDestination, $sMessage);
 
     }
+    $resp="";
+     if ($completado == 0 && $eleccionusuario==2) {
+
+    
+    $mensaje->Version='v17.0';
+    $mensaje->phoneid='162367660284534';
+    $mensaje->tophone='52'.$lo->celular;
+  
+    $mensaje->accestoken='EAAPR4S8LbikBO5OooXf3Uz8fFxvpf9r4zSKZBz5otYZAgNtYBwt4flObUw5YT0ZCXKDXO3BmUV3NfOWFZBsCErVHEor4ZBeoRDv5HcC0lMDujBFGYj9DXLmoYw1OzcbfUaMDjhXUt4p05I6ZArul74mHTNpXeDhg67YoCORxTlXjbLcPBP9ZCYs34cYZA7Jd';
+    $mensaje->texto=$lo->codigosms;
+    $resp=$mensaje->EnviarMensaje();
+
+
+     }
 
     $respuesta['respuesta'] = $arra;
-
+    $respuesta['reswhatsap']=$resp;
     //Retornamos en formato JSON
     $myJSON = json_encode($respuesta);
     echo $myJSON;

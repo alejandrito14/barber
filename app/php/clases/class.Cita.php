@@ -369,7 +369,8 @@ class Cita
 			CONCAT(esp.nombre,' ',esp.paterno) AS nombreespecialista,
 			(SELECT paquetes.concortesia from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as concortesia,
 			(SELECT paquetes.servicio from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as servicio,
-				paquetecortesia.nombrepaquete as nombrepaquetecortesia,
+			paquetecortesia.nombrepaquete as nombrepaquetecortesia,
+			
 				(SELECT notapago.tpv from notapago_descripcion
 				LEFT JOIN notapago ON notapago_descripcion.idnotapago=notapago.idnotapago
 				WHERE notapago_descripcion.idcita=citas.idcita LIMIT 1
@@ -377,8 +378,8 @@ class Cita
 
 
 		FROM citas
-		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal
-			INNER JOIN especialista ON citas.idespecialista=especialista.idespecialista
+		left JOIN sucursal ON sucursal.idsucursal=citas.idsucursal
+			left JOIN especialista ON citas.idespecialista=especialista.idespecialista
 		left join usuarios ON usuarios.idusuarios=citas.idusuarios
 		left join usuarios as esp on esp.idusuarios=especialista.idusuarios
 
@@ -822,6 +823,7 @@ class Cita
 			sucursal.imagen,
 			citas.idusuarios,
 			citas.idcita,
+			citas.idpaquete,
 			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreespecialista
 		FROM citas INNER JOIN  especialista ON especialista.idespecialista=citas.idespecialista
 		INNER JOIN usuarios ON usuarios.idusuarios=especialista.idusuarios
@@ -1143,9 +1145,10 @@ class Cita
 	{
 		
 		$sql="
-		SELECT c.*,citas.idsucursal FROM notapago_descripcion as c
+		SELECT c.*,citas.idsucursal,n.estatus as estatusnota,n.total as totalnota,n.comisiontotal FROM notapago_descripcion as c
 		LEFT JOIN citas on c.idcita=citas.idcita
-		 WHERE c.idcita='$this->idcita'
+		LEFT JOIN notapago as n on n.idnotapago=c.idnotapago WHERE
+		  c.idcita='$this->idcita'
 
 		";
 		
@@ -1990,6 +1993,17 @@ public function ObtenerCitasProcesoEspe()
 		
 		return $array;
 
+	}
+
+	public function GuardarCortesiaCita()
+	{
+		$sql = "UPDATE citas 
+        SET idcortesia = '$this->idcortesia'
+        
+        WHERE idcita = '$this->idcita'
+        ";
+        echo $sql;die();
+        $this->db->consulta($sql);
 	}
 
 }

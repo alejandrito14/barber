@@ -1299,8 +1299,8 @@ class Paquetes {
     public function ObtenerCortesias()
     {
     	$sql="SELECT *FROM cortesia
-    	left JOIN paquetes ON paquetes.idpaquete=cortesia.idpaquetecortesia
-    	 WHERE cortesia.idpaquete='$this->idpaquete' ";
+    	left JOIN paquetes ON paquetes.idpaquete=cortesia.idpaquetecortesia 
+    	 WHERE cortesia.idpaquete='$this->idpaquete' AND paquetes.estatus=1";
     	
         $resp = $this->db->consulta($sql);
         $cont = $this->db->num_rows($resp);

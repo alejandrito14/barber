@@ -86,11 +86,14 @@ try
 	if ($eleccionusuario==2) {
 
     
-    $mensaje->Version='v17.0';
-    $mensaje->phoneid='162367660284534';
+    $mensaje->Version='v18.0';
+    $mensaje->phoneid='210109905527925';
     $mensaje->tophone='52'.$lo->celular;
   
-    $mensaje->accestoken='EAAPR4S8LbikBO5OooXf3Uz8fFxvpf9r4zSKZBz5otYZAgNtYBwt4flObUw5YT0ZCXKDXO3BmUV3NfOWFZBsCErVHEor4ZBeoRDv5HcC0lMDujBFGYj9DXLmoYw1OzcbfUaMDjhXUt4p05I6ZArul74mHTNpXeDhg67YoCORxTlXjbLcPBP9ZCYs34cYZA7Jd';
+    //$mensaje->accestoken='EAAPR4S8LbikBO5OooXf3Uz8fFxvpf9r4zSKZBz5otYZAgNtYBwt4flObUw5YT0ZCXKDXO3BmUV3NfOWFZBsCErVHEor4ZBeoRDv5HcC0lMDujBFGYj9DXLmoYw1OzcbfUaMDjhXUt4p05I6ZArul74mHTNpXeDhg67YoCORxTlXjbLcPBP9ZCYs34cYZA7Jd';
+
+   $mensaje->accestoken='EAAFJOpHSczABO8IJZC2ZBdTfsfoBQ1A8Krce3IemwECQGlySltZAjL4ZC8USCh1yg1aNEKoSLOMvZAZCGe2WeMZCXiXfJU5YgVdRodJo88Sm2gY5tjdc1pDNfSeWZCbJ5ujPHq7SzGby8I6kn4WDXJl1CNsAnk4k3ans3nlmFOtHxZBhxTjYJ0coebdGdFhdZAexj5';
+
     $mensaje->texto=$obtenertoken;
     $resp=$mensaje->EnviarMensaje();
 
@@ -125,7 +128,7 @@ try
                }
 		
 
-		$arra = array('existe' => $validar,'idusuario'=>$lo->idusuarios,'nombre'=>mb_strtoupper($lo->nombre),'paterno'=>mb_strtoupper($lo->paterno),'materno'=>mb_strtoupper($lo->materno),'email'=>$lo->usuario,'celular'=>$lo->celular,'email'=>$lo->email,'usuario'=>$lo->usuario);
+		$arra = array('existe' => $validar,'idusuario'=>$lo->idusuarios,'nombre'=>mb_strtoupper($lo->nombre),'paterno'=>mb_strtoupper($lo->paterno),'materno'=>mb_strtoupper($lo->materno),'email'=>$lo->usuario,'celular'=>$lo->celular,'email'=>$lo->email,'usuario'=>$lo->usuario,'whap'=>$resp);
 
 
 

@@ -234,6 +234,7 @@ class Cupones
 	public function ObtenerUsoCliente($idcliente)
 	{
 		$query = "SELECT idcupon,numerodeveces FROM usocuponcliente where idcupon = '".$this->idcupon."' AND idcliente='$idcliente'";
+		
 		$resp = $this->db->consulta($query);
 		$row=$this->db->fetch_assoc($resp);
 		$ncups = $this->db->num_rows($resp);
@@ -480,7 +481,7 @@ class Cupones
 			FROM 
 			cupones WHERE cupones.estatus=1 AND cupones.automatico=1";
 			
-		
+			
 			$resp = $this->db->consulta($query);
 			$cont = $this->db->num_rows($resp);
 

@@ -528,6 +528,7 @@ function LoadSetupIntent(){
         async: false,
         success: function (datos) {
             var setupIntent = datos;
+            console.log(setupIntent);
             var button = document.getElementById("submit-card");
              EstablecerNombreCliente();
                app.dialog.close();
@@ -550,14 +551,28 @@ function LoadSetupIntent(){
                 })
                 .then(function(result) {
                   if (result.error) {
+                   // console.log(result.error);
                     //changeLoadingState(false);
                     var displayError = document.getElementById("card-errors");
                     if(result.error.message.includes("payment_method_data[billing_details][name]")){
                       displayError.textContent = "Ingrese el nombre del titular de su tarjeta";
+                      
                     }
                     else{
                       displayError.textContent = result.error.message;
                     }
+                    dynamicSheet1.close();
+                    dynamicSheet2.close();
+
+                    if (result.error.message!='') {
+                     
+                      AbrirModalAviso(result.error.message);
+
+
+                    }
+
+                    
+
                   } else {
 
                     dynamicSheet1.close();

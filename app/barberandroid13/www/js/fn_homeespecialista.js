@@ -13,10 +13,10 @@ function CargarDatosEspecialista() {
      ObtenerTableroAnuncios();
      Obtenerpublicidad(1);
 	// ObtenerTableroCitasEspecialista();
-	 ObtenerTotalesCitasEspecialista();
-	 ObtenerFechaActual();
+	   ObtenerTotalesCitasEspecialista();
+	   ObtenerFechaActual();
 	 
-	 ObtenerDetalleEmpresa();
+	   ObtenerDetalleEmpresa();
 
 	 $(".btnserviciosagendados").attr('onclick','GoToPage("calendarioespecialista")');
 

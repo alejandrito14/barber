@@ -145,7 +145,7 @@ $(document).ready(function() {
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.35';
+var version='1.0.36';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;

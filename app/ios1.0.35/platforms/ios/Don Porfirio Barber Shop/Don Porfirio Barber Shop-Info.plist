@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.35</string>
+	<string>1.0.36</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0.35</string>
+	<string>1.0.36</string>
 	<key>FirebaseMessagingAutoInitEnabled</key>
 	<true/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -53,9 +53,13 @@
 			<dict/>
 			<key>*.stripe.network</key>
 			<dict/>
+			<key>b.stripecdn.com</key>
+			<dict/>
 			<key>js.stripe.com</key>
 			<dict/>
 			<key>maps.googleapis.com</key>
+			<dict/>
+			<key>newassets.hcaptcha.com</key>
 			<dict/>
 		</dict>
 	</dict>
@@ -70,11 +74,11 @@
 	<key>NSContactsUsageDescription</key>
 	<string>This app requires contacts access to function properly.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string> Don Porfirio needs access to your approximate location, to choose the zip code</string>
+	<string>Don Porfirio needs access to your approximate location, to choose the zip code</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string> Don Porfirio needs access to your approximate location, to choose the zip code</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string> Don Porfirio needs access to your approximate location, to choose the zip code</string>
+	<string>Don Porfirio needs access to your approximate location, to choose the zip code</string>
 	<key>NSMainNibFile</key>
 	<string></string>
 	<key>NSMainNibFile~ipad</key>
@@ -84,8 +88,7 @@
 	<key>NSMotionUsageDescription</key>
 	<string>This app requires motion detection access to function properly.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Don Porfirio needs access to the phone's files to add a pictures and photo user profile
-          </string>
+	<string>Don Porfirio needs access to the phone's files to add a pictures and photo user profile</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Don Porfirio needs access to the phone's files to add a pictures and photo user profile
           </string>

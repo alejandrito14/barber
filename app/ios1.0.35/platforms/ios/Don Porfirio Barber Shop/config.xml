@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.inversa.app" version="1.0.35" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.inversa.app" version="1.0.36" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <feature name="CDVWebViewEngine">
         <param name="ios-package" value="CDVWebViewEngine" />
     </feature>
@@ -126,6 +126,8 @@
     <access origin="*" />
     <allow-navigation href="https://*.stripe.network/*" />
     <allow-navigation href="https://*.stripe.com/*" />
+    <allow-navigation href="https://b.stripecdn.com/*" />
+    <allow-navigation href="https://newassets.hcaptcha.com/*" />
     <allow-navigation href="https://js.stripe.com/" />
     <allow-navigation href="https://maps.googleapis.com/" />
     <allow-navigation href="https://*.issoftware1.com.mx/*" />
@@ -161,7 +163,7 @@
         </string>
     </config-file>
     <config-file parent="NSLocationAlwaysUsageDescription" platform="ios" target="*-Info.plist">
-        <string> Grupo Inversa access to your approximate location, to choose the zip code</string>
+        <string> Don Porfirio needs access to your approximate location, to choose the zip code</string>
     </config-file>
     <preference name="AllowInlineMediaPlayback" value="false" />
     <preference name="BackupWebStorage" value="cloud" />

@@ -1364,7 +1364,7 @@ function CargarOpcionesTipopago(idtipopago) {
    var preloader = document.querySelector('.preloader');
 
     preloader.style.display = 'block';
-
+ 
   if (idtipopago>0) {
   
       $.ajax({

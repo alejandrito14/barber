@@ -72,7 +72,8 @@ function CargarCalendario5() {
 
        }
      }
-
+     var calendarContainer = document.querySelector('#demo-calendar-inline-container');
+if (!calendarContainer.innerHTML.trim()) {
 		 var monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
       calendarInline = app.calendar.create({
         containerEl: '#demo-calendar-inline-container',
@@ -147,7 +148,7 @@ function CargarCalendario5() {
                  $(".calendar-day-event").css('display','none');
                  $(".calendar-day-weekend .calendar-day-number").addClass('nodisponible');
 
-
+               }
 
        },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;

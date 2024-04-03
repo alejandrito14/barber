@@ -13,10 +13,10 @@ function CargarDatosEspecialista() {
      ObtenerTableroAnuncios();
      Obtenerpublicidad(1);
 	// ObtenerTableroCitasEspecialista();
-	 ObtenerTotalesCitasEspecialista();
-	 ObtenerFechaActual();
+	   ObtenerTotalesCitasEspecialista();
+	   ObtenerFechaActual();
 	 
-	 ObtenerDetalleEmpresa();
+	   ObtenerDetalleEmpresa();
 
 	 $(".btnserviciosagendados").attr('onclick','GoToPage("calendarioespecialista")');
 
@@ -30,8 +30,8 @@ function CargarDatosEspecialista() {
     myStopFunction(identificadorDeTemporizador);
   myStopFunction(intervalocitas);
 
-
-	intervalocitas=setInterval("ObtenerTotalesCitasEspecialista()",2000);	      
+  
+	intervalocitas=setInterval("ObtenerTotalesCitasEspecialista();ObtenerhorariosSucursalUsuario();",2000);	      
 	//intervalocitas=setInterval("FiltrarTableroCitas()",2000);
 }
 
@@ -1343,9 +1343,14 @@ function CargarCalendarioespecialista() {
 
        }
 
-        if (citas.length>0) {
+        /*if (citas.length>0) {
        
        	 PintarTableroCitasEspecialista(citas);
+       }*/
+
+       if (citas.length>0) {
+        ObtenerhorariosSucursalUsuario2('');
+
        }
 
      // $(".tablerocitas").html('');
@@ -1370,12 +1375,12 @@ function CargarCalendarioespecialista() {
   */
 
 
-  	  var citasagendadas=resp.totalcitasdia;
+  	   var citasagendadas=resp.totalcitasdia;
        var totalcitasrealizadas=resp.totalcitasrealizadas;
        var totalnorealizados=resp.totalnorealizados;
        var totalpendientes=resp.totalpendientes;
        $("#totalservicios2").text(citasagendadas);
-       $("#totalserviciosrealizados2").text(totalcitasrealizadas);
+       /*$("#totalserviciosrealizados2").text(totalcitasrealizadas);
        $("#totalserviciospendientes2").text(totalpendientes);
        $("#totalserviciosnorealizados2").text(totalnorealizados);
       
@@ -1384,7 +1389,7 @@ function CargarCalendarioespecialista() {
         
        $("#totalserviciosproceso2").text(totalproceso);
        $("#totalservicioscancelados2").text(totalcancelados);
-
+*/
 
 	 var monthNames = ['Enero', 'Febrero', 'Marzo', 'Abrirl', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
       calendarInline = app.calendar.create({
@@ -1443,11 +1448,12 @@ function CargarCalendarioespecialista() {
 
           fecha1=convertirfecha.getFullYear()+'-'+ mes+'-'+dia;
           localStorage.setItem('fechaconsulta',fecha1);
+        
           ConsultarFechaCitaEspe(fecha1);
           // ConsultarFechaCita(fecha1);
           // $("#v_especialista").html('');
            
-          
+          ObtenerhorariosSucursalUsuario2(fecha1);
       
           },
           monthYearChangeStart: function (c) {
@@ -1489,10 +1495,10 @@ function ConsultarFechaCitaEspe(fecha) {
         $(".divfechaactual").html(fechafiltro);
 
        $(".tablerocitas").html(' ');
-       if (citas.length>0) {
+       /*if (citas.length>0) {
        
         PintarTableroCitasEspecialista(citas);
-       }
+       }*/
 
 
        var citasagendadas=resp.totalcitasdia;
@@ -1539,7 +1545,7 @@ function ObtenerTotalesCitasEspecialista() {
         var totalserviciospendientes=resp.totalpendientes;
         var totalserviciosnorealizados=resp.totalnorealizados;
         $("#totalservicios").text(totalcitasdia);
-        $("#totalserviciosrealizados").text(totalrealizadas);
+       /* $("#totalserviciosrealizados").text(totalrealizadas);
         $("#totalproductos").text(totalproductosdia);
         $("#totalserviciospendientes").text(totalserviciospendientes);
         $("#totalserviciosnorealizados").text(totalserviciosnorealizados);
@@ -1549,7 +1555,7 @@ function ObtenerTotalesCitasEspecialista() {
 
        $("#totalserviciosproceso").text(totalproceso);
        $("#totalservicioscancelados").text(totalcancelados);
-
+*/
          },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;
             if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
@@ -2351,3 +2357,222 @@ function GuardarCortesiaCita(idcita,idcortesia) {
     });
 }
 
+function ObtenerhorariosSucursalUsuario() {
+  
+  var idusuarios=localStorage.getItem('id_user');
+  var datos="idusuarios="+idusuarios;
+  var pagina = "ObtenerHorariosSucursalUsuario.php";
+  $.ajax({ 
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+      
+      var respuesta=resp.zonas[0];
+      console.log(respuesta.intervalos);
+      PintarHorariosEspecialista(respuesta.intervalos,'divhorarios');
+
+
+      //resolve(respuesta);
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+    });
+}
+
+function PintarHorariosEspecialista(respuesta,divelemento) {
+    var html="";
+   $("#"+divelemento).html("");
+  if (respuesta.length>0) {
+var idcita=0;
+var pxintervalo=0;
+    for (var i = 0; i <respuesta.length; i++) {
+    var titulo="";
+
+      html+=`
+
+      <div class="row">
+
+      <div class="col-50" style="align-items: center;
+    /* width: 100px; */
+    height: 100px;
+    justify-content: center;
+    display: flex;border-top: 1px solid #dadce8;font-weight:bold;color:white;border-bottom: 1px solid #eaebf1;
+    ">`+respuesta[i].horainicialntervalo+`</div>
+
+
+      `;
+
+
+        var color="";
+                  var colorfondo="background:white;color:#eaebf1;";
+                  var borderradiustop="border-top: 1px solid #dadce8;";
+          var  borderradiusbootom="border-bottom: 1px solid #dadce8;";
+                  var servicioac="";
+                  marginbottom="margin-bottom: 1px;border-bottom: 1px solid #dadce8;";
+                  margintop="margin-top: 1px;border-top: 1px solid #dadce8;";
+                  alineacion="";
+                  var funcion="";
+
+      if (respuesta[i].disponible==0) {
+
+
+      if (respuesta[i].servicio.length>0) {
+        var servicio=respuesta[i].servicio;
+         pagado=servicio[0].pagado;
+        tpv=servicio[0].tpv;
+                  if (pagado==1) {
+
+                      icono=`<span class="" style="font-size:10px;margin-top:2px;background:#59c158;padding: 2px;border-radius: 5px;">Pagado</span>`;
+                        
+                      }else{
+                      icono=`<span class="" style="font-size:10px;margin-top:2px;background:red;padding: 2px;border-radius: 5px;">No pagado</span>`;
+
+
+                      }
+                  funcion="AbrirModalCitaEspecialista("+servicio[0].idcita+")";
+                  var app="";
+                  if (tpv==1) {
+                    color="black";
+                    colorfondo="background:black;";
+                    letra="color:white";
+                    app="";
+                  }else{
+
+
+                    color="black";
+                    colorfondo="background:black;";
+                    letra="color:white";
+                    
+                    app=`<span style="color: white;display: flex;justify-content: center;margin-top: 2px;
+                      background: #c7aa6a;padding: 2px;border-radius: 5px;width: 30px;float: right;margin-right: 2px;">app</span>`;
+                  }
+
+          var borderradiustop="border-top: 1px solid #dadce8;";
+
+        var borderradiusbootom="border-bottom: 1px solid #dadce8; ";
+
+        var servicio=respuesta[i].servicio;
+        var nombrepaquete=servicio[0].nombrepaquete;
+        idcita1 =respuesta[i].servicio[0].idcita;
+                  alineacion="align-items: center;";
+        nombrecliente=servicio[0].nombrecliente;
+                      servicioac=servicio[0].idcita;
+                      intervalotiempo=servicio[0].intervaloservicio;
+                     
+            if (idcita!=idcita1) {
+                titulo+=`<div style="text-align: center;`+letra+`;">`;
+                          titulo+=`<span style="margin-top:10px;"></span>`+app;
+                          titulo+=`<br><span style="width:100%;font-size:14px;font-weight:bold;justify-content: center;display: flex;">`+nombrecliente+`</span> `;
+                          titulo+=`<span>`+servicio[0].nombrepaquete+`(`+intervalotiempo+`min.)</span>`;
+                          servicioante=servicio[0].idcita;
+                          titulo+=`<br><span style="width:100%;"></span> `+icono;
+        
+                          titulo+=`</div>`;
+                idcita=idcita1;
+           }
+           else{
+                        pxintervalo=pxintervalo+1;
+                      
+                      borderradiustop=""; 
+                      borderradiusbootom=" border-bottom: 1px solid #dadce8;";
+                      
+                      }
+
+             
+                      
+
+                  borderradiusbootom="border-bottom: 1px solid "+color+";";
+                  margintop="border-top: 1px solid  "+color+";";
+
+
+        
+
+
+
+        
+         
+
+      }else{
+
+      titulo=`<div style="color:white;display: flex;line-height: 2.4;justify-content: end;"><span class="mdi mdi-close-circle" style="font-size:15px;"></span></div>`;
+                    funcion="";
+         /*html+=`<div class="col-50" style="align-items: center;
+  
+    height: 100px;
+    justify-content: center;
+    display: flex;border-radius: 10px;
+    border: 1px solid white;">
+        
+      </div> `;*/
+
+      }
+
+
+    }else{
+
+        colorfondo="background:white;";
+
+      alineacion="align-items: center;";
+      borderradiustop="border-top: 1px solid #dadce8;";
+      idcita="";
+            borderradiusbootom="border-bottom: 1px solid #dadce8;";
+
+      funcion="";
+
+    }
+     
+
+      html+=`<div style="align-items: center;
+    height: 100px;justify-content: center;font-weight:bold; display: flex;`+borderradiustop+borderradiusbootom+colorfondo+`" class="col-50" onclick="`+funcion+`">
+               `+titulo+`
+               
+
+         </div> `;
+
+      html+=`
+    
+      </div>`
+
+    }
+
+    $("#"+divelemento).html(html);
+  }
+}
+
+function ObtenerhorariosSucursalUsuario2(fechaconsulta) {
+  
+  var idusuarios=localStorage.getItem('id_user');
+ 
+  var datos="idusuarios="+idusuarios+"&fecha="+fechaconsulta;
+ 
+  var pagina = "ObtenerHorariosSucursalUsuario.php";
+  $.ajax({ 
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+      
+      var respuesta=resp.zonas[0];
+      console.log(respuesta.intervalos);
+      PintarHorariosEspecialista(respuesta.intervalos,'divhorarios2');
+
+
+      //resolve(respuesta);
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+    });
+}

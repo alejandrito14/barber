@@ -515,7 +515,7 @@ $$(document).on('page:init', '.page[data-name="homeespecialista"]', function (e)
         $(".panelizquierdo").attr('onclick','toggleMenu()');
         Visualizarmenu();
         CargarMenu();
-      CargarDatosEspecialista();
+        CargarDatosEspecialista();
   var pregunta=localStorage.getItem('pregunta');
          var idusuarios=localStorage.getItem('id_user');
 
@@ -1551,6 +1551,7 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
 
 
 $$(document).on('page:init', '.page[data-name="calendarioespecialista"]', function (e) {
+  myStopFunction(intervalocitas);
 
  CargarCalendarioespecialista();
  $(".regresar").attr('onclick','GoToPage("homeespecialista")');

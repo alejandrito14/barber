@@ -1968,7 +1968,7 @@ function RealizarCargo() {
    var requierefactura=$("#requierefactura").is(':checked')?1:0;
    var idusuariosdatosfiscales=0; 
    var checkConfirm=$("#checkConfirm").is(':checked')?1:0;
-
+   var idsucursal=localStorage.getItem('idsucursal');
 
      $(".opccard").each(function(){
               if($(this).is(':checked')){
@@ -2006,7 +2006,7 @@ function RealizarCargo() {
    var datos='pagos='+localStorage.getItem('pagos')+"&id_user="+iduser+"&constripe="+constripe+"&idtipodepago="+idtipodepago+"&descuentocupon="+descuentocupon+"&codigocupon="+codigocupon+"&sumatotalapagar="+sumatotalapagar+"&comision="+comision+"&comisionmonto="+comisionmonto+"&comisiontotal="+comisiontotal+"&impuestototal="+impuestototal+"&subtotalsincomision="+subtotalsincomision+"&impuesto="+impuesto+"&descuentosmembresia="+JSON.stringify(descuentosmembresia);
       datos+='&confoto='+confoto+"&rutacomprobante="+rutacomprobante+"&comentarioimagenes="+comentarioimagenes;
       datos+='&campomonto='+campomonto+'&montovisual='+montovisual+'&cambiomonto='+cambiomonto;
-      datos+='&comisionpornota='+comisionpornota+"&comisionnota="+comisionnota+"&tipocomisionpornota="+tipocomisionpornota;
+      datos+='&comisionpornota='+comisionpornota+"&comisionnota="+comisionnota+"&tipocomisionpornota="+tipocomisionpornota+"&idsucursal="+idsucursal;
       datos+='&datostarjeta2='+datostarjeta2+"&monedero="+monedero;
       datos+='&datostarjeta='+datostarjeta;
       datos+='&requierefactura='+requierefactura+"&checkConfirm="+checkConfirm;

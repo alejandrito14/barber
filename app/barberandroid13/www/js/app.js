@@ -97,7 +97,7 @@ var intervalocitas=0;
 
 var pictureSource;   // picture source
 var destinationType; 
-var produccion=1;
+var produccion=0;
 const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 localStorage.setItem('zonahoraria',userTimeZone);
@@ -1551,6 +1551,7 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
 
 
 $$(document).on('page:init', '.page[data-name="calendarioespecialista"]', function (e) {
+  myStopFunction(intervalocitas);
 
  CargarCalendarioespecialista();
  $(".regresar").attr('onclick','GoToPage("homeespecialista")');

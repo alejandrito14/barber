@@ -1941,7 +1941,7 @@ function RealizarCargo() {
      var mensaje='';
      var pedido='';
      var informacion='';
-   var pagina = "RealizarPago2.php";
+   var pagina = "RealizarPago3.php";
    var iduser=localStorage.getItem('id_user');
    var constripe=localStorage.getItem('constripe');
    var idtipodepago=localStorage.getItem('idtipodepago');
@@ -3389,7 +3389,7 @@ function Buscarposcion(posicion) {
 
 function LimpiarVariables2(argument) {
  
-                 
+                 localStorage.setItem('idcanje',0);
                   localStorage.setItem('metodopago','');
                   localStorage.setItem('formapago','');
                   localStorage.setItem('usocfdi','');

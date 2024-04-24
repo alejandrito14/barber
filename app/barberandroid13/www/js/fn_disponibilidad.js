@@ -681,7 +681,8 @@ function AgendarCita() {
       GoToPage('carrito');
       CrearModalAviso(html,funcion);
 
-      
+            localStorage.setItem('idcanje',0);
+
       
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;
@@ -1082,8 +1083,9 @@ function AgendarCita2() {
    var idusuario=localStorage.getItem('id_user');
    var idespecialista=localStorage.getItem('idespecialista');
    var costo=localStorage.getItem('precio');
+   var idcanje=localStorage.getItem('idcanje')!='undefined'?localStorage.getItem('idcanje'):0;
    var cantidad=1;
-   var datos="idpaquete="+idpaquete+"&idsucursal="+idsucursal+"&horario="+horario+"&fecha="+fecha+"&idusuario="+idusuario+"&idespecialista="+idespecialista+"&costo="+costo+"&cantidad="+cantidad;
+   var datos="idpaquete="+idpaquete+"&idsucursal="+idsucursal+"&horario="+horario+"&fecha="+fecha+"&idusuario="+idusuario+"&idespecialista="+idespecialista+"&costo="+costo+"&cantidad="+cantidad+"&idcanje="+idcanje;
    var pagina = "GuardarCita.php";
   $.ajax({
     type: 'POST',
@@ -1148,7 +1150,7 @@ var htmlmodal=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:
                           htmlmodal+=`
                           <div class="row" style="    margin-left: 2em; margin-right: 2em;">
                           <div class="col-100">
-                          <div style="color: #c7aa6a;font-size: 30px;text-align: center;" class="cambiarfuente">
+                          <div style="color: #c7aa6a;font-size: 30px;text-align: center;" class="cambiarfuente cambiarfuente2">
                             `+html+`
 
                             </div>
@@ -1187,11 +1189,11 @@ var htmlmodal=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:
         on: {
           open: function (sheet) {
       
-             $(".cambiarfuente").css('display','none');
+             $(".cambiarfuente2").css('display','none');
             if (tipoletra!='') {
               
               $(".cambiarfuente").addClass(tipoletra);
-              $(".cambiarfuente").css('display','block');
+            $(".cambiarfuente2").css('display','block');
 
             }
             
@@ -1204,7 +1206,7 @@ var htmlmodal=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:
         }
       });
 
-       dynamicSheet1.open();
+      // dynamicSheet1.open();
 
 
      // CrearModalAviso(html,funcion);
@@ -1524,11 +1526,11 @@ var htmlmodal=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:
         on: {
           open: function (sheet) {
       
-             $(".cambiarfuente").css('display','none');
+             //$(".cambiarfuente").css('display','none');
             if (tipoletra!='') {
               
               $(".cambiarfuente").addClass(tipoletra);
-              $(".cambiarfuente").css('display','block');
+             // $(".cambiarfuente").css('display','block');
 
             }
             

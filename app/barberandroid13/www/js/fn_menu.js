@@ -43,6 +43,12 @@ function SeleccionMenu(objeto) {
 
   }
 
+
+  if (menu=='litarjetaslealtad') {
+    
+    GoToPage('tarjetalealtad');
+  }
+
   setTimeout(() => {
   objeto.style.color='#333';
 

@@ -496,7 +496,8 @@ function AgendarCita3() {
       GoToPage('carrito');
 
       CrearModalAviso(html,funcion);
-      
+            localStorage.setItem('idcanje',0);
+
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;
             if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 

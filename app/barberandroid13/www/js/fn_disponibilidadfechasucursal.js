@@ -574,6 +574,7 @@ function AgendarCita4() {
       GoToPage('carrito');
 
       CrearModalAviso(html,funcion);
+      localStorage.setItem('idcanje',0);
       
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;

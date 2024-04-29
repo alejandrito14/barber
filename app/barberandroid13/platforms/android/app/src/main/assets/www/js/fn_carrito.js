@@ -2,7 +2,7 @@ function PintarCantidadcarrito() {
 var idusuario=localStorage.getItem('id_user');
 
 var datos="idusuario="+idusuario;
-var pagina="ObtenerCarrito.php";
+var pagina="ObtenerCarrito2.php";
 
  $.ajax({
     type: 'POST',
@@ -34,7 +34,7 @@ function CargarCarrito() {
 var idusuario=localStorage.getItem('id_user');
 
 var datos="idusuario="+idusuario;
-var pagina="ObtenerCarrito.php";
+var pagina="ObtenerCarrito2.php";
 
  $.ajax({
     type: 'POST',
@@ -91,7 +91,7 @@ var pagina="ActualizarValoresCarrito.php";
 }
 
 function PintarCarrito(respuesta) {
-
+  var porcanjear=[];
 	var html="";
       $("#cantidadagregados").text(respuesta.length);
 
@@ -113,6 +113,11 @@ function PintarCarrito(respuesta) {
           imagen=localStorage.getItem('logo');
         }
 
+         if (respuesta[i].idcanje!=null && respuesta[i].idcanje!=0) {
+
+            porcanjear.push(respuesta[i]);
+        }
+
         html+=`
           <li class="item-content cambiarfuente `+estilolista+`" style="    margin-top: 1em;
     margin-right: 1em;
@@ -120,7 +125,7 @@ function PintarCarrito(respuesta) {
     border-bottom: 1px solid;
     margin-bottom: 1em;">
             <div class="row" style="margin-bottom: 10px;">
-              <div class="col-70">
+              <div class="col-80">
                 <div class="icon-text-container">`;
                 if (respuesta[i].servicio==1) {
                   etiqueta="Servicio";
@@ -138,7 +143,14 @@ function PintarCarrito(respuesta) {
                 </div>
                 <div class="icon-text-container" style="margin-top: 10px;">
                 <span class="material-icons-outlined">local_atm</span>
-                  <p style="margin:0;">Costo: <span class="texto">$`+respuesta[i].costototal+`</span>
+                  <p style="margin:0;">Costo: <span class="texto">$`+respuesta[i].costototal+`</span>`;
+                 
+                 if (respuesta[i].idcanje!=null && respuesta[i].idcanje!=0) {
+                  html+=`<span class"" style="background:#C7AA6A;color:white;padding:2px;    margin-left: 10px;
+    border-radius: 8px;">Tarjeta de lealtad</span>`;
+                 }
+                 html+=`
+
                   </p>
                 </div>
                 <div class="icon-text-container" style="margin-top: 10px;">
@@ -234,7 +246,7 @@ function PintarCarrito(respuesta) {
                   
 
               html+=` </div>
-                <div class="col-30">`;
+                <div class="col-20">`;
 
                   if (respuesta[i].precioante!=0) {
                      html+=`
@@ -337,6 +349,24 @@ function PintarCarrito(respuesta) {
 	$(".listadocarrito").html(html);
  // Destruir();
   Inicializar();
+
+    AbrirModalPorcanjear(porcanjear);
+
+}
+function AbrirModalPorcanjear(porcanjear) {
+   var html="";
+
+   if (porcanjear.length>0) {
+   for (var i = 0; i < porcanjear.length; i++) {
+        html+=`
+        <p class="cambiarfuente textoestilo1">`+porcanjear[i].nombrepaquete+`</p>
+
+        `; 
+        }
+
+   var respuesta="Recibe por tu <span style='color:white;'>lealtad</span>"+html;
+   AbrirModalAviso(respuesta);
+    }
 }
 function Destruir() {
   $('.stepper').each(function(index, stepperEl) {
@@ -607,7 +637,7 @@ function VerificarCarrito() {
 
   var idusuario=localStorage.getItem('id_user');
   var datos="idusuario="+idusuario;
-  var pagina="ObtenerCarrito.php";
+  var pagina="ObtenerCarrito2.php";
 
  $.ajax({
     type: 'POST',
@@ -1521,7 +1551,9 @@ function ConsultarMonedero() {
 
 function Agregarmasproducto() {
   if (localStorage.getItem('idsucursal')!=undefined && localStorage.getItem('idsucursal')!=null) {
-      GoToPage('detalleproductoservicios');
+      
+    VerificarSitieneporcanjear2();
+      
       
     }else{
 
@@ -1529,6 +1561,44 @@ function Agregarmasproducto() {
   
     }
 }
+
+
+
+function VerificarSitieneporcanjear2() {
+
+  var idusuario=localStorage.getItem('id_user');
+  var idsucursal=localStorage.getItem('idsucursal');
+  var datos='idusuario='+idusuario+"&idsucursal="+idsucursal;
+    var pagina = "VerificarSitieneporcanjear.php";
+    $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    async:false,
+    data:datos,
+    success: function(resp){
+      
+      if (resp.tarjetalealtad>0) {
+
+        AbrirModalCanjear(resp,'Cancelcanje2()');
+      
+      }else{
+        
+      GoToPage('detalleproductoservicios');
+
+      }
+    
+
+    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+      var error;
+        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+          }
+    });
+}
+
 
 function ObtenerCortesia(idcarrito,idpaquete) {
   var idusuario=localStorage.getItem('id_user');

@@ -540,7 +540,7 @@ function AgendarCita4() {
    var costo=localStorage.getItem('precio');
    var cantidad=1;
    var datos="idpaquete="+idpaquete+"&idsucursal="+idsucursal+"&horario="+horario+"&fecha="+fecha+"&idusuario="+idusuario+"&idespecialista="+idespecialista+"&costo="+costo+"&cantidad="+cantidad;
-   var pagina = "GuardarCita.php";
+   var pagina = "GuardarCita2.php";
   $.ajax({
     type: 'POST',
     dataType: 'json',
@@ -574,6 +574,7 @@ function AgendarCita4() {
       GoToPage('carrito');
 
       CrearModalAviso(html,funcion);
+      localStorage.setItem('idcanje',0);
       
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;

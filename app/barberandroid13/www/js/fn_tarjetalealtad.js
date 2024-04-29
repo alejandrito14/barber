@@ -27,7 +27,7 @@ function ObtenerTarjetasLealtad() {
 
 function PintarTarjetasLealtad(resultado) {
 		var html="";
-
+ 
 	if (resultado.length>0) {
 		for (var i = 0; i <resultado.length; i++) {
 			html+=`
@@ -62,7 +62,8 @@ function PintarTarjetasLealtad(resultado) {
 				 html+=`
 
 				  </div>
-				  <p>`+resultado[i].descripcion+`</p>`;
+				  <p style="margin-right: 1em;
+    margin-left: 1em;">`+resultado[i].descripcion+`</p>`;
 
 				  if (resultado[i].aparecerbtn==1) {
 
@@ -93,10 +94,18 @@ function CanjearTarjeta(idtarjetalealtadasignacion,idtarjetalealtad) {
       async:false,
       success: function(resp){
       	var tarjetalealtad=resp.tarjetalealtad;
+
+        if (tarjetalealtad.length>0) {
         var idsucursal=tarjetalealtad[0].idsucursal;
         localStorage.setItem('idsucursal',idsucursal);
       	AbrirModalProductosCanjear(resp,idtarjetalealtadasignacion);
-       
+        }
+
+        else{
+
+          var msj="Se encuentra un canje en proceso en el carrito";
+          AbrirModalAviso(msj);
+        }
 
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;
@@ -116,7 +125,8 @@ function AbrirModalProductosCanjear(resp,idtarjetalealtadasignacion) {
   var imagenninguna="";
   //var imagenninguna=urlimagenes+`sucursal/imagenes/`+codigoserv+sucursalimageninguna;
 
-  var parrafo=`Canjea tu recompensa`;
+  var parrafo=`<p style="color: rgb(199, 170, 106);
+    text-align: center;" class="cambiarfuente textoestilo1" >Canjea tu beneficio</p>`;
 
   var html2="";
 
@@ -174,7 +184,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
                  
 
       html+=` <div class="row" style="    width: 100%;
-    margin-top: 1em;
+  
     margin-left: 1em;
     margin-right: 1em;">`;
       

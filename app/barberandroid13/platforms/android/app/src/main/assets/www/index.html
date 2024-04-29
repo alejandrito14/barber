@@ -30,7 +30,8 @@
 
 	<!-- Style css -->
 	<link rel="stylesheet" href="css/style.css">
-	
+	<link rel="stylesheet" href="css/tarjeta.css">
+
 	<!-- Favicon -->
 	<link rel="apple-touch-icon" href="img/f7-icon-square.png">
 	<link rel="icon" href="img/f7-icon.png">
@@ -51,6 +52,10 @@
   		<img class="imagenempresa" style="height: 150px;display: flex;/* width: 150px; */justify-content: center;margin: 0px auto;margin-left: 120px;" src="" alt="">	
 
   	</div>
+
+
+  	    <button class="cerrar-menu" onclick="cerrarMenu()"><span class="x">&times;</span></button>
+
     <ul style="margin-left: 100px;" class="">
       <li class="linegocios">
       	<a class="limenu" data-menu="negocios" >Negocios</a>
@@ -65,6 +70,10 @@
 
        <li class="limonedero " style="display: none;">
       	<a class="limenu" data-menu="monedero" >Mi monedero</a>
+      </li>
+
+       <li class="litarjetaslealtad" style="display: none;">
+      	<a class="limenu" data-menu="litarjetaslealtad" >Mis tarjetas</a>
       </li>
 
       <li class="lilogin " >
@@ -218,6 +227,8 @@
 <script src="js/fn_menu.js"></script>
 
 <script src="js/fn_disponibilidadfechasucursal.js"></script>
+<script src="js/fn_tarjetalealtad.js"></script>
+
 <script src="js/cronometro.js"></script>
 <script src="js/framework7-bundle.min.js"></script>
 
@@ -270,6 +281,7 @@
 
 
 
+
 	$(".btnempezar").attr('onclick','Empezar()');
 
 
@@ -278,6 +290,21 @@
   
 });
 
+
+	function cerrarMenu() {
+
+			if (abierto==1) {
+			$(".menu").animate({left:'-400px',
+				
+		},1000,function(){
+
+			 //$(".menu").removeClass('zimenu');
+		});
+	     
+	      abierto=0;
+	    
+	 }
+	}
 
 </script>
 

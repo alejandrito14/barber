@@ -7,7 +7,7 @@ var theme = 'md';
 if (document.location.search.indexOf('theme=') >= 0) {
   theme = document.location.search.split('theme=')[1].split('&')[0];
 }
- 
+  
 // Preloader
 setTimeout(function () {
     $('.loader-screen').hide();
@@ -111,7 +111,7 @@ $(document).ready(function() {
 
     }else{
 
-      codigoservicio='127';
+      codigoservicio='152';
      
     }
 
@@ -181,7 +181,7 @@ function Cargar() {
       codigoservicio='125';
 
     }else{
-      codigoservicio='127';
+      codigoservicio='152';
     }
  
     var datos="clave=issoftware"+"&codservicio="+codigoservicio;
@@ -269,7 +269,7 @@ function Cargar() {
     localStorage.setItem('idclientes_envios','');
     localStorage.setItem('observacionpedido','');
     localStorage.setItem('idusuarios_envios','');
-
+    localStorage.setItem('idcanje',0);
     localStorage.setItem('montodescontado','');
     localStorage.setItem('datostarjeta','');
     localStorage.setItem('adelante',1);
@@ -444,6 +444,7 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
      $(".btnsalir").attr('onclick','salir_app()');
      $(".btniracarrito").attr('onclick','IraCarrito()');
     $$(".page-content").addClass('marginauto');
+    localStorage.setItem('idcanje',0);
     CargarMenu();
     myStopFunction(intervalocitas);
 
@@ -1284,6 +1285,10 @@ $$(document).on('page:init', '.page[data-name="disponibilidadfechasucursal"]', f
       $(".cambiarfuente").addClass(tipoletra);
     }
 
+   // ChecarSiTieneTarjetaPorCanjear();
+
+    
+
 });
 
 $$(document).on('page:init', '.page[data-name="validadoqrcita"]', function (e) {
@@ -1562,6 +1567,16 @@ $$(document).on('page:init', '.page[data-name="calendarioespecialista"]', functi
  $(".btnservicioscancelados").attr('onclick','FiltrarEstatusEspe(3)');
  $(".btnserviciosnorealizados").attr('onclick','FiltrarEstatusEspe(4)');
 
+
+});
+
+
+$$(document).on('page:init', '.page[data-name="tarjetalealtad"]', function (e) {
+  myStopFunction(intervalocitas);
+
+ $(".regresar").attr('onclick','GoToPage("homeespecialista")');
+
+ ObtenerTarjetasLealtad();
 
 });
 

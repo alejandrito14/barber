@@ -540,7 +540,7 @@ function AgendarCita4() {
    var costo=localStorage.getItem('precio');
    var cantidad=1;
    var datos="idpaquete="+idpaquete+"&idsucursal="+idsucursal+"&horario="+horario+"&fecha="+fecha+"&idusuario="+idusuario+"&idespecialista="+idespecialista+"&costo="+costo+"&cantidad="+cantidad;
-   var pagina = "GuardarCita.php";
+   var pagina = "GuardarCita2.php";
   $.ajax({
     type: 'POST',
     dataType: 'json',

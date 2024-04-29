@@ -605,7 +605,7 @@ function ObtenerTotalCarrito() {
   var idusuario=localStorage.getItem('id_user');
 
 var datos="idusuario="+idusuario;
-var pagina="ObtenerCarrito.php";
+var pagina="ObtenerCarrito2.php";
 
  $.ajax({
     type: 'POST',
@@ -635,6 +635,8 @@ var pagina="ObtenerCarrito.php";
 function PintarCarrito2(respuesta) {
 
   var html="";
+var porcanjear=[];
+
   if (respuesta.length>0) {
 
     $("#cantidadagregados").text(respuesta.length);
@@ -649,6 +651,7 @@ function PintarCarrito2(respuesta) {
           imagen=localStorage.getItem('logo');
         }
 
+       
 
       html+=`
       <li class="item-content">
@@ -701,8 +704,11 @@ function PintarCarrito2(respuesta) {
 
   $(".listadocarrito2").html(html);
  // Destruir();
+
  
 }
+
+
 
 function CalcularTotales() {
 

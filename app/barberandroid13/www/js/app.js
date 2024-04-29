@@ -7,7 +7,7 @@ var theme = 'md';
 if (document.location.search.indexOf('theme=') >= 0) {
   theme = document.location.search.split('theme=')[1].split('&')[0];
 }
- 
+  
 // Preloader
 setTimeout(function () {
     $('.loader-screen').hide();
@@ -97,7 +97,7 @@ var intervalocitas=0;
 
 var pictureSource;   // picture source
 var destinationType; 
-var produccion=0;
+var produccion=1;
 const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 localStorage.setItem('zonahoraria',userTimeZone);
@@ -111,7 +111,7 @@ $(document).ready(function() {
 
     }else{
 
-      codigoservicio='127';
+      codigoservicio='152';
      
     }
 
@@ -181,7 +181,7 @@ function Cargar() {
       codigoservicio='125';
 
     }else{
-      codigoservicio='127';
+      codigoservicio='152';
     }
  
     var datos="clave=issoftware"+"&codservicio="+codigoservicio;

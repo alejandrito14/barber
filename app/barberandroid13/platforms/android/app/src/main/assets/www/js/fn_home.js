@@ -1719,6 +1719,8 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
         on: {
           open: function (sheet) {
 
+          
+
           	if (respuesta.estatus==0 && respuesta.checkin==0 && respuesta.cancelacion==0) {
           		$(".divimgqr").css('display','');
           		GenerarQrCita(respuesta.idcita);

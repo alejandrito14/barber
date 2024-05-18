@@ -10,6 +10,7 @@ require_once("clases/class.Fechas.php");
 require_once("clases/class.Funciones.php");
 require_once("clases/class.Paquetes.php");
 require_once("clases/class.Especialista.php");
+require_once("clases/class.Sucursal.php");
 
 try
 {
@@ -24,14 +25,23 @@ try
 	$especialista->db=$db;
 	//$categorias = new Categorias();
 	$fechas = new Fechas();
+    $sucursal=new Sucursal();
+	$sucursal->db=$db;
+	$especialista->fechas=$fechas;
+
 	//$categorias->db=$db;
+	
 	$idsucursal=$_POST['idsucursal'];
+	$sucursal->idsucursales=$idsucursal;
+	$obtenersucursal=$sucursal->ObtenerSucursal();
 	$idusuarios=$_POST['id_user'];
 	$idpaquete=$_POST['idpaquete'];
 	$paquetes->idpaquete=$idpaquete;
 	$obtenerpaquete=$paquetes->ObtenerPaquete2();
 
-	$intervalo=$obtenerpaquete[0]->intervaloservicio;
+	$paqueteDuracion=$obtenerpaquete[0]->intervaloservicio;
+	$intervalo=$obtenersucursal[0]->intervalosucursal;
+
 	$especialista->idusuarios=$idusuarios;
 	$fecha=$_POST['fecha'];
 	$especialista->fecha=$fecha;
@@ -51,6 +61,8 @@ try
 	for ($i=0; $i < count($horas); $i++) { 
 
 		$horainicial=$horas[$i]->horainicial;
+
+
 		$horafinal=$horas[$i]->horafinal;
 		//print_r($horafinal);
 		 $intervalos=$fechas->intervaloHora($horainicial,$horafinal,$intervalo);
@@ -75,6 +87,13 @@ try
 
 					$horafinal=substr($arrayintervalos[0][$k+1],0,5);
 
+				
+					//$this->ValidarIntervaloDisponibleConEspecialistas($horainicial,$fecha);
+
+					$nuevaHora = date('H:i', strtotime($horainicial . ' +'.$paqueteDuracion.' minutes'));
+					$horafinal=$nuevaHora;
+
+
 
 						$paso=1;
 		 			if (date('Y-m-d',strtotime($fecha))==date('Y-m-d')) {
@@ -89,18 +108,27 @@ try
  
 		 			}
 		 			if ($paso==1) {
+
+
+ 
+		 	$respuestavalida=$especialista->ValidarIntervaloDisponibleConEspecialistas($fecha,$idpaquete,$intervalo,$horainicial);
+
+		 			if ($respuestavalida==1) {
+		 				# code...
+		 			
+
 					$especialista->horainicial=$horainicial;
 					$especialista->horafinal=$horafinal;
 
 		 			$buscarhoraausente=$especialista->BuscarHoraAusente();
-
+		 			
 		 			if (count($buscarhoraausente)==0) {
  
 					$verificar=$especialista->EvaluarHorarioDisponible();
 
 					/*$buscarsiestaapartada=$especialista->EvaluarHorarioApartado();*/
 					$especialista->dia=$numdia;
-					$buscarEspecialistaLibre=$especialista->EvaluarEspecialistas($intervalo);
+					$buscarEspecialistaLibre=$especialista->EvaluarEspecialistas2($intervalo,$paqueteDuracion);
 
 					
 
@@ -140,6 +168,7 @@ try
 
 				}
 
+			}
 					
 			}
 
@@ -214,4 +243,28 @@ try
 	$db->rollback();
 	echo "Error. ".$e;
 }
+
+ /*function ValidarIntervaloDisponibleConEspecialistas($horainicial,$fecha,$idpaquete)
+	{
+		$sql="SELECT *FROM paquetes_especialista
+			left join especialista on especialista.idespecialista=paquetes_especialista.idespecialista
+			left join usuarios on especialista.idusuarios=usuarios.idusuarios
+			 WHERE usuarios.estatus=1 and paquetes_especialista.idpaquete='$idpaquete'";
+
+			$resp = $this->db->consulta($sql);
+			$cont = $this->db->num_rows($resp);
+
+
+			$array=array();
+			$contador=0;
+			if ($cont>0) {
+
+				while ($objeto=$this->db->fetch_object($resp)) {
+
+
+				}
+			}
+
+		
+	}*/
 ?>

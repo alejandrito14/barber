@@ -36,6 +36,8 @@ try
        $cita->EliminarCitaApartada();
    }
 
+  
+
     $lo->BorrardelCarrito();
    $db->commit();
 

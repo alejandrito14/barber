@@ -210,7 +210,7 @@ $fechachekin=date('H:i:s',strtotime($obtenercitas[$i]->fechacheckin));
 	$respuesta['totalcitasrealizadas']=count($obtenercitasrealizadas);
 	$respuesta['totalpendientes']=count($obtenerpendientes);
 	$respuesta['totalnorealizados']=count($obtenernorealizados);
-	$respuesta['totalcancelados']=count($obtenercancelados);
+	$respuesta['totalcancelados']=0;
 	$respuesta['totalproceso']=count($obtenerenproceso);
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);

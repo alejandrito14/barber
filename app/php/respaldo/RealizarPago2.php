@@ -64,7 +64,7 @@ $tipocomisionpornota=$_POST['tipocomisionpornota'];
 $idtipodepago=$_POST['idtipodepago'];
 $codigocupon=$_POST['codigocupon'];
 $montocupon = trim($_POST['montocupon']) !== '' ? $_POST['montocupon'] : 0;
-$idcupon=$_POST['idcupon'];
+$idcupon=$_POST['idcupon']!=''?$_POST['idcupon']:0;
 
 
 $variable="";
@@ -199,9 +199,9 @@ try {
               $notapago->idusuariodatofiscal=$idusuariosdatosfiscales;
          }
 
-           $notapago->codigocupon=0;
-           $notapago->montocupon=0;
-           $notapago->idcupon=0;
+           $notapago->codigocupon=$codigocupon;
+           $notapago->montocupon=$montocupon;
+           $notapago->idcupon=$idcupon;
            $notapago->descripcioncupon=$descripcioncupon;
           $notapago->CrearNotapago();
           $idnotapago=$notapago->idnotapago;
@@ -422,9 +422,9 @@ try {
                $notapago->tipo=$tipo;
                $notapago->idnotapago=$idnotapago;
                $notapago->monederoaplicado=$obtenercarrito[$i]->montomonedero;
-               $notapago->idcupon=0;
-               $notapago->codigocupon=0;
-               $notapago->montocupon=0;
+               $notapago->idcupon=$idcupon;
+               $notapago->codigocupon=$codigocupon;
+               $notapago->montocupon=$montocupon;
               $notapago->Creardescripcionpago();
                
                 $carrito->idcarrito=$obtenercarrito[$i]->idcarrito;

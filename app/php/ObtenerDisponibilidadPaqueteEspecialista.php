@@ -25,7 +25,7 @@ try
 	$especialista->db=$db;
 	//$categorias = new Categorias();
 	$fechas = new Fechas();
-$sucursal=new Sucursal();
+    $sucursal=new Sucursal();
 	$sucursal->db=$db;
 	$especialista->fechas=$fechas;
 
@@ -93,7 +93,7 @@ $sucursal=new Sucursal();
 					$nuevaHora = date('H:i', strtotime($horainicial . ' +'.$paqueteDuracion.' minutes'));
 					$horafinal=$nuevaHora;
 
-
+					//print_r($horafinal);
 
 						$paso=1;
 		 			if (date('Y-m-d',strtotime($fecha))==date('Y-m-d')) {
@@ -110,9 +110,9 @@ $sucursal=new Sucursal();
 		 			if ($paso==1) {
 
 
-
-		 			$respuestavalida=$especialista->ValidarIntervaloDisponibleConEspecialistas($fecha,$idpaquete,$intervalo,$horainicial);
-
+ 			
+		 	$respuestavalida=$especialista->ValidarIntervaloDisponibleConEspecialistas($fecha,$idpaquete,$intervalo,$horainicial);
+		 		//print_r($horainicial);
 		 			if ($respuestavalida==1) {
 		 				# code...
 		 			
@@ -120,18 +120,19 @@ $sucursal=new Sucursal();
 					$especialista->horainicial=$horainicial;
 					$especialista->horafinal=$horafinal;
 
+					//print_r($especialista->horainicial);
+
 		 			$buscarhoraausente=$especialista->BuscarHoraAusente();
-
-
-		 			if (count($buscarhoraausente)==0) {
- 
+		 			
+		 			//if (count($buscarhoraausente)==0) {
+ 	
 					$verificar=$especialista->EvaluarHorarioDisponible();
 
 					/*$buscarsiestaapartada=$especialista->EvaluarHorarioApartado();*/
 					$especialista->dia=$numdia;
-					$buscarEspecialistaLibre=$especialista->EvaluarEspecialistas($intervalo,$paqueteDuracion);
+					$buscarEspecialistaLibre=$especialista->EvaluarEspecialistas2($intervalo,$paqueteDuracion);
 
-					
+					//print_r($buscarEspecialistaLibre);
 
 					$disponible=1;
 				if (count($verificar)>0 || count($buscarEspecialistaLibre)==0)  {
@@ -159,15 +160,15 @@ $sucursal=new Sucursal();
 
 						}
 
-					}else{
+						}else{
 
-						array_push($integrandointervalos, $objeto);
+							array_push($integrandointervalos, $objeto);
+
+						}
 
 					}
 
-				}
-
-				}
+				//}
 
 			}
 					

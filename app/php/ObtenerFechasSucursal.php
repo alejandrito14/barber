@@ -37,7 +37,7 @@ try
 	$especialista->idusuarios=$idusuarios;
 	$idsucursal=$_POST['idsucursal'];
 	$idespecialista=$_POST['idespecialista'];
-	
+	$sucursal->idsucursales=$idsucursal;
 	$mes=$_POST['mes'];
 	$anio=$_POST['anio'];
 
@@ -163,7 +163,14 @@ try
     for($i=$fechainicio; $i<=$fechafin; $i+=86400){
 
     	$fechaconsulta=date("Y-m-d", $i);
+    	$fechabuscar=$fechaconsulta;
     	//$verificardisponibilidad=
+
+    	$seencuentoinhabil=$sucursal->FechaInhabil($fechaconsulta);
+
+    	if (count($seencuentoinhabil)==0) {
+    		# code...
+    	
 		 $dia_semana = date("w", strtotime($fechaconsulta)); 
 
 		 	$intervalodia=$sucursal->Buscardia($intervaloshorarios,$dia_semana);
@@ -207,6 +214,12 @@ try
 
 		 		}
 		 	}
+
+		 }else{
+
+
+		 	array_push($nodisponible, $fechabuscar);
+		 }
 
 	
 		}

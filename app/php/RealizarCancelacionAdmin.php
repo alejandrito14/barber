@@ -13,6 +13,7 @@ require_once("clases/class.PagConfig.php");
 require_once("clases/class.Notapago.php");
 require_once("clases/class.NotapagoCancelada.php");
 require_once "clases/class.Usuarios.php";
+require_once("clases/class.WhatsapMensaje.php");
 
 try
 {
@@ -26,12 +27,21 @@ try
 	$sucursal=new Sucursal();
 	$sucursal->db=$db;
 	$notapago=new Notapago();
-    $notapago->db=$db;
-    $notapagocancelada=new NotapagoCancelada();
-    $notapagocancelada->db=$db;
-
+  $notapago->db=$db;
+  $notapagocancelada=new NotapagoCancelada();
+  $notapagocancelada->db=$db;
+  $usuarios=new Usuarios();
+  $usuarios->db=$db;
+ 
   $obj->db=$db;
   $db->begin();
+  $paginaconfi     = new PagConfig();
+  $paginaconfi->db = $db;
+  $obtenerconfiguracion=$paginaconfi->ObtenerInformacionConfiguracion();
+
+  
+
+ 
   $idusuariocancela=$_POST['idusuariocancela'];
 	$idusuario=$_POST['idusuarios'];
 	$idcita=$_POST['idcita'];
@@ -39,8 +49,17 @@ try
 	$lo->idcita=$idcita;
 
 
+
 	$obtenercitanota=$lo->BuscarCitaNotapagodescripcion();
 		$idnotapagodescripcion=$obtenercitanota[0]->idnotapago_descripcion;
+    $folio=$obtenercitanota[0]->folio;
+    
+
+   $sucursal=new Sucursal();
+   $sucursal->db=$db;
+   $sucursal->idsucursales=$obtenercitanota[0]->idsucursalnota;
+   $datossucursal=$sucursal->ObtenerSucursal();
+   $celularsucursal=$datossucursal[0]->celular;
 	
 	$notapago->idnotapagodescripcion=$idnotapagodescripcion;
 	$notapago->cancelado=1;
@@ -49,6 +68,9 @@ try
 	$notapago->idusuariocancela=$idusuariocancela;
 	$notapago->ActualizarEstatusdescripcion();
 
+  $usuarios->idusuarios = $idusuario;
+    $iduser=$idusuario;
+    $row_cliente = $usuarios->ObtenerUsuario();
  
 
 	$lo->cancelacion=1;
@@ -57,7 +79,7 @@ try
 	$lo->motivocancelacion=$motivocancelacion;
 	$lo->idusuariocancela=$idusuariocancela;
 	$lo->CancelarCita();
-
+ 
    $notapago->idnotapago=$obtenercitanota[0]->idnotapago;
   $notapago->ActualizarNotacancelada();
 
@@ -66,9 +88,61 @@ try
     $obtenernota=$notapago->Obtenernota();
     $obtenerdetallenota=$notapago->ObtenerdescripcionNota();
     $montocancelado=0;
+
+    $nombrepaquete="";
     for ($i=0; $i < count($obtenerdetallenota); $i++) { 
+       
         $montocancelado=$montocancelado+$obtenerdetallenota[$i]->monto;
+        $idcitar=$obtenerdetallenota[$i]->idcita;
+       
+        $idnotapagodescripcion=$obtenerdetallenota[$i]->idnotapago_descripcion;
+        $nombrepaquete.=$obtenerdetallenota[$i]->concepto;
+        
+        $lo->idcita=$idcitar;
+
+
+        if($idcitar>0) {
+          $lo->fechacancelacion=$notapago->fechacancelado;
+          $lo->motivocancelacion=$motivocancelacion;
+          $lo->cancelacion=1;
+          $lo->estatus=3;
+          $lo->idusuariocancela=$idusuariocancela;
+          $lo->CancelarCita();
+          
+          $notapago->idnotapagodescripcion=$idnotapagodescripcion;
+          $notapago->ActualizarEstatusdescripcion();
+
+
+
+            $nombrepaquete.='\nFecha:'.$fechas->fecha_texto5($obtenerdetallenota[$i]->fechacita).'\n';
+            $nombrepaquete.='Hora:'.$obtenerdetallenota[$i]->horainicial.'-'.$obtenerdetallenota[$i]->horafinal.'Hrs.\n';
+            $nombrepaquete.='Barbero:'.$obtenerdetallenota[$i]->usuarioespecialista.'\n';
+
+
+
+        }
+          
+    
     }
+
+    $nombrecliente='Cliente:'.$row_cliente[0]->nombre.' '.$row_cliente[0]->paterno;
+         $whatsapp=new WhatsapMensaje();
+       
+        $whatsapp->Version=$obtenerconfiguracion['faceversion'];
+        $whatsapp->accestoken=$obtenerconfiguracion['tokenface'];
+        $whatsapp->phoneid=$obtenerconfiguracion['phoneid'];
+        $celularsucursal=str_replace(array('(', ')', '-'), '',$celularsucursal);
+        $whatsapp->tophone=$celularsucursal;
+
+       /* print_r($folio);
+                print_r($nombrepaquete);
+                print_r($nombrecliente);
+                print_r($whatsap) die();*/
+        $whatsapp->MensajeCancelacion($folio,$nombrepaquete,$nombrecliente);
+
+
+
+
 
 	$monto=$montocancelado-$obtenernota[0]->montocupon-$obtenernota[0]->montomonedero;
 	$idnotapago=$obtenercitanota[0]->idnotapago;
@@ -80,7 +154,7 @@ try
     $folio = $fecha[0].$fecha[1].$anio.$contador;*/
 
 
-     	 $notapago->idusuario=$idusuario;
+     	   $notapago->idusuario=$idusuario;
          $notapago->subtotal=$monto;
          $notapago->iva=0;
          $notapago->total=$monto;
@@ -138,14 +212,11 @@ try
 
 		   $notapagocancelada->idnotapago= $idnotapagonueva;
            $notapagocancelada->GuardarNotaCancelada();*/
+           
 
-
-     $usuarios=new Usuarios();
-     $usuarios->db=$db;
+    
      $montomonedero=$montocancelado-$obtenernota[0]->montocupon-$obtenernota[0]->montomonedero;
-    $usuarios->idusuarios = $idusuario;
-    $iduser=$idusuario;
-    $row_cliente = $usuarios->ObtenerUsuario();
+    
 
     $saldo_anterior = $row_cliente[0]->monedero;
      if ($saldo_anterior=='') {
@@ -168,6 +239,10 @@ try
      $db->consulta($sql_movimiento);
 
    }
+
+    
+
+        
 
  	$db->commit();
 	

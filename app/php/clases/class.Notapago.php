@@ -69,10 +69,11 @@ class Notapago
 	public $monederoaplicado;
 	public $descripcioncupon;
 	public $costounitario;
+	public $idcarrito=0;
 
 	public function CrearNotapago()
 	{
-		$sql="INSERT INTO notapago( idusuario, subtotal, iva, total, comisiontotal, montomonedero, estatus, idtipopago, tipopago, confoto, datostarjeta,datostarjeta2,idpagostripe,folio,comisionpornota,comisionnota,tipocomisionpornota,requierefactura,razonsocial,rfc,direccion,nointerior,noexterior,colonia,municipio,estado,codigopostal,correo,pais,asentamiento,calle,formapago,metodopago,usocfdi,imagenconstancia,idusuariodatofiscal,confirmaciontermino,montocupon,codigocupon,idcupon,descripcioncupon) VALUES ('$this->idusuario', '$this->subtotal','$this->iva', '$this->total', '$this->comisiontotal','$this->montomonedero','$this->estatus','$this->idtipopago','$this->tipopago','$this->confoto','$this->datostarjeta','$this->datostarjeta2','$this->idpagostripe','$this->folio','$this->comisionpornota','$this->comisionnota','$this->tipocomisionpornota',
+		$sql="INSERT INTO notapago( idusuario, subtotal, iva, total, comisiontotal, montomonedero, estatus, idtipopago, tipopago, confoto, datostarjeta,datostarjeta2,idpagostripe,folio,comisionpornota,comisionnota,tipocomisionpornota,requierefactura,razonsocial,rfc,direccion,nointerior,noexterior,colonia,municipio,estado,codigopostal,correo,pais,asentamiento,calle,formapago,metodopago,usocfdi,imagenconstancia,idusuariodatofiscal,confirmaciontermino,montocupon,codigocupon,idcupon,descripcioncupon,idsucursal) VALUES ('$this->idusuario', '$this->subtotal','$this->iva', '$this->total', '$this->comisiontotal','$this->montomonedero','$this->estatus','$this->idtipopago','$this->tipopago','$this->confoto','$this->datostarjeta','$this->datostarjeta2','$this->idpagostripe','$this->folio','$this->comisionpornota','$this->comisionnota','$this->tipocomisionpornota',
 			'$this->requierefactura',
 			'$this->razonsocial',
 			'$this->rfc',
@@ -96,7 +97,8 @@ class Notapago
 			'$this->montocupon',
 			'$this->codigocupon',
 			'$this->idcupon',
-			'$this->descripcioncupon'
+			'$this->descripcioncupon',
+			'$this->idsucursal'
 
 			)";
 
@@ -136,7 +138,7 @@ class Notapago
 	public function Creardescripcionpago()
 	{
 		try {
-			$sql="INSERT INTO notapago_descripcion(idnotapago, descripcion, cantidad, monto, idpaquete,idcita,tipo,costounitario,monederoaplicado,idcupon,codigocupon,montocupon) VALUES ( '$this->idnotapago', '$this->descripcion', '$this->cantidad','$this->monto', '$this->idpaquete','$this->idcita','$this->tipo','$this->costounitario','$this->monederoaplicado','$this->idcupon','$this->codigocupon','$this->montocupon')";
+			$sql="INSERT INTO notapago_descripcion(idnotapago, descripcion, cantidad, monto, idpaquete,idcita,tipo,costounitario,monederoaplicado,idcupon,codigocupon,montocupon,idcarrito) VALUES ( '$this->idnotapago', '$this->descripcion', '$this->cantidad','$this->monto', '$this->idpaquete','$this->idcita','$this->tipo','$this->costounitario','$this->monederoaplicado','$this->idcupon','$this->codigocupon','$this->montocupon','$this->idcarrito')";
 		
 		$resp=$this->db->consulta($sql);
 		$this->idnotapagodescripcion=$this->db->id_ultimo();
@@ -151,8 +153,25 @@ class Notapago
 	public function Obtenernota()
 	{
 		$sql="
-			SELECT *FROM notapago
-			 WHERE idnotapago='$this->idnotapago' ";
+			SELECT notapago.*,sucursal.titulo,sucursal.rfcsucursal,sucursal.direccion,			    multiple.multipletipopago
+			 FROM notapago
+			LEFT JOIN sucursal ON notapago.idsucursal=sucursal.idsucursal
+
+
+			LEFT JOIN (
+			    SELECT
+			        notapago_notapagometodopago.idnotapago,
+			        GROUP_CONCAT(notapagometodopago.tipopago) as multipletipopago
+			    FROM
+			        notapago_notapagometodopago
+			    JOIN
+			        notapagometodopago ON notapago_notapagometodopago.idnotapagometodopago = notapagometodopago.idnotapagometodopago
+			    GROUP BY
+			        notapago_notapagometodopago.idnotapago
+			) AS multiple ON notapago.idnotapago = multiple.idnotapago
+			 WHERE notapago.idnotapago='$this->idnotapago' ";
+
+			
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 
@@ -247,7 +266,11 @@ class Notapago
 			citas.idcortesia,
 			cupones.tipodescuento,
 			cupones.descuento,
-			notapago_descripcion.idnotapago_descripcion
+			notapago_descripcion.idnotapago_descripcion,
+			citas.horainicial,
+			citas.horafinal,
+			citas.fechacita,
+			citas.idcita
 
 			FROM notapago_descripcion 
 			left join paquetes on paquetes.idpaquete=notapago_descripcion.idpaquete
@@ -561,6 +584,86 @@ class Notapago
 			  WHERE idnotapago='$this->idnotapago'";
 			 
 		$resp=$this->db->consulta($sql);
+	}
+
+	public function VerificarCita()
+	{
+		$sql="SELECT
+		notapago_descripcion.idnotapago_descripcion,
+		notapago_descripcion.idnotapago,
+		notapago_descripcion.idcita,
+		notapago.idusuario,
+		notapago.estatus,
+		notapago.tpv,
+		notapago.tipopago
+		FROM
+		notapago
+		JOIN notapago_descripcion
+		ON notapago.idnotapago = notapago_descripcion.idnotapago
+		WHERE notapago.estatus IN(0,1,2) and notapago_descripcion.idcita= '$this->idcita' GROUP BY idnotapago";
+		
+		$resp = $this->db->consulta($sql);
+			$cont = $this->db->num_rows($resp);
+
+
+			$array=array();
+			$contador=0;
+			if ($cont>0) {
+
+				while ($objeto=$this->db->fetch_object($resp)) {
+
+					$array[$contador]=$objeto;
+					$contador++;
+				} 
+			}
+			return $array;
+	}
+
+
+	public function ActualizarNotaAIncompleto()
+	{
+		try {
+			$sql="UPDATE notapago SET 
+				  estatus =3 
+		WHERE idnotapago='$this->idnotapago'";
+				  
+			$resp=$this->db->consulta($sql);
+			
+		} catch (Exception $e) {
+			echo $e;
+		}
+		
+	}
+
+
+	public function Obtenernotaspagadas()
+	{
+		$sql="SELECT
+		notapago.idnotapago,
+		notapago.idusuario,
+		notapago.estatus,
+		notapago.tpv,
+		notapago.tipopago
+		FROM
+		notapago
+		
+		WHERE notapago.estatus=1 and notapago.fecha>='2024-01-01'";
+		
+		$resp = $this->db->consulta($sql);
+			$cont = $this->db->num_rows($resp);
+
+
+			$array=array();
+			$contador=0;
+			if ($cont>0) {
+
+				while ($objeto=$this->db->fetch_object($resp)) {
+
+					$array[$contador]=$objeto;
+					$contador++;
+				} 
+			}
+			return $array;
 	}
 
 

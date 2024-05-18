@@ -97,7 +97,7 @@ var intervalocitas=0;
 
 var pictureSource;   // picture source
 var destinationType; 
-var produccion=1;
+var produccion=0;
 const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 localStorage.setItem('zonahoraria',userTimeZone);
@@ -111,7 +111,7 @@ $(document).ready(function() {
 
     }else{
 
-      codigoservicio='152';
+      codigoservicio='127';
      
     }
 
@@ -181,7 +181,7 @@ function Cargar() {
       codigoservicio='125';
 
     }else{
-      codigoservicio='152';
+      codigoservicio='127';
     }
  
     var datos="clave=issoftware"+"&codservicio="+codigoservicio;

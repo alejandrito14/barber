@@ -552,7 +552,21 @@ catch (\Stripe\Exception\CardException $err) {
     
     $db = new MySQL();
     $obj->db = $db; 
-    $obj->RegistrarIntentoPagoFallido();
+    $obj->idNotaRemision=$notapago->idnotapago;
+
+     $obj->RegistrarIntentoPagoFallido2();
+    $notapago->db=$db;
+    $notapago->ActualizarNotaAIncompleto();
+
+    
+    $obj->idTransaccion = $paymentIntent->id;
+    $obj->monto = $monto;
+    $obj->digitosTarjeta = $paymentIntent->payment_method;
+    $obj->estatus = $intent->status;
+    $obj->fechaTransaccion = $paymentIntent->created;   
+                
+    $obj->ActualizarIntento();
+
      $db->commit();
     if($error_code == 'authentication_required') {
    

@@ -413,7 +413,7 @@ public function fecha_texto4($fecha)
 
 
 		
-		$f = $diatexto." ".$d." de ".$m;
+		$f = $diatexto." ".$d." de ".$m." de ".$a;
 
 		return $f;
 	}

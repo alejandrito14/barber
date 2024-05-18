@@ -76,7 +76,6 @@ class ClienteStripe
 		
 		$sql = "INSERT INTO pagostripe (idtransaccion, monto, digitostarjeta, idusuarios, estatus, fechatransaccion,comision,comisiontotal,comisionmonto,impuestototal,subtotalsincomision,total,impuesto) 
 		VALUES ('$this->idTransaccion',$this->monto,'$this->digitosTarjeta',$this->idusuarios,'$this->estatus','$this->fechaTransaccion','$this->comision','$this->comisiontotal','$this->comisionmonto','$this->impuestototal','$this->subtotalsincomision','$this->total','$this->impuesto')";	
-		
 		$result = $this->db->consulta($sql);
 		$this->idintento=$this->db->id_ultimo();
 
@@ -103,7 +102,7 @@ class ClienteStripe
 	{
 		$query = "SELECT *FROM intentospagosfallidos WHERE DATE(fecha)=DATE('$this->fechaactual') AND 
 			digitostarjeta='$this->lastcard' ";
-
+		
 		
 		$resp = $this->db->consulta($query);
 		$cont = $this->db->num_rows($resp);

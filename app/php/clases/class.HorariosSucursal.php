@@ -21,7 +21,7 @@ class HorariosSucursal
 	{
 		$sql="SELECT *
 			FROM horariossucursal
-		WHERE idsucursal='$this->idsucursal' AND dia=$numdia
+		WHERE idsucursal='$this->idsucursal' AND dia=$numdia AND estatus=1
 		";
 	
 		  $resp = $this->db->consulta($sql);

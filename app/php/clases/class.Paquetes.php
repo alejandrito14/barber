@@ -101,7 +101,8 @@ class Paquetes {
 			paquetes.activarcomentario,
 			paquetes.mensaje,
 			paquetes.siniva,
-			paquetes.iva
+			paquetes.iva,
+			paquetes.intervaloservicio as intervalopaquete
 
 			FROM
 			paquetes

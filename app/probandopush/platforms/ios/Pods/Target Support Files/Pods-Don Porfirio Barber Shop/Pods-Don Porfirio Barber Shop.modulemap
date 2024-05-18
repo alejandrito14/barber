@@ -1,6 +1,0 @@
-framework module Pods_Don_Porfirio_Barber_Shop {
-  umbrella header "Pods-Don Porfirio Barber Shop-umbrella.h"
-
-  export *
-  module * { export * }
-}

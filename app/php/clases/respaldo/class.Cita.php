@@ -738,7 +738,25 @@ class Cita
 	public function ChecarHorarioFechaEspecialista()
 	{
 		
-		$sql="SELECT *FROM citas WHERE idespecialista='$this->idespecialista' AND fechacita='$this->fechacita' AND horainicial='$this->horainicial' AND horafinal='$this->horafinal' and estatus!=3 ";
+		//$sql="SELECT *FROM citas WHERE idespecialista='$this->idespecialista' AND fechacita='$this->fechacita' AND '$this->horainicial'>=horainicial AND horafinal<='$this->horafinal' and estatus!=3 ";
+
+		$sql="SELECT *
+			FROM citas
+			WHERE idespecialista = '$this->idespecialista'
+			  AND fechacita = '$this->fechacita'
+			  AND ((horainicial < '$this->horafinal' AND horafinal > '$this->horainicial') OR (horainicial >= '$this->horainicial' AND horainicial < '$this->horafinal'))
+			  AND estatus != 3";
+
+		/*$sql="SELECT TABLA1.* from (SELECT *
+			FROM citas
+
+		WHERE fechacita='$this->fechacita' AND idespecialista='$this->idespecialista' AND citas.estatus!=3
+
+		  )AS TABLA1
+		
+		where
+		 '$this->horainicial' >= TABLA1.horainicial  AND '$this->horafinal'<=TABLA1.horafinal";*/
+
 		
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
@@ -857,6 +875,10 @@ class Cita
 		 if ($this->estatus!=100 && $this->estatus!='') {
 		 	$sqlestatus=" AND citas.estatus=".$this->estatus."";
 		 }
+		 $array=array();
+		 if ($this->estatus!=3) {
+		 	# code...
+		 
 
 		$sql="SELECT 
 			citas.idcita,
@@ -889,14 +911,14 @@ class Cita
 		left join notapago_descripcion on citas.idcita=notapago_descripcion.idcita
 		left JOIN notapago on notapago_descripcion.idnotapago=notapago.idnotapago
 		 WHERE 	 fechacita='$this->fechacita' AND sucursal.idsucursal IN($this->idsucursal) 
-		 AND citas.idespecialista='$this->idespecialista' $sqlestatus GROUP BY citas.idcita
+		 AND citas.idespecialista='$this->idespecialista' $sqlestatus  AND citas.estatus NOT IN(3) GROUP BY citas.idcita
 		 ORDER BY idsucursal,fechacita,horainicial";
 		
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 
 
-		$array=array();
+		
 		$contador=0;
 		if ($cont>0) {
 
@@ -906,6 +928,8 @@ class Cita
 				$contador++;
 			} 
 		}
+
+	}
 		
 		return $array;
 	}
@@ -1145,9 +1169,10 @@ class Cita
 	{
 		
 		$sql="
-		SELECT c.*,citas.idsucursal FROM notapago_descripcion as c
+		SELECT c.*,citas.idsucursal,n.estatus as estatusnota,n.total as totalnota,n.comisiontotal FROM notapago_descripcion as c
 		LEFT JOIN citas on c.idcita=citas.idcita
-		 WHERE c.idcita='$this->idcita'
+		LEFT JOIN notapago as n on n.idnotapago=c.idnotapago WHERE
+		  c.idcita='$this->idcita'
 
 		";
 		
@@ -1611,7 +1636,7 @@ class Cita
 		left join paquetes on citas.idpaquete=paquetes.idpaquete
 		left join notapago_descripcion on citas.idcita=notapago_descripcion.idcita
 		left JOIN notapago on notapago_descripcion.idnotapago=notapago.idnotapago
-		 WHERE 	 fechacita='$this->fecha' AND citas.idespecialista IN($this->idespecialista) GROUP BY idcita ORDER BY idsucursal,fechacita,horainicial";
+		 WHERE 	 fechacita='$this->fecha' AND citas.idespecialista IN($this->idespecialista) and citas.estatus NOT IN(3) GROUP BY idcita ORDER BY idsucursal,fechacita,horainicial";
 
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
@@ -2001,9 +2026,49 @@ public function ObtenerCitasProcesoEspe()
         
         WHERE idcita = '$this->idcita'
         ";
-        echo $sql;die();
+      
         $this->db->consulta($sql);
 	}
+
+
+	public function VerificacionCita2()
+	{
+		
+
+		 $sql="
+		 SELECT *FROM (SELECT *FROM citas WHERE idespecialista='$this->idespecialista' AND fechacita='$this->fecha' AND estatus!=3) AS TABLA1
+
+		  WHERE 
+
+			((TABLA1.horainicial < '$this->horafinal' AND TABLA1.horafinal > '$this->horainicial')   -- Traslape con el rango proporcionado
+	        OR (TABLA1.horainicial = '$this->horainicial' AND TABLA1.horafinal >= '$this->horafinal')  -- Traslape con el rango proporcionado (inicio exacto)
+	        OR (TABLA1.horainicial <= '$this->horainicial' AND TABLA1.horafinal = '$this->horafinal')  -- Traslape con el rango proporcionado (fin exacto)
+	        OR (TABLA1.horainicial = '$this->horainicial')  -- Nuevo registro comienza exactamente cuando termina el registro existente
+	   		 )
+		 ";
+
+		
+		
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+
+	}
+
+	
 
 }
  ?>

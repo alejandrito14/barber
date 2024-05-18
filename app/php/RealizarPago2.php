@@ -35,6 +35,13 @@ $folio = "";
 $constripe=$_POST['constripe'];
 $sumatotalapagar=$_POST['sumatotalapagar'];
 $iduser=$_POST['id_user'];
+if (isset($_POST['idsucursal'])) {
+ $idsucursal=$_POST['idsucursal'];
+
+}else{
+  $idsucursal=1;
+
+}
 //$descuentosaplicados=json_decode($_POST['descuentosaplicados']);
 //$descuentosmembresia=json_decode($_POST['descuentosmembresia']);
 $rutacomprobante=$_POST['rutacomprobante'];
@@ -164,7 +171,7 @@ try {
          $notapago->descuentomembresia=0;
          $notapago->requierefactura=$requierefactura;
          $notapago->checkConfirm=$checkConfirm;
-
+         $notapago->idsucursal=$idsucursal;
          $notapago->comisionpornota=$comisionpornota;
          $notapago->comisionnota=$comisionnota;
          $notapago->tipocomisionpornota=$tipocomisionpornota;
@@ -650,7 +657,20 @@ catch (\Stripe\Exception\CardException $err) {
     
     $db = new MySQL();
     $obj->db = $db; 
-    $obj->RegistrarIntentoPagoFallido();
+    $obj->idNotaRemision=$notapago->idnotapago;
+
+     $obj->RegistrarIntentoPagoFallido2();
+    $notapago->db=$db;
+    $notapago->ActualizarNotaAIncompleto();
+
+    
+    $obj->idTransaccion = $paymentIntent->id;
+    $obj->monto = $monto;
+    $obj->digitosTarjeta = $paymentIntent->payment_method;
+    $obj->estatus = $intent->status;
+    $obj->fechaTransaccion = $paymentIntent->created;   
+                
+    $obj->ActualizarIntento();
      $db->commit();
     if($error_code == 'authentication_required') {
    

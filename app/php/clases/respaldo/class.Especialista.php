@@ -105,7 +105,6 @@ class Especialista
 		$sql="SELECT *FROM horariosausente
 			WHERE fecha='$this->fecha' and '$this->horainicial'<=horafinal AND '$this->horafinal'>=horainicial AND idespecialista='$this->idespecialista'";
 
-
 			$resp = $this->db->consulta($sql);
 			$cont = $this->db->num_rows($resp);
 
@@ -131,7 +130,7 @@ class Especialista
 
 			$sql="SELECT *FROM citas
 			WHERE fechacita='$this->fecha' and horainicial>='$this->horainicial' AND horafinal<='$this->horafinal' AND idespecialista='$this->idespecialista' AND estatus IN(0,1,2)";
-		
+			
 			$resp = $this->db->consulta($sql);
 			$cont = $this->db->num_rows($resp);
 
@@ -393,7 +392,141 @@ public function ObtenerHorariosEspecialistadia($numdia)
 	}
 
 
-	public function EvaluarEspecialistas($intervalo,$paqueteDuracion)
+/*	public function EvaluarEspecialistas($intervalo,$paqueteDuracion)
+	{
+		$intervalosespecialista=[];
+		$especialistasdisponibles=array();
+			$sql="SELECT *FROM  especialista 
+			left join usuarios on especialista.idusuarios=usuarios.idusuarios
+			 WHERE usuarios.estatus=1 and especialista.idsucursal='$this->idsucursal'";
+
+
+			$resp = $this->db->consulta($sql);
+			$cont = $this->db->num_rows($resp);
+
+
+			$array=array();
+			$contador=0;
+			if ($cont>0) {
+
+				while ($objeto=$this->db->fetch_object($resp)) {
+					$this->idespecialista=$objeto->idespecialista;
+					$this->fecha=date('Y-m-d');
+					$this->horaactual=date('H:i');
+					$hora_iniciofecha="";
+					$hora_finfecha="";
+
+					$hora_inicio="";
+					$hora_fin="";
+					$sqlfecha="SELECT *FROM fechahorariosespecialista WHERE idespecialista='$objeto->idespecialista' AND fecha ='$this->fecha' AND horainicial>='$this->horaactual'";
+				
+					$respfecha = $this->db->consulta($sqlfecha);
+					$contadorfechahorario = $this->db->num_rows($respfecha);
+
+					$array=array();
+
+
+					if ($contadorfechahorario>0) {
+
+								while ($objetofecha=$this->db->fetch_object($respfecha)) {
+
+									$hora_iniciofecha=$objetofecha->horainicial;
+									$hora_finfecha=$objetofecha->horafinal;
+								// $intervalosespecialista=$this->intervaloHora($hora_iniciofecha, $hora_finfecha, $intervalo);
+
+								}
+					}
+								//else{
+
+					$sql2="SELECT *FROM horarioespecialista WHERE idespecialista='$objeto->idespecialista' AND dia ='$this->dia'";
+
+					$resp2 = $this->db->consulta($sql2);
+					$cont2 = $this->db->num_rows($resp2);
+
+					$array=array();
+					$contador=0;
+					if ($cont2>0) {
+
+				while ($objeto2=$this->db->fetch_object($resp2)) {
+
+					$hora_inicio=$objeto2->horainicial;
+					$hora_fin=$objeto2->horafinal;
+			//		$intervalosespecialista=$this->intervaloHora($hora_inicio, $hora_fin, $intervalo);
+
+
+
+				//}
+			}
+
+
+			if ($hora_inicio!='' && $hora_iniciofecha!='') {
+				
+					$intervalosespecialista=$this->intervaloHora($hora_iniciofecha, $hora_finfecha, $intervalo);
+
+
+			}
+
+			if ($hora_inicio!='' && $hora_iniciofecha=='') {
+
+							$intervalosespecialista=$this->intervaloHora($hora_inicio, $hora_fin, $intervalo);
+			}
+
+
+			if ($hora_inicio=='' && $hora_iniciofecha!='') {
+
+							$intervalosespecialista=$this->intervaloHora($hora_iniciofecha, $hora_finfecha, $intervalo);
+			}
+
+
+		//}
+
+						//var_dump($intervalosespecialista);die();
+
+					if (count($intervalosespecialista)>0) {
+						# code...
+					
+					for ($i=0; $i <count($intervalosespecialista) ; $i++) { 
+								
+					$horainiciale=substr($intervalosespecialista[$i],0,5);
+
+					$horafinale=substr($intervalosespecialista[$i+1],0,5);
+
+					$nuevaHora = date('H:i', strtotime($horainiciale . ' +'.$paqueteDuracion.' minutes'));
+					$horafinale=$nuevaHora;
+						//verificar si de todos los horarios se encuentra disponible en el horario del intervalo
+					/*echo $this->horainicial.' '.$this->horafinal.'<br>';
+
+					echo $horainiciale.' '.$horafinale;die();*/
+						//echo $horafinale.'=='.$this->horafinal;die();
+					/*	if ($horainiciale==$this->horainicial && $horafinale==$this->horafinal) {
+
+							
+							$evaluarcita=$this->EvaluarCitaHorario();
+
+							if (count($evaluarcita)==0) {
+								
+							//	
+					array_push($especialistasdisponibles,$objeto->idespecialista);
+					
+
+								}
+						
+
+							}
+
+
+							}
+
+						}
+
+
+						}
+					}
+
+					return $especialistasdisponibles;
+
+				}*/ 
+			public function EvaluarEspecialistas($intervalo,$paqueteDuracion)
 	{
 		$especialistasdisponibles=array();
 			$sql="SELECT *FROM  especialista 
@@ -472,6 +605,87 @@ public function ObtenerHorariosEspecialistadia($numdia)
 			return $especialistasdisponibles;
 			
 	}
+		
+public function EvaluarEspecialistas2($intervalo, $paqueteDuracion)
+{
+    $intervalosespecialista = [];
+    $especialistasdisponibles = [];
+
+    $sql = "SELECT * FROM especialista 
+            LEFT JOIN usuarios ON especialista.idusuarios = usuarios.idusuarios
+            WHERE usuarios.estatus = 1 AND especialista.idsucursal = '$this->idsucursal'";
+
+    $resp = $this->db->consulta($sql);
+    $cont = $this->db->num_rows($resp);
+
+    if ($cont > 0) {
+        while ($objeto = $this->db->fetch_object($resp)) {
+            $this->idespecialista = $objeto->idespecialista;
+           // $this->fecha = date('Y-m-d');
+            $this->horaactual = date('H:i');
+            $hora_iniciofecha = "";
+            $hora_finfecha = "";
+            $hora_inicio = "";
+            $hora_fin = "";
+
+            $sqlfecha = "SELECT * FROM fechahorariosespecialista WHERE idespecialista = '$objeto->idespecialista' AND fecha = '$this->fecha'  ";
+           
+            $respfecha = $this->db->consulta($sqlfecha);
+            $contadorfechahorario = $this->db->num_rows($respfecha);
+           	
+            if ($contadorfechahorario > 0) {
+                while ($objetofecha = $this->db->fetch_object($respfecha)) {
+                    $hora_iniciofecha = $objetofecha->horainicial;
+                    $hora_finfecha = $objetofecha->horafinal;
+                }
+            } else {
+                $sql2 = "SELECT * FROM horarioespecialista WHERE idespecialista = '$objeto->idespecialista' AND dia = '$this->dia'";
+                $resp2 = $this->db->consulta($sql2);
+                $cont2 = $this->db->num_rows($resp2);
+
+                if ($cont2 > 0) {
+                    while ($objeto2 = $this->db->fetch_object($resp2)) {
+                        $hora_inicio = $objeto2->horainicial;
+                        $hora_fin = $objeto2->horafinal;
+                    }
+                }
+            }
+
+            if ($hora_inicio != '' && $hora_iniciofecha != '') {
+                $intervalosespecialista = $this->intervaloHora($hora_iniciofecha, $hora_finfecha, $intervalo);
+            }
+
+            if ($hora_inicio != '' && $hora_iniciofecha == '') {
+                $intervalosespecialista = $this->intervaloHora($hora_inicio, $hora_fin, $intervalo);
+            }
+
+            if ($hora_inicio == '' && $hora_iniciofecha != '') {
+                $intervalosespecialista = $this->intervaloHora($hora_iniciofecha, $hora_finfecha, $intervalo);
+            }
+
+
+            if (count($intervalosespecialista) > 0) {
+                for ($i = 0; $i < count($intervalosespecialista); $i++) {
+                    $horainiciale = substr($intervalosespecialista[$i], 0, 5);
+                    $horafinale = substr($intervalosespecialista[$i + 1], 0, 5);
+                    $nuevaHora = date('H:i', strtotime($horainiciale . ' +' . $paqueteDuracion . ' minutes'));
+                    $horafinale = $nuevaHora;
+
+                    if ($horainiciale == $this->horainicial && $horafinale == $this->horafinal) {
+                        $evaluarcita = $this->EvaluarCitaHorario();
+                        if (count($evaluarcita) == 0) {
+                            array_push($especialistasdisponibles, $objeto->idespecialista);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return $especialistasdisponibles;
+}
+
+	
 
 
 
@@ -512,7 +726,7 @@ public function ObtenerHorariosEspecialistadia($numdia)
 				WHERE fechacita='$this->fecha' 
 				and horainicial>='$this->horainicial' AND 
 				horafinal<='$this->horafinal' AND idespecialista='$this->idespecialista'";
-
+				
 			
 			$resp = $this->db->consulta($sql);
 			$cont = $this->db->num_rows($resp);
@@ -567,7 +781,7 @@ public function ObtenerHorariosEspecialistadia($numdia)
 
 		$sql="SELECT *FROM  citas 
 			 WHERE citas.estatus=0 and citas.idsucursal='$this->idsucursal' AND fechacita ='$fecha'  AND '$intervaloavalidar' BETWEEN citas.horainicial AND citas.horafinal ";
-
+			
 			$resp = $this->db->consulta($sql);
 			$cont = $this->db->num_rows($resp);
 
@@ -603,7 +817,7 @@ public function ObtenerHorariosEspecialistadia($numdia)
 					 	if ($encontrado==1) {
 					 		
 
-					 					$totalespecita=	$this->ValidarIntervalo($fecha,$intervaloavalidar);
+					 		$totalespecita=	$this->ValidarIntervalo($fecha,$intervaloavalidar);
 
 					 				if ($totalespecita==$totalespecialista) {
 					 					$pasa=0;
@@ -628,7 +842,7 @@ public function ObtenerHorariosEspecialistadia($numdia)
 
 	public function ValidarIntervalo($fecha,$intervaloavalidar)
 	{
-					$sql="
+			/*$sql="
 					 		SELECT COUNT(DISTINCT especialista.idespecialista) AS total_especialistas
 								FROM citas
 								LEFT JOIN especialista ON citas.idespecialista = especialista.idespecialista
@@ -636,10 +850,20 @@ public function ObtenerHorariosEspecialistadia($numdia)
 								  AND citas.idsucursal = '$this->idsucursal'
 								  AND citas.fechacita = '$fecha'
 								  AND '$intervaloavalidar' BETWEEN citas.horainicial AND citas.horafinal;
-					 		";
+					 		";*/
 					 
+
+					 $sql="SELECT COUNT(DISTINCT especialista.idespecialista) AS total_especialistas
+									FROM citas
+									LEFT JOIN especialista ON citas.idespecialista = especialista.idespecialista
+									WHERE citas.estatus IN(0,1,2,4)
+  							AND citas.idsucursal = '$this->idsucursal'
+  							AND citas.fechacita = '$fecha'
+  							AND '$intervaloavalidar' >= citas.horainicial
+  							AND '$intervaloavalidar' < citas.horafinal";
+  						
 					 			$resp = $this->db->consulta($sql);
-									$cont = $this->db->num_rows($resp);
+								$cont = $this->db->num_rows($resp);
 
 
 									$array=array();
@@ -680,9 +904,72 @@ public function ObtenerHorariosEspecialistadia($numdia)
 		return $array[0]->total;
 	  
 	}
+
+
+
+	public function AccesoSucursalEspecialistaHorario()
+	{
+		$sql="SELECT
+			especialista.idsucursal,especialista.idespecialista
+			FROM
+			especialista
+			JOIN horarioespecialista ON especialista.idespecialista=horarioespecialista.idespecialista
+		 WHERE especialista.idusuarios='$this->idusuarios'  limit 1";
+			
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+
+
+
+
+	public function Disponibilidad4()
+	{
+		$sql="SELECT TABLA1.*,paquetes.nombrepaquete,paquetes.intervaloservicio from (SELECT citas.*,CONCAT(usuarios.nombre)as nombrecliente
+			FROM citas
+		
+		left join usuarios ON usuarios.idusuarios=citas.idusuarios
+
+		WHERE fechacita='$this->fecha' AND idespecialista='$this->idespecialista' AND citas.estatus IN(0,1,2,4)
+
+		  )AS TABLA1
+		LEFT JOIN paquetes ON TABLA1.idpaquete=paquetes.idpaquete
+		where
+		 '$this->horainicial' >= TABLA1.horainicial  AND '$this->horafinal'<=TABLA1.horafinal";
+		
+		  $resp = $this->db->consulta($sql);
+		  $cont = $this->db->num_rows($resp);
+
+		 
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
+
 }
-
-
-
 
  ?>

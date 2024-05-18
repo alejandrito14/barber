@@ -11,6 +11,7 @@ require_once("clases/class.Funciones.php");
 require_once("clases/class.Paquetes.php");
 require_once("clases/class.Especialista.php");
 require_once("clases/class.Cita.php");
+require_once("clases/class.HorarioEspecialista.php");
 
 try
 {
@@ -23,6 +24,8 @@ try
 	$especialista->db=$db;
 	$citas=new Cita();
 	$citas->db=$db;
+	$horarioespecialista=new HorarioEspecialista();
+	$horarioespecialista->db=$db;
 	//$categorias = new Categorias();
 	$fechas = new Fechas();
 	//$categorias->db=$db;
@@ -51,6 +54,8 @@ try
 				
 			}*/
 
+
+
 			if ($obtenerespecialistas[$i]->preciofijo!='') {
 				$obtenerespecialistas[$i]->costo=$obtenerespecialistas[$i]->preciofijo;
 
@@ -61,16 +66,105 @@ try
 			$citas->horainicial=$horaseleccionada[0];
 			$citas->horafinal=$horaseleccionada[1];
 
-			$verificar=$citas->VerificarFechaHorarioEspecialista();
+			$horarioespecialista->dia=$fechas->numeroDiaSemana($fecha);
+			$horarioespecialista->horainicial=$horaseleccionada[0];
+			$horarioespecialista->horafinal=$horaseleccionada[1];
+			$horarioespecialista->idespecialista=$obtenerespecialistas[$i]->idespecialista;
+			$horarioespecialista->idsucursal=$idsucursal;
+
+			$horarioespecialista->horainicial=$horaseleccionada[0];
+
+			$horarioespecialista->fechaactual=date('Y-m-d');
+			$horarioespecialista->fecha=$fecha;
+
+			$especialista->fecha=$fecha;
+			$especialista->horainicial=$horaseleccionada[0];
+			$especialista->horafinal=$horaseleccionada[1];
+			$especialista->idespecialista=$obtenerespecialistas[$i]->idespecialista;
+			
+		 	$buscarhoraausente=$especialista->BuscarHoraAusente();
+			$pasa=0;
+		 	if (count($buscarhoraausente)==0) {
+		 		# code...
+		 	
+
+			$obtenerfechahorario=$horarioespecialista->ObtenerfechaHorario();
+
+			//print_r($obtenerfechahorario);die();
+
+			$obtenerhorario=$horarioespecialista->ObtenerHorario();
+			
+
+		
+
+			if (count($obtenerfechahorario)>0) {
+
+
+				$fechahinicial=$obtenerfechahorario[0]->horainicial;
+				$fechahfinal=$obtenerfechahorario[0]->horafinal;
+
+			/*echo $horaseleccionada[0].'>='.$fechahinicial.'<br>';
+
+			echo $horaseleccionada[1].'<='.$fechahfinal;
+*/
+		
+
+				if (date('H:i', strtotime($fechahinicial))<=date('H:i', strtotime($horaseleccionada[0]))  && 
+    date('H:i', strtotime($horaseleccionada[1])) <= date('H:i', strtotime($fechahfinal)) ) {
+   				
+				$verificarfechahorario=$horarioespecialista->VerficarfechaHorario();
+
+					if (count($verificarfechahorario)>0) {
+						$pasa=1;
+						//echo 'entro a verificarfecha';
+					}
+
+				}
+
+			}else{
+
+			if (count($obtenerfechahorario)==0 && count($obtenerhorario)>0) {
+
+
+				$verificarhorario=$horarioespecialista->VerificarHorario();
+
+				if (count($verificarhorario)>0) {
+					$pasa=1;
+
+					//echo 'entro a verificarhorario';
+
+				}
+			}
+
+
+		}
+
+
+}
+
+
+			
+
+			
+
+		if ($pasa==1) {
+				# code...
+			
+
+			/*$verificar=$citas->VerificarFechaHorarioEspecialista();*/
+
+			$verificar=$citas->VerificacionCita2();
 
 			//$verificarapartada=$citas->VerificarCitaApartada();
 
 			if (count($verificar)==0 ) {
 				
 				array_push($especialistasdisponibles, $obtenerespecialistas[$i]);
+				}
+
+
+
 			}
-
-
 
 		}
 	}

@@ -33,7 +33,7 @@ class Carrito
 		$sql="INSERT INTO carrito(idusuarios, idpaquete, cantidad, costounitario, costototal, idsucursal, idespecialista, idcitaapartada, nombrepaquete, estatus,titulosgrupos) VALUES ('$this->idusuarios', '$this->idpaquete',$this->cantidad,'$this->costounitario','$this->costototal','$this->idsucursal','$this->idespecialista','$this->idcitaapartada', '$this->nombrepaquete', 1,'$this->titulosgrupos')";
 		
 		$resp=$this->db->consulta($sql);
-
+		$this->idcarrito=$this->db->id_ultimo();
 	}
 
 
@@ -65,7 +65,8 @@ class Carrito
 			DATE_FORMAT(citaapartado.fecha,'%d-%m-%Y')as fecha,
 			citaapartado.horainicial,
 			carrito.idcortesia,
-			paquetecortesia.nombrepaquete as nombrepaquetecortesia
+			paquetecortesia.nombrepaquete as nombrepaquetecortesia,
+			carrito_canje.idcanje
 			
 			FROM
 			carrito
@@ -82,6 +83,8 @@ class Carrito
 			left join cortesia 
 			ON carrito.idcortesia=cortesia.idcortesia
 			left join paquetes as paquetecortesia on paquetecortesia.idpaquete=cortesia.idpaquetecortesia
+			left join carrito_canje
+			on carrito_canje.idcarrito=carrito.idcarrito
 			WHERE carrito.idusuarios='$this->idusuarios' AND carrito.estatus=1 ORDER BY sucursal.idsucursal
 
 		";
@@ -117,7 +120,9 @@ class Carrito
 
 	public function ObtenerDelCarrito()
 	{
-		$sql="SELECT *FROM carrito WHERE idcarrito='$this->idcarrito'";
+		$sql="SELECT *FROM carrito
+			LEFT JOIN carrito_canje ON carrito_canje.idcarrito=carrito.idcarrito
+		 WHERE carrito.idcarrito='$this->idcarrito'";
 		
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
@@ -295,6 +300,8 @@ class Carrito
 		
 		$resp=$this->db->consulta($sql);
 	 }
+
+	 
 
 }
  ?>

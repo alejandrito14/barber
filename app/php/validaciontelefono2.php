@@ -109,11 +109,20 @@ try
   
     $mensaje->accestoken='EAAPR4S8LbikBO5OooXf3Uz8fFxvpf9r4zSKZBz5otYZAgNtYBwt4flObUw5YT0ZCXKDXO3BmUV3NfOWFZBsCErVHEor4ZBeoRDv5HcC0lMDujBFGYj9DXLmoYw1OzcbfUaMDjhXUt4p05I6ZArul74mHTNpXeDhg67YoCORxTlXjbLcPBP9ZCYs34cYZA7Jd';*/
 
-    $mensaje->Version='v18.0';
+   /* $mensaje->Version='v18.0';
     $mensaje->phoneid='210109905527925';
     $mensaje->tophone='52'.$lo->celular;
 
-    $mensaje->accestoken='EAAFJOpHSczABO8IJZC2ZBdTfsfoBQ1A8Krce3IemwECQGlySltZAjL4ZC8USCh1yg1aNEKoSLOMvZAZCGe2WeMZCXiXfJU5YgVdRodJo88Sm2gY5tjdc1pDNfSeWZCbJ5ujPHq7SzGby8I6kn4WDXJl1CNsAnk4k3ans3nlmFOtHxZBhxTjYJ0coebdGdFhdZAexj5';
+    $mensaje->accestoken='EAAFJOpHSczABO8IJZC2ZBdTfsfoBQ1A8Krce3IemwECQGlySltZAjL4ZC8USCh1yg1aNEKoSLOMvZAZCGe2WeMZCXiXfJU5YgVdRodJo88Sm2gY5tjdc1pDNfSeWZCbJ5ujPHq7SzGby8I6kn4WDXJl1CNsAnk4k3ans3nlmFOtHxZBhxTjYJ0coebdGdFhdZAexj5';*/
+
+        $mensaje->Version='v19.0';
+
+        //$mensaje->Version='v17.0';
+        //$mensaje->phoneid='162367660284534';
+        $mensaje->phoneid='239003922634897';
+        $mensaje->tophone='52'.$lo->celular;
+  
+        $mensaje->accestoken='EAAFFRVtQFoABO73Jm0leTdQAyRWk491qkozHJbjcUUD0ZA2KA75KHn132MvDcyHUycTZC5FyXbMZCt0omSpvXlsYywMidJy1HhTHWzI6NlG4Seq42ZCf9LgGUeU0ZCdZBbs8aOb8KqAl6aMCtEOJPoxZCpoT19Q1ncXUbD9bc3qSDeIbYKP5wiZBvgrQmG4h7ZBRS';
 
     $mensaje->texto=$lo->codigosms;
     $resp=$mensaje->EnviarMensaje();

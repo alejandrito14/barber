@@ -99,12 +99,12 @@ function CargarCalendario6() {
             $('.calendar-custom-toolbar .center').text(monthNames[c.currentMonth] + ', ' + c.currentYear);
             $('.calendar-custom-toolbar .left .link').on('click', function () {
               calendarInline.prevMonth();
-            	RefrescarFechasEspecialista(c);
+            	RefrescarFechasSucursal();
 
             });
             $('.calendar-custom-toolbar .right .link').on('click', function () {
               calendarInline.nextMonth();
-            	RefrescarFechasEspecialista(c);
+            	RefrescarFechasSucursal();
 
             });
           },

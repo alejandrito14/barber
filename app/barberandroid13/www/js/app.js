@@ -97,7 +97,7 @@ var intervalocitas=0;
 
 var pictureSource;   // picture source
 var destinationType; 
-var produccion=0;
+var produccion=1;
 const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 localStorage.setItem('zonahoraria',userTimeZone);
@@ -111,7 +111,7 @@ $(document).ready(function() {
 
     }else{
 
-      codigoservicio='127';
+      codigoservicio='152';
      
     }
 
@@ -181,7 +181,7 @@ function Cargar() {
       codigoservicio='125';
 
     }else{
-      codigoservicio='127';
+      codigoservicio='152';
     }
  
     var datos="clave=issoftware"+"&codservicio="+codigoservicio;
@@ -496,6 +496,8 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
             );
            }*/
 
+     ObtenerConfiTarjeta();
+
   })
   .catch(error => {
     console.error('Ocurrió un error:', error);
@@ -726,7 +728,7 @@ $$(document).on('page:init', '.page[data-name="detallesucursal"]', function (e) 
 
       $("#mensajeAgenda").attr('onclick','ocultarMensaje()');
 
-
+      ObtenerConfiTarjeta();
 
 });
 

@@ -496,6 +496,8 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
             );
            }*/
 
+     ObtenerConfiTarjeta();
+
   })
   .catch(error => {
     console.error('Ocurrió un error:', error);
@@ -726,7 +728,7 @@ $$(document).on('page:init', '.page[data-name="detallesucursal"]', function (e) 
 
       $("#mensajeAgenda").attr('onclick','ocultarMensaje()');
 
-
+      ObtenerConfiTarjeta();
 
 });
 

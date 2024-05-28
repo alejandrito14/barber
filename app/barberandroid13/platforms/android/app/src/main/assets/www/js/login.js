@@ -1012,4 +1012,5 @@ function RegresarInicio(argument) {
 
 function CargarMenu() {
 	$(".limenu").attr('onclick','SeleccionMenu(this)');
+	
 }

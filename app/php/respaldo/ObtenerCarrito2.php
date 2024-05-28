@@ -11,7 +11,6 @@ require_once("clases/class.Fechas.php");
 require_once("clases/class.Paquetes.php");
 require_once("clases/class.Tarjetalealtad.php");
 require_once("clases/class.Canje.php");
-require_once("clases/class.PagConfig.php");
 
 
 /*require_once("clases/class.Sms.php");
@@ -28,9 +27,6 @@ try
 	$fechas=new Fechas();
 	$paquetes=new Paquetes();
 	$paquetes->db=$db;
-	$config=new PagConfig();
-	$config->db=$db;
-
 	//Enviamos la conexion a la clase
 	$lo->db = $db;
 
@@ -43,9 +39,6 @@ try
 	$iduser=$_POST['idusuario'];
 	$lo->idusuarios=$iduser;
 	$obtenercarrito=$lo->ObtenerCarrito();
-
-	$obtenervalidaciontarjeta=$config->ObtenerInformacionConfiguracion();
-	$habilitartarjetafuncion=$obtenervalidaciontarjeta['habilitartarjetafuncion'];
 	
 	$totalcarrito=0;
 	for ($i=0; $i < count($obtenercarrito); $i++) { 
@@ -62,10 +55,7 @@ try
 				$obtenercarrito[$i]->precioante=$obtenerpaquete[0]->precioventa;
 		
 			}
-			
-	if ($habilitartarjetafuncion==1) {
-				// code...
-			
+
 	if ($obtenercarrito[$i]->idcanje==null) {
 				// code...
 			
@@ -157,10 +147,6 @@ try
 			}
 
 		}
-	}else{
-
-		$obtenercarrito[$i]->idcanje=null;
-	}
 
 			$totalcarrito=$totalcarrito+$obtenercarrito[$i]->costototal;
 			/*$lo->idcarrito=$obtenercarrito[$i]->idcarrito;

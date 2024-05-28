@@ -69,6 +69,7 @@ class Notapago
 	public $monederoaplicado;
 	public $descripcioncupon;
 	public $costounitario;
+	public $idcarrito=0;
 
 	public function CrearNotapago()
 	{
@@ -137,7 +138,7 @@ class Notapago
 	public function Creardescripcionpago()
 	{
 		try {
-			$sql="INSERT INTO notapago_descripcion(idnotapago, descripcion, cantidad, monto, idpaquete,idcita,tipo,costounitario,monederoaplicado,idcupon,codigocupon,montocupon) VALUES ( '$this->idnotapago', '$this->descripcion', '$this->cantidad','$this->monto', '$this->idpaquete','$this->idcita','$this->tipo','$this->costounitario','$this->monederoaplicado','$this->idcupon','$this->codigocupon','$this->montocupon')";
+			$sql="INSERT INTO notapago_descripcion(idnotapago, descripcion, cantidad, monto, idpaquete,idcita,tipo,costounitario,monederoaplicado,idcupon,codigocupon,montocupon,idcarrito) VALUES ( '$this->idnotapago', '$this->descripcion', '$this->cantidad','$this->monto', '$this->idpaquete','$this->idcita','$this->tipo','$this->costounitario','$this->monederoaplicado','$this->idcupon','$this->codigocupon','$this->montocupon','$this->idcarrito')";
 		
 		$resp=$this->db->consulta($sql);
 		$this->idnotapagodescripcion=$this->db->id_ultimo();
@@ -611,6 +612,37 @@ class Notapago
 			echo $e;
 		}
 		
+	}
+
+
+	public function Obtenernotaspagadas()
+	{
+		$sql="SELECT
+		notapago.idnotapago,
+		notapago.idusuario,
+		notapago.estatus,
+		notapago.tpv,
+		notapago.tipopago
+		FROM
+		notapago
+		
+		WHERE notapago.estatus=1 and notapago.fecha>='2024-01-01'";
+		
+		$resp = $this->db->consulta($sql);
+			$cont = $this->db->num_rows($resp);
+
+
+			$array=array();
+			$contador=0;
+			if ($cont>0) {
+
+				while ($objeto=$this->db->fetch_object($resp)) {
+
+					$array[$contador]=$objeto;
+					$contador++;
+				} 
+			}
+			return $array;
 	}
 
 

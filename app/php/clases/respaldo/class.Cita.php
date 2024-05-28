@@ -746,7 +746,7 @@ class Cita
 			  AND fechacita = '$this->fechacita'
 			  AND ((horainicial < '$this->horafinal' AND horafinal > '$this->horainicial') OR (horainicial >= '$this->horainicial' AND horainicial < '$this->horafinal'))
 			  AND estatus != 3";
-
+			 
 		/*$sql="SELECT TABLA1.* from (SELECT *
 			FROM citas
 

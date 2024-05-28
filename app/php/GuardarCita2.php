@@ -12,6 +12,7 @@ require_once("clases/class.Paquetes.php");
 require_once("clases/class.Fechas.php");
 require_once "clases/class.Canje.php";
 require_once("clases/class.Tarjetalealtad.php");
+require_once("clases/class.PagConfig.php");
 
 
 try
@@ -31,7 +32,11 @@ try
 	$lo = new Canje();
 	$lo->db=$db;
 	$tarjeta = new Tarjetalealtad();
+	$config=new PagConfig();
+	$config->db=$db;
 
+	$obtenervalidaciontarjeta=$config->ObtenerInformacionConfiguracion();
+	$habilitartarjetafuncion=$obtenervalidaciontarjeta['habilitartarjetafuncion'];
 
 	$tarjeta->db = $db;
 
@@ -72,9 +77,8 @@ try
 
 
 
-
-	
-
+	if ($habilitartarjetafuncion==1) {
+		// code...
 
 	$tarjeta->idusuario=$cita->idusuario;
 	$tarjeta->idsucursal=$cita->idsucursal; 
@@ -146,8 +150,12 @@ try
 		$costo=0;
 		$costototal=0;
 	}
+	
+
+}
 	$carrito->costounitario=$costo;
 	$carrito->costototal=$costototal;
+
 	$carrito->idsucursal=$cita->idsucursal;
 	$carrito->idespecialista=$cita->idespecialista;
 	$carrito->idcitaapartada=$cita->idcitaapartado;

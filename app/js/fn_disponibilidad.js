@@ -1221,6 +1221,8 @@ var htmlmodal=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:
 }
 var cacheespecialista=[];
 function ObtenerListadoEspecialista() {
+
+ 
   // body...
     var idsucursal=localStorage.getItem('idsucursal');
     var idpaquete=localStorage.getItem('idpaquete');

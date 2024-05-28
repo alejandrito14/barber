@@ -8,7 +8,6 @@ require_once("clases/conexcion.php");
 require_once("clases/class.Tarjetalealtad.php");
 require_once("clases/class.Funciones.php");
 require_once("clases/class.Fechas.php");
-require_once("clases/class.PagConfig.php");
 
 /*require_once("clases/class.Sms.php");
 require_once("clases/class.phpmailer.php");
@@ -22,27 +21,19 @@ try
 	$lo = new Tarjetalealtad();
 	$f=new Funciones();
 	$fechas=new Fechas();
-	$config=new PagConfig();
-	$config->db=$db;
+
 	//Enviamos la conexion a la clase
 	$lo->db = $db;
 
-	$obtenerproductos=[];
+
 	$idusuario=$_POST['idusuario'];
 	$idsucursal=$_POST['idsucursal'];
-	$obtenervalidaciontarjeta=$config->ObtenerInformacionConfiguracion();
-	$habilitartarjetafuncion=$obtenervalidaciontarjeta['habilitartarjetafuncion'];
- 
+
 	$lo->idusuario=$idusuario;
 	$lo->idsucursal=$idsucursal; 
+	$obtenerasignada=$lo->ObtenerTarjetasAsignadas();
 	$idtarjetalealtadporcanjear=0;
 	$asignacion=[];
-	
-	if ($habilitartarjetafuncion==1) {
-		// code...
-	
-	$obtenerasignada=$lo->ObtenerTarjetasAsignadas();
-	
 	if (count($obtenerasignada)>0) {
 		
 		for ($i=0; $i <count($obtenerasignada) ; $i++) { 
@@ -81,7 +72,7 @@ try
 	}
 
 
-}
+
 	
 
 	$respuesta['respuesta']=$obtenerproductos;

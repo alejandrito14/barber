@@ -11,6 +11,8 @@ require_once "clases/class.Funciones.php";
 require_once "clases/class.Carrito.php";
 require_once "clases/class.Cita.php";
 require_once "clases/class.UsoCupon.php";
+require_once "clases/class.Tarjetalealtad.php";
+require_once "clases/class.Canje.php";
 
 //require_once("clases/class.PagosCoach.php");
 
@@ -381,6 +383,12 @@ try {
                $usocupon= new UsoCupon();
                $usocupon->db = $db;
 
+               $tarjetalealtad= new Tarjetalealtad();
+               $tarjetalealtad->db = $db;
+
+               $canje= new Canje();
+               $canje->db = $db;
+             
              
          $carrito->idusuarios=$iduser;
          $obtenercarrito=$carrito->ObtenerCarrito();
@@ -431,6 +439,7 @@ try {
                $notapago->monederoaplicado=$obtenercarrito[$i]->montomonedero;
                $notapago->idcupon=$idcupon;
                $notapago->codigocupon=$codigocupon;
+               $notapago->idcarrito=$obtenercarrito[$i]->idcarrito;
                $notapago->montocupon=$montocupon;
               $notapago->Creardescripcionpago();
                
@@ -442,6 +451,13 @@ try {
                 $carrito->ActualizarEstatusCarrito();
 
                 $sumacarrito=$sumacarrito+$obtenercarrito[$i]->costototal;
+
+                if ($obtenercarrito[$i]->idcanje!=null && $obtenercarrito[$i]->idcanje!=0) {
+                    
+                  $canje->idcanje=$obtenercarrito[$i]->idcanje;
+                  $canje->ActualizarCanjeTarjeta();
+                }
+
                }
         
 
@@ -585,6 +601,8 @@ try {
 
         }
 
+
+
     /*if ($confoto == 1) {
 
         $nombreimagenes = explode(',', $rutacomprobante);
@@ -617,10 +635,21 @@ try {
             
           }
 
-
          
 
-              $db->commit();
+      if($estatusdeproceso==1) {
+       
+       
+          //tarjeta de lealtad
+        $tarjetalealtad->idnotapago=$idnotapago;
+        $tarjetalealtad->Verificarproductosnota();
+
+       }
+ 
+        
+        $db->commit(); 
+
+              
 
               if ($constripe==0) {
                  $output = [

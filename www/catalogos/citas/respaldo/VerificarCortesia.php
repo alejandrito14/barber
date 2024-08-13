@@ -51,8 +51,19 @@ try {
 
 		$idpaquete=$_POST['idpaquete'];
 		$paquetes->idpaquete=$idpaquete;
+		
+		$objeto=[];
+
+		 $ruta="./catalogos/paquetes/imagenespaquete/".$codigo."/NINGUNO.jpg";
+
+		$colocar=array('nombrepaquete'=>'Ninguna','idpaquete'=>0,'idcortesia'=>0,'ruta'=>$ruta,'foto'=>'');
+
+		array_push($objeto,$colocar);
+
 		$cortesias=$paquetes->ObtenerCortesias();
-		for ($i=0; $i <count($cortesias) ; $i++) { 
+
+		
+		for ($i=0; $i <count($cortesias); $i++) { 
 			  $foto=$cortesias[$i]->foto;
                 $ruta="";
                 if ($foto!='') {
@@ -60,11 +71,15 @@ try {
                 }
 
 
-        $cortesias[$i]->ruta=$ruta;
+       			 $cortesias[$i]->ruta=$ruta;
+
+       			 array_push($objeto, $cortesias[$i]);
 		}
+
+
 		
 		$respuesta['respuesta']=1;
-		$respuesta['cortesias']=$cortesias;
+		$respuesta['cortesias']=$objeto;
 
 		echo json_encode($respuesta);
 	} catch (Exception $e) {

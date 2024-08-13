@@ -7,6 +7,7 @@ require_once "clases/conexcion.php";
 require_once "clases/class.Carrito.php";
 require_once "clases/class.Funciones.php";
 require_once "clases/class.Cita.php";
+require_once "clases/class.Usuarios.php";
 
 
 try
@@ -21,11 +22,22 @@ try
     //Enviamos la conexion a la clase
     $lo->db    = $db;
     $cita->db=  $db;
+    $usuarios=new Usuarios();
+    $usuarios->db=$db;
         $db->begin();
     $id_user=$_POST['id_user'];
     //$db->begin();
     //Recibimos parametros
     $lo->idusuarios=$id_user;
+    $idusuario=$id_user;
+    $usuarios->idusuarios=$idusuario;
+    $obtenerhijos=$usuarios->ObtenerHijos();
+
+    for ($i=0; $i < count($obtenerhijos); $i++) { 
+        $idusuario.=','.$obtenerhijos[$i]->idusuarios;
+    }
+    $lo->idusuarios=$idusuario;
+   
     $obtenerdecarrito= $lo->ObtenerCarrito();
 
 

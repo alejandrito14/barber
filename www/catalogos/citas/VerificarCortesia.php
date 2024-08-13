@@ -56,7 +56,7 @@ try {
 
 		 $ruta="./catalogos/paquetes/imagenespaquete/".$codigo."/NINGUNO.jpg";
 
-		$colocar=array('nombrepaquete'=>'Ninguna','idpaquete'=>0,'ruta'=>$ruta,'foto'=>'');
+		$colocar=array('nombrepaquete'=>'Ninguna','idpaquete'=>0,'idcortesia'=>0,'ruta'=>$ruta,'foto'=>'');
 
 		array_push($objeto,$colocar);
 

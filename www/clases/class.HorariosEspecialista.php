@@ -19,6 +19,52 @@ class HorariosEspecialista
 	public function ObtenerHorariosEspecialista()
 	{
 		$sql="SELECT *FROM horarioespecialista WHERE idsucursal=".$this->idsucursal." AND idespecialista='$this->idespecialista'";
+	
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+
+
+	public function ObtenerFechaHorarios()
+	{
+		$sql="SELECT *FROM fechahorariosespecialista WHERE idsucursal=".$this->idsucursal." AND idespecialista='$this->idespecialista'";
+		
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+
+
+	public function ObtenerHorariosAusente($value='')
+	{
+		$sql="SELECT *FROM horariosausente WHERE idsucursal=".$this->idsucursal." AND idespecialista='$this->idespecialista'";
 		
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);

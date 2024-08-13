@@ -988,6 +988,47 @@ public function lista_Usuarios2($tipo,$filtro)
 	}
 
 
+	public function Eliminarfechahorarios()
+	{
+			$sql = "SELECT * FROM especialista WHERE idusuarios = '$this->id_usuario' ";
+		
+		$resp = $this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$idespecialista=$objeto->idespecialista;
+				
+				$sql2="SELECT *FROM fechahorariosespecialista WHERE idespecialista='$idespecialista'";
+
+				$resp2 = $this->db->consulta($sql2);
+				$cont2 = $this->db->num_rows($resp2);
+
+				if ($cont2>0) {
+
+			while ($objeto2=$this->db->fetch_object($resp2)) {
+
+
+					$sql3="DELETE FROM fechahorariosespecialista WHERE idespecialista='$idespecialista' ";
+
+					$resp3 = $this->db->consulta($sql3);
+
+
+				}
+
+			}
+
+
+			} 
+		}
+		return 1;
+	}
+
 
 
 	public function ObtenerUsuarioCelular()
@@ -1014,9 +1055,59 @@ public function lista_Usuarios2($tipo,$filtro)
 
 	}
 
-	public function ObtUsuariosActivosOrdenadas()
+	/*public function ObtUsuariosActivosOrdenadas()
 	{
 		
+	}*/
+
+
+	public function ValidarUsuarioModificar()
+	{
+		$sql="SELECT *FROM usuarios WHERE 
+		usuario='$this->usuario' and clave='$this->clave'
+		";
+
+		
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+
+	public function ValidarUsuarioCelular()
+	{
+		$sql="SELECT *FROM usuarios WHERE 
+		idusuarios='$this->id_usuario' and celular='$this->celular'
+		";
+
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
 	}
 
 }

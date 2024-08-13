@@ -283,7 +283,9 @@ class Notapago
 			left join paquetes as paquetecortesia on paquetecortesia.idpaquete=cortesia.idpaquetecortesia
 			left join cupones on notapago_descripcion.idcupon=cupones.idcupon
 			
-		 WHERE idnotapago='$this->idnotapago'";
+		 WHERE cancelado=0 AND idnotapago='$this->idnotapago'";
+
+		
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 
@@ -638,16 +640,19 @@ class Notapago
 
 	public function Obtenernotaspagadas()
 	{
-		$sql="SELECT
-		notapago.idnotapago,
-		notapago.idusuario,
-		notapago.estatus,
-		notapago.tpv,
-		notapago.tipopago
-		FROM
-		notapago
-		
-		WHERE notapago.estatus=1 and notapago.fecha>='2024-01-01'";
+	
+	$sql="SELECT
+    notapago.idnotapago,
+    notapago.idusuario,
+    notapago.estatus,
+    notapago.tpv,
+    notapago.tipopago
+	FROM
+	    notapago
+	WHERE
+    notapago.estatus = 1
+    AND notapago.idnotapago NOT IN (3751, 3807, 3713, 3752)
+    AND notapago.fecha >= '2024-01-01'";
 		
 		$resp = $this->db->consulta($sql);
 			$cont = $this->db->num_rows($resp);

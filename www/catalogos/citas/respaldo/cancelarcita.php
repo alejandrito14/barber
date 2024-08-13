@@ -123,7 +123,7 @@ if(!isset($_GET['idcita']))
 
 	$fechacita=$fechas->fecha_texto5($obtenercita[0]->fechacita);
 	$cliente=$obtenercita[0]->nombreusuario;
-	$nombrepaquete=$obtenercita[0]->concepto;
+	$nombrepaquete=$obtenercita[0]->nombrepaquete;
 	
 	$cortesia=$obtenercita[0]->nombrepaquetecortesia;
 	$horacita=$obtenercita[0]->horainicial.'-'.$obtenercita[0]->horafinal;
@@ -131,6 +131,7 @@ $nombreespecialista=$obtenercita[0]->nombreespecialista;
 
 $idusuariocita=$obtenercita[0]->idusuarios;
 $estatuscita=$obtenercita[0]->estatuscita;
+$celular=$obtenercita[0]->celular;
 
 
 }
@@ -158,14 +159,14 @@ $estatuscita=$obtenercita[0]->estatuscita;
 					<div style="clear: both;"></div>
 
 				
-					<?php if($estatuscita==0){?>
+					
 						
 				
 
-				<button type="button" class="btn btn-success btnguardarreagenda" style="float: right;" title="" onclick="GuardarCancelacion('<?php echo $idcita ?>')">
-				<i class="mdi mdi mdi-content-save"></i>CANCELAR CITA	</button>
+				<button type="button" class="btn btncancelarcita btnguardarreagenda" style="float: right;" title="" onclick="GuardarCancelacion('<?php echo $idcita ?>')">
+				<i class="mdi mdi mdi-content-save"></i>CANCELAR</button>
 
-					<?php } ?>
+					
 
 				<button type="button" onClick="aparecermodulos('catalogos/dashboard/vi_dashboard.php?idmenumodulo=<?php echo $idmenumodulo;?>','main');" class="btn btn-primary" title="" style="margin-right: 10px;float: right;"><i class="mdi mdi-arrow-left-box"></i>DASHBOARD</button>
 				
@@ -192,9 +193,9 @@ $estatuscita=$obtenercita[0]->estatuscita;
 			<!-- Tab panes -->
 
 			<div class="tab-content tabcontent-border" style=" ">
-			
-				<div class="card" id="home" role="tabpanel">
-					<div class="card-header" style="margin-top: 1em;">
+			<div class="card" id="home" role="tabpanel">
+				
+			<div class="card-header" style="margin-top: 1em;">
 						<h5>DETALLE DE LA CITA </h5>
 				</div>
 
@@ -202,32 +203,48 @@ $estatuscita=$obtenercita[0]->estatuscita;
 				<div class="row">
 				<div class="col-md-6">
 						<div class="row">
+
+
+
+							<div class="card margin-bottom">
+                    <div class="card-header" style="    border-radius: 10px;
+    margin: 10px;">
+                        <div class="row" style="    margin: 5px;">
                             
-                            <div class="col-50" style="    margin-left: 20px;">
-                                <h3 class="no-margin-bottom text-color-theme"><?php echo $titulo; ?></h3>
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;"><?php echo $descripcion ?></p>
+                            <div class="col-50">
 
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;"><?php echo $fechacita; ?></p>
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;"><?php echo $horacita; ?>Hrs.</p>
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:26px;">Cliente: <?php echo $cliente; ?></h3>
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:26px;">Celular: <?php echo $celular; ?></h3>
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:24px;font-weight: normal;"><?php echo $fechacita; ?></h3>
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:24px;"><?php echo $horacita; ?>Hrs.</h3> <h3 class="no-margin-bottom text-color-theme" style="font-size:22px;font-weight: normal;"><?php echo $nombrepaquete ?></h3>
 
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;">Cliente: <?php echo $cliente; ?></p> 
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;">Barbero: <?php echo $nombreespecialista; ?></p> 
+                             <h3 class="no-margin-bottom text-color-theme" style="font-size:20px;"><?php echo $titulo; ?></h3>
+                            	<p class="no-margin-bottom text-color-theme" style="font-size:20px;"><?php echo $descripcion ?></p>
 
-                            	<p class="no-margin-bottom text-color-theme" style="font-size: 14px;"><?php echo $nombrepaquete ?></p>
-
-
-
-
-                         <div class="icon-text-container" style="margin-top: 10px;">
-
-                           <p style="margin:0;font-size: 14px">Cortesía: <span class="texto"><?php echo $cortesia; ?></span></p>
 
                            </div>
-								                               
-						</p>
 
+                            <div class="col-50">
+                                <div class="avatar">
+                                    <img src="catalogos/sucursal/imagenes/imagenprincipal.jpg" alt="" style="margin-top: 1.4em;    width: 100%;border-radius: 10px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content card-content-padding">
+                        <p class="text-muted margin-bottom">
+                           
+                        </p>
+                        <div class="row">
+                          
+                            
+                            
+                        </div>
+                    </div>
+                </div>
 
-           </div>
+                            
+                            </div>
 
           <div class="col-50">
           <div class="avatar">
@@ -330,6 +347,61 @@ $estatuscita=$obtenercita[0]->estatuscita;
   </div>
 </div>
 
+
+
+<!-- El modal PREGUNTA -->
+<div class="modal fade" id="modalcancelacionpregunta">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+      <!-- Encabezado del modal -->
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Contenido del modal -->
+      <div class="modal-body">
+       
+      		<div id="elementosacancelar" class="row"></div>
+      </div>
+      
+      <!-- Pie del modal -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="OpcionNoCancelar('<?php echo $idcita;?>','<?php echo $idusuariocita;?>')">NO</button>
+        <button type="button" class="btn btn-success btncancelar" onclick="Cancelacion('<?php echo $idcita;?>','<?php echo $idusuariocita;?>')">SI</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modalcancelacionpreguntaunico">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+      <!-- Encabezado del modal -->
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Contenido del modal -->
+      <div class="modal-body">
+       
+            <div id="elementosacancelarunico" class="row"></div>
+      </div>
+      
+      <!-- Pie del modal -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+        <button type="button" class="btn btn-success btncancelar" onclick="CancelacionUnicaCita('<?php echo $idcita;?>','<?php echo $idusuariocita;?>')">SI</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
 
 <link rel="stylesheet" type="text/css" href="assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 <script src="assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
@@ -637,7 +709,7 @@ display: flex;
 
 
 	<script type="text/javascript">
-	
+	var motivocancela="";
 </script>
 
 

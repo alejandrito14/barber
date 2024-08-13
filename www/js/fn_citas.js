@@ -966,7 +966,6 @@ function PintarFechaSeleccionada3(fecha) {
 
 
 function ObtenerListadoEspecialista2() {
-	
 
     var horario=horainicialsele+'_'+horafinalsele;
     var datos='idsucursal='+idsucursalagenda+"&idpaquete="+idseleccionpaquete+"&horaseleccionada="+horario+"&fecha="+fechaseleccionada;

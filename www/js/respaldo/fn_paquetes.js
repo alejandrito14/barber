@@ -230,7 +230,7 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 				var txtvigencia=$("#txtvigencia").val();
 				var convigencia=$("#convigencia").val();
 				var txtmonederoregalo=$("#txtmonederoregalo").val();
-
+				var txtcosto=$("#txtcosto").val();
 				var data = new FormData();
 
 		var archivos = document.getElementById("image"); //Damos el valor del input tipo file
@@ -312,6 +312,7 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 		data.append('tarjetaregalo',tarjetaregalo);
 		data.append('txtvigencia',txtvigencia);
 		data.append('convigencia',convigencia);
+		data.append('txtcosto',txtcosto);
 		$('#main').html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Subiendo Archivos...</div>')
 
 
@@ -1066,6 +1067,8 @@ function HabilitarTarjeta() {
 		$("#tarjetaregalo").val(1);
 		$("#divconvigencia").css('display','block');
 		$("#monederoregalo").css('display','block');
+		$("#txtmonederoregalo").css('display','block');
+
 	}else{
 
 		$("#tarjetaregalo").val(0);

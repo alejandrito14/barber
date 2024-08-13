@@ -272,7 +272,25 @@ public function ObtenerTipodepago2()
 		return $array;
 	}
 
+	public function Obtenertipodepagoreporte()
+	{
+		$query="SELECT *,0 AS montoacumulado FROM tipodepago WHERE estatus=1";
+		
+		$resp=$this->db->consulta($query);
+		$cont = $this->db->num_rows($resp);
 
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		return $array;
+	}
 
 }
 

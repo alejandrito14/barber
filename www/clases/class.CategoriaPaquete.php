@@ -66,6 +66,28 @@ public function ObtenerCategoriasPrincipales()
 		return $array;
 	}
 
+	public function ObtenerCategoriasPrincipalesFiltroProductos()
+	{
+		$sql="SELECT *from categoriapaquete WHERE iddepende=0 and estatus=1 and detiposervicio=0 ";
+
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+
 
 public function VerificarSiCategoriaTieneSub()
 {

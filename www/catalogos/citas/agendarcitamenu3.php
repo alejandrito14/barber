@@ -180,7 +180,7 @@ $wizardStep = $_SESSION['wizard_step'];
         <!-- Aquí se cargarán dinámicamente las subcategorías -->
     </div>
 
-     <div class="card cardfechaspro" id="home" role="tabpanel" >
+     <div class="card cardfechaspro" id="home" role="tabpanel" style="display: none;">
      <div class="card-header" style="margin-top: 1em;    margin-bottom: 1em;">
       <h5>SELECCIONAR FECHA/HORA/BARBERO </h5>
     </div>
@@ -220,7 +220,7 @@ $wizardStep = $_SESSION['wizard_step'];
      <div class="col-md-12" style="justify-content: space-between;
     display: flex;
     flex-wrap: nowrap;">
-        <button type="button" class="btn btn-primary prev-step" onclick="goToPreviousStep()">Regresar</button>
+        <button type="button" class="btn btn-primary prev-step" onclick="goToPreviousStep()" style="display: none;">Regresar</button>
 
 
          <button type="button" class="btn btn-primary btnstep2" style="display: none;" id="btstep2" onclick="">Continuar</button>
@@ -1506,7 +1506,7 @@ function showContinuar(llaveelemento) {
   var datos="idnotapago="+idnotapago+"&valoredicion="+dividir[0]+"&elementos="+JSON.stringify(arraypaqueteseleccionado);
 
      $.ajax({
-          url:'catalogos/temporalcarrito/GuardarElementos.php', //Url a donde la enviaremos
+          url:'catalogos/temporalcarrito/GuardarElementos.php', //Url a donde la enviaremos 
           type:'POST', //Metodo que usaremos
           dataType:'json',
           async:false,
@@ -1523,7 +1523,7 @@ function showContinuar(llaveelemento) {
               
               var respuesta=msj.respuesta;
               if (respuesta==1) {
-                $("#modal-forms2").modal('hide');
+                $("#modal-forms4").modal('hide');
               }
 
               }

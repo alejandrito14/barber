@@ -103,7 +103,7 @@ try
           $carrito->estatus=1;
           $carrito->AgregarCarrito();
 
-
+ 
 
       }else{
 
@@ -123,8 +123,8 @@ try
             $carrito->costototal=$costo;
             $carrito->nombrepaquete=$obtenerpaquete[0]->nombrepaquete;
             $carrito->estatus=1;
-
-            $carrito->idespecialista=0;
+            
+            $carrito->idespecialista=$paquetesseleccionados[$i]->idespecialista;
              $carrito->idcitaapartada=0;
             $obtenerdecarrito=$carrito->BuscarPaqueteCarrito();
 

@@ -3113,4 +3113,28 @@ h6,
 .dialog-button{
   color: black;
 }
+
+.cerrar-menu {
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    margin-top: -10px; /* Ajusta este valor según tu preferencia */
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ccc;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.x {
+    font-size: 20px;
+    color: black;
+}
+
+
 /*# sourceMappingURL=style.css.map */

@@ -97,7 +97,7 @@ var intervalocitas=0;
 
 var pictureSource;   // picture source
 var destinationType; 
-var produccion=0;
+var produccion=1;
 const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 localStorage.setItem('zonahoraria',userTimeZone);

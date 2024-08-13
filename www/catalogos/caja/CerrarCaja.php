@@ -18,6 +18,7 @@ if(!isset($_SESSION['se_SAS']))
 require_once("../../clases/conexcion.php");
 require_once("../../clases/class.Caja.php");
 require_once("../../clases/class.Funciones.php");
+require_once("../../clases/class.Notapago.php");
 
 try
 {
@@ -25,7 +26,9 @@ try
 	$db = new MySQL();
 	$caja = new Caja();
 	$f = new Funciones();
-	
+	$notaspago= new Notapago();
+	$db->begin();
+
 	//enviamos la conexión a las clases que lo requieren
 	$caja->db=$db;
 
@@ -36,18 +39,31 @@ try
 	$caja->montofinal=$_POST['saldofinal'];
 	$caja->estatus=2;
 
-	$obtenercaja=$caja->ActualizarCaja();
+	$caja->ActualizarCaja();
+
+	$obtenercorte=$caja->ObtenerCaja();
+	$fechainicial=$obtenercorte[0]->fechainicio;
+	$caja->fechainicio=$fechainicial;
+
+	$obtenernotaspagadassinmanejo=$caja->ObtenerNotasPagadasSinManejo();
+
+	$obtenernotaspagadasapp=$caja->ObtenerNotasPagadasApp();
+
+	$obtenernotaspagadas=$caja->ObtenerNotasPagadas();
+
+
 
 	
 	//Recbimos parametros
 	$respuesta['respuesta']=1;
 	$respuesta['caja']=$caja->idmanejocaja;
+	$respuesta['obtenernotaspagadas']=$obtenernotaspagadas;
+	$respuesta['obtenernotaspagadassinmanejo']=$obtenernotaspagadassinmanejo;
 
+	$db->commit();
 
 	echo json_encode($respuesta);
-
-	
-				
+		
 	
 	
 }catch(Exception $e)

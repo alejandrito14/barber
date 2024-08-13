@@ -35,7 +35,7 @@ class Especialista
 
 
 			
-		 WHERE usuarios.estatus=1 AND especialista.bloqueo=0 and sucursal.idsucursal='$this->idsucursal' ORDER BY usuarios.orden asc ";
+		 WHERE  especialista.bloqueo=0 and sucursal.idsucursal='$this->idsucursal' ORDER BY usuarios.orden asc ";
 
 		
 			$resp = $this->db->consulta($sql);

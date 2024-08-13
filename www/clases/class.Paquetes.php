@@ -1159,7 +1159,7 @@ public function ObtenerDatosPaquete()
     {
     	$sql="SELECT *FROM cortesia
     	left JOIN paquetes ON paquetes.idpaquete=cortesia.idpaquetecortesia
-    	 WHERE cortesia.idpaquete='$this->idpaquete' ";
+    	 WHERE cortesia.idpaquete='$this->idpaquete' AND paquetes.estatus=1 ";
     	
         $resp = $this->db->consulta($sql);
         $cont = $this->db->num_rows($resp);
@@ -1319,6 +1319,57 @@ public function ObtenerDatosPaquete()
 
 		 $resp = $this->db->consulta($sql);
 	}
+
+
+	public function obtenerFiltroServicios()
+	{
+		$query = "SELECT
+			paquetes.idpaquete,
+			paquetes.nombrepaquete,
+			paquetes.descripcion,
+			paquetes.foto,
+			paquetes.estatus,
+			categoriapaquete.idcategoriapaquete,
+			categoriapaquete.nombre as titulo,
+			paquetes.promocion,
+			preciopaquete.precio AS precioventa,
+			precio.principal,
+			paquetes.orden,
+			paquetes.fechainicial,
+			paquetes.fechafinal,
+			paquetes.aplicardirecto,
+			paquetes.cantidad,
+			paquetes.considerar,
+			paquetes.definirfecha,
+			paquetes.lunes,
+			paquetes.martes,
+			paquetes.miercoles,
+			paquetes.jueves,
+			paquetes.viernes,
+			paquetes.sabado,
+			paquetes.domingo,
+			paquetes.repetitivo,
+			paquetes.preciofijo,
+			paquetes.horainicialpromo,
+			paquetes.horafinalpromo
+			FROM
+			paquetes
+			LEFT JOIN categoriapaquete
+			ON paquetes.idcategoriapaquete = categoriapaquete.idcategoriapaquete 
+			
+			LEFT JOIN preciopaquete
+			ON paquetes.idpaquete = preciopaquete.idpaquete 
+			LEFT JOIN precio
+			ON precio.idprecio = preciopaquete.idprecio AND   precio.principal=1
+			
+			WHERE paquetes.servicio=1
+
+			";
+			
+		$result = $this->db->consulta($query);
+		return $result;
+	}
+
 
 	
 }

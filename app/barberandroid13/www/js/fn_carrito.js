@@ -732,8 +732,8 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;
                           html+=`
                           <div class="row" style="margin-left: 2em;margin-right: 2em;margin-top:20px;">
                           <div class="col-100">
-                          <p  style="color: #c7aa6a;text-align: center;" class="cambiarfuente `+estiloparrafo+`">Tienes algo pendiente por pagar</p>
-                          <p  style="color: #c7aa6a;text-align: center;" class="cambiarfuente `+estiloparrafo+`">¿Deseas conservarlos?</p>
+                          <p  style="color: #c7aa6a;text-align: center;" class="cambiarfuente cambiarfuente2 `+estiloparrafo+`">Tienes algo pendiente por pagar</p>
+                          <p  style="color: #c7aa6a;text-align: center;" class="cambiarfuente  cambiarfuente2 `+estiloparrafo+`">¿Deseas conservarlos?</p>
                           </div>
 
                           </div>
@@ -771,7 +771,7 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;
         on: {
           open: function (sheet) {
            idcortesiaelegida=0;
-           $(".cambiarfuente").css('display','none');
+           $(".cambiarfuente2").css('display','none');
             
 
           },
@@ -779,9 +779,9 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;
             console.log('Sheet opened');
 
             if (tipoletra!='') {
-              $(".cambiarfuente").addClass(tipoletra);
+              $(".cambiarfuente2").addClass(tipoletra);
             }
-          $(".cambiarfuente").css('display','block');
+          $(".cambiarfuente2").css('display','block');
 
           },
         }
@@ -1551,16 +1551,24 @@ function ConsultarMonedero() {
 
 function Agregarmasproducto() {
   if (localStorage.getItem('idsucursal')!=undefined && localStorage.getItem('idsucursal')!=null) {
+        var promesa=VerificarTieneHijos(2);
+
+          promesa.then(r => {
+
+            if (r.length==0) {
+            VerificarSitieneporcanjear2();
+
+            }
+        });
       
-    VerificarSitieneporcanjear2();
-      
-      
+       
     }else{
 
       GoToPage('home');
   
     }
 }
+
 
 
 

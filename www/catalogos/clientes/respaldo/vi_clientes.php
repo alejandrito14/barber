@@ -141,6 +141,7 @@ var oTable = $('#zero_config').dataTable( {
 
 						<th width="72">NOMBRE</th>
 						<th width="72">USUARIO/CEL</th>
+						<th width="72">TOKEN</th>
 
 					<!--	<th>NIVEL</th> -->
 						<!--<th>NO TARJETA</th>-->
@@ -173,23 +174,7 @@ var oTable = $('#zero_config').dataTable( {
 							<td width="30"><?php echo utf8_encode($result_row['idusuarios']); ?></td>
 						  
 							<td width="30"><?php echo utf8_encode($result_row['nombretipo']); ?></td>
-							<!-- <td width="30"> -->
-							<!-- 	<?php
-
-						$fotoperfil=	$result_row['foto'];
-								if($fotoperfil=="" || $fotoperfil=='null'){
-														$rutaperfil="images/sinfoto.png";
-													}
-													else{
-													
-														$rutaperfil="app/".$_SESSION['carpetaapp']."/php/upload/perfil/$fotoperfil";
-													}
-
-							 ?> -->
-							 	
-							<!--  <img src="<?php echo $rutaperfil; ?>" style="height: 30px;width: 30px;">
-
-							 </td> -->
+						
 					 	<td width="30"><?php echo utf8_encode($result_row['alias']); ?></td> 
 						  
 						  	<td><?php
@@ -200,12 +185,7 @@ var oTable = $('#zero_config').dataTable( {
 						  	<!--<td><?php echo $nivel; ?></td>-->
 						  		<td width="30"><?php echo utf8_encode($result_row['usuario']); ?></td>
 
-						  <!-- 	<td>
-						  		<a href="tel://<?php echo utf8_encode($result_row['celular']); ?>"><?php echo utf8_encode($result_row['celular']); ?>
-						  			
-						  		</a>
-						  	</td> -->
-						  <!-- 		<td width="30"><?php echo utf8_encode($result_row['email']); ?></td> -->
+												  		<td width="30"><?php echo utf8_encode($result_row['token']); ?></td>
 
 						  
 						  

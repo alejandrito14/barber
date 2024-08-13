@@ -35,7 +35,9 @@ require_once("clases/class.Sucursal.php");
 
 include 'stripe-php-7.93.0/init.php';
 $folio = "";
+$archivoLog = 'errores.log';
 
+// Registrar el error en el archivo
 
 //$pagosconsiderados=json_decode($_POST['pagos']);
 $constripe=$_POST['constripe'];
@@ -49,6 +51,7 @@ if (isset($_POST['idsucursal'])) {
   $idsucursal=1;
 
 }
+$resp=1;
 //$descuentosaplicados=json_decode($_POST['descuentosaplicados']);
 //$descuentosmembresia=json_decode($_POST['descuentosmembresia']);
 $rutacomprobante=$_POST['rutacomprobante'];
@@ -80,6 +83,8 @@ $codigocupon=$_POST['codigocupon'];
 $montocupon = trim($_POST['montocupon']) !== '' ? $_POST['montocupon'] : 0;
 $idcupon=$_POST['idcupon']!=''?$_POST['idcupon']:0;
 
+$errorMsg = "-Inicia proceso idtipodepago enviado: ".$idtipodepago.'| idusuario:'.$iduser;
+error_log($errorMsg, 3, $archivoLog);
 
 $variable="";
 
@@ -95,18 +100,22 @@ try {
    $sucursal=new Sucursal();
    $sucursal->db=$db;
    $sucursal->idsucursales=$idsucursal;
+    $carrito=new Carrito();
+    $carrito->db=$db;
 
    $datossucursal=$sucursal->ObtenerSucursal();
    $celularsucursal=$datossucursal[0]->celular;
-
-
+   $usuarios=new Usuarios();
+   $usuarios->db=$db;
    $obj->db=$db;
      $db->begin();
      $f = new Funciones();
      $cupones=new Cupones();
      $cupones->db=$db;
      $descripcioncupon="";
-        $obj->idusuarios=$iduser;
+     $obj->idusuarios=$iduser;
+    $carrito->idusuarios=$iduser;
+
         $dbresult = $obj->ObtenerDatosCliente();
         $a_result=$obj->db->fetch_assoc($dbresult);
         $nombrecliente = $a_result['nombre'] . " " . $a_result['paterno'];
@@ -160,13 +169,60 @@ try {
           }
 
 
-            //$idtipodepago=$_POST['idtipodepago'];
+         if ($tipopago->idtipodepago==0 ) {
+                 
+                     $usuarios->idusuarios = $iduser;
+                    $row_cliente = $usuarios->ObtenerUsuario();
+                    $saldo = $row_cliente[0]->monedero;
+
+
+                    if ($montomonedero>0 && $saldo!=0) {
+                     
+                    $estatusdeproceso=1;
+                   
+                   }
+                  }
+            
+
             if ($tipopago->idtipodepago!=$idtipodepago) {
                 $tipopago->idtipodepago=$idtipodepago;
            
               $obtenertipopago=$tipopago->ObtenerTipodepago2();
                
               //$variable=' '.$variable;
+
+              if ($tipopago->idtipodepago==0 ) {
+                 
+                
+                    $usuarios->idusuarios = $iduser;
+                    $row_cliente = $usuarios->ObtenerUsuario();
+                    $saldo = $row_cliente[0]->monedero;
+
+
+                    if ($montomonedero>0 && $saldo!=0) {
+                     
+                    $estatusdeproceso=1;
+                   
+                    }else{
+
+                      $canjeando=0;
+                        $obtenercarrito=$carrito->ObtenerCarrito();
+                        for ($i=0; $i <count($obtenercarrito) ; $i++) { 
+                            $tipo=0;
+                            $cita->idcita=0;
+
+                        if ($obtenercarrito[$i]->idcanje!=null && $obtenercarrito[$i]->idcanje!=0) {
+
+                              $canjeando++;
+                            }
+                        }
+
+                    if ($canjeando>0) {
+                       $estatusdeproceso=1;
+                    }
+                }
+
+              }
 
             
             }else{
@@ -243,6 +299,10 @@ try {
             if ($obtenertipopago[0]->constripe==1) {
               # code...
             
+            $errorMsg = "entro stripe enviado: ".$idtipodepago.'| idusuario: '.$iduser.'|idnota: '.$idnotapago;
+            error_log($errorMsg, 3, $archivoLog);
+
+
             $skey=$obtenertipopago[0]->claveprivada;
             $pub_key=$obtenertipopago[0]->clavepublica;
             $obj->skey=$skey;
@@ -339,7 +399,10 @@ try {
                     ];
                 $estatusdeproceso=1;
 
-              
+                
+                 $errorMsg = "entro stripe enviado: ".$idtipodepago.'| idusuario: '.$iduser.'|idnota: '.$idnotapago.'|estatusproceso'.$estatusdeproceso;
+            error_log($errorMsg, 3, $archivoLog);
+
                 }else{
 
                        $output = [
@@ -380,12 +443,18 @@ try {
 
           }
 
-        }else{
-          $estatusdeproceso=1;
         }
          $db->commit();
+
+          $errorMsg = "entro stripe enviado: ".$idtipodepago.'| idusuario: '.$iduser.'|idnota: '.$idnotapago.'|estatusproceso'.$estatusdeproceso;
+            error_log($errorMsg, 3, $archivoLog);
    
           if ($estatusdeproceso==1) {
+
+
+             
+            error_log($errorMsg, 3, $archivoLog);
+
                $db = new MySQL();
                $db->begin();
 
@@ -418,6 +487,9 @@ try {
 
          $sumacarrito=0;
          $idsucursal="";
+
+         $errorMsg = 'entro a guardar descripcion idusuario: '.$iduser.'|idnota: '.$idnotapago.'|estatusproceso'.$estatusdeproceso;
+
              for ($i=0; $i <count($obtenercarrito) ; $i++) { 
               $tipo=0;
               $cita->idcita=0;
@@ -755,9 +827,26 @@ try {
              
           }
 
+          if ($estatusdeproceso==0) {
+              $db->begin();
+               $notapago->estatus=3;
+                $notapago->ActualizarNotaAIncompleto();
+
+               $output = [
+                       'error' => 1, 
+      
+                    ]; 
+                $resp=0;
+              //Retornamos en formato JSON 
+          
+                $estatusdeproceso=0;
+            $db->commit(); 
+
+          }
+
             
 
-    $respuesta['respuesta']       = 1;
+    $respuesta['respuesta']       = $resp;
     $respuesta['rutacomprobante'] = $nombreimagenes;
     $respuesta['mensaje']         = "";
     $respuesta['output']=$output;
@@ -859,7 +948,7 @@ catch (\Stripe\Exception\CardException $err) {
      $array->resultado = "Error: Unknown error occurred";
      $array->msg = "Error al ejecutar el php";
      $array->id = '0';
-     $array->respuesta=$e;
+     $array->respuesta=0;
      $array->output=$output;
               //Retornamos en formato JSON 
      $myJSON = json_encode($array);

@@ -1,4 +1,6 @@
 function VerificarCajaAbierta() {
+
+  return  new Promise(function(resolve, reject) {
 	 var pagina="verificarCajaAbierta.php";
 	$.ajax({
     type: 'POST',
@@ -9,10 +11,13 @@ function VerificarCajaAbierta() {
 
         if (resultado.length>0) {
             ObtenerTipodepagos();
-            ObtenerCategoriasPrincipales()
+            
 
             $("#fechahoraapertura").text(resultado[0].fechainicio);
             $("#divseleccionar").css('display','');
+   /*         $("#tablaventa").css('display','block');
+            $("#metodopagodiv").css('display','block');
+*/
             //$(".eleccion").css('display','');
 
         }else{
@@ -73,6 +78,7 @@ function VerificarCajaAbierta() {
 
         }
 
+        resolve(resultado);
 	},error: function(XMLHttpRequest, textStatus, errorThrown){ 
       var error;
         if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
@@ -81,6 +87,7 @@ function VerificarCajaAbierta() {
                 console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
           }
     });
+    })
 }
 
 function CambiarFormato(objeto) {
@@ -102,7 +109,18 @@ function AbrirCaja() {
     success: function(resp){
         var resultado=resp;
         $("#divfechahoraapertura").css('display','block');
-        VerificarCajaAbierta();
+
+         var promesa = VerificarCajaAbierta();
+
+        promesa.then(function(resultado) {
+           
+           /* if (resultado.length>0) {
+
+                 ObtenerCategoriasPrincipales_puntoventa();
+
+            }*/
+        });
+
         $("#divapertura").css('display','none');
         console.log(datos);
         $("#divseleccionar").css('display','');
@@ -159,7 +177,7 @@ function CerrarCaja() {
 function AbrirReporteManejocaja(caja) {
      var pagina="modelosreportes/caja/excel/rpt_manejocaja.php?idmanejocaja="+caja+"&pantalla=1";
 
-
+ 
     $.ajax({
     type: 'GET',
     url: pagina,

@@ -1308,6 +1308,10 @@ class Cita
 		if ($cont>0) {
 
 			while ($objeto=$this->db->fetch_object($resp)) {
+				$this->idnotapago=$objeto->idnotapago;
+
+				
+
 
 				$array[$contador]=$objeto;
 				$contador++;

@@ -175,10 +175,45 @@ if(isset($_GET['ac']))
        </div>
       </div>
 
+       <div class="col-xl-3 col-md-4">
+                   <div class="card colordorado text-white mb-4">
+                      <div class="card-body" style="    font-size: 16px;">PRODUCTOS AGREGADOS</div>
+                     <div class="card-footer ">
+                       <a class="small text-white stretched-link" onclick="VisualizarListado()" style="width: 100%;cursor: pointer;">
+                       <h3>
+                        <span class="mdi mdi-calendar"></span></span>
+                        <span id="productosregistros" class="productosregistros">0</span>
+                       </h3>
+                      </a>
+                      <div class="small text-white">
+                 <div id="mostrarproductos" style="display: none;">
+
+            <div id="" class="panel-actions">
+            <span style="    justify-content: right;display: flex;font-size: 15px;" onclick="CerrarProductos()" class="actions "><span class="mdi mdi-close-circle"></span>
+            </span>
+          </div>
+
+            <div class=""style="list-style: none;">
+           
+           </div>
+                                          
+          </div>
+
+               </div>
+           </div>
+       </div>
+      </div>
+
+ 
+       
+              </div>
+
+     
+      <div class="row">
 
       <div class="col-xl-3 col-md-2">
                    <div class="card colornegro text-white mb-4 estatuscitaproceso2" >
-                      <div class="card-body" style="    font-size: 16px;">SERVICIOS EN PROCESO</div>
+                      <div class="card-body" style="    font-size: 16px;">NOTAS TOTALES</div>
                      <div class="card-footer ">
                        <a class="small text-white stretched-link"  style="width: 100%;cursor: pointer;">
                        <h3>
@@ -207,7 +242,7 @@ if(isset($_GET['ac']))
 
       <div class="col-xl-3 col-md-2">
                    <div class="card colornegro text-white mb-4 estatuscitarealizado2">
-                      <div class="card-body" style="    font-size: 16px;">SERVICIOS REALIZADOS</div>
+                      <div class="card-body" style="    font-size: 16px;">NOTAS PAGADAS</div>
                      <div class="card-footer ">
                        <a class="small text-white stretched-link"  style="width: 100%;cursor: pointer;">
                        <h3>
@@ -237,7 +272,7 @@ if(isset($_GET['ac']))
 
        <div class="col-xl-3 col-md-2">
                    <div class="card colornegro text-white mb-4 estatuscitapendiente2">
-                      <div class="card-body" style="    font-size: 16px;">SERVICIOS PENDIENTES</div>
+                      <div class="card-body" style="    font-size: 16px;">NOTAS PENDIENTES</div>
                      <div class="card-footer ">
                        <a class="small text-white stretched-link"  style="width: 100%;cursor: pointer;">
                        <h3>
@@ -265,7 +300,7 @@ if(isset($_GET['ac']))
       </div>
 
 
-      <div class="col-xl-3 col-md-2">
+      <div class="col-xl-3 col-md-2" style="display:none">
                    <div class="card colornegro text-white mb-4 estatuscitacancelada2">
                       <div class="card-body" style="font-size: 16px;padding: 1.19rem;">SERVICIOS CANCELADOS</div>
                      <div class="card-footer ">
@@ -295,7 +330,7 @@ if(isset($_GET['ac']))
       </div>
 
 
-      <div class="col-xl-3 col-md-2">
+      <div class="col-xl-3 col-md-2" style="display:none;">
                    <div class="card colornegro text-white mb-4">
                       <div class="card-body" style="    font-size: 16px;">SERVICIOS CADUCADOS</div>
                      <div class="card-footer ">
@@ -324,40 +359,7 @@ if(isset($_GET['ac']))
        </div>
       </div>
 
-       <div class="col-xl-3 col-md-4">
-                   <div class="card colordorado text-white mb-4">
-                      <div class="card-body" style="    font-size: 16px;">PRODUCTOS</div>
-                     <div class="card-footer ">
-                       <a class="small text-white stretched-link" onclick="VisualizarListado()" style="width: 100%;cursor: pointer;">
-                       <h3>
-                        <span class="mdi mdi-calendar"></span></span>
-                        <span id="productosregistros">0</span>
-                       </h3>
-                      </a>
-                      <div class="small text-white">
-                 <div id="mostrarproductos" style="display: none;">
-
-            <div id="" class="panel-actions">
-            <span style="    justify-content: right;display: flex;font-size: 15px;" onclick="CerrarProductos()" class="actions "><span class="mdi mdi-close-circle"></span>
-            </span>
-          </div>
-
-            <div class=""style="list-style: none;">
-           
-           </div>
-                                          
-          </div>
-
-               </div>
-           </div>
-       </div>
-      </div>
-
- 
-       
-              
-
-       </div>
+      
 
 
           <div class="col-md-12 divintervaloshorarios" style="display: none;">
@@ -424,11 +426,11 @@ if(isset($_GET['ac']))
                  </div>
               </div>
               <div class="col" style="overflow: scroll;width: 820px;">
-             <div class="row" style="width: 820px;background: #eaebf1;" id="zonasdiv">
+             <div class="row" style="width: 400em;background: #eaebf1;" id="zonasdiv">
                                
-                           </div>
+             </div>
 
-                                    <div class="row" id="espacios" style="width: 800px;"></div>
+         <div class="row" id="espacios" style="width: 400em;"></div>
                                   
                                 </div>
                                 
@@ -614,9 +616,9 @@ if(isset($_GET['ac']))
                             </div> -->
                         </div>
 
-  <div class="modal" id="modaldetallecita" tabindex="-1" role="dialog">
+  <div class="modal" id="modaldetallecita" tabindex="-1" role="dialog" >
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
+    <div class="modal-content" style="width: 600px!important;">
       <div class="modal-header">
         <h5 class="modal-title">DETALLE CITA</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -625,10 +627,14 @@ if(isset($_GET['ac']))
       </div>
       <div class="modal-body">
        <div id="divdetallecita"></div>
-      
+        
+        <button type="button" id="btngenerarticket" class="btn btn-success btngenerarticket" style="float: right;" title="">TICKET</button> 
+
       </div>
       <div class="modal-footer">
 <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> -->
+
+<button type="button" id="btnmodificar" class="btn btn-warning btnmodificar" style="float: right;" title="">MODIFICAR NOTA</button>   
 
 <button type="button" id="btnreagendarcita" class="btn btn-warning btnreagendarcita" style="float: right;" title="">Reagendar</button>   
 
@@ -701,6 +707,10 @@ if(isset($_GET['ac']))
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id="btncontinuarcliente" onclick="EnviarPuntoVenta()" style="display: none;">Continuar</button>
 
+
+      <button type="button" class="btn btn-primary" id="btncontinuarcliente2" onclick="EnviarPuntoVenta2()" style="display: none;">
+      Por tiempo
+    </button>
 <!-- <button type="button" id="btnreagendarcita" class="btn btn-warning btnreagendarcita" style="float: right;" title="">Reagendar</button>   
 
 <button type="button" id="btncancelarcita" class="btn btn-success btncancelarcita" style="float: right;" title="">Cancelar cita</button>   
@@ -1082,15 +1092,18 @@ if (definida==0) {
 
 
  ObtenerSucursalesDashBoard();
-  var NtabName="citas";
-  var idmenumodulo='<?php echo $idmenumodulo; ?>';
- 
-      ObtenerFechaActual();
-     
-    
-      PintarCalendario2();
-      ObtenerTotalCitas();
-      setInterval('ObtenerTotalCitas()', 2000);//cada 2 segundos
+ var NtabName="citas";
+ var idmenumodulo='<?php echo $idmenumodulo; ?>';
+ ObtenerFechaActual();
+ PintarCalendario2();
+     // ObtenerTotalCitas();
+  //var totalcitasintervalo= setInterval('ObtenerTotalCitas()', 2000);
+  var totalcitasintervalo = setInterval(ObtenerTotalCitas, 30000);
+
+
+    //cada 2 segundos
+     //var notificacioncitas=setInterval('ObtenerCitasNuevasApp()',2000);
+
 
 }
 

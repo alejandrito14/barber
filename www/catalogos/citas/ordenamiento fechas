@@ -1,0 +1,42 @@
+// Función para convertir el nombre del mes a su número correspondiente
+function obtenerNumeroMes(mes) {
+    const meses = {
+        "ene": 1, "feb": 2, "mar": 3, "abr": 4, "may": 5, "jun": 6,
+        "jul": 7, "ago": 8, "sep": 9, "oct": 10, "nov": 11, "dic": 12
+    };
+    return meses[mes.toLowerCase()];
+}
+
+// Función de comparación personalizada para ordenar las fechas
+function compararFechas(fecha1, fecha2) {
+    // Divide las fechas en día, mes y año
+    const partesFecha1 = fecha1.split('-');
+    const partesFecha2 = fecha2.split('-');
+
+    // Compara los años
+    const año1 = parseInt(partesFecha1[2]);
+    const año2 = parseInt(partesFecha2[2]);
+    if (año1 !== año2) {
+        return año1 - año2;
+    }
+
+    // Compara los meses (utilizando la función obtenerNumeroMes)
+    const mes1 = obtenerNumeroMes(partesFecha1[1]);
+    const mes2 = obtenerNumeroMes(partesFecha2[1]);
+    if (mes1 !== mes2) {
+        return mes1 - mes2;
+    }
+
+    // Compara los días
+    const día1 = parseInt(partesFecha1[0]);
+    const día2 = parseInt(partesFecha2[0]);
+    return día1 - día2;
+}
+
+// Array de fechas
+const fechas = ["14-Oct-2017", "10-Feb-2017", "12-Dic-2024"];
+
+// Ordena el array de fechas utilizando la función de comparación personalizada
+fechas.sort(compararFechas);
+
+console.log(fechas); // Mostrará el array de fechas ordenado

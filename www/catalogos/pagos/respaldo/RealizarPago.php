@@ -37,6 +37,7 @@ require_once("../../clases/class.Cupones.php");
 require_once("../../clases/class.Datosfiscales.php");
 require_once("../../clases/class.Caja.php");
 require_once("../../clases/class.Tarjetaregalo.php");
+require_once("../../clases/class.Tarjetalealtad.php");
 
 include 'stripe-php-7.93.0/init.php';
 $folio = "";
@@ -45,7 +46,8 @@ $folio = "";
 //$pagosconsiderados=json_decode($_POST['pagos']);
 $constripe=$_POST['constripe'];
 $sumatotalapagar=$_POST['sumatotalapagar'];
-$iduser=$se->obtenerSesion('usuariopago');;
+$iduser=$se->obtenerSesion('usuariopago');
+$idsucursal=$se->obtenerSesion('idsucursalsesion');
 //$descuentosaplicados=json_decode($_POST['descuentosaplicados']);
 //$descuentosmembresia=json_decode($_POST['descuentosmembresia']);
 $rutacomprobante=$_POST['rutacomprobante'];
@@ -58,6 +60,12 @@ $impuesto=$_POST['impuesto'];
 $montomonedero=$_POST['monedero']==''?0:$_POST['monedero'];
 $datostarjeta=$_POST['datostarjeta'];
 $datostarjeta2=$_POST['datostarjeta2'];
+
+$idbancoseleccionado=isset($_POST['idbancoseleccionado'])?$_POST['idbancoseleccionado']:0;
+$idopciontarjetaseleccionado=isset($_POST['idopciontarjetaseleccionado'])?$_POST['idopciontarjetaseleccionado']:'';
+$digitostarjeta=$_POST['digitostarjeta'];
+$observaciones=$_POST['observaciones'];
+
 
 $subtotalsincomision=$_POST['subtotalsincomision'];
 $confoto=$_POST['confoto'];
@@ -86,6 +94,7 @@ try {
    $obj = new ClienteStripe();
    $notapago=new Notapago();
    $notapago->db=$db;
+
    $obj->db=$db;
      $db->begin();
      $f = new Funciones();
@@ -181,6 +190,7 @@ try {
          $notapago->descuentomembresia=0;
          $notapago->requierefactura=$requierefactura;
          $notapago->checkConfirm=$checkConfirm;
+         $notapago->idsucursal=$idsucursal;
 
          $notapago->comisionpornota=$comisionpornota;
          $notapago->comisionnota=$comisionnota;
@@ -220,6 +230,11 @@ try {
            $notapago->montocupon=0;
            $notapago->idcupon=0;
            $notapago->descripcioncupon=$descripcioncupon;
+
+           $notapago->idbancoseleccionado=$idbancoseleccionado;
+           $notapago->idopciontarjetaseleccionado=$idopciontarjetaseleccionado;
+           $notapago->digitostarjeta=$digitostarjeta;
+
           $notapago->CrearNotapago();
           $idnotapago=$notapago->idnotapago;
 
@@ -394,6 +409,9 @@ try {
                $usocupon->db = $db;
                $caja=new Caja();
                $caja->db=$db;
+               $tarjetalealtad=new Tarjetalealtad();
+               $tarjetalealtad->db=$db;
+
         $carrito->idsucursal=$se->obtenerSesion('idsucursalseleccionada');
          $carrito->idusuarios=$iduser;
          $obtenercarrito=$carrito->ObtenerCarrito();
@@ -427,7 +445,7 @@ try {
                 $cita->idcortesia=$obtenerapartada[0]->idcortesia;
                 $cita->horainicials=$obtenerapartada[0]->horains;
                 $cita->horafinals=$obtenerapartada[0]->horafs;
-
+               
 
                 $cita->CitaCreada();
                 $tipo=1;
@@ -440,7 +458,7 @@ try {
 
 
                 
-
+              $notapago->idcarrito=$obtenercarrito[$i]->idcarrito;
               $notapago->descripcion=$obtenercarrito[$i]->nombrepaquete;
               $notapago->cantidad=$obtenercarrito[$i]->cantidad;
               $notapago->monto=$obtenercarrito[$i]->costototal;
@@ -690,7 +708,23 @@ try {
           $caja->GuardarNotaCaja();
 
 
-         
+          $folionota=[];
+        if($estatusdeproceso==1 && $notapago->estatus==1) {
+       
+       
+          //tarjeta de lealtad
+        $tarjetalealtad->idnotapago=$idnotapago;
+        $tarjetalealtad->idsucursal=$idsucursal;
+        $obtenert=$tarjetalealtad->Obtenertarjetas();
+        if (count($obtenert)>0) {
+            $tarjetalealtad->Verificarproductosnota();
+        }
+       
+
+       }
+
+
+         array_push($folionota,$folio);
 
               $db->commit();
 
@@ -712,14 +746,15 @@ try {
             $db->commit();
           }
 
-            
+    $idnotapago=[];
+    array_push($idnotapago,$notapago->idnotapago);
 
     $respuesta['respuesta']       = 1;
     $respuesta['rutacomprobante'] = $nombreimagenes;
     $respuesta['mensaje']         = "";
     $respuesta['output']=$output;
-    $respuesta['idnotapago']=$notapago->idnotapago;
-
+    $respuesta['idnotapago']=$idnotapago;
+    $respuesta['folionota']=$folionota;
     //Retornamos en formato JSON
     $myJSON = json_encode($respuesta);
     echo $myJSON;

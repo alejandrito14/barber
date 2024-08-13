@@ -55,6 +55,8 @@ try
 	$us->color=$color;
 	
 	$horarios=json_decode($_POST['horariosespecialista']);
+	$fechahorarios=json_decode($_POST['fechahorariosespecialista']);
+	$fechahorariosausente=json_decode($_POST['fechahorariosespecialistaausente']);
 
 	if($id == 0)
 	{
@@ -107,7 +109,7 @@ if ($horarios[0]!='' && $horarios[0]!=null)
 
 	for ($i=0; $i <count($horarios) ; $i++) { 
 		$us->idsucursal=$horarios[$i]->idsucursal;
-
+ 
 		$verificar=$us->verificarusuariosucursal();
 
 		if (count($verificar)>0) {
@@ -146,6 +148,131 @@ if ($horarios[0]!='' && $horarios[0]!=null)
 
 		}
 }
+
+
+$us->Eliminarfechahorarios();
+
+if ($fechahorarios[0]!='' && $fechahorarios[0]!=null)
+	{
+
+
+	for ($i=0; $i <count($fechahorarios) ; $i++) { 
+		$us->idsucursal=$fechahorarios[$i]->idsucursal;
+
+		$verificar=$us->verificarusuariosucursal();
+
+		if (count($verificar)>0) {
+
+			$especialista->idespecialista=$verificar[0]->idespecialista;
+			$especialista->bloqueo=0;
+			$especialista->idsucursal=$verificar[0]->idsucursal;
+			$especialista->estatus=1;
+			$especialista->fecha=$fechahorarios[$i]->fecha;
+			$especialista->horainicial=$fechahorarios[$i]->horainicio;
+			$especialista->horafinal=$fechahorarios[$i]->horafinal;
+			
+			$especialista->GuardarFechaHorario();
+			# code...
+		}else{
+
+			$especialista->idusuario=$us->id_usuario;
+			$especialista->idsucursal=$fechahorarios[$i]->idsucursal;
+			$especialista->bloqueo=0;
+			$guardar=$especialista->GuardarEspecialista();
+
+			$especialista->estatus=1;
+
+			$especialista->fecha=$fechahorarios[$i]->fecha;
+			$especialista->horainicial=$fechahorarios[$i]->horainicio;
+			$especialista->horafinal=$fechahorarios[$i]->horafinal;
+
+			
+			 
+			$especialista->GuardarFechaHorario();
+
+			
+			}
+
+		}
+}
+$us->Eliminarfechahorariosausente();
+
+if ($fechahorariosausente[0]!='' && $fechahorariosausente[0]!=null)
+	{
+
+
+	for ($i=0; $i <count($fechahorariosausente) ; $i++) { 
+		$us->idsucursal=$fechahorariosausente[$i]->idsucursal;
+
+		$verificar=$us->verificarusuariosucursal();
+
+		if (count($verificar)>0) {
+
+			$especialista->idespecialista=$verificar[0]->idespecialista;
+			$especialista->bloqueo=0;
+			$especialista->idsucursal=$verificar[0]->idsucursal;
+			$especialista->estatus=1;
+			$especialista->fecha=$fechahorariosausente[$i]->fecha;
+			$especialista->horainicial=$fechahorariosausente[$i]->horainicio;
+			$especialista->horafinal=$fechahorariosausente[$i]->horafinal;
+			
+			$especialista->GuardarFechaHorarioAusente();
+			# code...
+		}else{
+
+			$especialista->idusuario=$us->id_usuario;
+			$especialista->idsucursal=$fechahorariosausente[$i]->idsucursal;
+			$especialista->bloqueo=0;
+			$guardar=$especialista->GuardarEspecialista();
+
+			$especialista->estatus=1;
+
+			$especialista->fecha=$fechahorariosausente[$i]->fecha;
+			$especialista->horainicial=$fechahorariosausente[$i]->horainicio;
+			$especialista->horafinal=$fechahorariosausente[$i]->horafinal;
+
+			
+			 
+			$especialista->GuardarFechaHorarioAusente();
+
+			
+			}
+
+		}
+}
+	    $carpetaapp=$_SESSION['carpetaapp'];
+
+        $ruta='../../app/'.$carpetaapp.'/php/upload/perfil/';
+
+
+if (isset($_FILES["archivo"])) {
+
+		//if($_FILES['error'] == UPLOAD_ERR_OK ){//Verificamos si se subio correctamente
+
+			$nombre = str_replace(' ','_',date('Y-m-d H:i:s').'-'.$us->id_usuario.".jpg");//Obtenemos el nombre del archivo
+			$temporal = $_FILES["archivo"]['tmp_name']; //Obtenemos el nombre del archivo temporal
+			$tamano= ($key['size'] / 1000)."Kb"; //Obtenemos el tamaño en KB
+
+			//obtenemos el nombre del archivo anterior para ser eliminado si existe
+
+			$sql = "SELECT foto FROM usuarios WHERE idusuarios='".$us->id_usuario."'";
+			$result_borrar = $db->consulta($sql);
+			$result_borrar_row = $db->fetch_assoc($result_borrar);
+			$nombreborrar = $result_borrar_row['foto'];		  
+
+			if($nombreborrar != "")
+			{
+				unlink($ruta.$nombreborrar); 
+			}
+
+
+			move_uploaded_file($temporal, $ruta.$nombre); //Movemos el archivo temporal a la ruta especificada
+
+			$sql = "UPDATE usuarios SET foto = '$nombre' WHERE idusuarios ='".$us->id_usuario."'";   
+			$db->consulta($sql);	 
+		//}
+	}
+
 	
 	$db->commit();
 	echo 1;

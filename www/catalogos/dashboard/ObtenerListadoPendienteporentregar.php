@@ -39,7 +39,9 @@ try
 	
 	$fecharecibida=$_POST['fechaconsulta'];
 	$fecha=date('Y-m-d',strtotime($fecharecibida));
-	$listado=$notapago->Pendientesporentregar();
+	$notapago->fecha=$fecha;
+
+	$listado=$notapago->Pendientesporentregar2();
 
 
 

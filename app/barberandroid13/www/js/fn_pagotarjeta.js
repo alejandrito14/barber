@@ -622,7 +622,7 @@ function eliminarTarjeta(icard,idtag){
   var idtipodepago=localStorage.getItem('idtipodepago');
 
 
-  app.dialog.confirm('','¿Seguro que desea eliminar la tarjea?', function () {
+  app.dialog.confirm('','¿Seguro que desea eliminar la tarjeta?', function () {
   app.preloader.show();
   $.post(urlphp + "borrartarjeta.php",
   {

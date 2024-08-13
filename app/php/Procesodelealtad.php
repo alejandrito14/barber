@@ -36,7 +36,7 @@ try
 
 	$tarjetalealtad->idsucursal=1;
 
-	$obtenernotaspagadas=$notapago->Obtenernotaspagadas();
+	$obtenernotaspagadas=$notapago->Obtenernotaspagadas(); 
 	
 	for ($i=0; $i <count($obtenernotaspagadas); $i++) {  
 		// code...

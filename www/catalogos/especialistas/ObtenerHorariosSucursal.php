@@ -31,7 +31,7 @@ try
 	$cli->idusuario=$idusuarios;
 	$obtenerespecialistasucursales=$cli->ObtenerEspecialistasucursal();
 	$todassucursales=$cli->ObtenerSucursalesLista();
-
+	 
 	if (count($obtenerespecialistasucursales)>0) {
 		for ($i=0; $i <count($obtenerespecialistasucursales) ; $i++) { 
 			
@@ -42,6 +42,13 @@ try
 			$obtenerhorarios=$horariosespecialista->ObtenerHorariosEspecialista();
 
 			$obtenerespecialistasucursales[$i]->horarios=$obtenerhorarios;
+
+			$obtenerfechahorarios=$horariosespecialista->ObtenerFechaHorarios();
+			$obtenerespecialistasucursales[$i]->fechahorarios=$obtenerfechahorarios;
+
+			$obtenerhorarioausente=$horariosespecialista->ObtenerHorariosAusente();
+
+			$obtenerespecialistasucursales[$i]->fechahorariosausente=$obtenerhorarioausente;
 		}
 	}
 	$respuesta['sucursales']=$obtenerespecialistasucursales;

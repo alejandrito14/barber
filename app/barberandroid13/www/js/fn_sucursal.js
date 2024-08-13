@@ -279,7 +279,7 @@ function PintarDatosSucursal(respuesta,imagenes) {
 
 	$(".textelefono").text(respuesta.telefono);
 	$(".btntelefono").attr("onclick","hacerLlamada('"+respuesta.telefono+"')");
-	$(".btnagenda").attr("onclick","VerificarSitieneporcanjear()");
+	$(".btnagenda").attr("onclick","VerificacionPantalla()");
 	$(".btnlocalizar").attr("onclick","abrirGoogleMaps('"+lat+"','"+long+"')");
 	$(".btnvercalificaciones").attr("onclick","ObtenerCalificacionesSucursal("+respuesta.idsucursal+")");
 	$(".btnconoceespecialistas").attr("onclick","ObtenerListaEspecialistasSucursal2("+respuesta.idsucursal+")");

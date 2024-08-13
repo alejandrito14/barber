@@ -90,6 +90,7 @@ class Clientes
 	public $validacioncel;
 	public $bloquearediciondedatos;
 	public $mostraranuncios;
+	public $habilitarjeta;
 	
 	//funcion para guarda una nueva empresas
 	public function GuardarNewCliente()
@@ -844,6 +845,16 @@ class Clientes
 	{
 		$sql = "UPDATE clientes SET anunciovisto='$this->mostraranuncios'
 		WHERE idcliente='$this->idCliente'";
+		$r = $this->db->consulta($sql);
+		return $r; 
+	}
+
+
+	public function ActualizarHabilitartarjeta()
+	{
+		$sql = "UPDATE usuarios SET habilitartarjeta='$this->habilitarjeta'
+		WHERE idusuarios='$this->idCliente'";
+		
 		$r = $this->db->consulta($sql);
 		return $r; 
 	}

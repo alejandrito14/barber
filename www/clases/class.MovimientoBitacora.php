@@ -7,7 +7,7 @@ require_once('class.Fechas.php');
 	 public $db;
 	 private $sesion;
 	 private $f;
-	 public function MovimientoBitacora()
+	 public function __construct()
 	 {
          
 		 $this->sesion = new Sesion();
@@ -19,16 +19,21 @@ require_once('class.Fechas.php');
 	 public function guardarMovimiento($modulo,$tabla,$descripcion)
 	 {
 		
-		   
-		   //$fechaactual = $this->f->fechaaYYYY_mm_dd_guion();
-		   $idbitacora = $this->sesion->obtenerSesion('idbitacoraSAS');
+		   try {
+		   	 $idbitacora = $this->sesion->obtenerSesion('idbitacoraSAS');
 		   
 		   $query_movimiento = "INSERT INTO bitacora_movimientos (idbitacora,modulo,descripcion) VALUES ($idbitacora,'$modulo','$descripcion');";
 		   
 		 
 		   
-		  // echo $query_movimiento;
+		 
 		   $this->db->consulta($query_movimiento);
+		   	
+		   } catch (Exception $e) {
+		   	echo $e;
+		   }
+		   //$fechaactual = $this->f->fechaaYYYY_mm_dd_guion();
+		  
 		 
 	 }// fin de guardarMovimiento
 	 

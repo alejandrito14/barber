@@ -57,10 +57,11 @@ try
 	$md->db = $db;	
 	$zonas->db=$db;
 	$fecharecibida=$_POST['fecha'];
+	
 	$idsucursal=$se->obtenerSesion('idsucursalsesion');
 	$fecha=date('Y-m-d',strtotime($fecharecibida));
 	$intervaloconf=$dashboard->ObtenerIntervalo();
-
+$notapago->fecha=$fecha;
 	$operacion=$_POST['operacion'];
 
 	if ($operacion==1) {
@@ -72,6 +73,10 @@ try
 		$fecha=date("Y-m-d",strtotime($fecha."+ 1 days")); 
 	}
 	
+
+	 $primerdia= date('Y-m-d', mktime(0,0,0, date('m',strtotime($fecha)), 1, date('Y',strtotime($fecha))));
+
+	$fechaformato=$fechas->mesesEnEspañol[date('F',strtotime($primerdia))].' '.date('Y', strtotime($primerdia));
 
 	$fechas->fecha=$fecha;
 	$cita->fecha=$fecha;
@@ -97,13 +102,13 @@ try
 		}
 	$obtenerintervalos=$fechas->intervaloHora($horainicialsucursal,$horafinalsucursal,$intervaloconf);
 
-	$obtenerzonas=$especialista->ObtenerEspecialistasT();
-	
+	$obtenerzonas=$especialista->ObtenerEspecialistasTVisibledashboard();
+	$obtenervendedores=$especialista->ObtenerEspecialistasTVisibleVendedores();
 
-$estatus=array('Pendiente','En proceso','Completado','Cancelado','Caducado');
-$claseestatus=array('#f7bb44','#38a2f7','#2b952a','red','gray');
-$fechaactual=date('Y-m-d');
-$horaactual=date('H:i');
+ $estatus=array('Pendiente','En proceso','Completado','Cancelado','Caducado');
+ $claseestatus=array('#f7bb44','#38a2f7','#2b952a','red','gray');
+ $fechaactual=date('Y-m-d');
+ $horaactual=date('H:i');
 	for ($i=0; $i <count($obtenerzonas) ; $i++) { 
 		
 			$obtenerzonas[$i]->intervalos=array();
@@ -147,7 +152,9 @@ $horaactual=date('H:i');
 					$consultarsiestaocupado=$especialista->Disponibilidad4();
 
 					
+						//$consultarsiestaocupado[0]->totalpagado=0;
 					if (count($consultarsiestaocupado)>0) {
+						$consultarsiestaocupado[0]->tpv=0;
 
 						$disponible=0;
 						$est=$consultarsiestaocupado[0]->estatus;
@@ -167,15 +174,19 @@ $horaactual=date('H:i');
 
 						$idcita=$consultarsiestaocupado[0]->idcita;
 						$notapago->idcita=$idcita;
-						$verificarpago=$notapago->VerificarCita();
+						$verificarpago=$notapago->VerificarCita(); 
+
 						$consultarsiestaocupado[0]->pagado=0;
 						$consultarsiestaocupado[0]->tpv=$verificarpago[0]->tpv;
+						$consultarsiestaocupado[0]->totalpagado=$verificarpago[0]->sumapago!=0?$verificarpago[0]->sumapago:$verificarpago[0]->total;
 
+//$consultarsiestaocupado[0]->totalpagado=0;
 						if (count($verificarpago)>0) {
 
 							if ($verificarpago[0]->estatus==1) {
 
 								$consultarsiestaocupado[0]->pagado=1;
+								
 							}
 							
 						}
@@ -222,16 +233,28 @@ $horaactual=date('H:i');
 						array_push($obtenerzonas[$i]->intervalos, $arrayintervalo);
 
 
-					
+					 
 
 				}
 
 
 				
-			
+				
+	
 
 	}
 
+
+	if (count($obtenervendedores)>0) {
+		
+		for ($i=0; $i <count($obtenervendedores) ; $i++) {
+			$obtenervendedores[$i]->ventas=[]; 
+			$notapago->idespecialistavendedor=$obtenervendedores[$i]->idespecialista;
+			$notasventas=$notapago->BuscarNotasVentas();
+
+			$obtenervendedores[$i]->ventas=$notasventas;
+		}
+	}
 
 /*	$obtenerintervaloscon=$fechas->intervaloHora('00:00:00','23:59:00',$intervaloconf);
 
@@ -248,6 +271,8 @@ $horaactual=date('H:i');
 	$respuesta['zonas']=$obtenerzonas;
 	$respuesta['fecha']=$fecha;
 	$respuesta['intervaloconf']=$intervaloconf;
+	$respuesta['vendedores']=$obtenervendedores;
+	$respuesta['fechaformato']=$fechaformato;
 	echo json_encode($respuesta);
 
 

@@ -444,7 +444,7 @@ $wizardStep = $_SESSION['wizard_step'];
    var detalle=[];
    var currentStep = 1;
    var idpaqueteseleccionado=0;
-   var fechaseleccionada="";
+   var fechaseleccionada2="";
    var idcortesiaseleccionado=0;
    var fechaconsulta="";
    var horainicialsele="";
@@ -452,7 +452,7 @@ $wizardStep = $_SESSION['wizard_step'];
    var horarioseleccionado="";
    var valorseleccionado="";
    var horaselecte='<?php echo $horaselecte; ?>';
-    var fechaselecte='<?php echo $fechaselecte; ?>';
+    var fechaselecte2='<?php echo $fechaselecte; ?>';
 
    var idespecialista='<?php echo $idespecialistaselect; ?>';
 
@@ -558,7 +558,7 @@ $wizardStep = $_SESSION['wizard_step'];
               
                fechaconsulta=fechaselecte;
                 PintarHoraSeleccionadaA(fechaselecte);
-                PintarFechaSeleccionadaA(fechaselecte);
+                Pintarfechaseleccionada2A(fechaselecte);
 
                 fechaformato(fechaconsulta, function(respuesta) {
                      detalle[2] = respuesta; // Hacer algo con la respuesta obtenida
@@ -592,7 +592,7 @@ $wizardStep = $_SESSION['wizard_step'];
           if (horaselecte!=undefined && horaselecte!='' && horaselecte!=0) {
            
 
-             PintarFechaSeleccionadaA(fechaconsulta);
+             Pintarfechaseleccionada2A(fechaconsulta);
             PintarHoraSeleccionadaA(fechaconsulta);
               var index=0;
               setTimeout(() => {
@@ -1693,6 +1693,7 @@ function PintarProductosSeleccionadosStep2() {
             }
                 	
                 	var key='';
+                  arraypaqueteseleccionado[i].idtemporalcarrito=0;
              if (j==0) {
              	  key=arraypaqueteseleccionado[i].idpaquete+`_`+i+`_0`;
              	    arraypaqueteseleccionado[i].key=key;
@@ -1708,8 +1709,8 @@ function PintarProductosSeleccionadosStep2() {
              	}
            
              	 arraypaqueteseleccionadocreado.push({ ...arraypaqueteseleccionado[i] });
-         	console.log('aq');
-           console.log(arraypaqueteseleccionadocreado);
+         	/*console.log('aq');
+           console.log(arraypaqueteseleccionadocreado);*/
                 	
 
 				//for (var k = 0; k < 5; k++) {
@@ -1862,14 +1863,14 @@ function PintarProductosSeleccionadosStep2() {
            
               if(contador==0 && cargodatos==0){
                  
-               if(horaselecte!='' && fechaselecte!='' ){
+               if(horaselecte!='' && fechaselecte2!='' ){
 
                  
 
                   var llave=arraypaqueteseleccionado[i].idpaquete+'_'+i+'_'+j;
 
                   cargodatos=1;
-                    Cargardatos(fechaselecte,horaselecte,idespecialista,llave);
+                    Cargardatos(fechaselecte2,horaselecte,idespecialista,llave);
                   }
                }
 
@@ -1984,7 +1985,7 @@ function PintarProductosSeleccionadosStep2() {
 
 }
 
-function Cargardatos(fechaselecte,horaselecte,idespecialista,llave) {
+function Cargardatos(fechaselecte2,horaselecte,idespecialista,llave) {
   console.log('cargando datos..'+llave);
  
  // Obtener la referencia a la tabla
@@ -1994,8 +1995,8 @@ var tabla = contenedor.querySelector('.rescalendar_controls');
 // Obtener todas las celdas de datos en la tabla
 var input = tabla.querySelector('.refDate');
 // Cambiar el valor del input
-input.value = convertirFormatoFechadiamesanio(fechaselecte);
-cellDate=convertirFormatoFechadiamesanio(fechaselecte);
+input.value = convertirFormatoFechadiamesanio(fechaselecte2);
+cellDate=convertirFormatoFechadiamesanio(fechaselecte2);
 
 
 
@@ -2143,7 +2144,7 @@ function ObtenerHorariosStep2(celldate,cellpaquete) {
 
 	}
 
-	fechaseleccionada=fechaFormateada;
+	fechaseleccionada2=fechaFormateada;
 	var datos="fecha="+fechaFormateada+"&idsucursal="+0+"&idpaquete="+idpaquete;
  
 	var pagina="ObtenerDisponibilidadPaqueteEspecialista.php";
@@ -2301,7 +2302,7 @@ function ConfirmarStep2(idpaquete,i,j) {
 			hora=arraypaqueteseleccionadocreado[i].hora.split('_')[0];
 			barbero=arraypaqueteseleccionadocreado[i].barbero;
 
-			// Ejemplo de uso:
+
 
 			fechaformato(fecha, function(fechaFormateada) {
 			    $("#fecha_"+cellpaquete).text(fechaFormateada);
@@ -2311,11 +2312,45 @@ function ConfirmarStep2(idpaquete,i,j) {
 			
 			$("#hora_"+cellpaquete).text(hora);
 			$("#barbero_"+cellpaquete).text(barbero);
+      GuardarTemporalTpv(arraypaqueteseleccionadocreado[i]);
 			break;
 		}
 	}
 
   Validacionpaquetes();
+}
+
+
+function GuardarTemporalTpv(objeto) {
+
+ 
+  var datos="objeto="+JSON.stringify(objeto);
+ 
+  var pagina="GuardarTemporalTpv.php";
+    $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+    data:datos,
+    success: function(msj){
+      
+  for (var i = 0; i < arraypaqueteseleccionadocreado.length; i++) {
+   
+
+    if (arraypaqueteseleccionadocreado[i].key == objeto.key) {
+arraypaqueteseleccionadocreado[i].idtemporalcarrito=msj.idtemporalcarrito;
+
+          }
+      }
+
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+    });
 }
 
 function EditarPaquete(idpaquete,i,j) {
@@ -2743,9 +2778,9 @@ display: flex;
 
   function PintarHoraSeleccionadaA(fecha) {
  
- fechaseleccionada=fecha;
+ fechaseleccionada2=fecha;
  var datos="fecha="+fecha+"&idsucursal="+idsucursal+"&idpaquete="+idpaqueteseleccionado;
- 
+  
  var pagina="ObtenerDisponibilidadPaqueteEspecialista.php";
   $.ajax({
   type: 'POST',
@@ -2788,6 +2823,7 @@ function SeleccionarHorario1(horainicial,horafinal,i,cellpaquete) {
 
    	if (arraypaqueteseleccionadocreado[i].key==cellpaquete) {
 		arraypaqueteseleccionadocreado[i].hora=horarioseleccionado;
+  //se cambia la variable tiempo para seleccionarlo
 		tiempo=arraypaqueteseleccionadocreado[i].intervaloservicio;
 
 
@@ -2822,7 +2858,7 @@ function ObtenerListadoEspecialista2(cellpaquete) {
 	idpaqueteseleccionado=cellpaquete.split('_')[0];
 
     var horario=horainicialsele+'_'+horafinalsele;
-    var datos='idsucursal='+idsucursal+"&idpaquete="+idpaqueteseleccionado+"&horaseleccionada="+horario+"&fecha="+fechaseleccionada;
+    var datos='idsucursal='+idsucursal+"&idpaquete="+idpaqueteseleccionado+"&horaseleccionada="+horario+"&fecha="+fechaseleccionada2;
     var pagina = "ObtenerEspecialistaPaqueteSucursal.php";
     $.ajax({
     type: 'POST',
@@ -2851,7 +2887,7 @@ function ObtenerListadoEspecialista3() {
  
 
     var horario=horainicialsele+'_'+horafinalsele;
-    var datos='idsucursal='+idsucursal+"&idpaquete="+idpaqueteseleccionado+"&horaseleccionada="+horario+"&fecha="+fechaseleccionada;
+    var datos='idsucursal='+idsucursal+"&idpaquete="+idpaqueteseleccionado+"&horaseleccionada="+horario+"&fecha="+fechaseleccionada2;
     var pagina = "ObtenerEspecialistaPaqueteSucursal2.php";
     $.ajax({
     type: 'POST',
@@ -2898,6 +2934,10 @@ function PintarDetalleEspecialistas(especialistas,cellpaquete) {
        for (var i = 0; i <especialistas.length; i++) {
 
         var nombrecom=especialistas[i].nombre+` `+especialistas[i].paterno;
+
+     var ocupado= BuscarSiyaEstaOcupado(especialistas[i].idespecialista);
+
+
         html = `
             <a class="list-group-item list-group-item-action especialistalista_${cellpaquete}" id="especialista_${especialistas[i].idespecialista}_${cellpaquete}" onclick="SeleccionarEspecialista(${especialistas[i].idespecialista},'${nombrecom}','${cellpaquete}')" style="background: #c7aa6a; color: white; margin-bottom: 1em;margin-top: 1em;width: 90px;height: 120px;float: left;    margin-left: 2px;">
                 <div class="text-center">
@@ -2911,6 +2951,7 @@ function PintarDetalleEspecialistas(especialistas,cellpaquete) {
 
          $(`.seleccionarbarbero_${cellpaquete}`).slick('slickAdd', `<div>`+html+`</div>`);
 
+
        }
 
 
@@ -2921,6 +2962,28 @@ function PintarDetalleEspecialistas(especialistas,cellpaquete) {
 		});
       }
 
+
+}
+
+function BuscarSiyaEstaOcupado(idespecialista) {
+    var bandero=0;
+    if (arraypaqueteseleccionadocreado.length>0) {
+    for (var i = 0; i < arraypaqueteseleccionadocreado.length; i++) {
+      
+      if (arraypaqueteseleccionadocreado[i].idespecialista==idespecialista) {
+        bandero=1;
+       
+        break;
+      }
+    }
+
+
+    return bandero;
+  }else{
+
+    return bandero;
+
+  }
 
 }
 
@@ -3190,7 +3253,7 @@ function IrAresumen() {
 idsucursal
 idpaqueteseleccionado
 horario
-fechaseleccionada
+fechaseleccionada2
 idespecialistaseleccionado*/
 
 
@@ -3203,7 +3266,7 @@ idespecialistaseleccionado*/
    var costo=localStorage.getItem('precio');
 */
    
-    var datos='idsucursal='+idsucursal+"&idpaquete="+idpaqueteseleccionado+"&horario="+horarioseleccionado+"&fecha="+fechaseleccionada+"&idusuario="+idusuarioagenda+"&idespecialista="+idespecialistaseleccionado+"&costo="+costopaquete+"&idcortesia="+idcortesiaseleccionado;
+    var datos='idsucursal='+idsucursal+"&idpaquete="+idpaqueteseleccionado+"&horario="+horarioseleccionado+"&fecha="+fechaseleccionada2+"&idusuario="+idusuarioagenda+"&idespecialista="+idespecialistaseleccionado+"&costo="+costopaquete+"&idcortesia="+idcortesiaseleccionado;
     var pagina = "ObtenerDetalleAntesdeAgendar.php";
     $.ajax({
     type: 'POST',
@@ -3269,7 +3332,7 @@ idespecialistaseleccionado*/
 
 function GuardarCitaP() {
 
- var datos="idusuario="+idusuarioagenda+"&idsucursal="+idsucursal+"&idpaquete="+idpaqueteseleccionado+"&fecha="+fechaseleccionada;
+ var datos="idusuario="+idusuarioagenda+"&idsucursal="+idsucursal+"&idpaquete="+idpaqueteseleccionado+"&fecha="+fechaseleccionada2;
   datos+="&horario="+horarioseleccionado+"&idespecialista="+idespecialistaseleccionado+"&costo="+costopaquete+"&cantidad=1"+"&valorseleccionado="+valorseleccionado+"&idcortesiaseleccionado="+idcortesiaseleccionado+"&horainicials="+horainicials+"&horafinals="+horafinals;
 
   $.ajax({
@@ -3305,7 +3368,7 @@ function GuardarCitaP() {
         console.log($('.detallepago').offset().top);
         clienteseleccionado=0;
         horainicialselect=0;
-        fechaselecte=0;
+        fechaselecte2=0;
         idespecialistaselect=0;
         valorseleccionado=0;
         idcortesiaseleccionado=0;

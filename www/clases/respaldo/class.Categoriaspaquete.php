@@ -17,6 +17,7 @@ class Categoriaspaquete
 	public $lista_empresas;
 	
 	public $idcategoriapaquete;
+	public $idsucursal;
 		public function obtenerTodas()
 	{
 		
@@ -113,7 +114,7 @@ class Categoriaspaquete
 	//Funcion que guarda un registro en la tabla empresas
 	public function guardarCategoria()
 	{
-		$sql = "INSERT INTO categoriapaquete (nombre,orden,estatus,iddepende) VALUES ('$this->nombre','$this->orden','$this->estatus','$this->depende')";
+		$sql = "INSERT INTO categoriapaquete (nombre,orden,estatus,iddepende,idsucursal) VALUES ('$this->nombre','$this->orden','$this->estatus','$this->depende','$this->idsucursal')";
 		
 		$resp = $this->db->consulta($sql);
 		$this->idcategoria = $this->db->id_ultimo();
@@ -125,7 +126,8 @@ class Categoriaspaquete
 		nombre = '$this->nombre', 
 		orden='$this->orden',
 		estatus='$this->estatus',
-		iddepende='$this->depende'
+		iddepende='$this->depende',
+		idsucursal='$this->idsucursal'
 		 WHERE idcategoriapaquete = '$this->idcategoria'";
 		$this->db->consulta($sql);
 	}

@@ -34,6 +34,7 @@ function PintarTarjetasLealtad(resultado) {
 
 			<div class="tarjetalealtad">
 				  <h2>`+resultado[i].nombre+`</h2>
+           <h3>Cliente: `+resultado[i].nombrecliente+`</h3>
 				  <h3 style="margin: 2em;">Vigencia del `+resultado[i].fechainicial+` al `+resultado[i].fechafinal+`</h3> 
 
 				  <div class="progreso" style="display: flex;

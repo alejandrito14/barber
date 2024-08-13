@@ -33,6 +33,7 @@ class Tarjetalealtad
 	public $idtarjetalealtadasignacion;
 	public $repeticiones;
 	public $idcita;
+	public $fechacita;
 
 	public function ObtenerTodosTarjetalealtad()
 	{
@@ -253,7 +254,9 @@ class Tarjetalealtad
 
 	 public function ObtenerBeneficiosTarjeta()
 	 {
-	 	$query="SELECT *FROM beneficios WHERE idtarjetalealtad='$this->idtarjetalealtad'";
+	 	$query="SELECT *FROM beneficios
+	 		LEFT JOIN paquetes ON paquetes.idpaquete=beneficios.idproducto
+	 	 WHERE idtarjetalealtad='$this->idtarjetalealtad'";
 
 	 	$resp=$this->db->consulta($query);
 		$cont = $this->db->num_rows($resp);
@@ -347,7 +350,8 @@ class Tarjetalealtad
 		notapago_descripcion.idcarrito,
 		notapago_descripcion.idcupon,
 		notapago.idusuario,
-		carrito_canje.idcanje
+		carrito_canje.idcanje,
+		citas.fechacita
 
 		FROM
 		notapago
@@ -389,12 +393,15 @@ class Tarjetalealtad
 
 				for ($i=0; $i < count($obtenertarjetas) ; $i++) { 
 
-							$this->idtarjetalealtad=$obtenertarjetas[$i]->idtarjetalealtad;
+					//validar si es para todos o para un usuario
+
+					$this->idtarjetalealtad=$obtenertarjetas[$i]->idtarjetalealtad;
 
 
 					$porvisita=$obtenertarjetas[$i]->porvisita;
 					$validavisita=0;
 					$fechaactual=date('Y-m-d');
+					$this->fechacita=$objeto->fechacita;
 					$obtenernotasdia=[];
 					if ($porvisita==1) {
 						$validavisita=1;
@@ -419,7 +426,7 @@ class Tarjetalealtad
 					$this->idproducto=$objeto->idpaquete;
 
 					$buscarestaasignada=$this->BuscarTarjetaAsignada($idusuario);
-
+					
 						if (count($buscarestaasignada)>0) {
 
 							$this->idtarjetalealtadasignacion=$buscarestaasignada[0]->idtarjetalealtadasignacion;
@@ -471,7 +478,7 @@ class Tarjetalealtad
 			FROM
 			reglaslealtad
 			JOIN tarjetalealtad
-			ON reglaslealtad.idtarjetalealtad = tarjetalealtad.idtarjetalealtad WHERE idproducto='$idpaquete' AND tarjetalealtad.estatus=1 AND'$fechaactual'>= tarjetalealtad.fechainicial AND '$fechaactual'<=tarjetalealtad.fechafinal";
+			ON reglaslealtad.idtarjetalealtad = tarjetalealtad.idtarjetalealtad WHERE idproducto='$idpaquete' AND tarjetalealtad.estatus=1 AND '$fechaactual'>= tarjetalealtad.fechainicial AND '$fechaactual'<=tarjetalealtad.fechafinal";
 		
 		$resp1=$this->db->consulta($sqlpa);
 		$cont = $this->db->num_rows($resp1);
@@ -494,7 +501,7 @@ class Tarjetalealtad
 
 
 	public function BuscarTarjetaAsignada($idusuario)
-	{
+	{	
 	/*$sqlasignada="SELECT *FROM tarjetalealtadasignacion
 		WHERE idtarjetalealtad='$this->idtarjetalealtad' AND estatus=0 AND idusuario='$this->idusuario'";*/
 
@@ -640,7 +647,13 @@ tarjetalealtadasignacion.idtarjetalealtad='$this->idtarjetalealtad' AND estatus=
 			$sqlpa.=" AND tarjetalealtad.idsucursal='$this->idsucursal'";
 			}
 
+			if ($fechaactual!='') {
+				// code...
+			
 			$sqlpa.=" AND'$fechaactual'>= tarjetalealtad.fechainicial AND '$fechaactual'<=tarjetalealtad.fechafinal";
+		
+		}
+		$sqlpa.=" ORDER BY tarjetalealtadasignacion.fecha asc LIMIT 1";
 		
 		$resp1=$this->db->consulta($sqlpa);
 		$cont = $this->db->num_rows($resp1);
@@ -854,27 +867,19 @@ LEFT JOIN(SELECT
 			reglaslealtad
 			JOIN tarjetalealtad
 			ON reglaslealtad.idtarjetalealtad = tarjetalealtad.idtarjetalealtad 
-			WHERE tarjetalealtad.estatus=1 AND '$fechaactual'<=tarjetalealtad.fechafinal AND tarjetalealtad.idtarjetalealtad='$this->idtarjetalealtad'
+			WHERE tarjetalealtad.estatus=1 AND '$fechaactual'<=tarjetalealtad.fechafinal AND tarjetalealtad.idtarjetalealtad='1'
 			)as reglas on reglas.idproducto=citas.idpaquete
-	WHERE
-    notapago.idnotapago = '$this->idnotapago'
-    AND notapago.idusuario = '$this->idusuario'
-    AND citas.estatus != 3
-    AND   EXISTS (
-        SELECT *
-        FROM citas AS c
-        WHERE DATE(c.fechacita) = DATE(citas.fechacita) -- Compara las fechas de las citas
-        AND c.idcita NOT IN (
-            SELECT idcita
-            FROM notapago_descripcion
-            WHERE idnotapago = '$this->idnotapago' -- Aquí colocas el idnotapago de la nota de pago actual
-        )
-        AND
-        c.estatus != 3 AND c.idusuarios='$this->idusuario'
-
-       )";
-
+			
+	inner JOIN tarjetalealtadasignacion_notapago ON tarjetalealtadasignacion_notapago.idcita=notapago_descripcion.idcita
 		
+	WHERE
+       notapago.idusuario='$this->idusuario' AND 
+     citas.idusuarios= '$this->idusuario'
+    AND notapago.idusuario = '$this->idusuario'
+    AND citas.estatus != 3 AND citas.fechacita='$this->fechacita' AND citas.idcita NOT IN('$this->idcita') ";
+
+    	
+
 		$respasig=$this->db->consulta($slqcompras);
 		$cont = $this->db->num_rows($respasig);
 
@@ -934,6 +939,59 @@ LEFT JOIN(SELECT
 	
 
 	}
+
+	public function VerificarCanje()
+	{
+		$sqlasignada="SELECT *FROM tarjetalealtadasignacion
+		INNER JOIN canje ON canje.idtarjetalealtadasignacion=tarjetalealtadasignacion.idtarjetalealtadasignacion
+		INNER JOIN carrito_canje on carrito_canje.idcanje=canje.idcanje
+		WHERE
+		 canje.idtarjetalealtadasignacion='$this->idtarjetalealtadasignacion' AND canje.estatus=0";
+		
+		$respasig=$this->db->consulta($sqlasignada);
+		$cont = $this->db->num_rows($respasig);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($respasig)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+
+	}
+
+
+	public function VerificarProductosTarjeta($idproducto)
+	 {
+	 	$query="SELECT *FROM beneficios
+	 	inner join paquetes ON beneficios.idproducto=paquetes.idpaquete
+	 	 WHERE idtarjetalealtad='$this->idtarjetalealtad' AND beneficios.idproducto='$idproducto'";
+
+	 	$resp=$this->db->consulta($query);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	 }
+
 
 
 }

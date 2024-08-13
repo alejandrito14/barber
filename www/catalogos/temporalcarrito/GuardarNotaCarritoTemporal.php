@@ -15,6 +15,8 @@ require_once("../../clases/class.Temporalcarrito.php");
 require_once "../../clases/class.Cita.php";
 require_once "../../clases/class.Notapago.php";
 require_once "../../clases/class.Fechas.php";
+require_once('../../clases/class.MovimientoBitacora.php');
+require_once('../../clases/class.Funciones.php');
 
 try
 {
@@ -28,6 +30,11 @@ try
     $fechas=new Fechas();
     $cita=new Cita();
     $cita->db=$db;
+    $md = new MovimientoBitacora();
+    $md->db = $db;  
+    $f=new Funciones();
+
+    $db->begin();
 
     $idusuariomodifica=$se->obtenerSesion('se_sas_Usuario');
     $fechamodifica=date('Y-m-d H:i:s');
@@ -40,15 +47,59 @@ try
 
 	$obtenertemporal=$temporalcarrito->ObtenerTemporalCarrito();
 	$subtotalsincomision=0;
+
+
+  $obtenerdetallenota=$notapago->ObtenerdescripcionNota();
+
+
+  for ($i=0; $i <count($obtenerdetallenota) ; $i++) { 
+    
+      $temporalcarrito->idnotadescripcion=$obtenerdetallenota[$i]->idnotapago_descripcion;
+
+      if ($temporalcarrito->idnotadescripcion!='') {
+        # code...
+      
+      $buscarentemporal=$temporalcarrito->BuscarPornotadescripcion();
+
+
+      if (count($buscarentemporal)==0) {
+
+        if ($obtenerdetallenota[$i]->idcita>0) {
+           $cita->idcita=$obtenerdetallenota[$i]->idcita;
+           $cita->EliminarCita();
+            
+            $md->guardarMovimiento($f->guardar_cadena_utf8('eliminacion cita de notapago'),'eliminacion de cita '.$cita->idcita.' nota de pago',$f->guardar_cadena_utf8(' nota de pago ID-'.$idnotapago.' por usuario '.$_SESSION['se_sas_Usuario']));
+
+        
+        }
+        $notapago->idnotapagodescripcion=$obtenerdetallenota[$i]->idnotapago_descripcion;
+
+         $eliminar=$notapago->Eliminarnotapagodescripcion();
+        
+      }
+
+    }
+      
+
+  }
+
+
 	for ($i=0; $i < count($obtenertemporal); $i++) { 
 		$cita->idcita=0;
 		$tipo=0;
 		
 		if ($obtenertemporal[$i]->idnotadescripcion!='') {
+        $notapago->idespecialistavendedor=0;
+
+
 			$tipo=1;
 			  $cita->idusuario=$resultado[0]->idusuario;
-                $cita->idcita=$obtenertemporal[$i]->idcitaapartada;
 
+        if ($obtenertemporal[$i]->servicio==1) {
+          // code...
+        
+                $cita->idcita=$obtenertemporal[$i]->idcitaapartada;
+ 
                 $obtenerapartada=$cita->ObtenerdetallecitaAdmin();
 
                 $cita->horacita=$obtenertemporal[$i]->horainicial;
@@ -73,7 +124,7 @@ try
                 $cita->horainicials='';
                 $cita->horafinals='';
 
-
+                $notapago->idespecialistavendedor=$obtenertemporal[$i]->idespecialista;
 			 
               if ($obtenertemporal[$i]->idcitaapartada>0) {
            
@@ -81,11 +132,12 @@ try
                 
 
             }else{
+
             	 $cita->idcita=0;
             	$cita->GuardarCita();
             }
 
-
+  }
 
              if ($obtenertemporal[$i]->tarjetaregalo==1) {
                $tipo=2;
@@ -113,6 +165,7 @@ try
                $notapago->ActualizarNotadescripcion();
 
 		}else{
+        $notapago->idespecialistavendedor=0;
 
 
 			if ($obtenertemporal[$i]->servicio==1) {
@@ -140,7 +193,7 @@ try
                 $cita->horafinals='';
 
             	$cita->CitaCreada();
-
+              $notapago->idespecialistavendedor=$obtenertemporal[$i]->idespecialista;
 
 			}
 
@@ -186,8 +239,11 @@ try
 
 
              $notapago->ActualizarNotapago();
+ 
+    
+   $md->guardarMovimiento($f->guardar_cadena_utf8('modificacion de notapago'),'nota de pago',$f->guardar_cadena_utf8('Modificacion de nota de pago ID-'.$idnotapago.' por usuario '.$_SESSION['se_sas_Usuario']));
 
-
+  $db->commit();
 
 
 	$respuesta['respuesta'] = 1;
@@ -197,7 +253,7 @@ try
     echo $myJSON;
 
 } catch (Exception $e) {
-    //$db->rollback();
+    $db->rollback();
     //echo "Error. ".$e;
 
     $array->resultado = "Error: " . $e;

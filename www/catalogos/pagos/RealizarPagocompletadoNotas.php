@@ -31,6 +31,8 @@ require_once("../../clases/class.Servicios.php");
 require_once("../../clases/class.Cupones.php");
 require_once("../../clases/class.Datosfiscales.php");
 require_once("../../clases/class.Caja.php");
+require_once("../../clases/class.Notapagometodopago.php");
+require_once("../../clases/class.Tarjetalealtad.php");
 
 include 'stripe-php-7.93.0/init.php';
 $folio = "";
@@ -71,6 +73,16 @@ $idcupon=0;
 $tpv=1;
 $idusuarioentrega=$se->obtenerSesion('se_sas_Usuario');
 $observaciones=$_POST['observaciones'];
+
+$idbancoseleccionado=isset($_POST['idbancoseleccionado'])?$_POST['idbancoseleccionado']:0;
+$idopciontarjetaseleccionado=isset($_POST['idopciontarjetaseleccionado'])?$_POST['idopciontarjetaseleccionado']:'';
+
+$digitostarjeta=$_POST['digitostarjeta'];
+
+
+$tipodepagosmultiple=json_decode($_POST['tipopagos']);
+
+//var_dump($tipodepagosmultiple);die();
 $variable="";
 
 
@@ -205,7 +217,7 @@ try {
           // $idnotapago=$notapago->idnotapago;
            $notapago->fechacompletado=date('Y-m-d H:i:s');
            $notapago->ActualizarNotapagoCompleto();
-
+ 
 
          }
 
@@ -372,14 +384,20 @@ try {
                $cita->db=$db;
                $notapago=new Notapago();
                $notapago->db=$db;
-              
+               $notapagometodo=new Notapagometodopago();
+                $notapagometodo->db=$db;
+
+                 $tarjetalealtad=new Tarjetalealtad();
+               $tarjetalealtad->db=$db;
+              $folionota=[];
         for ($j=0; $j < count($idnotapago); $j++) { 
        
               $notapago->estatus=1;
               $notapago->idnotapago=$idnotapago[$j];
 
             
-
+              $obtenerfolionota=$notapago->ObtenerNotaPago();
+            array_push($folionota,$obtenerfolionota[0]->folio);
              $notapago->ActualizarEstatus();
 
 
@@ -388,12 +406,11 @@ try {
          if ($campomonto==1) {
              /* $notapago->estatus=0;
               $notapago->ActualizarNotapago();*/
-              $notapago->cambio=abs($cambiomonto);
-              $notapago->montovisual=$montovisual;
+              $notapago->cambio=0;
+              $notapago->montovisual=0;
               $notapago->ActualizarMonto();
             
           }
-
 
     $notapago->idnotapago=$idnotapago[$j];
     $detallenota=$notapago->ObtenerdescripcionNota();
@@ -402,21 +419,68 @@ try {
     $notapago->fechaentrega=date('Y-m-d H:i:s');
     $notapago->idusuarioentrega=$idusuarioentrega;
     $notapago->observacionesentrega=$observaciones;
+    
+    $notapago->idbancoseleccionado=$idbancoseleccionado;
+    $notapago->idopciontarjetaseleccionado=$idopciontarjetaseleccionado;
+    $notapago->digitostarjeta=$digitostarjeta;
+
     $notapago->ActualizarNotaEntrega();
 
-    if (count($detallenota)>0) {
-      for ($i=0; $i <count($detallenota) ; $i++) { 
-          $notapago->idnotapagodescripcion=$detallenota[$i]->idnotapago_descripcion;
-          $notapago->ActualizarNotadescripcionEntrega();
+            if (count($detallenota)>0) {
+              for ($i=0; $i <count($detallenota) ; $i++) { 
+                  $notapago->idnotapagodescripcion=$detallenota[$i]->idnotapago_descripcion;
+                  $notapago->ActualizarNotadescripcionEntrega();
 
-      }
-    }
+              }
+            }
+
+
+           
+       
+       
+          //tarjeta de lealtad
+        $tarjetalealtad->idnotapago=$idnotapago[$j];
+        $tarjetalealtad->Verificarproductosnota();
+
+    
               
 
           }
 
+          
+
+            if ($tipodepagosmultiple[0]!='') {
+               
 
 
+                for ($i=0; $i < count($tipodepagosmultiple); $i++) { 
+                   
+                $notapagometodo->idtipopago=$tipodepagosmultiple[$i]->idtipopago;
+                $notapagometodo->tipopago=trim($tipodepagosmultiple[$i]->tipopago);
+               $notapagometodo->montovisual= $tipodepagosmultiple[$i]->montovisual;
+               $notapagometodo->confoto= $tipodepagosmultiple[$i]->confoto;
+               $notapagometodo->idbanco= $tipodepagosmultiple[$i]->idbanco;
+               $notapagometodo->digitostarjeta= $tipodepagosmultiple[$i]->digitostarjeta;
+               $notapagometodo->tipotarjeta= $tipodepagosmultiple[$i]->tipotarjeta;
+               $notapagometodo->datostarjeta= $tipodepagosmultiple[$i]->datostarjeta;
+               $notapagometodo->montocampo= $tipodepagosmultiple[$i]->montocampo;
+                
+              
+               $notapagometodo->GuardarMetodopagoNota();
+
+
+                    for ($j=0; $j < count($idnotapago); $j++) { 
+
+                             $notapagometodo->idnotapago=$idnotapago[$j];
+
+                            $notapagometodo->GuardarRelacionNotaMetodo();
+
+                         }
+
+                 }
+
+                
+            }
 
 
         }
@@ -456,7 +520,8 @@ try {
     $respuesta['rutacomprobante'] = $nombreimagenes;
     $respuesta['mensaje']         = "";
     $respuesta['output']=$output;
-    $respuesta['idnotapago']=$notapago->idnotapago;
+    $respuesta['idnotapago']=$idnotapago;
+    $respuesta['folionota']=$folionota;
 
     //Retornamos en formato JSON
     $myJSON = json_encode($respuesta);

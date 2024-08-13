@@ -201,7 +201,7 @@ try
             $temporalcarrito->idsucursal=$obtenerpagosstripe[$i]->idsucursal;
             $temporalcarrito->idespecialista=$obtenerpagosstripe[$i]->idespecialista;
             $temporalcarrito->idsucursal=$obtenerpagosstripe[$i]->idsucursal;
-            $temporalcarrito->idcita=$obtenerpagosstripe[$i]->idcita;
+            $temporalcarrito->idcita=($obtenerpagosstripe[$i]->idcita > 0) ? $obtenerpagosstripe[$i]->idcita : 0;
            
             $temporalcarrito->nombrepaquete=$obtenerpagosstripe[$i]->concepto;
             $temporalcarrito->titulosgrupos='';

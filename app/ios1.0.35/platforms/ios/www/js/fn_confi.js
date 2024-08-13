@@ -479,7 +479,7 @@ function getConfiguracion() {
     	localStorage.setItem('rutaine',0);
     	localStorage.setItem('claveapi',datos.respuesta.claveapigeolocalizacion);
     	localStorage.setItem('logo',imagen);
-
+    	localStorage.setItem('habilitartarjetafuncion',datos.respuesta.habilitartarjetafuncion);
     	localStorage.setItem('pedidireccionregistro',datos.respuesta.pedirdireccionregistro);
     		var versionandroid=datos.respuesta.versionapp;
     		var versionios=datos.respuesta.versionappios;

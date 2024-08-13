@@ -1425,7 +1425,7 @@ function PintarProductosSeleccionadosStep3() {
 
                     html+=`<span>${arraypaqueteseleccionado2[i].cantidad}</span>x`;
                    }
-                 html+=`<span>$${arraypaqueteseleccionado2[i].precioventa}</span>`;
+                 html+=`<span>$${arraypaqueteseleccionado2[i].costototal}</span>`;
 
 
                   html+=` </h4>
@@ -1440,7 +1440,7 @@ function PintarProductosSeleccionadosStep3() {
                     </div>
                     <div class="mt-1 mb-1 spec-1">
                      <span class="dot"></span>
-                    <span>`+arraypaqueteseleccionado2[i].nombrecat+`</span>
+                    <span>`+arraypaqueteseleccionado2[i].titulo+`</span>
                    
                     </div>
                     
@@ -1735,7 +1735,7 @@ function DetallepagoModificar(idnotapago) {
   var idusuario="";
   var datos="idnotapago="+idnotapago+"&id_user="+idusuario;
   var pagina = "ObtenerDetallePagoModifica.php";
-  
+   
     $.ajax({
     type: 'POST',
     dataType: 'json',
@@ -1886,13 +1886,16 @@ var idespecialista=arraypaqueteseleccionado2[i].idespecialista;
 
 var intervalotiempo=arraypaqueteseleccionado2[i].intervaloservicio;
 
-  console.log('entra'+arraypaqueteseleccionado2[i]);
+  console.log('entra');
+  console.log(arraypaqueteseleccionado2[i]);
 
   if (fechaselecte2==null || fechaselecte2=='') {
     fechaselecte2=fechaactual();
+
+    console.log('fecha selecte-'+fechaselecte2);
   }
 
-  //alert(fechaselecte2);
+ 
   //alert(horaselecte);
   Cargardatos2(fechaselecte2,horaselecte,idespecialista,cellpaquete,intervalotiempo,i);
 
@@ -1936,7 +1939,7 @@ function configureAndActivateCarousel(idelemento) {
 
 
   fecha=fechaactual();
-
+  //alert('configurando fecha'+fecha);
 
    $('#'+idelemento).rescalendar({
                     id: idelemento,
@@ -1966,20 +1969,20 @@ function configureAndActivateCarousel(idelemento) {
 
 
 
-function ObtenerHorariosStep3(celldate,cellpaquete) {
+function ObtenerHorariosStep3(hcelldate,cellpaquete) {
 
   var idpaquete=0;
-
-  var fechaFormateada = convertirFormatoFecha(celldate);
+  console.log('horarios3-'+hcelldate);
+  var fechaFormateada = convertirFormatoFecha(hcelldate);
   //alert('horarios');
-  console.log('obtenerhorarios..');
+  //console.log('obtenerhorarios3 -'+fechaFormateada);
   for (var i = 0; i <arraypaqueteseleccionadocreado2.length; i++) {
 
     if (arraypaqueteseleccionadocreado2[i].key==cellpaquete) {
         arraypaqueteseleccionadocreado2[i].fecha=fechaFormateada;
         idpaquete= arraypaqueteseleccionadocreado2[i].idpaquete;
 
-        console.log(idpaquete);
+       // console.log(idpaquete);
         break;
     }
   
@@ -1989,7 +1992,7 @@ function ObtenerHorariosStep3(celldate,cellpaquete) {
   fechaseleccionada=fechaFormateada;
   var datos="fecha="+fechaFormateada+"&idsucursal="+0+"&idpaquete="+idpaquete;
  
-  var pagina="ObtenerDisponibilidadPaqueteEspecialista.php";
+  var pagina="ObtenerDisponibilidadPaqueteEspecialistaModifica.php";
     $.ajax({
     type: 'POST',
     dataType: 'json',
@@ -1999,8 +2002,10 @@ function ObtenerHorariosStep3(celldate,cellpaquete) {
       horarioseleccionado=0;
       
         var intervalos=msj.intervalos;
-        PintarIntervalos3(intervalos,cellpaquete);
-          
+        PintarIntervalos4(intervalos,cellpaquete);
+          $("#seleccionarduracion_"+cellpaquete).css('display','none');
+          $(".seleccionarbarbero_"+cellpaquete).css('display','none');
+
 
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;
@@ -2013,7 +2018,7 @@ function ObtenerHorariosStep3(celldate,cellpaquete) {
 }
 
 
-function PintarIntervalos3(respuesta,cellpaquete) {
+function PintarIntervalos4(respuesta,cellpaquete) {
 
   $(`#carrusel_horarios_${cellpaquete}`).html('');
 
@@ -2023,6 +2028,7 @@ function PintarIntervalos3(respuesta,cellpaquete) {
 if ($(`#carrusel_horarios_${cellpaquete}`).hasClass('slick-initialized')) {
     // Si existe, destruye la instancia
     $(`#carrusel_horarios_${cellpaquete}`).slick('unslick');
+    $(`#carrusel_horarios_${cellpaquete}`).html('');
 }
 
    $(`#carrusel_horarios_${cellpaquete}`).slick({
@@ -2041,7 +2047,7 @@ if ($(`#carrusel_horarios_${cellpaquete}`).hasClass('slick-initialized')) {
           
         html=`
         <label class="btn btn_dorado btncategointervalo1_`+cellpaquete+` horariossele_`+cellpaquete+`"  data-hora="`+respuesta[i].horainicial+`" data-horafinal="`+respuesta[i].horafinal+`" id="catebtn_`+i+cellpaquete+`" style="margin: 1px;width: 90px;margin-top: 10px;">
-         <input type="checkbox" id="cate_`+i+`" class="catecheck" style="display:none;" onchange="SeleccionarHorario1('`+respuesta[i].horainicial+`','`+respuesta[i].horafinal+`','`+i+`','`+cellpaquete+`')" value="0" >`+respuesta[i].horainicial+`
+         <input type="checkbox" id="cate_`+i+`" class="catecheck" style="display:none;" onchange="SeleccionarHorarioModi('`+respuesta[i].horainicial+`','`+respuesta[i].horafinal+`','`+i+`','`+cellpaquete+`')" value="0" >`+respuesta[i].horainicial+`
         </label>
         
         `;
@@ -2123,7 +2129,7 @@ function convertirFormatoFechadiamesanio(fechaOriginal) {
 
 var detalle=[];
 
-function SeleccionarHorario1(horainicial,horafinal,i,cellpaquete) {
+function SeleccionarHorarioModi(horainicial,horafinal,i,cellpaquete) {
  
   $(".horariossele_"+cellpaquete+"").removeClass('active');
 
@@ -2133,7 +2139,7 @@ function SeleccionarHorario1(horainicial,horafinal,i,cellpaquete) {
   horarioseleccionado=horainicialsele+'_'+horafinalsele;
   detalle[3]=horainicialsele+'Hrs.';
             // Pintardetalle();
-        console.log('seleccionar horario');
+        //console.log('seleccionar horario');
    var tiempo=0;
    for (var i = 0; i <arraypaqueteseleccionadocreado2.length; i++) {
 
@@ -2171,10 +2177,10 @@ function EliminarPaquete2(idpaquete,i,j) {
 
     $("#divcpaqueitem_"+cellpaquete).remove();
   
-    for (var i = 0; i <arraypaqueteseleccionadocreado.length; i++) {
+    for (var i = 0; i <arraypaqueteseleccionadocreado2.length; i++) {
 
-      if (arraypaqueteseleccionadocreado[i].key==cellpaquete) {
-        arraypaqueteseleccionado.splice(i, 1); // 1 es la cantidad de elemento a eliminar
+      if (arraypaqueteseleccionadocreado2[i].key==cellpaquete) {
+        arraypaqueteseleccionadocreado2.splice(i, 1); // 1 es la cantidad de elemento a eliminar
         break;
 
       }
@@ -2208,10 +2214,10 @@ function EliminarPaquete2(idpaquete,i,j) {
 }
 
 function ObtenerListadoEspecialista2(cellpaquete) {
- 
+ var objeto=[];
   idpaqueteseleccionado="";
-  console.log('cargando listado');
-  console.log(arraypaqueteseleccionadocreado2);
+  //console.log('cargando listado');
+  //console.log(arraypaqueteseleccionadocreado2);
   idespecialistasele="";
   for (var i = 0; i <arraypaqueteseleccionadocreado2.length; i++) {
 
@@ -2219,6 +2225,8 @@ function ObtenerListadoEspecialista2(cellpaquete) {
 idpaqueteseleccionado=arraypaqueteseleccionadocreado2[i].idpaquete;
 
 idespecialistasele=arraypaqueteseleccionadocreado2[i].idespecialista;
+
+objeto=arraypaqueteseleccionadocreado2[i];
         break;
 
       }
@@ -2228,8 +2236,8 @@ idespecialistasele=arraypaqueteseleccionadocreado2[i].idespecialista;
   //alert('obtener espe '+idpaqueteseleccionado);
 
     var horario=horainicialsele+'_'+horafinalsele;
-    var datos='idsucursal='+idsucursal+"&idpaquete="+idpaqueteseleccionado+"&horaseleccionada="+horario+"&fecha="+fechaseleccionada+"&idespecialistasele="+idespecialistasele;
-    var pagina = "ObtenerEspecialistaPaqueteSucursal.php";
+    var datos='idsucursal='+idsucursal+"&idpaquete="+idpaqueteseleccionado+"&horaseleccionada="+horario+"&fecha="+fechaseleccionada+"&idespecialistasele="+idespecialistasele+"&idnotapago="+idnotapago+"&objeto="+JSON.stringify(objeto);
+    var pagina = "ObtenerEspecialistaPaqueteSucursalModifica.php";
     $.ajax({ 
     type: 'POST',
     dataType: 'json',
@@ -2242,6 +2250,8 @@ idespecialistasele=arraypaqueteseleccionadocreado2[i].idespecialista;
       PintarDetalleEspecialistas(especialistas,cellpaquete);
      // PintarDetalleEspecialistas2(especialistas);
 
+      $("#seleccionarduracion_"+cellpaquete).css('display','block');
+      $(".seleccionarbarbero_"+cellpaquete).css('display','block');
     },error: function(XMLHttpRequest, textStatus, errorThrown){ 
       var error;
         if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
@@ -2282,11 +2292,12 @@ function ObtenerListadoEspecialista3() {
 }
 
 function PintarDetalleEspecialistas(especialistas,cellpaquete) {
-   $(".seleccionarbarbero_"+cellpaquete).html(' ');
 
   if ($(".seleccionarbarbero_"+cellpaquete).hasClass('slick-initialized')) {
     // Si existe, destruye la instancia
     $(".seleccionarbarbero_"+cellpaquete).slick('unslick');
+       $(".seleccionarbarbero_"+cellpaquete).html(' ');
+
 }
 
 
@@ -2513,6 +2524,10 @@ function SeleccionarTiempo1(valor,min,cellpaquete,i) {
 
     if (arraypaqueteseleccionadocreado2[i].key==cellpaquete) {
     arraypaqueteseleccionadocreado2[i].intervaloservicio=valorseleccionado;
+
+    horainicial= arraypaqueteseleccionadocreado2[i].horainicial;
+    horafinal= arraypaqueteseleccionadocreado2[i].horafinal;
+    posicion=i;
     break;
     }
     
@@ -2550,6 +2565,11 @@ function SeleccionarTiempo1(valor,min,cellpaquete,i) {
  }, "1000");
 
 
+setTimeout(() => {
+
+  ObtenerListadoEspecialista2(cellpaquete);
+
+ }, "1000");
   //Agregaradetalle(concatenar);
   
 
@@ -2699,6 +2719,8 @@ function Validacionpaquetes2() {
   
   for (var i = 0; i < arraypaqueteseleccionadocreado2.length; i++) {
        bandera=1;
+
+       if (arraypaqueteseleccionadocreado2[i].servicio==1) {
       if (arraypaqueteseleccionadocreado2[i].horainicial=='') {
 
         faltadato++;
@@ -2731,6 +2753,8 @@ function Validacionpaquetes2() {
         
       }
 
+    }
+
   }
 
 }
@@ -2753,18 +2777,18 @@ function AgregarNuevo() {
     success: function(resp){
 
     var div=`<div id="" class="row categoriasprincipales"></div>`;
-      $("#contenedor-modal-forms2").html(div);
+      $("#contenedor-modal-forms3").html(div);
 
       $("#step2").css('display','block');
       //var button=`<button class="btn btn-success" onclick="GuardarCliente('form_usuario','catalogos/clientes/vi_clientes.php','main','catalogos/clientes/ga_clientes.php',0)">GUARDAR</button>`;
-      $("#footer-modal-forms2").css('display','none');
-      $("#titulo-modal-forms2").text('Categorias');
-      $("#titulo-modal-forms2").addClass('titulomodalcita');
+      $("#footer-modal-forms3").css('display','none');
+      $("#titulo-modal-forms3").text('Categorias');
+      $("#titulo-modal-forms3").addClass('titulomodalcita');
       $("#modal-footer").css('display','none');
-      $("#modal-forms2").modal();
-    
+      $("#modal-forms3").modal();
+     
        var respuesta=resp.respuesta;
-          PintarCategorias(respuesta);
+          PintarCategoriasnota(respuesta);
 
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;
@@ -2777,7 +2801,7 @@ function AgregarNuevo() {
 }
 
 
-function PintarCategorias(respuesta) {
+function PintarCategoriasnota(respuesta) {
   var html="";
   if (respuesta.length>0) {
     for (var i = 0; i < respuesta.length; i++) {
@@ -2816,14 +2840,14 @@ function PintarCategorias(respuesta) {
 function AbrirModalAgendar2(idcategoriapaquete) {
     $("#buscador").css('display','none');
 
-   $('#modal-forms2').on('shown.bs.modal', function () { 
+   $('#modal-forms3').on('shown.bs.modal', function () { 
  
         $("#picker4").fullCalendar('render');
       $("#step2").css('display','none');
-      ConsultarFechasCalendarioA();
+      //ConsultarFechasCalendarioA();
       });
 
-    $('#modal-forms2').on('hidden.bs.modal', function (e) {
+    $('#modal-forms3').on('hidden.bs.modal', function (e) {
       // Acciones a realizar una vez que se cierra el modal
           ObtenerTemporalCarrito(idnotapago);
 
@@ -2841,15 +2865,15 @@ function AbrirModalAgendar2(idcategoriapaquete) {
     data:datos,
     success: function(resp){
 
-      $("#contenedor-modal-forms2").html(resp);
+      $("#contenedor-modal-forms3").html(resp);
 
       $("#step2").css('display','block');
       //var button=`<button class="btn btn-success" onclick="GuardarCliente('form_usuario','catalogos/clientes/vi_clientes.php','main','catalogos/clientes/ga_clientes.php',0)">GUARDAR</button>`;
-      $("#footer-modal-forms2").css('display','none');
-      $("#titulo-modal-forms2").text('Servicios');
-      $("#titulo-modal-forms2").addClass('titulomodalcita');
+      $("#footer-modal-forms3").css('display','none');
+      $("#titulo-modal-forms3").text('Servicios');
+      $("#titulo-modal-forms3").addClass('titulomodalcita');
       $("#modal-footer").css('display','none');
-      $("#modal-forms2").modal();
+      $("#modal-forms3").modal();
     
   
 
@@ -2866,7 +2890,7 @@ function AbrirModalAgendar2(idcategoriapaquete) {
 
 function Cargardatos2(fechaselecte2,horaselecte,idespecialista,llave,intervalotiempo,i) {
   console.log('cargando datos..'+llave);
-
+  console.log('cargando datos fecha..'+fechaselecte2);
  // Obtener la referencia a la tabla
 var contenedor = document.querySelector('.date-carousel_' + llave + '_wrapper');
 // Obtener la tabla dentro del div contenedor
@@ -2874,33 +2898,46 @@ var tabla = contenedor.querySelector('.rescalendar_controls');
 // Obtener todas las celdas de datos en la tabla
 var input = tabla.querySelector('.refDate');
 // Cambiar el valor del input
-input.value = convertirFormatoFechadiamesanio(fechaselecte2);
-cellDate=convertirFormatoFechadiamesanio(fechaselecte2);
+
+  if (esFormatoDiaMesAo(fechaselecte2)) {
+    
+     input.value = fechaselecte2;
+  }else{
+    input.value = convertirFormatoFechadiamesanio(fechaselecte2);
+
+  }
+cellDate=convertirFecha(fechaselecte2);
+cellDate1=input.value;
+
+
+
+//
+ObtenerHorariosStep3(cellDate1,llave);
 
 input.dispatchEvent(new Event('blur'));
 
 
 const promiseA = new Promise((resolutionFunc, rejectionFunc) => {
 
-  resolutionFunc(ObtenerHorariosStep3(cellDate,llave));
+  resolutionFunc(1);
 });
 // En este punto, "promiseA" ya está resuelto.
 promiseA.then((val) => {
-  console.log($(".horariossele_"+llave));
+  console.log('hora'+llave);
   var dividir=horaselecte.split('_');
   setTimeout(() => {
  
       var i=0;
       $(".horariossele_"+llave).each(function( index) {
-      
+      console.log($(this).data('hora')+'=='+dividir[0]);
 
       if ($(this).data('hora')==dividir[0]) {
 
          var id=$(this).attr('id');
          var valordata2=$(this).attr('data-horafinal');
-         
+          
 
-        SeleccionarHorario1(dividir[0],valordata2,0,llave);
+        SeleccionarHorarioModi(dividir[0],valordata2,0,llave);
 
         $(this).addClass('active');
 
@@ -2981,7 +3018,22 @@ var elemento="tiempobtn_"+llave+"_"+intervalotiempo+"_"+i;
 }
 
 
-function convertirFormatoFechadiamesanio(fechaOriginal) {
+function esFormatoDiaMesAo(fecha) {
+    // Expresión regular para verificar el formato dd/mm/yyyy
+    var regex = /^\d{2}\/\d{2}\/\d{4}$/;
+
+    // Verificar si la fecha coincide con el formato
+    if (regex.test(fecha)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+function convertirFormatoFechadiamesanio1(fechaOriginal) {
+
+  console.log('entra fecha original'+fechaOriginal);
     // Dividir la fecha en día, mes y año
     var partesFecha = fechaOriginal.split('/');
     var dia = partesFecha[0];
@@ -3002,8 +3054,21 @@ function convertirFormatoFechadiamesanio(fechaOriginal) {
 
     // Obtener la fecha en formato "día/mes/año"
     var fechaString = `${diaFormateado}/${mesFormateado}/${añoFormateado}`;
-
+    console.log('sale'+fechaString);
     return fechaString;
+}
+
+function convertirFecha(fechaOriginal) {
+    // Dividir la fecha original en partes
+    var partesFecha = fechaOriginal.split('/');
+    var dia = partesFecha[0];
+    var mes = partesFecha[1];
+    var año = partesFecha[2];
+
+    // Crear una cadena de fecha en formato yyyy-mm-dd
+    var fechaFormateada = `${dia}/${mes}/${año}`;
+
+    return fechaFormateada;
 }
 
 function convertirFormatoFecha(fechaOriginal) {
@@ -3035,15 +3100,15 @@ function CambiarProducto(llave) {
     success: function(resp){
 
     var div=`<div id="" class="row categoriasprincipales"></div>`;
-      $("#contenedor-modal-forms2").html(div);
+      $("#contenedor-modal-forms4").html(div);
 
       $("#step2").css('display','block');
       //var button=`<button class="btn btn-success" onclick="GuardarCliente('form_usuario','catalogos/clientes/vi_clientes.php','main','catalogos/clientes/ga_clientes.php',0)">GUARDAR</button>`;
-      $("#footer-modal-forms2").css('display','none');
-      $("#titulo-modal-forms2").text('Categorias');
-      $("#titulo-modal-forms2").addClass('titulomodalcita');
+      $("#footer-modal-forms4").css('display','none');
+      $("#titulo-modal-forms4").text('Categorias');
+      $("#titulo-modal-forms4").addClass('titulomodalcita');
       $("#modal-footer").css('display','none');
-      $("#modal-forms2").modal();
+      $("#modal-forms4").modal();
     
        var respuesta=resp.respuesta;
           PintarCategorias2(respuesta,llave);
@@ -3099,14 +3164,14 @@ function PintarCategorias2(respuesta,llaveelemento) {
 function AbrirModalAgendar3(idcategoriapaquete,llaveelemento) {
     $("#buscador").css('display','none');
 
-   $('#modal-forms2').on('shown.bs.modal', function () { 
+   $('#modal-forms4').on('shown.bs.modal', function () { 
  
         $("#picker4").fullCalendar('render');
       $("#step2").css('display','none');
-      ConsultarFechasCalendarioA();
+     // ConsultarFechasCalendarioA();
       });
 
-    $('#modal-forms2').on('hidden.bs.modal', function (e) {
+    $('#modal-forms4').on('hidden.bs.modal', function (e) {
       // Acciones a realizar una vez que se cierra el modal
      ObtenerTemporalCarrito(idnotapago);
     });
@@ -3114,7 +3179,7 @@ function AbrirModalAgendar3(idcategoriapaquete,llaveelemento) {
       
           
   var pagina = "agendarcitamenu3.php";
-  
+
   var datos="idsucursal="+idsucursalseleccionada+"&idcategoriapaquete="+idcategoriapaquete+"&fechaselecte="+fechaselecte+"&horainicialselect="+horainicialselect+"&idespecialistaselect="+idespecialistaselect+"&llave="+llaveelemento+"&idnotapago="+idnotapago;
   $.ajax({
     type: 'POST',
@@ -3123,15 +3188,15 @@ function AbrirModalAgendar3(idcategoriapaquete,llaveelemento) {
     data:datos,
     success: function(resp){
 
-      $("#contenedor-modal-forms2").html(resp);
+      $("#contenedor-modal-forms4").html(resp);
 
       $("#step2").css('display','block');
       //var button=`<button class="btn btn-success" onclick="GuardarCliente('form_usuario','catalogos/clientes/vi_clientes.php','main','catalogos/clientes/ga_clientes.php',0)">GUARDAR</button>`;
-      $("#footer-modal-forms2").css('display','none');
-      $("#titulo-modal-forms2").text('Servicios');
-      $("#titulo-modal-forms2").addClass('titulomodalcita');
+      $("#footer-modal-forms4").css('display','none');
+      $("#titulo-modal-forms4").text('Servicios');
+      $("#titulo-modal-forms4").addClass('titulomodalcita');
       $("#modal-footer").css('display','none');
-      $("#modal-forms2").modal();
+      $("#modal-forms4").modal();
     
   
 
@@ -3160,8 +3225,9 @@ function ObtenerTemporalCarrito(idnotapago) {
       var pagos=resp.pagos;
 
       arraypaqueteseleccionado2=pagos;
-  
-      console.log(arraypaqueteseleccionado2);
+   
+
+
       PintarProductosSeleccionadosStep3();
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;
@@ -3184,15 +3250,15 @@ function ObtenerTemporalCarrito(idnotapago) {
     success: function(resp){
 
     var div=`<div id="" class="row categoriasprincipales"></div>`;
-      $("#contenedor-modal-forms2").html(div);
+      $("#contenedor-modal-forms3").html(div);
 
       $("#step2").css('display','block');
       //var button=`<button class="btn btn-success" onclick="GuardarCliente('form_usuario','catalogos/clientes/vi_clientes.php','main','catalogos/clientes/ga_clientes.php',0)">GUARDAR</button>`;
-      $("#footer-modal-forms2").css('display','none');
-      $("#titulo-modal-forms2").text('Categorias');
-      $("#titulo-modal-forms2").addClass('titulomodalcita');
+      $("#footer-modal-forms3").css('display','none');
+      $("#titulo-modal-forms3").text('Categorias');
+      $("#titulo-modal-forms3").addClass('titulomodalcita');
       $("#modal-footer").css('display','none');
-      $("#modal-forms2").modal();
+      $("#modal-forms3").modal();
     
        var respuesta=resp.respuesta;
           PintarCategorias(respuesta);

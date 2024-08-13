@@ -359,6 +359,11 @@ var routes = [
     url: './pages/citas.html',
   },
 
+  {
+    path: '/tarjetalealtad/',
+    url: './pages/tarjetalealtad.html',
+  },
+
    {
     path: '/monedero/',
     url: './pages/monedero.html',

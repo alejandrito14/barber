@@ -97,7 +97,7 @@ var intervalocitas=0;
 
 var pictureSource;   // picture source
 var destinationType; 
-var produccion=1;
+var produccion=0;
 const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 localStorage.setItem('zonahoraria',userTimeZone);
@@ -111,7 +111,7 @@ $(document).ready(function() {
 
     }else{
 
-      codigoservicio='152';
+      codigoservicio='127';
      
     }
 
@@ -145,7 +145,7 @@ $(document).ready(function() {
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.36';
+var version='1.0.37';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;
@@ -181,7 +181,7 @@ function Cargar() {
       codigoservicio='125';
 
     }else{
-      codigoservicio='152';
+      codigoservicio='127';
     }
  
     var datos="clave=issoftware"+"&codservicio="+codigoservicio;
@@ -255,11 +255,11 @@ function Cargar() {
     localStorage.setItem('idopcionespedido',0);
     localStorage.setItem('iddireccion',0);
     localStorage.setItem('factura',0);
-  localStorage.setItem('montocliente','');
-  localStorage.setItem('asenta','');
-  localStorage.setItem('datosbuscar6','');
-  localStorage.setItem('datosbuscar3','');
-  localStorage.setItem('nuevadireccion',1);
+    localStorage.setItem('montocliente','');
+    localStorage.setItem('asenta','');
+    localStorage.setItem('datosbuscar6','');
+    localStorage.setItem('datosbuscar3','');
+    localStorage.setItem('nuevadireccion',1);
     localStorage.setItem('comentarioimagenes','');
     localStorage.setItem('habilitarsumaenvio',0);
     localStorage.setItem('idfacturacion','');
@@ -1289,6 +1289,7 @@ $$(document).on('page:init', '.page[data-name="disponibilidadfechasucursal"]', f
 
    // ChecarSiTieneTarjetaPorCanjear();
 
+   
     
 
 });
@@ -1548,6 +1549,9 @@ $$(document).on('page:init', '.page[data-name="monedero"]', function (e) {
 $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
     Cargardatospersonales();
     $("#btndatospersonales").attr('onclick','GoToPage("datospersonales")');
+
+    $("#btnregistrohijos").attr('onclick','GoToPage("registrohijos")');
+
     $("#btneliminarcuenta").attr('onclick','EliminarCuenta()');
     $(".regreso").attr('onclick','IrHome()');
  
@@ -1556,6 +1560,39 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
    // $("#btnguardardatos").attr('onclick','Guardardatospersonales()');
 });
 
+
+$$(document).on('page:init', '.page[data-name="registrohijos"]', function (e) {
+
+
+$$("#btnnuevo").attr('onclick','GoToPage("nuevohijo")');
+
+ObtenerListadoHijos();
+
+});
+
+
+$$(document).on('page:init', '.page[data-name="nuevohijo"]', function (e) {
+
+$$("#btnnuevohijo").attr('onclick','GuardarNuevoHijo()');
+
+$$('#v_nombre').focus();
+$$('#v_nombre').attr('onfocus',"Cambiar(this)");
+$$('#v_nombre').attr('onblur',"Cambiar2(this);QuitarEspacios(this);");
+
+$$('#v_paterno').attr('onfocus',"Cambiar(this)");
+$$('#v_paterno').attr('onblur',"Cambiar2(this);QuitarEspacios(this);");
+
+$$('#v_materno').attr('onfocus',"Cambiar(this)");
+$$('#v_materno').attr('onblur',"Cambiar2(this);QuitarEspacios(this);");
+
+$$('#v_fecha').attr('onfocus',"Cambiar(this)");
+$$('#v_fecha').attr('onblur',"Cambiar2(this);QuitarEspacios(this);");
+
+$("#txtsexoh").attr('onclick','SeleccionarhM("H")');
+$("#txtsexom").attr('onclick','SeleccionarhM("M")');
+
+
+});
 
 $$(document).on('page:init', '.page[data-name="calendarioespecialista"]', function (e) {
   myStopFunction(intervalocitas);

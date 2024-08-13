@@ -1,4 +1,4 @@
-<?php 
+  <?php 
 
 /*======================= INICIA VALIDACIÓN DE SESIÓN =========================*/
 
@@ -11,7 +11,7 @@ if(!isset($_SESSION['se_SAS']))
 	/*header("Location: ../../login.php"); */ echo "login";
 
 	exit;
-}
+} 
 
 $idmenumodulo = $_GET['idmenumodulo'];
 
@@ -175,10 +175,45 @@ if(isset($_GET['ac']))
        </div>
       </div>
 
+       <div class="col-xl-3 col-md-4">
+                   <div class="card colordorado text-white mb-4">
+                      <div class="card-body" style="    font-size: 16px;">PRODUCTOS AGREGADOS</div>
+                     <div class="card-footer ">
+                       <a class="small text-white stretched-link" onclick="VisualizarListado()" style="width: 100%;cursor: pointer;">
+                       <h3>
+                        <span class="mdi mdi-calendar"></span></span>
+                        <span id="productosregistros" class="productosregistros">0</span>
+                       </h3>
+                      </a>
+                      <div class="small text-white">
+                 <div id="mostrarproductos" style="display: none;">
+
+            <div id="" class="panel-actions">
+            <span style="    justify-content: right;display: flex;font-size: 15px;" onclick="CerrarProductos()" class="actions "><span class="mdi mdi-close-circle"></span>
+            </span>
+          </div>
+
+            <div class=""style="list-style: none;">
+           
+           </div>
+                                          
+          </div>
+
+               </div>
+           </div>
+       </div>
+      </div>
+
+ 
+       
+              </div>
+
+     
+      <div class="row">
 
       <div class="col-xl-3 col-md-2">
                    <div class="card colornegro text-white mb-4 estatuscitaproceso2" >
-                      <div class="card-body" style="    font-size: 16px;">SERVICIOS EN PROCESO</div>
+                      <div class="card-body" style="    font-size: 16px;">NOTAS TOTALES</div>
                      <div class="card-footer ">
                        <a class="small text-white stretched-link"  style="width: 100%;cursor: pointer;">
                        <h3>
@@ -207,7 +242,7 @@ if(isset($_GET['ac']))
 
       <div class="col-xl-3 col-md-2">
                    <div class="card colornegro text-white mb-4 estatuscitarealizado2">
-                      <div class="card-body" style="    font-size: 16px;">SERVICIOS REALIZADOS</div>
+                      <div class="card-body" style="    font-size: 16px;">NOTAS PAGADAS</div>
                      <div class="card-footer ">
                        <a class="small text-white stretched-link"  style="width: 100%;cursor: pointer;">
                        <h3>
@@ -237,7 +272,7 @@ if(isset($_GET['ac']))
 
        <div class="col-xl-3 col-md-2">
                    <div class="card colornegro text-white mb-4 estatuscitapendiente2">
-                      <div class="card-body" style="    font-size: 16px;">SERVICIOS PENDIENTES</div>
+                      <div class="card-body" style="    font-size: 16px;">NOTAS PENDIENTES</div>
                      <div class="card-footer ">
                        <a class="small text-white stretched-link"  style="width: 100%;cursor: pointer;">
                        <h3>
@@ -265,7 +300,7 @@ if(isset($_GET['ac']))
       </div>
 
 
-      <div class="col-xl-3 col-md-2">
+      <div class="col-xl-3 col-md-2" style="display:none">
                    <div class="card colornegro text-white mb-4 estatuscitacancelada2">
                       <div class="card-body" style="font-size: 16px;padding: 1.19rem;">SERVICIOS CANCELADOS</div>
                      <div class="card-footer ">
@@ -295,7 +330,7 @@ if(isset($_GET['ac']))
       </div>
 
 
-      <div class="col-xl-3 col-md-2">
+      <div class="col-xl-3 col-md-2" style="display:none;">
                    <div class="card colornegro text-white mb-4">
                       <div class="card-body" style="    font-size: 16px;">SERVICIOS CADUCADOS</div>
                      <div class="card-footer ">
@@ -324,40 +359,7 @@ if(isset($_GET['ac']))
        </div>
       </div>
 
-       <div class="col-xl-3 col-md-4">
-                   <div class="card colordorado text-white mb-4">
-                      <div class="card-body" style="    font-size: 16px;">PRODUCTOS</div>
-                     <div class="card-footer ">
-                       <a class="small text-white stretched-link" onclick="VisualizarListado()" style="width: 100%;cursor: pointer;">
-                       <h3>
-                        <span class="mdi mdi-calendar"></span></span>
-                        <span id="productosregistros">0</span>
-                       </h3>
-                      </a>
-                      <div class="small text-white">
-                 <div id="mostrarproductos" style="display: none;">
-
-            <div id="" class="panel-actions">
-            <span style="    justify-content: right;display: flex;font-size: 15px;" onclick="CerrarProductos()" class="actions "><span class="mdi mdi-close-circle"></span>
-            </span>
-          </div>
-
-            <div class=""style="list-style: none;">
-           
-           </div>
-                                          
-          </div>
-
-               </div>
-           </div>
-       </div>
-      </div>
-
- 
-       
-              
-
-       </div>
+      
 
 
           <div class="col-md-12 divintervaloshorarios" style="display: none;">
@@ -423,20 +425,29 @@ if(isset($_GET['ac']))
            
                  </div>
               </div>
-              <div class="col" style="overflow: scroll;width: 820px;">
-             <div class="row" style="width: 820px;background: #eaebf1;" id="zonasdiv">
+           <div class="col" style="overflow: scroll;width: 700px;">
+             <div class="row" style="width: 400em;background: #eaebf1;" id="zonasdiv">
                                
-                           </div>
+             </div>
 
-                                    <div class="row" id="espacios" style="width: 800px;"></div>
+         <div class="row" id="espacios" style="width: 400em;"></div>
                                   
-                                </div>
-                                
+        </div>
+
+        <div class="" style="background: #d7d7d7;
+    width: 60px;margin-right: 10px;
+"></div>
+
+        
+             
+              <div class="row" id="vendedores" style="    margin-right: 40px;
+">     </div>
+          
 
 
-                              </div>
+        </div>
 
-                            </div>
+      </div>
 
                         
 </div>
@@ -584,7 +595,7 @@ if(isset($_GET['ac']))
                         <span class=" mdi mdi-cellphone"></span>
 
                       <span style="font-size: 14px;"> VERSION ACTUAL <span id="versionactual"></span></span>
-                                                <span id="totalversionactual">0</span></h3>
+                     <span id="totalversionactual">0</span></h3>
                           </div>
 
                            <br>
@@ -625,7 +636,9 @@ if(isset($_GET['ac']))
       </div>
       <div class="modal-body">
        <div id="divdetallecita"></div>
-      
+        
+        <button type="button" id="btngenerarticket" class="btn btn-success btngenerarticket" style="float: right;" title="">TICKET</button> 
+
       </div>
       <div class="modal-footer">
 <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> -->
@@ -703,6 +716,10 @@ if(isset($_GET['ac']))
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id="btncontinuarcliente" onclick="EnviarPuntoVenta()" style="display: none;">Continuar</button>
 
+
+      <button type="button" class="btn btn-primary" id="btncontinuarcliente2" onclick="EnviarPuntoVenta2()" style="display: none;">
+      Por tiempo
+    </button>
 <!-- <button type="button" id="btnreagendarcita" class="btn btn-warning btnreagendarcita" style="float: right;" title="">Reagendar</button>   
 
 <button type="button" id="btncancelarcita" class="btn btn-success btncancelarcita" style="float: right;" title="">Cancelar cita</button>   
@@ -774,6 +791,40 @@ if(isset($_GET['ac']))
             color: #fff;
             padding: 5px;
             margin: 5px;
+        }
+
+        .vendedor {
+            margin-bottom: 10px;
+                padding-right: 0px;
+                    padding-left: 0px;
+          border:1px solid #dadce8;
+        }
+        .vendedor > div {
+            margin-bottom: 5px;
+        }
+        .vendedor-info {
+            padding-top: 1em;
+            width: 100px;
+            height: 50px;
+            font-weight: bold;
+            text-align: center;
+            color: white;
+            cursor: pointer;
+        }
+        .venta {
+            height: 80px;
+            background: white;
+            color: #eaebf1;
+            margin-top: 1px;
+            border-top: 1px solid #dadce8;
+            margin-bottom: 1px;
+            border-bottom: 1px solid #dadce8;
+            font-size: 10px;
+            justify-content: center;
+            font-weight: bold;
+            align-items: center;
+            border-right: 1px solid #dadce8;
+        width: 100px;
         }
     </style>
 
@@ -1084,15 +1135,16 @@ if (definida==0) {
 
 
  ObtenerSucursalesDashBoard();
-  var NtabName="citas";
-  var idmenumodulo='<?php echo $idmenumodulo; ?>';
- 
-      ObtenerFechaActual();
-     
-    
-      PintarCalendario2();
-      ObtenerTotalCitas();
-      setInterval('ObtenerTotalCitas()', 2000);//cada 2 segundos
+ var NtabName="citas";
+ var idmenumodulo='<?php echo $idmenumodulo; ?>';
+ ObtenerFechaActual();
+ PintarCalendario2();
+     // ObtenerTotalCitas();
+  var totalcitasintervalo = setInterval(ObtenerTotalCitas, 30000);
+
+    //cada 2 segundos
+     //var notificacioncitas=setInterval('ObtenerCitasNuevasApp()',2000);
+
 
 }
 
@@ -1370,6 +1422,13 @@ function openTab2(tab) {
  $("#"+tab+"-tab").css('display','block');
  $(".tab").removeClass('active');
  $("#"+tab+"t-tab").addClass('active');
+
+ if (tab=='pendientes') {
+
+ }
+ if (tab=='entregados') {
+  
+ }
 
 }
 </script>

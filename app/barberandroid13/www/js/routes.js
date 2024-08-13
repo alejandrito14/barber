@@ -220,6 +220,16 @@ var routes = [
     path: '/registro/',
     componentUrl: './pages/registro.html',
   },
+
+   {
+    path: '/registrohijos/',
+    componentUrl: './pages/registrohijos.html',
+  },
+
+   {
+    path: '/nuevohijo/',
+    componentUrl: './pages/nuevohijo.html',
+  },
    // verificacion 
   {
     path: '/verificacion/',

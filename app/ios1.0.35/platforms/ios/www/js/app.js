@@ -7,7 +7,7 @@ var theme = 'md';
 if (document.location.search.indexOf('theme=') >= 0) {
   theme = document.location.search.split('theme=')[1].split('&')[0];
 }
- 
+  
 // Preloader
 setTimeout(function () {
     $('.loader-screen').hide();
@@ -145,7 +145,7 @@ $(document).ready(function() {
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.36';
+var version='1.0.37';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;
@@ -269,7 +269,7 @@ function Cargar() {
     localStorage.setItem('idclientes_envios','');
     localStorage.setItem('observacionpedido','');
     localStorage.setItem('idusuarios_envios','');
-
+    localStorage.setItem('idcanje',0);
     localStorage.setItem('montodescontado','');
     localStorage.setItem('datostarjeta','');
     localStorage.setItem('adelante',1);
@@ -444,6 +444,7 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
      $(".btnsalir").attr('onclick','salir_app()');
      $(".btniracarrito").attr('onclick','IraCarrito()');
     $$(".page-content").addClass('marginauto');
+    localStorage.setItem('idcanje',0);
     CargarMenu();
     myStopFunction(intervalocitas);
 
@@ -495,6 +496,8 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
             );
            }*/
 
+     ObtenerConfiTarjeta();
+
   })
   .catch(error => {
     console.error('Ocurrió un error:', error);
@@ -515,7 +518,7 @@ $$(document).on('page:init', '.page[data-name="homeespecialista"]', function (e)
         $(".panelizquierdo").attr('onclick','toggleMenu()');
         Visualizarmenu();
         CargarMenu();
-      CargarDatosEspecialista();
+        CargarDatosEspecialista();
   var pregunta=localStorage.getItem('pregunta');
          var idusuarios=localStorage.getItem('id_user');
 
@@ -725,7 +728,7 @@ $$(document).on('page:init', '.page[data-name="detallesucursal"]', function (e) 
 
       $("#mensajeAgenda").attr('onclick','ocultarMensaje()');
 
-
+      ObtenerConfiTarjeta();
 
 });
 
@@ -1284,6 +1287,10 @@ $$(document).on('page:init', '.page[data-name="disponibilidadfechasucursal"]', f
       $(".cambiarfuente").addClass(tipoletra);
     }
 
+   // ChecarSiTieneTarjetaPorCanjear();
+
+    
+
 });
 
 $$(document).on('page:init', '.page[data-name="validadoqrcita"]', function (e) {
@@ -1551,6 +1558,7 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
 
 
 $$(document).on('page:init', '.page[data-name="calendarioespecialista"]', function (e) {
+  myStopFunction(intervalocitas);
 
  CargarCalendarioespecialista();
  $(".regresar").attr('onclick','GoToPage("homeespecialista")');
@@ -1561,6 +1569,16 @@ $$(document).on('page:init', '.page[data-name="calendarioespecialista"]', functi
  $(".btnservicioscancelados").attr('onclick','FiltrarEstatusEspe(3)');
  $(".btnserviciosnorealizados").attr('onclick','FiltrarEstatusEspe(4)');
 
+
+});
+
+
+$$(document).on('page:init', '.page[data-name="tarjetalealtad"]', function (e) {
+  myStopFunction(intervalocitas);
+
+ $(".regresar").attr('onclick','GoToPage("homeespecialista")');
+
+ ObtenerTarjetasLealtad();
 
 });
 

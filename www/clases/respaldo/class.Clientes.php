@@ -71,7 +71,7 @@ class Clientes
 	public $lista_empresas;
 	public $edad;
 	public $celular;
-	
+	public $alias;
 	//VARIABLES PARA PODER GUARDAR LAS DIRECCIONES DE ENVIO.
 	
 	public $idclientes_envios;
@@ -89,6 +89,7 @@ class Clientes
 	public $opcionestipopagobloqueada;
 	public $validacioncel;
 	public $bloquearediciondedatos;
+	public $mostraranuncios;
 	
 	//funcion para guarda una nueva empresas
 	public function GuardarNewCliente()
@@ -148,7 +149,8 @@ class Clientes
 		celular='$this->celular',
 		opcionespagobloqueadas='$this->opcionestipopagobloqueada',
 		validartelefono='$this->validacioncel',
-		bloquearediciondatos='$this->bloquearediciondedatos'
+		bloquearediciondatos='$this->bloquearediciondedatos',
+		anunciovisto='$this->mostraranuncios'
 		WHERE idcliente = '$this->idCliente'";
 
 
@@ -376,7 +378,7 @@ class Clientes
 	
 	public function buscarMovimientoMonedero()
 	{
-		$sql = "SELECT * FROM cliente_monedero WHERE idcliente_monedero = '$this->idcliente_monedero'";
+		$sql = "SELECT * FROM monedero WHERE idmonedero = '$this->idcliente_monedero'";
 		$resp = $this->db->consulta($sql);
 		return $resp;
 	}
@@ -837,6 +839,14 @@ class Clientes
 		return $array;
 	}
 	
+
+	public function ActualizarAnunciovisto()
+	{
+		$sql = "UPDATE clientes SET anunciovisto='$this->mostraranuncios'
+		WHERE idcliente='$this->idCliente'";
+		$r = $this->db->consulta($sql);
+		return $r; 
+	}
 	
 }
 ?>

@@ -13,6 +13,8 @@ require_once("../../clases/class.Especialista.php");
 require_once("../../clases/class.Sucursal.php");
 
 require_once("../../clases/class.Sesion.php");
+require_once("../../clases/class.Tpv.php");
+
 //creamos nuestra sesion.
 $se = new Sesion();
 try
@@ -26,7 +28,9 @@ try
 	$paquetes->db=$db;
 	$especialista=new Especialista();
 	$especialista->db=$db;
-
+	$tpv = new Tpv();
+	$tpv->db=$db;
+	$especialista->idtpv=$se->obtenerSesion('idtpv');
 	//$categorias = new Categorias();
 	$fechas = new Fechas();
 	$especialista->fechas=$fechas;
@@ -51,7 +55,7 @@ try
 	$especialista->fecha=$fecha;
 	$especialista->idsucursal=$idsucursal;
 	$dia=$fechas->dia_semana($fecha);
-
+$horariossucursal->fecha=$fecha;
 	$idespecialista=$_POST['idespecialista'];
 	$especialista->idespecialista=$idespecialista;
 	$numdia=$dia['numdia'];
@@ -89,9 +93,9 @@ try
 					$horainicial=substr($arrayintervalos[0][$k],0,5);
 
 					$horafinal=substr($arrayintervalos[0][$k+1],0,5);
-					$nuevaHora = date('H:i', strtotime($horainicial . ' +'.$paqueteDuracion.' minutes'));
+					$nuevaHora = date('H:i', strtotime($horainicial . ' +'.$intervalo.' minutes'));
 					$horafinal=$nuevaHora;
-
+					
 						$paso=1;
 		 			/*if (date('Y-m-d',strtotime($fecha))==date('Y-m-d')) {
 
@@ -113,12 +117,13 @@ try
 
 					$especialista->horainicial=$horainicial;
 					$especialista->horafinal=$horafinal;
+					
 
 		 			$buscarhoraausente=$especialista->BuscarHoraAusente();
 
-		 			if (count($buscarhoraausente)==0) {
+		 			//if (count($buscarhoraausente)==0) {
  
-					$verificar=$especialista->EvaluarHorarioDisponible();
+					//$verificar=$especialista->EvaluarHorarioDisponible();
 
 					/*$buscarsiestaapartada=$especialista->EvaluarHorarioApartado();*/
 					$especialista->dia=$numdia;
@@ -127,11 +132,11 @@ try
 				
 
 					$disponible=1;
-				if (count($verificar)>0 || count($buscarEspecialistaLibre)==0)  {
+				if (count($buscarEspecialistaLibre)==0)  {
 							$disponible=0;
 						
 					}
-					//echo $especialista->fecha.'  '.$especialista->horainicial.''.$especialista->horafinal.'-'.$disponible.'<br>';
+					
 
 					if ($disponible==1) {
 							# code...
@@ -140,17 +145,16 @@ try
 
 					$objeto=array('horainicial'=>$horainicial,'horafinal'=>$horafinal,'disponible'=>$disponible);
 
-
 					if (date('Y-m-d',strtotime($horariossucursal->fecha))==date('Y-m-d')) {
 
 
 
-					if(date('H:i:s',strtotime($horainicial)) >= $horaactual)
-						{
-
+					/*if(date('H:i:s',strtotime($horainicial)) >= $horaactual)
+						{*/
+							
 						array_push($integrandointervalos, $objeto);
 
-						}
+						//}
 
 					}else{
 
@@ -160,7 +164,7 @@ try
 
 				}
 
-				}
+				//}
 			}
 					
 			}

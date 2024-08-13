@@ -111,7 +111,7 @@ if(!isset($_GET['idusuarios']))
 	$bloquearediciondedatos=0;
 			$rutaperfil="images/sinfoto.png";
 	//$validacion="onkeyup='ValidarCelular()'";
-
+			$orden=0;
 }else
 {
 	
@@ -140,7 +140,7 @@ if(!isset($_GET['idusuarios']))
 	$v_direccion = $fu->imprimir_cadena_utf8($usuario_row['direccion']);
 	$v_telefono =$fu->imprimir_cadena_utf8($usuario_row['telefono']);
 	$color=$usuario_row['color'];
-
+ $orden=$usuario_row['orden'];
 	$v_celular=$fu->imprimir_cadena_utf8($usuario_row['celular']);
 	$v_edad=$fu->imprimir_cadena_utf8($usuario_row['fechanacimiento']);
 	$opcionespago='';
@@ -373,7 +373,7 @@ $su->lista_empresas = $lista_empresas;
 
 					<div class="form-group ">
 						<label>*USUARIO/CEL:</label>
-						<input name="celular" id="v_celular" title="CELULAR" type="text" class="form-control" placeholder="CELULAR" value="<?php echo $v_celular; ?>" tabindex="99" <?php echo $validacion ?>>
+						<input name="celular" id="v_celular" title="CELULAR" type="text" class="form-control" onkeyup="ValidarCelularInput()" placeholder="CELULAR" value="<?php echo $v_celular; ?>" tabindex="99" <?php echo $validacion ?>>
 
 					<div id="validacioncelular" style="color: red"></div>
 					</div>
@@ -441,6 +441,13 @@ $su->lista_empresas = $lista_empresas;
 							</div>
 					
 
+								<div class="form-group m-t-20" style="margin-top: 10px;">
+								<label>ORDEN:</label>
+								<input type="number" class="form-control" id="v_orden" name="v_orden" value="<?php echo $orden; ?>" title="ORDEN" placeholder="ORDEN">
+
+								<div id="validacionorden" style="color: red"></div>
+							</div>
+					
 
 			
 				
@@ -904,9 +911,33 @@ $su->lista_empresas = $lista_empresas;
 
 										<label>HORA FIN:</label>
 										<div class="form-group mb-2" style="">
-											<input type="time" id="horaf_1" class="form-control horafindiaselec" tabindex="8">
+											<input type="time" id="horaf_1" class="form-control horafindiaselec" >
 										</div>
 									</div>
+
+
+
+									<div class="form-group" style="display: none;">
+
+										<label>TIPO DE COMISIÓN:</label>
+										<div class="form-group mb-2" style="">
+			<select id="v_tipocomision" class="form-control">
+												<option disabled selected="" >SELECCIONAR TIPO DE COMISIÓN</option>
+												<option value="0">PORCENTAJE</option>
+
+													<option value="1">MONTO</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group" style="display: none;">
+
+										<label>CANTIDAD DE LA COMISÓN:</label>
+										<div class="form-group mb-2" style="">
+											<input type="number" class="form-control" name="" id="v_cantidadcomision">
+										</div>
+									</div>
+
 							</form>
 						</div>
      
@@ -931,10 +962,10 @@ $su->lista_empresas = $lista_empresas;
 <!-- <script  type="text/javascript" src="./js/mayusculas.js"></script> -->
 
 <script>
-	var sexoseleccionado="";
+	
  phoneFormatter2('v_telefono');
  phoneFormatter2('v_celular');
-  function SeleccionarhM(sexo) {
+  function SeleccionarhM2(sexo) {
 		
 		setTimeout(() => {
   
@@ -977,7 +1008,7 @@ $su->lista_empresas = $lista_empresas;
 	ObtenerHorariosSucursal(idusuario);
 	var sexoseleccionado="";
 		var sexo='<?php echo $v_sexo; ?>';
-
+	sexoseleccionado=sexo;
 	if (idusuario>0){
 		
 		var opcionestipopago='<?php echo $opcionespago; ?>';
@@ -1006,8 +1037,8 @@ $su->lista_empresas = $lista_empresas;
 
  	//validartelefonocheck(validartelefono);
 	ObtenerTipos(idtipo);
-
-	SeleccionarhM(sexo);
+	
+	SeleccionarhM2(sexo);
 	//ObtenerAsociados(idusuario);
 	//ObtenerDependencia(idusuario);
 	}else{
@@ -1113,6 +1144,7 @@ function coincidePassword(contra1,contra2){
   }
 
 
+
  function coincidePassword2(contra1,contra2){
 
 
@@ -1188,6 +1220,64 @@ function coincidePassword(contra1,contra2){
     }
 
  
+function ValidarCelularInput() {
+
+
+	 ValidarCelular2().then(r => {
+		  		$("#validacioncelular").text('');
+
+		  	if (r.existe==0) {
+		  		$("#validacioncelular").text('');
+
+		  
+		  	    var celu=$("#v_celular").val().replace(/[()-\s]/g,'');		  	  
+		
+		  	   
+		  	
+		  	}else{
+		  		$("#clave").val("");
+		  		$("#clave2").val("");
+		  		$("#validacioncelular").text('El celular ya se encuentra registrado');
+
+		  	}
+
+		  });
+}
+
+
+
+function ValidarCelular2() {
+	return new Promise(function(resolve, reject) {
+
+		var celular=$("#v_celular").val();
+		var id=$("#v_id").val();
+		var datos="celular="+celular+"&idusuario="+id;
+
+		if (celular.length>5) {
+		$.ajax({
+	 url:'catalogos/clientes/ValidarCelularIdUsuario.php', //Url a donde la enviaremos
+	 type:'POST', //Metodo que usaremos
+	 dataType:'json',
+	 data:datos,
+	  error:function(XMLHttpRequest, textStatus, errorThrown){
+			var error;
+			console.log(XMLHttpRequest);
+			if (XMLHttpRequest.status === 404)  error="Pagina no existe"+XMLHttpRequest.status;// display some page not found error 
+			if (XMLHttpRequest.status === 500) error="Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			$('#abc').html('<div class="alert_error">'+error+'</div>');	
+			//aparecermodulos("catalogos/vi_ligas.php?ac=0&msj=Error. "+error,'main');
+		},
+	  success:function(msj){
+		  resolve(msj);
+
+			 			
+			}
+		});
+	}
+
+		});
+	}
+
 </script>
 
 

@@ -605,7 +605,7 @@ function ObtenerTotalCarrito() {
   var idusuario=localStorage.getItem('id_user');
 
 var datos="idusuario="+idusuario;
-var pagina="ObtenerCarrito.php";
+var pagina="ObtenerCarrito2.php";
 
  $.ajax({
     type: 'POST',
@@ -635,6 +635,8 @@ var pagina="ObtenerCarrito.php";
 function PintarCarrito2(respuesta) {
 
   var html="";
+var porcanjear=[];
+
   if (respuesta.length>0) {
 
     $("#cantidadagregados").text(respuesta.length);
@@ -649,6 +651,7 @@ function PintarCarrito2(respuesta) {
           imagen=localStorage.getItem('logo');
         }
 
+       
 
       html+=`
       <li class="item-content">
@@ -701,8 +704,11 @@ function PintarCarrito2(respuesta) {
 
   $(".listadocarrito2").html(html);
  // Destruir();
+
  
 }
+
+
 
 function CalcularTotales() {
 
@@ -1364,7 +1370,7 @@ function CargarOpcionesTipopago(idtipopago) {
    var preloader = document.querySelector('.preloader');
 
     preloader.style.display = 'block';
- 
+
   if (idtipopago>0) {
   
       $.ajax({
@@ -1941,7 +1947,7 @@ function RealizarCargo() {
      var mensaje='';
      var pedido='';
      var informacion='';
-   var pagina = "RealizarPago2.php";
+   var pagina = "RealizarPago3.php";
    var iduser=localStorage.getItem('id_user');
    var constripe=localStorage.getItem('constripe');
    var idtipodepago=localStorage.getItem('idtipodepago');
@@ -1968,7 +1974,7 @@ function RealizarCargo() {
    var requierefactura=$("#requierefactura").is(':checked')?1:0;
    var idusuariosdatosfiscales=0; 
    var checkConfirm=$("#checkConfirm").is(':checked')?1:0;
-
+   var idsucursal=localStorage.getItem('idsucursal');
 
      $(".opccard").each(function(){
               if($(this).is(':checked')){
@@ -2006,7 +2012,7 @@ function RealizarCargo() {
    var datos='pagos='+localStorage.getItem('pagos')+"&id_user="+iduser+"&constripe="+constripe+"&idtipodepago="+idtipodepago+"&descuentocupon="+descuentocupon+"&codigocupon="+codigocupon+"&sumatotalapagar="+sumatotalapagar+"&comision="+comision+"&comisionmonto="+comisionmonto+"&comisiontotal="+comisiontotal+"&impuestototal="+impuestototal+"&subtotalsincomision="+subtotalsincomision+"&impuesto="+impuesto+"&descuentosmembresia="+JSON.stringify(descuentosmembresia);
       datos+='&confoto='+confoto+"&rutacomprobante="+rutacomprobante+"&comentarioimagenes="+comentarioimagenes;
       datos+='&campomonto='+campomonto+'&montovisual='+montovisual+'&cambiomonto='+cambiomonto;
-      datos+='&comisionpornota='+comisionpornota+"&comisionnota="+comisionnota+"&tipocomisionpornota="+tipocomisionpornota;
+      datos+='&comisionpornota='+comisionpornota+"&comisionnota="+comisionnota+"&tipocomisionpornota="+tipocomisionpornota+"&idsucursal="+idsucursal;
       datos+='&datostarjeta2='+datostarjeta2+"&monedero="+monedero;
       datos+='&datostarjeta='+datostarjeta;
       datos+='&requierefactura='+requierefactura+"&checkConfirm="+checkConfirm;
@@ -3389,7 +3395,7 @@ function Buscarposcion(posicion) {
 
 function LimpiarVariables2(argument) {
  
-                 
+                 localStorage.setItem('idcanje',0);
                   localStorage.setItem('metodopago','');
                   localStorage.setItem('formapago','');
                   localStorage.setItem('usocfdi','');

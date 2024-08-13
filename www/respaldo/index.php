@@ -60,6 +60,8 @@ $navegador = $f->navegador();
     <link href="assets/libs/flot/css/float-chart.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="dist/css/style.min.css" rel="stylesheet">
+    <link href="dist/css/estilostoast.css" rel="stylesheet">
+
     <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" type="text/css" href="dist/css/modal.css">
@@ -422,6 +424,9 @@ $navegador = $f->navegador();
             <!-- ============================================================== -->                
 
         </div>
+
+         <div class="contenedor-toast" id="contenedor-toast">
+         </div>
         <!-- ============================================================== -->
         <!-- End Container fluid  -->
         <!-- ============================================================== -->
@@ -535,6 +540,29 @@ $navegador = $f->navegador();
 
                 <div class="modal-footer" >
                     <div id="footer-modal-forms3"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modal-forms4" tabindex="-1" role="dialog" style="z-index: 1990;overflow-y: scroll;">
+        <div class="modal-dialog modal-lg" id="largomodal">
+            <div class="modal-content" id="">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titulo-modal-forms4">Modal title</h5>
+                    <button type="button"  class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body" id="contenedor-modal-forms4">
+
+                </div>
+
+                <div class="modal-footer" >
+                    <div id="footer-modal-forms4"></div>
                     
                 </div>
             </div>
@@ -827,6 +855,36 @@ $navegador = $f->navegador();
         </div>
     </div>
     
+
+    <div class="modal fade" id="modaltarjeta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="titulodirecciones"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body " >
+
+                <div class="" style="display: flex;justify-content: center;">
+                  <img src="" style="width: 30%;" id="txtimagenruta">
+                </div>
+<div class="" style="display: flex;justify-content: center;">
+                  <div class="container mt-5">
+              <div class="input-group mb-3">
+                <input id="linkInput" type="text" class="form-control" value="https://tu-enlace.com" readonly>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" onclick="copiarAlPortapapeles()">Copiar</button>
+                </div>
+              </div>
+            </div>
+        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     
     <!--  MODAL PARA REPORTE  -->
 
@@ -1188,6 +1246,7 @@ $navegador = $f->navegador();
 
 <script src="dist/js/raphael-min.js"></script>
 <script src="dist/js/kuma-gauge.jquery.js"></script>    
+<script src="js/fn_toast.js"></script>
 
 <script src="js/fn_Funciones.js"></script>
 <script src="js/fn_Jquery.js" type="text/javascript" ></script>
@@ -1265,6 +1324,9 @@ $navegador = $f->navegador();
 <script src="js/fn_categoriasservicios.js"></script>
 <script src="js/fn_especialista.js"></script>
 <script src="js/fn_asignarusuarioservicio.js"></script>
+
+<script src="js/fn_agendarcitamenu.js"></script>
+
 <script src="js/fn_tutor.js"></script>
 <script src="js/fn_clasificacion.js"></script>
 <script src="js/fn_llaves.js"></script>
@@ -1288,11 +1350,18 @@ $navegador = $f->navegador();
 <script src="js/fn_tipojuego.js?<?php echo time(); ?>"></script>
   <script src="https://js.stripe.com/v3/"></script>
 <script src="js/fn_empresas.js?<?php echo time(); ?>"></script>
+<script src="js/fn_comisiones.js"></script>
+<script src="js/fn_tarjetaregalo.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+<script src="js/fn_tarjetalealtad.js"></script>
+
  <!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     -->
-    <script type="text/javascript" src="js/mark-your-calendar.js"></script>
+    
+<script type="text/javascript" src="js/mark-your-calendar.js"></script>
 <script src="js/fn_dashboard.js?<?php echo time(); ?>"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzK22hMENl-zhFKyDd5TW7aO5cWHJGQ1Q"></script>
+<script src="js/fn_fechainhabil.js"></script>
 
 
 

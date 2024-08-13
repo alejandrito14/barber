@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "xml-js": "^1.6.11"
+  },
+  "devDependencies": {
+    "cordova-ios": "^6.0.0",
+    "cordova-plugin-firebasex": "https://github.com/dpa99c/cordova-plugin-firebase"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-firebasex": {
+        "IOS_STRIP_DEBUG": "true",
+        "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "false",
+        "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "false",
+        "FIREBASE_CRASHLYTICS_COLLECTION_ENABLED": "false",
+        "SETUP_RECAPTCHA_VERIFICATION": "true"
+      }
+    },
+    "platforms": [
+      "ios"
+    ]
+  }
+}

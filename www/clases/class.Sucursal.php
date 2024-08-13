@@ -79,7 +79,7 @@ class Sucursal
 	//funcion que sirve para guardar una sucursal 
 	public function guardar_sucursal()
 	{
-		$query = "INSERT INTO sucursal (titulo,descripcion,direccion,telefono,email,estatus,iva,pais,estado,municipio,horaentrada,horasalida,minutosconsiderados,solicitarfactura,orden,iddatofiscal,colonia,encabezadoticket,leyendaticket,telefono2,telefono3,telefono4,tventa,tproduccion,codigopostal,trecordatorio,minutosrecordatorio,mensajesucursal,mensajecliente,campomontofactura,habilitarnotaventa,mensajesecciontipopago,celular,ubicacion,idcategorias,porbarbero,porfecha,horascancelaciones) VALUES ('$this->sucursal','$this->descripcion','$this->direccion','$this->telefono','$this->email','$this->estatus','$this->iva','$this->v_pais','$this->v_estado','$this->v_municipio','$this->horainicio','$this->horafin','$this->minutosconsiderados','$this->solicitarfactura','$this->orden','$this->iddatofiscal','$this->colonia','$this->encabezado','$this->leyendafinal','$this->telefono2','$this->telefono3','$this->telefono4','$this->ticketventa','$this->ticketproduccion','$this->codigopostal','$this->trecordatorio','$this->minutosrecordatorio','$this->mensajesucursal','$this->mensajecliente','$this->habilitarcampomontofactura','$this->habilitarnotaventa','$this->mensajesecciontipopago','$this->celular','$this->ubicacion','$this->categoriasucursal','$this->porespecialista','$this->porfecha','$this->horascancelaciones');";
+		$query = "INSERT INTO sucursal (titulo,descripcion,direccion,telefono,email,estatus,iva,pais,estado,municipio,horaentrada,horasalida,minutosconsiderados,solicitarfactura,orden,iddatofiscal,colonia,encabezadoticket,leyendaticket,telefono2,telefono3,telefono4,tventa,tproduccion,codigopostal,trecordatorio,minutosrecordatorio,mensajesucursal,mensajecliente,campomontofactura,habilitarnotaventa,mensajesecciontipopago,celular,ubicacion,idcategorias,porbarbero,porfecha,horascancelacion) VALUES ('$this->sucursal','$this->descripcion','$this->direccion','$this->telefono','$this->email','$this->estatus','$this->iva','$this->v_pais','$this->v_estado','$this->v_municipio','$this->horainicio','$this->horafin','$this->minutosconsiderados','$this->solicitarfactura','$this->orden','$this->iddatofiscal','$this->colonia','$this->encabezado','$this->leyendafinal','$this->telefono2','$this->telefono3','$this->telefono4','$this->ticketventa','$this->ticketproduccion','$this->codigopostal','$this->trecordatorio','$this->minutosrecordatorio','$this->mensajesucursal','$this->mensajecliente','$this->habilitarcampomontofactura','$this->habilitarnotaventa','$this->mensajesecciontipopago','$this->celular','$this->ubicacion','$this->categoriasucursal','$this->porespecialista','$this->porfecha','$this->horascancelaciones');";
 
 		
 	
@@ -121,7 +121,7 @@ class Sucursal
 			idcategorias='$this->categoriasucursal',
 			porbarbero='$this->porespecialista',
 			porfecha='$this->porfecha',
-			horascancelaciones='$this->horascancelaciones'
+			horascancelacion='$this->horascancelaciones'
 		 WHERE idsucursal = '$this->idsucursales'";
 
 		

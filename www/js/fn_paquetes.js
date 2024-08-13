@@ -1,3 +1,4 @@
+var selectedCategory = null; // Almacenará la categoría o subcategoría seleccionada
 
 function Buscar_Paquetes(idmenu) {
 
@@ -83,6 +84,12 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 		});
 
 
+				var txtcosto=$("#txtcosto").val();
+				var v_sucursal=$("#v_sucursal").val();
+
+				var v_nombre = $('#v_nombre').val();
+
+				var v_descripcion = $('#v_descripcion').val();
 
 		var especialistaspaquete=[];
 			$(".especialistapaquete").each(function(index) {
@@ -176,7 +183,7 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 			valido=1;
 		}
 
-
+		
 
 		if (valido==1) {
 
@@ -184,9 +191,6 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 
 
 
-				var v_sucursal=$("#v_sucursal").val();
-				var v_nombre = $('#v_nombre').val();
-				var v_descripcion = $('#v_descripcion').val();
 				var precionormal = $("#preciouno").val();
 
 				var idcategoria=$("#v_categoria").val();
@@ -230,7 +234,6 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 				var txtvigencia=$("#txtvigencia").val();
 				var convigencia=$("#convigencia").val();
 				var txtmonederoregalo=$("#txtmonederoregalo").val();
-				var txtcosto=$("#txtcosto").val();
 				var data = new FormData();
 
 		var archivos = document.getElementById("image"); //Damos el valor del input tipo file
@@ -373,17 +376,28 @@ function Guardarpaquete(form, regresar, donde, idmenu) {
 	}else{
 		var mensaje="";
 
-		if (v_insumostabla==0) {
+		/*if (v_insumostabla==0) {
 
 			mensaje+=`AGREGA MÍNIMO UN PRODUCTO AL PAQUETE`+`<br>`;
 
-		}
+		}*/
 
-		if (valido==0) {
+		/*if (valido==0) {
 
 
 			mensaje+=`COLOCAR UN MONTO EN EL CAMPO IVA `+`<br`;
+		}*/
+
+		 if (txtcosto=='') {
+			
+				mensaje+=`CAMPO COSTO REQUERIDO `+`<br`;
+
 		}
+
+		if (v_sucursal==0) {
+				mensaje+=`CAMPO SUCURSAL REQUERIDA `+`<br`;
+		}
+
 		AbrirNotificacion(mensaje,"mdi-checkbox-marked-circle");
 
 	}
@@ -1045,7 +1059,7 @@ function Habilitarservicio() {
 		$("#servicio").val(1);
 		//$("#divespecialistas").css('display','block');
 		$("#divpromociones").css('display','none');
-		$("#divproducto").css('display','none');
+		//$("#divproducto").css('display','none');
 		$("#divtiempoestimado").css('display','block');
 
 	}else{
@@ -1053,7 +1067,7 @@ function Habilitarservicio() {
 		$("#servicio").val(0);
 		//$("#divespecialistas").css('display','none');
 		$("#divpromociones").css('display','block');
-		$("#divproducto").css('display','block');
+		//$("#divproducto").css('display','block');
 		$("#divtiempoestimado").css('display','none');
 
 	}
@@ -1823,7 +1837,6 @@ function PintarEspecialistasPaquete(respuesta) {
 	
 }
 
-var selectedCategory = null; // Almacenará la categoría o subcategoría seleccionada
 
 function AlmacenarCategoria(idcategoriapaquete) {
 

@@ -37,11 +37,12 @@ try
 	$mes=$_POST['mes'];
 	$anio=$_POST['anio'];
 	$productofechasdia=[];
-$fechafiltro=$_POST['fecha'];
+	$fechafiltro=$_POST['fecha'];
 	$sucursal->idusuario=$idusuario;
 	$obtenersucursal=$sucursal->AccesoSucursal();
 
-	$lo->idsucursal=$obtenersucursal[0]->idsucursales;
+	$lo->idsucursal=$se->obtenerSesion('idsucursalsesion');
+	$idsucursal=$lo->idsucursal;
 	if ($fechafiltro=='') {
 		$fechafiltro=date('Y-m-d');	
 	}
@@ -49,12 +50,14 @@ $fechafiltro=$_POST['fecha'];
 	$lo->fecha=$fechafiltro;
 	$obtener=$lo->ListadoNotasProductos();
 
-	$cita->idsucursal=$obtenersucursal[0]->idsucursales;
+	$cita->idsucursal=$idsucursal;
 	$cita->fecha=$fechafiltro;
 	$obtenercitas=$cita->ObtenerCitasNocheckin();
 	//totalcitasrealizadas
 	$cita->fecha=$fechafiltro;
 	$obtenercitasrealizadas=$cita->ObtenerCitascheckin();
+
+
 
 	$cita->horaactual=date('H:i');
 
@@ -62,18 +65,18 @@ $fechafiltro=$_POST['fecha'];
 	$obtenernorealizados=$cita->ObtenerCitasNoRealizados();
 		
 	$obtenercancelados=$cita->ObtenerCitasCanceladas();
-	$obtenerenproceso=$cita->ObtenerCitasProceso();
+	$obtenerenproceso=$cita->ObtenerCitascheckintotales();
 
 	//echo $mes;
 	
 	$respuesta['respuesta']=1;
 	$respuesta['totalproductosdia']=count($obtener);
 	$respuesta['totalcitasdia']=count($obtenercitas);
-	$respuesta['totalcitasrealizadas']=count($obtenercitasrealizadas);
-	$respuesta['totalpendientes']=count($obtenerpendientes);
+	$respuesta['totalcitasrealizadas']=$obtenercitasrealizadas;
+	$respuesta['totalpendientes']=$obtenerpendientes[0]->monto;
 	$respuesta['totalnorealizados']=count($obtenernorealizados);
 	$respuesta['totalcancelados']=count($obtenercancelados);
-	$respuesta['totalproceso']=count($obtenerenproceso);
+	$respuesta['totalproceso']=$obtenerenproceso;
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);
 	echo $myJSON;

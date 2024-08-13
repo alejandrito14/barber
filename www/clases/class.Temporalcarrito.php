@@ -36,10 +36,17 @@ class Temporalcarrito
 
 	public function AgregarTemporalCarrito()
 	{
-		$sql="INSERT INTO temporalcarrito( idpaquete, cantidad, costounitario, costototal, idsucursal, idespecialista, idcitaapartada, nombrepaquete, estatus,titulosgrupos,idnota,idnotadescripcion,fecha,horainicial,horafinal) VALUES ( '$this->idpaquete',$this->cantidad,'$this->costounitario','$this->costototal','$this->idsucursal','$this->idespecialista','$this->idcita', '$this->nombrepaquete', 1,'$this->titulosgrupos','$this->idnota','$this->idnotadescripcion','$this->fecha','$this->horainicial','$this->horafinal')";
-		//echo $sql;die();
+		try {
+			$sql="INSERT INTO temporalcarrito( idpaquete, cantidad, costounitario, costototal, idsucursal, idespecialista, idcitaapartada, nombrepaquete, estatus,titulosgrupos,idnota,idnotadescripcion,fecha,horainicial,horafinal) VALUES ( '$this->idpaquete',$this->cantidad,'$this->costounitario','$this->costototal','$this->idsucursal','$this->idespecialista','$this->idcita', '$this->nombrepaquete', 1,'$this->titulosgrupos','$this->idnota','$this->idnotadescripcion','$this->fecha','$this->horainicial','$this->horafinal')";
+		
 		$resp=$this->db->consulta($sql);
 		$this->idtemporalcarrito=$this->db->id_ultimo();
+			
+		} catch (Exception $e) {
+			print_r($e);
+		}
+
+		
 	}
 
 	public function AgregarTemporalCarrito2($value='')
@@ -57,7 +64,8 @@ class Temporalcarrito
 		SET idpaquete='$this->idpaquete',
 		nombrepaquete='$this->nombrepaquete',
 		costounitario='$this->costounitario',
-		costototal='$this->costototal'
+		costototal='$this->costototal',
+		horafinal='$this->horafinal'
 		WHERE idtemporalcarrito='$this->idtemporalcarrito'";
 		
 		$resp=$this->db->consulta($sql);
@@ -129,7 +137,7 @@ FROM
 		WHERE
 			
 		temporalcarrito.idnota='$this->idnota'
-
+		
 	
 		";
 		
@@ -459,6 +467,118 @@ FROM
 		$resp=$this->db->consulta($sql);
 
 	}
+
+
+	public function BuscarPornotadescripcion()
+	{
+		$sql="SELECT * FROM temporalcarrito WHERE idnotadescripcion='$this->idnotadescripcion'";
+		$resp=$this->db->consulta($sql);
+
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+
+
+	public function ObtenerTemporalCarritoId()
+	{
+		$sql="
+			SELECT
+	temporalcarrito.idtemporalcarrito,
+	temporalcarrito.idcarrito,
+	paquetes.nombrepaquete,
+	paquetes.foto,
+	paquetes.concortesia,
+	paquetes.servicio,
+	paquetes.foto,
+	paquetes.tarjetaregalo,
+	paquetes.fechavigencia,
+	paquetes.montomonedero AS montoregalo,
+	temporalcarrito.cantidad,
+	temporalcarrito.costounitario,
+	temporalcarrito.costototal,
+	temporalcarrito.idsucursal,
+	sucursal.titulo,
+	temporalcarrito.idusuarios,
+	temporalcarrito.idespecialista,
+	temporalcarrito.titulosgrupos,
+	temporalcarrito.idpaquete,
+	temporalcarrito.montomonedero,
+	temporalcarrito.montocupon,
+	temporalcarrito.idcupon,
+	temporalcarrito.codigocupon,
+	temporalcarrito.colococortesia,
+	(
+	SELECT
+		CONCAT( usuarios.nombre, ' ', usuarios.paterno ) 
+	FROM
+		especialista
+		INNER JOIN usuarios ON usuarios.idusuarios = especialista.idusuarios 
+	WHERE
+		especialista.idespecialista = temporalcarrito.idespecialista 
+	) AS usuarioespecialista,
+	DATE_FORMAT( temporalcarrito.fecha, '%d-%m-%Y' ) AS fecha,
+	temporalcarrito.horainicial,
+	temporalcarrito.horafinal,
+	temporalcarrito.fecha as fechacita,
+	temporalcarrito.idcitaapartada,
+	temporalcarrito.idcortesia,
+	paquetecortesia.nombrepaquete AS nombrepaquetecortesia,
+	categoriapaquete.idcategoriapaquete,
+
+	categoriapaquete.nombre AS titulo,
+	paquetes.intervaloservicio,
+		temporalcarrito.idnotadescripcion
+
+ 
+FROM
+	temporalcarrito
+	JOIN paquetes ON temporalcarrito.idpaquete = paquetes.idpaquete
+
+	LEFT JOIN categoriapaquete ON paquetes.idcategoriapaquete = categoriapaquete.idcategoriapaquete 
+	JOIN sucursal ON sucursal.idsucursal = temporalcarrito.idsucursal
+	LEFT JOIN especialista ON temporalcarrito.idespecialista = especialista.idespecialista
+	LEFT JOIN usuarios ON usuarios.idusuarios = especialista.idusuarios
+	LEFT JOIN citas ON citas.idcita = temporalcarrito.idcitaapartada
+	LEFT JOIN cortesia ON temporalcarrito.idcortesia = cortesia.idcortesia
+	LEFT JOIN paquetes AS paquetecortesia ON paquetecortesia.idpaquete = cortesia.idpaquetecortesia 
+		WHERE
+			
+		temporalcarrito.idtemporalcarrito='$this->idtemporalcarrito'
+
+	
+		";
+		
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+
 
 }
  ?>

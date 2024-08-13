@@ -174,7 +174,7 @@ $wizardStep = $_SESSION['wizard_step'];
 
 </div>
 
-<div class="wizard-step" id="step2" style="display:none;">
+<div class="wizard-step"  style="display:none;">
     <div id="subcategorias">
         <!-- Aquí se cargarán dinámicamente las subcategorías -->
     </div>
@@ -482,7 +482,7 @@ $wizardStep = $_SESSION['wizard_step'];
         var serviciospaquete = [];
         var todascategorias=[];
         const myPromise = new Promise((resolve, reject) => {
-            resolve(ObtenerServicios1());
+            resolve(ObtenerServiciosmenu2());
           
         });
 
@@ -516,7 +516,7 @@ $wizardStep = $_SESSION['wizard_step'];
                     $(".servicios").append(`<div id="servi_`+idcategoriapaquete+`" class="row" style="display:none;    display: flex;
     justify-content: center;"></div>`);
                   
-                    viewPaquetes(idcategoriapaquete);
+                    viewPaquetes2(idcategoriapaquete);
                 }
 
 
@@ -866,7 +866,7 @@ function ValidarSiLlevavalor() {
 
     });
 
-    function ObtenerServicios1() {
+    function ObtenerServiciosmenu2() {
 
          $.ajax({
           url:'catalogos/citas/ObtenerServicios.php', //Url a donde la enviaremos
@@ -912,7 +912,7 @@ function ValidarSiLlevavalor() {
 
               	categoriassub.push(respuesta[i].idcategoriapaquete);
               	
-              	viewPaquetes(respuesta[i].idcategoriapaquete);
+              	viewPaquetes2(respuesta[i].idcategoriapaquete);
               	}
                // PintarCategoriasV(respuesta);
               }
@@ -953,7 +953,7 @@ function ValidarSiLlevavalor() {
                       }else{
 
 
-                       viewPaquetes(respuesta[j].idcategoriapaquete);
+                       viewPaquetes2(respuesta[j].idcategoriapaquete);
 
                   }
 
@@ -996,7 +996,7 @@ function ValidarSiLlevavalor() {
                       }else{
 
 
-                       viewPaquetes(subcategorias[i].idcategoriapaquete);
+                       viewPaquetes2(subcategorias[i].idcategoriapaquete);
 
                   }
 
@@ -1008,7 +1008,7 @@ function ValidarSiLlevavalor() {
     }
 
 
-    function viewPaquetes(idcategoriapaquete) {
+    function viewPaquetes2(idcategoriapaquete) {
       var html="";
      
      const elementosFiltrados = serviciospaquete.filter((elemento) => elemento.idcategoriapaquete == idcategoriapaquete);
@@ -1400,11 +1400,11 @@ function AgregarVariable(variable) {
 	}
 
 
-	PintarProductosSeleccionados(arraypaqueteseleccionado);
+	PintarProductosSeleccionados2(arraypaqueteseleccionado);
 }
 
 
-function PintarProductosSeleccionados(arraypaqueteseleccionado) {
+function PintarProductosSeleccionados2(arraypaqueteseleccionado) {
 	var html="";
 
 	if (arraypaqueteseleccionado.length>0) {
@@ -1517,7 +1517,7 @@ function ContinuarGuardar() {
               
               var respuesta=msj.respuesta;
               if (respuesta==1) {
-                $("#modal-forms2").modal('hide');
+                $("#modal-forms3").modal('hide');
               }
 
               }
@@ -1537,7 +1537,7 @@ function EliminarVariable(variable) {
 			}
 			
 		}
-PintarProductosSeleccionados(arraypaqueteseleccionado);
+PintarProductosSeleccionados2(arraypaqueteseleccionado);
 PintarProductosSeleccionadosStep2();
 }
 var objetosproductos=[];
@@ -2803,7 +2803,7 @@ display: flex;
 }
 
 
-function SeleccionarHorario1(horainicial,horafinal,i,cellpaquete) {
+/*function SeleccionarHorario1(horainicial,horafinal,i,cellpaquete) {
  
   $(".horariossele_"+cellpaquete+"").removeClass('active');
 
@@ -2830,11 +2830,7 @@ function SeleccionarHorario1(horainicial,horafinal,i,cellpaquete) {
 		
 	}
 
-  //Agregaradetalle(horainicialsele);
-//horaseleccionada=arrayhorarios[posicion];
-
-   //HabilitarBoton2();
-//aqui
+ 
 
 	ObtenerTiempo(cellpaquete,tiempo);
   idespecialistaseleccionado="";
@@ -2843,12 +2839,12 @@ function SeleccionarHorario1(horainicial,horafinal,i,cellpaquete) {
 
    $("#btstep3").attr('onclick','showStep(4)');
 
-}
+}*/
 
 
 
 
-function ObtenerListadoEspecialista2(cellpaquete) {
+/*function ObtenerListadoEspecialista2(cellpaquete) {
  
 	idpaqueteseleccionado=cellpaquete.split('_')[0];
 
@@ -2865,7 +2861,6 @@ function ObtenerListadoEspecialista2(cellpaquete) {
       var especialistas=datos.especialista;
       
       PintarDetalleEspecialistas(especialistas,cellpaquete);
-     // PintarDetalleEspecialistas2(especialistas);
 
     },error: function(XMLHttpRequest, textStatus, errorThrown){ 
       var error;
@@ -2876,7 +2871,7 @@ function ObtenerListadoEspecialista2(cellpaquete) {
           }
     });
 
-}
+}*/
 
 function ObtenerListadoEspecialista3() {
  
@@ -2906,7 +2901,7 @@ function ObtenerListadoEspecialista3() {
 
 }
 
-function PintarDetalleEspecialistas(especialistas,cellpaquete) {
+/*function PintarDetalleEspecialistas(especialistas,cellpaquete) {
 	 $(".seleccionarbarbero_"+cellpaquete).html(' ');
 	if ($(".seleccionarbarbero_"+cellpaquete).hasClass('slick-initialized')) {
     // Si existe, destruye la instancia
@@ -2956,7 +2951,7 @@ function PintarDetalleEspecialistas(especialistas,cellpaquete) {
       }
 
 
-}
+}*/
 
 function BuscarSiyaEstaOcupado(idespecialista) {
     var bandero=0;
@@ -3115,7 +3110,7 @@ function SeleccionarCortesia(idcortesia,nombrecortesia) {
   $(".btnstep6").css('display','block');
   $(".btnstep6").attr('onclick','IrAresumen()');
 }
-
+/*
 function ObtenerTiempo(cellpaquete,diferencia) {
   
     var pagina = "ObtenerTiempo.php";
@@ -3226,7 +3221,7 @@ function SeleccionarTiempo(valor,min,cellpaquete,i) {
   
 
  // $("#btstep5").attr('onclick','VerificarCortesia()')
-}
+}*/
 function IrAresumen() {
  $(".wizard-step").css('display','none');
  $("#step7").css('display','block');

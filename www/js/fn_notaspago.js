@@ -956,6 +956,161 @@ function CargarOpcionesTipopago2(idtipopago){
   }
 }
 
+function CargarOpcionesTipopago3(idtipopago){
+	//var idtipopago=$("#tipopago").val();
+	$(".btntipodepago").removeClass('active');
+	var datos="idtipopago="+idtipopago;
+	$("#catebtntipodepago_"+idtipopago).addClass('active');
+	var pagina="Cargartipopago.php";
+    $(".divtransferencia").css('display','none');
+    $("#divagregartarjeta").css('display','none');
+    $("#divlistadotarjetas").css('display','none');
+    $("#btnpagarresumen").prop('disabled',true);
+    $("#btnatras").attr('onclick','Atras()');
+  	$("#btnatras").css('display','none');
+  	$("#cambio").text('0.00');
+  	$("#campomonto").css('display','none');
+  	comisionporcentaje=0;
+	comisionmonto=0;
+	comisionpornota=0;
+	cambiomonto=0;
+
+	impuesto=0;
+	clavepublica="";
+	claveprivada="";
+		confoto=0;
+	$("#btnpagarresumen").attr('disabled',true);
+  if (idtipopago>0) {
+  
+      $.ajax({
+      type: 'POST',
+      dataType: 'json',
+	  url:'catalogos/pagos/Cargartipopago.php', //Url a donde la enviaremos
+      data:datos,
+      async:false,
+      success: function(respuesta){
+      var resultado=respuesta.respuesta;
+      	idtipodepago=idtipopago;
+
+      comisionpornota=resultado.comisionpornota;
+      tipocomisionpornota=resultado.tipocomisionpornota;
+      habilitarpagar=resultado.habilitarpagar;
+     	$("#txtdigitostarjeta").val('');
+     	HabilitarOpcionespago3(resultado.idtipodepago,resultado.habilitarfoto,resultado.constripe,resultado.habilitarcampomonto,resultado.habilitarcampomontofactura,resultado.habilitarcatalogobanco,resultado.habilitarcampodigitos,resultado.habilitaropciontarjeta);
+    if (resultado.habilitarfoto==1) {
+    	confoto=1;
+     		$(".divtransferencia").css('display','block');
+     		var html="";
+     	 var datosdecuenta=resultado.cuenta.split('|');
+
+              var html1="";
+              for (var j = 0; j <datosdecuenta.length; j++) {
+                    html1+='<p style="text-align:center;">'+datosdecuenta[j]+'</p>';
+              }
+
+
+              html+=` <li class="cuentas" id="cuenta_`+resultado.idtipodepago+`" style="" >
+              <div class="">
+                <div class="">
+                 
+                  <div class="" style="   text-align: justify;-webkit-line-clamp: 200;" >
+
+                    <div style="    padding-left: 1em;padding-right: 1em;padding-top: .2em;padding-bottom: .2em;background: #dfdfdf;border-radius: 10px;font-size:16px;">
+                  `+
+                  html1
+                  +`
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>`;
+
+            html+=`
+            	<div id="habilitarfoto" style="display: block;">
+      <div class="subdivisiones" style="margin-top: 1.5em" ><span style="margin-top: .5em;margin-left: .5em;">Comprobante</span></div>
+
+           <div class=""  >
+                  <div style="justify-content: center;">
+                      <button type="button"  onclick="AbrirModalFotoComprobante()" class="btn btn-success botonesaccion botonesredondeado estiloboton" style="margin-top: 1em;background:#4cd964;margin-bottom:1em;width:100%;"> SUBIR comprobante</button>
+                             <div class="check-list" style="    display: none;
+                                          margin-right: 10em;
+                                           top: -.2em;    width: 100%;margin-bottom: 1em;
+                                          position: absolute;
+                                             right: -6em;"><span></span></div>
+                  </ul>
+
+                      <div class="block m-0"> 
+                       <div class="list media-list sortable" id="" style="">           
+
+                      <div id="lista-imagenescomprobante" style="margin-bottom: 1em;">
+                          
+                      </div>
+                  </div> 
+
+                  </div>   
+                  
+                </div>
+
+              </div>
+
+            `;
+            $(".informacioncuenta").html(html);
+        }
+
+
+        if (resultado.habilitarcampo==1) {
+
+        	campomonto=resultado.habilitarcampo;
+
+        }
+
+        if (resultado.constripe==1) {
+
+        	
+  	     if (resultado.comisionporcentaje=='') {
+  	        resultado.comisionporcentaje=0;
+  	      }
+  	      if (resultado.comisionmonto=='') {
+  	        resultado.comisionmonto=0;
+  	      }
+  	      if (resultado.impuesto=='') {
+  	        resultado.impuesto=0;
+  	      }
+        
+  	      comisionporcentaje=resultado.comisionporcentaje;
+  	      if (comisionporcentaje!=0) {
+  	      	 $(".divcomision").css('display','block');
+
+  	      }
+  	      comisionmonto=resultado.comisionmonto;
+  	      impuesto=resultado.impuesto;
+  	      clavepublica=resultado.clavepublica;
+  	      claveprivada=resultado.claveprivada;
+        	ObtenerTarjetasStripe(false,idtipopago);
+
+        	$(".btnnuevatarjeta").attr('onclick','NuevaTarjetaStripe()');
+        	$(".divnueva").css('display','block');
+            HabilitarBotonPagar();
+            CalcularTotales();
+        }
+
+        if (habilitarpagar==1) {
+        	$("#btnpagarresumen").attr('disabled',false);
+        	
+        }
+
+
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+          if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+          if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                  //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                  console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+
+    });
+  }
+}
 
 function HabilitarOpcionespago(idtipodepago,foto,stripe,habilitarcampo,habilitarcampomontofactura,habilitarcatalogobanco,habilitardigitos,habilitaropciontarjeta) {
 
@@ -1097,6 +1252,293 @@ function HabilitarOpcionespago(idtipodepago,foto,stripe,habilitarcampo,habilitar
   //Recalcular4();
 
 }
+
+
+function HabilitarOpcionespago2(idtipodepago,foto,stripe,habilitarcampo,habilitarcampomontofactura,habilitarcatalogobanco,habilitardigitos,habilitaropciontarjeta) {
+
+
+     anterior=localStorage.getItem('idtipodepago');
+
+  if (anterior==idtipodepago) {
+
+   $("#tipodepago_"+idtipodepago).prop('checked',false);
+    localStorage.setItem('idtipodepago',0);
+
+
+  }else{
+
+    $(".opcionestipodepago").prop('checked',false);
+    $("#tipodepago_"+idtipodepago).prop('checked',true);
+    idtipodepago=idtipodepago;
+
+  }
+
+/*  idtipodepago=localStorage.getItem('idtipodepago');
+*/    if (idtipodepago>0) {
+
+      $(".divdigitos").css('display','none');
+      $(".divbancos").css('display','none');
+      $(".divopcionestarjeta").css('display','none');
+
+
+      $("#habilitarfoto").css('display','none');
+      $(".cuentas").css('display','none');
+
+      $("#lista-imagenescomprobante").html('');
+     	llevafoto=foto;
+     	idtipodepago=idtipodepago;
+     	rutacomprobante="";
+     	comentarioimagenes="";
+      $(".check-list").css('display','none');
+
+      campomonto=habilitarcampo;
+      constripe=stripe;
+      comisionmonto=0;
+      comisionporcentaje=0;
+      impuesto=0;
+      comision=0;
+      comisiontotal=0;
+
+      $("#lista-imagenescomprobante").html('');
+      resultimagencomprobante=[];
+
+
+    if (foto==1) {
+      $("#datosdecuenta").css('display','block');
+
+      $("#cuenta_"+idtipodepago).css('display','block');
+
+     // $("#datosdecuenta").html(cuenta);
+      $("#habilitarfoto").css('display','block');
+
+      }else{
+
+      $(".cuentas").css('display','none');
+
+      $("#cuenta_"+idtipodepago).css('display','none');
+
+      $("#habilitarfoto").css('display','none');
+     // $("#datosdecuenta").css('display','none');
+
+    }
+
+    if (stripe==1) {
+
+       montocliente=0;
+        $("#montocliente").val('');
+      //  ObtenerPorcentajes();
+        
+    }
+
+    if (habilitarcampo==1) {
+      var sumatotalapagar1=total;
+    
+      $("#montocliente").val(parseFloat(sumatotalapagar1));
+      $("#montovisual").val('$'+formato_numero(sumatotalapagar1,2,'.',','));
+      localStorage.setItem('montocliente',sumatotalapagar1);
+    
+      $("#campomonto").css('display','block');
+
+       datostarjeta2="";
+       datostarjeta="";
+       $("#montovisual").attr('onkeyup','ValidacionMonto()');
+
+    }else{
+        $("#campomonto").css('display','none');
+    
+    }
+
+
+    if (habilitarcatalogobanco==1) {
+    	ObtenerBancos();
+        $(".divbancos").css('display','block');
+
+    }
+    
+    if (habilitardigitos==1) {
+
+    	$(".divdigitos").css('display','block');
+    }
+    if (habilitaropciontarjeta==1) {
+    	$(".divopcionestarjeta").css('display','block');
+    }
+
+    $(".opcionestipodepago").attr('checked',false);
+    $("#tipodepago_"+idtipodepago).prop('checked',true);
+  
+  }else{
+
+     $("#datosdecuenta").css('display','none');
+     $("#campomonto").css('display','none');
+     $("#habilitarfoto").css('display','none');
+
+      $("#lista-imagenescomprobante").html('');
+       llevafoto=foto
+       idtipodepago=idtipodepago;
+       rutacomprobante='';
+       comentarioimagenes="";
+       $(".check-list").css('display','none');
+       $(".cuentas").css('display','none');
+       comisionmonto=0;
+       comisionporcentaje=0;
+       impuesto=0;
+       datostarjeta2='';
+       datostarjeta='';
+
+       imagencomprobante="";
+	   resultimagencomprobante=[];
+	   arraycomentarios=[];
+
+  }
+
+  //Recalcular4();
+
+}
+
+
+
+
+function HabilitarOpcionespago3(idtipodepago,foto,stripe,habilitarcampo,habilitarcampomontofactura,habilitarcatalogobanco,habilitardigitos,habilitaropciontarjeta) {
+
+
+     anterior=localStorage.getItem('idtipodepago');
+
+  if (anterior==idtipodepago) {
+
+   $("#tipodepago_"+idtipodepago).prop('checked',false);
+    localStorage.setItem('idtipodepago',0);
+
+
+  }else{
+
+    $(".opcionestipodepago").prop('checked',false);
+    $("#tipodepago_"+idtipodepago).prop('checked',true);
+    idtipodepago=idtipodepago;
+
+  }
+
+/*  idtipodepago=localStorage.getItem('idtipodepago');
+*/    if (idtipodepago>0) {
+
+      $(".divdigitos").css('display','none');
+      $(".divbancos").css('display','none');
+      $(".divopcionestarjeta").css('display','none');
+
+
+      $("#habilitarfoto").css('display','none');
+      $(".cuentas").css('display','none');
+
+      $("#lista-imagenescomprobante").html('');
+     	llevafoto=foto;
+     	idtipodepago=idtipodepago;
+     	rutacomprobante="";
+     	comentarioimagenes="";
+      $(".check-list").css('display','none');
+
+      campomonto=habilitarcampo;
+      constripe=stripe;
+      comisionmonto=0;
+      comisionporcentaje=0;
+      impuesto=0;
+      comision=0;
+      comisiontotal=0;
+
+      $("#lista-imagenescomprobante").html('');
+      resultimagencomprobante=[];
+
+
+    if (foto==1) {
+      $("#datosdecuenta").css('display','block');
+
+      $("#cuenta_"+idtipodepago).css('display','block');
+
+     // $("#datosdecuenta").html(cuenta);
+      $("#habilitarfoto").css('display','block');
+
+      }else{
+
+      $(".cuentas").css('display','none');
+
+      $("#cuenta_"+idtipodepago).css('display','none');
+
+      $("#habilitarfoto").css('display','none');
+     // $("#datosdecuenta").css('display','none');
+
+    }
+
+    if (stripe==1) {
+
+       montocliente=0;
+        $("#montocliente").val('');
+      //  ObtenerPorcentajes();
+        
+    }
+
+    if (habilitarcampo==1) {
+      var sumatotalapagar1=total;
+    
+      $("#montocliente").val(parseFloat(sumatotalapagar1));
+      $("#montovisual").val('$'+formato_numero(sumatotalapagar1,2,'.',','));
+      localStorage.setItem('montocliente',sumatotalapagar1);
+    
+      $("#campomonto").css('display','block');
+
+       datostarjeta2="";
+       datostarjeta="";
+       $("#montovisual").attr('onkeyup','ValidacionMonto()');
+
+    }else{
+        $("#campomonto").css('display','none');
+    
+    }
+
+
+    if (habilitarcatalogobanco==1) {
+    	ObtenerBancos();
+        $(".divbancos").css('display','block');
+
+    }
+    
+    if (habilitardigitos==1) {
+
+    	$(".divdigitos").css('display','block');
+    }
+    if (habilitaropciontarjeta==1) {
+    	$(".divopcionestarjeta").css('display','block');
+    }
+
+    $(".opcionestipodepago").attr('checked',false);
+    $("#tipodepago_"+idtipodepago).prop('checked',true);
+  
+  }else{
+
+     $("#datosdecuenta").css('display','none');
+     $("#campomonto").css('display','none');
+     $("#habilitarfoto").css('display','none');
+
+      $("#lista-imagenescomprobante").html('');
+       llevafoto=foto
+       idtipodepago=idtipodepago;
+       rutacomprobante='';
+       comentarioimagenes="";
+       $(".check-list").css('display','none');
+       $(".cuentas").css('display','none');
+       comisionmonto=0;
+       comisionporcentaje=0;
+       impuesto=0;
+       datostarjeta2='';
+       datostarjeta='';
+
+       imagencomprobante="";
+	   resultimagencomprobante=[];
+	   arraycomentarios=[];
+
+  }
+
+  //Recalcular4();
+
+}
+
 
 
 function AbrirModalFotoComprobante() {
@@ -1487,6 +1929,10 @@ function RealizarpagoCliente() {
 
 	 const myPromise = new Promise((resolve, reject) => {
         CrearModalEspera(() => {
+        	  ValidacionCitas().then(r => {
+
+        	 if (r.citasapartada==0) {
+
    var respuesta=0;
    var mensaje='';
    var pedido='';
@@ -1535,7 +1981,7 @@ function RealizarpagoCliente() {
     var requierefactura=$("#requierefactura").is(':checked')?1:0;
 
    var datos='arraypaquetes='+JSON.stringify(arraycarrito);
-	   datos+="&id_user="+iduser+"&constripe="+constripe+"&idtipodepago="+idtipodepago+"&descuentocupon="+descuentocupon+"&codigocupon="+codigocupon+"&descuentosaplicados="+JSON.stringify(descuentosaplicados)+"&sumatotalapagar="+sumatotalapagar+"&comision="+comision+"&comisionmonto="+comisionmonto+"&comisiontotal="+comisiontotal+"&impuestototal="+impuestotal+"&subtotalsincomision="+subtotalsincomision+"&impuesto="+impuesto+"&descuentosmembresia="+JSON.stringify(descuentosmembresia);
+	    datos+="&id_user="+iduser+"&constripe="+constripe+"&idtipodepago="+idtipodepago+"&descuentocupon="+descuentocupon+"&codigocupon="+codigocupon+"&descuentosaplicados="+JSON.stringify(descuentosaplicados)+"&sumatotalapagar="+sumatotalapagar+"&comision="+comision+"&comisionmonto="+comisionmonto+"&comisiontotal="+comisiontotal+"&impuestototal="+impuestotal+"&subtotalsincomision="+subtotalsincomision+"&impuesto="+impuesto+"&descuentosmembresia="+JSON.stringify(descuentosmembresia);
       datos+='&comisionpornota='+comisionpornota+"&comisionnota="+comisionnota+"&tipocomisionpornota="+tipocomisionpornota;
       datos+='&requierefactura='+requierefactura+"&monedero="+monedero;
       datos+='&idusuariosdatosfiscales='+idusuariosdatosfiscales;
@@ -1560,7 +2006,7 @@ function RealizarpagoCliente() {
         respuesta=data.respuesta;
         mensaje=data.mensaje;
         pedido=data.idnotapago;
-
+        foliosnotas=data.folionota;
       
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
                         var error;
@@ -1593,7 +2039,7 @@ function RealizarpagoCliente() {
                        // RealizarPago(pedido);
 
                         var output=informacion.output;
-                        //var idpedido=informacion.idnota;
+                        var idpedido=informacion.idnotapago;
 
                        //  data = datos;
                       var stripe = Stripe(output.publicKey);
@@ -1650,10 +2096,14 @@ function RealizarpagoCliente() {
                                         $(".mensajeexito").text(mensaje);
 
                                         $(".butonok").css('display','block');
+                                        //$(".butonticket").css('display','block');
+
                                         $(".butoerror").css('display','none');
                       localStorage.setItem('membresiaelegida','');
                       
-                      $(".butonok").attr('onclick','IrADashboard()');
+                      $(".butonok").attr('onclick','IrADashboard('+idpedido+')');
+                      //$(".butonticket").attr('onclick','VerTicket('+idpedido+')');
+                      PintarBotonesticket(foliosnotas,pedido);
                     // alerta('',mensaje);
 
                       //PagoRealizado(mensaje,output.paymentIntent,notapago);
@@ -1681,10 +2131,14 @@ function RealizarpagoCliente() {
                           $(".mensajeexito").css('display','block');
 
                           $(".butonok").css('display','block');
+                         // $(".butonticket").css('display','block');
+
                           $(".butoerror").css('display','none');
                           LimpiarVariables();
                        	ObtenerClientePagos(0);
-                       	 $(".butonok").attr('onclick','IrADashboard()');
+                       	 $(".butonok").attr('onclick','IrADashboard('+pedido+')');
+                       	 //$(".butonticket").attr('onclick','VerTicket('+pedido+')');
+                      PintarBotonesticket(foliosnotas,pedido);
 
                           $(".divresumenpago").css('display','none');
 
@@ -1725,33 +2179,151 @@ function RealizarpagoCliente() {
           }
         
            resolve("Modal cerrado después de realizar el cargo");
-            });
+          
+           	
+           	 }else{
+
+           	    var mensaje="<p>La fecha y hora de la cita ya no se encuentra disponible en la sucursal para el/los siguientes servicios</p>";
+               /* AbrirModalAviso(aviso);*/
+                //alerta('','La fecha y hora de la cita ya no se encuentra disponible en la sucursal');
+
+               			$(".mensajeproceso").css('display','none');
+                        $(".mensajeerror").css('display','block');
+                        $(".mensajeexito").css('display','none');
+                        $(".butonok").css('display','none');
+                        $(".butoerror").css('display','block');
+
+                        if (r.respuesta.length>0) {
+                        	mensaje+=`<table class="table table-striped table-bordered">
+                        			  <tr>
+								      <th>Servicio</th>
+								      <th>Barbero</th>
+								  	  <th>Fecha</th>
+								      <th>Hora inicial</th>
+								      <th>Hora final</th>
+								  	</tr>
+                        		
+                        	`;
+                        	var traslape=r.respuesta;
+                        	for (var i = 0; i <traslape.length ; i++) {
+                        		mensaje+=`
+
+                        		<tr>
+                        		   <td>`+traslape[i].nombrepaquete+`</td>
+                        			<td>`+traslape[i].usuarioespecialista+`</td>		
+                        			<td>`+traslape[i].fecha+`</td>
+                        			<td>`+traslape[i].horainicial+`</td>
+                        			<td>`+traslape[i].horafinal+`</td>
+                        		</tr>
+
+
+                        		`;
+                        	}
+                        	mensaje+=`
+                        		</table>
+                        	`;
+                        }
+
+                       $(".mensajeerror").html(mensaje);
+
+                // construir elementos que estan chocando en las citas if (true) {}
+              }
+           });
+
+
 
         });
 
+
+	});
+}
+
+
+function ValidacionCitas() {
+    var iduser=0;
+    var pagina = "ValidacionCitas.php";
+    var datos= "id_user="+iduser;
+
+   return new Promise(function(resolve, reject) {
+
+     $.ajax({
+
+      url:'catalogos/pagos/'+pagina, //Url a donde la enviaremos
+      type: 'post',
+      dataType: 'json',
+      data:datos,
+      async:false,
+      success: function(resp) {
+        
+        resolve(resp);
+
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+                        var error;
+                        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+                        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                                                 //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                         app.dialog.alert('Error leyendo fichero jsonP '+error,'Error');
+                     $(".check-list").css('display','none');
+                     $("#aparecerimagen").css('display','none');
+                    }
+                                       
+
+          }); 
+
+   });
 }
 
 function RealizarpagoCompletado(idnotapago,accion) {
 			
-				$("#modalentrega").modal();
 
 			if (accion==1 ) {
-
+				$("#modalentrega").modal();
 				$(".btnpagarentregar").attr("onclick","PagarEntregar("+idnotapago+")");
 			}
 
 			if (accion==2) {
 
-				$(".btnpagarentregar").attr("onclick","PagarEntregarNotas("+idnotapago+")");
+				var suma=0;
+				for (var i = 0; i < tipopagos.length; i++) {
+					    
+					     if (tipopagos[i].tipopago!='') {
+					      
+					        if (tipopagos[i].montocampo>0) {
+					        suma=parseFloat(suma)+parseFloat(tipopagos[i].montocampo);
+					     }
+					   }
 
+					  }
+
+					  if (suma==total) {
+					  	$("#mensaje").text('');
+						$("#modal-formsmetodo").modal('hide');
+				
+						PagarEntregarNotas(idnotapago);
+
+					}else{
+
+						if (suma!=total) {
+							$("#mensaje").text('Para continuar, es necesario completar el método de pago');
+
+						}else{
+						
+							$("#mensaje").text('Para continuar, se debe completar los datos en los métodos de pago');
+
+
+						}
+
+
+				}
 			}
 
 			if (accion==3) {
-
+				$("#modalentrega").modal();
 				$(".btnpagarentregar").attr("onclick","Entregar("+idnotapago+")");
 			}	
 
-		
+			
+
 		}
 
 
@@ -1866,7 +2438,7 @@ function PagarEntregar(idnotapago) {
                        // RealizarPago(pedido);
 
                         var output=informacion.output;
-                        //var idpedido=informacion.idnota;
+                        var idpedido=informacion.idnota;
 
                        //  data = datos;
                       var stripe = Stripe(output.publicKey);
@@ -1923,8 +2495,11 @@ function PagarEntregar(idnotapago) {
                                         $(".mensajeexito").text(mensaje);
 
                                         $(".butonok").css('display','block');
+                                        $(".butonticket").css('display','block');
+
                                         $(".butoerror").css('display','none');
-                       			$(".butonok").attr('onclick','IrADashboard()');
+                       			$(".butonok").attr('onclick','IrADashboard('+idpedido+')');
+                      $(".butonticket").attr('onclick','VerTicket('+idpedido+')');
 
                     // alerta('',mensaje);
 
@@ -1953,10 +2528,13 @@ function PagarEntregar(idnotapago) {
                           $(".mensajeexito").css('display','block');
 
                           $(".butonok").css('display','block');
+                          $(".butonticket").css('display','block');
+
                           $(".butoerror").css('display','none');
                          // LimpiarVariables();
                        	//ObtenerClientePagos(0);
-                       	$(".butonok").attr('onclick','IrADashboard()');
+                       	$(".butonok").attr('onclick','IrADashboard('+idpedido+')');
+                      $(".butonticket").attr('onclick','VerTicket('+idpedido+')');
 
                           $(".divresumenpago").css('display','none');
 
@@ -2071,7 +2649,7 @@ function PagarEntregarNotas(idnotapago) {
     var requierefactura=$("#requierefactura").is(':checked')?1:0;
     var observaciones=$("#v_observaciones").val();
    var datos='idnotapago='+idnotapago;
-	  datos+="&id_user="+0+"&constripe="+constripe+"&idtipodepago="+idtipodepago+"&descuentocupon="+descuentocupon+"&codigocupon="+codigocupon+"&sumatotalapagar="+0+"&comision="+comision+"&comisionmonto="+comisionmonto+"&comisiontotal="+comisiontotal+"&impuestototal="+impuestotal+"&subtotalsincomision="+subtotalsincomision+"&impuesto="+impuesto+"&descuentosmembresia="+JSON.stringify(descuentosmembresia);
+	  	datos+="&id_user="+0+"&constripe="+constripe+"&idtipodepago="+idtipodepago+"&descuentocupon="+descuentocupon+"&codigocupon="+codigocupon+"&sumatotalapagar="+0+"&comision="+comision+"&comisionmonto="+comisionmonto+"&comisiontotal="+comisiontotal+"&impuestototal="+impuestotal+"&subtotalsincomision="+subtotalsincomision+"&impuesto="+impuesto+"&descuentosmembresia="+JSON.stringify(descuentosmembresia);
       datos+='&comisionpornota='+comisionpornota+"&comisionnota="+comisionnota+"&tipocomisionpornota="+tipocomisionpornota;
       datos+='&requierefactura='+requierefactura+"&monedero="+monedero;
       datos+='&idusuariosdatosfiscales='+idusuariosdatosfiscales;
@@ -2081,6 +2659,7 @@ function PagarEntregarNotas(idnotapago) {
   	  datos+='&observaciones='+observaciones;
   	  datos+='&digitostarjeta='+digitostarjeta;
   	  datos+='&datostarjeta2='+datostarjeta2+'&datostarjeta='+datostarjeta;
+  	  datos+='&tipopagos='+JSON.stringify(tipopagos);
    
     if (bandera==1) {
          
@@ -2097,7 +2676,7 @@ function PagarEntregarNotas(idnotapago) {
         respuesta=data.respuesta;
         mensaje=data.mensaje;
         pedido=data.idnotapago;
-
+        folionota=data.folionota;
       
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
                         var error;
@@ -2130,7 +2709,7 @@ function PagarEntregarNotas(idnotapago) {
                        // RealizarPago(pedido);
 
                         var output=informacion.output;
-                        //var idpedido=informacion.idnota;
+                        var idpedido=informacion.idnotapago;
 
                        //  data = datos;
                       var stripe = Stripe(output.publicKey);
@@ -2187,8 +2766,11 @@ function PagarEntregarNotas(idnotapago) {
                                         $(".mensajeexito").text(mensaje);
 
                                         $(".butonok").css('display','block');
+                                      	$(".butonticket").css('display','block');
+
                                         $(".butoerror").css('display','none');
-                       			$(".butonok").attr('onclick','IrADashboard()');
+                       			$(".butonok").attr('onclick','IrADashboard('+idpedido+')');
+                      			$(".butonticket").attr('onclick','VerTicket('+idpedido+')');
 
                     // alerta('',mensaje);
 
@@ -2215,12 +2797,16 @@ function PagarEntregarNotas(idnotapago) {
 
                           $(".mensajeproceso").css('display','none');
                           $(".mensajeexito").css('display','block');
+                          //$(".butonticket").css('display','block');
 
                           $(".butonok").css('display','block');
                           $(".butoerror").css('display','none');
                          // LimpiarVariables();
                        	//ObtenerClientePagos(0);
-                       	$(".butonok").attr('onclick','IrADashboard()');
+                       	$(".butonok").attr('onclick','IrADashboard('+pedido+')');
+                        //$(".butonticket").attr('onclick','VerTicket('+pedido+')');
+                       
+                       	PintarBotonesticket(folionota,pedido);
 
                           $(".divresumenpago").css('display','none');
 
@@ -2272,6 +2858,20 @@ function EntregarProducto(idnotapago) {
 	$(".btnpagarentregar").attr("onclick","Entregar("+idnotapago+")");
 
 }
+
+function PintarBotonesticket(foliosnotas,pedido){
+	var html=``;
+
+	if (foliosnotas.length>0) {
+	for (var i =0; i < foliosnotas.length; i++) {
+		
+		html+=`<span class="btn btn-success butonticket" onclick="VerTicket(`+pedido[i]+`)" style="display: block; width: 200px; margin: 10px auto auto;">Ver ticket `+foliosnotas[i]+`</span>`;
+	}
+}
+	$("#divbutonticket").html(html);
+
+
+}
 function Entregar(idnotapago) {
 
 	$("#modalentrega").modal('hide');
@@ -2295,12 +2895,14 @@ function Entregar(idnotapago) {
 
                           $(".mensajeproceso").css('display','none');
                           $(".mensajeexito").css('display','block');
+                          $(".butonticket").css('display','block');
 
                           $(".butonok").css('display','block');
                           $(".butoerror").css('display','none');
                          // LimpiarVariables();
                        	//ObtenerClientePagos(0);
-                       	$(".butonok").attr('onclick','IrADashboard()');
+                       	$(".butonok").attr('onclick','IrADashboard('+idnotapago+')');
+                       $(".butonticket").attr('onclick','VerTicket('+idnotapago+')');
 
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;
@@ -2319,11 +2921,15 @@ function Entregar(idnotapago) {
         });
 }
 
-		function IrADashboard(argument) {
+		function IrADashboard(idnotapago) {
 			CerrarEspera();
-   			aparecermodulos('catalogos/dashboard/vi_dashboard.php','main');
+				
+   		aparecermodulos('catalogos/dashboard/vi_dashboard.php','main');
 		}
 
+function VerTicket(idnotapago) {
+	GenerarTicket(idnotapago);
+}
 
 function CrearModalEspera(callback) {
   
@@ -2353,10 +2959,15 @@ function CrearModalEspera(callback) {
                   </div>
                   <div id="" class="mensajeerror" style="font-size:20px;font-weight:bold;display:none;margin-bottom: 10px;" >Error en la conexción,vuelva a intentar.</div>
                   <div id="" class="mensajeexito" style="font-size:20px;font-weight:bold;display:none;margin-bottom: 10px;" >Se realizó correctamente</div>
-                  <div style="display: flex; justify-content: center; align-items: center;">
-       				   <span class="btn btn-success butonok" onclick="CerrarEspera()" style="display:none;width: 200px;">OK</span>
+                  <div style="">
+       				   <span class="btn btn-success butonok" onclick="CerrarEspera()" style="display:none;width: 200px;    margin: auto;
+    margin-top: 10px;">OK</span>
+       				   <span class="btn btn-success butonticket" onclick="VerTicket()" style="display:none;width: 200px;    margin: auto;
+    margin-top: 10px;">Ver ticket</span>
+    <div id="divbutonticket"></div>
 
-                		<span class="btn btn_rojo butoerror" onclick="CerrarEspera()" style="display:none;width: 200px;">OK</span>
+                		<span class="btn btn_rojo butoerror" onclick="CerrarEspera()" style="display:none;width: 200px;    margin: auto;
+    margin-top: 10px;">OK</span>
                  </div>
                   <div style="color:red;font-size:20px;"></div>
 
@@ -3414,4 +4025,31 @@ function GuardarMonedero() {
 			CalcularTotales();
 		}
 	}*/
+}
+
+function GenerarTicket(idnotapago) {
+	var datos="idnota="+idnotapago;
+	 var pagina = "ObtenerUsuario.php";
+      $.ajax({
+      type: 'POST',
+      dataType: 'json',
+			url:'catalogos/notaspago/reporte/ticketproduccion2.php', //Url a donde la enviaremos
+      data:datos,
+      async:false,
+      success: function(resp){
+      	
+      	console.log(resp);
+      	var archivo=resp.nota;
+				var urlnota = 'catalogos/notaspago/reporte/'+archivo;
+
+      	imprimirPDF(urlnota);
+      },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+          if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+          if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                  //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                  console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+            }
+      });
+
 }

@@ -31,7 +31,7 @@ require_once("../../clases/class.HistorialModificacionNota.php");
 	$historial=new HistorialModificacionNota();
 	$historial->db=$db;
 	$db->begin();
-
+ 
 	//enviamos la conexión a las clases que lo requieren
 	$notapago->db=$db;
 
@@ -63,11 +63,12 @@ require_once("../../clases/class.HistorialModificacionNota.php");
 		$notapago->GuardarNuevoMonto();
 
 
-		/*$historial->idusuario=$obtener[0]->idusuarios;
+		$historial->idusuario=$obtener[0]->idusuarios;
 		$historial->preciomodificado=$obtenernotadescripcion[0]->costounitario;
-		$historial->nuevoprecio=$carrito->costounitario;
-		$historial->idnotadescripcion=$obtenernotadescripcion->idnotapago_descripcion;
-		$historial->GuardarModificacion();*/
+		$multiplicar=$precio*$cantidad;
+		$historial->nuevoprecio=$multiplicar;
+		$historial->idnopagodescripcion=$obtenernotadescripcion[0]->idnotapago_descripcion;
+		$historial->GuardarModificacion();
 
 	}else{
 

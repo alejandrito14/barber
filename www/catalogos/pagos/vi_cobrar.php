@@ -11,7 +11,7 @@ if(!isset($_SESSION['se_SAS']))
 
 	exit;
 } 
-
+ 
 $idmenumodulo = $_GET['idmenumodulo'];
 
 //validaciones para todo el sistema
@@ -31,12 +31,17 @@ require_once("../../clases/class.Botones.php");
 require_once("../../clases/class.Funciones.php");
 require_once("../../clases/class.Usuarios.php");
 require_once("../../clases/class.Pais.php");
+require_once("../../clases/class.Tpv.php");
 
 //Declaración de objeto de clase conexión
 $db = new MySQL();
 $pagos = new Pagos();
 $bt = new Botones_permisos(); 
 $f = new Funciones();
+$tpv= new Tpv();
+$tpv->db=$db;
+$tpv->AgregarTpv();
+$se->crearSesion('idtpv',$tpv->idtpv);
 
 $pagos->db = $db;
 $cli = new Usuarios();
@@ -47,6 +52,9 @@ $r_clientes_num = $db->num_rows($r_clientes);
 
 $pais = new Paises();
 $pais->db=$db;
+
+$tpv=new Tpv();
+$tpv->db=$db;
 
 
 //obtenemos todas las empreas que puede visualizar el usuario.
@@ -1828,8 +1836,17 @@ var cargadoscarrito=[];
 var monederousuario=0;
 ObtenerSucursales(idsucursalseleccionada); 
 
-VerificarCajaAbierta();
+var promesa = VerificarCajaAbierta();
 
+promesa.then(function(resultado) {
+	console.log('re')
+	console.log(resultado);
+	if (resultado.length>0) {
+
+		 ObtenerCategoriasPrincipales();
+
+	}
+});
 /*ObtenerTipodepagos();
 ObtenerCategoriasPrincipales();*/
 

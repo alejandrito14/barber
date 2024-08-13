@@ -6,6 +6,8 @@ header('Access-Control-Allow-Origin: *');
 require_once "clases/conexcion.php";
 
 require_once "clases/class.Funciones.php";
+require_once "clases/class.Fechas.php";
+
 /*require_once "clases/class.MovimientoBitacora.php";
 */require_once "clases/class.Usuarios.php";
 require_once "clases/class.Carrito.php";
@@ -28,6 +30,8 @@ require_once("clases/class.Notapago.php");
 require_once("clases/class.Servicios.php");
 require_once("clases/class.Cupones.php");
 require_once("clases/class.Datosfiscales.php");
+require_once("clases/class.WhatsapMensaje.php");
+require_once("clases/class.Sucursal.php");
 
 include 'stripe-php-7.93.0/init.php';
 $folio = "";
@@ -39,6 +43,7 @@ $sumatotalapagar=$_POST['sumatotalapagar'];
 $iduser=$_POST['id_user'];
 if (isset($_POST['idsucursal'])) {
  $idsucursal=$_POST['idsucursal'];
+
 
 }else{
   $idsucursal=1;
@@ -84,12 +89,30 @@ try {
    $obj = new ClienteStripe();
    $notapago=new Notapago();
    $notapago->db=$db;
+   $whatsap=new WhatsapMensaje();
+   $whatsap->db=$db;
+   $fechas=new Fechas();
+   $sucursal=new Sucursal();
+   $sucursal->db=$db;
+   $sucursal->idsucursales=$idsucursal;
+
+   $datossucursal=$sucursal->ObtenerSucursal();
+   $celularsucursal=$datossucursal[0]->celular;
+
+
    $obj->db=$db;
      $db->begin();
      $f = new Funciones();
      $cupones=new Cupones();
      $cupones->db=$db;
      $descripcioncupon="";
+        $obj->idusuarios=$iduser;
+        $dbresult = $obj->ObtenerDatosCliente();
+        $a_result=$obj->db->fetch_assoc($dbresult);
+        $nombrecliente = $a_result['nombre'] . " " . $a_result['paterno'];
+        $celularcliente=$a_result['celular'];
+
+
      if ($idcupon>0) {
       
       $cupones->idcupon=$idcupon;
@@ -398,6 +421,9 @@ try {
              for ($i=0; $i <count($obtenercarrito) ; $i++) { 
               $tipo=0;
               $cita->idcita=0;
+
+
+
               if ($obtenercarrito[$i]->idcitaapartada>0) {
                 # code...
                 $cita->idusuario=$obtenercarrito[$i]->idusuarios;
@@ -423,6 +449,7 @@ try {
 
 
                 $cita->CitaCreada();
+
                 $tipo=1;
 
             }
@@ -644,6 +671,73 @@ try {
         $tarjetalealtad->idnotapago=$idnotapago;
         $tarjetalealtad->Verificarproductosnota();
 
+       }
+
+       if ($estatusdeproceso==1) {
+        $whatsapp=new WhatsapMensaje();
+        $whatsapp->phoneid=$obtenerconfiguracion['phoneid'];
+
+        $celularsucursal=str_replace(array('(', ')', '-'), '', $celularsucursal);
+
+       
+        $whatsapp->tophone=$celularsucursal;
+
+        $whatsapp->Version=$obtenerconfiguracion['faceversion'];
+        $whatsapp->accestoken=$obtenerconfiguracion['tokenface'];
+
+      
+        $nombrepaquete="";
+
+         for ($i=0; $i <count($obtenercarrito) ; $i++) { 
+              $tipo=0;
+              $cita->idcita=0;
+             
+              $texto="Producto:";
+              if ($obtenercarrito[$i]->servicio==1) {
+                $texto="Servicio:";
+              }
+
+               $nombrepaquete.=$texto.$obtenercarrito[$i]->nombrepaquete;
+
+              if ($obtenercarrito[$i]->idcitaapartada>0) {
+                # code...
+                $cita->idusuario=$obtenercarrito[$i]->idusuarios;
+                $cita->idcitaapartado=$obtenercarrito[$i]->idcitaapartada;
+                $obtenerapartada=$cita->ObtenerCitaCreada();
+
+                $cita->horacita=$obtenerapartada[0]->horainicial;
+                $cita->fechacita=$obtenerapartada[0]->fecha;
+                $cita->estatus=0;
+                
+                $cita->idusuarios=$obtenerapartada[0]->idusuario;
+                $cita->idespecialista=$obtenerapartada[0]->idespecialista;
+                $cita->horainicial=$obtenerapartada[0]->horainicial;
+                $cita->horafinal=$obtenerapartada[0]->horafinal;
+
+
+                $cita->idsucursal=$obtenerapartada[0]->idsucursal;
+
+                $idsucursal=$obtenerapartada[0]->idsucursal;
+                $cita->idpaquete=$obtenerapartada[0]->idpaquete;
+                $cita->costo=$obtenercarrito[$i]->costototal;
+                $cita->idcortesia=$obtenerapartada[0]->idcortesia;
+
+
+                $nombrepaquete.='\nFecha:'.$fechas->fecha_texto5($obtenerapartada[0]->fecha).'\n';
+                $nombrepaquete.='Hora:'.$obtenerapartada[0]->horainicial.'-'.$obtenerapartada[0]->horafinal.'Hrs.\n';
+                $nombrepaquete.='Barbero:'.$obtenerapartada[0]->nombrebarbero.'\n';
+
+
+
+
+
+              }
+            }
+           // var_dump($nombrepaquete);die();
+        $detalle="".$nombrepaquete;
+        $nombrecliente='Cliente:'.$nombrecliente;
+    
+        $whatsapp->MensajeNotapago($folio,$detalle,$nombrecliente);
        }
  
         

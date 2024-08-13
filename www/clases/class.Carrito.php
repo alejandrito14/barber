@@ -67,6 +67,7 @@ class Carrito
 			(SELECT  CONCAT(usuarios.nombre,' ',usuarios.paterno) FROM especialista INNER JOIN usuarios on usuarios.idusuarios=especialista.idusuarios where especialista.idespecialista=citaapartado.idespecialista ) as usuarioespecialista,
 			DATE_FORMAT(citaapartado.fecha,'%d-%m-%Y')as fecha,
 			citaapartado.horainicial,
+			citaapartado.horafinal,
 			carrito.idcortesia,
 			paquetecortesia.nombrepaquete as nombrepaquetecortesia
 			

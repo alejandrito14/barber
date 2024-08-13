@@ -97,7 +97,7 @@ try
 		}
 	$obtenerintervalos=$fechas->intervaloHora($horainicialsucursal,$horafinalsucursal,$intervaloconf);
 
-	$obtenerzonas=$especialista->ObtenerEspecialistasT();
+	$obtenerzonas=$especialista->ObtenerEspecialistasTVisibledashboard();
 	
 
 $estatus=array('Pendiente','En proceso','Completado','Cancelado','Caducado');
@@ -147,7 +147,9 @@ $horaactual=date('H:i');
 					$consultarsiestaocupado=$especialista->Disponibilidad4();
 
 					
+						//$consultarsiestaocupado[0]->totalpagado=0;
 					if (count($consultarsiestaocupado)>0) {
+						$consultarsiestaocupado[0]->tpv=0;
 
 						$disponible=0;
 						$est=$consultarsiestaocupado[0]->estatus;
@@ -167,10 +169,21 @@ $horaactual=date('H:i');
 
 						$idcita=$consultarsiestaocupado[0]->idcita;
 						$notapago->idcita=$idcita;
-						$verificarpago=$notapago->VerificarCita();
+						$verificarpago=$notapago->VerificarCita(); 
+
 						$consultarsiestaocupado[0]->pagado=0;
+						$consultarsiestaocupado[0]->tpv=$verificarpago[0]->tpv;
+						$consultarsiestaocupado[0]->totalpagado=$verificarpago[0]->sumapago!=0?$verificarpago[0]->sumapago:$verificarpago[0]->total;
+
+//$consultarsiestaocupado[0]->totalpagado=0;
 						if (count($verificarpago)>0) {
-							$consultarsiestaocupado[0]->pagado=1;
+
+							if ($verificarpago[0]->estatus==1) {
+
+								$consultarsiestaocupado[0]->pagado=1;
+								
+							}
+							
 						}
 
 						
@@ -215,16 +228,16 @@ $horaactual=date('H:i');
 						array_push($obtenerzonas[$i]->intervalos, $arrayintervalo);
 
 
-					
+					 
 
 				}
 
 
 				
-			
+				
+	
 
 	}
-
 
 /*	$obtenerintervaloscon=$fechas->intervaloHora('00:00:00','23:59:00',$intervaloconf);
 

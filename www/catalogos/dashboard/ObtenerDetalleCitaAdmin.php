@@ -48,7 +48,7 @@ try
 
 	$obtenerdetallecita=$lo->ObtenerdetallecitaAdmin();
 	$obtenerdetallecita[0]->fecha=date('d-m-Y',strtotime($obtenerdetallecita[0]->fechacita));
-
+ 
 	$imagencita->idcita=$idcita;
 	$obtenerimagenes=$imagencita->ObtenerImagenesCita();
 
@@ -85,9 +85,10 @@ try
 
    $obtenerdetallecita[0]->idnotapago=0;
 
-   if ($sipago==0) {
-    $obtenerdetallecita[0]->idnotapago=$pagada[0]->idnotapago;
-   }
+   $obteneridnotacita=$notapago->ObtenerdescripcionNotaCita();
+   //if ($sipago==0) {
+    $obtenerdetallecita[0]->idnotapago=$obteneridnotacita[0]->idnotapago;
+   //}
 
 	$obtenerdetallecita[0]->pagada=$sipago;
 

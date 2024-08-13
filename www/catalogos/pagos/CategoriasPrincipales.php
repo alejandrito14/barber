@@ -20,6 +20,12 @@ require_once("../../clases/class.Funciones.php");
 
 try
 {
+    $venderproductos=0;
+    if(isset($_POST['venderproductos'])){
+
+        $venderproductos=$_POST['venderproductos'];
+
+    }
 
     //Declaramos objetos de clases
     $db = new MySQL();
@@ -28,7 +34,13 @@ try
     //Enviamos la conexion a la clase
     $lo->db    = $db;
     //Recibimos parametros
-    $resultado=$lo->ObtenerCategoriasPrincipales();
+    if ($venderproductos==0) {
+        $resultado=$lo->ObtenerCategoriasPrincipales();
+    }else{
+
+         $resultado=$lo->ObtenerCategoriasPrincipalesFiltroProductos();
+    }
+   
 
 
     $codigo=$_SESSION['codservicio'];

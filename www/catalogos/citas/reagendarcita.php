@@ -207,11 +207,8 @@ if(!isset($_GET['idcita']))
 				<div class="col-md-6">
 						<div class="row">
 
-
-
-							<div class="card ">
-                    <div class="card-header" style="    border-radius: 10px;
-    margin: 10px;">
+																		<div class="card ">
+                    <div class="card-header" style="border-radius: 10px;margin: 10px;">
                         <div class="row" style="    margin: 5px;">
                             
                             <div class="col-50">
@@ -247,10 +244,10 @@ if(!isset($_GET['idcita']))
                 </div>
 
                             
-                            </div>
+           </div>
 
           
-                        </div>
+       </div>
 					</div>
 				</div>
 			</div>
@@ -721,6 +718,7 @@ display: flex;
 
 
 	<script type="text/javascript">
+		idcita='<?php echo $idcita ?>';
 		idsucursal='<?php echo $idsucursal; ?>';
 		idpaquete='<?php echo $idpaquete; ?>';
 		idpaqueteseleccionado=idpaquete;
@@ -738,8 +736,8 @@ display: flex;
 		});
 // En este punto, "promiseA" ya está resuelto.
 promiseA.then((val) => {
-			PintarCalendario3();
-			PintarHoraSeleccionada(fechaconsulta,horaselect);
+			PintarCalendarioAgenda();
+			PintarHoraSeleccionadaReagenda(fechaconsulta,horaselect);
 		
    PintarFechaSeleccionada2(fechaconsulta);
 });
@@ -755,7 +753,7 @@ promiseA.then((val)=>{
                 var id=$(this).attr('id');
                 var valordata2=$(this).attr('data-horafinal');
 
-                   SeleccionarHorario3(valordata,valordata2,index,idespecialista);
+                   SeleccionarHorarioreagenda(valordata,valordata2,index,idespecialista);
                    $("#"+id).addClass('active');
                  
                  
@@ -767,8 +765,13 @@ promiseA.then((val)=>{
 
 	}, "1000");
 
-	setTimeout(() => {
+});
 
+promiseA.then((val)=>{
+
+
+	setTimeout(() => {
+ 
 		SeleccionarEspecialista(idespecialista);
 		}, "1000");
 
@@ -911,7 +914,327 @@ function SeleccionarCortesia(idcortesia,nombrecortesia) {
   idcortesiaseleccionado=idcortesia;
 
 }
+
+
+
+
+function SeleccionarHorarioreagenda(horainicial,horafinal,i,idespecialista) {
 	
+	 $(".horariossele").removeClass('active');
+
+  $("#catebtn_"+i).add('active');
+  horainicialsele=horainicial;
+  horafinalsele=horafinal;
+  horarioseleccionado=horainicialsele+'_'+horafinalsele;
+//horaseleccionada=arrayhorarios[posicion];
+
+   //HabilitarBoton2();
+//aqui
+idespecialistaseleccionado=idespecialista;
+  ObtenerListadoEspecialistareagenda(idespecialista);
+  VerificarSiLlevavalor();
+}
+
+function ObtenerListadoEspecialistareagenda(idespecialistasele) {
+
+
+    var horario=horainicialsele+'_'+horafinalsele;
+    var datos='idsucursal='+idsucursal+"&idpaquete="+idpaquete+"&horaseleccionada="+horario+"&fecha="+fechaseleccionada+"&idespecialistasele="+idespecialistasele+"&idcita="+idcita;
+    var pagina = "ObtenerEspecialistaPaqueteSucursalreagenda.php";
+    $.ajax({
+    type: 'POST',
+    dataType: 'json',
+				url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+    async:false,
+    data:datos,
+    success: function(datos){
+      var especialistas=datos.especialista;
+      PintarDetalleEspecialistasreagenda(especialistas);
+     // PintarDetalleEspecialistas2(especialistas);
+
+    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+      var error;
+        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+          }
+    });
+
+}
+
+function PintarDetalleEspecialistasreagenda(especialistas) {
+	var html="";
+	html+=`<div class="list-group">`;
+						if (especialistas.length>0) {
+							for (var i = 0; i <especialistas.length; i++) {
+								html+=`
+
+					  		<a  class="list-group-item list-group-item-action especialistalista" id="especialista_`+especialistas[i].idespecialista+`" onclick="SeleccionarEspecialista(`+especialistas[i].idespecialista+`)" style="background:#c7aa6a;color:white;margin-bottom: 1em;margin-top: 1em;">
+					    		<div class="row">
+
+					    			<div class="col-md-4 justify-content-between">
+					      		<img src="`+especialistas[i].foto+`" style="width:100px;">
+					      	</div>
+
+					    		<div class="col-md-4 justify-content-between">
+					      		`+especialistas[i].nombre+` `+especialistas[i].paterno+`
+					      	
+					    		</div>
+					    	</div>
+					  		</a>
+								`;
+
+							}
+						}
+
+	html+=`</div>`;
+
+	$(".seleccionarbarbero").html(html);
+}
+
+function SeleccionarEspecialista(idespecialista) {
+	$(".especialistalista").removeClass('active');
+
+	$("#especialista_"+idespecialista).addClass('active');
+	idespecialistaseleccionado=idespecialista;
+	VerificarSiLlevavalor();
+}
+
+
+
+function PintarHoraSeleccionadaReagenda(fecha,horaselect) {
+
+fechaseleccionada=fecha;
+
+	var datos="fecha="+fecha+"&idsucursal="+idsucursal+"&idpaquete="+idpaquete+"&horaselect="+horaselect;
+
+	var pagina="ObtenerDisponibilidadPaqueteEspecialista.php";
+		$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+		data:datos,
+		async:false,
+		success: function(msj){
+			horarioseleccionado=0;
+			
+				var intervalos=msj.intervalos;
+				PintarIntervalosreagenda(intervalos);
+				VerificarSiLlevavalor();			
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+
+}
+
+function PintarIntervalosreagenda(respuesta) {
+		var html="";
+		if (respuesta.length>0) {
+			for (var i = 0; i < respuesta.length; i++) {
+					
+				html+=`
+								<label class="btn btn_dorado btncategointervalo1 horariossele" data-hora="`+respuesta[i].horainicial+`" data-horafinal="`+respuesta[i].horafinal+`" id="catebtn_`+i+`" style="margin: 10px;">
+								    <input type="checkbox" id="cate_15" class="catecheck" onchange="SeleccionarHorarioreagenda('`+respuesta[i].horainicial+`','`+respuesta[i].horafinal+`','`+i+`')" value="0" >`+respuesta[i].horainicial+`
+								  </label>
+				`;
+			}
+		}
+
+	$(".liintervalos").html(html);
+}
+	
+	function PintarCalendarioAgenda() {
+
+	//alert( yyyy+'-'+mm+'-'+dd);
+   // var calendarEl = document.getElementById('picker');
+
+   // var calendar = new FullCalendar.Calendar(calendarEl, {
+	$('#picker3').fullCalendar({
+        header: {
+        	left:'prev',
+            center: 'title',
+            right: 'next',
+
+        },
+            locale:'es',
+        	monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio","Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+			monthNamesShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Agost","Sept", "Oct", "Nov", "Dic"],
+			dayNames: ['Domingo', 'Lunes', 'Martes', 'Miercoles','Jueves', 'Viernes', 'Sabado'],
+			dayNamesShort: ["Dom", "Lun", "Mar", "Mier", "Jue", "Vier", "Sab", "Dom"],
+        firstDay:0,
+        defaultDate: yyyy+'-'+mm+'-'+dd,
+       eventLimit: true, // allow "more" link when too many events 
+        events: [
+           
+        ],
+        dayClick: function (date, jsEvent, view) {
+           console.log('Has hecho click en: '+  date.format());
+         
+
+            var fecha=date.format();
+            idespecialistaseleccionado='';
+			horarioseleccionado='';
+          
+            fechaconsulta=fecha;
+
+         PintarHoraSeleccionadaReagenda(fecha,'');
+         PintarFechaSeleccionada2(fecha);
+			//ObtenerHorariosDia(3);
+		$(".divintervaloshorarios").css('display','block');
+		$(".fc-header-title").html('<h2>'+fechaformato(fecha)+'</h2>');
+		VerificarSiLlevavalor();
+
+
+        }, 
+        eventClick: function (calEvent, jsEvent, view) {
+            $('#event-title').text(calEvent.title);
+            $('#event-description').html(calEvent.description);
+            $('#modal-event').modal();
+
+        }, 
+
+       
+	});
+
+  //  calendar.render();
+	 var fecha=new Date();
+	 var f=fecha.toISOString().split('T')[0];
+	
+	 var anio=f.split('-')[0];
+	 var mes=f.split('-')[1];
+
+	 ObtenerFechasCalendario(anio,mes);
+	 $("#recargar").attr('onclick','ObtenerFechasCalendario('+anio+','+mes+')');
+	 $("#txttitle").css('display','none');
+	//$(".fc-header-title").html('<h2>'+fechaformato(fecha)+'</h2>');
+	//PintarFechaActual();
+
+ $('.fc-button-prev').click(function(){
+
+          var moment = $('#picker3').fullCalendar('getDate');
+      
+          var cadenafecha=moment.format().split('-');
+       
+       	   var anio=cadenafecha[0];
+           var mes=cadenafecha[1];
+           var dia=cadenafecha[2];
+
+           var mes = parseInt(cadenafecha[1], 10);
+
+			// Restamos uno al mes (considerando que los meses van de 1 a 12)
+			mes++;
+
+			// Si el mes resultante es cero, establecemos el valor de mes a 12 (diciembre del año anterior)
+			if (mes === 0) {
+			  mes = 12;
+			  cadenafecha[0]--; // Restamos uno al año si retrocedemos desde enero
+			}
+
+			// Convertimos nuevamente el mes a cadena y le agregamos un cero adelante si es necesario
+			var mesStr = mes.toString().padStart(2, '0');
+
+
+
+            var fecha=anio+'-'+mesStr+'-'+dia;
+            var mes=cadenafecha[1];
+	
+	 	 ObtenerFechasCalendario(anio,mes);
+	 	
+		//$(".fc-header-title").html('<h2>'+fechaformato(fecha)+'</h2>');
+
+	   $("#txttitle").css('display','none');
+	   $(".horarios").css('display','none');
+  });
+
+  $('.fc-button-next').click(function(){
+     var moment = $('#picker3').fullCalendar('getDate');
+       	   var cadenafecha=moment.format().split('-');
+      	   var anio=cadenafecha[0];
+           var mes=cadenafecha[1];
+           var dia=cadenafecha[2];
+          	console.log(mes);
+            var mes = parseInt(cadenafecha[1], 10);
+            if (mes<12) {
+			// Restamos uno al mes (considerando que los meses van de 1 a 12)
+			mes++;
+
+			// Si el mes resultante es cero, establecemos el valor de mes a 12 (diciembre del año anterior)
+			if (mes === 0) {
+			  mes = 12;
+			  cadenafecha[0]--; // Restamos uno al año si retrocedemos desde enero
+			}
+			
+				
+			}
+
+			// Convertimos nuevamente el mes a cadena y le agregamos un cero adelante si es necesario
+			var mesStr = mes.toString().padStart(2, '0');
+            var fecha=anio+'-'+mesStr+'-'+dia;
+            console.log(fecha);
+             var mes=cadenafecha[1];
+
+	    	 ObtenerFechasCalendario(anio,mes);
+	    
+
+	     $("#txttitle").css('display','none');
+	     $(".horarios").css('display','none');
+  });
+
+
+  $(".fc-rigid").css('height','30px');
+  $(".fc-day-grid-container").css('height','144.9px');
+  $(".fc-day-top .fc-day-number").css({'cssText':'margin: 5em!important;'});
+
+  $(".fc-day-header").css('text-align','center');
+  $(".fc-day-top ").css({'cssText':'text-align: center!important;'});
+
+  $(".fc-header-right").css('visibility','visible');
+
+  //$(".fc-header-left .fc-corner-right").css('display','none');
+  $(".fc-button-today").css('display','none');
+
+
+
+}
+
+
+/*function PintarHoraSeleccionada(fecha,horaselect) {
+
+fechaseleccionada=fecha;
+
+	var datos="fecha="+fecha+"&idsucursal="+idsucursal+"&idpaquete="+idpaquete+"&horaselect="+horaselect;
+
+	var pagina="ObtenerDisponibilidadPaqueteEspecialista.php";
+		$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+		data:datos,
+		async:false,
+		success: function(msj){
+			horarioseleccionado=0;
+			
+				var intervalos=msj.intervalos;
+				PintarIntervalos(intervalos);
+				VerificarSiLlevavalor();			
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
+
+}*/
 	</script>
 
 

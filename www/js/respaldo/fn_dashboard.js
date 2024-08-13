@@ -12,9 +12,9 @@ var horafinalsele="";
 $(document).ready(function() {
     aparecermodulos('catalogos/dashboard/vi_dashboard.php','main');
 });
-
  
-
+  
+ 
 function ObtenerClientesAndroidios() {
 
 	
@@ -619,6 +619,8 @@ function PintarDia(msj) {
 						var intervalos=msj.intervalos;
 						var pxintervalo=msj.pxintervalo;
 						var zonas=msj.zonas;
+
+						var vendedores=msj.vendedores;
 						var htmlintervalo="";
 						for (var i = 0; i<intervalos.length; i++) {
 							 htmlintervalo=`<div class="col-md-12" style="height:`+pxintervalo+`px;margin-top: 1px;text-align:center; display: flex;justify-content: right; align-items: start;border-top:1px solid #a09f9a;">`+intervalos[i].slice(0, -3)+` hrs.</div>`;
@@ -644,6 +646,7 @@ function PintarDia(msj) {
 							var intervalos=zonas[i].intervalos;
 							var htmlintervalos="";
 								var servicioante="";
+								var idnotapagoan=0;
 								for (var j = 0; j<intervalos.length; j++) {
 									var horainicial=intervalos[j].horainicialntervalo;
 									var horafinal=intervalos[j].horafinalintervalo; 
@@ -659,39 +662,60 @@ function PintarDia(msj) {
 									var borderradiustop="border-right: 1px solid #eaebf1;";
 									var borderradiusbootom=" ";
 									var servicioac="";
+
 									marginbottom="margin-bottom: 1px;border-bottom: 1px solid #dadce8;";
 									margintop="margin-top: 1px;border-top: 1px solid #dadce8;";
 									alineacion="";
 									var funcion="";
-
+									
 									if (intervalos[j].disponible==0) {
 										//console.log(funcion);
 
 									 //borderradiusbootom=" border-bottom: 1px solid white;";
 									    color="#eaebf1";
 										colorfondo="background:"+color+";";
-										
+										border="";
 										 titulo="";
 										 marginbottom="border-bottom: 1px solid "+color+";";
 										 margintop="margin-top: 1px;border-top: 1px solid  "+color+";";
 										 icono='';
+										var app="";
 										 if (servicio.length>0) {
-										 	 nombrecliente=servicio[0].nombrecliente;
+										 	var idnotapago=servicio[0].idnotapago;
+										 	
+										 	nombrecliente='';
+										 	icono="";
 										 	servicioac=servicio[0].idcita;
+
+										 	if (idnotapagoan!=idnotapago) {
+										 		
+												nombrecliente=servicio[0].nombrecliente;
+ 												idnotapagoan=idnotapago;
+
+ 												border="border-top:2px solid #ffffff;";
+
+										 	
 										 	intervalotiempo=servicio[0].intervaloservicio;
 										 	pagado=servicio[0].pagado;
 										 	tpv=servicio[0].tpv;
+										 	totalpagado=servicio[0].totalpagado;
 										 	if (pagado==1) {
 
-										 	icono=`<span class="" style="font-size:10px;margin-top:2px;background:#59c158;padding: 2px;border-radius: 5px;">Pagado</span>`;
+										 	icono=`<span class="" style="font-size:10px;margin-top:2px;background:#59c158;padding: 2px;border-radius: 5px;color:white;">Pagado</span><br>`;
+										 	icono+=`<span class="" style="font-size:10px;margin-top:2px;background:#59c158;padding: 2px;border-radius: 5px;color:white;">$`+totalpagado+`</span><br>`;
+
 										 		
 										 	}else{
-										 	icono=`<span class="" style="font-size:10px;margin-top:2px;background:#ebc418;padding: 2px;border-radius: 5px;">No pagado</span>`;
+										 	icono=`<span class="" style="font-size:10px;margin-top:2px;background:red;padding: 2px;border-radius: 5px;color:white;">No pagado</span><br>`;
+										 	icono=`<span class="" style="font-size:10px;margin-top:2px;background:red;padding: 2px;border-radius: 5px;color:white;">$`+totalpagado+`</span><br>`;
 
 
 										 	}
+
+										 }
+										 	icono+=`<span style="height: 20px;width: 100%;display: flex;"></span>`;
 									funcion="DetalleServicioDash("+servicio[0].idcita+")";
-									var app="";
+									
 									if (tpv==1) {
 										color="black";
 										colorfondo="background:black;";
@@ -703,9 +727,13 @@ function PintarDia(msj) {
 										color="black";
 										colorfondo="background:black;";
 										letra="color:white";
+
+										console.log(idnotapagoan+'=='+idnotapago);
 										
 										app=`<span style="color: white;display: flex;justify-content: center;margin-top: 2px;
     									background: #c7aa6a;padding: 2px;border-radius: 5px;width: 30px;float: right;margin-right: 2px;">app</span>`;
+    									
+    				
 									}
 
 									
@@ -715,11 +743,17 @@ function PintarDia(msj) {
 
 											if (servicioante!=servicioac) {
 
+
+
 													if (servicio.length) {
-													titulo+=`<div style="text-align: center;`+letra+`;">`;
-													titulo+=`<span style="margin-top:10px;"></span>`+app;
-													titulo+=`<br><span style="width:100%;font-size:14px;font-weight:bold;justify-content: center;display: flex;">`+nombrecliente+`</span> `;
-													titulo+=`<span>`+servicio[0].nombrepaquete+`(`+intervalotiempo+`min.)</span>`;
+													titulo+=`<div style="`+border+`"><div style="text-align: center;`+letra+`;margin-top:2px;">`;
+													titulo+=`<span style="margin-top:10px;"></span>`;
+													if (nombrecliente!='') {
+													titulo=app;
+													titulo+=`<span style="width:90%;font-size:12px;font-weight:bold;justify-content: center;display: flex;background:white;color:black;border-radius:10px;margin-right: 5px;margin-left: 5px;margin-bottom:2px;height:14px;">`+nombrecliente+`</span> `;
+													}
+													
+													titulo+=`<span style="color: white;">`+servicio[0].nombrepaquete+`(`+intervalotiempo+`min.)</span>`;
 													servicioante=servicio[0].idcita;
 													titulo+=`<br><span style="width:100%;"></span> `+icono;
 				
@@ -727,11 +761,28 @@ function PintarDia(msj) {
 
 													}
 											}else{
-												pxintervalo=pxintervalo+1;
-											
+											pxintervalo=pxintervalo+1;
 											borderradiustop="";	
 											borderradiusbootom=" border-right: 1px solid #dadce8;";
-											
+
+											if (idnotapagoan==idnotapago) {
+												borderradiusbootom+="border-bottom:2px solid black;";
+
+
+											}else{
+
+												if (idnotapagoan!=idnotapago) {
+													borderradiusbootom+="border-bottom:2px solid #ffffff;";
+
+												}else{
+													borderradiusbootom+="border-bottom:2px solid black;";
+
+												}
+
+											}
+									
+
+
 											}
 
 										}else{
@@ -762,9 +813,153 @@ function PintarDia(msj) {
 
 
 
+		var variblevendedores = '';
+        var espaciovendedo = '';
+       
+
+        var contenidoVendedores = '';
+        if (vendedores.length > 0) {
+            for (var i = 0; i < vendedores.length; i++) {
+                var vendedor = vendedores[i];
+                var ventasHTML = '';
+
+                if (vendedor.ventas.length > 0) {
+                    for (var j = 0; j < vendedor.ventas.length; j++) {
+                    	var estatus=`<span class="" style="font-size:10px;margin-top:2px;background:red;padding: 2px;border-radius: 5px;color:white;">No pagado</span>`;
+                    	funcion="AbrirModalVenta("+vendedor.ventas[j].idnotapago+","+vendedor.ventas[j].idnotapago_descripcion+");event.stopPropagation();";
+                    	console.log(vendedor.ventas[j]);
+                    	if (vendedor.ventas[j].estatuspago==1) {
+
+                    		estatus=`<span class="" style="font-size:10px;margin-top:2px;background:#59c158;padding: 2px;border-radius: 5px;color:white;">Pagado</span>`;
+                    	}
+                        ventasHTML += `<div onclick="`+funcion+`" class="venta" style="background: black;color:white;text-align:center;">
+                        <p style="margin:0;">${vendedor.ventas[j].descripcion}</p> <p style="margin:0;">$${vendedor.ventas[j].monto}</p>
+                        `+estatus+`
+                        </div>`;
+                    }
+                }
+
+                contenidoVendedores += `
+                    <div class="col vendedor" onclick="VenderProductos(${vendedor.idespecialista})">
+                        <div class="vendedor-info" style="background: ${vendedor.color};">
+                            <span style="padding: 4px; background: black; border-radius: 4px;">${vendedor.nombre}</span>
+                        </div>
+                        ${ventasHTML}
+                    </div>`;
+            }
+
+            document.getElementById('vendedores').innerHTML = contenidoVendedores;
+        
 
 
-						
+						}
+					}
+
+
+					function AbrirModalVenta(idnotapago,idnotapago_descripcion) {
+						var datos="idnotapago="+idnotapago;
+						$.ajax({
+						url: 'catalogos/dashboard/ObtenerDetallePago.php', //Url a donde la enviaremos
+						type: 'POST', //Metodo que usaremos
+						dataType:'json',
+						data:datos,
+						error: function (XMLHttpRequest, textStatus, errorThrown) {
+							var error;
+							console.log(XMLHttpRequest);
+							if (XMLHttpRequest.status === 404) error = "Pagina no existe" + XMLHttpRequest.status; // display some page not found error 
+							if (XMLHttpRequest.status === 500) error = "Error del Servidor" + XMLHttpRequest.status; // display some server error 
+							$("#divcomplementos").html(error);
+						},	
+							success: function (msj) {
+							 	var respuesta=msj;
+									AbrirModalVentaInformacion(respuesta,idnotapago_descripcion);
+
+								}
+							});
+
+					}
+
+					function AbrirModalVentaInformacion(informacion,idnotapago_descripcion) {
+
+
+								var respuesta=informacion.respuesta[0];
+
+								$(".modal-title").text('DETALLE DE PRODUCTO');
+
+							    $(".btngenerarticket").css('display','none');
+							    $(".btnmodificar").css('display','none');
+							    $(".btnreagendarcita").css('display','none');
+							   	$(".btnpagarcita").css('display','none');
+							   	$(".btncancelarcita").css('display','none');
+							   	$(".btnagregarproducto").css('display','none');
+
+
+								if (respuesta.estatus==1) {
+							    $(".btngenerarticket").css('display','block');
+
+								$(".btngenerarticket").attr('onclick','VerTicket('+respuesta.idnotapago+')');
+
+								}else{
+
+								$(".btnpagarcita").css('display','block');
+
+								$(".btnpagarcita").attr('onclick','PagarNotaCita('+respuesta.idnotapago+',2)');
+
+							   	$(".btncancelarcita").css('display','block');
+								$(".btncancelarcita").attr('onclick','CancelarNota('+respuesta.idnotapago+','+idnotapago_descripcion+')');
+
+								}
+
+								html=`
+									<div class="card margin-bottom">
+
+										<div class="card-header">
+
+										<div class="card-content card-content-padding">
+									<div class="row" style="    margin: 5px;">
+                            
+                            	<div class="col-50">
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:26px;">Folio: `+respuesta.folio+`</h3>
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:26px;">Cliente: `+respuesta.usuariopedido+`</h3>
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:26px;">Celular: `+respuesta.celular+`</h3>
+
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:24px;font-weight: normal;">Fecha: `+respuesta.fechacompra+`</h3>
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:20px;">`+respuesta.barberia+`</h3>
+
+                            </div>
+
+                            
+                        </div>
+
+                        <div class="row">
+
+                        	`;
+
+                        	for (var i = 0; i <informacion.pagos.length; i++) {
+                        		html+=`
+                        			<div class="card w-75">
+								  <div class="card-body">
+								    <h5 class="card-title">`+informacion.pagos[i].cantidad+' '+informacion.pagos[i].concepto+` $`+informacion.pagos[i].monto+`</h5>
+								    <p class="card-text"></p>
+								    
+								  </div>
+								</div>
+
+                        		`;
+                        	}
+
+
+
+                       html+=` </div>
+                        </div>
+                        </div>
+
+                        </div>
+								`;
+
+								$("#divdetallecita").html(html);
+								$("#modaldetallecita").modal();
+
 					}
 
 					function AgendarSinHorario(horainicial,fechaconsulta,idespecialista) {
@@ -865,7 +1060,121 @@ function PintarDia(msj) {
 							$(".btnnuevocliente").attr('onclick','OcultarModal();AgregarNuevo2("'+horainicial+'","'+fechaconsulta+'",'+idespecialista+')');
 							$("#btncontinuarcliente").attr('onclick','EnviarPuntoVenta("'+horainicial+'","'+fechaconsulta+'",'+idespecialista+')');
 							ObtenerClientesFiltro();
+							$("#btncontinuarcliente2").attr('onclick','EnviarPuntoVenta2("'+horainicial+'","'+fechaconsulta+'",'+idespecialista+')');
+
 					}
+
+					function VenderProductos(idespecialista) {
+							var venderproductos=2;
+						    $("#modalelegircliente").modal();
+							$(".btnnuevocliente").attr('onclick','OcultarModal();AgregarNuevo2("","0",'+idespecialista+')');
+							$("#btncontinuarcliente").attr('onclick','EnviarPuntoVenta3("","",'+idespecialista+','+venderproductos+')');
+							$("#btncontinuarcliente2").css('display','none');
+							$("#btncontinuarcliente").css('display','block');
+
+							ObtenerClientesFiltro2();
+							$("#btncontinuarcliente2").attr('onclick','EnviarPuntoVenta2("","",'+idespecialista+')');
+
+
+					}
+
+
+	function ObtenerClientesFiltro2() {
+
+
+	$.ajax({
+		url:'catalogos/pagos/ObtenerAlumnos.php', //Url a donde la enviaremos
+	  type:'POST', //Metodo que usaremos
+	 dataType:'json',
+	  error:function(XMLHttpRequest, textStatus, errorThrown){
+			var error;
+			console.log(XMLHttpRequest);
+			if (XMLHttpRequest.status === 404)  error="Pagina no existe"+XMLHttpRequest.status;// display some page not found error 
+			if (XMLHttpRequest.status === 500) error="Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			$('#abc').html('<div class="alert_error">'+error+'</div>');	
+			//aparecermodulos("catalogos/vi_ligas.php?ac=0&msj=Error. "+error,'main');
+		},
+	  success:function(msj){
+		  var resp = msj.usuarios;
+		 $("#modalclientes").modal();
+		 $("#buscadoralumnos_").val('');
+		  PintarUsuariosAlumnosPunto2(resp);
+
+			 			
+			}
+		});
+	
+
+
+	}
+
+
+	
+function PintarUsuariosAlumnosPunto2(respuesta) {
+	var html="";
+	if (respuesta.length>0) {
+
+		for (var i = 0; i <respuesta.length; i++) {
+			 var nombre=respuesta[i].nombre+" "+respuesta[i].paterno+" "+respuesta[i].materno+` - `+respuesta[i].usuario;
+
+			html+=`
+
+				<div class="form-check alumnos_"  id="alumnos_`+respuesta[i].idusuarios+`">		 
+		  		<input  type="checkbox"   value="`+respuesta[i].idusuarios+`" class="form-check-input chkalumno chkcliente_" id="inputcli_`+respuesta[i].idusuarios+`_`+`" onchange="SeleccionarClienteVenta(`+respuesta[i].idusuarios+`,'`+nombre+`')">
+		  		<label class="form-check-label" for="flexCheckDefault" style="margin-top: 0.2em;">`+respuesta[i].idusuarios+'-'+nombre+`</label> 
+				</div>						    		
+
+			`;
+		}
+		$("#divusuarios").html(html);
+	}
+}
+
+function SeleccionarClienteVenta(idcliente,nombre) {
+	// body...
+	 if($("#inputcli_"+idcliente+"_").is(':checked')){
+	  	  $(".chkcliente_").prop('checked',false);
+
+	 		$("#inputcli_"+idcliente+"_").prop('checked',true);
+	 		//CrearSesionUsuario(idcliente);
+	  	 	clienteseleccionado=idcliente;
+	  	 	$("#btncontinuarcliente").css('display','');
+	  	 	//$("#btncontinuarcliente2").css('display','');
+
+	  	  }else{
+
+	  	  $(".chkcliente_").prop('checked',false);
+	  	 	$("#btncontinuarcliente").css('display','none');
+	  	 	$("#btncontinuarcliente2").css('display','none');
+
+	  	  }
+
+	$(".btnseleccionarcliente").attr('onclick','CrearSesionUsuario('+idcliente+')');
+
+}
+
+
+/*
+
+function PintarUsuariosAlumnosPunto2(respuesta) {
+	var html="";
+	if (respuesta.length>0) {
+
+		for (var i = 0; i <respuesta.length; i++) {
+			 var nombre=respuesta[i].nombre+" "+respuesta[i].paterno+" "+respuesta[i].materno+` - `+respuesta[i].usuario;
+
+			html+=`
+
+				<div class="form-check alumnos_"  id="alumnos_`+respuesta[i].idusuarios+`">		 
+		  		<input  type="checkbox"   value="`+respuesta[i].idusuarios+`" class="form-check-input chkalumno chkcliente_" id="inputcli_`+respuesta[i].idusuarios+`_`+`" onchange="SeleccionarCliente1(`+respuesta[i].idusuarios+`,'`+nombre+`')">
+		  		<label class="form-check-label" for="flexCheckDefault" style="margin-top: 0.2em;">`+respuesta[i].idusuarios+'-'+nombre+`</label> 
+				</div>						    		
+
+			`;
+		}
+		$("#divusuarios").html(html);
+	}
+}*/
 
 
 function ObtenerHorariosFecha(fecha) {
@@ -1002,7 +1311,7 @@ function ObtenerHorariosDia(operacion){
 					url: 'catalogos/dashboard/ObtenerHorariosFechaDia.php', //Url a donde la enviaremos
 					type: 'POST', //Metodo que usaremos
 					dataType:'json',
-					data:datos,
+					data:datos, 
 					error: function (XMLHttpRequest, textStatus, errorThrown) {
 						var error;
 						console.log(XMLHttpRequest);
@@ -1296,21 +1605,38 @@ function ObtenerTotalCitas() {
 						//console.log(msj);
 						var citas=msj.respuesta;
 						var totalproductosdia=msj.totalproductosdia;
+						$(".productosregistros").html(totalproductosdia);
+
 						var total=msj.totalcitasdia;
 						var realizadas=msj.totalcitasrealizadas;
-						var pendientes=msj.totalpendientes;
+						var pendientes=msj.totalpendientes!=null?msj.totalpendientes:'0.00';
 						var totalcancelados=msj.totalcancelados;
-						var totalproceso=msj.totalproceso;
+						var totalproceso=msj.totalproceso!=null?msj.totalproceso:'0:00';
 						var totalcaducados=msj.totalnorealizados;
 						$("#citasagendadas").text(total);
-						$("#citasproceso").text(totalproceso);
-						$("#citasrealizadas").text(realizadas);
+						$("#citasproceso").text('$'+formato_numero(totalproceso,2,'.',','));
+
+						var htmlreal="";
+						if (realizadas!=null) {
+						if (Object.keys(realizadas).length > 0) {
+						  for (const tipoPago in realizadas) {
+						    if (realizadas.hasOwnProperty(tipoPago)) {
+						      const monto = realizadas[tipoPago];
+						      if (parseFloat(monto)>0) {
+						      //console.log(`Tipo de pago: ${tipoPago}, Monto: ${monto}`);
+						      htmlreal += `<span>${tipoPago}: $`+ formato_numero(monto,2,'.',',')+`</span><br>`;
+						    	}
+						    }
+						  }
+						}
+					}
+
+						$("#citasrealizadas").html(htmlreal);
 
 						 var notas=msj.notas;
-						$("#citaspendientes").text(pendientes);
+						$("#citaspendientes").text('$'+formato_numero(pendientes,2,'.',','));
 						$("#citascanceladas").text(totalcancelados);
 						$("#citascaducados").text(totalcaducados);
-						$("#productosregistros").text(totalproductosdia);
 						ObtenerHorariosDia(3);
 
 						/*citasagendadas
@@ -1322,6 +1648,42 @@ function ObtenerTotalCitas() {
 
 					}
 				});
+}
+
+function ObtenerCitasNuevasApp() {
+	var pagina="ObtenerCitasNuevasApp.php";
+	$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: 'catalogos/dashboard/'+pagina, //Url a donde la enviaremos
+		success: function(msj){
+			
+//elementotoast(msj);
+		var respuesta=msj.respuesta;
+		console.log(respuesta);
+		for (var i = 0; i <respuesta.length; i++) {
+			var idcita=respuesta[i].idcita;	
+			if ($("#noticita_"+idcita).length==0) {
+				var descripcioncita='<span style="font-size:22px;">Hoy, '+respuesta[i].fechaformato+'</span>';
+					descripcioncita+='<br>Cliente: '+respuesta[i].nombreusuario;
+					descripcioncita+='<br>Servicio: '+respuesta[i].nombrepaquete+'('+respuesta[i].diferencia+'min.)';
+					descripcioncita+='<br>Barbero: '+respuesta[i].nombreespecialista;
+				
+					descripcioncita+='<br><span style="font-size:22px;">'+respuesta[i].horainicial+' Hrs.</span>';
+elementotoast('cita', '¡Nueva reserva por la app!', descripcioncita,0, idcita); 
+
+
+			}
+		}
+
+			},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+				var error;
+				  	if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				  	if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			}
+		});
 }
 
 function PintarCitas(respuesta) {
@@ -1523,6 +1885,7 @@ var html=` <div class="" style="">
                             <div class="col-50">
 
                             	<h3 class="no-margin-bottom text-color-theme" style="font-size:26px;">Cliente: `+respuesta.nombre+` `+respuesta.paterno+`</h3>
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:26px;">Celular: `+respuesta.usuariocelular+`</h3>
 
                             	<h3 class="no-margin-bottom text-color-theme" style="font-size:24px;font-weight: normal;">`+respuesta.fechaformato+`</h3>
                             	<h3 class="no-margin-bottom text-color-theme" style="font-size:24px;">`+respuesta.horainicial+`-`+respuesta.horafinal+`Hrs.</h3>`;
@@ -1732,12 +2095,16 @@ var html=` <div class="" style="">
 		  if(respuesta.checkin==1) {
 				$(".btncancelarcita").css('display','none');
 		      }
-		$(".btnreagendarcita").attr('onclick','ReagendarCita('+respuesta.idcita+')');
-		$(".btncancelarcita").attr('onclick','CancelarCita('+respuesta.idcita+')');
-		$(".btnagregarproducto").attr('onclick','AgregarProductoCita('+respuesta.idusuarios+')');
+				$(".btnreagendarcita").attr('onclick','ReagendarCita('+respuesta.idcita+')');
+				$(".btncancelarcita").attr('onclick','CancelarCita('+respuesta.idcita+')');
+				$(".btnagregarproducto").attr('onclick','AgregarProductoCita('+respuesta.idusuarios+')');
+				$(".btngenerarticket").css('display','none');
 
 					if (respuesta.pagada==1) {
 					$(".btnpagarcita").css('display','none');
+					$(".btnmodificar").css('display','none');
+					$(".btngenerarticket").css('display','block');
+					$(".btngenerarticket").attr('onclick','VerTicket('+respuesta.idnotapago+')');
 
 					}else{
 					
@@ -1745,7 +2112,9 @@ var html=` <div class="" style="">
 
 					$(".btnpagarcita").attr('onclick','PagarNotaCita('+respuesta.idnotapago+',2)');
 
-
+					$(".btnmodificar").attr('onclick','ModificarNotaCita('+respuesta.idnotapago+',4)');
+					$(".btnmodificar").css('display','block');
+					
 					}
 
 
@@ -1763,6 +2132,8 @@ function AgregarProductoCita(clienteseleccionado) {
 	$("#modaldetallecita").modal('hide');
 	var horainicial=1;
 	var datos='clienteseleccionado='+clienteseleccionado+"&horainicial="+horainicial;
+		clearInterval(totalcitasintervalo);
+	
 	var regresar='catalogos/pagos/vi_cobrar.php?'+datos;
 	var donde='main';
 	aparecermodulos(regresar+"&idmenumodulo="+idmenumodulo+"&msj=",donde);
@@ -1773,6 +2144,8 @@ function EnviarPuntoVenta(horainicial,fecha,idespecialista) {
 
 	
 		$("#modalelegircliente").modal('hide');
+		
+		clearInterval(totalcitasintervalo);
 		//$(".btnseleccionarcliente").attr('onclick','CrearSesionUsuario('+idcliente+')');
 		var datos='clienteseleccionado='+clienteseleccionado+'&horainicial='+horainicial+"&fecha="+fecha+"&idespecialistaselect="+idespecialista;
 		var regresar='catalogos/pagos/vi_cobrar.php?'+datos;
@@ -1784,7 +2157,8 @@ function EnviarPuntoVenta(horainicial,fecha,idespecialista) {
 
 function ReagendarCita(idcita) {
 	$("#modaldetallecita").modal('hide');
-	
+	clearInterval(totalcitasintervalo);
+
 	 var donde='main';
 	var regresar='catalogos/citas/reagendarcita.php?idcita='+idcita;
 	aparecermodulos(regresar+"&idmenumodulo="+idmenumodulo+"&msj=",donde);
@@ -1792,7 +2166,8 @@ function ReagendarCita(idcita) {
 
 function CancelarCita(idcita) {
 	$("#modaldetallecita").modal('hide');
-	
+	clearInterval(totalcitasintervalo);
+
 	var donde='main';
 	var regresar='catalogos/citas/cancelarcita.php?idcita='+idcita;
 	aparecermodulos(regresar+"&idmenumodulo="+idmenumodulo+"&msj=",donde);
@@ -1800,9 +2175,20 @@ function CancelarCita(idcita) {
 
 function PagarNotaCita(idnota,accion) {
 	$("#modaldetallecita").modal('hide');
-	
+	clearInterval(totalcitasintervalo);
+
 	var donde='main';
 	var regresar='catalogos/citas/pagarnotacita.php?idnotapago='+idnota+"&accion="+accion;
+	aparecermodulos(regresar+"&idmenumodulo="+idmenumodulo+"&msj=",donde);
+}
+
+
+function ModificarNotaCita(idnota,accion) {
+	$("#modaldetallecita").modal('hide');
+	clearInterval(totalcitasintervalo);
+
+	var donde='main';
+	var regresar='catalogos/citas/modificarnotacita.php?idnotapago='+idnota+"&accion="+accion;
 	aparecermodulos(regresar+"&idmenumodulo="+idmenumodulo+"&msj=",donde);
 }
 
@@ -2032,6 +2418,19 @@ function Detallepago(idnotapago) {
 
 
 			Pintarpagosdetalle2(pagos);
+
+			var multiplemetodopago=resp.multiplemetodopago;
+
+			var htmlmultiple="";
+			if (multiplemetodopago.length>0) {
+
+				for (var i = 0; i < multiplemetodopago.length; i++) {
+					
+					htmlmultiple+=`<p>`+multiplemetodopago[i].tipopago+`:$`+formato_numero(multiplemetodopago[i].montocampo,2,'.',',')+`</p>`;
+				}
+
+				$("#tipopago").html(htmlmultiple);
+			}
 			 $("#visualizardescuentos").css('display','none');
 
 			 $("#modaldetallenota").modal();
@@ -2657,7 +3056,7 @@ idespecialistaseleccionado=idespecialista;
 }
 
 function ObtenerListadoEspecialista(idespecialistasele) {
-	
+		
 
     var horario=horainicialsele+'_'+horafinalsele;
     var datos='idsucursal='+idsucursal+"&idpaquete="+idpaquete+"&horaseleccionada="+horario+"&fecha="+fechaseleccionada+"&idespecialistasele="+idespecialistasele;
@@ -2752,6 +3151,7 @@ function GuardarReagenda(idcita) {
     var datos='horarioseleccionado='+horarioseleccionado+'&fechaseleccionada='+fechaseleccionada+'&idespecialistaseleccionado='+idespecialistaseleccionado+'&idcita='+idcita;
     	datos+='&idcortesiaseleccionado='+idcortesiaseleccionado+"&valorseleccionado="+valorseleccionado;
     var pagina = "GuardarReagenda.php";
+    
    if(confirm("\u00BFDesea realizar esta operaci\u00f3n?"))
 	{
 	$('#main').html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Procesando...</div>')
@@ -2782,6 +3182,160 @@ function GuardarReagenda(idcita) {
     	},1000);
 
     }
+}
+
+
+function AbrirModalCancelacion(idcita) {
+	$("#modalcancelacion").modal();
+}
+
+function AbrirModalCancelacionNota(idcita) {
+	$("#modalcancelacionnota").modal();
+}
+/*function CancelacionAdmin(idcita,idusuario) {
+
+    var pagina = "RealizarCancelacionAdmin.php";
+    var motivocancela=$("#v_motivocancelacion").val();
+    var datos="motivocancela="+motivocancela+"&idcita="+idcita+"&idusuarios="+idusuario;
+		$("#modalcancelacion").modal('hide');
+
+	    $.ajax({ 
+			    type: 'POST',
+			    dataType: 'json',
+				url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+			    async:false,
+			    data:datos,
+			    success: function(resp){
+				$(".modal-backdrop").hide();
+			    if (resp.respuesta==1) {
+			    	var montoamonedero=resp.montoamonedero;
+			    	var mensaje="Operación realizada con éxito";
+			    	if (montoamonedero>0 && montoamonedero!=null) {
+			    		mensaje+="<br>El monto de $"+montoamonedero+" se agregó al monedero";
+			    		}
+			    	aparecermodulos('catalogos/dashboard/vi_dashboard.php?idcita='+idcita+"&ac=1&msj="+mensaje,'main');
+				}
+
+			    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			      var error;
+			        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+			        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+			                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			          }
+			    });
+}*/
+
+
+function CancelacionAdmin(idcita,idusuario) {
+ 	motivocancela=$("#v_motivocancelacion").val();
+    /*var pagina = "RealizarCancelacionAdmin.php";
+    var
+    var datos="motivocancela="+motivocancela+"&idcita="+idcita+"&idusuarios="+idusuario;*/
+		$("#modalcancelacion").modal('hide');
+		var datos="idcita="+idcita+"&idusuarios="+idusuario;
+		var pagina="VerificarCitasNota.php";
+		$.ajax({ 
+			    type: 'POST',
+			    dataType: 'json',
+				url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+			    async:false,
+			    data:datos,
+			    success: function(resp){
+
+			   		var elementos=resp.descripcion;
+					var html="";
+					if (elementos.length>1) {
+						$("#modalcancelacionpregunta").modal();
+						var folio=elementos[0].folio;
+						html+=`<h3 style="text-align:center;">Existe otros servicios o productos dentro de esta misma nota #`+folio+` ¿Deseas cancelar todo lo que esté en esta nota?</h3>`;
+
+
+						for (var i = 0; i <elementos.length; i++) {
+							html+=`
+							<div class="row" style="border: 1px solid #cacaca;padding: 10px; margin: 1px 1px 0px 1px; justify-content: space-between;display: flex;width: 100%">
+              <div class="col-md-4" style="width: 40%;width: 100%;">
+             	 <img src="catalogos/paquetes/imagenespaquete/`+elementos[i].foto+`" alt="" style="width: 150px;">
+              </div>
+              <div class="col-md-8" style="width: 60%;">
+                <div class="row" style="margin-left: 1em;">
+                  <div class="col-md-6">
+                   	    <p style="margin:0;"> `+elementos[i].concepto+` </p>
+           
+                     	<p style="margin:0;">Cantidad: `+elementos[i].cantidad+`</p>`;
+                     	
+                     	if (elementos[i].servicio==1) {
+                     	
+                     	html+=`
+                     	<p style="margin:0;">Especialista: `+elementos[i].usuarioespecialista+`</p>
+                     	<p style="margin:0;">Fecha: `+elementos[i].fechaformato+`</p>
+                     	<p style="margin:0;">Hora: `+elementos[i].horainicial+`Hrs.</p>`;
+
+                     	
+                     }
+
+                         html+=`<div class="icon-text-container" style="">
+
+
+                           </div></div>
+                 
+	                   	<div class="col-md-6">
+	                	 <p class="text-muted " style="font-size:20px;margin:0px;">$`+elementos[i].monto+`</p>
+	                     
+	                  	</div>
+
+                    </div>	
+                  </div> 
+                 </div>
+
+							`;
+						}
+
+					
+						$("#elementosacancelar").html(html);
+					}else{
+
+
+
+						OpcionNoCancelar(idcita,idusuario);
+					}
+
+					
+
+			    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			      var error;
+			        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+			        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+			                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			          }
+			    });
+
+	   /* $.ajax({ 
+			    type: 'POST',
+			    dataType: 'json',
+				url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+			    async:false,
+			    data:datos,
+			    success: function(resp){
+				$(".modal-backdrop").hide();
+			    if (resp.respuesta==1) {
+			    	var montoamonedero=resp.montoamonedero;
+			    	var mensaje="Operación realizada con éxito";
+			    	if (montoamonedero>0 && montoamonedero!=null) {
+			    		mensaje+="<br>El monto de $"+montoamonedero+" se agregó al monedero";
+			    		}
+			    	aparecermodulos('catalogos/dashboard/vi_dashboard.php?idcita='+idcita+"&ac=1&msj="+mensaje,'main');
+				}
+
+			    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			      var error;
+			        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+			        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+			                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			          }
+			    });*/
 }
 
 function GuardarCancelacion(idcita) {
@@ -2821,18 +3375,75 @@ function GuardarCancelacion(idcita) {
 }
 
 
-function AbrirModalCancelacion(idcita) {
-	$("#modalcancelacion").modal();
+/*function AbrirModalCancelacion(idcita) {
+
+	 var pagina = "VerificarCitasNota.php";
+   // var motivocancela=$("#v_motivocancelacion").val();
+    var datos="idcita="+idcita;
+		
+
+		// AbrirModalPreguntaCancelar(datos);
+		$.ajax({
+			    type: 'POST',
+			    dataType: 'json',
+				url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+			    async:false,
+			    data:datos,
+			    success: function(resp){
+					var elementos=resp.descripcion;
+					console.log(elementos);
+					$("#modalcancelacionpregunta").modal();
+					var html="";
+					if (elementos.length>0) {
+						for (var i = 0; i <elementos.length; i++) {
+							html+=`
+							
+
+							`;
+						}
+					}
+					$("#elementosacancelar").html(html);
+					$("#modalcancelacion").modal('hide');
+
+			    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			      var error;
+			        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+			        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+			                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			     }
+		});
+}*/
+
+/*function CancelacionAdmin(idcita,idusuario) {
+
+
+	   
+}*/
+
+
+
+function GuardarCancelacionNota(idnotapago_descripcion) {
+	  var datos='idnotapago_descripcion='+idnotapago_descripcion;
+    var pagina = "RealizarCancelacionAdmin.php";
+
+    AbrirModalCancelacionNota(idnotapago_descripcion);
+  
 }
 
-function CancelacionAdmin(idcita,idusuario) {
 
-    var pagina = "RealizarCancelacionAdmin.php";
-    var motivocancela=$("#v_motivocancelacion").val();
-    var datos="motivocancela="+motivocancela+"&idcita="+idcita+"&idusuarios="+idusuario;
-		$("#modalcancelacion").modal('hide');
+function AbrirModalPreguntaCancelar(datos) {
 
-	    $.ajax({
+	
+
+
+}
+
+function Cancelacion(idcita,idusuario) {
+
+	var datos="idcita="+idcita+"&idusuario="+idusuario+"&motivocancela="+motivocancela;
+	var pagina="RealizarCancelacionAdmin.php";
+	 $.ajax({
 			    type: 'POST',
 			    dataType: 'json',
 				url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
@@ -3228,4 +3839,350 @@ function CambiarCortesia(idcita,idpaquete) {
 					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
 			}
 		});
+}
+
+function OpcionNoCancelar(idcita,idusuario) {
+	
+	$("#modalcancelacionpregunta").modal('hide');
+	$("#modalcancelacionpreguntaunico").modal();
+
+
+	var datos="idcita="+idcita+"&idusuarios="+idusuario+"&motivocancela="+motivocancela;
+		var pagina="ObtenerCitaCancelar.php";
+		$.ajax({ 
+			    type: 'POST',
+			    dataType: 'json',
+				url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+			    async:false,
+			    data:datos,
+			    success: function(resp){
+
+			    var elementos=resp.descripcion;
+					console.log(elementos);
+					var html="";
+
+
+					if (elementos.length>0) {
+					html+=`<h3 style="text-align:center;margin:auto;margin-top:10px;">¿Desea cancelar el servicio?</h3>`;
+	
+						for (var i = 0; i <elementos.length; i++) {
+							html+=`
+							<div class="row" style="border: 1px solid #cacaca;padding: 10px; margin: 1px 1px 0px 1px; justify-content: space-between;display: flex;width: 100%">
+              <div class="col-md-4" style="width: 40%;width: 100%;">
+             	 <img src="catalogos/paquetes/imagenespaquete/`+elementos[i].foto+`" alt="" style="width: 150px;">
+              </div>
+              <div class="col-md-8" style="width: 60%;">
+                <div class="row" style="margin-left: 1em;">
+                  <div class="col-md-6">
+                   	    <p style="margin:0;"> `+elementos[i].concepto+` </p>
+           
+                     	<p style="margin:0;">Cantidad: `+elementos[i].cantidad+`</p>`;
+                     	
+                     	if (elementos[i].servicio==1) {
+                     	
+                     	html+=`
+                     	<p style="margin:0;">Especialista: `+elementos[i].usuarioespecialista+`</p>
+                     	<p style="margin:0;">Fecha: `+elementos[i].fechaformato+`</p>
+                     	<p style="margin:0;">Hora: `+elementos[i].horainicial+`Hrs.</p>`;
+
+                     	
+                     }
+
+                         html+=`<div class="icon-text-container" style="">
+
+
+                           </div></div>
+                 
+	                   	<div class="col-md-6">
+	                	 <p class="text-muted " style="font-size:20px;margin:0px;">$`+elementos[i].monto+`</p>
+	                     
+	                  	</div>
+
+                    </div>	
+                  </div> 
+                 </div>
+
+							`;
+						}
+					}
+
+					
+					$("#elementosacancelarunico").html(html);
+
+ 				 },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			      var error;
+			        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+			        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+			                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			          }
+			    });
+	 
+
+}
+function CancelacionUnicaCita(idcita,idusuario) {
+
+	var pagina="RealizarCancelacionUnicaAdmin.php";
+	var datos="idcita="+idcita+"&idusuario="+idusuario+"&motivocancela="+motivocancela;
+	 $.ajax({
+			    type: 'POST',
+			    dataType: 'json',
+				url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+			    async:false,
+			    data:datos,
+			    success: function(resp){
+				$(".modal-backdrop").hide();
+			    if (resp.respuesta==1) {
+			    	var montoamonedero=resp.montoamonedero;
+			    	var mensaje="Operación realizada con éxito";
+			    	if (montoamonedero>0 && montoamonedero!=null) {
+			    		mensaje+="<br>El monto de $"+montoamonedero+" se agregó al monedero";
+			    		}
+			    	aparecermodulos('catalogos/dashboard/vi_dashboard.php?idcita='+idcita+"&ac=1&msj="+mensaje,'main');
+				}
+
+			    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			      var error;
+			        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+			        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+			                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			          }
+			    });
+}
+function CancelarNota(idnotapago,idnotapago_descripcion) {
+	$("#modaldetallecita").modal('hide');
+	clearInterval(totalcitasintervalo);
+
+	var donde='main';
+	var regresar='catalogos/citas/cancelarnota.php?idnotapago='+idnotapago+"&idnotapago_descripcion="+idnotapago_descripcion;
+	aparecermodulos(regresar+"&idmenumodulo="+idmenumodulo+"&msj=",donde);
+
+}
+
+
+function CancelacionAdminNota(idnotapago,idnotapago_descripcion) {
+ 	motivocancela=$("#v_motivocancelacion").val();
+    /*var pagina = "RealizarCancelacionAdmin.php";
+    var
+    var datos="motivocancela="+motivocancela+"&idcita="+idcita+"&idusuarios="+idusuario;*/
+		$("#modalcancelacionnota").modal('hide');
+		var datos="idnotapago="+idnotapago+"&idnotapago_descripcion="+idnotapago_descripcion;
+		var pagina="VerificarNota.php";
+		$.ajax({ 
+			    type: 'POST',
+			    dataType: 'json',
+				url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+			    async:false,
+			    data:datos,
+			    success: function(resp){
+
+			   		var elementos=resp.descripcion;
+					var html="";
+					if (elementos.length>1) {
+						$("#modalcancelacionpreguntanota").modal();
+						var folio=elementos[0].folio;
+						html+=`<h3 style="text-align:center;">Existe otros servicios o productos dentro de esta misma nota #`+folio+` ¿Deseas cancelar todo lo que esté en esta nota?</h3>`;
+
+
+						for (var i = 0; i <elementos.length; i++) {
+							html+=`
+							<div class="row" style="border: 1px solid #cacaca;padding: 10px; margin: 1px 1px 0px 1px; justify-content: space-between;display: flex;width: 100%">
+              <div class="col-md-4" style="width: 40%;width: 100%;">
+             	 <img src="catalogos/paquetes/imagenespaquete/`+elementos[i].foto+`" alt="" style="width: 150px;">
+              </div>
+              <div class="col-md-8" style="width: 60%;">
+                <div class="row" style="margin-left: 1em;">
+                  <div class="col-md-6">
+                   	    <p style="margin:0;"> `+elementos[i].concepto+` </p>
+           
+                     	<p style="margin:0;">Cantidad: `+elementos[i].cantidad+`</p>`;
+                     	
+                     	if (elementos[i].servicio==1) {
+                     	
+                     	html+=`
+                     	<p style="margin:0;">Especialista: `+elementos[i].usuarioespecialista+`</p>
+                     	<p style="margin:0;">Fecha: `+elementos[i].fechaformato+`</p>
+                     	<p style="margin:0;">Hora: `+elementos[i].horainicial+`Hrs.</p>`;
+
+                     	
+                     }
+
+                         html+=`<div class="icon-text-container" style="">
+
+
+                           </div></div>
+                 
+	                   	<div class="col-md-6">
+	                	 <p class="text-muted " style="font-size:20px;margin:0px;">$`+elementos[i].monto+`</p>
+	                     
+	                  	</div>
+
+                    </div>	
+                  </div> 
+                 </div>
+
+							`;
+						}
+
+					
+						$("#elementosacancelar").html(html);
+					}else{
+
+
+
+						OpcionNoCancelarNota(idnotapago,idnotapago_descripcion);
+					}
+
+					
+
+			    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			      var error;
+			        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+			        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+			                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			          }
+			    });
+
+	  
+}
+
+function OpcionNoCancelarNota(idnotapago,idnotapago_descripcion) {
+	
+		$("#modalcancelacionpreguntanota").modal('hide');
+	$("#modalcancelacionpreguntauniconota").modal();
+
+
+	var datos="idnotapago="+idnotapago+"&idnotapago_descripcion="+idnotapago_descripcion+"&motivocancela="+motivocancela;
+		var pagina="ObtenerNotadescripcionCancela.php";
+		$.ajax({ 
+			    type: 'POST',
+			    dataType: 'json',
+				url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+			    async:false,
+			    data:datos,
+			    success: function(resp){
+
+			    var elementos=resp.descripcion;
+					var html="";
+
+					if (elementos.length>0) {
+					html+=`<h3 style="text-align:center;margin:auto;margin-top:10px;">¿Desea cancelar el servicio?</h3>`;
+	
+						for (var i = 0; i <elementos.length; i++) {
+							html+=`
+							<div class="row" style="border: 1px solid #cacaca;padding: 10px; margin: 1px 1px 0px 1px; justify-content: space-between;display: flex;width: 100%">
+              <div class="col-md-4" style="width: 40%;width: 100%;">
+             	 <img src="catalogos/paquetes/imagenespaquete/`+elementos[i].foto+`" alt="" style="width: 150px;">
+              </div>
+              <div class="col-md-8" style="width: 60%;">
+                <div class="row" style="margin-left: 1em;">
+                  <div class="col-md-6">
+                   	    <p style="margin:0;"> `+elementos[i].concepto+` </p>
+           
+                     	<p style="margin:0;">Cantidad: `+elementos[i].cantidad+`</p>`;
+                     	
+                     	if (elementos[i].servicio==1) {
+                     	
+                     	html+=`
+                     	<p style="margin:0;">Especialista: `+elementos[i].usuarioespecialista+`</p>
+                     	<p style="margin:0;">Fecha: `+elementos[i].fechaformato+`</p>
+                     	<p style="margin:0;">Hora: `+elementos[i].horainicial+`Hrs.</p>`;
+
+                     	
+                     }
+
+                         html+=`<div class="icon-text-container" style="">
+
+
+                           </div></div>
+                 
+	                   	<div class="col-md-6">
+	                	 <p class="text-muted " style="font-size:20px;margin:0px;">$`+elementos[i].monto+`</p>
+	                     
+	                  	</div>
+
+                    </div>	
+                  </div> 
+                 </div>
+
+							`;
+						}
+					}
+
+					
+					$("#elementosacancelarunico").html(html);
+
+ 				 },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			      var error;
+			        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+			        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+			                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			          }
+			    });
+	 
+}
+
+function CancelacionUnicaNota(idnotapago,idnotapago_descripcion) {
+	var pagina="RealizarCancelacionUnicaAdminNota.php";
+	var datos="idnotapago="+idnotapago+"&motivocancela="+motivocancela+"&idnotapago_descripcion="+idnotapago_descripcion;
+	 $.ajax({
+			    type: 'POST',
+			    dataType: 'json',
+				url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+			    async:false,
+			    data:datos,
+			    success: function(resp){
+				$(".modal-backdrop").hide();
+				$("#modalcancelacionpreguntauniconota").modal('hide');
+			    if (resp.respuesta==1) {
+			    	var montoamonedero=resp.montoamonedero;
+			    	var mensaje="Operación realizada con éxito";
+			    	if (montoamonedero>0 && montoamonedero!=null) {
+			    		mensaje+="<br>El monto de $"+montoamonedero+" se agregó al monedero";
+			    		}
+			    	aparecermodulos('catalogos/dashboard/vi_dashboard.php?idnotapago='+idnotapago+"&ac=1&msj="+mensaje,'main');
+				}
+
+			    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			      var error;
+			        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+			        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+			                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			          }
+			    });
+}
+
+function CancelacionNota(idnotapago,idnotapago_descripcion) {
+	var pagina="RealizarCancelacionNota.php";
+	var datos="idnotapago="+idnotapago+"&motivocancela="+motivocancela+"&idnotapago_descripcion="+idnotapago_descripcion;
+	 $.ajax({
+			    type: 'POST',
+			    dataType: 'json',
+				url: 'catalogos/citas/'+pagina, //Url a donde la enviaremos
+			    async:false,
+			    data:datos,
+			    success: function(resp){
+				$(".modal-backdrop").hide();
+				$("#modalcancelacionpreguntanota").modal('hide');
+			    if (resp.respuesta==1) {
+			    	var montoamonedero=resp.montoamonedero;
+			    	var mensaje="Operación realizada con éxito";
+			    	if (montoamonedero>0 && montoamonedero!=null) {
+			    		mensaje+="<br>El monto de $"+montoamonedero+" se agregó al monedero";
+			    		}
+			    	aparecermodulos('catalogos/dashboard/vi_dashboard.php?idnotapago='+idnotapago+"&ac=1&msj="+mensaje,'main');
+				}
+
+			    },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			      var error;
+			        if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+			        if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+			                console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+			          }
+			    });
 }

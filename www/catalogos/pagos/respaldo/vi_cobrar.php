@@ -31,12 +31,17 @@ require_once("../../clases/class.Botones.php");
 require_once("../../clases/class.Funciones.php");
 require_once("../../clases/class.Usuarios.php");
 require_once("../../clases/class.Pais.php");
+require_once("../../clases/class.Tpv.php");
 
 //Declaración de objeto de clase conexión
 $db = new MySQL();
 $pagos = new Pagos();
 $bt = new Botones_permisos(); 
 $f = new Funciones();
+$tpv= new Tpv();
+$tpv->db=$db;
+$tpv->AgregarTpv();
+$se->crearSesion('idtpv',$tpv->idtpv);
 
 $pagos->db = $db;
 $cli = new Usuarios();
@@ -48,6 +53,9 @@ $r_clientes_num = $db->num_rows($r_clientes);
 $pais = new Paises();
 $pais->db=$db;
 
+$tpv=new Tpv();
+$tpv->db=$db;
+
 
 //obtenemos todas las empreas que puede visualizar el usuario.
 
@@ -56,7 +64,7 @@ $pagos->lista_empresas = $lista_empresas;
 
 $idsucursalseleccionada=$se->obtenerSesion('idsucursalsesion');
 
-
+ 
 
 $obtenerpais2=$pais->ObtenerPaices();
 $rows_pais2=$db->fetch_assoc($obtenerpais2);
@@ -1222,6 +1230,86 @@ $estatuspago = array('NO PAGADO','PAGADO');
 </div>
 
 
+<div class="modal fade" id="modalprecio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titulo-alerta" style="text-align: center;"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="contenedor-modal-alerta" style="overflow: auto; text-align: center;">
+                	<div style="display: flex;justify-content: center;">
+	                	<div class="form-group">
+	                		<label>NUEVO PRECIO:</label>
+	                			<input type="number" name="txtprecio" id="txtprecio" class="form-control">
+	                	</div>
+	                </div>
+
+
+
+                </div>
+
+                 <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+        <button type="button" class="btn btn-primary" id="btnmodificar" >MODIFICAR</button>
+    </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    
+
+
+    <div class="modal fade" id="modalverificacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titulo-alerta" style="text-align: center;"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="contenedor-modal-alerta" style="overflow: auto; text-align: center;">
+                	<div style="display: flex;justify-content: center;">
+	                	<div class="form-group">
+	                		<label>USUARIO:</label>
+	                			<input type="text" name="txtusuario" id="txtusuario" class="form-control">
+	                	</div>
+	                </div>
+
+	                <div style="display: flex;justify-content: center;">
+	                	<div class="form-group">
+	                		<label>CONTRASEÑA:</label>
+	                			<input type="password" name="txtcontra" id="txtcontra" class="form-control">
+	                	</div>
+	                </div>
+
+
+	                <div style="display: flex;justify-content: center;">
+	                	<div class="form-group">
+	                		<div id="respuesta" style="color: red;"></div>
+	                		
+	                	</div>
+	                </div>
+
+
+
+                </div>
+
+                 <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+        <button type="button" class="btn btn-success" id="btnguardarprecio" >GUARDAR</button>
+    </div>
+
+            </div>
+        </div>
+    </div>
+
+
 <div class="modal" id="modalimagencomprobante1" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -1726,7 +1814,12 @@ idespecialistaselect='<?php echo $idespecialistaselec;?>';
 
 
 if (clienteseleccionado>0) {
+
 	CrearSesionUsuario(clienteseleccionado);
+
+}else{
+
+	$(".eleccion").css('display','none');
 
 }
 
@@ -2096,8 +2189,13 @@ function PintarElementos(arraycarrito) {
       <td style="width: 20%;">
 
       <button type="button" onclick="BorrarPaqueteArray(`+arraycarrito[i].idcarrito+`)" class="btn btn_rojo" style="" title="BORRAR">
-								<i class="mdi mdi-delete-empty"></i>
-						</button>
+			<i class="mdi mdi-delete-empty"></i>
+	</button>
+
+	<button type="button" onclick="ModificarPrecio(`+arraycarrito[i].idcarrito+`,`+arraycarrito[i].servicio+`)" class="btn btn_colorgray" style="" title="MODIFICAR PRECIO">
+		<i class="mdi mdi-table-edit"></i>
+	</button>
+
 
       </td>	
     </tr>

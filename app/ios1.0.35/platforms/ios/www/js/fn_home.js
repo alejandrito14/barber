@@ -1178,6 +1178,8 @@ function CargarDatos() {
     PintarCantidadcarrito();
     ObtenerFechaActual();
     ObtenerEdad();
+
+
    // GuardarZonaHoraria();
 	$(".divhoy").attr('onclick','ObtenerTableroCitas(1);');
     $(".liconfiguracion").css('display','none');
@@ -1196,6 +1198,7 @@ function CargarDatos() {
     		$(".lilogin").css('display','none');
     		//$(".lblusuario").attr('onclick','verperfil()');
     	}
+    	ObtenerConfiTarjeta();
 
 
      var os=  localStorage.getItem("SO");
@@ -1719,10 +1722,13 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
         on: {
           open: function (sheet) {
 
+          
+
           	if (respuesta.estatus==0 && respuesta.checkin==0 && respuesta.cancelacion==0) {
           		$(".divimgqr").css('display','');
           		GenerarQrCita(respuesta.idcita);
           	}
+           	ObtenerImagenescitaCliente();
 
 			 $(".cambiarfuente2").css('display','none');
             if (tipoletra!='') {
@@ -1735,8 +1741,6 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
           },
           opened: function (sheet) {
             console.log('Sheet opened');
-           	ObtenerImagenescitaCliente();
-
           },
           close:function (sheet) {
           	// BorrarIntervalo();
@@ -3853,4 +3857,18 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 70%;
 
 		dynamicSheet4.close();
 
+	}
+
+	function ObtenerConfiTarjeta() {
+		getConfiguracion();
+		var habilitartarjetafuncion=localStorage.getItem('habilitartarjetafuncion');
+        
+        if (habilitartarjetafuncion==0) {
+
+            $(".litarjetaslealtad").css('display','none');
+            console.log('entro');
+        }else{
+            $(".litarjetaslealtad").css('display','');
+
+        }
 	}

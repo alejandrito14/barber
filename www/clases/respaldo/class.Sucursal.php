@@ -120,11 +120,9 @@ class Sucursal
 			ubicacion='$this->ubicacion',
 			idcategorias='$this->categoriasucursal',
 			porbarbero='$this->porespecialista',
-			porfecha='$this->porfecha',
-			horascancelaciones='$this->horascancelaciones'
+			porfecha='$this->porfecha'
 		 WHERE idsucursal = '$this->idsucursales'";
 
-		
 		$this->db->consulta($query);
 	}
 	
@@ -302,6 +300,36 @@ class Sucursal
 			ON acceso_sucursal_empleado.idsucursales = sucursal.idsucursal WHERE acceso_sucursal_empleado.idusuarios='$this->idusuario' AND sucursal.estatus=1  ORDER BY orden asc";
 
 	
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+
+
+	public function SucursalAcceso()
+	{
+		$sql="SELECT
+			sucursal.idsucursal as idsucursales,sucursal.titulo,sucursal.imagen
+			FROM
+			acceso_sucursal_empleado
+			JOIN sucursal
+			ON acceso_sucursal_empleado.idsucursales = sucursal.idsucursal WHERE acceso_sucursal_empleado.idusuarios='$this->idusuario'";
+
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 

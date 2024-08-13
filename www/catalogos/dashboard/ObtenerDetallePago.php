@@ -24,6 +24,7 @@ require_once("../../clases/class.Usocfdi.php");
 require_once("../../clases/class.Paquetes.php");
 
 require_once("../../clases/class.Fechas.php");
+require_once("../../clases/class.Notapagometodopago.php");
 
 try
 {
@@ -31,6 +32,8 @@ try
     //Declaramos objetos de clases
     $db = new MySQL();
     $lo = new Notapago();
+    $notapagometodo=new Notapagometodopago();
+    $notapagometodo->db=$db;
     $f  = new Funciones();
     $pagos = new Pagos();
     $pagos->db=$db;
@@ -167,6 +170,13 @@ try
         $resultado[0]->usocfdivalor="";
 
     }
+
+    $multiplemetodopago=[];
+    if ($resultado[0]->tipopago==0) {
+        $notapagometodo->idnotapago=$idnotapago;
+        $multiplemetodopago=$notapagometodo->ObtenerMetodospago();
+
+    }
     
     $resultado[0]->fechaentrega=date('d/m/Y H:i:s',strtotime($resultado[0]->fechaentrega));
     $respuesta['respuesta'] = $resultado;
@@ -176,6 +186,7 @@ try
     $respuesta['imagenescomprobante']=$obtenerimagenes;
       $respuesta['subtotalnota']=$subtotalnota;
     $respuesta['subtotalcupon']=$subtotalcupon;
+    $respuesta['multiplemetodopago']=$multiplemetodopago;
 
     //Retornamos en formato JSON
     $myJSON = json_encode($respuesta);

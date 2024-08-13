@@ -10,7 +10,7 @@
           "NSCameraUsageDescription": [
             {
               "xml": "<string>Don Porfirio needs access to camera files to add a pictures and photo user profile </string>",
-              "count": 62
+              "count": 65
             },
             {
               "xml": "<string>This app needs camera access</string>",
@@ -36,13 +36,13 @@
             },
             {
               "xml": "<string>Don Porfirio needs access to the phone's files to add a pictures and photo user profile\n          </string>",
-              "count": 60
+              "count": 63
             }
           ],
           "NSLocationWhenInUseUsageDescription": [
             {
               "xml": "<string>\n         Don Porfirio needs access to your approximate location, to choose the zip code\n        </string>",
-              "count": 62
+              "count": 65
             },
             {
               "xml": "<string>This app requires access to your location when the screen is on and the app is displayed.</string>",
@@ -60,7 +60,7 @@
             },
             {
               "xml": "<string> Don Porfirio needs access to your approximate location, to choose the zip code</string>",
-              "count": 2
+              "count": 5
             }
           ],
           "UIBackgroundModes": [

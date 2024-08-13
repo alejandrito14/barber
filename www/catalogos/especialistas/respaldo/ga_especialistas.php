@@ -119,6 +119,8 @@ if ($horarios[0]!='' && $horarios[0]!=null)
 			$especialista->dia=$horarios[$i]->diasemana;
 			$especialista->horainicial=$horarios[$i]->horainicio;
 			$especialista->horafinal=$horarios[$i]->horafinal;
+			$especialista->tipocomision=$horarios[$i]->tipocomision;
+			$especialista->cantidadcomi=$horarios[$i]->cantidadcomi;
 			$especialista->GuardarHorario();
 			# code...
 		}else{
@@ -133,6 +135,10 @@ if ($horarios[0]!='' && $horarios[0]!=null)
 			$especialista->dia=$horarios[$i]->diasemana;
 			$especialista->horainicial=$horarios[$i]->horainicio;
 			$especialista->horafinal=$horarios[$i]->horafinal;
+
+			$especialista->tipocomision=$horarios[$i]->tipocomision;
+			$especialista->cantidadcomi=$horarios[$i]->cantidadcomi;
+			
 			$especialista->GuardarHorario();
 
 			
@@ -140,6 +146,39 @@ if ($horarios[0]!='' && $horarios[0]!=null)
 
 		}
 }
+	    $carpetaapp=$_SESSION['carpetaapp'];
+
+        $ruta='../../app/'.$carpetaapp.'/php/upload/perfil/';
+
+
+if (isset($_FILES["archivo"])) {
+
+		//if($_FILES['error'] == UPLOAD_ERR_OK ){//Verificamos si se subio correctamente
+
+			$nombre = str_replace(' ','_',date('Y-m-d H:i:s').'-'.$us->id_usuario.".jpg");//Obtenemos el nombre del archivo
+			$temporal = $_FILES["archivo"]['tmp_name']; //Obtenemos el nombre del archivo temporal
+			$tamano= ($key['size'] / 1000)."Kb"; //Obtenemos el tamaño en KB
+
+			//obtenemos el nombre del archivo anterior para ser eliminado si existe
+
+			$sql = "SELECT foto FROM usuarios WHERE idusuarios='".$us->id_usuario."'";
+			$result_borrar = $db->consulta($sql);
+			$result_borrar_row = $db->fetch_assoc($result_borrar);
+			$nombreborrar = $result_borrar_row['foto'];		  
+
+			if($nombreborrar != "")
+			{
+				unlink($ruta.$nombreborrar); 
+			}
+
+
+			move_uploaded_file($temporal, $ruta.$nombre); //Movemos el archivo temporal a la ruta especificada
+
+			$sql = "UPDATE usuarios SET foto = '$nombre' WHERE idusuarios ='".$us->id_usuario."'";   
+			$db->consulta($sql);	 
+		//}
+	}
+
 	
 	$db->commit();
 	echo 1;

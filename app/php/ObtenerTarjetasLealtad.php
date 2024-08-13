@@ -8,6 +8,8 @@ require_once("clases/conexcion.php");
 require_once("clases/class.Tarjetalealtad.php");
 require_once("clases/class.Funciones.php");
 require_once("clases/class.Fechas.php");
+require_once("clases/class.PagConfig.php");
+require_once("clases/class.Usuarios.php");
 
 /*require_once("clases/class.Sms.php");
 require_once("clases/class.phpmailer.php");
@@ -21,7 +23,15 @@ try
 	$lo = new Tarjetalealtad();
 	$f=new Funciones();
 	$fechas=new Fechas();
+	$usuarios=new Usuarios();
+	 $paginaconfi     = new PagConfig();
+     $paginaconfi->db = $db;
+     $obtenerconfiguracion=$paginaconfi->ObtenerInformacionConfiguracion();
 
+	$habilitartarjetafuncion=$obtenerconfiguracion['habilitartarjetafuncion'];
+
+
+ 
 	//Enviamos la conexion a la clase
 	$lo->db = $db;
 
@@ -31,8 +41,45 @@ try
 	$idsucursal=isset($_POST['idsucursal'])?$_POST['idsucursal']:0;
 	$lo->idsucursal=$idsucursal;
 
-	$lo->idusuario=$idusuario;
+	 $usuarios->db=$db;
+   $usuarios->idusuarios=$idusuario;
+   $idbuscarusuario=array();
+    
+	array_push($idbuscarusuario,$idusuario);
+    $obtenerhijos=$usuarios->ObtenerHijos();
+
+    for ($i=0; $i < count($obtenerhijos); $i++) { 
+        $idusuario=$obtenerhijos[$i]->idusuarios;
+
+       	array_push($idbuscarusuario,$idusuario);
+
+    }
+   
+   $tarjetas=array();
+    for ($j=0; $j <count($idbuscarusuario) ; $j++) { 
+    	// code...
+    
+
+     $usuarios->idusuarios=$idbuscarusuario[$j];
+
+
+     $infousuario=$usuarios->ObtenerInformacionUsuario();
+     $habilitartarjetausuario=$infousuario[0]->habilitartarjeta;
+
+   
+
+	$lo->idusuario=$idbuscarusuario[$j];
+	$obtenertarjetasasignadas=[];
+	if ($habilitartarjetafuncion==1 && $habilitartarjetausuario==1) {
+		// code...
+	
 	$obtenertarjetasasignadas=$lo->ObtenerTarjetasAsignadas();
+
+		/*if ($j==1) {
+			print_r($lo->idusuario);
+			var_dump($obtenertarjetasasignadas);
+			die();
+		}*/
 
 
 		for ($i=0; $i <count($obtenertarjetasasignadas) ; $i++) { 
@@ -50,9 +97,17 @@ try
 			if ($cantidadrequerida==$cantidadproducto) {
 				$obtenertarjetasasignadas[$i]->aparecerbtn=1;
 			}
+
+			array_push($tarjetas,$obtenertarjetasasignadas[$i]);
 		}
 
-	$respuesta['respuesta']=$obtenertarjetasasignadas;
+
+
+	}
+
+}
+
+	$respuesta['respuesta']=$tarjetas;
 	
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);

@@ -177,6 +177,7 @@ function GuardarCupon(form,regresar,donde,idmenumodulo,idcupon)
 }
 
 function HabilitarDeshabilitarCheck(divid) {	
+	
 	if($(divid).css('display') == 'none'){
 		$(divid).css('display','block');
 	}else{

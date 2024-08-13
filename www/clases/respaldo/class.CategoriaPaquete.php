@@ -44,6 +44,53 @@ LEFT JOIN categoriapaquete c2 ON c1.iddepende = c2.idcategoriapaquete  ";
 
 
 
+public function ObtenerCategoriasPrincipales()
+	{
+		$sql="SELECT *from categoriapaquete WHERE iddepende=0 and estatus=1  ";
+
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+	}
+
+
+public function VerificarSiCategoriaTieneSub()
+{
+	$sql="SELECT *from categoriapaquete 
+	WHERE iddepende='$this->idcategoriapaquete' and estatus=1  ";
+	
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+}
+
+
 
 	
 

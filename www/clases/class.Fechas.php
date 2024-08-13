@@ -4,7 +4,7 @@
   	public $mes;
 	public $anio;
 	public $fecha;
-	  public $diasSemana = array('domingo','lunes','martes','miercoles','jueves','viernes','sabado');
+	  public $diasSemana = array('domingo','lunes','martes','miércoles','jueves','viernes','sábado');
 	  public $mesesAnho = array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
 	  public $mesesAnho3 = array('Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic');
 	  public $mesessms = array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');

@@ -11,7 +11,7 @@
 
 }
 */
-
+ 
 function ObtenerSucursales2(){
  return new Promise(function(resolve, reject) {
 
@@ -58,19 +58,23 @@ function PintarSucursales(resp) {
 			html+=`<option value="`+resp[i].idsucursal+`">`+resp[i].titulo+`</option>`;
 		}
 	}
-	$("#v_sucursal").html(html);
+	$(".v_sucursal").html(html);
 }
 var sucursaleslistado=[];
 var listadohorarios=[];
+
+var listadofechashorarios=[];
+var listadofechashorariosausente=[];
+
 function ObtenerHorariosSucursal(idusuarios) {
 			var datos="idusuarios="+idusuarios;
-
+ 
 			$.ajax({
 					url:'catalogos/especialistas/ObtenerHorariosSucursal.php', //Url a donde la enviaremos
 					type:'POST', //Metodo que usaremos
 					dataType:'json',
 					data:datos,
-					error:function(XMLHttpRequest, textStatus, errorThrown){
+				 	error:function(XMLHttpRequest, textStatus, errorThrown){
 						  var error;
 						  console.log(XMLHttpRequest);
 						  if (XMLHttpRequest.status === 404)  error="Pagina no existe"+XMLHttpRequest.status;// display some page not found error 
@@ -82,6 +86,7 @@ function ObtenerHorariosSucursal(idusuarios) {
 							var respuesta=msj.sucursales;
 							sucursaleslistado=msj.todassucursales;
 							listadohorarios=respuesta;
+
 							var html="";
 							if (respuesta.length>0) {
 								
@@ -148,9 +153,145 @@ function ObtenerHorariosSucursal(idusuarios) {
 
 									html+=`</div>`;
 								}
-							}
 
 						$(".horariosespecialistas").html(html);
+					
+						var html2="";
+								for (var i = 0; i < respuesta.length; i++) {
+										var fechahorarios=respuesta[i].fechahorarios;
+										if (fechahorarios.length) {
+
+									html2+=`
+										<div class="sucursalhorario_`+respuesta[i].idsucursal+`">
+										<div class="col-md-6" style="font-size: 18px;margin-top: 10px;margin-bottom: 10px;">
+										`+respuesta[i].titulo+`
+										</div>
+									`;
+									console.log(html2)
+
+								
+									html2+=`<div id="fechahorariossucursal_`+respuesta[i].idsucursal+`">`;
+									for (var j = 0; j < fechahorarios.length; j++) {
+										var dia=fechahorarios[j].dia;
+										var horainicio=fechahorarios[j].horainicial;
+										var horafin=fechahorarios[j].horafinal;
+										var fecha=fechahorarios[j].fecha;
+
+										html2+=`
+												<div class="col-md-12 fechahorariosatencionsucursal" data-sucursal="`+respuesta[i].idsucursal+`" id="contadorfecha_`+j+`">
+												<div class="row">
+												 <div class="col-md-4">
+													<label>FECHA</label>	
+
+													<input type="date" id="fecha_`+j+`" class="form-control fechadia" value="`+fecha+`">		
+				
+													</div>
+													<div class="col-md-3">
+													<label>HORA INICIO:</label>
+														<div class="form-group mb-2" style="">
+															<input type="time" id="horainicial_`+j+`" class="form-control horainiciodia" value="`+horainicio+`">
+														</div>
+
+													</div>
+
+												
+													<div class="col-md-3">
+
+														<label>HORA FIN:</label>
+														<div class="form-group mb-2" style="">
+															<input type="time" id="horafinal_`+j+`" class="form-control horafindia" value="`+horafin+`"> 
+														</div>
+													</div>
+
+
+													<div class="col-md-1">
+														<button type="button" style="margin-top: 2em;" onclick="EliminarOpcionFechaHorario(`+j+`)" class="btn btn_rojo"><i class="mdi mdi-delete-empty"></i></button>
+													</div>
+												</div>
+												</div>
+										`;
+									}
+									html2+=`</div>`;
+
+									html2+=`</div>`;
+
+																							$(".fechahorariosespecialistas").html(html2);
+
+								}
+
+							}
+
+
+
+
+									var html3="";
+								for (var i = 0; i < respuesta.length; i++) {
+									var fechahorariosausente=respuesta[i].fechahorariosausente;
+
+
+									if (fechahorariosausente.length>0) {
+									html3+=`
+										<div class="sucursalhorarioausente_`+respuesta[i].idsucursal+`">
+										<div class="col-md-6" style="font-size: 18px;margin-top: 10px;margin-bottom: 10px;">
+										`+respuesta[i].titulo+`
+										</div>
+									`;
+									console.log(html2)
+
+									html3+=`<div id="fechahorariossucursalausente_`+respuesta[i].idsucursal+`">`;
+									for (var j = 0; j < fechahorariosausente.length; j++) {
+									
+										var horainicio=fechahorariosausente[j].horainicial;
+										var horafin=fechahorariosausente[j].horafinal;
+										var fecha=fechahorariosausente[j].fecha;
+
+										html3+=`
+												<div class="col-md-12 fechahorariosausentesucursal" data-sucursal="`+respuesta[i].idsucursal+`" id="contadorfechaausente_`+j+`">
+												<div class="row">
+												 <div class="col-md-4">
+													<label>FECHA</label>	
+
+													<input type="date" id="fechaausente_`+j+`" class="form-control fechadia" value="`+fecha+`">		
+				
+													</div>
+													<div class="col-md-3">
+													<label>HORA INICIO:</label>
+														<div class="form-group mb-2" style="">
+															<input type="time" id="horainicialausente_`+j+`" class="form-control horainiciodia" value="`+horainicio+`">
+														</div>
+
+													</div>
+
+												
+													<div class="col-md-3">
+
+														<label>HORA FIN:</label>
+														<div class="form-group mb-2" style="">
+															<input type="time" id="horafinalausente_`+j+`" class="form-control horafindia" value="`+horafin+`"> 
+														</div>
+													</div>
+
+
+													<div class="col-md-1">
+														<button type="button" style="margin-top: 2em;" onclick="EliminarOpcionHorarioEspecialistaAusente(`+j+`)" class="btn btn_rojo"><i class="mdi mdi-delete-empty"></i></button>
+													</div>
+												</div>
+												</div>
+										`;
+									}
+									html3+=`</div>`;
+
+									html3+=`</div>`;
+
+								$(".fechahorariosespecialistasausente").html(html3);
+
+								}
+							}
+
+
+
+							}
+
 
 							
 					  	}
@@ -191,6 +332,16 @@ function ObtenerHorariosSucursal(idusuarios) {
 	}
 }
 
+
+function EliminarOpcionFechaHorario(idhorarioespecialista) {
+		
+		if(confirm("\u00BFDesea realizar esta operaci\u00f3n?"))
+	{
+
+		$("#contadorfecha_"+idhorarioespecialista).remove();
+	}
+}
+
 function AgregarNuevoHorario() {
 	var sucursal=$("#v_sucursal").val();
 	var diasemana=$(".diasemanasele").val();
@@ -205,6 +356,9 @@ function AgregarNuevoHorario() {
 
 }
 
+
+
+
 function PintarNuevoHorario(sucursal,dia,horainiciodia,horafindia,tipocomision,v_cantidadcomision) {
 	var j=$(".horariosatencionsucursal").length+1;
 
@@ -216,7 +370,7 @@ if (objetoEncontrado) {
 
 	html+=`				<div class="col-md-12 horariosatencionsucursal" data-sucursal="`+sucursal+`" id="contador_`+j+`">
 												<div class="row">
-												 <div class="col-md-2">
+												 <div class="col-md-4">
 													<label>DIA</label>	
 
 													<select class="form-control diasemana" id="diasemana_`+j+`" >
@@ -231,7 +385,7 @@ if (objetoEncontrado) {
 
 													</select>
 													</div>
-													<div class="col-md-2">
+													<div class="col-md-3">
 													<label>HORA INICIO:</label>
 														<div class="form-group mb-2" style="">
 															<input type="time" id="horai_`+j+`" class="form-control horainiciodia" value="`+horainiciodia+`">
@@ -240,7 +394,7 @@ if (objetoEncontrado) {
 													</div>
 
 												
-													<div class="col-md-2">
+													<div class="col-md-3">
 
 														<label>HORA FIN:</label>
 														<div class="form-group mb-2" style="">
@@ -248,7 +402,7 @@ if (objetoEncontrado) {
 														</div>
 													</div>
 
-													<div class="col-md-2">
+													<div class="col-md-2" style="display:none;">
 
 														<label>TIPO COMISIÓN:</label>
 														<div class="form-group mb-2" style="">
@@ -262,7 +416,7 @@ if (objetoEncontrado) {
 													</div>
 
 
-														<div class="col-md-3">
+														<div class="col-md-3" style="display:none;">
 
 														<label>CANT. DE LA COMISIÓN:</label>
 														<div class="form-group mb-2" style="">
@@ -467,6 +621,52 @@ function GuardarusuarioEspecialista(form_usuario,regreso,donde,archivoenvio,idme
 			horariosespecialista.push(objeto);
 
 		});
+
+			var fechahorariosespecialista=[];
+		$(".fechahorariosatencionsucursal").each(function(index) {
+				var elemento=$(this).attr('data-sucursal');
+			var elementoposicion=$(this).attr('id');
+			var id=elementoposicion.split('_')[1];
+
+				var fechadia=$("#fecha_"+id).val();
+				var horainicio=$("#horainicial_"+id).val();
+			 var horafinal=$("#horafinal_"+id).val();
+					
+					var objeto={
+					idsucursal:elemento,
+					fecha:fechadia,
+					horainicio:horainicio,
+					horafinal:horafinal,
+				};
+			
+			fechahorariosespecialista.push(objeto);
+			
+			});
+
+
+
+		var fechahorariosespecialistaausente=[];
+		$(".fechahorariosausentesucursal").each(function(index) {
+			var elemento=$(this).attr('data-sucursal');
+			var elementoposicion=$(this).attr('id');
+			var id=elementoposicion.split('_')[1];
+
+			var fechadia=$("#fechaausente_"+id).val();
+			var horainicio=$("#horainicialausente_"+id).val();
+			var horafinal=$("#horafinalausente_"+id).val();
+					
+					var objeto={
+					idsucursal:elemento,
+					fecha:fechadia,
+					horainicio:horainicio,
+					horafinal:horafinal,
+				};
+			
+			fechahorariosespecialistaausente.push(objeto);
+			
+			});
+
+		
 	 //var datos = ObtenerDatosFormulario(form_usuario);//obteniedo los datos del formulario
 		//datos+="&horariosespecialista="+JSON.stringify(horariosespecialista);
 		//datos+="&sexo="+sexoseleccionado;
@@ -486,6 +686,8 @@ function GuardarusuarioEspecialista(form_usuario,regreso,donde,archivoenvio,idme
 
 
 		datos.append('horariosespecialista',JSON.stringify(horariosespecialista));
+		datos.append('fechahorariosespecialista',JSON.stringify(fechahorariosespecialista));
+		datos.append('fechahorariosespecialistaausente',JSON.stringify(fechahorariosespecialistaausente));
 	    datos.append('sexo',sexoseleccionado);
 		datos.append('v_celular',v_celular);
 		datos.append('v_alias',v_alias);
@@ -507,7 +709,7 @@ function GuardarusuarioEspecialista(form_usuario,regreso,donde,archivoenvio,idme
 		//que no se repita, si no lo usamos solo tendra el valor de la ultima iteracion
 		for (i = 0; i < archivo.length; i++) {
 		
-			datos.append('archivo' + i, archivo[i]);
+			datos.append('archivo', archivo[i]);
 		}
 
 		$('#abc').html('<div align="center" class="mostrar"><img src="images/loader.gif" alt="" /><br />Cargando...</div>');
@@ -599,4 +801,288 @@ function GuardarusuarioEspecialista(form_usuario,regreso,donde,archivoenvio,idme
 		}
 
 
+}
+
+function AbrirModalFechaHorario() {
+	var promise=ObtenerSucursales2();
+	    promise.then(function(resp) {
+	    	
+	    	PintarSucursales(resp.sucursales);
+
+	    	$("#modalfechahorario").modal();
+	    	$(".diasemanasele").val('');
+			$(".horainiciodiaselec").val('');
+			$(".horafindiaselec").val('');
+	    });
+
+}
+
+function AgregarNuevoFechaHorario() {
+	var sucursal=$(".v_sucursalf").val();
+	var diasemana=$(".diasemanasele").val();
+	var fechadia=$("#fecha_i").val();
+	var horainiciodia=$(".horainiciodiaselec2").val();
+	var horafindia=$(".horafindiaselec2").val();
+	var tipocomision=$("#v_tipocomision").val();
+	var v_cantidadcomision=$("#v_cantidadcomision").val();
+
+		PintarNuevoFechaHorario(sucursal,fechadia,horainiciodia,horafindia,tipocomision,v_cantidadcomision);
+		$("#modalfechahorario").modal('hide');
+
+
+}
+
+function PintarNuevoFechaHorario(sucursal,fechadia,horainiciodia,horafindia,tipocomision,v_cantidadcomision) {
+	var j=$(".fechahorariosatencionsucursal").length+1;
+
+	const objetoEncontrado = listadofechashorarios.find(objeto => objeto.idsucursal === sucursal);
+
+		var html="";
+if (objetoEncontrado) {
+
+
+	html+=`				<div class="col-md-12 fechahorariosatencionsucursal" data-sucursal="`+sucursal+`" id="contadorfecha_`+j+`">
+												<div class="row">
+												 <div class="col-md-4">
+													<label>FECHA</label>	
+													<input type="date" id="fecha_`+j+`" class="form-control fechadia" value="`+fechadia+`">		
+									
+													</div>
+													<div class="col-md-3">
+													<label>HORA INICIO:</label>
+														<div class="form-group mb-2" style="">
+															<input type="time" id="horainicial_`+j+`" class="form-control horainiciodia" value="`+horainiciodia+`">
+														</div>
+
+													</div>
+
+												
+													<div class="col-md-3">
+
+														<label>HORA FIN:</label>
+														<div class="form-group mb-2" style="">
+															<input type="time" id="horafinal_`+j+`" class="form-control horafindia" value="`+horafindia+`"> 
+														</div>
+													</div>
+
+												
+
+
+													</div>
+
+													<div class="col-md-1">
+														<button type="button" style="margin-top: 2em;" onclick="EliminarOpcionHorarioEspecialista(`+j+`)" class="btn btn_rojo"><i class="mdi mdi-delete-empty"></i></button>
+													</div>
+												</div>
+												</div>
+										`;
+
+									$("#fechahorariossucursal_"+sucursal).append(html);
+								}else{
+
+										const objetoEncontrado = sucursaleslistado.find(objeto => objeto.idsucursal === sucursal);
+										console.log(sucursaleslistado);
+										if($(".sucursalhorario_"+objetoEncontrado.idsucursal).length == 0 ) {
+
+									
+											html=`
+										<div class="sucursalhorario_`+objetoEncontrado.idsucursal+`" >
+										<div class="col-md-6" style="font-size: 18px;margin-top: 10px;margin-bottom: 10px;">
+										`+objetoEncontrado.titulo+`
+										</div>
+									`;
+
+									html+=`<div id="fechahorariossucursal_`+objetoEncontrado.idsucursal+`"></div>`;
+								
+									$(".fechahorariosespecialistas").append(html);
+
+								}
+									html=`<div class="col-md-12 fechahorariosatencionsucursal" data-sucursal="`+objetoEncontrado.idsucursal+`"  id="contadorfecha_`+j+`">
+												<div class="row">
+												 <div class="col-md-4">
+													<label>FECHA</label>	
+													<input type="date" id="fecha_`+j+`" class="form-control fechadia " value="`+fechadia+`">
+													
+													</div>
+													<div class="col-md-3">
+													<label>HORA INICIO:</label>
+														<div class="form-group mb-2" style="">
+															<input type="time" id="horainicial_`+j+`" class="form-control horainiciodia" value="`+horainiciodia+`">
+														</div>
+
+													</div>
+
+												
+													<div class="col-md-3">
+
+														<label>HORA FIN:</label>
+														<div class="form-group mb-2" style="">
+															<input type="time" id="horafinal_`+j+`" class="form-control horafindia" value="`+horafindia+`"> 
+														</div>
+													</div>
+
+			
+
+
+
+													<div class="col-md-1">
+														<button type="button" style="margin-top: 2em;" onclick="EliminarOpcionHorarioEspecialista(`+j+`)" class="btn btn_rojo"><i class="mdi mdi-delete-empty"></i></button>
+													</div>
+												</div>
+												</div>
+										`;
+
+									$("#fechahorariossucursal_"+sucursal).append(html);
+
+
+
+								}
+}
+
+function AbrirModalFechaHorarioAusente() {
+	var promise=ObtenerSucursales2();
+	    promise.then(function(resp) {
+	    	
+	    	PintarSucursales(resp.sucursales);
+
+	    	$("#modalfechahorarioausente").modal();
+	    	$(".diasemanasele").val('');
+			$(".horainiciodiaselec").val('');
+			$(".horafindiaselec").val('');
+	    });
+
+}
+
+function AgregarNuevoFechaHorarioAusente(argument) {
+		var sucursal=$(".v_sucursalausente").val();
+	 var diasemana=$(".diasemanasele").val();
+	 var fechadia=$("#fecha_i_ausente").val();
+	
+	 var horainiciodia=$("#horai_2_ausente").val();
+	 var horafindia=$("#horaf_2_ausente").val();
+	 var tipocomision=$("#v_tipocomision").val();
+	
+	 var v_cantidadcomision=$("#v_cantidadcomision").val();
+
+		PintarNuevoFechaHorarioAusente(sucursal,fechadia,horainiciodia,horafindia,tipocomision,v_cantidadcomision);
+		$("#modalfechahorarioausente").modal('hide');
+
+}
+
+
+function PintarNuevoFechaHorarioAusente(sucursal,fechadia,horainiciodia,horafindia,tipocomision,v_cantidadcomision) {
+	var j=$(".fechahorariosausentesucursal").length+1;
+	
+	
+	const objetoEncontrado = listadofechashorariosausente.find(objeto => objeto.idsucursal === sucursal);
+console.log('aq');
+	console.log(listadofechashorariosausente);
+		var html="";
+			if (objetoEncontrado) {
+
+
+			html+=`<div class="col-md-12 fechahorariosausentesucursal" data-sucursal="`+sucursal+`" id="contadorfecha_`+j+`">
+											<div class="row">
+											 <div class="col-md-4">
+												<label>FECHA</label>	
+												<input type="date" id="fechaausente_`+j+`" class="form-control fechadia" value="`+fechadia+`">		
+									
+												</div>
+												<div class="col-md-3">
+												<label>HORA INICIO:</label>
+													<div class="form-group mb-2" style="">
+														<input type="time" id="horainicialausente_`+j+`" class="form-control horainiciodia" value="`+horainiciodia+`">
+													</div>
+													</div>
+
+												
+													<div class="col-md-3">
+
+														<label>HORA FIN:</label>
+														<div class="form-group mb-2" style="">
+															<input type="time" id="horafinalausente_`+j+`" class="form-control horafindia" value="`+horafindia+`"> 
+														</div>
+													</div>
+
+												
+
+
+													</div>
+
+													<div class="col-md-1">
+														<button type="button" style="margin-top: 2em;" onclick="EliminarOpcionHorarioEspecialista(`+j+`)" class="btn btn_rojo"><i class="mdi mdi-delete-empty"></i></button>
+													</div>
+												</div>
+												</div>
+										`;
+
+									$("#fechahorariossucursal_"+sucursal).append(html);
+								}else{
+
+										const objetoEncontrado = sucursaleslistado.find(objeto => objeto.idsucursal === sucursal);
+										console.log(sucursaleslistado);
+										if($(".sucursalhorarioausente_"+objetoEncontrado.idsucursal).length == 0 ) {
+
+											
+											html=`
+										<div class="sucursalhorarioausente_`+objetoEncontrado.idsucursal+`" style="    margin-top: 10px;
+    margin-bottom: 10px;">
+										<div class="col-md-6" style="font-size: 18px;margin-top: 10px;margin-bottom: 10px;">
+										`+objetoEncontrado.titulo+`
+										</div>
+									`;
+
+									html+=`<div id="fechahorariossucursalausente_`+objetoEncontrado.idsucursal+`"></div>`;
+									$(".fechahorariosespecialistasausente").append(html);
+
+								}
+									html=`<div class="row fechahorariosausentesucursal" data-sucursal="`+objetoEncontrado.idsucursal+`"  id="contadorfechaausente_`+j+`">
+												<div class="row" style="margin-left:15px;">
+												 <div class="col-md-4">
+													<label>FECHA</label>	
+													<input type="date" id="fechaausente_`+j+`" class="form-control fechadia " value="`+fechadia+`">
+													
+													</div>
+													<div class="col-md-3">
+													<label>HORA INICIO:</label>
+														<div class="form-group mb-2" style="">
+															<input type="time" id="horainicialausente_`+j+`" class="form-control horainiciodia" value="`+horainiciodia+`">
+														</div>
+
+													</div>
+
+												
+													<div class="col-md-3">
+
+														<label>HORA FIN:</label>
+														<div class="form-group mb-2" style="">
+															<input type="time" id="horafinalausente_`+j+`" class="form-control horafindia" value="`+horafindia+`"> 
+														</div>
+													</div>
+
+			
+
+
+
+													<div class="col-md-1">
+														<button type="button" style="margin-top: 2em;" onclick="EliminarOpcionHorarioEspecialistaAusente(`+j+`)" class="btn btn_rojo"><i class="mdi mdi-delete-empty"></i></button>
+													</div>
+												</div>
+												</div>
+										`;
+
+									$("#fechahorariossucursalausente_"+sucursal).append(html);
+
+
+
+								}
+}
+
+function EliminarOpcionHorarioEspecialistaAusente(idhorarioespecialista) {
+		
+		if(confirm("\u00BFDesea realizar esta operaci\u00f3n?"))
+	{
+
+		$("#contadorfechaausente_"+idhorarioespecialista).remove();
+	}
 }

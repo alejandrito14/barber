@@ -788,6 +788,44 @@ function PintarTipoPagos2(respuesta,idtipodepago) {
 	$(".divtipopago").html(html);
 }
 
+
+function PintarTipoPagos3(respuesta,idtipodepago) {
+	var html="";
+	/*if (respuesta.length>0) {
+		html+=`<option value="0">SELECCIONAR TIPO DE PAGO</option>`;
+		for (var i = 0; i <respuesta.length; i++) {
+			html+=`<option value="`+respuesta[i].idtipodepago+`">`+respuesta[i].tipo+`</option>`;
+		}
+	}*/
+
+
+	if (respuesta.length>0) {
+			for (var i = 0; i <respuesta.length; i++) {
+
+				if (respuesta[i].idtipodepago!=idtipodepago) {
+			html+=`
+			<div class="row">
+			<div class=" btn-group-toggle col-md-6">
+				<label class="btn btn_colorgray2 btntipodepago " id="catebtntipodepago_`+respuesta[i].idtipodepago+`">
+				<input type="checkbox" id="tipopago_`+respuesta[i].idtipodepago+`" class="catechecktipo" onchange="SeleccionarTipodePago3(`+respuesta[i].idtipodepago+`)" value="0"> 
+				`+respuesta[i].tipo+`</label>
+				</div>
+			<div class="col-md-4">
+
+				<input type="text" placeholder="Monto" class="form-control" id="inputtipodepago_`+respuesta[i].idtipodepago+`">
+
+			</div>
+
+
+			</div>
+			`;
+			}
+
+		}
+	}
+	$(".divtipopago").html(html);
+}
+
 function CargartipopagoFactura(tipodepagoseleccionado) {
    var pagina = "obtenertipodepagos2.php";
     var datos="tipo=1";
@@ -843,6 +881,10 @@ function SeleccionarTipodePago(idtipodepago) {
 
 function SeleccionarTipodePago2(idtipodepago) {
 	CargarOpcionesTipopago2(idtipodepago);
+}
+
+function SeleccionarTipodePago3(idtipodepago) {
+	CargarOpcionesTipopago3(idtipodepago);
 }
 
 
@@ -1763,11 +1805,14 @@ function SeleccionarCliente(idcliente,nombre) {
 	 		$("#inputcli_"+idcliente+"_").prop('checked',true);
 	 		//CrearSesionUsuario(idcliente);
 	  	 	clienteseleccionado=idcliente;
-	  	 	$("#btncontinuarcliente").css('display','');
+	  	 	//$("#btncontinuarcliente").css('display','');
+	  	 	$("#btncontinuarcliente2").css('display','');
+
 	  	  }else{
 
 	  	  $(".chkcliente_").prop('checked',false);
 	  	 	$("#btncontinuarcliente").css('display','none');
+	  	 	$("#btncontinuarcliente2").css('display','none');
 
 	  	  }
 
@@ -2561,19 +2606,31 @@ function PintarCategorias(respuesta) {
 	}
 }
 
-function ModificarPrecio(idcarrito) {
+function ModificarPrecio(idcarrito,servicio) {
 	
 	$("#modalprecio").modal();
 	$("#txtprecio").val('');
-	$("#btnmodificar").attr('onclick','ModificarPrecioCarrito('+idcarrito+')')
+	if (servicio==1) {
+			$("#btnmodificar").attr('onclick','ModificarPrecioCarrito('+idcarrito+','+servicio+')')
+
+		}else{
+			var valor=$("#txtprecio").val();
+			$("#btnmodificar").attr('onclick','GuardarModificar2('+idcarrito+','+servicio+')')
+
+		}
 }
 
-function ModificarPrecioCarrito(idcarrito) {
+function ModificarPrecioCarrito(idcarrito,servicio) {
 	var valor=$("#txtprecio").val();
 	var datos="idcarrito="+idcarrito+"&precio="+valor;
 
+	if (servicio==1) {
+			AbrirModalValidacion(idcarrito,valor);
 
-	AbrirModalValidacion(idcarrito,valor);
+		}else{
+
+
+		}
 	phoneFormatter2('txtusuario');
 
 }
@@ -2614,6 +2671,45 @@ function GuardarModificar(idcarrito,valor) {
 
 
 	  				$("#respuesta").text('Usuario o contraseña incorrecta');
+	  			}
+	  			
+			}
+	});
+
+}
+
+
+function GuardarModificar2(idcarrito,valor) {
+
+	var valor=$("#txtprecio").val();
+
+
+	var datos="idcarrito="+idcarrito+"&precio="+valor;
+
+	$.ajax({
+	 url:'catalogos/pagos/GuardarModificarPrecioCarrito2.php', //Url a donde la enviaremos
+	 type:'POST', //Metodo que usaremos
+	 dataType:'json',
+	 data:datos,
+	  error:function(XMLHttpRequest, textStatus, errorThrown){
+			var error;
+			console.log(XMLHttpRequest);
+			if (XMLHttpRequest.status === 404)  error="Pagina no existe"+XMLHttpRequest.status;// display some page not found error 
+		 	if (XMLHttpRequest.status === 500) error="Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			$('#abc').html('<div class="alert_error">'+error+'</div>');	
+			//aparecermodulos("catalogos/vi_ligas.php?ac=0&msj=Error. "+error,'main');
+		},
+	  success:function(msj){
+	  			
+	  			if (msj.respuesta==1) {
+	  				$("#modalprecio").modal('hide');
+	  				AbrirNotificacion('Se guardó los cambios correctamente','mdi mdi-checkbox-marked-circle');
+	  				ObtenerPaquetesCarrito();
+	  			}else{
+
+
+	  				AbrirNotificacion('No se guardaron los cambios','mdi mdi-checkbox-marked-circle');
+
 	  			}
 	  			
 			}

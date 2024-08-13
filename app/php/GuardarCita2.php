@@ -13,6 +13,8 @@ require_once("clases/class.Fechas.php");
 require_once "clases/class.Canje.php";
 require_once("clases/class.Tarjetalealtad.php");
 require_once("clases/class.PagConfig.php");
+require_once("clases/class.Usuarios.php");
+
 
 
 try
@@ -34,6 +36,7 @@ try
 	$tarjeta = new Tarjetalealtad();
 	$config=new PagConfig();
 	$config->db=$db;
+	$usuarios=new Usuarios();
 
 	$obtenervalidaciontarjeta=$config->ObtenerInformacionConfiguracion();
 	$habilitartarjetafuncion=$obtenervalidaciontarjeta['habilitartarjetafuncion'];
@@ -56,6 +59,12 @@ try
 	$paquetes->idpaquete=$cita->idpaquete;
 	$obtenerpaquete=$paquetes->ObtenerPaquete2();
 	$idcanje=isset($_POST['idcanje'])?$_POST['idcanje']:0;
+	$idusuario=$_POST['idusuario'];
+
+	 $usuarios->db=$db;
+     $usuarios->idusuarios=$idusuario;
+     $infousuario=$usuarios->ObtenerInformacionUsuario();
+     $habilitartarjetausuario=$infousuario[0]->habilitartarjeta;
 
 	
 	$cita->GuardarCitaApartado();
@@ -76,10 +85,13 @@ try
 
 
 
-
-	if ($habilitartarjetafuncion==1) {
+	
+	if ($habilitartarjetafuncion==1 && $habilitartarjetausuario==1) {
 		// code...
 
+		if ($idcanje==0) {
+			// code...
+		
 	$tarjeta->idusuario=$cita->idusuario;
 	$tarjeta->idsucursal=$cita->idsucursal; 
 	$obtenerasignada=$tarjeta->ObtenerTarjetasAsignadas();
@@ -137,7 +149,7 @@ try
 
 
 		
-		
+		 
 		}else{
 			$idtarjetalealtadporcanjear=0;
 			$idcanje=0;
@@ -145,6 +157,7 @@ try
 		
 
 	}
+}
 
 	if ($idcanje>0) {
 		$costo=0;

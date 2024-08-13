@@ -46,6 +46,7 @@ class Usuarios
     public $iddeporte;
     public $celular2;
     public $idusuariotutorado;
+    public $idusuariohijo;
 	public function validarTelefono()
 	{
 		 $sql_cliente = "SELECT * FROM usuarios WHERE celular='$this->celular'";
@@ -1182,6 +1183,71 @@ public function validarUsuarioClienteTokenCel()
     }
 
 
+    public function GuardarUsuario($sincel)
+    {
+        $sql = "INSERT INTO usuarios (nombre,paterno,materno,fechanacimiento,sexo,celular,email,usuario,tipo,celular2,sincel)
+        VALUES ('$this->nombre','$this->paterno','$this->materno','$this->fecha','$this->sexo','$this->celular','$this->email','$this->usuario','$this->tipo','$this->celular2','$sincel')";
+        
+
+        $result  = $this->db->consulta($sql);
+        $this->idusuariohijo=$this->db->id_ultimo();
+    }
+
+    public function GuardarHijo($value='')
+    {
+       $sql="INSERT INTO hijo( idusuariopadre, idusuariohijo) VALUES ('$this->idusuarios', '$this->idusuariohijo')";
+
+      
+       $result  = $this->db->consulta($sql);
+
+    }
+
+    public function ObtenerHijos()
+    {
+        $sql="SELECT 
+        usuarios.idusuarios,
+        usuarios.nombre,
+        usuarios.paterno,
+        usuarios.materno,
+        usuarios.celular,
+        usuarios.fechanacimiento,
+        usuarios.sexo,
+        usuarios.email,
+        usuarios.usuario,
+        usuarios.tipo,
+        usuarios.alias,
+                hijo.idusuariopadre
+        FROM  hijo
+
+        inner JOIN usuarios  ON hijo.idusuariohijo=usuarios.idusuarios
+         WHERE hijo.idusuariopadre='$this->idusuarios' AND usuarios.estatus=1";
+
+        $resp=$this->db->consulta($sql);
+        $cont = $this->db->num_rows($resp);
+
+
+        $array=array();
+        $contador=0;
+        if ($cont>0) {
+
+            while ($objeto=$this->db->fetch_object($resp)) {
+
+                $array[$contador]=$objeto;
+                $contador++;
+            } 
+        }
+        
+        return $array;
+    }
+
+
+    public function CambiarEstatusHijo()
+    {
+        $sql="UPDATE usuarios SET estatus=0 where idusuarios='$this->idusuarios'";
+        
+        $result  = $this->db->consulta($sql);
+ 
+    }
 
 
 }

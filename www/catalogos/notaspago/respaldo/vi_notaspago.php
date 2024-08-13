@@ -29,12 +29,14 @@ require_once("../../clases/conexcion.php");
 require_once("../../clases/class.Notapago.php");
 require_once("../../clases/class.Botones.php");
 require_once("../../clases/class.Funciones.php");
+require_once("../../clases/class.Fechas.php");
 
 //Declaración de objeto de clase conexión
 $db = new MySQL();
 $notapago = new Notapago();
 $bt = new Botones_permisos(); 
 $f = new Funciones();
+$fechas = new Fechas();
 
 $notapago->db = $db;
 
@@ -80,7 +82,7 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 
 
 
-$estatus=array('PENDIENTE','ACEPTADO','CANCELADO');
+$estatus=array('PENDIENTE','ACEPTADO','CANCELADO','DECLINADO','ELIMINADO');
 $estatuspago = array('NO PAGADO','PAGADO');
 ?>
 
@@ -130,7 +132,14 @@ $estatuspago = array('NO PAGADO','PAGADO');
 					<tr>
 						 
 						<th style="text-align: center;">FOLIO </th> 
-						<th style="text-align: center;">ALUMNO</th>
+						<th style="text-align: center;">CLIENTE</th>
+						<th style="text-align: center;">
+							DESCRIPCIÓN
+						</th>
+
+						<th style="text-align: center;">
+							SUCURSAL
+						</th>
 						<th style="text-align: center;">FECHA</th>
 						<th style="text-align: center;">MÉTODO DE PAGO</th>
 						<th style="text-align: center;">MONTO</th>
@@ -162,8 +171,78 @@ $estatuspago = array('NO PAGADO','PAGADO');
 
 							<td style="text-align: center;"><?php echo $l_pagos_row['nombre'].' '.$l_pagos_row['paterno'].' '.$l_pagos_row['materno'];?></td>
 
+							<td style="text-align: center;">
+								<?php 
+								$notapago->idnotapago=$l_pagos_row['idnotapago'];
+								$obtenerdescripcion=$notapago->ObtenerdescripcionNota();
+								$descripcion="";
+
+								
+								 if(count($obtenerdescripcion)>0) {
+									
+										for ($i=0; $i <count($obtenerdescripcion); $i++) { 
+											
+											$concepto=$obtenerdescripcion[$i]->concepto;
+											$idcita=$obtenerdescripcion[$i]->idcita;
+											$fechacita="";
+												$horacita="";
+											$usuarioespecialista="";
+											if ($idcita!='') {
+														$fechacita=$fechas->fecha_texto5($obtenerdescripcion[$i]->fechacita);
+											$usuarioespecialista=$obtenerdescripcion[$i]->usuarioespecialista;
+											$horacita=$obtenerdescripcion[$i]->horainicial.'-'.$obtenerdescripcion[$i]->horafinal.'Hrs.';
+									
+											}
+									
+													$descripcion=$descripcion.'<p>
+											'.$concepto.'<br>
+											'.$fechacita.'<br>
+												'.$horacita.' <br>
+											'.$usuarioespecialista.'
+											</p>';
+
+										}
+
+
+								}
+								echo $descripcion;
+					
+
+								 ?>
+
+
+							</td>
+							<td style="text-align: center;">
+								
+								<?php if ($l_pagos_row['tpv']==1) {
+									echo 'Barbería Don Porfirio';
+								}else{
+
+									echo 'APP';
+								} ?>
+							</td>
+
 							<td style="text-align: center;"><?php echo date('d-m-Y H:i:s',strtotime($l_pagos_row['fecha']));?></td>
-							<td style="text-align: center;"><?php echo $l_pagos_row['tipopago'];?></td>
+							<td style="text-align: center;">
+									<?php
+										if ($l_pagos_row['multipletipopago']!='' && $l_pagos_row['multipletipopago']!=null) {
+													echo $l_pagos_row['multipletipopago'];
+											}else{
+
+									 if ($l_pagos_row['idtipodepago']>=0){
+
+										echo $l_pagos_row['tipopago'];
+									}else{
+										
+									
+
+									} 
+								}
+
+
+									?>
+										
+								</td>
 
 							<td style="text-align: center;">$<?php echo $l_pagos_row['total'];?></td>
 							<?php 
@@ -180,6 +259,19 @@ $estatuspago = array('NO PAGADO','PAGADO');
 								if ($l_pagos_row['estatus']==2) {
 									$clase='notacancelado';
 								}
+
+									if ($l_pagos_row['estatus']==3) {
+									$clase='notanoprocesado';
+								}
+
+								 if(count($obtenerdescripcion)==0){
+
+								 		if ($l_pagos_row['estatus']==0) {
+								 			$l_pagos_row['estatus']=4;
+											$clase='notacancelado';
+										}
+								 }
+								
 
 							 ?>
 						
@@ -331,7 +423,31 @@ $estatuspago = array('NO PAGADO','PAGADO');
 
 <script type="text/javascript">
 
-
+$('#tbl_pagos').DataTable({
+    "order": [], // Dejar vacío para deshabilitar el ordenamiento inicial de DataTables
+    "ordering": true, // Esto deshabilitará la ordenación por parte de DataTables
+    "pageLength": 100,
+     "oLanguage": {
+            "sLengthMenu": "Mostrar _MENU_ ",
+            "sZeroRecords": "NO EXISTEN PROVEEDORES EN LA BASE DE DATOS.",
+            "sInfo": "Mostrar _START_ a _END_ de _TOTAL_ Registros",
+            "sInfoEmpty": "desde 0 a 0 de 0 records",
+            "sInfoFiltered": "(filtered desde _MAX_ total Registros)",
+            "sSearch": "Buscar",
+            "oPaginate": {
+                   "sFirst":    "Inicio",
+                   "sPrevious": "Anterior",
+                   "sNext":     "Siguiente",
+                   "sLast":     "Ultimo"
+                   }
+            },
+    "sPaginationType": "full_numbers",
+    "paging": true,
+    "info": false,
+    "columnDefs": [
+        { "type": "num", "targets": 0 } // 
+    ]
+});
 
 
 

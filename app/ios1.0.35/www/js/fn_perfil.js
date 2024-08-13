@@ -1113,6 +1113,7 @@ function Visualizarmenu() {
 		$(".limonedero").css('display','none');
 		$(".lilogin").css('display','');
 		$(".linegocios").css('display','');
+		$(".litarjetaslealtad").css('display','none');
 
 
 	}
@@ -1126,6 +1127,7 @@ function Visualizarmenu() {
 		$(".lisalir").css('display','');
 		$(".limonedero").css('display','');
 		$(".lilogin").css('display','none');
+		$(".litarjetaslealtad").css('display','');
 
 
 	}
@@ -1139,7 +1141,8 @@ function Visualizarmenu() {
 		$(".lilogin").css('display','none');
 		$(".limonedero").css('display','none');
 
-		
+		$(".litarjetaslealtad").css('display','none');
+
 	}
 
 	if (tiposusuario==0) {
@@ -1150,6 +1153,7 @@ function Visualizarmenu() {
 		$(".lisalir").css('display','');
 		$(".limonedero").css('display','none');
 		$(".lilogin").css('display','none');
+		$(".litarjetaslealtad").css('display','none');
 
 	}
 

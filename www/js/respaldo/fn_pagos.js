@@ -788,6 +788,44 @@ function PintarTipoPagos2(respuesta,idtipodepago) {
 	$(".divtipopago").html(html);
 }
 
+
+function PintarTipoPagos3(respuesta,idtipodepago) {
+	var html="";
+	/*if (respuesta.length>0) {
+		html+=`<option value="0">SELECCIONAR TIPO DE PAGO</option>`;
+		for (var i = 0; i <respuesta.length; i++) {
+			html+=`<option value="`+respuesta[i].idtipodepago+`">`+respuesta[i].tipo+`</option>`;
+		}
+	}*/
+
+
+	if (respuesta.length>0) {
+			for (var i = 0; i <respuesta.length; i++) {
+
+				if (respuesta[i].idtipodepago!=idtipodepago) {
+			html+=`
+			<div class="row">
+			<div class=" btn-group-toggle col-md-6">
+				<label class="btn btn_colorgray2 btntipodepago " id="catebtntipodepago_`+respuesta[i].idtipodepago+`">
+				<input type="checkbox" id="tipopago_`+respuesta[i].idtipodepago+`" class="catechecktipo" onchange="SeleccionarTipodePago3(`+respuesta[i].idtipodepago+`)" value="0"> 
+				`+respuesta[i].tipo+`</label>
+				</div>
+			<div class="col-md-4">
+
+				<input type="text" placeholder="Monto" class="form-control" id="inputtipodepago_`+respuesta[i].idtipodepago+`">
+
+			</div>
+
+
+			</div>
+			`;
+			}
+
+		}
+	}
+	$(".divtipopago").html(html);
+}
+
 function CargartipopagoFactura(tipodepagoseleccionado) {
    var pagina = "obtenertipodepagos2.php";
     var datos="tipo=1";
@@ -843,6 +881,10 @@ function SeleccionarTipodePago(idtipodepago) {
 
 function SeleccionarTipodePago2(idtipodepago) {
 	CargarOpcionesTipopago2(idtipodepago);
+}
+
+function SeleccionarTipodePago3(idtipodepago) {
+	CargarOpcionesTipopago3(idtipodepago);
 }
 
 
@@ -1763,7 +1805,7 @@ function SeleccionarCliente(idcliente,nombre) {
 	 		$("#inputcli_"+idcliente+"_").prop('checked',true);
 	 		//CrearSesionUsuario(idcliente);
 	  	 	clienteseleccionado=idcliente;
-	  	 	$("#btncontinuarcliente").css('display','');
+	  	 //	$("#btncontinuarcliente").css('display','');
 	  	  }else{
 
 	  	  $(".chkcliente_").prop('checked',false);
@@ -2559,5 +2601,65 @@ function PintarCategorias(respuesta) {
             $(".categoriasprincipales").append(html);
 		}
 	}
+}
+
+function ModificarPrecio(idcarrito) {
+	
+	$("#modalprecio").modal();
+	$("#txtprecio").val('');
+	$("#btnmodificar").attr('onclick','ModificarPrecioCarrito('+idcarrito+')')
+}
+
+function ModificarPrecioCarrito(idcarrito) {
+	var valor=$("#txtprecio").val();
+	var datos="idcarrito="+idcarrito+"&precio="+valor;
+
+
+	AbrirModalValidacion(idcarrito,valor);
+	phoneFormatter2('txtusuario');
+
+}
+
+function AbrirModalValidacion(idcarrito,valor) {
+	$("#modalprecio").modal('hide');
+	$("#modalverificacion").modal();
+	$("#respuesta").text('');
+	$("#btnguardarprecio").attr('onclick','GuardarModificar('+idcarrito+','+valor+')');
+}
+
+function GuardarModificar(idcarrito,valor) {
+	var txtcontra=$("#txtcontra").val();
+	var txtusuario=$("#txtusuario").val();
+	var datos="idcarrito="+idcarrito+"&precio="+valor+"&usuario="+txtusuario+"&contra="+txtcontra;
+
+	$.ajax({
+	 url:'catalogos/pagos/GuardarModificarPrecioCarrito.php', //Url a donde la enviaremos
+	 type:'POST', //Metodo que usaremos
+	 dataType:'json',
+	 data:datos,
+	  error:function(XMLHttpRequest, textStatus, errorThrown){
+			var error;
+			console.log(XMLHttpRequest);
+			if (XMLHttpRequest.status === 404)  error="Pagina no existe"+XMLHttpRequest.status;// display some page not found error 
+		 	if (XMLHttpRequest.status === 500) error="Error del Servidor"+XMLHttpRequest.status; // display some server error 
+			$('#abc').html('<div class="alert_error">'+error+'</div>');	
+			//aparecermodulos("catalogos/vi_ligas.php?ac=0&msj=Error. "+error,'main');
+		},
+	  success:function(msj){
+	  			$("#txtcontra").val('');
+				$("#txtusuario").val('');
+	  			if (msj.respuesta==1) {
+	  				$("#modalverificacion").modal('hide');
+	  				AbrirNotificacion('Se guardó los cambios correctamente','mdi mdi-checkbox-marked-circle');
+	  				ObtenerPaquetesCarrito();
+	  			}else{
+
+
+	  				$("#respuesta").text('Usuario o contraseña incorrecta');
+	  			}
+	  			
+			}
+	});
+
 }
 

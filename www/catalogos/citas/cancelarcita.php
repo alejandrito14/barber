@@ -123,7 +123,7 @@ if(!isset($_GET['idcita']))
 
 	$fechacita=$fechas->fecha_texto5($obtenercita[0]->fechacita);
 	$cliente=$obtenercita[0]->nombreusuario;
-	$nombrepaquete=$obtenercita[0]->concepto;
+	$nombrepaquete=$obtenercita[0]->nombrepaquete;
 	
 	$cortesia=$obtenercita[0]->nombrepaquetecortesia;
 	$horacita=$obtenercita[0]->horainicial.'-'.$obtenercita[0]->horafinal;
@@ -131,6 +131,7 @@ $nombreespecialista=$obtenercita[0]->nombreespecialista;
 
 $idusuariocita=$obtenercita[0]->idusuarios;
 $estatuscita=$obtenercita[0]->estatuscita;
+$celular=$obtenercita[0]->celular;
 
 
 }
@@ -213,7 +214,7 @@ $estatuscita=$obtenercita[0]->estatuscita;
                             <div class="col-50">
 
                             	<h3 class="no-margin-bottom text-color-theme" style="font-size:26px;">Cliente: <?php echo $cliente; ?></h3>
-
+                            	<h3 class="no-margin-bottom text-color-theme" style="font-size:26px;">Celular: <?php echo $celular; ?></h3>
                             	<h3 class="no-margin-bottom text-color-theme" style="font-size:24px;font-weight: normal;"><?php echo $fechacita; ?></h3>
                             	<h3 class="no-margin-bottom text-color-theme" style="font-size:24px;"><?php echo $horacita; ?>Hrs.</h3> <h3 class="no-margin-bottom text-color-theme" style="font-size:22px;font-weight: normal;"><?php echo $nombrepaquete ?></h3>
 
@@ -346,6 +347,61 @@ $estatuscita=$obtenercita[0]->estatuscita;
   </div>
 </div>
 
+
+
+<!-- El modal PREGUNTA -->
+<div class="modal fade" id="modalcancelacionpregunta">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+      <!-- Encabezado del modal -->
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Contenido del modal -->
+      <div class="modal-body">
+       
+      		<div id="elementosacancelar" class="row"></div>
+      </div>
+      
+      <!-- Pie del modal -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="OpcionNoCancelar('<?php echo $idcita;?>','<?php echo $idusuariocita;?>')">NO</button>
+        <button type="button" class="btn btn-success btncancelar" onclick="Cancelacion('<?php echo $idcita;?>','<?php echo $idusuariocita;?>')">SI</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modalcancelacionpreguntaunico">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+      <!-- Encabezado del modal -->
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Contenido del modal -->
+      <div class="modal-body">
+       
+            <div id="elementosacancelarunico" class="row"></div>
+      </div>
+      
+      <!-- Pie del modal -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+        <button type="button" class="btn btn-success btncancelar" onclick="CancelacionUnicaCita('<?php echo $idcita;?>','<?php echo $idusuariocita;?>')">SI</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
 
 <link rel="stylesheet" type="text/css" href="assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 <script src="assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
@@ -653,7 +709,7 @@ display: flex;
 
 
 	<script type="text/javascript">
-	
+	var motivocancela="";
 </script>
 
 

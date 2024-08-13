@@ -26,14 +26,15 @@ try
 
 	$citas=new Cita();
 	$citas->db=$db;
+	$citas->idtpv=$se->obtenerSesion('idtpv');
 	//$categorias = new Categorias();
 	$fechas = new Fechas();
 	//$categorias->db=$db;
 	$idsucursal=$se->obtenerSesion('idsucursalsesion');
+
 	$idpaquete=$_POST['idpaquete'];
 	$fecha=$_POST['fecha'];
 	$horaseleccionada=explode('_', $_POST['horaseleccionada']);
-
 
 	$idespecialistasele=$_POST['idespecialistasele']!='undefined'?$_POST['idespecialistasele']:'';
 
@@ -64,9 +65,11 @@ try
 
 			$verificar=$citas->VerificarFechaHorarioEspecialista();
 
+			$verificartpv=$citas->VerificarFechaHorarioEspecialistaTpv();
+
 			//$verificarapartada=$citas->VerificarCitaApartada();
 
-			if (count($verificar)==0 ) {
+			if (count($verificar)==0 && count($verificartpv)==0) {
 				
 				array_push($especialistasdisponibles, $obtenerespecialistas[$i]);
 			}
@@ -76,7 +79,7 @@ try
 		}
 	}
 
-
+	//var_dump($especialistasdisponibles);die();
 	if ($idespecialistasele!='') {
 		$encontrado=0;
 		for ($i=0; $i < count($especialistasdisponibles); $i++) { 
@@ -84,10 +87,11 @@ try
 			if ($especialistasdisponibles[$i]->idespecialista==$idespecialistasele) {
 
 				$encontrado=1;
-				return 0;
+				break;
 			}
 
 		}
+
 		
 		if ($encontrado==0) {
 			

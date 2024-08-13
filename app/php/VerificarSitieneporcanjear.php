@@ -9,6 +9,7 @@ require_once("clases/class.Tarjetalealtad.php");
 require_once("clases/class.Funciones.php");
 require_once("clases/class.Fechas.php");
 require_once("clases/class.PagConfig.php");
+require_once("clases/class.Usuarios.php");
 
 /*require_once("clases/class.Sms.php");
 require_once("clases/class.phpmailer.php");
@@ -24,6 +25,8 @@ try
 	$fechas=new Fechas();
 	$config=new PagConfig();
 	$config->db=$db;
+	$usuarios=new Usuarios();
+
 	//Enviamos la conexion a la clase
 	$lo->db = $db;
 
@@ -32,13 +35,19 @@ try
 	$idsucursal=$_POST['idsucursal'];
 	$obtenervalidaciontarjeta=$config->ObtenerInformacionConfiguracion();
 	$habilitartarjetafuncion=$obtenervalidaciontarjeta['habilitartarjetafuncion'];
+
+
+	 $usuarios->db=$db;
+     $usuarios->idusuarios=$idusuario;
+     $infousuario=$usuarios->ObtenerInformacionUsuario();
+     $habilitartarjetausuario=$infousuario[0]->habilitartarjeta;
  
 	$lo->idusuario=$idusuario;
 	$lo->idsucursal=$idsucursal; 
 	$idtarjetalealtadporcanjear=0;
 	$asignacion=[];
 	
-	if ($habilitartarjetafuncion==1) {
+	if ($habilitartarjetafuncion==1 && $habilitartarjetausuario==1) {
 		// code...
 	
 	$obtenerasignada=$lo->ObtenerTarjetasAsignadas();

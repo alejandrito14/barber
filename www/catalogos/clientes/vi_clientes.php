@@ -141,6 +141,7 @@ var oTable = $('#zero_config').dataTable( {
 
 						<th width="72">NOMBRE</th>
 						<th width="72">USUARIO/CEL</th>
+						<th width="72">TOKEN</th>
 
 					<!--	<th>NIVEL</th> -->
 						<!--<th>NO TARJETA</th>-->
@@ -153,6 +154,8 @@ var oTable = $('#zero_config').dataTable( {
 
 						<!--<th>SUCURSAL</th>-->
 						<th width="64">ACCI&Oacute;N</th>
+
+						<th>HABILITAR TARJETA</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -173,23 +176,7 @@ var oTable = $('#zero_config').dataTable( {
 							<td width="30"><?php echo utf8_encode($result_row['idusuarios']); ?></td>
 						  
 							<td width="30"><?php echo utf8_encode($result_row['nombretipo']); ?></td>
-							<!-- <td width="30"> -->
-							<!-- 	<?php
-
-						$fotoperfil=	$result_row['foto'];
-								if($fotoperfil=="" || $fotoperfil=='null'){
-														$rutaperfil="images/sinfoto.png";
-													}
-													else{
-													
-														$rutaperfil="app/".$_SESSION['carpetaapp']."/php/upload/perfil/$fotoperfil";
-													}
-
-							 ?> -->
-							 	
-							<!--  <img src="<?php echo $rutaperfil; ?>" style="height: 30px;width: 30px;">
-
-							 </td> -->
+						
 					 	<td width="30"><?php echo utf8_encode($result_row['alias']); ?></td> 
 						  
 						  	<td><?php
@@ -200,12 +187,7 @@ var oTable = $('#zero_config').dataTable( {
 						  	<!--<td><?php echo $nivel; ?></td>-->
 						  		<td width="30"><?php echo utf8_encode($result_row['usuario']); ?></td>
 
-						  <!-- 	<td>
-						  		<a href="tel://<?php echo utf8_encode($result_row['celular']); ?>"><?php echo utf8_encode($result_row['celular']); ?>
-						  			
-						  		</a>
-						  	</td> -->
-						  <!-- 		<td width="30"><?php echo utf8_encode($result_row['email']); ?></td> -->
+												  		<td width="30"><?php echo utf8_encode($result_row['token']); ?></td>
 
 						  
 						  
@@ -277,10 +259,25 @@ var oTable = $('#zero_config').dataTable( {
 							     
 
 													//SCRIPT PARA CONSTRUIR UN BOTON
-												
+													
 												?>
+										<td align="center" style="width:100px;">
+
+											<?php 
+													 if ($result_row['habilitartarjeta'] == 0)
+                      $switchstate="";
+                   else
+                    $switchstate="checked";
+
+
+
+											 ?>
 								
-									
+										<label class="switch">
+                    <input id="btnautomatico_<?php echo $result_row['idusuarios'] ?>" type="checkbox" class="cuswitch2 success" <?php echo $switchstate?> onchange="checkboxChanged(<?php echo $result_row['idusuarios'] ?>)">
+                <span class="slider"></span>
+           </label>
+									</td>
 						
 							</td> 
 						</tr>
@@ -475,6 +472,41 @@ var oTable = $('#zero_config').dataTable( {
 </script>
 
 	<script type="text/javascript" charset="utf-8">
+		function checkboxChanged(idusuario) {
+				  var checkbox = document.getElementById("btnautomatico_" + idusuario);
+      var isChecked = checkbox.checked;
+
+            var confirmation = confirm("¿Estás seguro de que deseas cambiar el estado de la tarjeta de lealtad?");
+            if (!confirmation) {
+                // Revertir el cambio si el usuario cancela
+                checkbox.checked = !isChecked;
+            } else {
+               
+                console.log("Checkbox con ID de usuario " + idusuario + " ha sido " + (isChecked ? "marcado" : "desmarcado"));
+            }
+
+            var valor=isChecked ? "1" : "0";
+            var datos="idusuario="+idusuario+"&habilitado="+valor;
+         $.ajax({
+												url:'catalogos/clientes/HabilitarTarjeta.php', //Url a donde la enviaremos
+												type:'POST',
+												data: datos,
+												dataType:'json',
+												error:function(XMLHttpRequest, textStatus, errorThrown){
+													  var error;
+													  console.log(XMLHttpRequest);
+													  if (XMLHttpRequest.status === 404)  error="Pagina no existe"+XMLHttpRequest.status;// display some page not found error 
+													  if (XMLHttpRequest.status === 500) error="Error del Servidor"+XMLHttpRequest.status; // display some server error 
+													  $("#empresasasignadas").html(error); 
+												  },
+												success:function(msj){
+													
+																
+												  	}
+											  });
+		}
+	
+
 				var oTable = $('#tblclientes').dataTable( {		
 					
 					  "oLanguage": {

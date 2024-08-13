@@ -100,12 +100,12 @@ if (!calendarContainer.innerHTML.trim()) {
             $('.calendar-custom-toolbar .center').text(monthNames[c.currentMonth] + ', ' + c.currentYear);
             $('.calendar-custom-toolbar .left .link').on('click', function () {
               calendarInline.prevMonth();
-            	RefrescarFechasEspecialista(c);
-
+            	RefrescarFechasSucursal(c);
+ 
             });
             $('.calendar-custom-toolbar .right .link').on('click', function () {
               calendarInline.nextMonth();
-            	RefrescarFechasEspecialista(c);
+            	RefrescarFechasSucursal(c);
 
             });
           },
@@ -540,7 +540,7 @@ function AgendarCita4() {
    var costo=localStorage.getItem('precio');
    var cantidad=1;
    var datos="idpaquete="+idpaquete+"&idsucursal="+idsucursal+"&horario="+horario+"&fecha="+fecha+"&idusuario="+idusuario+"&idespecialista="+idespecialista+"&costo="+costo+"&cantidad="+cantidad;
-   var pagina = "GuardarCita.php";
+   var pagina = "GuardarCita2.php";
   $.ajax({
     type: 'POST',
     dataType: 'json',
@@ -574,6 +574,7 @@ function AgendarCita4() {
       GoToPage('carrito');
 
       CrearModalAviso(html,funcion);
+      localStorage.setItem('idcanje',0);
       
       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
         var error;
@@ -588,4 +589,90 @@ function AgendarCita4() {
 
 function CerrarModalD() {
   modaldialogo.close();
+}
+
+function RefrescarFechasSucursal() {
+
+  var mes = calendarInline.currentMonth;
+  var anio = calendarInline.currentYear;
+  var mes=(mes + 1)<10?'0'+(mes + 1):(mes + 1);
+  var paqueteid=0;
+  var iduser=localStorage.getItem('id_user');
+  var sucursal=localStorage.getItem('idsucursal');
+  var idespecialista=localStorage.getItem('idespecialista');
+  /*var datos="idpaquete="+paqueteid+"&idsucursal="+sucursal+"&idespecialista="+idespecialista+"&mes="+mes+"&anio="+anio;
+  var pagina = "ObtenerFechasEspecialista.php";
+*/
+  var datos="idpaquete="+paqueteid+"&idsucursal="+sucursal+"&idespecialista="+idespecialista+"&mes="+mes+"&anio="+anio+"&iduser="+iduser;
+  var pagina = "ObtenerFechasSucursal.php";
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: urlphp+pagina,
+    data:datos,
+    async:false,
+    success: function(resp){
+       eventos=[];
+       nodisponiblejs=[];
+      if (resp.disponible.length>0) {
+        var disponible=resp.disponible;
+
+        for (var i =0; i < disponible.length; i++) {
+            var fecha=disponible[i];
+              var dividirfecha=fecha.split('-');
+              var nuevafecha=dividirfecha[0]+'-'+parseInt(dividirfecha[1])+'-'+parseInt(dividirfecha[2]);
+              
+             var anio=dividirfecha[0];
+            var mes=(dividirfecha[1].replace(/^(0+)/g, '')-1);
+            var dia=dividirfecha[2];
+          
+            var objeto={
+              date:new Date(anio,mes,dia),
+              color:'rgb(245,212,95)',
+            };
+              eventos.push(objeto);
+        }
+      }
+
+       if (resp.nodisponible.length>0) {
+
+           var nodisponible=resp.nodisponible;
+
+        for (var i =0; i <nodisponible.length;i++) {
+           
+            var fecha=nodisponible[i];
+            var dividirfecha=fecha.split('-');
+            var nuevafecha=dividirfecha[0]+'-'+parseInt(dividirfecha[1])+'-'+parseInt(dividirfecha[2]);
+              
+            var anio=dividirfecha[0];
+            var mes=(dividirfecha[1].replace(/^(0+)/g, '')-1);
+            var dia=dividirfecha[2];
+          
+            var objeto={
+              date:new Date(anio,mes,dia),
+              color:'rgb(245,212,95)',
+            };
+              nodisponiblejs.push(objeto);
+        }
+
+       }
+
+
+         calendarInline.params.events = eventos;
+         calendarInline.params.disabled = nodisponiblejs;
+
+     calendarInline.update();
+          $(".calendar-day-has-events .calendar-day-number").addClass('calendarevento');
+                 $(".calendar-day-event").css('display','none');
+                 $(".calendar-day-weekend .calendar-day-number").addClass('nodisponible');
+
+
+       },error: function(XMLHttpRequest, textStatus, errorThrown){ 
+        var error;
+            if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+            if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+                //alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+          console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+      }
+    });
 }

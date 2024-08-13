@@ -26,6 +26,7 @@ try
 
 	$citas=new Cita();
 	$citas->db=$db;
+	$citas->idtpv=$se->obtenerSesion('idtpv');
 	//$categorias = new Categorias();
 	$fechas = new Fechas();
 	//$categorias->db=$db;
@@ -64,9 +65,11 @@ try
 
 			$verificar=$citas->VerificarFechaHorarioEspecialista();
 
+			$verificartpv=$citas->VerificarFechaHorarioEspecialistaTpv();
+
 			//$verificarapartada=$citas->VerificarCitaApartada();
 
-			if (count($verificar)==0 ) {
+			if (count($verificar)==0) {
 				
 				array_push($especialistasdisponibles, $obtenerespecialistas[$i]);
 			}

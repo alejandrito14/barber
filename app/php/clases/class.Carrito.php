@@ -85,7 +85,7 @@ class Carrito
 			left join paquetes as paquetecortesia on paquetecortesia.idpaquete=cortesia.idpaquetecortesia
 			left join carrito_canje
 			on carrito_canje.idcarrito=carrito.idcarrito
-			WHERE carrito.idusuarios='$this->idusuarios' AND carrito.estatus=1 ORDER BY sucursal.idsucursal
+			WHERE carrito.idusuarios IN($this->idusuarios) AND carrito.estatus=1 ORDER BY sucursal.idsucursal
 
 		";
 

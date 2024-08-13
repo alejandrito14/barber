@@ -473,7 +473,8 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 				var nombre=$('#v_nombre').val();
 				var descripcion=$('#v_descripcion').val();
 				var categoria=$('#v_categoria').val();
-				var preciov=$('#precioventa').val();
+				var costo=$('#txtcosto').val();
+				var sucursal=$('#v_sucursal').val();
 
 				bandera=1;
 				var html='';
@@ -490,9 +491,21 @@ if(isset($_SESSION['permisos_acciones_erp'])){
 					bandera=0;
 					html+='<p>Categoria es requerido</p>';
 				}
-				if(preciov==''){
+				if(costo==''){
 					bandera=0;
-					html+='<p>Precio es requerido</p>';
+					html+='<p>Costo es requerido</p>';
+				}
+
+			
+				
+				if(selectedCategory==0){
+					bandera=0;
+					html+='<p>Categoria es requerido</p>';
+
+				}
+					if(sucursal==0){
+					bandera=0;
+					html+='<p>Sucursal es requerido</p>';
 				}
 
 				if(bandera==0){

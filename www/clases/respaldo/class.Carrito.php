@@ -373,5 +373,17 @@ class Carrito
 	}
 
 
+	public function GuardarNuevoMonto()
+	{
+		$sql="UPDATE carrito 
+		SET costounitario='$this->costounitario',
+		costototal='$this->costototal',
+		cantidad='$this->cantidad'
+		WHERE idcarrito='$this->idcarrito'";
+		
+		$resp=$this->db->consulta($sql);
+	}
+
+
 }
  ?>

@@ -209,7 +209,7 @@ if(!isset($_GET['idcita']))
 
 
 
-							<div class="card margin-bottom">
+							<div class="card ">
                     <div class="card-header" style="    border-radius: 10px;
     margin: 10px;">
                         <div class="row" style="    margin: 5px;">
@@ -249,14 +249,7 @@ if(!isset($_GET['idcita']))
                             
                             </div>
 
-          <div class="col-50">
-          <div class="avatar">
-         <img src="catalogos/sucursal/imagenes/imagenprincipal.jpg" alt="" style="
-margin-top: 1.4em;    width: 100%;
-    border-radius: 10px;
-">
-                                </div>
-                            </div>
+          
                         </div>
 					</div>
 				</div>
@@ -886,16 +879,16 @@ function PintarCortesias(respuesta,idcortesiaseleccionado) {
       
        var foto = respuesta[i].ruta;
        var activo="";
-       if (idcortesiaseleccionado==respuesta[i].idpaquete) {
+       if (idcortesiaseleccionado==respuesta[i].idcortesia) {
        	activo="activo";
        }
 
       html+=`
-        <div class="tarjeta cambiarfuente faustina mx-2" id="tarjetac_`+respuesta[i].idpaquete+`" onclick="SeleccionarCortesia(`+respuesta[i].idpaquete+`,'`+respuesta[i].nombrepaquete+`')" style="width: 30%;">
+        <div class="tarjeta cambiarfuente faustina mx-2" id="tarjetac_`+respuesta[i].idcortesia+`" onclick="SeleccionarCortesia(`+respuesta[i].idcortesia+`,'`+respuesta[i].nombrepaquete+`')" style="width: 30%;">
           <div class="card demo-card-header-pic" style="border-radius: 10px;">
            <div class="card-header align-items-flex-end" style="background-image: url(`+foto+`); border-radius: 10px 10px 0px 0px; width: auto; height: 100px; background-repeat: round;">
             </div>
-            <div class="card-body divcortesias `+activo+`" id="divcortesias_`+respuesta[i].idpaquete+`" style="background: #c7aa6a; border-radius: 0px 0px 10px 10px;">
+            <div class="card-body divcortesias `+activo+`" id="divcortesias_`+respuesta[i].idcortesia+`" style="background: #c7aa6a; border-radius: 0px 0px 10px 10px;">
               <p style="margin: 0; text-align: center; color: white;">`+respuesta[i].nombrepaquete+`</p>
                                 </div>
                  </div>

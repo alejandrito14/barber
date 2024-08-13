@@ -5477,3 +5477,154 @@ function vistaRegistro() {
 
 	GoToPage('celular');
 }
+
+function AbrirModalRegistro(argument) {
+	var formulario=`
+		  <div class="row">
+            <div class="col-100">
+          <div class="titlecatalogo title2 cambiarfuente" style="    font-size: 20px;text-align: center;font-weight: 600;">Ingresar hijo </div>
+      </div>
+    </div>
+
+
+			
+		
+				<div class="form-elements" style="margin-top: 1em;margin-right: 2em;margin-left: 2em;">
+					<form style="    margin-right: 1em;
+    margin-left: 1em;">
+						<div class="list form-list no-margin margin-bottom">
+                <ul class="cambiarfuente">
+            
+                <li class="item-content item-input item-input-with-value is-valid linombre">
+               
+
+                  <div class="item-inner">
+                 <div class="item-title item-label" style="    color: #9c9c9c;font-size: 18px;">Nombre</div>
+                  <div class="item-input-wrap">
+                    
+                  <input type="text" name="v_nombre" id="v_nombre" class="input-with-value form-control" placeholder="Nombre" style="font-size: 20px;" />
+                 
+                </div>
+              </div>
+              </li>
+
+               <li class="item-content item-input item-input-with-value is-valid lipaterno">
+             
+          
+                  <div class="item-inner">
+                     <div class="item-title item-label" style="    color: #9c9c9c;
+    font-size: 18px;">Apellido paterno</div>
+                  <div class="item-input-wrap">
+                     
+                  <input type="text" name="v_paterno" id="v_paterno" class="input-with-value form-control" placeholder="Apellido paterno" style="font-size: 20px;" />
+                 
+                </div>
+              </div>
+              </li>
+
+               <li class="item-content item-input item-input-with-value is-valid limaterno">
+            
+                  <div class="item-inner">
+                 <div class="item-title item-label" style="    color: #9c9c9c;
+    font-size: 18px;">Apellido materno</div>
+                  
+                  <div class="item-input-wrap">
+                    
+                  <input type="text" name="v_materno" id="v_materno" class="input-with-value form-control" placeholder="Apellido materno" style="font-size: 20px;" />
+                 
+                </div>
+              </div>
+              </li>
+
+               <li class="item-content item-input item-input-with-value is-valid lifechanacimiento " >  
+              
+                  <div class="item-inner">
+                 <!--  <div class="item-title item-floating-label">Fecha de nacimiento</div> -->
+                 <div class="item-title item-label" style="    color: #9c9c9c;
+    font-size: 18px;">Fecha de nacimiento</div>
+                  <div class="item-input-wrap">
+                  
+                  <input type="date" name="v_fecha" id="v_fecha" class="input-with-value form-control colorletra" placeholder="Fecha de nacimiento" style="font-size: 20px;    margin-top: 10px;" />
+                 
+                </div>
+              </div>
+              </li>
+
+
+          <li class="item-content item-input item-input-with-value is-valid lifechanacimiento " style="
+    margin-bottom: 1em;
+          "><div class="item-inner">
+              
+              <div class="item-title item-label" style="    color: #9c9c9c;font-size: 18px;">Sexo</div>
+              <div style="
+              width: 100%;" class="row">
+              <span class="button-large button button-fill cambiarfuente col btns" id="txtsexoh" style="
+              background: white;
+              color: black;">Hombre</span>
+
+          <span class="button-large button button-fill cambiarfuente col btns" style="
+              background: white;
+              color: black;
+              /* float: left; */
+          " id="txtsexom">Mujer</span></div>
+
+          </div>
+          </li>
+              <!--  <li class="item-content item-input item-input-with-value is-valid lisexo" style="">
+
+                  <div class="item-inner">
+                  <div class="item-title item-floating-label">Sexo:</div>
+                  <div class="item-input-wrap">
+                  <select name="gender" id="v_sexo" class="colorletra">
+                          <option value="0" class="special">Seleccionar género</option>
+                          <option class="black" value="H" >HOMBRE</option>
+                          <option class="black" value="M">MUJER</option>
+                        </select>
+                </div>
+              </div>
+              </li> -->
+
+                <!--  <li class="item-content item-input item-input-with-value is-valid licorreo" style="display: none;">
+
+                  <div class="item-inner">
+               
+                  <div class="item-input-wrap">
+                  <input type="text" name="v_email" id="v_email" class="input-with-value form-control" placeholder="Correo electrónico" />
+                 
+                </div>
+              </div>
+              </li> -->
+
+
+         
+             
+            </ul>
+
+
+
+
+            </div>
+						 <!--  <p class="cambiarfuente form-text" style="text-align: center;margin-bottom: 1em;font-size: 20px;color: white;">Al registrarse acepta nuestras condiciones de servicio <a href=""></a></p> -->
+
+
+              
+
+						<div class="clearfix">
+							<a id="btncontinuar" class="button-large button button-fill cambiarfuente" style="color: white;background: #C7AA6A;display: none;">Aceptar</a>
+						</div>
+
+            <div class="row" style="height: 30px;"></div>
+
+						<div class="text-align-center account-footer">
+							<!-- <p class="mt-0 form-text">By tapping "Sign Up" you accept our <a href="#">terms</a> and <a href="#">condition</a></p>
+							<a href="/home/" class="button-large button mt-20 button-outline">Continue as guest</a> -->
+						</div>
+					</form>
+				</div>
+
+	`;
+
+
+
+}
+

@@ -11,6 +11,7 @@ require_once("clases/class.Fechas.php");
 require_once("clases/class.Paquetes.php");
 require_once("clases/class.Paquetes.php");
 require_once("clases/class.Cita.php");
+require_once("clases/class.Usuarios.php");
 
 /*require_once("clases/class.Sms.php");
 require_once("clases/class.phpmailer.php");
@@ -28,6 +29,9 @@ try
 	$paquetes->db=$db;
 	$cita=new Cita();
 	$cita->db=$db;
+
+	$usuarios=new Usuarios();
+	$usuarios->db=$db;
 	//Enviamos la conexion a la clase
 	$lo->db = $db;
 
@@ -35,6 +39,16 @@ try
 	//$idcategoria=$_POST['idcategoria'];
 	$iduser=$_POST['id_user'];
 	$lo->idusuarios=$iduser;
+	$idusuario=$iduser;
+	$usuarios->idusuarios=$iduser;
+    $obtenerhijos=$usuarios->ObtenerHijos();
+
+    for ($i=0; $i < count($obtenerhijos); $i++) { 
+        $idusuario.=','.$obtenerhijos[$i]->idusuarios;
+    }
+    $lo->idusuarios=$idusuario;
+
+
 	$obtenercarrito=$lo->ObtenerCarrito();
 	$citasapartada=0;
 	$totalcarrito=0;

@@ -56,7 +56,7 @@ try
     $cita->horainicials=$horainicials;
     $cita->horafinals=$horafinals;
   }
-
+ 
  
 	$cita->idsucursal=$se->obtenerSesion('idsucursalsesion');
 	$cita->idpaquete=$_POST['idpaquete'];

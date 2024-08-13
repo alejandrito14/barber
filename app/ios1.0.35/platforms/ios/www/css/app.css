@@ -1,4 +1,4 @@
-/*@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
 
 @font-face {
   font-family: 'Material Icons';
@@ -45,7 +45,7 @@
   font-feature-settings: 'liga';
 }
 
-/*@font-face {
+@font-face {
   font-family: 'Framework7 Icons';
   font-style: normal;
   font-weight: 400;
@@ -53,7 +53,7 @@
   src: url('../fonts/Framework7Icons-Regular.woff2') format('woff2'),
     url('../fonts/Framework7Icons-Regular.woff') format('woff'),
     url('../fonts/Framework7Icons-Regular.ttf') format('truetype');
-}*/
+}
 
 .f7-icons {
   font-family: 'Framework7 Icons';
@@ -1518,7 +1518,7 @@ color: white!important;
 
 .globo{
   position: absolute;
-  font-size: 15px;
+  font-size: 13px;
   border-radius: var(--borde);
   padding: var(--borde);
   --borde: 1em;

@@ -96,7 +96,7 @@ class Tarjetaregalo
 	{
 	
 		$sql="INSERT INTO tarjetaregalo(nombretarjeta, descripcion, tipodescuento, montodescuento, estatus,orden,fechavigencia) VALUES ( '$this->nombretarjeta', '$this->descripcion','$this->tipodescuento','$this->montodescuento','$this->estatus','$this->orden','$this->fechavigencia','$this->idsucursal')";
-		
+		echo $sql;die();
 		$resp = $this->db->consulta($sql);
 		$this->idtarjetaregalo = $this->db->id_ultimo();
 

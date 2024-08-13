@@ -9,6 +9,7 @@ require_once("clases/class.Carrito.php");
 require_once("clases/class.Funciones.php");
 require_once("clases/class.Fechas.php");
 require_once("clases/class.Paquetes.php");
+require_once("clases/class.Usuarios.php");
 
 /*require_once("clases/class.Sms.php");
 require_once("clases/class.phpmailer.php");
@@ -24,6 +25,9 @@ try
 	$fechas=new Fechas();
 	$paquetes=new Paquetes();
 	$paquetes->db=$db;
+
+	$usuarios=new Usuarios();
+	$usuarios->db=$db;
 	//Enviamos la conexion a la clase
 	$lo->db = $db;
 
@@ -31,6 +35,16 @@ try
 	//$idcategoria=$_POST['idcategoria'];
 	$iduser=$_POST['idusuario'];
 	$lo->idusuarios=$iduser;
+	$idusuario=$iduser;
+	$usuarios->idusuarios=$idusuario;
+	$obtenerhijos=$usuarios->ObtenerHijos();
+
+	for ($i=0; $i < count($obtenerhijos); $i++) { 
+		$idusuario.=','.$obtenerhijos[$i]->idusuarios;
+	}
+
+	$lo->idusuarios=$idusuario;
+
 	$obtenercarrito=$lo->ObtenerCarrito();
 	$cortesiasporagregar=0;
 	$concortesia=0;

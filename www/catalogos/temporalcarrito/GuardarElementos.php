@@ -12,20 +12,26 @@ if(!isset($_SESSION['se_SAS']))
 require_once("../../clases/conexcion.php");
 
 require_once("../../clases/class.Temporalcarrito.php");
+require_once("../../clases/class.Paquetes.php");
+
 
 try
 {
 	$db= new MySQL();
 	$temporalcarrito= new Temporalcarrito();
 	$temporalcarrito->db=$db;
-
+	$paquetes=new Paquetes();
+	$paquetes->db=$db;
+ $db->begin();
 $idsucursal=$se->obtenerSesion('idsucursalseleccionada');
 $elementos=json_decode($_POST['elementos']);
 $valoredicion=$_POST['valoredicion'];
 $idnota=$_POST['idnotapago'];
 
 	for ($i=0; $i <count($elementos) ; $i++) { 
-		$temporalcarrito->idsucursal=$idsucursal;
+
+
+		$temporalcarrito->idsucursal=$elementos[$i]->idsucursal;
 
 		if ($elementos[$i]->servicio==1) {
 			for ($j=0; $j <$elementos[$i]->cantidad ; $j++) { 
@@ -56,6 +62,19 @@ $idnota=$_POST['idnotapago'];
             $temporalcarrito->idnota=$idnota;
 
 			if ($valoredicion>0) {
+				$obtenertemporal=$temporalcarrito->ObtenerTemporalCarritoId();
+			$paquetes->idpaquete=$elementos[$i]->idpaquete;
+
+
+
+			$obtenerpaquete=$paquetes->ObtenerPaquete2();
+			$intervalo=$obtenerpaquete[0]->intervaloservicio;
+			
+			$nuevaHora = date('H:i', strtotime($obtenertemporal[0]->horainicial . ' +'.$intervalo.' minutes'));
+		
+
+			$temporalcarrito->horafinal=$nuevaHora;
+
 			$temporalcarrito->Ediciontemporal();
 
 			
@@ -123,6 +142,7 @@ $idnota=$_POST['idnotapago'];
 
 	}
 }
+  $db->commit();
 
 	$respuesta['respuesta'] = 1;
 
@@ -131,7 +151,7 @@ $idnota=$_POST['idnotapago'];
     echo $myJSON;
 
 } catch (Exception $e) {
-    //$db->rollback();
+    $db->rollback();
     //echo "Error. ".$e;
 
     $array->resultado = "Error: " . $e;

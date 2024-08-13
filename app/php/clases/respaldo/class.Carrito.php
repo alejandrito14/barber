@@ -23,6 +23,10 @@ class Carrito
 	public $colococortesia;
 	public $fechacortesia;
 	public $fechacreacion;
+	public $codigocupon;
+	public $montocupon;
+	public $idcupon;
+	public $montomonedero;
 
 	public function AgregarCarrito()
 	{
@@ -52,6 +56,10 @@ class Carrito
 			carrito.idespecialista,
 			carrito.titulosgrupos,
 			carrito.idpaquete,
+			carrito.montomonedero,
+			carrito.montocupon,
+			carrito.idcupon,
+			carrito.codigocupon,
 			carrito.colococortesia,
 			(SELECT  CONCAT(usuarios.nombre,' ',usuarios.paterno) FROM especialista INNER JOIN usuarios on usuarios.idusuarios=especialista.idusuarios where especialista.idespecialista=citaapartado.idespecialista ) as usuarioespecialista,
 			DATE_FORMAT(citaapartado.fecha,'%d-%m-%Y')as fecha,
@@ -237,7 +245,6 @@ class Carrito
 				
 
 		";
-		echo $sql;die();
 		
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
@@ -255,6 +262,38 @@ class Carrito
 		}
 		
 		return $array;
+	 }
+
+	 public function ActualizarValoresCarrito()
+	 {
+	 	$sql="UPDATE carrito 
+		SET codigocupon='',
+		montocupon=0,
+		idcupon=0,
+		montomonedero=0
+		WHERE idcarrito='$this->idcarrito'";
+		
+		$resp=$this->db->consulta($sql);
+	 }
+
+
+	  public function ActualizarValoresCarritoCupon()
+	 {
+	 	$sql="UPDATE carrito 
+		SET codigocupon='$this->codigocupon',
+		montocupon='$this->montocupon',
+		idcupon='$this->idcupon'
+		WHERE idcarrito='$this->idcarrito'";
+		$resp=$this->db->consulta($sql);
+	 }
+
+	  public function GuardarMonederoCarrito()
+	 {
+	 	$sql="UPDATE carrito 
+		SET montomonedero='$this->montomonedero'
+		WHERE idcarrito='$this->idcarrito'";
+		
+		$resp=$this->db->consulta($sql);
 	 }
 
 }

@@ -37,7 +37,7 @@ try
 	$idcita=$_POST['idcita'];
 	$motivocancelacion=$_POST['motivocancela'];
 	$lo->idcita=$idcita;
-
+  $notapago->idcita=$idcita;
 
 	$obtenercitanota=$lo->BuscarCitaNotapagodescripcion();
 		$idnotapagodescripcion=$obtenercitanota[0]->idnotapago_descripcion;
@@ -55,16 +55,44 @@ try
 	$lo->motivocancelacion=$motivocancelacion;
 	$lo->idusuariocancela=$idusuariocancela;
 	$lo->CancelarCita();
+  $notapago->idnotapago=$obtenercitanota[0]->idnotapago;
+  $notapago->ActualizarNotacancelada();
+
+ 
+
+$obtenerdetallenota=$notapago->ObtenerdescripcionNota();
+    $montocancelado=0;
+    for ($i=0; $i < count($obtenerdetallenota); $i++) { 
+        $montocancelado=$montocancelado+$obtenerdetallenota[$i]->monto;
+        $idcita=$obtenerdetallenota[$i]->idcita;
+       
+        $idnotapagodescripcion=$obtenerdetallenota[$i]->idnotapago_descripcion;
+
+        $lo->idcita=$idcita;
+        if ($idcita!=0) {
+          $lo->fechacancelacion=$notapago->fechacancelado;
+          $lo->motivocancelacion=$motivocancelacion;
+          $lo->cancelacion=1;
+          $lo->estatus=3;
+          $lo->idusuariocancela=$idusuariocancela;
+          $lo->CancelarCita();
+          
+          $notapago->idnotapagodescripcion=$idnotapagodescripcion;
+          $notapago->ActualizarEstatusdescripcion();
 
 
-	$monto=$obtenercitanota[0]->monto-$obtenercitanota[0]->montocupon-$obtenercitanota[0]->monederoaplicado;
+        }
+          
+    }
+    
+	$monto=$montocancelado-$obtenercitanota[0]->montocupon-$obtenercitanota[0]->monederoaplicado;
 	$idnotapago=$obtenercitanota[0]->idnotapago;
 	$nombrepaquete=$obtenercitanota[0]->descripcion;
 
-	 $contador=$notapago->ActualizarConsecutivo();
+	/* $contador=$notapago->ActualizarConsecutivo();
     $fecha = explode('-', date('d-m-Y'));
     $anio = substr($fecha[2], 2, 4);
-    $folio = $fecha[0].$fecha[1].$anio.$contador;
+    $folio = $fecha[0].$fecha[1].$anio.$contador;*/
 
 
      	 $notapago->idusuario=$idusuario;
@@ -91,7 +119,8 @@ try
          $notapago->idusuariodatofiscal=0;
          $notapago->montocupon=0;
          $notapago->idcupon=0;
-         $notapago->CrearNotapago();
+         $notapago->tpv=1;
+         //$notapago->CrearNotapago();
          $idnotapagonueva=$notapago->idnotapago;
 
 
@@ -105,14 +134,14 @@ try
            $notapago->idnotapago=$idnotapagonueva;
             $notapago->monederoaplicado=$obtenercitanota[0]->monederoaplicado;
             
-           $notapago->Creardescripcionpago();
+          // $notapago->Creardescripcionpago();
 
-        $contador=$notapago->ActualizarConsecutivoCancelado();
-	    $fecha = explode('-', date('d-m-Y'));
+       // $contador=$notapago->ActualizarConsecutivoCancelado();
+	   /* $fecha = explode('-', date('d-m-Y'));
 	    $anio = substr($fecha[2], 2, 4);
-	    $foliocancelacion = $fecha[0].$fecha[1].$anio.$contador;
+	    $foliocancelacion = $fecha[0].$fecha[1].$anio.$contador;*/
 
-          $notapagocancelada->foliocancelacion=$foliocancelacion;
+         /* $notapagocancelada->foliocancelacion=$foliocancelacion;
 
 		   $notapagocancelada->montocancelacion=$obtenercitanota[0]->monto;
 
@@ -123,17 +152,20 @@ try
 		   $notapagocancelada->idnotapagocancelada=$idnotapago;
 		   $notapagocancelada->idnotapago_descripcion=$idnotapagodescripcion;
 
-		   $notapagocancelada->idnotapago= $idnotapagonueva;
-           $notapagocancelada->GuardarNotaCancelada();
-
-
+		   $notapagocancelada->idnotapago= $idnotapagonueva;*/
+         //  $notapagocancelada->GuardarNotaCancelada();
+    $montomonedero=$montocancelado-$obtenernota[0]->montocupon-$obtenernota[0]->montomonedero;
+  
+    if ($montomonedero>0 && $obtenercitanota[0]->estatusnota==1) {
+             # code...
+           
      $usuarios=new Usuarios();
      $usuarios->db=$db;
-     $montomonedero=$obtenercitanota[0]->monto-$obtenercitanota[0]->montocupon-$obtenercitanota[0]->monederoaplicado;
-    $usuarios->idusuarios = $idusuario;
-    $iduser=$idusuario;
-    $row_cliente = $usuarios->ObtenerUsuario();
-    $saldo_anterior = $row_cliente[0]->monedero;
+    
+     $usuarios->id_usuario = $idusuario;
+     $iduser=$idusuario;
+     $row_cliente = $usuarios->ObtenerUsuario();
+     $saldo_anterior = $row_cliente[0]->monedero;
 
     if ($saldo_anterior=='') {
        $saldo_anterior=0;
@@ -142,14 +174,18 @@ try
     //Calculamos nuevo saldo
     $nuevo_saldo = $saldo_anterior + $montomonedero;
     $sql = "UPDATE usuarios SET monedero = '$nuevo_saldo' WHERE idusuarios = '$iduser'";
-    
+   
     $db->consulta($sql);
     //Guardamos el movimiento en tabla cliente_monedero
     $tipo=0;
     $concepto="Abono por cancelacion";
-    $sql_movimiento = "INSERT INTO monedero (idusuarios,monto,modalidad,tipo,saldo_ant,saldo_act,concepto,idnota) VALUES ('$iduser','$montomonedero','2','$tipo','$saldo_anterior','$nuevo_saldo','$concepto','$idnotapagonueva');";
+    $sql_movimiento = "INSERT INTO monedero (idusuarios,monto,modalidad,tipo,saldo_ant,saldo_act,concepto,idnota) VALUES ('$iduser','$montomonedero','2','$tipo','$saldo_anterior','$nuevo_saldo','$concepto','$idnotapago');";
   
      $db->consulta($sql_movimiento);
+
+   }else{
+    $montomonedero=0;
+   }
 
  	$db->commit();
 	

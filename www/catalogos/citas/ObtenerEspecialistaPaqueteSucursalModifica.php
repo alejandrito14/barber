@@ -33,7 +33,14 @@ try
 	$idpaquete=$_POST['idpaquete'];
 	$fecha=$_POST['fecha'];
 	$horaseleccionada=explode('_', $_POST['horaseleccionada']);
+	$idnotapago=$_POST['idnotapago'];
 
+	$objeto=json_decode($_POST['objeto']);
+	$idtemporalcarrito=0;
+
+	if ($objeto->idtemporalcarrito!='') {
+		$idtemporalcarrito=$objeto->idtemporalcarrito;
+	}
 
 	$idespecialistasele=$_POST['idespecialistasele']!='undefined'?$_POST['idespecialistasele']:'';
 
@@ -59,14 +66,22 @@ try
 
 			$citas->idespecialista=$obtenerespecialistas[$i]->idespecialista;
 			$citas->fecha=$fecha;
-			$citas->horainicial=$horaseleccionada[0];
-			$citas->horafinal=$horaseleccionada[1];
+			$citas->horainicial=date('H:i',strtotime($horaseleccionada[0]));
 
-			$verificar=$citas->VerificarFechaHorarioEspecialista();
+			$intervaloservicio=$objeto->intervaloservicio;
+			
+			$nuevaHora = date('H:i', strtotime($citas->horainicial . ' +'.$intervaloservicio.' minutes'));
+
+			$citas->horafinal=$nuevaHora;
+			$idcita=$objeto->idcitaapartada;
+
+			$verificar=$citas->VerificarFechaHorarioEspecialistaMenosActual($idcita);
 
 			//$verificarapartada=$citas->VerificarCitaApartada();
+			$verificarconnota=$citas->VerificarConNota($idnotapago,$idtemporalcarrito);
 
-			if (count($verificar)==0 ) {
+			
+			if (count($verificar)==0 && count($verificarconnota)==0) {
 				
 				array_push($especialistasdisponibles, $obtenerespecialistas[$i]);
 			}
@@ -76,8 +91,8 @@ try
 		}
 	}
 
-
-	if ($idespecialistasele!='') {
+	//var_dump($especialistasdisponibles);die();
+	/*if ($idespecialistasele!='') {
 		$encontrado=0;
 		for ($i=0; $i < count($especialistasdisponibles); $i++) { 
 
@@ -105,13 +120,13 @@ try
 			$idespecialista=$especialista->idespecialista;
 
 			$array=array('nombre'=>$nombre,'paterno'=>$paterno,'materno'=>$materno,'sexo'=>$sexo,'idsucursal'=>$idsucursal,'idusuarios'=>$idusuarios,'foto'=>$foto,'orden'=>$orden,'costo'=>$costo,'idespecialista'=>$idespecialista);
-			array_push($especialistasdisponibles,$array);
+			//array_push($especialistasdisponibles,$array);
 
 		}
 		
 
 
-	}
+	}*/
 
 
 	for ($i=0; $i < count($especialistasdisponibles); $i++) { 

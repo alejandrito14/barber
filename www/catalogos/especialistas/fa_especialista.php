@@ -9,7 +9,7 @@ if(!isset($_SESSION['se_SAS']))
 	//header("Location: ../login.php");
 	echo "login";
 	exit;
-}
+} 
 
 require_once("../../clases/conexcion.php");
 require_once("../../clases/class.Botones.php");
@@ -663,25 +663,91 @@ $su->lista_empresas = $lista_empresas;
 									<h5>HORARIOS</h5>
 									</div>
 				
-			<div class="card-body">
-				<div class="row">
-				<button type="button" onclick="AbrirModalHorario()" class="btn btn-primary" title="NUEVO HORARIO" style="margin-right: 10px;float: right;"><i class="mdi mdi-arrow-left-box"></i>NUEVO HORARIO</button>
+							<div class="card-body">
+								<div class="row">
+								<button type="button" onclick="AbrirModalHorario()" class="btn btn-primary" title="NUEVO HORARIO" style="margin-right: 10px;float: right;"><i class="mdi mdi-arrow-left-box"></i>NUEVO HORARIO</button>
 
 
-				</div>
+								</div>
 
-				<div class="row horariosespecialistas" >
+								<div class="row horariosespecialistas" >
 
-								
-				</div>
-			</div>
-		</div>
+												
+								</div>
+							</div>
+							</div>
 
 
 						</div>
 					</div>
 				</div>
-			</div></div>
+
+
+
+
+
+				<div class="card" style="width: 100%;">
+					<div class="card-body">
+						
+						<div class="">
+								<div class="card" style="width: 100%;" >
+									<div class="card-header" style="margin-top: 1em;">
+									<h5>SUSTITUCIÓN DE HORARIOS</h5>
+									</div>
+				
+							<div class="card-body">
+								<div class="row">
+								<button type="button" onclick="AbrirModalFechaHorario()" class="btn btn-primary" title="NUEVO HORARIO" style="margin-right: 10px;float: right;"><i class="mdi mdi-arrow-left-box"></i>NUEVA FECHA</button>
+
+
+								</div>
+
+								<div class="row fechahorariosespecialistas" style="   " >
+
+												
+								</div>
+							</div>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			
+
+
+				<div class="card" style="width: 100%;">
+					<div class="card-body">
+						
+						<div class="">
+								<div class="card" style="width: 100%;" >
+									<div class="card-header" style="margin-top: 1em;">
+									<h5>FECHAS AUSENTES</h5>
+									</div>
+				
+							<div class="card-body">
+								<div class="row">
+								<button type="button" onclick="AbrirModalFechaHorarioAusente()" class="btn btn-primary" title="NUEVO HORARIO" style="margin-right: 10px;float: right;"><i class="mdi mdi-arrow-left-box"></i>NUEVA FECHA</button>
+
+
+								</div>
+
+								<div class="fechahorariosespecialistasausente row" >
+
+												
+								</div>
+							</div>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+
+		</div>
 
 
 		
@@ -880,7 +946,7 @@ $su->lista_empresas = $lista_empresas;
        		<form>
 											<div class="form-group">
 											    <label for="">SUCURSAL</label>
-											  		<select name="" class="form-control" id="v_sucursal"></select>
+											  		<select name="" class="form-control v_sucursal" id="v_sucursal"></select>
 											</div>
 										
 										<div class="form-group">
@@ -917,7 +983,7 @@ $su->lista_empresas = $lista_empresas;
 
 
 
-									<div class="form-group">
+									<div class="form-group" style="display: none;">
 
 										<label>TIPO DE COMISIÓN:</label>
 										<div class="form-group mb-2" style="">
@@ -930,7 +996,7 @@ $su->lista_empresas = $lista_empresas;
 										</div>
 									</div>
 
-									<div class="form-group">
+									<div class="form-group" style="display: none;">
 
 										<label>CANTIDAD DE LA COMISÓN:</label>
 										<div class="form-group mb-2" style="">
@@ -954,6 +1020,138 @@ $su->lista_empresas = $lista_empresas;
     </div>
   </div>
 </div>
+
+
+
+<div class="modal" id="modalfechahorario" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">NUEVO FECHA/HORARIO</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       		<form>
+											<div class="form-group">
+											    <label for="">SUCURSAL</label>
+											  		<select name="" class="form-control v_sucursalf v_sucursal" id="v_sucursal"></select>
+											</div>
+										
+										
+
+									<div class="form-group" style="">
+									<label>FECHA</label>	
+
+									<input type="date" name="fecha_i" id="fecha_i" class="form-control">
+									</div>
+
+									<div class="form-group">
+									<label>HORA INICIO:</label>
+										<div class="form-group mb-2" style="">
+											<input type="time" id="horai_2" class="form-control horainiciodiaselec2" >
+										</div>
+
+									</div>
+
+								
+									<div class="form-group">
+
+										<label>HORA FIN:</label>
+										<div class="form-group mb-2" style="">
+											<input type="time" id="horaf_2" class="form-control horafindiaselec2" >
+										</div>
+									</div>
+
+
+
+									
+
+
+							</form>
+						</div>
+     
+      <div class="modal-footer">
+
+      	<button type="button" class="btn btn-primary " onclick="AgregarNuevoFechaHorario()">AGREGAR</button>
+
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+
+     
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal" id="modalfechahorarioausente" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">NUEVO FECHA/HORARIO AUSENTE</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       		<form>
+											<div class="form-group">
+											  <label for="">SUCURSAL</label>
+											 	<select name="" class="form-control v_sucursalausente v_sucursal" id="v_sucursal"></select>
+											</div>
+										
+										
+
+									<div class="form-group" style="">
+									<label>FECHA</label>	
+
+									<input type="date" name="fecha_i_ausente" id="fecha_i_ausente" class="form-control">
+									</div>
+									
+
+									<div class="form-group">
+									<label>HORA INICIO:</label>
+										<div class="form-group mb-2" style="">
+											<input type="time" id="horai_2_ausente" class="form-control horainiciodiaselec2" >
+										</div>
+
+									</div>
+
+								
+									<div class="form-group">
+
+										<label>HORA FIN:</label>
+										<div class="form-group mb-2" style="">
+											<input type="time" id="horaf_2_ausente" class="form-control horafindiaselec2" >
+										</div>
+									</div>
+
+
+
+									
+
+
+							</form>
+						</div>
+     
+      <div class="modal-footer">
+
+      	<button type="button" class="btn btn-primary " onclick="AgregarNuevoFechaHorarioAusente()">AGREGAR</button>
+
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+
+     
+       
+      </div>
+    </div>
+  </div>
+</div>
+
 </div>
 
 

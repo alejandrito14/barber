@@ -1,7 +1,7 @@
 <?php 
 header("Content-Type: application/json; charset=UTF-8");
 header('Access-Control-Allow-Origin: *');
-
+ 
 
 //Inlcuimos las clases a utilizar
 require_once("../../clases/conexcion.php");
@@ -13,6 +13,7 @@ require_once("../../clases/class.PagConfig.php");
 require_once("../../clases/class.Notapago.php");
 require_once("../../clases/class.NotapagoCancelada.php");
 require_once "../../clases/class.Usuarios.php";
+require_once "../../clases/class.WhatsapMensaje.php";
 
 try
 {
@@ -30,17 +31,30 @@ try
     $notapagocancelada=new NotapagoCancelada();
     $notapagocancelada->db=$db;
 
+    $whatsap=new WhatsapMensaje();
+    $whatsap->db=$db;
+
+    $paginaconfi     = new PagConfig();
+    $paginaconfi->db = $db;
+    $obtenerconfiguracion=$paginaconfi->ObtenerInformacionConfiguracion();
+
     $obj->db=$db;
      $db->begin();
     $idusuariocancela=$_SESSION['se_sas_Usuario'];
-	$idusuario=$_POST['idusuarios'];
+	$idusuario=$_POST['idusuario'];
 	$idcita=$_POST['idcita'];
 	$motivocancelacion=$_POST['motivocancela'];
 	$lo->idcita=$idcita;
-
+  $notapago->idcita=$idcita;
 
 	$obtenercitanota=$lo->BuscarCitaNotapagodescripcion();
 		$idnotapagodescripcion=$obtenercitanota[0]->idnotapago_descripcion;
+   $tpv=$obtenercitanota[0]->tpv;
+        //obtenerfolio
+   $folio=$obtenercitanota[0]->folio;
+   $sucursal->idsucursales=$obtenercitanota[0]->idsucursalnota;
+   $datossucursal=$sucursal->ObtenerSucursal();
+   $celularsucursal=$datossucursal[0]->celular;
 	
 	$notapago->idnotapagodescripcion=$idnotapagodescripcion;
 	$notapago->cancelado=1;
@@ -58,10 +72,39 @@ try
   $notapago->idnotapago=$obtenercitanota[0]->idnotapago;
   $notapago->ActualizarNotacancelada();
 
+ 
+$nombrepaquetedes="";
+$obtenerdetallenota=$notapago->ObtenerdescripcionNota();
+    $montocancelado=0;
+    for ($i=0; $i < count($obtenerdetallenota); $i++) { 
+        $montocancelado=$montocancelado+$obtenerdetallenota[$i]->monto;
+        $idcita=$obtenerdetallenota[$i]->idcita;
+       
+        $idnotapagodescripcion=$obtenerdetallenota[$i]->idnotapago_descripcion;
+        $nombrepaquetedes.=$obtenerdetallenota[$i]->concepto;
+
+        $lo->idcita=$idcita;
+        if ($idcita>0) {
+          $lo->fechacancelacion=$notapago->fechacancelado;
+          $lo->motivocancelacion=$motivocancelacion;
+          $lo->cancelacion=1;
+          $lo->estatus=3;
+          $lo->idusuariocancela=$idusuariocancela;
+          $lo->CancelarCita();
+          
+          $notapago->idnotapagodescripcion=$idnotapagodescripcion;
+          $notapago->ActualizarEstatusdescripcion();
+
+           $nombrepaquetedes.='\nFecha:'.$fechas->fecha_texto5($obtenerdetallenota[$i]->fechacita).'\n';
+            $nombrepaquetedes.='Hora:'.$obtenerdetallenota[$i]->horainicial.'-'.$obtenerdetallenota[$i]->horafinal.'Hrs.\n';
+            $nombrepaquetedes.='Barbero:'.$obtenerdetallenota[$i]->usuarioespecialista.'\n';
 
 
-
-	$monto=$obtenercitanota[0]->monto-$obtenercitanota[0]->montocupon-$obtenercitanota[0]->monederoaplicado;
+        }
+          
+    }
+    
+	$monto=$montocancelado-$obtenercitanota[0]->montocupon-$obtenercitanota[0]->monederoaplicado;
 	$idnotapago=$obtenercitanota[0]->idnotapago;
 	$nombrepaquete=$obtenercitanota[0]->descripcion;
 
@@ -117,7 +160,7 @@ try
 	    $anio = substr($fecha[2], 2, 4);
 	    $foliocancelacion = $fecha[0].$fecha[1].$anio.$contador;*/
 
-          $notapagocancelada->foliocancelacion=$foliocancelacion;
+         /* $notapagocancelada->foliocancelacion=$foliocancelacion;
 
 		   $notapagocancelada->montocancelacion=$obtenercitanota[0]->monto;
 
@@ -128,43 +171,63 @@ try
 		   $notapagocancelada->idnotapagocancelada=$idnotapago;
 		   $notapagocancelada->idnotapago_descripcion=$idnotapagodescripcion;
 
-		   $notapagocancelada->idnotapago= $idnotapagonueva;
+		   $notapagocancelada->idnotapago= $idnotapagonueva;*/
          //  $notapagocancelada->GuardarNotaCancelada();
+    $montomonedero=$montocancelado-$obtenernota[0]->montocupon-$obtenernota[0]->montomonedero;
 
-    if ($obtenercitanota[0]->estatusnota==1) {
-             # code...
-           
-     $usuarios=new Usuarios();
+      $usuarios=new Usuarios();
      $usuarios->db=$db;
-     $montomonedero=$obtenercitanota[0]->monto-$obtenercitanota[0]->montocupon-$obtenercitanota[0]->monederoaplicado;
-     $usuarios->idusuarios = $idusuario;
+    
+     $usuarios->id_usuario = $idusuario;
      $iduser=$idusuario;
      $row_cliente = $usuarios->ObtenerUsuario();
      $saldo_anterior = $row_cliente[0]->monedero;
 
+  
+    if ($montomonedero>0 && $obtenercitanota[0]->estatusnota==1) {
+             # code...
+           
+   
     if ($saldo_anterior=='') {
        $saldo_anterior=0;
     }
       $montomonedero=$montomonedero+$obtenercitanota[0]->monederoaplicado;
     //Calculamos nuevo saldo
     $nuevo_saldo = $saldo_anterior + $montomonedero;
-    $sql = "UPDATE usuarios SET monedero = '$nuevo_saldo' WHERE idusuarios = '$iduser'";
+    /*$sql = "UPDATE usuarios SET monedero = '$nuevo_saldo' WHERE idusuarios = '$iduser'";
    
-    $db->consulta($sql);
+    $db->consulta($sql);*/
     //Guardamos el movimiento en tabla cliente_monedero
     $tipo=0;
     $concepto="Abono por cancelacion";
     $sql_movimiento = "INSERT INTO monedero (idusuarios,monto,modalidad,tipo,saldo_ant,saldo_act,concepto,idnota) VALUES ('$iduser','$montomonedero','2','$tipo','$saldo_anterior','$nuevo_saldo','$concepto','$idnotapago');";
   
-     $db->consulta($sql_movimiento);
+    // $db->consulta($sql_movimiento);
 
+   }else{
+    $montomonedero=0;
    }
+
+
+        $nombrecliente='Cliente:'.$row_cliente[0]->nombre.' '.$row_cliente[0]->paterno;
+        $whatsapp=new WhatsapMensaje();
+       
+        $whatsapp->Version=$obtenerconfiguracion['faceversion'];
+        $whatsapp->accestoken=$obtenerconfiguracion['tokenface'];
+        $whatsapp->phoneid=$obtenerconfiguracion['phoneid'];
+        $celularsucursal=str_replace(array('(', ')', '-'), '',$celularsucursal);
+        $whatsapp->tophone=$celularsucursal;
+
+     
+        if ($tpv==0) {
+        $whatsapp->MensajeCancelacion($folio,$nombrepaquetedes,$nombrecliente);
+            }
 
  	$db->commit();
 	
 	$respuesta['respuesta']=1;
 	$respuesta['detallecita']=$obtenercitanota[0];
-	$respuesta['montoamonedero']=$montomonedero;
+	$respuesta['montoamonedero']=0;
 	
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);

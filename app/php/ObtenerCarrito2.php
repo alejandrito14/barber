@@ -12,6 +12,7 @@ require_once("clases/class.Paquetes.php");
 require_once("clases/class.Tarjetalealtad.php");
 require_once("clases/class.Canje.php");
 require_once("clases/class.PagConfig.php");
+require_once("clases/class.Usuarios.php");
 
 
 /*require_once("clases/class.Sms.php");
@@ -30,7 +31,8 @@ try
 	$paquetes->db=$db;
 	$config=new PagConfig();
 	$config->db=$db;
-
+	$usuarios=new Usuarios();
+	$usuarios->db=$db;
 	//Enviamos la conexion a la clase
 	$lo->db = $db;
 
@@ -41,11 +43,26 @@ try
 	$tarjeta->db=$db;
 	//$idcategoria=$_POST['idcategoria'];
 	$iduser=$_POST['idusuario'];
+	$idusuario=$iduser;
+
 	$lo->idusuarios=$iduser;
+	$usuarios->idusuarios=$iduser;
+	$obtenerhijos=$usuarios->ObtenerHijos();
+
+	for ($i=0; $i < count($obtenerhijos); $i++) { 
+		$idusuario.=','.$obtenerhijos[$i]->idusuarios;
+	}
+	$lo->idusuarios=$idusuario;
+	
 	$obtenercarrito=$lo->ObtenerCarrito();
 
 	$obtenervalidaciontarjeta=$config->ObtenerInformacionConfiguracion();
 	$habilitartarjetafuncion=$obtenervalidaciontarjeta['habilitartarjetafuncion'];
+
+	 $usuarios->db=$db;
+     $usuarios->idusuarios=$iduser;
+     $infousuario=$usuarios->ObtenerInformacionUsuario();
+     $habilitartarjetausuario=$infousuario[0]->habilitartarjeta;
 	
 	$totalcarrito=0;
 	for ($i=0; $i < count($obtenercarrito); $i++) { 
@@ -63,7 +80,7 @@ try
 		
 			}
 			
-	if ($habilitartarjetafuncion==1) {
+	if ($habilitartarjetafuncion==1 && $habilitartarjetausuario==1) {
 				// code...
 			
 	if ($obtenercarrito[$i]->idcanje==null) {

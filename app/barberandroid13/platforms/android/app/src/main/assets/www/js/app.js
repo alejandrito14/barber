@@ -111,7 +111,7 @@ $(document).ready(function() {
 
     }else{
 
-      codigoservicio='152';
+      codigoservicio='127';
      
     }
 
@@ -145,7 +145,7 @@ $(document).ready(function() {
 
 var lhost = "localhost:8888";
 var rhost = "issoftware1.com.mx";
-var version='1.0.36';
+var version='1.0.37';
 
 localStorage.setItem('versionapp',version);
 var abrir=0;
@@ -181,7 +181,7 @@ function Cargar() {
       codigoservicio='125';
 
     }else{
-      codigoservicio='152';
+      codigoservicio='127';
     }
  
     var datos="clave=issoftware"+"&codservicio="+codigoservicio;

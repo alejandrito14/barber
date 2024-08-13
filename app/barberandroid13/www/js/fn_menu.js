@@ -56,6 +56,8 @@ function SeleccionMenu(objeto) {
 }
 
 function toggleMenu() {
+ ObtenerConfiTarjeta();
+
   var menu = document.getElementById("menu");
   if (abierto ==1) {
     menu.style.left = "0";

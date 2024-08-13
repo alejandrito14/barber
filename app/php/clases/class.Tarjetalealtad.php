@@ -351,7 +351,8 @@ class Tarjetalealtad
 		notapago_descripcion.idcupon,
 		notapago.idusuario,
 		carrito_canje.idcanje,
-		citas.fechacita
+		citas.fechacita,
+		citas.idusuarios as idusuariocita
 
 		FROM
 		notapago
@@ -365,7 +366,7 @@ class Tarjetalealtad
  		WHERE notapago.idnotapago='$this->idnotapago' AND cancelado=0 AND citas.estatus IN(0,1,2,4) AND idcanje is null  GROUP BY notapago_descripcion.idpaquete";
  	
  		
-
+ 	
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
 
@@ -377,13 +378,13 @@ class Tarjetalealtad
 			while ($objeto=$this->db->fetch_object($resp)) {
 
 				$idpaquetenota=$objeto->idpaquete;
-				$idusuario=$objeto->idusuario;
+				$idusuario=$objeto->idusuariocita;
 				$idcita=$objeto->idcita;
 				$this->idcita=$idcita;
 
 				$obtenertarjetas=$this->BuscarPaqueteTarjeta($idpaquetenota);
 
-
+				
 
 				if (count($obtenertarjetas)>0) {
 					# code...
@@ -501,7 +502,7 @@ class Tarjetalealtad
 
 
 	public function BuscarTarjetaAsignada($idusuario)
-	{
+	{	
 	/*$sqlasignada="SELECT *FROM tarjetalealtadasignacion
 		WHERE idtarjetalealtad='$this->idtarjetalealtad' AND estatus=0 AND idusuario='$this->idusuario'";*/
 
@@ -628,7 +629,12 @@ tarjetalealtadasignacion.idtarjetalealtad='$this->idtarjetalealtad' AND estatus=
 		tarjetalealtadasignacion.idtarjetalealtadasignacion,
 		tarjetalealtad.idtarjetalealtad,
 		tarjetalealtadasignacion.valida,
-		tblcantidadproducto.cantidadproducto
+		tblcantidadproducto.cantidadproducto,
+			CONCAT(usuarios.nombre,' ',
+		usuarios.paterno,' ',
+		usuarios.materno) AS nombrecliente,
+			usuarios.idusuarios
+
 		FROM
 		tarjetalealtadasignacion
 		JOIN tarjetalealtad
@@ -638,7 +644,7 @@ tarjetalealtadasignacion.idtarjetalealtad='$this->idtarjetalealtad' AND estatus=
 	        FROM tarjetaasignaproducto
 	        GROUP BY idtarjetalealtadasignacion
 	    ) AS tblcantidadproducto ON tblcantidadproducto.idtarjetalealtadasignacion = tarjetalealtadasignacion.idtarjetalealtadasignacion
-
+		LEFT JOIN usuarios ON usuarios.idusuarios= tarjetalealtadasignacion.idusuario
 
 		WHERE tarjetalealtadasignacion.estatus=0 and tarjetalealtad.estatus=1 and tarjetalealtadasignacion.idusuario='$this->idusuario' ";
 
@@ -647,7 +653,14 @@ tarjetalealtadasignacion.idtarjetalealtad='$this->idtarjetalealtad' AND estatus=
 			$sqlpa.=" AND tarjetalealtad.idsucursal='$this->idsucursal'";
 			}
 
-			$sqlpa.=" AND'$fechaactual'>= tarjetalealtad.fechainicial AND '$fechaactual'<=tarjetalealtad.fechafinal";
+			if ($fechaactual!='') {
+				// code...
+			
+			$sqlpa.=" AND' $fechaactual'<=tarjetalealtad.fechacanje";
+		
+		}
+		$sqlpa.=" ORDER BY tarjetalealtadasignacion.fecha asc LIMIT 1";
+
 		
 		$resp1=$this->db->consulta($sqlpa);
 		$cont = $this->db->num_rows($resp1);
@@ -939,6 +952,7 @@ LEFT JOIN(SELECT
 		$sqlasignada="SELECT *FROM tarjetalealtadasignacion
 		INNER JOIN canje ON canje.idtarjetalealtadasignacion=tarjetalealtadasignacion.idtarjetalealtadasignacion
 		INNER JOIN carrito_canje on carrito_canje.idcanje=canje.idcanje
+		LEFT JOIN 
 		WHERE
 		 canje.idtarjetalealtadasignacion='$this->idtarjetalealtadasignacion' AND canje.estatus=0";
 		

@@ -126,7 +126,20 @@ function PintarCarrito(respuesta) {
     margin-bottom: 1em;">
             <div class="row" style="margin-bottom: 10px;">
               <div class="col-80">
-                <div class="icon-text-container">`;
+
+                <div class="icon-text-container" style="margin-top: 10px;">
+                <span class="material-icons-outlined">person</span>
+                  <p style="margin:0;">Cliente: <span class="texto">`+respuesta[i].nombrecliente+`</span>`;
+                 
+                
+                 
+                 
+                 html+=`
+
+                  </p>
+                </div>
+
+                <div class="icon-text-container" style="margin-top: 10px;">`;
                 if (respuesta[i].servicio==1) {
                   etiqueta="Servicio";
                 }
@@ -1551,16 +1564,27 @@ function ConsultarMonedero() {
 
 function Agregarmasproducto() {
   if (localStorage.getItem('idsucursal')!=undefined && localStorage.getItem('idsucursal')!=null) {
+        var promesa=VerificarTieneHijos(2);
+
+          promesa.then(r => {
+
+            if (r.length==0) {
+
+              var iduser=localStorage.getItem('id_user');
+              localStorage.setItem('idusuariocita',iduser);
+            VerificarSitieneporcanjear2();
+
+            }
+        });
       
-    VerificarSitieneporcanjear2();
-      
-      
+       
     }else{
 
       GoToPage('home');
   
     }
 }
+
 
 
 

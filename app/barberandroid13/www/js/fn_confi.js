@@ -321,7 +321,7 @@ function ObtenerConfiVersion() {
     	if (validarversion==1) {
 
 	    	if (version1!=versionenmarket && sistema!='' &&  sistema!=null) {
-		        app.dialog.create({
+		        /*app.dialog.create({
 		          title: '',
 		          text: textodescarga,
 		          buttons: [
@@ -349,7 +349,10 @@ function ObtenerConfiVersion() {
 			        },
 		          verticalButtons: false,
 		        }).open();
-      
+      */
+	    			var msj=textodescarga;
+	    		      AbrirModalAvisoVersion(msj,enlace);
+
 	    	}
 	    }
     	
@@ -620,4 +623,119 @@ function GuardarZonaHoraria() {
 		}
 
 	});
+}
+
+
+function AbrirModalAvisoVersion(aviso,enlace) {
+   
+  var parrafo="<p class='cambiarfuente "+estiloparrafo+"' style='font-size:30px;line-height:1;'>"+aviso+"</p>";
+   
+
+  var html2="";
+
+var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;background: black;">
+            
+            <div class="sheet-modal-inner" style="background: white;border-top-left-radius: 20px;border-top-right-radius:20px; ">
+               <div class="iconocerrar link sheet-close" style="z-index:10;">
+               
+                       </div>
+              <div class="page-content" style="height: 100%;">
+                <div style="background: black; height: 100%;width: 100%;border-radius: 20px;">
+                   <div class="row">
+                     <div class="col-20">
+                        
+                    </div>
+
+                     <div class="col-60">
+                     <span class="titulomodal cambiarfuente" style="font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+    color: #c7aa6a;"></span>
+                     </div>
+                     <div class="col-20">
+                     <span class="limpiarfiltros"></span>
+                     </div>
+                 </div>
+                 <div class="" style="position: absolute;top:1em;width: 100%;">
+                
+                       
+                        `;
+                      
+
+                          html+=`
+                          <div class="row" style="    margin-left: 2em; margin-right: 2em;    margin-top: 20px;">
+                          <div class="col-100">
+                          <div style="color: #c7aa6a;text-align: center;" class="cambiarfuente">
+                            `+parrafo+`
+
+                            </div>
+                          </div>
+
+                          </div>`;
+
+                          html+=`
+                            <div class="row margin-bottom " style="padding-top: 1em;    margin-left: 2em;margin-right: 2em;margin-top:20px;">
+                            <div class="col-100">
+                            <button style="background: #C7AA6A;color:white;" type="button" class="button button-fill color-theme button-large button-raised  cambiarfuente" onclick="showArchivo('`+enlace+`')">Descargar</button>
+                            </div>
+
+                          
+                          </div>
+                          `;
+
+                      
+                         html+=` </div>
+
+                         
+
+
+                      </div>
+
+                  </div>
+
+                </div>
+                
+              </div>
+            </div>
+          </div>`;
+          /*<p><button class="button color-theme btncortesias" id="cortesia_`+respuesta[i].idcortesia+`" onclick="ElegirCortesia(`+idcarrito+`,`+respuesta[i].idcortesia+`)" style="background: white;color:black;padding: 10px 20px;">
+                                        Elegir
+                                       </button>
+                                     </p>*/
+    dynamicSheet1 = app.sheet.create({
+        content: html,
+
+     swipeToClose: false,
+          backdrop: true, // Evita que se cierre al hacer clic en el fondo
+    closeByBackdropClick: false, // Asegura que el backdrop no cierre el modal
+    closeByOutsideClick: false, //
+        // Events
+        on: {
+          open: function (sheet) {
+
+             if (tipoletra!='') {
+              $(".cambiarfuente").addClass(tipoletra);
+            }
+
+          },
+          opened: function (sheet) {
+            console.log('Sheet opened');
+
+           
+          },
+          beforeclose: function (sheet) {
+            // Previene que el sheet se cierre
+            return false;
+       	 },
+
+       	  close: function (sheet) {
+           
+       	  	AbrirModalAvisoVersion(aviso,enlace);
+           
+          }
+        }
+      });9616110953
+
+
+       dynamicSheet1.open();
 }

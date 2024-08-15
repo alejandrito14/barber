@@ -9,7 +9,9 @@ require_once("clases/class.Cita.php");
 require_once("clases/class.Funciones.php");
 require_once("clases/class.Fechas.php");
 require_once("clases/class.Especialista.php");
+require_once("clases/class.Usuarios.php");
 
+	
 //require_once("clases/class.MovimientoBitacora.php");
 /*require_once("clases/class.Sms.php");
 require_once("clases/class.phpmailer.php");
@@ -40,15 +42,26 @@ try
 	if (isset($_POST['fechafiltro'])) {
 		$fechafiltro=$_POST['fechafiltro'];
 	}
-
+	$iduser=$_POST['idusuarios'];
 	$lo->estatus=$_POST['estatus'];
-	$lo->idusuarios=$_POST['idusuarios'];
+	$lo->idusuarios=$iduser;
 
 	$fechactual=date('Y-m-d');
 		
 		if ($fechafiltro=='') {
 			$fechafiltro=$fechactual;
 		}
+
+	$usuarios=new Usuarios();
+	$usuarios->db=$db;
+	$usuarios->idusuarios=$iduser;
+	$obtenerhijos=$usuarios->ObtenerHijos();
+	$idusuario=$iduser;
+	for ($i=0; $i < count($obtenerhijos); $i++) { 
+		$idusuario.=','.$obtenerhijos[$i]->idusuarios;
+	}
+	$lo->idusuarios=$idusuario;
+	
 
 	$obtenertablero=$lo->ObtenerCitasUsuarioFiltro($fechafiltro);
 $estatus=array('Pendiente','En proceso','Completado','Cancelado','Caducado');

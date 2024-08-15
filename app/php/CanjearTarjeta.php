@@ -43,10 +43,13 @@ try
 		$obtenertarjeta=[];
 		//tiene un canje en proceso
 	}
+
+	$clienteasignacion=$lo->ObtenerClienteAsignacion();
 		
 
 	$respuesta['respuesta']=$obtenerproductos;
 	$respuesta['tarjetalealtad']=$obtenertarjeta;
+	$respuesta['clientetarjeta']=$clienteasignacion;
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);
 	echo $myJSON;

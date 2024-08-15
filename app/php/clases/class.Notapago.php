@@ -270,7 +270,8 @@ class Notapago
 			citas.horainicial,
 			citas.horafinal,
 			citas.fechacita,
-			citas.idcita
+			citas.idcita,
+			CONCAT(cliente.nombre,' ',cliente.paterno) as nombrecliente
 
 			FROM notapago_descripcion 
 			left join paquetes on paquetes.idpaquete=notapago_descripcion.idpaquete
@@ -282,7 +283,9 @@ class Notapago
 			ON citas.idcortesia=cortesia.idcortesia
 			left join paquetes as paquetecortesia on paquetecortesia.idpaquete=cortesia.idpaquetecortesia
 			left join cupones on notapago_descripcion.idcupon=cupones.idcupon
-			
+			left join usuarios as cliente
+			on citas.idusuarios=cliente.idusuarios
+
 		 WHERE cancelado=0 AND idnotapago='$this->idnotapago'";
 
 		

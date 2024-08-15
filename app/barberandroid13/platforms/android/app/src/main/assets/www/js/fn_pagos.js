@@ -1947,7 +1947,7 @@ function RealizarCargo() {
      var mensaje='';
      var pedido='';
      var informacion='';
-   var pagina = "RealizarPago3.php";
+   var pagina = "RealizarPago4.php";
    var iduser=localStorage.getItem('id_user');
    var constripe=localStorage.getItem('constripe');
    var idtipodepago=localStorage.getItem('idtipodepago');

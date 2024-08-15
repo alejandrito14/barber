@@ -1081,12 +1081,13 @@ function AgendarCita2() {
    var horario=horaseleccionada.horainicial+'_'+horaseleccionada.horafinal;
    var fecha=localStorage.getItem('fecha');
    var idusuario=localStorage.getItem('id_user');
+   var idusuariocita=localStorage.getItem('idusuariocita');
    var idespecialista=localStorage.getItem('idespecialista');
    var costo=localStorage.getItem('precio');
    var idcanje=localStorage.getItem('idcanje')!='undefined'?localStorage.getItem('idcanje'):0;
-   var cantidad=1;
-   var datos="idpaquete="+idpaquete+"&idsucursal="+idsucursal+"&horario="+horario+"&fecha="+fecha+"&idusuario="+idusuario+"&idespecialista="+idespecialista+"&costo="+costo+"&cantidad="+cantidad+"&idcanje="+idcanje;
-   var pagina = "GuardarCita2.php";
+   var cantidad=1; 
+   var datos="idpaquete="+idpaquete+"&idsucursal="+idsucursal+"&horario="+horario+"&fecha="+fecha+"&idusuario="+idusuario+"&idespecialista="+idespecialista+"&costo="+costo+"&cantidad="+cantidad+"&idcanje="+idcanje+"&idusuariocita="+idusuariocita;
+   var pagina = "GuardarCita3.php";
   $.ajax({
     type: 'POST',
     dataType: 'json',

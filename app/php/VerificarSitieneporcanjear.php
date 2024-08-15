@@ -35,7 +35,7 @@ try
 	$idsucursal=$_POST['idsucursal'];
 	$obtenervalidaciontarjeta=$config->ObtenerInformacionConfiguracion();
 	$habilitartarjetafuncion=$obtenervalidaciontarjeta['habilitartarjetafuncion'];
-
+	
 
 	 $usuarios->db=$db;
      $usuarios->idusuarios=$idusuario;
@@ -96,6 +96,7 @@ try
 	$respuesta['respuesta']=$obtenerproductos;
 	$respuesta['tarjetalealtad']=$idtarjetalealtadporcanjear;
 	$respuesta['asignacion']=$asignacion;
+	$respuesta['clientetarjeta']=$infousuario;
 	//Retornamos en formato JSON 
 	$myJSON = json_encode($respuesta);
 	echo $myJSON;

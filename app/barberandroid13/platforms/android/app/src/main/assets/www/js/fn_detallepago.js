@@ -231,7 +231,19 @@ for (var i = 0; i <listado.length; i++) {
     margin-bottom: 1em;">
             <div class="row" style="margin-bottom: 10px;">
               <div class="col-70">
-                <div class="icon-text-container">`;
+              <div class="icon-text-container" style="margin-top: 10px;">
+                <span class="material-icons-outlined">person</span>
+                  <p style="margin:0;">Cliente: <span class="texto">`+respuesta[i].nombrecliente+`</span>`;
+                 
+                
+                 
+                 
+                 html+=`
+
+                  </p>
+                </div>
+                
+                <div class="icon-text-container" style="margin-top: 10px;">`;
                 if (respuesta[i].servicio==1) {
                   etiqueta="Servicio";
                 }

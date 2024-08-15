@@ -952,7 +952,7 @@ LEFT JOIN(SELECT
 		$sqlasignada="SELECT *FROM tarjetalealtadasignacion
 		INNER JOIN canje ON canje.idtarjetalealtadasignacion=tarjetalealtadasignacion.idtarjetalealtadasignacion
 		INNER JOIN carrito_canje on carrito_canje.idcanje=canje.idcanje
-		LEFT JOIN 
+		
 		WHERE
 		 canje.idtarjetalealtadasignacion='$this->idtarjetalealtadasignacion' AND canje.estatus=0";
 		
@@ -998,6 +998,38 @@ LEFT JOIN(SELECT
 		}
 		
 		return $array;
+	 }
+
+	 public function ObtenerClienteAsignacion()
+	 {
+	 	$sql="SELECT
+			usuarios.nombre,
+			tarjetalealtadasignacion.idusuario,
+			usuarios.paterno,
+			usuarios.materno,
+			tarjetalealtadasignacion.idtarjetalealtadasignacion
+			FROM
+			tarjetalealtadasignacion
+			JOIN usuarios
+			ON tarjetalealtadasignacion.idusuario = usuarios.idusuarios WHERE idtarjetalealtadasignacion='$this->idtarjetalealtadasignacion'";
+
+		$resp=$this->db->consulta($sql);
+		$cont = $this->db->num_rows($resp);
+
+
+		$array=array();
+		$contador=0;
+		if ($cont>0) {
+
+			while ($objeto=$this->db->fetch_object($resp)) {
+
+				$array[$contador]=$objeto;
+				$contador++;
+			} 
+		}
+		
+		return $array;
+
 	 }
 
 

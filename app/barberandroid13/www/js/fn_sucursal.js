@@ -1567,6 +1567,7 @@ function AbrirModalCanjear(resp,funcioncancel) {
 	var html2="";
 	var respuesta=resp.asignacion;
 	var productos=resp.respuesta;
+	var clientetarjeta=resp.clientetarjeta;
 		html2+=`
 
 			<div class="">
@@ -1582,7 +1583,7 @@ function AbrirModalCanjear(resp,funcioncancel) {
 
 				 
 				  <p style="color: rgb(199, 170, 106);
-    text-align: center;" class="cambiarfuente textoestilo1">Gracias por tu <span style="color:white;">lealtad</span>, te has ganado un <span style="color:white;">beneficio</span></p>`;
+    text-align: center;" class="cambiarfuente textoestilo1">Gracias por tu <span style="color:white;">lealtad</span>, `+clientetarjeta[0].nombre+` te has ganado un <span style="color:white;">beneficio</span></p>`;
     html2+=`<p style="color:rgb(199, 170, 106);
     text-align: center;" class="cambiarfuente textoestilo1">¿Deseas canjearlo?</p>`;
 

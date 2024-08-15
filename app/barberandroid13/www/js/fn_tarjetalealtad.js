@@ -97,8 +97,10 @@ function CanjearTarjeta(idtarjetalealtadasignacion,idtarjetalealtad) {
       	var tarjetalealtad=resp.tarjetalealtad;
 
         if (tarjetalealtad.length>0) {
+          var clientetarjeta=resp.clientetarjeta[0];
         var idsucursal=tarjetalealtad[0].idsucursal;
         localStorage.setItem('idsucursal',idsucursal);
+        localStorage.setItem('idusuariocita',clientetarjeta.idusuario);
       	AbrirModalProductosCanjear(resp,idtarjetalealtadasignacion);
         }
 

@@ -252,7 +252,8 @@ class Cita
 			(SELECT paquetes.concortesia from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as concortesia,
 
 			(SELECT paquetes.servicio from paquetes WHERE paquetes.idpaquete=citas.idpaquete)as servicio,
-			paquetecortesia.nombrepaquete as nombrepaquetecortesia
+			paquetecortesia.nombrepaquete as nombrepaquetecortesia,
+			CONCAT(cliente.nombre,' ',cliente.paterno) as nombrecliente
 
 
 		FROM citas
@@ -262,7 +263,10 @@ class Cita
 		left join cortesia 
 			ON citas.idcortesia=cortesia.idcortesia
 		left join paquetes as paquetecortesia on paquetecortesia.idpaquete=cortesia.idpaquetecortesia
-		 WHERE 	citas.idusuarios='$this->idusuario' AND idcita='$this->idcita'";
+
+		left join usuarios as cliente
+		on citas.idusuarios=cliente.idusuarios
+		 WHERE 	 idcita='$this->idcita'";
 		
 		$resp=$this->db->consulta($sql);
 		$cont = $this->db->num_rows($resp);
@@ -808,7 +812,7 @@ class Cita
 			CONCAT(usuarios.nombre,' ',usuarios.paterno) AS nombreespecialista
 		FROM citas INNER JOIN  especialista ON especialista.idespecialista=citas.idespecialista
 		INNER JOIN usuarios ON usuarios.idusuarios=especialista.idusuarios
-		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal WHERE citas.idusuarios=".$this->idusuarios."   ORDER BY citas.idcita desc
+		INNER JOIN sucursal ON sucursal.idsucursal=citas.idsucursal WHERE citas.idusuarios IN($this->idusuarios) ORDER BY citas.idcita desc
 		";
 		
 		$resp=$this->db->consulta($sql);

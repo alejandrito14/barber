@@ -1383,7 +1383,19 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height: 100%
     padding-top: 1em;border-top: 1px solid white;">
             <div class="row" style="margin-bottom: 10px;">
               <div class="col-90">
-                <div class="icon-text-container">`;
+
+              <div class="icon-text-container" style="margin-top: 10px;">
+                <span class="material-icons-outlined">person</span>
+                  <p style="margin:0;">Cliente: <span class="texto">`+respuesta.nombrecliente+`</span>`;
+                 
+        
+                 
+                 html+=`
+
+                  </p>
+                </div>
+
+                <div class="icon-text-container" style="margin-top: 10px;">`;
                 if (respuesta.servicio==1) {
                   etiqueta="Servicio";
                 }

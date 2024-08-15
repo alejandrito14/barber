@@ -206,6 +206,16 @@ try {
                     }else{
 
                       $canjeando=0;
+
+                    $idusuario=$iduser;
+                    $usuarios->idusuarios=$iduser;
+                    $obtenerhijos=$usuarios->ObtenerHijos();
+
+                    for ($i=0; $i < count($obtenerhijos); $i++) { 
+                        $idusuario.=','.$obtenerhijos[$i]->idusuarios;
+                    }    
+                     $carrito->idusuarios=$idusuario;
+
                         $obtenercarrito=$carrito->ObtenerCarrito();
                         for ($i=0; $i <count($obtenercarrito) ; $i++) { 
                             $tipo=0;
@@ -623,6 +633,8 @@ try {
 
 
   if ($montomonedero!='' && $montomonedero!=0) {
+
+
 
     $usuarios=new Usuarios();
     $usuarios->db=$db;

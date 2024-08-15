@@ -66,7 +66,8 @@ class Carrito
 			citaapartado.horainicial,
 			carrito.idcortesia,
 			paquetecortesia.nombrepaquete as nombrepaquetecortesia,
-			carrito_canje.idcanje
+			carrito_canje.idcanje,
+			CONCAT(clientes.nombre,' ',clientes.paterno) as nombrecliente
 			
 			FROM
 			carrito
@@ -85,6 +86,9 @@ class Carrito
 			left join paquetes as paquetecortesia on paquetecortesia.idpaquete=cortesia.idpaquetecortesia
 			left join carrito_canje
 			on carrito_canje.idcarrito=carrito.idcarrito
+			left join usuarios as clientes
+			ON clientes.idusuarios=citaapartado.idusuario
+
 			WHERE carrito.idusuarios IN($this->idusuarios) AND carrito.estatus=1 ORDER BY sucursal.idsucursal
 
 		";

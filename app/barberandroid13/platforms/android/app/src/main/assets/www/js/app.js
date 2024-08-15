@@ -111,7 +111,7 @@ $(document).ready(function() {
 
     }else{
 
-      codigoservicio='127';
+      codigoservicio='152';
      
     }
 
@@ -181,7 +181,7 @@ function Cargar() {
       codigoservicio='125';
 
     }else{
-      codigoservicio='127';
+      codigoservicio='152';
     }
  
     var datos="clave=issoftware"+"&codservicio="+codigoservicio;
@@ -255,11 +255,11 @@ function Cargar() {
     localStorage.setItem('idopcionespedido',0);
     localStorage.setItem('iddireccion',0);
     localStorage.setItem('factura',0);
-  localStorage.setItem('montocliente','');
-  localStorage.setItem('asenta','');
-  localStorage.setItem('datosbuscar6','');
-  localStorage.setItem('datosbuscar3','');
-  localStorage.setItem('nuevadireccion',1);
+    localStorage.setItem('montocliente','');
+    localStorage.setItem('asenta','');
+    localStorage.setItem('datosbuscar6','');
+    localStorage.setItem('datosbuscar3','');
+    localStorage.setItem('nuevadireccion',1);
     localStorage.setItem('comentarioimagenes','');
     localStorage.setItem('habilitarsumaenvio',0);
     localStorage.setItem('idfacturacion','');
@@ -326,7 +326,7 @@ function Cargar() {
 
      var tokenfirebase=localStorage.getItem('tokenfirebase');
        // alert(tokenfirebase);
-    // ObtenerConfiVersion();     
+        
     
    
 
@@ -498,7 +498,10 @@ $$(document).on('page:init', '.page[data-name="home"]', function (e) {
 
      ObtenerConfiTarjeta();
 
-  })
+  }).then(variable=>{
+
+        ObtenerConfiVersion();  
+    })
   .catch(error => {
     console.error('Ocurrió un error:', error);
   });
@@ -1289,6 +1292,7 @@ $$(document).on('page:init', '.page[data-name="disponibilidadfechasucursal"]', f
 
    // ChecarSiTieneTarjetaPorCanjear();
 
+   
     
 
 });
@@ -1548,6 +1552,9 @@ $$(document).on('page:init', '.page[data-name="monedero"]', function (e) {
 $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
     Cargardatospersonales();
     $("#btndatospersonales").attr('onclick','GoToPage("datospersonales")');
+
+    $("#btnregistrohijos").attr('onclick','GoToPage("registrohijos")');
+
     $("#btneliminarcuenta").attr('onclick','EliminarCuenta()');
     $(".regreso").attr('onclick','IrHome()');
  
@@ -1556,6 +1563,39 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
    // $("#btnguardardatos").attr('onclick','Guardardatospersonales()');
 });
 
+
+$$(document).on('page:init', '.page[data-name="registrohijos"]', function (e) {
+
+
+$$("#btnnuevo").attr('onclick','GoToPage("nuevohijo")');
+
+ObtenerListadoHijos();
+
+});
+
+
+$$(document).on('page:init', '.page[data-name="nuevohijo"]', function (e) {
+
+$$("#btnnuevohijo").attr('onclick','GuardarNuevoHijo()');
+
+$$('#v_nombre').focus();
+$$('#v_nombre').attr('onfocus',"Cambiar(this)");
+$$('#v_nombre').attr('onblur',"Cambiar2(this);QuitarEspacios(this);");
+
+$$('#v_paterno').attr('onfocus',"Cambiar(this)");
+$$('#v_paterno').attr('onblur',"Cambiar2(this);QuitarEspacios(this);");
+
+$$('#v_materno').attr('onfocus',"Cambiar(this)");
+$$('#v_materno').attr('onblur',"Cambiar2(this);QuitarEspacios(this);");
+
+$$('#v_fecha').attr('onfocus',"Cambiar(this)");
+$$('#v_fecha').attr('onblur',"Cambiar2(this);QuitarEspacios(this);");
+
+$("#txtsexoh").attr('onclick','SeleccionarhM("H")');
+$("#txtsexom").attr('onclick','SeleccionarhM("M")');
+
+
+});
 
 $$(document).on('page:init', '.page[data-name="calendarioespecialista"]', function (e) {
   myStopFunction(intervalocitas);

@@ -325,7 +325,7 @@ function EliminacionHijo(idusuario) {
 					console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
 				}
 		});
-}
+} 
 
 function VerificacionPantalla() {
 	
@@ -333,6 +333,8 @@ function VerificacionPantalla() {
 
 	promesa.then(r => {
 		if (r.length==0) {
+			var iduser=localStorage.getItem('id_user');
+			localStorage.setItem('idusuariocita',iduser);
 			VerificarSitieneporcanjear();
 		}
 
@@ -563,13 +565,57 @@ var html=` <div class="sheet-modal my-sheet-swipe-to-close1" style="height:70%;b
 function ElegirUsuarioCita(idusuario,variable) {
 	dynamicSheet1.close();
 	localStorage.setItem('idusuariocita',idusuario);
-	if (variable==1) {
-			GoToPage('disponibilidadfechasucursal');
+	
+	VerificacionTarjetaHijos(idusuario,variable);
+}
 
-		}else{
 
 
-			GoToPage('detalleproductoservicios');
+function VerificacionTarjetaHijos(idusuario,variable) {
+	var idusuario=idusuario;
+	var idsucursal=localStorage.getItem('idsucursal');
+	var datos='idusuario='+idusuario+"&idsucursal="+idsucursal;
+		var pagina = "VerificarSitieneporcanjear.php";
+		$.ajax({
+		type: 'POST',
+		dataType: 'json',
+		url: urlphp+pagina,
+		async:false,
+		data:datos,
+		success: function(resp){
+			var asignacion=resp.asignacion;
+			
+		
+			if (resp.tarjetalealtad>0) {
+					localStorage.setItem('idusuariocita',idusuario);
+					AbrirModalCanjear(resp,'Cancelcanje()');
 
-		}
+
+				
+			
+			}else{
+				
+				
+
+					if (variable==1) {
+						GoToPage('disponibilidadfechasucursal');
+
+					}else{
+
+
+						GoToPage('detalleproductoservicios');
+
+					}
+
+			}
+		
+
+		},error: function(XMLHttpRequest, textStatus, errorThrown){ 
+			var error;
+				if (XMLHttpRequest.status === 404) error = "Pagina no existe "+pagina+" "+XMLHttpRequest.status;// display some page not found error 
+				if (XMLHttpRequest.status === 500) error = "Error del Servidor"+XMLHttpRequest.status; // display some server error 
+								//alerta("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR"); 
+								console.log("Error leyendo fichero jsonP "+d_json+pagina+" "+ error,"ERROR");
+					}
+		});
 }
